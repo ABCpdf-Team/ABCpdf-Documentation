@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XRect Resize Function. Resizes the rectangle. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Resize Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Resizes the rectangle.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
+            Resize(double w, double h)<br>
+            void Resize(double w, double h, Corner corner)<BR>
+            </CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Sub Resize(w As Double, h As Double)<br>
+            Sub Resize(w As Double, h As Double, corner as Corner)<BR>
+            </CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>w</TD>
+                <TD>The new width.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>h</TD>
+                <TD>The new height.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>corner</TD>
+                <TD>The corner to pin.</TD>
+              </TR>
+              </TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Changes the width and height of the rectangle while maintaining 
+            the position.</P>
+            <P>When you change the width or height of a rectangle one corner of 
+            the rectangle is pinned to maintain position. The corner which is 
+            pinned is indicated by the <A href="../2-properties/pin.htm">Pin</A> 
+            property but you can override this default by specifying a corner when calling this function.</P>
+            <P></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">var rc = new XRect();
+rc.String = "20 20 220 120";
+Response.Write($"Rect = {rc}");
+Response.Write("&amp;lt;br&amp;gt;");
+rc.Resize(50, 150);
+Response.Write($"Pos. = {rc}");
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim rc As New XRect()
+rc.String = "20 20 220 120"
+Response.Write($"Rect = {rc}")
+Response.Write("&amp;lt;br&amp;gt;")
+rc.Resize(50, 150)
+Response.Write($"Pos. = {rc}")
+</code></pre></P>
+            <P>Produces the following output. </P>
+            <P><SAMP>Rect = 20 20 220 120<BR>Pos. = 20 20 70 170</SAMP> 
+            <P>&nbsp;</P><p>Also see example code in: <a href="../../../4-examples/02-textflow2.htm">ABCpdf Text Flow Round Image Example</a>.</p>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>XReadOptions ReadModule Property. Gets or sets the module to use. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<meta content="MSHTML 6.00.6000.16735" name="GENERATOR"></head><body bgcolor="#ffffff">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tbody>
+  <tr>
+    <td valign="top"><img src="../../../images/goo.gif" height="60" width="58"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td class="pageheader">ReadModule Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr>
+        <tr>
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" height="11" width="11"></td></tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>
+            <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+              <tbody>
+              <tr>
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td></tr>
+              <tr valign="top">
+                <td align="left"><span class="language">[C#]</span><br><code>ReadModuleType</code><br><br><span class="language">[Visual&nbsp;Basic]</span><br><code>ReadModuleType</code></td>
+                <td>Default</td>
+                <td>No</td>
+                <td>Gets or sets the module to use.</td></tr></tbody></table>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td>
+            <p>The ReadModuleType enumeration may take the following values:</p>
+            <ul>
+              <li>Default</li>
+              <li>Pdf</li>
+              <li>SwfVector</li>
+              <li>Xps</li>
+              <li>XpsAny</li>
+              <li>MSOffice</li>
+              <li>OpenOffice</li>
+              <li>Svg</li>
+              <li>Eps</li>
+              <li>BasicImage</li>
+              <li>Tiff</li>
+              <li>Photoshop</li>
+              <li>WordGlue</li>
+              <li>RichTextFormat</li>
+              <li>Jpeg2000</li>
+              <li>EmfVector</li>
+              <li>WebP</li>
+              <li>Png</li>
+              <li>Gif</li>
+              <li>Jpeg</li>
+              <li>Bmp</li>
+            </ul>
+            <p>The Default module allows ABCpdf to delegate the read operation to 
+            what it considers to be an appropriate module or set of modules, 
+            depending on the content provided and the method called. In general it will identify the image and see if there is a specialist module available. If not then it will use the BasicImage module.</p>
+            <p>The Pdf module is the standard PDF import module. It takes 
+            advantage of the <a href="password.htm">Password</a>
+            property.</p>
+            <p>The SwfVector module is a native Flash / SWF vector import 
+            module. It takes advantage of the <a href="operation.htm">Operation</a>
+            and <a href="frame.htm">Frame</a> properties. The Operation must be
+            either null or a
+            <a href="../../../8-abcpdf.operations/5-swfimportoperation/default.htm">SwfImportOperation</a>.</p>
+            <p>The Xps module is a native XPS and OXPS (Open XPS) import module. It takes advantage 
+            of the <a href="operation.htm">Operation</a> property, which must be 
+            either null or an
+            <a href="../../../8-abcpdf.operations/4-xpsimportoperation/default.htm">XpsImportOperation</a>.</p>
+            <p>The XpsAny module prints via the XPS printer driver and then 
+            imports the resultant document. It takes advantage of the
+            <a href="operation.htm">Operation</a>, <a href="fileextension.htm">FileExtension</a>,
+            and <a href="timeout.htm">Timeout</a> properties. The Operation provided 
+            must be either null or an XpsImportOperation.</p>
+            <p>The MSOffice module uses Microsoft Office for document conversion. This
+            module is fast and produces high fidelity output, including native form
+            fields and annotations conversion. It takes advantage of the
+            <a href="addforms.htm">AddForms</a>, <a href="bookmarks.htm">Boomarks</a>,
+            <a href="password.htm">Password</a>, <a href="enablemsofficemacros.htm">EnableMSOfficeMacros</a>,
+            <a href="preservetransparency.htm">PreserveTransparency</a> and <a href="timeout.htm">Timeout</a>
+            properties.</p>
+            <p>The OpenOffice module uses OpenOffice.org for document 
+            conversion. It takes advantage of the
+            <a href="openofficeparameters.htm">OpenOfficeParameters</a> and
+            <a href="timeout.htm">Timeout</a> properties.</p>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+                <TR>
+                  <TD><P><B>Office and XpsAny. </B>What security options should you consider?</P>
+                      <P>The MSOffice, OpenOffice.org and XpsAny modules make use of helper applications installed on your local machine. As such you need to consider any security implications fairly carefully.</P>
+                      <P>Running ABCpdf in a reduced permission environment will provide a useful base level of security  which will be inherited by your helper applications. However one layer of defense is not enough and you should consider the security of your helper applications as well.</P>
+                      <P>MS Office and OpenOffice.org are mature and well supported software suites so in general they are secure. However they are also common attack vectors so you should ensure that your input documents are either trusted or are vetted  prior to processing. Microsoft Defender Antivirus is easily scripted so that provides a minimum viable base when it comes to vetting.</P>
+                      <P>XpsAny requires more thought as it uses the print shell verb to print a document via the XPS print driver. You need to consider what print verbs are on your system and the file extensions to which they are bound. Ensure that you only present file types which will use known applications and consider how secure these applications might be. Again you should only provide documents which are trusted or which have been vetted prior to processing.<BR>
+                        </P>
+                      </TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <p>The WordGlue module uses WordGlue .NET for DOC and DOCX 
+            conversion. WordGlue .NET is a fully managed and fully secure component for the conversion of semantic document formats. This requires WordGlue 2.0.0.1 or later to be installed. WordGlue can be downloaded from our web site.</p>
+            <p>The RichTextFormat module is a native RTF import module. It takes advantage of the <a href="defaultrect.htm">DefaultRect</a><a href="openofficeparameters.htm"></a> and <a href="timeout.htm">Timeout</a> properties.</p>
+            <p>The Svg module is a native SVG (Scaleable Vector Graphics) import 
+            module. It takes advantage of the <a href="defaultfont.htm">DefaultFont</a>
+            and <a href="defaultrect.htm">DefaultRect</a> properties.</p>
+            <p>The Eps module is a native EPS (Encapsulated PostScript) import 
+            module. It takes advantage of the <a href="errorhandling.htm">ErrorHandling</a>
+            and <a href="log.htm">Log</a> properties.</p>
+            <p>The Tiff module is a native TIFF (Tagged Image File Format) import 
+              module. It takes 
+              advantage of the <a href="preservetransparency.htm">PreserveTransparency </a>and <a href="frame.htm">Frame</a> properties. TIFF images may be black and white, grayscale, RGB, CMYK, TIFF or Lab in 1, 8 , 16 and 32 bits per component color depth and with out without alpha. Because PDF does not support 32 bit High Dynamic Range (HDR) encodings, TIFFs in this format will be downsampled to 16 bits per component. TIFF images containing JPEG or CCITT compressed frames will be inserted direct into the document without a decompress-recompress cycle. This module is broadly similar in speed to System.Drawing for most images. For CMYK images and images with large embedded color profiles it is a bit slower simply because there is more data to compress. In out tests with large images in the order of about 500 MB it was about ten times faster. In our tests with TIFF images containing JPEG or CCITT frames it is typically about thirty times faster. TIFF orientation flags are automatically applied so that images that are tagged in this way automatically appear the right way up.</p>
+            <p>The Photoshop module supports the standard PSD and also the large image PDB file types. If the <a href="preservetransparency.htm">PreserveTransparency </a>property is set any  transparency will be preserved. It allows the direct import of bitmap, RGB, Grayscale, CMYK, Lab, Indexed, Duotone and Multichanel images in 1, 8 , 16 and 32 bits per component color depth, all with or without alpha. The PDF format does not support 32 bits per component HDR images so these are scaled down to 16 bits per component. The <a href="frame.htm">Frame</a> property allows the extraction of individual layers from within the image. </p>
+            <p>The Jpeg2000 module supports the JPEG 2000 JP2 and JPX formats. It allows the direct import of RGB, Grayscale and CMYK images at  1, 8 , 16 and 32 bits per component color depth. </p>
+            <p>The EmfVector module allows direct vector import of Enhanced Metafile (EMF) and Windows Metafile (WMF) into a PDF document. However you should note that not all EMF or WMF files can be directly imported this way. If this is the case you should look at using AddImageObject with the default ReadModule, which is fast but will result in the image being rasterized. As another alternative, the XpsAny ReadModule will not be as fast but will preserve the vector nature of practically all such files.</p>
+            <p>The WebP module allows import of the WebP file format. WebP is a google format that provides lossy and lossless compression for images on the web. It claims size reductions of perhaps 25% over PNG and JPEG and highly optimized alpha channel support.</p>
+            <p>The Png module is a native import module designed to run cross platform. It supports all PNG bit depths (1, 8, 16) and color spaces (grayscale and RGB) in the PNG specification and allows import preserving those native depths and color spaces.</p>
+            <p>The Gif, Jpeg and Bmp modules are native import module designed to run cross platform. They support all bit depths and color spaces in the respective color spaces and and allow import preserving those native depths and color spaces.</p>
+            <p>The BasicImage module is based around the native import abilities provided by Windows. It allows you to read common formats such as JPEG (grayscale, RGB or CMYK) and multi-page TIFF. It uses supports, at minimum, JPEG,TIFF, BMP, PNG, GIF, WMP (Windows Media Photo) and ICO. It also allows the import of EMF and WMF though these will be rasterized on import. In general, color spaces and bit depth will be preserved, though not always and in particular  not  in the case of TIFF. The specialist cross platform modules detailed above are superior for formats like JPEG, TIFF, BMP and GIF. </p>
+            <p>Beyond the standard image formats listed above, the BasicImage module  typically supports the following:</p>
+            <ul>
+              <li>High Efficiency Image File Format (HEIF) - .heic, .heif, .avci, .heics, .heifs, .avcs, .avif, .avifs</li>
+              <li>WebP - .webp</li>
+              <li>Various Raw Formats - .3fr, .ari, .arw, .bay, .cap, .cr2, .cr3, .crw, .dcs, .dcr, .drf, .eip, .erf, .fff, .iiq, .k25, .kdc, .mef, .mos, .mrw, .nef, .nrw, .orf, .ori, .pef, .ptx, .pxn, .raf, .raw, .rw2, .rwl, .sr2, .srf, .srw, .x3f, .dng, .arw, .cr2, .crw, .erf, .kdc, .mrw, .nef, .nrw, .orf, .pef, .raf, .raw, .rw2, .rwl, .sr2, .srw, .dng</li>
+              <li>DirectDraw Surface - .dds</li>
+            </ul>
+            <p>The BasicImage module takes 
+              advantage of the <a href="preservetransparency.htm">PreserveTransparency</a> property.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td>
+            <p>None.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr></tbody></table>
+<p>&nbsp;</p></body></html>

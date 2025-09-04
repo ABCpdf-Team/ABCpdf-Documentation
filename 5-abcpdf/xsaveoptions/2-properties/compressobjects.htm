@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>XSaveOptions CompressObjects Property. Whether to use object stream compression to reduce file size. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4"> <tr> <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td><td width="14">&nbsp;</td><td> 
+<table border="0" width="100%" cellpadding="0" cellspacing="0"> <tr> <td class="pageheader"> 
+CompressObjects Property</td><td width="60">&nbsp;</td><td>&nbsp;</td></tr> <tr> <td background="../../../images/steel-line-3.gif" height="11"></td><td background="../../../images/steel-line-3.gif" height="11" width="60"></td><td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td></tr> 
+<tr> <td> <p>&nbsp;</p><table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+<tr> <td align="center"><b>Type</b></td><td><b>Default Value</b></td><td><b>Read 
+Only</b></td><td><b>Description</b></td></tr> <tr valign="top"> <td align="left"><span class="language">[C#]</span><br> 
+<code>bool</code><br> <br> <span class="language">[Visual&nbsp;Basic]</span><br> 
+<code>Boolean</code></td><td>false</td><td>No</td>
+<td>Whether to use object stream compression to reduce file size.</td>
+</tr> </table><p>&nbsp;</p></td><td width="60">&nbsp;</td><td>&nbsp;</td></tr> 
+</table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td><td width="14">&nbsp;</td><td valign="top"> 
+<table border="0" width="100%" cellpadding="0" cellspacing="0"> <tr> <td> <p>This 
+property determines if object stream compression should be used.</p>
+      <p>Object stream compression allows groups of simple atoms to be stored in a separate  stream (an ObjStm) and compressed. This can reduce the output file size.</p>
+      <p>Typically the PDF specification is efficiently organized, atoms are small and not many are required. Thus the overhead associated with uncompressed atoms is typically minimal. Since not all PDF readers support object streams we default to avoiding this type of structure. In particular, older versions of Acrobat (eg 8) are not happy reading documents which incorporate both object streams and linearized content.</p>
+      <p>In a few cases the PDF specification has not been efficiently organized. The most notable situation in which this occurs is in the case of Tagged PDF - often required for accessibility. The structures required for tagging can result in a multitude of similar atoms and using object stream compression can make a significant difference to the size of output. It is perhaps notable that tagged PDF was introduced in PDF 1.4 and then object streams were introduced immediately afterwards in PDF 1.5. File size reduction will vary considerably depending on content but 10% might be typical.</p>
+      <p>The other situation in which this option can make a notable difference is in the case of very small PDF documents. In   documents measuring ten or twenty kilobytes,  atoms can make up a significant proportion of the document size. In these situations you might be able to reduce the size by perhaps 30% simply by enabling this option.</p>
+      <p>In addition to reducing the size of the document, setting this property allows you to save PDF files greater than 10GB in size.</p>
+      <p>Object stream compression is incompatible with <a href="incremental.htm">Incremental</a> update. 
+If this flag is set then object stream compression will not be used.</p>
+      <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P><B>Future Changes. </B><span style="note">As PDF documents become more accessible there may be more reason to apply object stream compression. Similarly as  PDF readers improve there may be less reason not to use it. As such it is possible that the  default value of this property might be changed. If you are relying on a particular value you should set it in your code.</span><BR>
+                  </P>
+                  </TD></TR></TBODY></TABLE>
+      <p>&nbsp; </p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
+</table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td><td width="14">&nbsp;</td><td valign="top"> 
+<table border="0" width="100%" cellpadding="0" cellspacing="0"> <tr> <td> <p>None.</p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
+</table></td></tr> </table><p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XReadOptions Repair Property. Whether to apply extra processing to enable certain types of corrupt document to be read. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6001.18148" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Repair</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default Value</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR><CODE>bool</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>Boolean</CODE></TD>
+                <TD>false</TD>
+                <TD>No</TD>
+                <TD>Whether to apply extra processing to enable certain types of corrupt document to be read.</TD>
+              </TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Some PDF files may not be fully compliant with PDF specification. In short they may  be corrupt. </P>
+            <P>ABCpdf will work around minor forms of corruption in which the intent is obvious. However some more major forms of corruption require that the entire document is read and rebuilt. This will only occur if the Repair property is set to true.</P>
+            <P>Rebuilding a document is not ideal. Not only  is it  time consuming, but  there may also be more than one way of performing the rebuild. Depending on the strategy used one may end up with two different results. Most often the results will, for all practical purposes, be identical. However on rare occasions they might be different. For this reason the default value of this property is false.</P>
+            <P>Many clients who need to process large quantities of PDF documents, from sources of varying quality, end up writing code of the following form.</P>
+            <P><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">try {
+&nbsp;&nbsp;theDoc.Read(theFile);
+}
+catch {
+&nbsp;&nbsp;XReadOptions xr = new XReadOptions();
+&nbsp;&nbsp;xr.Repair = true;
+&nbsp;&nbsp;theDoc.Read(theFile, xr);
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Try
+&nbsp;&nbsp;theDoc.Read(theFile)
+Catch
+&nbsp;&nbsp;Dim xr As New XReadOptions()
+&nbsp;&nbsp;xr.Repair = True
+&nbsp;&nbsp;theDoc.Read(theFile, xr)
+End Try
+</code></pre></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

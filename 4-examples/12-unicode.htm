@@ -1,0 +1,200 @@
+<html>
+<head>
+<title>Unicode Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Unicode Example</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>This example shows how to add complex scripts such as Chinese, 
+              Japanese and Korean. Here we choose to embed and subset our font 
+              to ensure our document renders correctly on all platforms.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Setup</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>First we create an ABCpdf Doc object and set the font size. </p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.FontSize = 32;
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 32
+</code></pre></p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Read</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>We read in our Japanese text from a Unicode text file.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">string path = Server.MapPath("../Rez/Japanese2.txt");
+string text = File.ReadAllText(path);
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../Rez/Japanese2.txt")
+&nbsp;&nbsp;Dim theText As String = File.ReadAllText(thePath)
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Add</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Because we want to ensure that our document renders correctly on 
+              all platforms we're going to embed our font in Unicode format. We 
+              specify a left-to-right writing direction and we choose to subset 
+              our font. </p>
+            <p>Please note when embedding fonts you must ensure you have permission 
+              to embed and redistribute the embedded font as part of your PDF.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Page = doc.AddPage();
+doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, false, true);
+doc.AddText("Japanese" + text);
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, False, True)
+&nbsp;&nbsp;doc.AddText("Japanese" + theText)
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Add</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Just to show how it works we'll also render a page in vertical 
+              writing mode.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Page = doc.AddPage();
+doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, true, true);
+doc.AddText("Japanese" + text);
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, True, True)
+&nbsp;&nbsp;doc.AddText("Japanese" + theText)
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Save</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Finally we save at a specified location. </p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Save(Server.MapPath("unicode.pdf"));
+// finished
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("unicode.pdf"))
+End Using
+' finished
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Results</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>We get the following output.</p>
+            <table width="100%" border="0" cellspacing="3" cellpadding="3">
+              <tr> 
+                <td><img src="../images/pdf/unicode.pdf.png" class="example"><br>
+                  unicode.pdf - [Page 1]</td>
+                <td><img src="../images/pdf/unicode.pdf2.png" class="example"><br>
+                  unicode.pdf - [Page 2]</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

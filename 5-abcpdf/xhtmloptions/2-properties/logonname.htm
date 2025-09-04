@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XHtmlOptions LogonName Property. A user name to be used for authentication. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>LogonName Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default Value</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR><CODE>string</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>String</CODE></TD>
+                <TD>""</TD>
+                <TD>No</TD>
+                <TD>A user name to be used for 
+            authentication.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This property determines the authentication user name to be used 
+            when accessing secured web sites.</P>
+            <P>For example you might set this property to "MyServer\Steve" to 
+            authenticate as Steve when accessing a particular web site.</P>
+            <P>These properties are specific to the MSHTML and ABCGecko HTML engines. They do not function for the other HTML engines.</P>
+            <P>This property needs to be used in conjunction with the <A 
+            href="logonpassword.htm">LogonPassword</A> property.</P>
+            <P>ABCpdf is a user like any other user. When it is logged in it 
+            stays logged in until the session times out or until you explicitly 
+            log it out. So if you wish ABCpdf to log on as a different user you 
+            must ensure that it is logged out first.</P>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P><B>ASP.NET Forms Authentication.</B> The LogonName and 
+                  LogonPassword properties are related to authentication methods 
+                  built into HTTP. Methods like Basic (forms) Authentication and 
+                  Windows Integrated Authentication.</P>
+                  <P>Something like ASP.NET forms based authentication requires 
+                  a different kind of method because it is under your 
+                  programmatic control. Because it is under your programmatic 
+                  control - ABCpdf cannot authenticate itself. Because 
+                  Authentication is under your programmatic control - you have 
+                  to Authenticate ABCpdf.</P>
+                  <P>You will need to allow ABCpdf to pass in a user name and 
+                  password to your page (probably in encoded form via the URL) 
+                  and then have that page call the 
+                  FormsAuthentication.Authenticate code using that username and 
+                  password.</P>
+                  <P>Some of our clients have encoded this information via a 
+                  time expiring certificate or token to add extra security to 
+                  the process.</P>
+                  <P>As an alternative you can obtain the HTML of the current 
+                  page using the HttpResponse.Filter property or by overriding 
+                  the Render method of the page. You can then present this HTML 
+                  to ABCpdf using AddImageHtml. If your HTML references 
+                  resources using relative references you may wish to insert a 
+                  &lt;BASE&gt; tag into the HTML before presentation to ABCpdf. 
+                  Of course any resources you reference would need to be 
+                  available outside your Authentication 
+              scheme.</P>
+                  <P>These properties are only available for the MSHTML and ABCGecko HTML engines. They do not function for the other HTML engines.<BR>
+                  </P></TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following example shows this property may be used.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+string uri = "https://www.websupergoo.com/";
+// Assign name and password
+doc.HtmlOptions.Engine = EngineType.Gecko;
+doc.HtmlOptions.LogonName = "Steve";
+doc.HtmlOptions.LogonPassword = "stevepassword";
+// Add HTML page
+doc.AddImageUrl(uri);
+// Save the document
+doc.Save(Server.MapPath("HtmlOptionsLogon.pdf"));
+</code></pre>
+            <BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR>
+            <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theURL As String = "https://www.websupergoo.com/"
+&nbsp;&nbsp;' Assign name and password
+&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.Gecko
+&nbsp;&nbsp;doc.HtmlOptions.LogonName = "Steve"
+&nbsp;&nbsp;doc.HtmlOptions.LogonPassword = "stevepassword"
+&nbsp;&nbsp;' Add HTML page
+&nbsp;&nbsp;doc.AddImageUrl(theURL)
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsLogon.pdf"))
+End Using
+</code></pre>
+            </P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

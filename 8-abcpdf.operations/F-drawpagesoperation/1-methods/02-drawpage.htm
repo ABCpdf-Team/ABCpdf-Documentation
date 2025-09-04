@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>DrawPagesOperation DrawPage Function. Draw the current page from the source to the destination document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>DrawPage Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Draw the current page from the source to the destination  document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>int DrawPage()<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE>Function DrawPage() As Integer<BR>
+            </CODE>
+			</P>
+			
+			
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The ID of the newly added object.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Draw the current page from the source PDF document onto the current page of the destination document, returning the ID of the newly added object.</p>
+<p>The page is scaled to fill the current Rect. It is transformed using the current Transform.</p>
+<p>Many field and annotation types can only exist as a simple rectangle with sides parallel to the page borders. For this reason you should be cautious about the transforms you use when specifying that annotations should be copied. A transform which involves scale and translation will be fine but one involving rotation and skew factors may result in unusual output if the field or annotation does not support this combination.</p>
+<p>If you are copying accessibility tags they are taken from the source page and placed into a non structural group. The group is then inserted at the end of the structure for the destination page. In most cases this is what you want. However tagging structures can be complex and not all documents are compatible with each other. If incompatible structures are found the structures in the destination document will be preferred over those from the source document.</p>
+<p>Pages may be rotated. As such, when drawing one page onto another, you may wish to copy the Page.Rotation from the source page to the destination page. More complex example code to de-rotate a page may be found under the documentation for the <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page.Rotation</a>.</p>
+</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

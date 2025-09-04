@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>ProcessingObject Event</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>ProcessingObject Event</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Occurs just before an IndirectObject is processed.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>event 
+            ProcessingObjectEventHandler ProcessingObject;<BR><BR>delegate void 
+            ProcessingObjectEventHandler(object sender, 
+            <a href="../../2-processingobjecteventargs/default.htm">ProcessingObjectEventArgs</a> e); <!--notcode--><BR>
+            </CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Event ProcessingObject 
+            As ProcessingObjectEventHandler<BR><BR>Delegate Sub 
+            ProcessingObjectEventHandler(sender As Object, e As 
+            <a href="../../2-processingobjecteventargs/default.htm">ProcessingObjectEventArgs</a>); <!--notcode--></CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>sender</TD>
+                <TD>The Operation firing the event.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>e</TD>
+                <TD>The <A 
+                  href="../../2-processingobjecteventargs/default.htm">ProcessingObjectEventArgs</A> 
+                  used to control the operation.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Typically you handle the ProcessingObject event in order to 
+            determine properties about an <A 
+            href="../../../6-abcpdf.objects/1-indirectobject/default.htm">IndirectObject</A> 
+            before processing.</P>
+            <P>Because the handler passes an EventArgs class which inherits from 
+            CancelEventArgs you can also choose to cancel the operation on the 
+            IndirectObject.</P>
+            <P>To associate the event with your event handle add an instance of 
+            the ProcessingObjectEventHandler delegate to the event. The event 
+            handler will be called whenever the event occurs.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>See the <A 
+            href="../../3-recoloroperation/1-methods/recolor.htm">RecolorOperation.Recolor</A> 
+            method.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><title>ZZ Elements Element ClearCache Function</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
+<link rel="stylesheet" href="../../../../prism.css">
+<script src="../../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>ClearCache Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background="../../../../images/steel-line-3.gif" height=11></TD>
+          <TD width=60 background="../../../../images/steel-line-3.gif" 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Clears any cached <a href="../default.htm">Element</a> items.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>virtual void ClearCache()<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE>Overridable Function ClearCache() As void<BR>
+            </CODE>
+			</P>
+			
+			
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>none</TD>
+                <TD>&nbsp;</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            
+<p>Clears any cached <a href="../default.htm">Element</a> items.</p>
+
+
+<p><a href="../default.htm">Elements</a> in properties are cached so that the <a href="../default.htm">Element</a> you assign to a property is the same as the one you retrieve when you later get that property.</p>
+<p>However it is possible that sometimes this behavior is not what you want.</p>
+<p>For example suppose you assign a <a href="../../../08-graphics/0021-devicecolorspaceelement/default.htm">DeviceColorSpaceElement</a> to a property and then later change the underlying <a href="../2-properties/03-atom.htm">Atom</a> so that it is really a CalRGBColorSpace.</p>
+<p>In this situation the retrieved <a href="../../../08-graphics/0020-colorspaceelement/default.htm">ColorSpaceElement</a> will continue to be interpreted as a <a href="../../../08-graphics/0021-devicecolorspaceelement/default.htm">DeviceColorSpaceElement</a> and an invalid one at that.</p>
+<p>What you really want to do here is to clear the cached <a href="../default.htm">Element</a> thus allowing the property to be regenerated as a CalRGBColorSpace.</p>
+<p>This function clears the cached <a href="../default.htm">Elements</a> to allow this to happen.</p>
+
+
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            None.
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

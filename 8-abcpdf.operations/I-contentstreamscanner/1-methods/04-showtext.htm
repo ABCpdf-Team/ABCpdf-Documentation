@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Operations ContentStreamScanner ShowText Function. Show an item of text. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>ShowText Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Show an item of text.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>virtual void ShowText(List&lt;int&gt; codes, List&lt;int&gt; widths, List&lt;double&gt; advances, double advanceTotal, StringBuilder text, List&lt;string&gt; strings, bool vertical)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE>Overridable Function ShowText(codes As List&lt;Integer&gt;, widths As List&lt;Integer&gt;, advances As List&lt;Double&gt;, advanceTotal As double, text As StringBuilder, strings As List&lt;string&gt;, vertical As bool) As void<BR>
+            </CODE>
+			</P>
+			
+			
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>codes</TD>
+                <TD>The character codes for the text. In general these will map to ASCII but this is not required and any encoding may be legal.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>widths</TD>
+                <TD>The widths of each character in 1000ths. This list is always the same size as the codes list.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>advances</TD>
+                <TD>The advance for each character in text units. This advance includes all text properties like character spacing and font size. This list is always the same size as the codes list.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>advanceTotal</TD>
+                <TD>The sum of all the values in the advances list. This is essentially the same as the text width.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>text</TD>
+                <TD>The Unicode text of the codes. The text length is always the same as the size of codes list.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>strings</TD>
+                <TD>Some character codes do not have a single character value. For example the ligature 'fl' may be represented as one character code but the Unicode equivalent is two characters long.
+In this situation the 'text' parameter will contain a single character approximation and the equivalent index in the 'strings' parameter will provide the string "fl".
+For single character codes the index in the strings parameter will be null. This list is always the same size as the codes list.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>vertical</TD>
+                <TD>True if the writing direction is vertical - top to bottom. False if it is horizontal - left to right.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            
+<p>Show an item of text. If you are processing text you will want to override this function to pick up the text show operations.</p>
+<p>The parameters passed are owned by the <a href="../default.htm">ContentStreamScanner</a> and will be re-used for efficiency reasons. So if you want to keep the parameters you will need make copies of them.</p>
+<p>This function is only called if the <a href="../2-properties/03-doshowtext.htm">DoShowText</a> property is set to true. Unicode values are only passed if <a href="../2-properties/04-dounicode.htm">DoUnicode</a> is set to true. Widths are only passed if <a href="../2-properties/05-dowidths.htm">DoWidths</a> is set to true.</p>
+<p>Text units are relative to the <a href="../../I-contentstreamscanner.graphicsstate/2-properties/37-textfontsize.htm">TextFontSize</a>  as set using the Tf operator - if you double the font size you double the advances. The text rendering matrix includes the font size so for placement on the page you would need to divide the advances by the font size and then transform  using the value from <a href="../../I-contentstreamscanner.textstate/1-methods/02-gettextrenderingmatrix.htm">GetTextRenderingMatrix</a>.</p>
+<P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            None.
+            <p>None.</p><P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>TextOperation Group Function. Group a range of text fragments into a set of lines. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Group  Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Group a range of text fragments into a set of lines.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>IList&lt;<a href="../../8-textgroup/default.htm">TextGroup</a>&gt; Group(List&lt;<a href="../../8-textfragment/default.htm">TextFragment</a>&gt; fragments)</CODE><BR>
+            <SPAN class=language>[Visual
+            Basic]</SPAN><BR>
+            <CODE>Function Group(fragments As List&lt;<a href="../../8-textfragment/default.htm">TextFragment</a>&gt;) As IList&lt;<a href="../../8-textgroup/default.htm">TextGroup</a>&gt;</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>fragments</TD>
+                <TD>The fragments to be grouped.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>Return</TD>
+                <TD>Returns a list of groups defining the words.</TD>
+              </TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Group a range of text fragments into a set of lines.</P>
+            <P>Calling Select will return a list of TextFragments corresponding to the section of text you are interested in. However each TextFragment may only make up a small portion of a word. Calling this function allows you to group connected fragments into continuous sections with a common rectangular area.</P>
+            <P>Strictly speaking this grouping does not always correspond to lines. For example two fragments on the same line, separated by a large distance, will not be considered contiguous. However for most purposes the two broadly correspond.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we highlight a set of words in a source document by drawing a rectangle around each one.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+                <pre><code class="language-csharp">string src = Server.MapPath("mypics/Acrobat.pdf");
+string dst = Server.MapPath("HighlightedText.pdf");
+string searchString = "Acrobat";
+using var doc = new Doc();
+doc.Read(src);
+TextOperation op = new TextOperation(doc);
+op.PageContents.AddPages();
+string text = op.GetText();
+int pos = 0;
+while (true) {
+&nbsp;&nbsp;pos = text.IndexOf(searchString, pos, StringComparison.CurrentCultureIgnoreCase);
+&nbsp;&nbsp;if (pos &lt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;var selection = op.Select(pos, searchString.Length);
+&nbsp;&nbsp;var groups = op.Group(selection);
+&nbsp;&nbsp;foreach (var group in groups) {
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = group.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect();
+&nbsp;&nbsp;}
+&nbsp;&nbsp;pos += searchString.Length;
+}
+doc.Save(dst);
+</code></pre><BR>
+              <SPAN class=language>[Visual 
+                Basic]</SPAN><BR>
+              <pre><code class="language-vbnet">Dim theSrc As String = Server.MapPath("mypics/Acrobat.pdf")
+Dim theDst As String = Server.MapPath("HighlightedText.pdf")
+Dim searchString As String = "Acrobat"
+Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(theSrc)
+&nbsp;&nbsp;Dim op As New TextOperation(doc)
+&nbsp;&nbsp;op.PageContents.AddPages()
+&nbsp;&nbsp;Dim text As String = op.GetText()
+&nbsp;&nbsp;Dim pos As Integer = 0
+&nbsp;&nbsp;While True
+&nbsp;&nbsp;&nbsp;&nbsp;pos = text.IndexOf(searchString, pos, StringComparison.CurrentCultureIgnoreCase)
+&nbsp;&nbsp;&nbsp;&nbsp;If pos &lt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;Dim theSelection As IList(Of TextFragment) = op.[Select](pos, searchString.Length)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim theGroups As IList(Of TextGroup) = op.Group(theSelection)
+&nbsp;&nbsp;&nbsp;&nbsp;For Each theGroup As TextGroup In theGroups
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = theGroup.Rect.[String]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;&nbsp;&nbsp;Next
+&nbsp;&nbsp;&nbsp;&nbsp;pos += searchString.Length
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;doc.Save(theDst)
+End Using
+</code></pre></P>
+            <P></P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

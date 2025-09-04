@@ -1,0 +1,802 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><title>ZZ Elements AppearanceCharacteristicsElement Constructor Function</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
+<link rel="stylesheet" href="../../../../prism.css">
+<script src="../../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AppearanceCharacteristicsElement Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background="../../../../images/steel-line-3.gif" height=11></TD>
+          <TD width=60 background="../../../../images/steel-line-3.gif" 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Create a new <a href="../default.htm">AppearanceCharacteristicsElement</a>.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE> <a href="../default.htm">AppearanceCharacteristicsElement</a>()<br> <a href="../default.htm">AppearanceCharacteristicsElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">AppearanceCharacteristicsElement</a>(IndirectObject obj)<br> <a href="../default.htm">AppearanceCharacteristicsElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">AppearanceCharacteristicsElement</a>()<br><a href="../default.htm">AppearanceCharacteristicsElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">AppearanceCharacteristicsElement</a>(obj As IndirectObject)<br><a href="../default.htm">AppearanceCharacteristicsElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
+            </CODE>
+			</P>
+			
+			
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>atom</TD>
+                <TD>The Atom to be assigned to this <a href="../../../01-base/1086-element/default.htm">Element</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>host</TD>
+                <TD>An IndirectObject. This can be any IndirectObject from the Soup but ideally should be one closely associated with the Atom.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>obj</TD>
+                <TD>The IndirectObject to be assigned to this <a href="../../../01-base/1086-element/default.htm">Element</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>relation</TD>
+                <TD>An <a href="../../../01-base/1086-element/default.htm">Element</a>. This can be any <a href="../../../01-base/1086-element/default.htm">Element</a> in the Soup but ideally should be one closely associated with this <a href="../../../01-base/1086-element/default.htm">Element</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>options</TD>
+                <TD>Options related to creation. For example this allows you to determine whether the <a href="../../../01-base/1086-element/default.htm">Element</a> should be created using an IndirectObject rather than just an Atom. If not provided a default set of options is used.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            
+<p>Create a new <a href="../default.htm">AppearanceCharacteristicsElement</a>.</p>
+<p>The different constructors allow different ways of creating an <a href="../../../01-base/1086-element/default.htm">Element</a>. Some are used for wrapping existing Atoms or IndirectObjects and others are for creating new ones.</p>
+<p>The constructor taking a relation <a href="../../../01-base/1086-element/default.htm">Element</a> creates a new object in the document - it is typically the constructor you will want to use. Do not specify creation options unless you have very specific needs.</p>
+<p>However for your first <a href="../../../01-base/1086-element/default.htm">Element</a> - one you can use as a relation for the others - you will need to wrap an existing IndirectObject inside an <a href="../../../01-base/1086-element/default.htm">Element</a>. For this you might use code of the following form "<a href="../../../07-syntax/1081-catalogelement/default.htm">CatalogElement</a> root =  new <a href="../../../07-syntax/1081-catalogelement/default.htm">CatalogElement</a>(doc.ObjectSoup.Catalog)".</p>
+<p>The parameterless constructor allows you to create an empty <a href="../../../01-base/1086-element/default.htm">Element</a>. By empty we mean it has no contents - no Atom within it. So before use an Atom must be Assigned or Created. In practice it is easiest to do this using one of the other constructors.</p>
+<p>The atom and host constructor is used to wrap an existing Atom. It creates an <a href="../../../01-base/1086-element/default.htm">Element</a> and then Assigns the Atom to it. The result is a specialized <a href="../../../01-base/1086-element/default.htm">Element</a> which can be used to examine or modify the contents of the Atom.</p>
+
+
+<p>The CreationOptions enumeration may take the following values:</p>
+<ul>
+<li>Default - Default creation options for this particular type of <a href="../../../01-base/1086-element/default.htm">Element</a>.</li>
+<li>Indirect - Create <a href="../../../01-base/1086-element/default.htm">Element</a> containing an IndirectObject.</li>
+<li>Direct - Create <a href="../../../01-base/1086-element/default.htm">Element</a> containing an Atom.</li>
+</ul>
+
+
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This code snippet is taken from Annotations.cs line 1190 in the Annotations example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../../1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a> annot = WidgetElement;
+annot.EntryRect = new <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(new XRect(rect)), annot.Host);
+annot.EntryMK = new <a href="../default.htm">AppearanceCharacteristicsElement</a>(annot);
+annot.EntryMK.EntryBG = new double[] { 1 };
+annot.EntryMK.EntryBC = new double[] { 0, 0, 0 };
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As <a href="../../1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a> = WidgetElement
+annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect)), annot.Host)
+annot.EntryMK = New <a href="../default.htm">AppearanceCharacteristicsElement</a>(annot)
+annot.EntryMK.EntryBG = New Double() { 1 }
+annot.EntryMK.EntryBC = New Double() { 0, 0, 0 }
+</code></pre></P>
+<P>This code snippet is taken from Annotations.cs line 1226 in the Annotations example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../../1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a> annot = WidgetElement;
+annot.EntryRect = new <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(new XRect(rect)), annot.Host);
+annot.EntryMK = new <a href="../default.htm">AppearanceCharacteristicsElement</a>(annot);
+annot.EntryMK.EntryBG = new double[] { 0.752930 };
+annot.EntryMK.EntryCA = caption;
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As <a href="../../1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a> = WidgetElement
+annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect)), annot.Host)
+annot.EntryMK = New <a href="../default.htm">AppearanceCharacteristicsElement</a>(annot)
+annot.EntryMK.EntryBG = New Double() { 0.752930 }
+annot.EntryMK.EntryCA = caption
+</code></pre></P>
+<P>This code snippet is taken from Annotations.cs line 1246 in the Annotations example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../../1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a> annot = WidgetElement;
+annot.EntryRect = new <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(new XRect(rect)), annot.Host);
+<a href="../../../01-base/0003-dictelement_t_/default.htm">DictElement</a>&lt;<a href="../../../08-graphics/1226-formxobjectelement/default.htm">FormXObjectElement</a>&gt; appearance = new <a href="../../../01-base/0003-dictelement_t_/default.htm">DictElement</a>&lt;<a href="../../../08-graphics/1226-formxobjectelement/default.htm">FormXObjectElement</a>&gt;(annot);
+appearance[&quot;Yes&quot;] = Form.YesCheckBoxAppearance;
+appearance[&quot;Off&quot;] = Form.OffCheckBoxAppearance;
+annot.EntryAP = new <a href="../../1397-appearanceelement/default.htm">AppearanceElement</a>(annot);
+annot.EntryAP.EntryN = appearance;
+annot.EntryMK = new <a href="../default.htm">AppearanceCharacteristicsElement</a>(annot);
+annot.EntryMK.EntryCA = Form.YesCheckBoxCharacter;
+annot.EntryAS = selected ? &quot;Yes&quot; : &quot;Off&quot;;
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As <a href="../../1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a> = WidgetElement
+annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect)), annot.Host)
+Dim appearance As New <a href="../../../01-base/0003-dictelement_t_/default.htm">DictElement</a>(Of <a href="../../../08-graphics/1226-formxobjectelement/default.htm">FormXObjectElement</a>)(annot)
+appearance(&quot;Yes&quot;) = Form.YesCheckBoxAppearance
+appearance(&quot;Off&quot;) = Form.OffCheckBoxAppearance
+annot.EntryAP = New <a href="../../1397-appearanceelement/default.htm">AppearanceElement</a>(annot)
+annot.EntryAP.EntryN = appearance
+annot.EntryMK = New <a href="../default.htm">AppearanceCharacteristicsElement</a>(annot)
+annot.EntryMK.EntryCA = Form.YesCheckBoxCharacter
+annot.EntryAS = If(selected, &quot;Yes&quot;, &quot;Off&quot;)
+</code></pre></P>
+<P>This code snippet is taken from Annotations.cs line 1271 in the Annotations example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../../1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a> annot = WidgetElement;
+annot.EntrySubtype = &quot;Widget&quot;;
+annot.EntryRect = new <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(new XRect(rect)), annot.Host);
+annot.EntryMK = new <a href="../default.htm">AppearanceCharacteristicsElement</a>(annot);
+annot.EntryMK.EntryBC = new double[] { 0 };
+annot.EntryMK.EntryBG = new double[] { 1 };
+annot.EntryAS = selected ? inName : &quot;Off&quot;;
+<a href="../../../01-base/0003-dictelement_t_/default.htm">DictElement</a>&lt;<a href="../../../08-graphics/1226-formxobjectelement/default.htm">FormXObjectElement</a>&gt; appearance = new <a href="../../../01-base/0003-dictelement_t_/default.htm">DictElement</a>&lt;<a href="../../../08-graphics/1226-formxobjectelement/default.htm">FormXObjectElement</a>&gt;(annot);
+appearance[inName] = Form.YesRadioBtnAppearance;
+appearance[&quot;Off&quot;] = Form.OffRadioBtnAppearance;
+annot.EntryAP = new <a href="../../1397-appearanceelement/default.htm">AppearanceElement</a>(annot);
+annot.EntryAP.EntryN = appearance;
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As <a href="../../1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a> = WidgetElement
+annot.EntrySubtype = &quot;Widget&quot;
+annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect)), annot.Host)
+annot.EntryMK = New <a href="../default.htm">AppearanceCharacteristicsElement</a>(annot)
+annot.EntryMK.EntryBC = New Double() { 0 }
+annot.EntryMK.EntryBG = New Double() { 1 }
+annot.EntryAS = If(selected, inName, &quot;Off&quot;)
+Dim appearance As New <a href="../../../01-base/0003-dictelement_t_/default.htm">DictElement</a>(Of <a href="../../../08-graphics/1226-formxobjectelement/default.htm">FormXObjectElement</a>)(annot)
+appearance(inName) = Form.YesRadioBtnAppearance
+appearance(&quot;Off&quot;) = Form.OffRadioBtnAppearance
+annot.EntryAP = New <a href="../../1397-appearanceelement/default.htm">AppearanceElement</a>(annot)
+annot.EntryAP.EntryN = appearance
+</code></pre></P>
+<P>This code snippet is taken from Test.cs line 92 in the Annotations example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">theDoc.Font = theDoc.AddFont(&quot;Helvetica&quot;);
+theDoc.FontSize = 36;
+
+EmbeddedFileTree fileTree = new EmbeddedFileTree(theDoc);
+fileTree.EmbedFile(&quot;MyFile1&quot;, Server.MapPath(&quot;ABCpdf.swf&quot;), &quot;attachment without annotation&quot;);
+theDoc.SetInfo(theDoc.Root, &quot;/PageMode:Name&quot;, &quot;UseAttachments&quot;);
+
+// Create interactive form
+InteractiveForm form = new InteractiveForm(theDoc);
+theDoc.Pos.X = 40;
+theDoc.Pos.Y = theDoc.MediaBox.Top - 40;
+theDoc.AddText(&quot;Interactive Form annotations&quot;);
+
+// Radio buttons
+form.AddRadioButtonGroup(new string[2] { &quot;40 610 80 650&quot;, &quot;40 660 80 700&quot; }, &quot;RadioGroupField&quot;, 0);
+theDoc.Pos.String = &quot;100 696&quot;;
+theDoc.AddText(&quot;RadioButton 1&quot;);
+theDoc.Pos.String = &quot;100 646&quot;;
+theDoc.AddText(&quot;RadioButton 2&quot;);
+
+// Text fields
+FormField text = form.AddTextField(&quot;40 530 300 580&quot;, &quot;TextField1&quot;, &quot;Hello World!&quot;);
+text.FieldElement.EntryDA = &quot;/TimesRoman 36 Tf 0 0 1 rg&quot;;
+text.Widget.WidgetElement.EntryMK = new <a href="../default.htm">AppearanceCharacteristicsElement</a>(text.FieldElement);
+text.Widget.WidgetElement.EntryMK.EntryBC = new double[] { 0, 0, 0 };
+text.Widget.WidgetElement.EntryMK.EntryBG = new double[] { 220.0 / 255.0, 220.0 / 255.0, 220.0 / 255.0 };
+text.FieldElement.EntryQ = 0; // Left alignment
+
+text = form.AddTextField(&quot;40 460 300 510&quot;, &quot;TextField2&quot;, &quot;Text Field&quot;);
+text.Widget.WidgetElement.EntryMK = new <a href="../default.htm">AppearanceCharacteristicsElement</a>(text.FieldElement);
+text.Widget.WidgetElement.EntryMK.EntryBC = new double[] { 0, 0, 0 };
+text.FieldElement.EntryDA = &quot;/TimesRoman 36 Tf 0 0 1 rg&quot;;
+text.FieldElement.EntryQ = 0; // Left alignment
+text.FieldElement.EntryFf |= (int)Field.FieldFlags.Password;
+
+text = form.AddTextField(&quot;320 460 370 580&quot;, &quot;TextField3&quot;, &quot;Vertical&quot;);
+text.Widget.WidgetElement.EntryMK = new <a href="../default.htm">AppearanceCharacteristicsElement</a>(text.FieldElement);
+text.Widget.WidgetElement.EntryMK.EntryBC = new double[] { 0, 0, 0 };
+text.FieldElement.EntryDA = &quot;/TimesRoman 36 Tf 0 0 0 rg&quot;;
+text.Widget.WidgetElement.EntryMK.EntryR = 90; // Rotation
+
+// Combobox field
+FormField combo = form.AddChoiceField(&quot;ComboBox&quot;, &quot;40 390 300 440&quot;, &quot;ComboBoxField&quot;);
+combo.FieldElement.EntryDA = &quot;/TimesRoman 24 Tf 0 0 0 rg&quot;;
+combo.SetOptions(new string[] { &quot;ComboBox Item 1&quot;, &quot;ComboBox Item 2&quot;, &quot;ComboBox Item 3&quot; }, null);
+
+// Listbox field
+FormField listbox = form.AddChoiceField(&quot;ListBox&quot;, &quot;40 280 300 370&quot;, &quot;ListBoxField&quot;);
+listbox.FieldElement.EntryDA = &quot;/TimesRoman 24 Tf 0 0 0 rg&quot;;
+listbox.SetOptions(new string[] { &quot;ListBox Item 1&quot;, &quot;ListBox Item 2&quot;, &quot;ListBox Item 3&quot; }, null);
+
+// Checkbox field
+form.AddCheckbox(&quot;40 220 80 260&quot;, &quot;CheckBoxField&quot;, true);
+theDoc.Pos.String = &quot;100 256&quot;;
+theDoc.AddText(&quot;Check Box&quot;);
+
+// Pushbutton field
+FormField button = form.AddButton(&quot;40 160 200 200&quot;, &quot;ButtonField&quot;, &quot;Button&quot;);
+button.Widget.WidgetElement.EntryMK = new <a href="../default.htm">AppearanceCharacteristicsElement</a>(text.FieldElement);
+button.Widget.WidgetElement.EntryMK.EntryBC = new double[] { 0, 0, 0 };
+button.Widget.BorderStyle = &quot;Beveled&quot;;
+
+// Markup annotations
+theDoc.Page = theDoc.AddPage();
+theDoc.Pos.X = 40;
+theDoc.Pos.Y = theDoc.MediaBox.Top - 40;
+theDoc.AddText(&quot;Markup annotations&quot;);
+
+SquareAnnotation square = new SquareAnnotation(form, &quot;40 560 300 670&quot;, &quot;255 0 0&quot;, &quot;0 0 255&quot;);
+square.BorderWidth = 8;
+
+LineAnnotation line = new LineAnnotation(form, &quot;100 565 220 665&quot;, &quot;255 0 0&quot;);
+line.BorderWidth = 12;
+line.RichTextCaption = &quot;&lt;span style= \&quot;font-size:36pt; color:#FF0000\&quot;&gt;Line&lt;/span&gt;&quot;;
+
+theDoc.FontSize = 24;
+theDoc.Pos.String = &quot;400 670&quot;;
+int id = theDoc.AddText(&quot;Underline&quot;);
+TextMarkupAnnotation markup = new TextMarkupAnnotation(form, id, &quot;Underline&quot;, &quot;0 255 0&quot;);
+
+theDoc.Pos.String = &quot;400 640&quot;;
+id = theDoc.AddText(&quot;Highlight&quot;);
+markup = new TextMarkupAnnotation(form, id, &quot;Highlight&quot;, &quot;255 255 0&quot;);
+
+theDoc.Pos.String = &quot;400 610&quot;;
+id = theDoc.AddText(&quot;StrikeOut&quot;);
+markup = new TextMarkupAnnotation(form, id, &quot;StrikeOut&quot;, &quot;255 0 0&quot;);
+
+theDoc.Pos.String = &quot;400 580&quot;;
+id = theDoc.AddText(&quot;Squiggly&quot;);
+markup = new TextMarkupAnnotation(form, id, &quot;Squiggly&quot;, &quot;0 0 255&quot;);
+
+CircleAnnotation circle = new CircleAnnotation(form, &quot;80 320 285 525&quot;, &quot;255 255 0&quot;, &quot;255 128 0&quot;);
+circle.BorderWidth = 20;
+circle.BorderStyle = &quot;Dashed&quot;;
+circle.BorderDash = &quot;[3 2]&quot;;
+
+LineAnnotation arrowLine = new LineAnnotation(form, &quot;385 330 540 520&quot;, &quot;255 0 0&quot;);
+arrowLine.LineEndingsStyle = &quot;ClosedArrow ClosedArrow&quot;;
+arrowLine.BorderWidth = 6;
+arrowLine.FillColor = &quot;255 0 0&quot;;
+
+PolygonAnnotation polygon = new PolygonAnnotation(form, &quot;100 70 50 120 50 220 100 270 200 270 250 220 250 120 200 70&quot;, &quot;255 0 0&quot;, &quot;0 255 0&quot;);
+PolygonAnnotation cloudyPolygon = new PolygonAnnotation(form, &quot;400 70 350 120 350 220 400 270 500 270 550 220 550 120 500 70&quot;, &quot;255 0 0&quot;, &quot;64 85 255&quot;);
+cloudyPolygon.CloudyEffect = 1;
+
+// Movie annotations
+// WMV is courtesy of NASA - http://www.nasa.gov/wmv/30873main_cardiovascular_300.wmv
+theDoc.Page = theDoc.AddPage();
+theDoc.Pos.X = 40;
+theDoc.Pos.Y = theDoc.MediaBox.Top - 40;
+theDoc.AddText(&quot;Multimedia features&quot;);
+
+theDoc.FontSize = 24;
+
+theDoc.Pos.String = &quot;40 690&quot;;
+theDoc.AddText(&quot;Flash movie:&quot;);
+MovieAnnotation movie1 = new MovieAnnotation(form, &quot;40 420 300 650&quot;, Server.MapPath(&quot;ABCpdf.swf&quot;));
+
+theDoc.Pos.String = &quot;312 690&quot;;
+theDoc.AddText(&quot;Flash rich media:&quot;);
+RichMediaAnnotation media1 = new RichMediaAnnotation(form, &quot;312 420 572 650&quot;, Server.MapPath(&quot;ABCpdf.swf&quot;), &quot;Flash&quot;);
+
+theDoc.Pos.String = &quot;40 400&quot;;
+theDoc.AddText(&quot;Video File:&quot;);
+MovieAnnotation movie2 = new MovieAnnotation(form, &quot;80 40 520 360&quot;, Server.MapPath(&quot;video.wmv&quot;));
+
+theDoc.Page = theDoc.AddPage();
+theDoc.FontSize = 36;
+theDoc.Pos.X = 40;
+theDoc.Pos.Y = theDoc.MediaBox.Top - 40;
+theDoc.AddText(&quot;Other types of annotations&quot;);
+
+// Sticky note annotation
+theDoc.FontSize = 24;
+theDoc.Pos.String = &quot;40 680&quot;;
+theDoc.AddText(&quot;Text annotation&quot;);
+TextAnnotation textAnnotation = new TextAnnotation(form, &quot;340 660 360 680&quot;, &quot;550 650 600 750&quot;, &quot;6 sets of 13 pages. Trim to 5X7.&quot;);
+
+// File attachment annotation
+theDoc.Pos.String = &quot;40 640&quot;;
+theDoc.AddText(&quot;File Attachment annotation&quot;);
+FileAttachmentAnnotation fileAttachment = new FileAttachmentAnnotation(form, &quot;340 620 360 640&quot;, Server.MapPath(&quot;video.WMV&quot;));
+
+// StampAnnotations
+theDoc.Pos.String = &quot;40 600&quot;;
+theDoc.AddText(&quot;Stamp annotations&quot;);
+StampAnnotation stamp1 = new StampAnnotation(form, &quot;340 560 540 600&quot;, &quot;DRAFT&quot;, &quot;0 0 128&quot;);
+StampAnnotation stamp2 = new StampAnnotation(form, &quot;340 505 540 545&quot;, &quot;FINAL&quot;, &quot; 0 128 0&quot;);
+StampAnnotation stamp3 = new StampAnnotation(form, &quot;340 450 540 490&quot;, &quot;NOT APPROVED&quot;, &quot;128 0 0&quot;);
+
+theDoc.PageNumber = 1;
+
+// Signature fields
+// Add signature fields last so that entire document is signed
+
+// Note: For maximum portability, it is recommended
+// that you create all the signature fields before
+// signing any one of them (as is demonstrated below).
+//
+// The reason is that adding a signature field
+// changes the document. Although this is legal, not all
+// versions of Acrobat are happy with all types of updates.
+// As such, they may report existing valid signatures to be
+// invalid.
+//
+// In the past, the &quot;SigFlags&quot; entry allowed contents to be
+// appended to signed documents using incremental updates.
+// However, the entry&#39;s treatment seems to have changed in
+// Adobe Reader X. For example, Adobe Reader X will
+// report the signatures in `SignedThenAppended.pdf` to
+// be invalid whereas Acrobat 8 will report
+// &quot;signatures are valid, but document has been changed
+// since it was signed.&quot; This is a document created using
+// Acrobat Professional 8.
+
+
+// We add the first signature field unsigned
+form.AddSignature(&quot;40 100 240 150&quot;, &quot;Signature1&quot;);
+
+// And the second signature field unsigned (to be signed
+// below)
+form.AddSignature(&quot;340 100 540 150&quot;, &quot;Signature2&quot;);
+X509Certificate2 userCert = PromptUserForCert();
+if (userCert != null) {
+&nbsp;&nbsp;Signature sig2 = (Signature)theDoc.Form.Fields[&quot;Signature2&quot;];
+&nbsp;&nbsp;sig2.Signer = DisplayNameFromCert(userCert);
+
+&nbsp;&nbsp;// We need not call sig2.Commit() as sig2 is not signed yet.
+&nbsp;&nbsp;//sig2.Commit();
+}
+
+// We can add the last signature field signed.
+// Note: Certifying the document makes all but the last signed
+// signature invalid, especially after clicking on the signatures.
+form.Certify = true;
+form.ShowSignatureValidity = true;
+form.AddSignature(&quot;340 160 540 220&quot;, &quot;Signature3&quot;,
+&nbsp;&nbsp;Server.MapPath(&quot;JohnSmith.pfx&quot;), &quot;1234&quot;, &quot;I am the author&quot;,
+&nbsp;&nbsp;&quot;New York&quot;, &quot;Digitally signed by {0}\nReason: {2}\n&quot; +
+&nbsp;&nbsp;&quot;Location: {3}\nDate: {1:yyyy.MM.dd}&quot;, false);
+form.Certify = false;
+
+// Go back and sign the second signature placeholder
+// if interactive user has supplied the signing key
+if (userCert != null) {
+&nbsp;&nbsp;// We are about to sign a signature outside the
+&nbsp;&nbsp;// InteractiveForm class. Commit the previous signature.
+&nbsp;&nbsp;form.CommitSignature();
+
+&nbsp;&nbsp;// We need to obtain the field afresh because
+&nbsp;&nbsp;// Signature.Commit invalidates all IndirectObject&#39;s
+&nbsp;&nbsp;Signature sig2 = (Signature)theDoc.Form.Fields[&quot;Signature2&quot;];
+&nbsp;&nbsp;sig2.Sign(userCert, true);
+&nbsp;&nbsp;// This is the last signature so we need not commit it
+&nbsp;&nbsp;// using sig2.Commit();
+}
+
+theDoc.SaveOptions.Linearize = false;
+theDoc.SaveOptions.Remap = false;
+theDoc.Save(outputFile);
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">theDoc.Font = theDoc.AddFont(&quot;Helvetica&quot;)
+theDoc.FontSize = 36
+
+Dim fileTree As New EmbeddedFileTree(theDoc)
+fileTree.EmbedFile(&quot;MyFile1&quot;, Server.MapPath(&quot;ABCpdf.swf&quot;), &quot;attachment without annotation&quot;)
+theDoc.SetInfo(theDoc.Root, &quot;/PageMode:Name&quot;, &quot;UseAttachments&quot;)
+
+&#39; Create interactive form
+Dim form As New InteractiveForm(theDoc)
+theDoc.Pos.X = 40
+theDoc.Pos.Y = theDoc.MediaBox.Top - 40
+theDoc.AddText(&quot;Interactive Form annotations&quot;)
+
+&#39; Radio buttons
+form.AddRadioButtonGroup(New String(1) { &quot;40 610 80 650&quot;, &quot;40 660 80 700&quot; }, &quot;RadioGroupField&quot;, 0)
+theDoc.Pos.String = &quot;100 696&quot;
+theDoc.AddText(&quot;RadioButton 1&quot;)
+theDoc.Pos.String = &quot;100 646&quot;
+theDoc.AddText(&quot;RadioButton 2&quot;)
+
+&#39; Text fields
+Dim text As FormField = form.AddTextField(&quot;40 530 300 580&quot;, &quot;TextField1&quot;, &quot;Hello World!&quot;)
+text.FieldElement.EntryDA = &quot;/TimesRoman 36 Tf 0 0 1 rg&quot;
+text.Widget.WidgetElement.EntryMK = New <a href="../default.htm">AppearanceCharacteristicsElement</a>(text.FieldElement)
+text.Widget.WidgetElement.EntryMK.EntryBC = New Double() { 0, 0, 0 }
+text.Widget.WidgetElement.EntryMK.EntryBG = New Double() { 220.0 / 255.0, 220.0 / 255.0, 220.0 / 255.0 }
+text.FieldElement.EntryQ = 0 &#39; Left alignment
+
+text = form.AddTextField(&quot;40 460 300 510&quot;, &quot;TextField2&quot;, &quot;Text Field&quot;)
+text.Widget.WidgetElement.EntryMK = New <a href="../default.htm">AppearanceCharacteristicsElement</a>(text.FieldElement)
+text.Widget.WidgetElement.EntryMK.EntryBC = New Double() { 0, 0, 0 }
+text.FieldElement.EntryDA = &quot;/TimesRoman 36 Tf 0 0 1 rg&quot;
+text.FieldElement.EntryQ = 0 &#39; Left alignment
+text.FieldElement.EntryFf = text.FieldElement.EntryFf Or CInt(Math.Truncate(Field.FieldFlags.Password))
+
+text = form.AddTextField(&quot;320 460 370 580&quot;, &quot;TextField3&quot;, &quot;Vertical&quot;)
+text.Widget.WidgetElement.EntryMK = New <a href="../default.htm">AppearanceCharacteristicsElement</a>(text.FieldElement)
+text.Widget.WidgetElement.EntryMK.EntryBC = New Double() { 0, 0, 0 }
+text.FieldElement.EntryDA = &quot;/TimesRoman 36 Tf 0 0 0 rg&quot;
+text.Widget.WidgetElement.EntryMK.EntryR = 90 &#39; Rotation
+
+&#39; Combobox field
+Dim combo As FormField = form.AddChoiceField(&quot;ComboBox&quot;, &quot;40 390 300 440&quot;, &quot;ComboBoxField&quot;)
+combo.FieldElement.EntryDA = &quot;/TimesRoman 24 Tf 0 0 0 rg&quot;
+combo.SetOptions(New String() { &quot;ComboBox Item 1&quot;, &quot;ComboBox Item 2&quot;, &quot;ComboBox Item 3&quot; }, Nothing)
+
+&#39; Listbox field
+Dim listbox As FormField = form.AddChoiceField(&quot;ListBox&quot;, &quot;40 280 300 370&quot;, &quot;ListBoxField&quot;)
+listbox.FieldElement.EntryDA = &quot;/TimesRoman 24 Tf 0 0 0 rg&quot;
+listbox.SetOptions(New String() { &quot;ListBox Item 1&quot;, &quot;ListBox Item 2&quot;, &quot;ListBox Item 3&quot; }, Nothing)
+
+&#39; Checkbox field
+form.AddCheckbox(&quot;40 220 80 260&quot;, &quot;CheckBoxField&quot;, True)
+theDoc.Pos.String = &quot;100 256&quot;
+theDoc.AddText(&quot;Check Box&quot;)
+
+&#39; Pushbutton field
+Dim button As FormField = form.AddButton(&quot;40 160 200 200&quot;, &quot;ButtonField&quot;, &quot;Button&quot;)
+button.Widget.WidgetElement.EntryMK = New <a href="../default.htm">AppearanceCharacteristicsElement</a>(text.FieldElement)
+button.Widget.WidgetElement.EntryMK.EntryBC = New Double() { 0, 0, 0 }
+button.Widget.BorderStyle = &quot;Beveled&quot;
+
+&#39; Markup annotations
+theDoc.Page = theDoc.AddPage()
+theDoc.Pos.X = 40
+theDoc.Pos.Y = theDoc.MediaBox.Top - 40
+theDoc.AddText(&quot;Markup annotations&quot;)
+
+Dim square As New SquareAnnotation(form, &quot;40 560 300 670&quot;, &quot;255 0 0&quot;, &quot;0 0 255&quot;)
+square.BorderWidth = 8
+
+Dim line As New LineAnnotation(form, &quot;100 565 220 665&quot;, &quot;255 0 0&quot;)
+line.BorderWidth = 12
+line.RichTextCaption = &quot;&lt;span style= &quot;&quot;font-size:36pt; color:#FF0000&quot;&quot;&gt;Line&lt;/span&gt;&quot;
+
+theDoc.FontSize = 24
+theDoc.Pos.String = &quot;400 670&quot;
+Dim id As Integer = theDoc.AddText(&quot;Underline&quot;)
+Dim markup As New TextMarkupAnnotation(form, id, &quot;Underline&quot;, &quot;0 255 0&quot;)
+
+theDoc.Pos.String = &quot;400 640&quot;
+id = theDoc.AddText(&quot;Highlight&quot;)
+markup = New TextMarkupAnnotation(form, id, &quot;Highlight&quot;, &quot;255 255 0&quot;)
+
+theDoc.Pos.String = &quot;400 610&quot;
+id = theDoc.AddText(&quot;StrikeOut&quot;)
+markup = New TextMarkupAnnotation(form, id, &quot;StrikeOut&quot;, &quot;255 0 0&quot;)
+
+theDoc.Pos.String = &quot;400 580&quot;
+id = theDoc.AddText(&quot;Squiggly&quot;)
+markup = New TextMarkupAnnotation(form, id, &quot;Squiggly&quot;, &quot;0 0 255&quot;)
+
+Dim circle As New CircleAnnotation(form, &quot;80 320 285 525&quot;, &quot;255 255 0&quot;, &quot;255 128 0&quot;)
+circle.BorderWidth = 20
+circle.BorderStyle = &quot;Dashed&quot;
+circle.BorderDash = &quot;[3 2]&quot;
+
+Dim arrowLine As New LineAnnotation(form, &quot;385 330 540 520&quot;, &quot;255 0 0&quot;)
+arrowLine.LineEndingsStyle = &quot;ClosedArrow ClosedArrow&quot;
+arrowLine.BorderWidth = 6
+arrowLine.FillColor = &quot;255 0 0&quot;
+
+Dim polygon As New PolygonAnnotation(form, &quot;100 70 50 120 50 220 100 270 200 270 250 220 250 120 200 70&quot;, &quot;255 0 0&quot;, &quot;0 255 0&quot;)
+Dim cloudyPolygon As New PolygonAnnotation(form, &quot;400 70 350 120 350 220 400 270 500 270 550 220 550 120 500 70&quot;, &quot;255 0 0&quot;, &quot;64 85 255&quot;)
+cloudyPolygon.CloudyEffect = 1
+
+&#39; Movie annotations
+&#39; WMV is courtesy of NASA - http://www.nasa.gov/wmv/30873main_cardiovascular_300.wmv
+theDoc.Page = theDoc.AddPage()
+theDoc.Pos.X = 40
+theDoc.Pos.Y = theDoc.MediaBox.Top - 40
+theDoc.AddText(&quot;Multimedia features&quot;)
+
+theDoc.FontSize = 24
+
+theDoc.Pos.String = &quot;40 690&quot;
+theDoc.AddText(&quot;Flash movie:&quot;)
+Dim movie1 As New MovieAnnotation(form, &quot;40 420 300 650&quot;, Server.MapPath(&quot;ABCpdf.swf&quot;))
+
+theDoc.Pos.String = &quot;312 690&quot;
+theDoc.AddText(&quot;Flash rich media:&quot;)
+Dim media1 As New RichMediaAnnotation(form, &quot;312 420 572 650&quot;, Server.MapPath(&quot;ABCpdf.swf&quot;), &quot;Flash&quot;)
+
+theDoc.Pos.String = &quot;40 400&quot;
+theDoc.AddText(&quot;Video File:&quot;)
+Dim movie2 As New MovieAnnotation(form, &quot;80 40 520 360&quot;, Server.MapPath(&quot;video.wmv&quot;))
+
+theDoc.Page = theDoc.AddPage()
+theDoc.FontSize = 36
+theDoc.Pos.X = 40
+theDoc.Pos.Y = theDoc.MediaBox.Top - 40
+theDoc.AddText(&quot;Other types of annotations&quot;)
+
+&#39; Sticky note annotation
+theDoc.FontSize = 24
+theDoc.Pos.String = &quot;40 680&quot;
+theDoc.AddText(&quot;Text annotation&quot;)
+Dim textAnnotation As New TextAnnotation(form, &quot;340 660 360 680&quot;, &quot;550 650 600 750&quot;, &quot;6 sets of 13 pages. Trim to 5X7.&quot;)
+
+&#39; File attachment annotation
+theDoc.Pos.String = &quot;40 640&quot;
+theDoc.AddText(&quot;File Attachment annotation&quot;)
+Dim fileAttachment As New FileAttachmentAnnotation(form, &quot;340 620 360 640&quot;, Server.MapPath(&quot;video.WMV&quot;))
+
+&#39; StampAnnotations
+theDoc.Pos.String = &quot;40 600&quot;
+theDoc.AddText(&quot;Stamp annotations&quot;)
+Dim stamp1 As New StampAnnotation(form, &quot;340 560 540 600&quot;, &quot;DRAFT&quot;, &quot;0 0 128&quot;)
+Dim stamp2 As New StampAnnotation(form, &quot;340 505 540 545&quot;, &quot;FINAL&quot;, &quot; 0 128 0&quot;)
+Dim stamp3 As New StampAnnotation(form, &quot;340 450 540 490&quot;, &quot;NOT APPROVED&quot;, &quot;128 0 0&quot;)
+
+theDoc.PageNumber = 1
+
+&#39; Signature fields
+&#39; Add signature fields last so that entire document is signed
+
+&#39; Note: For maximum portability, it is recommended
+&#39; that you create all the signature fields before
+&#39; signing any one of them (as is demonstrated below).
+&#39;
+&#39; The reason is that adding a signature field
+&#39; changes the document. Although this is legal, not all
+&#39; versions of Acrobat are happy with all types of updates.
+&#39; As such, they may report existing valid signatures to be
+&#39; invalid.
+&#39;
+&#39; In the past, the &quot;SigFlags&quot; entry allowed contents to be
+&#39; appended to signed documents using incremental updates.
+&#39; However, the entry&#39;s treatment seems to have changed in
+&#39; Adobe Reader X. For example, Adobe Reader X will
+&#39; report the signatures in `SignedThenAppended.pdf` to
+&#39; be invalid whereas Acrobat 8 will report
+&#39; &quot;signatures are valid, but document has been changed
+&#39; since it was signed.&quot; This is a document created using
+&#39; Acrobat Professional 8.
+
+
+&#39; We add the first signature field unsigned
+form.AddSignature(&quot;40 100 240 150&quot;, &quot;Signature1&quot;)
+
+&#39; And the second signature field unsigned (to be signed
+&#39; below)
+form.AddSignature(&quot;340 100 540 150&quot;, &quot;Signature2&quot;)
+Dim userCert As X509Certificate2 = PromptUserForCert()
+If userCert IsNot Nothing Then
+&nbsp;&nbsp;Dim sig2 As Signature = CType(theDoc.Form.Fields(&quot;Signature2&quot;), Signature)
+&nbsp;&nbsp;sig2.Signer = DisplayNameFromCert(userCert)
+
+&nbsp;&nbsp;&#39; We need not call sig2.Commit() as sig2 is not signed yet.
+&nbsp;&nbsp;&#39;sig2.Commit();
+End If
+
+&#39; We can add the last signature field signed.
+&#39; Note: Certifying the document makes all but the last signed
+&#39; signature invalid, especially after clicking on the signatures.
+form.Certify = True
+form.ShowSignatureValidity = True
+form.AddSignature(&quot;340 160 540 220&quot;, &quot;Signature3&quot;, Server.MapPath(&quot;JohnSmith.pfx&quot;), &quot;1234&quot;, &quot;I am the author&quot;, &quot;New York&quot;, &quot;Digitally signed by {0}&quot; &amp; vbLf &amp; &quot;Reason: {2}&quot; &amp; vbLf &amp; &quot;Location: {3}&quot; &amp; vbLf &amp; &quot;Date: {1:yyyy.MM.dd}&quot;, False)
+form.Certify = False
+
+&#39; Go back and sign the second signature placeholder
+&#39; if interactive user has supplied the signing key
+If userCert IsNot Nothing Then
+&nbsp;&nbsp;&#39; We are about to sign a signature outside the
+&nbsp;&nbsp;&#39; InteractiveForm class. Commit the previous signature.
+&nbsp;&nbsp;form.CommitSignature()
+
+&nbsp;&nbsp;&#39; We need to obtain the field afresh because
+&nbsp;&nbsp;&#39; Signature.Commit invalidates all IndirectObject&#39;s
+&nbsp;&nbsp;Dim sig2 As Signature = CType(theDoc.Form.Fields(&quot;Signature2&quot;), Signature)
+&nbsp;&nbsp;sig2.Sign(userCert, True)
+&nbsp;&nbsp;&#39; This is the last signature so we need not commit it
+&nbsp;&nbsp;&#39; using sig2.Commit();
+End If
+
+theDoc.SaveOptions.Linearize = False
+theDoc.SaveOptions.Remap = False
+theDoc.Save(outputFile)
+</code></pre></P>
+<P>This code snippet is taken from Test.cs line 328 in the Annotations example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">theDoc.Read(inputFile);
+
+theDoc.Font = theDoc.AddFont(&quot;Helvetica&quot;);
+theDoc.FontSize = 36;
+
+// Create interactive form
+InteractiveForm form = new InteractiveForm(theDoc);
+
+// Add Radio buttons
+form.AddRadioButtonGroup(new string[2] { &quot;40 610 80 650&quot;, &quot;40 660 80 700&quot; }, &quot;RadioGroupField&quot;, 0);
+theDoc.Pos.String = &quot;100 696&quot;;
+theDoc.AddText(&quot;RadioButton 1&quot;);
+theDoc.Pos.String = &quot;100 646&quot;;
+theDoc.AddText(&quot;RadioButton 2&quot;);
+
+// Fields cannot have the same name. If we are going to add duplicate field name then later
+// we will need to rationalize the document structure so that the two fields will synchronize.
+string textFieldName = &quot;TextField1&quot;;
+bool fieldAlreadyExists = theDoc.Form[textFieldName] != null;
+
+// Add Text field
+FormField text = form.AddTextField(&quot;40 530 300 580&quot;, textFieldName, &quot;Hello World!&quot;);
+text.FieldElement.EntryDA = &quot;/TimesRoman 36 Tf 0 0 1 rg&quot;;
+text.Widget.WidgetElement.EntryMK = new <a href="../default.htm">AppearanceCharacteristicsElement</a>(text.FieldElement);
+text.Widget.WidgetElement.EntryMK.EntryBC = new double[] { 0, 0, 0 };
+text.Widget.WidgetElement.EntryMK.EntryBG = new double[] { 220.0 / 255.0, 220.0 / 255.0, 220.0 / 255.0 };
+text.FieldElement.EntryQ = 0; // Left alignment
+
+// Here we need rationalize if necessary
+if (fieldAlreadyExists)
+&nbsp;&nbsp;form.MakeFieldIntoGroup(text, true);
+
+// Add Synchronized Text Fields
+List&lt;WidgetAnnotation&gt; kids = new List&lt;WidgetAnnotation&gt;();
+kids.Add(form.AddTextField(&quot;40 230 300 280&quot;, null, null).Widget);
+kids.Add(form.AddTextField(&quot;40 170 300 220&quot;, null, null).Widget);
+FormField textGroup = form.AddGroupField(kids, &quot;Group Field&quot;, &quot;Synchronized&quot;);
+
+// make sure form is up to date
+theDoc.Form.Refresh();
+
+// Delete Pre-Existing Fields (ones that appear to relate to text)
+bool fieldsDeleted = false;
+string[] names = theDoc.Form.GetFieldNames();
+foreach (string name in names) {
+&nbsp;&nbsp;if (name.Contains(&quot;Text&quot;)) {
+&nbsp;&nbsp;&nbsp;&nbsp;Field field = theDoc.Form[name];
+&nbsp;&nbsp;&nbsp;&nbsp;form.DeleteField(field);
+&nbsp;&nbsp;&nbsp;&nbsp;fieldsDeleted = true;
+&nbsp;&nbsp;}
+}
+if (fieldsDeleted)
+&nbsp;&nbsp;theDoc.Form.Refresh();
+
+// Move Pre-Existing Fields (ones that appear to relate to names)
+foreach (string name in names) {
+&nbsp;&nbsp;if (name.Contains(&quot;Name&quot;)) {
+&nbsp;&nbsp;&nbsp;&nbsp;Field field = theDoc.Form[name];
+&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Annotation&gt; annots = form.GetAnnotations(field);
+&nbsp;&nbsp;&nbsp;&nbsp;foreach (Annotation annot in annots) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect rect = annot.Rect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect.Move(0, -200); // move down
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect.Magnify(2, 2); // amd make bigger
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;annot.Rect = rect;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+
+EBUG
+// these options make PDF files more diff-able
+theDoc.SaveOptions.Linearize = false;
+theDoc.SaveOptions.Remap = false;
+f
+theDoc.Save(outputFile);
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">theDoc.Read(inputFile)
+
+theDoc.Font = theDoc.AddFont(&quot;Helvetica&quot;)
+theDoc.FontSize = 36
+
+&#39; Create interactive form
+Dim form As New InteractiveForm(theDoc)
+
+&#39; Add Radio buttons
+form.AddRadioButtonGroup(New String(1) { &quot;40 610 80 650&quot;, &quot;40 660 80 700&quot; }, &quot;RadioGroupField&quot;, 0)
+theDoc.Pos.String = &quot;100 696&quot;
+theDoc.AddText(&quot;RadioButton 1&quot;)
+theDoc.Pos.String = &quot;100 646&quot;
+theDoc.AddText(&quot;RadioButton 2&quot;)
+
+&#39; Fields cannot have the same name. If we are going to add duplicate field name then later
+&#39; we will need to rationalize the document structure so that the two fields will synchronize.
+Dim textFieldName As String = &quot;TextField1&quot;
+Dim fieldAlreadyExists As Boolean = theDoc.Form(textFieldName) IsNot Nothing
+
+&#39; Add Text field
+Dim text As FormField = form.AddTextField(&quot;40 530 300 580&quot;, textFieldName, &quot;Hello World!&quot;)
+text.FieldElement.EntryDA = &quot;/TimesRoman 36 Tf 0 0 1 rg&quot;
+text.Widget.WidgetElement.EntryMK = New <a href="../default.htm">AppearanceCharacteristicsElement</a>(text.FieldElement)
+text.Widget.WidgetElement.EntryMK.EntryBC = New Double() { 0, 0, 0 }
+text.Widget.WidgetElement.EntryMK.EntryBG = New Double() { 220.0 / 255.0, 220.0 / 255.0, 220.0 / 255.0 }
+text.FieldElement.EntryQ = 0 &#39; Left alignment
+
+&#39; Here we need rationalize if necessary
+If fieldAlreadyExists Then
+&nbsp;&nbsp;form.MakeFieldIntoGroup(text, True)
+End If
+
+&#39; Add Synchronized Text Fields
+Dim kids As New List(Of WidgetAnnotation)()
+kids.Add(form.AddTextField(&quot;40 230 300 280&quot;, Nothing, Nothing).Widget)
+kids.Add(form.AddTextField(&quot;40 170 300 220&quot;, Nothing, Nothing).Widget)
+Dim textGroup As FormField = form.AddGroupField(kids, &quot;Group Field&quot;, &quot;Synchronized&quot;)
+
+&#39; make sure form is up to date
+theDoc.Form.Refresh()
+
+&#39; Delete Pre-Existing Fields (ones that appear to relate to text)
+Dim fieldsDeleted As Boolean = False
+Dim names() As String = theDoc.Form.GetFieldNames()
+For Each name As String In names
+&nbsp;&nbsp;If name.Contains(&quot;Text&quot;) Then
+&nbsp;&nbsp;&nbsp;&nbsp;Dim field As Field = theDoc.Form(name)
+&nbsp;&nbsp;&nbsp;&nbsp;form.DeleteField(field)
+&nbsp;&nbsp;&nbsp;&nbsp;fieldsDeleted = True
+&nbsp;&nbsp;End If
+Next name
+If fieldsDeleted Then
+&nbsp;&nbsp;theDoc.Form.Refresh()
+End If
+
+&#39; Move Pre-Existing Fields (ones that appear to relate to names)
+For Each name As String In names
+&nbsp;&nbsp;If name.Contains(&quot;Name&quot;) Then
+&nbsp;&nbsp;&nbsp;&nbsp;Dim field As Field = theDoc.Form(name)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim annots As List(Of Annotation) = form.GetAnnotations(field)
+&nbsp;&nbsp;&nbsp;&nbsp;For Each annot As Annotation In annots
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim rect As XRect = annot.Rect
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect.Move(0, -200) &#39; move down
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect.Magnify(2, 2) &#39; amd make bigger
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;annot.Rect = rect
+&nbsp;&nbsp;&nbsp;&nbsp;Next annot
+&nbsp;&nbsp;End If
+Next name
+
+EBUG theDoc.SaveOptions.Linearize = False
+&#39; these options make PDF files more diff-able
+theDoc.SaveOptions.Remap = False
+f theDoc.Save(outputFile)
+</code></pre></P>
+
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

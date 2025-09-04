@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddText Function. Adds a block of single styled text to the current page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddText Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Adds a block of single styled text to the current page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            AddText(string text)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Function AddText(text As String) 
+            As Integer<BR></CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>text</TD>
+                <TD>The text to be added to the page.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Object ID of the newly added Text 
+            Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Adds a block of single styled text to the current page. </P>
+            <P>For adding multi-styled text or for chaining text from one page 
+            to another you should use the <A href="addtextstyled.htm">AddTextStyled</A> 
+            method which is used for adding <A 
+            href="../../../3-concepts/b-htmlstyles.htm">styled text</A>. 
+            </P>
+            <P>The text is in the current <A 
+            href="../2-properties/font.htm">style</A>, <A 
+            href="../2-properties/fontsize.htm">size</A> and <A 
+            href="../2-properties/color.htm">color</A> and starts at the 
+            location specified in the current <A 
+            href="../2-properties/pos.htm">position</A>. If the text is long it 
+            will will wrap and extend downwards until it fills the current <A 
+            href="../2-properties/rect.htm">rectangle</A>. Text positioning in 
+            the rectangle is determined by the <A 
+            href="../../xtextstyle/2-properties/hpos.htm">horizontal</A> and <A 
+            href="../../xtextstyle/2-properties/vpos.htm">vertical</A> positioning.</P>
+            <P>You can chain together multiple text blocks so that text flows 
+            from one to the next. To do this you need to first add a block of 
+            text using AddText. Then add multiple new text blocks using <A 
+            href="addtextstyled.htm">AddTextStyled</A> each time passing in the ID obtained 
+            from the previous call after adjusting the target location (such as 
+            the rectangle or the page).</P>
+            <P>The AddText function returns the Object ID of the newly added 
+            Text Object. If no text could be added then zero is returned. This 
+            will happen if a zero length string was supplied or if the rectangle 
+            was too small for even one character to be displayed.</P>
+            <P>Typically you will get a return value of zero if your text was 
+            too large to fit in your <A href="../2-properties/rect.htm">Rect</A> 
+            or if the <A href="../2-properties/pos.htm">Pos</A> was at the end 
+            of the Rect. So if you are expecting text to be displayed and are 
+            seeing a return value of zero, check your text size, check your Rect 
+            is where you think it is by framing it using <A 
+            href="framerect.htm">FrameRect</A> and ensure your Pos is set at the 
+            top left of the Rect.</P>
+            <P>Text is drawn word-wrapped within the current rectangle with the 
+            first character at the location specified by the <A 
+            href="../2-properties/pos.htm">Pos</A> property. Normally the <A 
+            href="../2-properties/pos.htm">Pos</A> property reflects the top 
+            left position of the current rectangle. However if you need to alter 
+            the position at which text drawing starts you can modify the <A 
+            href="../2-properties/pos.htm">Pos</A> property after changing the 
+            <A href="../2-properties/rect.htm">Rect</A>. When the text has been 
+            drawn the <A href="../2-properties/pos.htm">Pos</A> will be updated 
+            to reflect the next text insertion point.</P>
+            <P>Character positioning is specified from the top left of the 
+            character. Please see <A href="../2-properties/pos.htm">Pos</A> for 
+            details on positioning when using vertical fonts. The <A 
+            href="../2-properties/fontsize.htm">FontSize</A> determines the 
+            total line height and the character baseline is 80% of the way down 
+            from the top of the line.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code adds a number of chunks of text to a document. 
+            Each chunk is in a different style. This sample makes use of the 
+            fact that the Pos is updated to point to the next text insertion 
+            point after adding a piece of text. However note that when inserting 
+            muti-styled text it is generally more efficient to use the <A 
+            href="addtextstyled.htm">AddTextStyled</A> method.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.Page = doc.AddPage();
+doc.FontSize = 48;
+int font1 = doc.AddFont("Times-Roman");
+int font2 = doc.AddFont("Times-Bold");
+doc.Font = font1;
+doc.AddText("Gallia est omnis ");
+doc.Font = font2;
+doc.AddText("tertiam Galli appellantur ");
+doc.Font = font1;
+doc.AddText("divisa in partes tres, ");
+doc.Font = font2;
+doc.AddText("quarum unam incolunt ");
+doc.Font = font1;
+doc.AddText("Belgae, aliam Aquitani. ");
+doc.Font = font2;
+doc.AddText("tertiam Galli appellantur");
+doc.Save(Server.MapPath("docaddtext.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.FontSize = 48
+&nbsp;&nbsp;Dim theF1 As Integer = doc.AddFont("Times-Roman")
+&nbsp;&nbsp;Dim theF2 As Integer = doc.AddFont("Times-Bold")
+&nbsp;&nbsp;doc.Font = theF1
+&nbsp;&nbsp;doc.AddText("Gallia est omnis ")
+&nbsp;&nbsp;doc.Font = theF2
+&nbsp;&nbsp;doc.AddText("tertiam Galli appellantur ")
+&nbsp;&nbsp;doc.Font = theF1
+&nbsp;&nbsp;doc.AddText("divisa in partes tres, ")
+&nbsp;&nbsp;doc.Font = theF2
+&nbsp;&nbsp;doc.AddText("quarum unam incolunt ")
+&nbsp;&nbsp;doc.Font = theF1
+&nbsp;&nbsp;doc.AddText("Belgae, aliam Aquitani. ")
+&nbsp;&nbsp;doc.Font = theF2
+&nbsp;&nbsp;doc.AddText("tertiam Galli appellantur")
+&nbsp;&nbsp;doc.Save(Server.MapPath("docaddtext.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/docaddtext.pdf.png" 
+            class="example"><BR>docaddtext.pdf </P><p>Also see example code in: <a href="../../../4-examples/05-deletion.htm">ABCpdf Deletion Example</a>, <a href="../../../4-examples/06-headers.htm">ABCpdf Headers and Footers Example</a>, <a href="../../../4-examples/08-landscape.htm">ABCpdf Landscape Example</a>, <a href="../../../4-examples/12-unicode.htm">ABCpdf Unicode Example</a>, <a href="../../../4-examples/15-eform2.htm">ABCpdf eForm Placeholder Example</a>, <a href="../../../4-examples/16-eformfdf.htm">ABCpdf eForm FDF Example</a>, <a href="../../../4-examples/17-advancedgraphics.htm">ABCpdf Advanced Graphics Example</a>, <a href="../../../4-examples/18-annotations.htm">ABCpdf Fields, Markup and Movies Example</a>, <a href="addbookmark.htm">Doc AddBookmark Function</a>, <a href="addcolorspacefile.htm">Doc AddColorSpaceFile Function</a>, <a href="addcolorspacespot.htm">Doc AddColorSpaceSpot Function</a>, <a href="addfont.htm">Doc AddFont Function</a>, <a href="addpage.htm">Doc AddPage Function</a>, <a href="append.htm">Doc Append Function</a>, <a href="embedfont.htm">Doc EmbedFont Function</a>, <a href="read.htm">Doc Read Function</a>, <a href="remappages.htm">Doc RemapPages Method</a>, <a href="save.htm">Doc Save Function</a>, <a href="../2-properties/encryption.htm">Doc Encryption Property</a>, <a href="../2-properties/font.htm">Doc Font Property</a>, <a href="../2-properties/fontsize.htm">Doc FontSize Property</a>, <a href="../2-properties/page.htm">Doc Page Property</a>, <a href="../2-properties/pos.htm">Doc Pos Property</a>, <a href="../2-properties/string.htm">Doc String Property</a>, <a href="../2-properties/textstyle.htm">Doc TextStyle Property</a>, <a href="../2-properties/topdown.htm">Doc TopDown Property</a>, <a href="../2-properties/transform.htm">Doc Transform Property</a>, <a href="../../xcolor/2-properties/alpha.htm">XColor Alpha Property</a>, <a href="../../xencryption/1-methods/setcryptmethods.htm">XEncryption SetCryptMethods Function</a>, <a href="../../xhtmloptions/1-methods/gettagrects.htm">XHtmlOptions GetTagRects Function</a>, <a href="../../xhtmloptions/2-properties/htmlcallback.htm">XHtmlOptions HtmlCallback Property</a>, <a href="../../xpoint/2-properties/point.htm">XPoint Point Property</a>, <a href="../../xrect/2-properties/rectangle.htm">XRect Rectangle Property</a>, <a href="../../xrendering/2-properties/antialiaspolygons.htm">XRendering AntiAliasPolygons Property</a>, <a href="../../xrendering/2-properties/antialiastext.htm">XRendering AntiAliasText Property</a>, <a href="../../xrendering/2-properties/icccmyk.htm">XRendering IccCmyk Property</a>, <a href="../../xrendering/2-properties/savealpha.htm">XRendering SaveAlpha Property</a>, <a href="../../xtextstyle/2-properties/bold.htm">XTextStyle Bold Property</a>, <a href="../../xtextstyle/2-properties/charspacing.htm">XTextStyle CharSpacing Property</a>, <a href="../../xtextstyle/2-properties/hpos.htm">XTextStyle HPos Property</a>, <a href="../../xtextstyle/2-properties/indent.htm">XTextStyle Indent Property</a>, <a href="../../xtextstyle/2-properties/italic.htm">XTextStyle Italic Property</a>, <a href="../../xtextstyle/2-properties/justification.htm">XTextStyle Justification Property</a>, <a href="../../xtextstyle/2-properties/leftmargin.htm">XTextStyle LeftMargin Property</a>, <a href="../../xtextstyle/2-properties/linespacing.htm">XTextStyle LineSpacing Property</a>, <a href="../../xtextstyle/2-properties/outline.htm">XTextStyle Outline Property</a>, <a href="../../xtextstyle/2-properties/paraspacing.htm">XTextStyle ParaSpacing Property</a>, <a href="../../xtextstyle/2-properties/size.htm">XTextStyle Size Property</a>, <a href="../../xtextstyle/2-properties/strike.htm">XTextStyle Strike Property</a>, <a href="../../xtextstyle/2-properties/strike2.htm">XTextStyle Strike2 Property</a>, <a href="../../xtextstyle/2-properties/underline.htm">XTextStyle Underline Property</a>, <a href="../../xtextstyle/2-properties/vpos.htm">XTextStyle VPos Property</a>, <a href="../../xtextstyle/2-properties/wordspacing.htm">XTextStyle WordSpacing Property</a>, <a href="../../xtransform/1-methods/invert.htm">XTransform Invert Function</a>, <a href="../../xtransform/1-methods/magnify.htm">XTransform Magnify Function</a>, <a href="../../xtransform/1-methods/reset.htm">XTransform Reset Function</a>, <a href="../../xtransform/1-methods/rotate.htm">XTransform Rotate Function</a>, <a href="../../xtransform/2-properties/angleunit.htm">XTransform AngleUnit Property</a>, <a href="../../../6-abcpdf.objects/filespecification/1-methods/filespecification.htm">FileSpecification FileSpecification Function</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/vectorizetext.htm">Page VectorizeText Function</a>, <a href="../../../6-abcpdf.objects/signature/1-methods/validate.htm">Signature Validate Function</a>, <a href="../../../7-abcpdf.atoms/arrayatom/1-methods/fromcontentstream.htm">ArrayAtom FromContentStream Function</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/Q-webpageoperation/2-properties/01-doc.htm">WebPageOperation Doc Property</a>.</p>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

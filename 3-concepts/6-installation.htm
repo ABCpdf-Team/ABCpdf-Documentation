@@ -1,0 +1,321 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Manual Installation</title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script>
+<meta name="GENERATOR" content="MSHTML 8.00.7600.16588"></head><body style="background-color: rgb(255, 255, 255);">
+<table border="0" cellpadding="0" cellspacing="4">
+<tbody>
+<tr>
+<td valign="top"><img src="../images/goo.gif" height="60" width="58"></td>
+<td width="14">&nbsp;</td>
+<td>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="pageheader">Manual Installation</td>
+<td width="60">&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td background="../images/steel-line-3.gif" height="11"><br>
+</td>
+<td background="../images/steel-line-3.gif" height="11" width="60"><br>
+</td>
+<td height="11"><img src="../images/steel-blob-11.gif" height="11" width="11"></td>
+</tr>
+<tr>
+<td>
+<p>&nbsp;</p>
+<p>Under most circumstances, you will want to install
+ABCpdf .NET using the standard installer and register it using the
+PDFSettings control panel.</p>
+<p>Occasionally, you may wish to install ABCpdf
+manually. To do this, you will need the files listed below as obtained from the ABCpdf programs folder (look in %PROGRAMFILES%). There are different files for Linux deployment which you will find in the Linux subdirectory.</p>
+<table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+<tbody>
+<tr>
+  <td align="center"><b>Windows File</b></td>
+<td align="center"><strong>Linux File</strong></td>
+<td><b>Notes</b></td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCpdf.NET9.dll</td>
+  <td align="center">ABCpdf.NET9.dll</td>
+  <td><p>The Assembly used by .NET 9.0. </p>
+      <p>The MSI installer places this Assembly at the following location:</p>
+    <p>%ProgramFiles%\WebSupergoo\ABCpdf13 .NET\Common\</p>
+    <p>However, typically you will be using the DLL as provided by the ABCpdf NuGet package.</p></td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCpdf.NET8.dll</td>
+  <td align="center">ABCpdf.NET8.dll</td>
+  <td><p>The Assembly used by .NET 8.0. </p>
+      <p>The MSI installer places this Assembly at the following location:</p>
+    <p>%ProgramFiles%\WebSupergoo\ABCpdf13 .NET\Common\</p>
+    <p>However, typically you will be using the DLL as provided by the ABCpdf NuGet package.</p></td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCpdf.NET7.dll</td>
+  <td align="center">ABCpdf.NET7.dll</td>
+  <td><p>The Assembly used by .NET 7.0. </p>
+      <p>The MSI installer places this Assembly at the following location:</p>
+    <p>%ProgramFiles%\WebSupergoo\ABCpdf13 .NET\Common\</p>
+    <p>However, typically you will be using the DLL as provided by the ABCpdf NuGet package.</p></td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCpdf.NET6.dll</td>
+  <td align="center">ABCpdf.NET6.dll</td>
+  <td><p>The Assembly used by .NET 6.0. </p>
+      <p>The MSI installer places this Assembly at the following location:</p>
+    <p>%ProgramFiles%\WebSupergoo\ABCpdf13 .NET\Common\</p>
+    <p>However, typically you will be using the DLL as provided by the ABCpdf NuGet package.</p></td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCpdf.NET5.dll</td>
+  <td align="center">n/a</td>
+  <td><p>The Assembly used by .NET 5.0. </p>
+      <p>The MSI installer places this Assembly at the following location:</p>
+    <p>%ProgramFiles%\WebSupergoo\ABCpdf13 .NET\Common\</p>
+    <p>However, typically you will be using the DLL as provided by the ABCpdf NuGet package.</p></td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCpdf.dll</td>
+  <td align="center">n/a</td>
+  <td><p>The Assembly used by .NET 4.0. </p>
+      <p>The MSI installer places this Assembly in the
+        GAC to allow global access from any .NET application. It installs a
+        second reference copy at the following location:</p>
+      <p>%ProgramFiles%\WebSupergoo\ABCpdf13 .NET\Common\</p>
+    <p>However, if you are installing manually, you
+      can just place this file in the bin directory of your application.</p></td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCpdfCore.dll</td>
+  <td align="center">n/a</td>
+  <td><p>The Assembly used by .NET Core 3.1. </p>
+      <p>The MSI installer places this Assembly at the following location:</p>
+    <p>%ProgramFiles%\WebSupergoo\ABCpdf13 .NET\Common\</p>
+    <p>However, typically you will be using the DLL as provided by the ABCpdf NuGet package.</p></td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCpdf13-32.dll<br>
+    ABCpdf13-64.dll</td>
+<td align="center">libABCpdf13-64.so</td>
+<td>
+<p>The ABCpdf core engine library files.</p>
+<p>These libraries incorporate our proprietary Direct to PDF technology and are designed for high performance PDF manipulation in a multithreaded environment.</p>
+<p>On Linux there is a 64-bit version only. You can place this in the bin directory of your application.</p>
+<p>On Windows there is a 32-bit and a 64-bit version of this DLL. Having both installed is the safest and simplest way to deploy.</p>
+<p>The DLLs may be placed into the System32 directory typically at: </p>
+<p>%SystemRoot%\System32\</p>
+<p>However, if you are installing manually, you
+  can just place them in the bin directory of your application.</p>
+<table class="backgrounder" border="0" cellpadding="10">
+  <tbody>
+    <tr>
+      <td><p><b>32 vs 64. </b>Do I need the 32-bit DLLs or the 64-bit ones or both?</p>
+          <p>If your project targets x86 then you will only ever need the 32-bit DLLs (these will execute under WOW64 on a 64-bit machine). If it targets x64 then you will only ever need the 64-bit DLLs.</p>
+        <p>If your project targets AnyCPU then then you need the 32-bit DLLs on a 32-bit version of Windows and the 64-bit ones on a 64-bit version.</p>
+        <p>However it does not hurt to have all the DLLs installed. Only the ones which are needed will be used.</p></td>
+    </tr>
+  </tbody>
+</table><p>&nbsp;</p></td>
+</tr>
+<tr valign="top">
+  <td align="center">3DGlue13-32.dll<br>
+    3DGlue13-64.dll</td>
+  <td align="center">n/a</td>
+  <td><p>This is an optional component required for use of the PDF 3D rendering.</p>
+    <p>There is a 32-bit and a 64-bit version of this DLL. Having both installed is the safest and simplest way to deploy.</p>
+    <p>This DLL is normally located in the same
+        directory as the core engine.</p>      </td>
+</tr>
+<tr valign="top">
+  <td align="center">ChakraCore32.dll<br>
+    ChakraCore64.dll</td>
+  <td align="center">libChakraCore64.so</td>
+  <td><p>This is an optional component required for form JavaScript calculations<a href="../5-abcpdf/xreadoptions/2-properties/1-readmodule.htm"></a>.</p>
+    <p>On Linux there is a 64-bit version only. You can place this in the bin directory of your application.</p>
+    <p>On Windows there is a 32-bit and a 64-bit version of this DLL. Having both installed is the safest and simplest way to deploy.</p>
+    <p>If this component is not installed then field JavaScript calculations will not function. The effect will be the same as having <a href="../5-abcpdf/xform/2-properties/usefieldscript.htm">XForm.UseFieldScript</a> set to false.</p>
+    <p>These library files are normally located in the same
+        directory as the core engine. </p>      </td>
+</tr>
+<tr valign="top">
+  <td align="center">PrintHook32.dll<br>
+    PrintHook64.dll</td>
+<td align="center">n/a</td>
+<td>
+<p>This is an optional component required for use of the XpsAny <a href="../5-abcpdf/xreadoptions/2-properties/1-readmodule.htm">ReadModule</a>.</p>
+<p>It is unlikely that you will want to use this, as the functionality of the XpsAny module has been largely superceded by other modules.</p>
+<p>The component  intercepts the Microsoft XPS Document Writer and enables ABCpdf to import an extended range
+of file types via XPS.</p>
+<p>There is a 32-bit and a 64-bit version of this DLL. Having both installed is the safest and simplest way to deploy.</p>
+<p>This DLL is normally located in the same
+  directory as the core engine.</p></td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCChrome65 (directory)</td>
+  <td align="center">n/a</td>
+  <td><p>This is an optional component required for use of the <a href="../5-abcpdf/xhtmloptions/2-properties/1-engine.htm">ABCChrome HTML engine</a> prior to ABCpdf version 12.</p>
+      <p>This folder should be placed in the bin directory (next to ABCpdf.dll).</p>      </td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCChrome86 (directory)</td>
+  <td align="center">n/a</td>
+  <td><p>These are optional components for use of the <a href="../5-abcpdf/xhtmloptions/2-properties/1-engine.htm">ABCChrome HTML engine</a> from version 12.</p>
+      <p>This folder should be placed in the bin directory (next to ABCpdf.dll).</p>    </td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCChrome117 (directory)</td>
+  <td align="center">ABCChrome117 (directory)</td>
+  <td><p>These are optional components for use of the <a href="../5-abcpdf/xhtmloptions/2-properties/1-engine.htm">ABCChrome HTML engine</a> from version 13.</p>
+      <p>This folder should be placed in the bin directory (next to ABCpdf.dll).</p>    </td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCChrome123 (directory)</td>
+  <td align="center">ABCChrome123 (directory)</td>
+  <td><p>These are optional components for use of the <a href="../5-abcpdf/xhtmloptions/2-properties/1-engine.htm">ABCChrome HTML engine</a> from version 13.</p>
+      <p>This folder should be placed in the bin directory (next to ABCpdf.dll).</p>
+	  <p>Only ABCChrome123 is required for the default ABCChrome engine.</p>      </td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCGeckoWP.exe,<br>
+    XULRunner38_0 (directory)</td>
+<td align="center">n/a</td>
+<td>
+<p>This is an optional component required for use of the <a href="../5-abcpdf/xhtmloptions/2-properties/1-engine.htm">Gecko HTML engine</a>.</p>
+<p>This EXE is the interface ABCpdf uses to access the Gecko HTML engine. However, it is not the engine itself. The engine is held in the XULRunner38_0 folder, which must be located in the same directory as ABCGeckoWP.exe.</p>
+<p>You should generally put these items in the bin directory (next to ABCpdf.dll). ABCpdf uses a LoadLibrary type search to find the EXE, so it can be put in other places, but taking advantage of this may result in an installation which is confusing to other people.</p>
+<p>Be aware that on x64 Windows,  if you put ABCGeckoWP.exe  in %SystemRoot%\System32,
+File System Redirection will prevent it from finding the XULRunner38_0 folder. For this type of deployment you would need to use  %SystemRoot%\SysWOW64 instead.</p></td>
+</tr>
+<tr valign="top">
+  <td align="center">TaskGardener.exe</td>
+<td align="center">n/a</td>
+<td>
+<p>This is an optional component required for out-of-process execution in restricted permission environments.</p>
+<p>The <a href="../5-abcpdf/xhtmloptions/2-properties/1-engine.htm">Gecko HTML engine</a>
+  runs in separate worker processes. In a restricted environment, such as IIS,
+  it is not possible to specify the user account to directly start a process.
+  If your IIS application specifies the user in
+  <a href="../5-abcpdf/xhtmlprocessoptions/2-properties/username.htm">Doc.HtmlOptions.ProcessOptions.UserName</a>,
+  you will need to install this EXE as a Windows Service so that it starts
+  processes for ABCpdf.</p>
+<p>Run it with -install to install it as a Windows Service
+  or with -uninstall to uninstall it.</p></td>
+</tr>
+<tr valign="top">
+  <td align="center">ABCWebKit (directory)</td>
+  <td align="center">n/a</td>
+  <td><p>This is an optional component required for use of the <a href="../5-abcpdf/xhtmloptions/2-properties/1-engine.htm">ABCWebKit HTML engine</a>.</p>
+      <p>This folder should be placed in the bin directory (next to ABCpdf.dll). From version 2.2</p></td>
+</tr>
+</tbody>
+</table>
+
+<p>If you are deploying manually to a restricted permission environment
+such as IIS and also you are using the MSHtml engine for converting HTML
+content, then you may need to check the registry for certain structures.
+The registry key HKEY_USERS\.DEFAULT\Software\Microsoft\Windows NT\CurrentVersion\Devices
+should contain printer entries. The Microsoft XPS Document Writer that
+comes with Windows suffices to satisfy this requirement. If there are no
+entries in this key, you can copy them from HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Devices.
+Absence of entries in this registry key may result in errors from the
+MSHtml engine when using ABCpdf in IIS.</p>
+<table class="backgrounder" border="0" cellpadding="10">
+  <tbody>
+    <tr>
+      <td><p><b>Background. </b>Why XULRunner?</p>
+          <p>Well,
+XUL (pronounced zool) is a kind of enhanced XHTML designed for cross
+platform user interface development. The name XUL is both an acronym
+and also a reference to the scene in Ghostbusters in which an ancient
+god called Zuul possesses Dana and tells Dr Venkman,</p>
+        <blockquote>"There is no Dana, only Zuul!"</blockquote>
+        <p>Since
+XUL incorporates everything needed for an application in a completely
+self-contained manner, the developers adopted the catchphrase,</p>
+        <blockquote>"There is no data, only XUL."</blockquote>
+        <p>Other references to the Ghostbusters movie are scattered throughout the development of Mozilla, Gecko and Firefox.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>Most calls to ABCpdf will result in a trial
+license being installed if it is found that no license has yet been
+installed. At minimum, all that is required is to query the value of
+the <a href="../5-abcpdf/xsettings/2-properties/licensedescription.htm">XSettings.LicenseDescription</a>
+property. Write access to the registry is required for a trial to be inserted.</p>
+<p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">using WebSupergoo.ABCpdf13;
+MessageBox.Show("New License: " + XSettings.LicenseDescription);
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">Imports WebSupergoo.ABCpdf13
+MessageBox.Show("New License: " + XSettings.LicenseDescription)
+</code></pre></p>
+<p>You can use a full license key as provided to you
+when you purchase, or you can use a trial license key copied from the
+PDFSettings application. To enter a license key, call <a href="../5-abcpdf/xsettings/1-methods/installsystemlicense.htm">XSettings.InstallLicense</a>
+or at application startup before any ABCpdf objects have been created. If you have purchased a
+Redistribution license, you may prefer to call <a href="../5-abcpdf/xsettings/1-methods/installredistributionlicense.htm">XSettings.InstallRedistributionLicense</a>.
+In both cases the license will remain available to the
+process until it unloads.</p>
+<p>Make sure you check the return value to ensure that the license has taken. If it has not, then report back the XSettings.LicenseDescription and the XSettings.Version. Something like this.</p>
+<p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">using WebSupergoo.ABCpdf13;
+// here we use a trial license key as copied from the PDFSettings application
+if (XSettings.InstallLicense("cd9b5c07db69df2bf57c0a04d9bca58b10c44889c9fb197984e592f49addfce5ec5fe85d7b9205bc"))
+&nbsp;&nbsp;MessageBox.Show($"License Installed Successfully: {XSettings.LicenseDescription} Version {XSettings.Version}");
+else
+&nbsp;&nbsp;MessageBox.Show($"License Installation Failed: {XSettings.LicenseDescription} Version {XSettings.Version}");
+</code></pre>
+<br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">Imports WebSupergoo.ABCpdf13
+' here we use a trial license key as copied from the PDFSettings application
+If XSettings.InstallLicense("cd9b5c07db69df2bf57c0a04d9bca58b10c44889c9fb197984e592f49addfce5ec5fe85d7b9205bc") Then
+&nbsp;&nbsp;MessageBox.Show($&quot;License Installed Successfully: {XSettings.LicenseDescription} Version {XSettings.Version}&quot;)
+Else
+&nbsp; MessageBox.Show($&quot;License Installation Failed: {XSettings.LicenseDescription} Version {XSettings.Version}&quot;)
+End If
+</code></pre>
+</p>
+<table class="backgrounder" border="0" cellpadding="10">
+<tbody>
+<tr>
+<td>
+<p><b>Shared Hosts.</b> Most
+installations of ABCpdf .NET on shared servers are seamless. However,
+you need to be aware that you are a guest on the server and your host
+may have locked down permissions in ways which will make your life
+difficult. If this occurs, there is typically little that either you or
+we can do about it.</p>
+<p>This is why we recommend deployment on a
+dedicated server. Dedicated servers are cheaper than you might think,
+and the level of control they allow is only one of the very significant
+advantages they afford. It is one of the best decisions you can make.</p>
+<p>If you are intending to install on a shared
+server, the essential thing to do is to deploy early and discover any
+issues before they become major problems.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<p>&nbsp;</p>
+</td>
+<td width="60">&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+</body></html>

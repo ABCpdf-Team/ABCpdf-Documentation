@@ -1,0 +1,172 @@
+<html>
+<head>
+<title>AutoLevels Effect</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> AutoLevels Effect</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>AutoLevels automatically adjusts brightness and contrast to produce a balanced image with a good range of color intensities. In doing so it performs a function very much like the Levels effect, automatically deriving settings based on the image provided.</p>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Settings</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td><table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr>
+                <td><b>Name</b></td>
+                <td><b>Default</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top">
+                <td>Clip</td>
+                <td>0.5 %</td>
+                <td><p>The percentage of extreme color values to ignore. This applies to the top and the bottom extremes.</p>
+                    </td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Workings</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Well defined images span an entire range of color intensities. 
+              However it is common to find images that do not. If a photo has 
+              been overexposed it will be too bright - there will be few colors 
+              at the low ends of intensity and many at the high end. Similarly 
+              if a photograph has been underexposed it will be very dark - all 
+              the colors will be at the low end of the range and virtually none 
+              at the high end.</p>
+            <p>The AutoLevels effect detects and fixes this kind of imbalance. 
+              It scans through the levels of intensity within the image and chooses 
+              a level that should be regarded as black (low intensity) and another 
+              that should be regarded as white (high intensity). It then stretches 
+              the levels in the image so that all the intensities present lie 
+              between the black and the white points. This results in an image 
+              with a good span of color intensities.</p>
+            <p>To mitigate the effect of outliers - small numbers of pixels at 
+              extreme values of intensity - a clipping percentage is used. By 
+              default the value is 0.5% which means that the bottom and top 0.5% 
+              of pixels will be ignored when determining the black and white points.</p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example images show the effect of AutoLevels at  different clipping levels.</p>
+            <p><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">void function() {
+&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img1); // original image
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectAutoLevels5.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;using (ImageLayer layer = AddImagePage(doc, img1)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (EffectOperation effect = new EffectOperation("Auto Levels")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters["Clip"].Value = 0.5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectAutoLevels50.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;using (ImageLayer layer = AddImagePage(doc, img1)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (EffectOperation effect = new EffectOperation("Auto Levels")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters["Clip"].Value = 5.0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectAutoLevels.jpg");
+&nbsp;&nbsp;}
+}
+</code></pre><br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Sub ...
+&nbsp;&nbsp;Using doc As New Doc()
+&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img1)
+&nbsp;&nbsp;&nbsp;&nbsp;' original image
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectAutoLevels5.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Auto Levels")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Clip").Value = 0.5
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectAutoLevels50.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Auto Levels")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Clip").Value = 5.0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectAutoLevels.jpg")
+&nbsp;&nbsp;End Using
+End Sub
+</code></pre><br>
+            </p>
+            <table border="0" cellpadding="5" cellspacing="0" bordercolor="#999999">
+              <tr>
+                <td><img src="images/shipforest.jpg" width="400" height="288"><br>
+                  Original Image before AutoLevels</td>
+              </tr>
+              <tr>
+                <td><img src="images/autolevels/clip05.jpg" width="400" height="288"><br>
+                  After AutoLevels Clip 0.5%</td>
+              </tr>
+              <tr>
+                <td><img src="images/autolevels/clip50.jpg" width="400" height="288"><br>
+                  After AutoLevels Clip 5.0%</td>
+              </tr>
+            </table>
+            <p></p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

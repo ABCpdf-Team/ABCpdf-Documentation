@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>.NET Essentials</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script>
+<META name=GENERATOR content="MSHTML 8.00.7600.16588">
+<style type="text/css">
+<!--
+.style1 {color: #CC0000}
+-->
+</style>
+</HEAD>
+<BODY bgColor=#ffffff>
+<TABLE border=0 cellSpacing=4 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG src="../images/goo.gif" width=58 height=60></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=pageheader>.NET Essentials</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD height=11 background=../images/steel-line-3.gif></TD>
+          <TD height=11 background=../images/steel-line-3.gif width=60></TD>
+          <TD height=11><IMG src="../images/steel-blob-11.gif" width=11 
+            height=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../images/steel-pin.gif" 
+      width=64 height=10><BR>Refs</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>You need to add a reference to ABCpdf from your Visual Studio 
+            Project. This tells Visual Studio to link the ABCpdf assembly into the 
+            build.</P>
+            <P>Typically you will do this by referencing the ABCpdf NuGet package. Right click on 'Dependencies' and then select the 'Manage NuGet Packages...' item, click on &quot;Browse&quot; and search for &quot;ABCpdf - you should see ABCpdf amongst the results from NuGet.org.</P>
+            <P><img src="../images/addnuget.png" alt="Add NuGet" width="800" height="544"></P>
+            <P>If you have run the full MSI installer, ABCpdf is  placed in the GAC, so under .NET 4 you can  add a reference simply by looking in the 'Assemblies &gt; Extensions' section of the Reference Manager. Just right click on 'References' in your project and 'Add Reference' - you'll see &quot;ABCpdf .NET&quot; near the top of the extensions list. .NET 5 and later do not have a GAC, so while you can add the relevant reference by browsing to the DLL in the ABCpdf installation folder,  it is probably easier to add a NuGet reference.</P>
+            <P><img src="../images/addreference.png" alt="Add Reference" width="800" height="552"></P>
+            <P>If you are using .NET 8.0 your project target is &quot;net8.0&quot; however since ABCpdf makes use of Windows specific features, more commonly you will target &quot;net8.0-windows&quot;. Indeed if you are using .NET 5 or later the format is the same - it is just a matter of adjusting the version number in the target. If you are using .NET Classic / Framework then your target will be slightly different - &quot;v4.0&quot; or later.</P>
+            <P>The ABCpdf NuGet package ships with the MSHTML and ABCChrome123 HTML conversion engines. If you want to use the ABCChrome117, ABCChrome86 or ABCChrome65 HTML conversion engine, you will need to reference the ABCChrome117, ABCChrome86 or ABCChrome65 NuGet packages in addition to the ABCpdf one. Similarly for ABCGecko you will need to reference the ABCGecko package. Similarly for ABCWebKit you will need the ABCWebKit package. All these engines are installed by default if you run the downloadable MSI installer.</P>
+            <P>You can mix and match the full MSI installer with the NuGet packages. If you reference a different NuGet version in your project then that version, rather than the MSI installed version, is the one that will be used. Be careful as it can be confusing if you have multiple different versions of ABCpdf in use.</P>
+            <P>If  you are not using Visual Studio, you will need to consult the 
+            documentation for your chosen development environment.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../images/steel-pin.gif" alt="" 
+      width=64 height=10><BR>
+      Notes</TD>
+    <TD>&nbsp;</TD>
+    <TD vAlign=top><TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+          <TR>
+            <TD><P>Different project types require different setups and these notes may help if you hit any problems.</P>
+                <p>Sometimes you may get exceptions saying that elements like WindowsBase, ConfigurationManager, Packaging and PresesentationCore are not available. A missing ConfigurationManager may sometimes also result in background TypeInitializationException exceptions being thrown.</p>
+                <p>WindowsBase is required for parts of ABCpdf which make use of WPF and XPS. To resolve this issue change the project settings to target Windows and then add a UseWPF tag to your project.</p>
+                <p>Currently Visual Studio does not support adding this tag so it has to be done by hand using a text editor. You need to insert it into your csproj file as follows.</p>
+                <p><code class="language-html">&lt;Project Sdk=&quot;Microsoft.NET.Sdk&quot;&gt;<br>
+                  <br>
+                  &nbsp;&nbsp;&lt;PropertyGroup&gt;
+                      <br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&lt;OutputType&gt;Exe&lt;/OutputType&gt;
+                  <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;TargetFramework&gt;net7.0<span class="style1">-windows</span>&lt;/TargetFramework&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;Nullable&gt;enable&lt;/Nullable&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="style1">&lt;UseWPF&gt;true&lt;/UseWPF&gt;</span><br>
+&nbsp;&nbsp;&lt;/PropertyGroup&gt;<br>
+<br>
+&nbsp;&nbsp;&lt;ItemGroup&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;PackageReference Include=&quot;ABCpdf&quot; Version=&quot;12.4.0.0&quot; /&gt;<br>
+&nbsp;&nbsp;&lt;/ItemGroup&gt;<br>
+<br>
+&lt;/Project&gt;
+                    <!--notcode-->
+                </code></p>
+                <p>System.Configuration.ConfigurationManager and System.IO.Packaging can be obtained as NuGet packages.</p>
+                <p>For PresentationCore and System.Drawing you just need to open the project properties and target Windows.</p>
+                <P>&nbsp;</P></TD>
+            <TD width=60>&nbsp;</TD>
+            <TD width=11>&nbsp;</TD>
+          </TR>
+        </TBODY>
+    </TABLE></TD>
+  </TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../images/steel-pin.gif" 
+      width=64 height=10><BR>Names</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>There are four public namespaces in ABCpdf. You can reference 
+            these using the following directives.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using WebSupergoo.ABCpdf13;
+using WebSupergoo.ABCpdf13.Objects;
+using WebSupergoo.ABCpdf13.Atoms;
+using WebSupergoo.ABCpdf13.Operations;<!--notcode-->
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Imports WebSupergoo.ABCpdf13
+Imports WebSupergoo.ABCpdf13.Objects
+Imports WebSupergoo.ABCpdf13.Atoms
+Imports WebSupergoo.ABCpdf13.Operations<!--notcode-->
+</code></pre></P>
+            <P>The ABCpdf13 namespace contains the objects you will use for page 
+            layout. Most of the time, it is the only namespace you will need.</P>
+            <P>The Objects namespace allows you to access and manipulate content 
+            you've already added. You may use this namespace for complex 
+            operations in which the standard page layout functionality requires 
+            some modification.</P>
+            <P>The Atoms namespace allows you low level access to the raw PDF 
+            data structures. You are unlikely to use objects from this namespace 
+            unless you are writing very low level code.</P>
+            <P>The Operations namespace allows you to perform complex operations 
+            with multiple parameters and callbacks.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../images/steel-pin.gif" 
+      width=64 height=10><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This is some simple example code. All it does is create a simple 'Hello World' PDF in the current working directory.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">Doc doc = new Doc();
+doc.AddText(&quot;Hello World!&quot;);
+doc.Save(&quot;output.pdf&quot;);<!--notcode-->
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Dim doc As New Doc()
+doc.AddText(&quot;Hello World!&quot;)
+doc.Save(&quot;output.pdf&quot;)
+<!--notcode--></code></pre></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../images/steel-pin.gif" 
+      width=64 height=10><BR>Security</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>ASP.NET operates under a restricted set of security permissions. 
+            It is quite common for the ASPNET user not to be able to create or 
+            write files. </P>
+            <P>So, if you want to save a PDF file from your ASP.NET code, it is 
+            quite likely that you will need to adjust the permissions on your 
+            destination directory to allow write access for the ASPNET user.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

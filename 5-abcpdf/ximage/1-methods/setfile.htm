@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XImage SetFile Function. Load an image from a file. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>SetFile Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Load an image from a file.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
+            SetFile(string path)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub SetFile(path As 
+            String)<BR></CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>path</TD>
+                <TD>The path to the graphic file.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Load an image from file.</P>
+            <P>The file can be any of the following types: JPEG, GIF, TIFF, BMP, 
+            PNG, PSD, PDB, EXIF, WMF, EMF, EPS, PS or SWF (Flash). </P>
+            <P>Ultimately each import goes through a <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a> so for details of additional formats supported and the way they are imported, see the <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a> property.</P>
+            <P>Different images within the file can be accessed using the <A 
+            href="../2-properties/frame.htm">Frame</A> property. Different 
+            portions of the image can be selected using the <A 
+            href="../2-properties/selection.htm">Selection</A> property.</P>
+            <P></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we open a TIFF file using the XImage object. After we've 
+            opened the file we add the image to our document and then save the 
+            PDF.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var img = new XImage();
+using var doc = new Doc();
+img.SetFile(Server.MapPath("../mypics/mypic.jpg"));
+doc.Rect.Inset(20, 20);
+doc.AddImageObject(img, false);
+doc.Save(Server.MapPath("imagesetfile.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theImg As New XImage()
+Dim doc As New Doc()
+theImg.SetFile(Server.MapPath("../mypics/mypic.jpg"))
+doc.Rect.Inset(20, 20)
+doc.AddImageObject(theImg, False)
+theImg.Clear()
+doc.Save(Server.MapPath("imagesetfile.pdf"))
+doc.Clear()
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/imagesetfile.pdf.png" 
+            class="example"><BR>imagesetfile.pdf</P>
+            <p>Also see example code in: <a href="../../../4-examples/04-image.htm">ABCpdf Image Example</a>, <a href="../../doc/1-methods/addimageobject.htm">Doc AddImageObject 
+Function</a>, <a href="../../doc/2-properties/colorspace.htm">Doc ColorSpace Property</a>, <a href="setmask.htm">XImage SetMask Function</a>, <a href="../2-properties/frame.htm">XImage Frame Property</a>, <a href="../2-properties/selection.htm">XImage Selection Property</a>, <a href="../../xrendering/2-properties/defaulthalftone.htm">XRendering DefaultHalftone Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

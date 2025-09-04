@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XRendering Save Function. Renders and saves the current area of the current page. ABCpdf .NET PDF Library.</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META name=GENERATOR content="MSHTML 9.00.8112.16437"></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE border=0 cellSpacing=4 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG src="../../../images/goo.gif" width=58 height=60></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Save Method</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD height=11 background=../../../images/steel-line-3.gif></TD>
+          <TD height=11 background=../../../images/steel-line-3.gif 
+          width=60></TD>
+          <TD height=11><IMG src="../../../images/steel-blob-11.gif" width=11 
+            height=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Renders and saves the current area of the current page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
+            Save(string path)<BR>void Save(string name, Stream 
+            stream)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub Save(path As 
+            String)<BR>Sub Save(name As String, stream As 
+            Stream)</CODE></P>
+            <P><CODE><IMG border=0 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 height=10> may 
+            throw Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable border=5 cellSpacing=0 borderColor=#ffffff 
+            cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=center><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=center>path</TD>
+                <TD>The destination file path.</TD></TR>
+              <TR vAlign=top>
+                <TD align=center>name</TD>
+                <TD>A dummy file name used to determine the type of image 
+                  required.</TD></TR>
+              <TR vAlign=top>
+                <TD align=center>stream</TD>
+                <TD>The destination stream.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Use this method to render the PDF.</P>
+            <P>The output is a render of the current <A 
+            href="../../doc/2-properties/rect.htm">Doc.Rect</A> of the current 
+            <A href="../../doc/2-properties/page.htm">Doc.Page</A>. Typically you want to align the Doc.Rect with the <a href="/Manual/5-abcpdf/doc/2-properties/cropbox.htm">Doc.CropBox</a> as this is the part of page that most tools use as the visible area.</P>
+            <P>Any page rotation specified in the PDF page is applied so that 
+            the output render is the correct orientation. This may mean that the 
+            output width and height are transposed copies of the width and 
+            height as specified in the Doc.Rect.</P>
+            <P>The file path extension determines the format of the output. The 
+            file name extensions which may be used are .TIF, .TIFF, .JPG, .GIF, 
+            .PNG, .BMP, .JP2, .PSD, .EMF, .PS, .EPS, .WEBP, .HEIF, .DDS and .WDP. </P>
+            <P>JP2 is used for the JPEG 2000 format. EMF is a vector rather than 
+            raster format which can be useful when you require resolution 
+            independence and smaller files. PS is raw vector 
+            PostScript-compatible output. EPS is the Encapsulated Postscript 
+            format. The particular type of EPS produced by ABCpdf conforms to 
+            the DSC (Document Structuring Conventions) standard, which is a 
+            subset of EPS intended to make EPS files more usable. WebP is a high compression image format designed by google. HEIF is High Efficiency Image File Format based around MPEG. DDS is DirectDraw Surface designed for decompression by GPUs. WDP is JPEG extended range - a Microsoft technology often used in XPS documents.</P>
+            <P>Our BMP export module supports alpha (SaveAlpha), embedded color profiles (IccOutput), indexed color in various bit depths (ColorSpace &amp; Palette) in both compressed and non-compressed formats (SaveCompression).</P>
+            <P>In addition you can render to any of the file types specified as 
+            part of the GetText method - .TXT, .SVG, .SVG+ and .SVG+2.</P>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+                <TR>
+                  <TD><P><B>Why is ABCpdf .NET rendering the best? </B>ABCpdf .NET started as a PDF generation library. However a few versions in we recognized the need for a professional rendering engine.</P>
+                    <P>PDF rendering is far more complex than the type of rendering you see in System.Drawing, WPF, or OpenGL. As such, we decided to do things properly: we purchased and merged in a dedicated PostScript engine. The result is a tool designed from the ground up for both generation and rendering and it excels at both. For this reason ABCpdf provides best-in-class performance for both types of operation.</P>
+                    <p>Here are just a few practical reasons why ABCpdf .NET PDF rendering is superior to virtually any other library you will find:</p>
+                      <h3>1. Color Spaces</h3>
+                      <ul>
+                        <li>
+                          <p><strong>ABCpdf's Superiority:</strong>&nbsp;ABCpdf was built with modern graphic design and pre-press workflows in mind. It has robust, native support for a wider array of color spaces critical for high-fidelity color output.</p>
+    
+                          <li>
+                              <p><strong>DeviceN and NChannel Color Spaces:</strong>&nbsp;strong support for these complex color spaces, which are used for custom multi-color inks (e.g., Pantone spot colors) beyond standard CMYK.</p>
+                          </li>
+                            <li>
+                              <p><strong>ICC Profile Handling:</strong>&nbsp;Its rendering engine is finely tuned to respect and correctly apply ICC (International Color Consortium) profiles embedded within PDFs. This is paramount for accurate color management across different devices (monitors, printers).</p>
+                            </li>
+                            <li>
+                              <p><strong>Lab Color Space:</strong>&nbsp;Support for CIE Lab color, which is device-independent and designed to approximate human vision, is a hallmark of an advanced color rendering system</p>
+                            </li>
+
+                        </ul>
+                      <h3>2. Bit Depth</h3>
+                      <ul>
+                        <li>
+                          <p><strong>ABCpdf's Superiority:</strong>&nbsp;A dedicated renderer gives you explicit control over the output bit depth, which is crucial for preserving image quality in professional workflows.</p>
+
+                          <li>
+                              <p><strong>High Bit-Depth Output:</strong>&nbsp;ABCpdf allows you to render directly to high bit-depth formats (e.g., 16-bit per channel PNGs or TIFFs). This is essential for medical imaging (DICOM), scientific analysis, archival preservation, and any application where extensive image manipulation (color grading, sharpening) will happen after rendering. It prevents banding and preserves a much wider dynamic range of data from the original PDF.</p>
+                          </li>
+ 
+                        </ul>
+                      <h3>3. File Formats</h3>
+                      <ul>
+                        <li>
+                          <p><strong>ABCpdf's Superiority:</strong>&nbsp;ABCpdf's output format support is tailored for the needs of graphics professionals and automated workflows.</p>
+
+                          <li>
+                              <p><strong>TIFF with Options:</strong>&nbsp;This is a key differentiator. ABCpdf can output to multi-page TIFFs and, more importantly, supports various TIFF compression schemes specifically important for industry (e.g., CCITT Group 4 for monochrome faxes, LZW, etc.).</p>
+                          </li>
+                            <li>
+                              <p><strong>Wider Raster Format Support:</strong>&nbsp;It  includes built-in support for a broad range of niche or professional formats out-of-the-box. If you want 16 bit Lab PSD output or other esoteric color combinations ABCpdf is your solution. Indeed probably your only solution!</p>
+                            </li>
+                            <li>
+                              <p><strong>Direct Rendering:</strong>&nbsp;The API is designed to render&nbsp;<em>directly</em>&nbsp;to these formats efficiently</p>
+                            </li>
+
+                        </ul>
+                      <h3>4. Separations</h3>
+                      <ul>
+                        <li>
+                          <p><strong>ABCpdf's Superiority:</strong>&nbsp;ABCpdf can&nbsp;<strong>output separations</strong>. This means it can render each individual ink color plate (Cyan, Magenta, Yellow, Black, and most importantly,&nbsp;<strong>spot color</strong>&nbsp;plates like Pantone 285 C) as  named inks in TIFF output.</p>
+                    
+                          <li>
+                              <p><strong>Why this matters:</strong>&nbsp;This is a non-negotiable requirement in professional printing. Presses use separate plates for each ink. The ability to pre-flight a PDF by rendering and inspecting each separation is a critical workflow tool.</p>
+                          </li>
+
+                        </ul>
+                      <P><BR>
+                        </P></TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <P>&nbsp;</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>See the <A 
+            href="../2-properties/antialiaspolygons.htm">AntiAliasPolygons</A> 
+            property.</P>
+            <p>Also see example code in: <a href="../../../4-examples/19-rendering.htm">ABCpdf PDF Rendering Example</a>, <a href="../2-properties/antialiasimages.htm">XRendering AntiAliasImages Property</a>, <a href="../2-properties/antialiaspolygons.htm">XRendering AntiAliasPolygons Property</a>, <a href="../2-properties/antialiastext.htm">XRendering AntiAliasText Property</a>, <a href="../2-properties/colorspace.htm">XRendering ColorSpace Property</a>, <a href="../2-properties/defaulthalftone.htm">XRendering DefaultHalftone Property</a>, <a href="../2-properties/drawannotations.htm">XRendering DrawAnnotations Property</a>, <a href="../2-properties/icccmyk.htm">XRendering IccCmyk Property</a>, <a href="../2-properties/overprint.htm">XRendering Overprint Property</a>, <a href="../2-properties/savealpha.htm">XRendering SaveAlpha Property</a>, <a href="../2-properties/savecompression.htm">XRendering SaveCompression Property</a>, <a href="../2-properties/savequality.htm">XRendering SaveQuality Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,197 @@
+<html>
+<head>
+<title>CloudVisionOperation Class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">CloudVisionOperation Class</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>
+<p>Google Cloud Vision API utilities.</p>
+<p>These can be used for:.</p>
+<ul>
+  <li>Optical Character Recognition (OCR) on raster or vector documents.</li>
+  <li>Automatically tagging embedded images with meaningful descriptions.</li>
+</ul>
+</p>
+            This class requires .NET 5 or later. 
+            <p>&nbsp;</p>
+            <p><code>
+              <!--notcode-->
+              System.Object<BR>
+&nbsp;&nbsp;&nbsp;<B> WebSupergoo.ABCpdf13.Operations.CloudVisionOperation</B>
+</code></p>
+            
+            
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top">&nbsp; </td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="sectheader"> 
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td width="160" align="center"><div align="left"><b>Method</b></div></td>
+                <td><b>Description</b></td>
+              </tr>
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/01-cloudvisionoperation.htm">CloudVisionOperation</A></TD>
+                <TD>Create a CloudVisionOperation.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/02-addpages.htm">AddPages</A></TD>
+                <TD>Add all the pages of the document for processing.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/03-addpage.htm">AddPage</A></TD>
+                <TD>Add one page of the document for processing.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/04-startocr.htm">StartOcr</A></TD>
+                <TD>Start OCR operation on the pages that have been added.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/05-tagimages.htm">TagImages</A></TD>
+                <TD>Start image tagging operation on the pages that have been added.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/06-waitall.htm">WaitAll</A></TD>
+                <TD>Wait until the operation is completed.</TD></TR>
+<!-- autogen end -->
+</table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top">&nbsp; </td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="sectheader"> 
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td width="160" align="center"><div align="left"><b>Property</b></div></td>
+                <td><b>Description</b></td>
+              </tr>
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp;<A 
+                  href="2-properties/01-client.htm">Client</A></TD>
+                <TD>The HttpClient instance to use for making web requests.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/02-addwords.htm">AddWords</A></TD>
+                <TD>Whether to OCR and add the text of detected words to the processed pages.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/03-wordcolor.htm">WordColor</A></TD>
+                <TD>Whether to make detected words visible using a particular color.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/04-paracolor.htm">ParaColor</A></TD>
+                <TD>Whether to outline paragraphs using a particular color.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/05-blockcolor.htm">BlockColor</A></TD>
+                <TD>Whether to outline blocks using a particular color.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/06-confidencecolor.htm">ConfidenceColor</A></TD>
+                <TD>The confidence color indicating the reliability of the OCR for each piece of text.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/07-flatten.htm">Flatten</A></TD>
+                <TD>Whether to flatten the page after text is added.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/08-apikey.htm">ApiKey</A></TD>
+                <TD>The Google API key to use for requests.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/09-retrycount.htm">RetryCount</A></TD>
+                <TD>The number of times to retry if the service is not available.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/10-dpi.htm">Dpi</A></TD>
+                <TD>The DPI of the page.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/11-anglerounding.htm">AngleRounding</A></TD>
+                <TD>In the case that text is drawn at an angle, this property allows a snap-to-fit effect.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/12-minimumsize.htm">MinimumSize</A></TD>
+                <TD>The minimum size of image which should be passed to OCR.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/13-maximumsize.htm">MaximumSize</A></TD>
+                <TD>The maximum size of image which should be passed to OCR.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/14-cloudvisiontask.htm">CloudVisionTask</A></TD>
+              <TD>The task associated with the current request.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/15-progressnow.htm">ProgressNow</A></TD>
+                <TD>The number of operation tasks which have been completed.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/16-progressmax.htm">ProgressMax</A></TD>
+                <TD>The total number of operation tasks to be completed.</TD></TR>
+<!-- autogen end -->
+</table>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+        <tr> 
+          <td>&nbsp; </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XColor Class</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>XColor Class</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../images/steel-line-3.gif height=11></TD>
+          <TD height=11><IMG height=11 src="../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>This object represents a color. Colors may be expressed in RGB, 
+            CMYK, Grayscale or generic unspecified color components.</P>
+            <P>When first created, the color defaults to RGB black  - "0 0 0".</P>
+            <P><CODE><!--notcode-->System.Object<BR>&nbsp;&nbsp;&nbsp;<B> WebSupergoo.ABCpdf13.XColor</B><br>
+              <br>
+            Implements: IDisposable, IEquatable&lt;XColor&gt;, IComparable&lt;XColor&gt;</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>&nbsp; </TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=sectheader>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Method</B></TD>
+                <TD width="100%"><B>Description</B></TD></TR>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp;
+<A 
+                  href="1-methods/fromgray.htm">FromGray</A></TD>
+                <TD>Create an XColor from a grayscale value.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp;
+<A 
+                  href="1-methods/fromrgb.htm">FromRgb</A></TD>
+                <TD>Create an XColor from a set of RGB component values.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp;
+<A 
+                  href="1-methods/fromcmyk.htm">FromCmyk</A></TD>
+                <TD>Create an XColor given a set of CMYK component values.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp;
+<A 
+                  href="1-methods/fromcomponents.htm">FromComponents</A></TD>
+                <TD>Create an XColor from a set of PDF components in the generic ColorSpace color space.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp;
+<IMG height=10 
+                  alt="Throws Exceptions" src="../../images/steel-blob-10.gif" 
+                  width=10 border=0>&nbsp;<A 
+                  href="1-methods/fromarrayatom.htm">FromArrayAtom</A></TD>
+                <TD>Create an XColor from an ArrayAtom of NumAtoms containing PDF color values.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp;
+<IMG height=10 
+                  alt="Throws Exceptions" src="../../images/steel-blob-10.gif" 
+                  width=10 border=0>&nbsp;<A 
+                  href="1-methods/fromoperator.htm">FromOperator</A></TD>
+                <TD>Create an XColor given a PDF color operator and a set of Atoms containing the arguments for that operator.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/setcolor.htm">SetColor</A></TD>
+                <TD>Sets the color.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/setgray.htm">SetGray</A></TD>
+                <TD>Set the color to a grayscale value.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/setrgb.htm">SetRgb</A></TD>
+                <TD>Set the color to an RGB value.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/equals.htm">Equals</A></TD>
+                <TD>Test whether the two colors are effectively the same.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/gethashcode.htm">GetHashCode</A></TD>
+                <TD>A hash code for the XColor.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/setcmyk.htm">SetCmyk</A></TD>
+                <TD>Set the color to an CMYK value.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/setcomponents.htm">SetComponents</A></TD>
+                <TD>Set the color to a set of ColorSpace PDF components.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/setrandom.htm">SetRandom</A></TD>
+                <TD>Set the color to a random opaque value in the current color space.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/toarrayatom.htm">ToArrayAtom</A></TD>
+                <TD>An ArrayAtom representation of the components of the color.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/tostring.htm">ToString</A></TD>
+                <TD>Returns a string representation of the object.</TD></TR>
+<!-- autogen end -->
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>&nbsp; </TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=sectheader>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Property</B></TD>
+                <TD width="100%"><B>Description</B></TD></TR>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/alpha.htm">Alpha</A></TD>
+                <TD>The alpha opacity.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/black.htm">Black</A></TD>
+                <TD>The black component.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/blue.htm">Blue</A></TD>
+                <TD>The blue component.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/color.htm">Color</A></TD>
+                <TD>The System.Drawing.Color.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/colorspace.htm">ColorSpace</A></TD>
+                <TD>The native color space for the color.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/components.htm">Components</A></TD>
+                <TD>The components of the color in native PDF format.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/cyan.htm">Cyan</A></TD>
+                <TD>The cyan component.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/gray.htm">Gray</A></TD>
+                <TD>The gray component.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/green.htm">Green</A></TD>
+                <TD>The green component.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/magenta.htm">Magenta</A></TD>
+                <TD>The magenta component.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/name.htm">Name</A></TD>
+                <TD>Any name that may be associated with this color.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/red.htm">Red</A></TD>
+                <TD>The red component.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/string.htm">String</A></TD>
+                <TD>The color as a string.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/yellow.htm">Yellow</A></TD>
+                <TD>The yellow component.</TD></TR>
+<!-- autogen end -->
+</TBODY></TABLE></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR>
+        <TR>
+          <TD>&nbsp;</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

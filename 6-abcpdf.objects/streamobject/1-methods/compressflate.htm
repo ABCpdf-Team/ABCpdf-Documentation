@@ -1,0 +1,129 @@
+<html>
+<head>
+<title>StreamObject CompressFlate Function. Compress the data in the stream using Flate compression. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">CompressFlate Function</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>Compress the data in the stream using Flate compression.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Syntax</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td valign="top"> 
+            <p><span class="language">[C#]</span><br>
+              <code>bool CompressFlate()<br>
+              bool CompressFlate(bool force)<br>
+              </code><br>
+              <span class="language">[Visual Basic]</span><br>
+              <code>Sub CompressFlate() As Boolean<br>
+              Sub CompressFlate(force As Boolean) As Boolean<br>
+              </code></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Params</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td valign="top"> 
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Name</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center">force</td>
+                <td>Whether to force the stream to be compressed in this way.</td>
+              </tr>
+              <tr valign="top">
+                <td align="center">return</td>
+                <td>Whether the compression was applied.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Compress the data in the stream using Flate compression.</p>
+            <p>Flate compression is a standard, fast and efficient lossless compression method. It is used as the basis of file formats like ZIP and image formats like PNG. In most situations this is the method you should prefer.</p>
+            <p>PDF streams allow a set of compression filters to be applied to a stream of data. For example one might want to apply Flate compression and then ASCII85 encode the result. This is represented as two compression filters in sequence.</p>
+            <p>This function does not decompress the stream. So if compression is already present, then this method will compress the already-encoded data and append a compression specification to the sequence.</p>
+            <p>ABCpdf tries to avoid creating certain compression sequences. Some compression types on some objects are illegal. Some sequences are legal but not supported within  Acrobat (though they are in most other viewers). However these are unusual situations and you are unlikely to ever see them.</p>
+            <p>You can override this behavior by forcing the compression to take place. However if you do this  you may end up creating a document which is invalid or unviewable in Acrobat. </p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Also see example code in: <a href="../../../7-abcpdf.atoms/opatom/1-methods/find.htm">OpAtom Find Function</a>.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

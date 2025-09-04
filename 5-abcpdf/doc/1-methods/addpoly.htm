@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddPoly Function. Adds a polygon to the current page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddPoly Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Adds a polygon to the current page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            AddPoly(string points, bool filled)<BR>int
+            AddPoly(double[] points, bool filled)<BR>int
+            AddPoly(double[] points, int index, int count, bool
+            filled)</CODE><BR><SPAN class=language>[Visual
+            Basic]</SPAN><BR><CODE>Function AddPoly(points
+            As String, filled As Boolean) As Integer<BR>Function AddPoly(points() As Double, filled As Boolean)
+            As Integer<BR>Function AddPoly(points()
+            As Double, index As Integer, count As Integer, filled As
+            Boolean) As Integer</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>points</TD>
+                <TD>The coordinates of the vertices of the polygon.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>index</TD>
+                <TD>The index of the first coordinate into the array points.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>count</TD>
+                <TD>The number of coordinates in the array points to use.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>filled</TD>
+                <TD>Whether to fill the polygon rather than simply outline 
+                it.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Object ID of the newly added Graphic 
+              Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Adds a polygon to the current page. The polygon is drawn in the 
+            current <A href="../2-properties/color.htm">color</A> at the current 
+            <A href="../2-properties/width.htm">width</A> and with the current 
+            <A href="../2-properties/options.htm">options</A>. The polygon may 
+            be outlined or filled. </P>
+            <P>The points string is a sequence of numbers representing the 
+            coordinates of the polygon. The string should be of the format "x1 
+            y1 x2 y2 ... xN yN". The numbers may be delimited with spaces, 
+            commas or semicolons. If the first point is equal to the last then 
+            the path is closed before outlining.</P>
+            <P>The AddPoly function returns the Object ID of the newly added 
+            Graphic Object.</P>
+            <P></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code adds a transparent green outlined star over 
+            the top of a red filled star.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.Width = 80;
+doc.Color.String = "255 0 0";
+doc.AddPoly("124 158 300 700 476 158 15 493 585 493 124 158", true);
+doc.Color.String = "0 255 0 a128";
+doc.AddPoly("124 158 300 700 476 158 15 493 585 493 124 158", false);
+doc.Save(Server.MapPath("docaddpoly.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Width = 80
+&nbsp;&nbsp;doc.Color.String = "255 0 0"
+&nbsp;&nbsp;doc.AddPoly("124 158 300 700 476 158 15 493 585 493 124 158", True)
+&nbsp;&nbsp;doc.Color.String = "0 255 0 a128"
+&nbsp;&nbsp;doc.AddPoly("124 158 300 700 476 158 15 493 585 493 124 158", False)
+&nbsp;&nbsp;doc.Save(Server.MapPath("docaddpoly.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/docaddpoly.pdf.png" 
+            class="example"><BR>docaddpoly.pdf</P>
+            <p>Also see example code in: <a href="../../xrendering/2-properties/antialiaspolygons.htm">XRendering AntiAliasPolygons Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

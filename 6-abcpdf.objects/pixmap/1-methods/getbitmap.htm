@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>PixMap GetBitmap Function. Get the PixMap image as a System.Drawing.Bitmap. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6001.18148" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>GetBitmap Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Get the PixMap image as a System.Drawing.Bitmap.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>System.Drawing.Bitmap GetBitmap()<BR></CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Function GetBitmap() As System.Drawing.Bitmap</CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Bitmap containing the image.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Use this method to get the PixMap image as a System.Drawing.Bitmap. </P>
+            <P>You can then use this Bitmap for drawing to screen or for 
+              manipulation using System.Drawing routines.</P>
+            <P>ABCpdf tries to make a  literal copy of the image contained in the PixMap, both to minimize color shifts and also for speed. </P>
+            <P>However because PDF images can contain many color spaces and bit depths that are unsupported by System.Drawing it may be necessary to change the color space or bit depth of the image.</P>
+            <P>In addition there are certain parameters such as decode arrays which may be used to modify the image before display. This method returns the image content as literally as possible which means decode arrays and alpha channels are not included.</P>
+            <P>Please note that some formats of Bitmaps are not usable for certain operations. In particular, indexed color bitmaps cannot be drawn on using the Graphics.FromImage method. For this reason if you are going to wish to draw on the returned Bitmap you should check the pixel format before use.<br>
+            </P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This example shows how to extract all the page thumbnails (if they exist) from a document. See also the PDFSurgeon example project for another example.</P>
+            <P><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+using var src = new Doc();
+doc.Read(Server.MapPath("embedthumbnails.pdf"));
+doc.Rendering.DotsPerInch = 18;
+var pages = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll();
+foreach (var page in pages) {
+&nbsp;&nbsp;if (page.Thumbnail == null)
+&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;using var bm = page.Thumbnail.GetBitmap();
+&nbsp;&nbsp;bm.Save($"embedthumbnails{page.Thumbnail.ID}.jpg");
+}
+</code></pre><br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc(), srcDoc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("embedthumbnails.pdf"))
+&nbsp;&nbsp;doc.Rendering.DotsPerInch = 18
+&nbsp;&nbsp;Dim pages As Page() = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()
+&nbsp;&nbsp;For Each page As Page In pages
+&nbsp;&nbsp;&nbsp;&nbsp;If page.Thumbnail = Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Continue For
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;Using bm As Bitmap = page.Thumbnail.GetBitmap()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bm.Save($"embedthumbnails{page.Thumbnail.ID}.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;Next
+End Using
+</code></pre></P>
+            <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
+              <TBODY>
+                <TR>
+                  <TD><IMG src="../../../images/pdf/embedthumbnails.pdf.png" 
+                  class="example"><BR>
+                    embedthumbnails.pdf - [Page 1]</TD>
+                  <TD><IMG src="../../../images/pdf/embedthumbnails.pdf2.png" 
+                  class="example"><BR>
+                    embedthumbnails.pdf - [Page 2]</TD>
+                </TR>
+                <TR>
+                  <TD><IMG src="../../../images/pdf/embedthumbnails.pdf3.png" 
+                  class="example"><BR>
+                    embedthumbnails.pdf - [Page 3]</TD>
+                  <TD><IMG src="../../../images/pdf/embedthumbnails.pdf4.png" 
+                  class="example"><BR>
+                    embedthumbnails.pdf - [Page 4]</TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <p>&nbsp;</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

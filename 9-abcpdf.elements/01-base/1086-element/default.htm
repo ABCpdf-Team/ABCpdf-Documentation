@@ -1,0 +1,385 @@
+<html>
+<head>
+<title>ZZ Elements Element</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Element Class</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>
+<p>An Element is a specialization wrapper around an Atom designed to expose aspects of that Atom in a structured manner.</p>
+<p>Different subclasses of Element are used to represent the different objects defined in the Adobe PDF Specification.</p>
+<p>In general there is one Element subclass for each object table in the PDF Specification.</p>
+</p>
+            <p><code>
+              <!--notcode-->
+              System.Object<BR>
+&nbsp;&nbsp;&nbsp;<B> WebSupergoo.ABCpdf13.Elements.Element</B>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1422-actionelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ActionElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1220-alternateimageelement/default.htm"> WebSupergoo.ABCpdf13.Elements.AlternateImageElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1423-annotationadditionalactionselement/default.htm"> WebSupergoo.ABCpdf13.Elements.AnnotationAdditionalActionsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1391-annotationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.AnnotationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1417-appearancecharacteristicselement/default.htm"> WebSupergoo.ABCpdf13.Elements.AppearanceCharacteristicsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1397-appearanceelement/default.htm"> WebSupergoo.ABCpdf13.Elements.AppearanceElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../0001-arrayelement_t_/default.htm"> WebSupergoo.ABCpdf13.Elements.ArrayElement&lt;T&gt;</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../0002-atomicarrayelement_t_/default.htm"> WebSupergoo.ABCpdf13.Elements.AtomicArrayElement&lt;T&gt;</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1575-attributeselement/default.htm"> WebSupergoo.ABCpdf13.Elements.AttributesElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1384-beadelement/default.htm"> WebSupergoo.ABCpdf13.Elements.BeadElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1395-bordereffectelement/default.htm"> WebSupergoo.ABCpdf13.Elements.BorderEffectElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1394-borderstyleelement/default.htm"> WebSupergoo.ABCpdf13.Elements.BorderStyleElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1638-boxcolorinformationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.BoxColorInformationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1639-boxstyleelement/default.htm"> WebSupergoo.ABCpdf13.Elements.BoxStyleElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1153-calgraycolorspaceattributeselement/default.htm"> WebSupergoo.ABCpdf13.Elements.CalGrayColorSpaceAttributesElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1154-calrgbcolorspaceattributeselement/default.htm"> WebSupergoo.ABCpdf13.Elements.CalRGBColorSpaceAttributesElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1081-catalogelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CatalogElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1432-catalogurielement/default.htm"> WebSupergoo.ABCpdf13.Elements.CatalogUriElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1457-certificateseedvalueelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CertificateSeedValueElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../09-text/1276-cidsysteminfoelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CIDSystemInfoElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../09-text/1285-cmapstreamelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CMapStreamElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2031-collectioncolorselement/default.htm"> WebSupergoo.ABCpdf13.Elements.CollectionColorsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1379-collectionelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CollectionElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1380-collectionfieldelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CollectionFieldElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1114-collectionitemelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CollectionItemElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1379-collectionschemaelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CollectionSchemaElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1381-collectionsortelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CollectionSortElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2031-collectionsplitelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CollectionSplitElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1115-collectionsubitemelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CollectionSubItemElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/0014-colorelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ColorElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/0020-colorspaceelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ColorSpaceElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1058-crossreferencestreamelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CrossReferenceStreamElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1076-cryptfilterelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CryptFilterElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2092-cuepointelement/default.htm"> WebSupergoo.ABCpdf13.Elements.CuePointElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1522-d3dactivationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.D3DActivationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1525-d3danimationstyleelement/default.htm"> WebSupergoo.ABCpdf13.Elements.D3DAnimationStyleElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1535-d3dbackgroundelement/default.htm"> WebSupergoo.ABCpdf13.Elements.D3DBackgroundElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1540-d3dcrosssectionelement/default.htm"> WebSupergoo.ABCpdf13.Elements.D3DCrossSectionElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1538-d3dlightingschemeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.D3DLightingSchemeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/2062-d3dmeasurementelement/default.htm"> WebSupergoo.ABCpdf13.Elements.D3DMeasurementElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1546-d3dnodeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.D3DNodeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1527-d3dreferenceelement/default.htm"> WebSupergoo.ABCpdf13.Elements.D3DReferenceElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1524-d3dstreamelement/default.htm"> WebSupergoo.ABCpdf13.Elements.D3DStreamElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/2060-d3dunitselement/default.htm"> WebSupergoo.ABCpdf13.Elements.D3DUnitsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1529-d3dviewelement/default.htm"> WebSupergoo.ABCpdf13.Elements.D3DViewElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1375-destinationactionelement/default.htm"> WebSupergoo.ABCpdf13.Elements.DestinationActionElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1374-destinationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.DestinationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1116-developerextensionselement/default.htm"> WebSupergoo.ABCpdf13.Elements.DeveloperExtensionsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1169-devicencolorspaceattributeselement/default.htm"> WebSupergoo.ABCpdf13.Elements.DeviceNColorSpaceAttributesElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1171-devicenmixinghintselement/default.htm"> WebSupergoo.ABCpdf13.Elements.DeviceNMixingHintsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1171-devicenprocesselement/default.htm"> WebSupergoo.ABCpdf13.Elements.DeviceNProcessElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../0003-dictelement_t_/default.htm"> WebSupergoo.ABCpdf13.Elements.DictElement&lt;T&gt;</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1425-documentcatalogadditionalactionselement/default.htm"> WebSupergoo.ABCpdf13.Elements.DocumentCatalogAdditionalActionsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1558-documentinformationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.DocumentInformationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/0028-documentpartelement/default.htm"> WebSupergoo.ABCpdf13.Elements.DocumentPartElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/0029-documentpartrootelement/default.htm"> WebSupergoo.ABCpdf13.Elements.DocumentPartRootElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/0024-documentsecuritystoreelement/default.htm"> WebSupergoo.ABCpdf13.Elements.DocumentSecurityStoreElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1112-embeddedfileparameterelement/default.htm"> WebSupergoo.ABCpdf13.Elements.EmbeddedFileParameterElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1111-embeddedfilesetelement/default.htm"> WebSupergoo.ABCpdf13.Elements.EmbeddedFileSetElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1112-embeddedfilestreamelement/default.htm"> WebSupergoo.ABCpdf13.Elements.EmbeddedFileStreamElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../09-text/1298-embeddedfontstreamelement/default.htm"> WebSupergoo.ABCpdf13.Elements.EmbeddedFontStreamElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../09-text/1271-encodingelement/default.htm"> WebSupergoo.ABCpdf13.Elements.EncodingElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/0010-encryptedpayloadelement/default.htm"> WebSupergoo.ABCpdf13.Elements.EncryptedPayloadElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1064-encryptionelement/default.htm"> WebSupergoo.ABCpdf13.Elements.EncryptionElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/2024-extensionselement/default.htm"> WebSupergoo.ABCpdf13.Elements.ExtensionsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1399-externaldataelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ExternalDataElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1467-fdfelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FDFElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1469-fdffieldelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FDFFieldElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1469-fdfjavascriptelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FDFJavaScriptElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1472-fdfnamedpagereferenceelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FDFNamedPageReferenceElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1471-fdfpageelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FDFPageElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1472-fdftemplateelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FDFTemplateElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1440-fieldelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FieldElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/0011-filespecificationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FileSpecificationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1051-filetrailerelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FileTrailerElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1419-fixedprintelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FixedPrintElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1508-floatingwindowparameterselement/default.htm"> WebSupergoo.ABCpdf13.Elements.FloatingWindowParametersElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2032-folderelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FolderElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../09-text/1289-fontdescriptorelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FontDescriptorElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../09-text/1262-fontelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FontElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1424-formfieldadditionalactionselement/default.htm"> WebSupergoo.ABCpdf13.Elements.FormFieldAdditionalActionsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1101-functionelement/default.htm"> WebSupergoo.ABCpdf13.Elements.FunctionElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2051-geographiccoordinatesystemelement/default.htm"> WebSupergoo.ABCpdf13.Elements.GeographicCoordinateSystemElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1136-graphicsstateparameterelement/default.htm"> WebSupergoo.ABCpdf13.Elements.GraphicsStateParameterElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../11-transparency/1357-groupattributeselement/default.htm"> WebSupergoo.ABCpdf13.Elements.GroupAttributesElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../10-rendering/1316-halftoneelement/default.htm"> WebSupergoo.ABCpdf13.Elements.HalftoneElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1157-iccprofilestreamelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ICCProfileStreamElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1471-iconfitelement/default.htm"> WebSupergoo.ABCpdf13.Elements.IconFitElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1439-interactiveformelement/default.htm"> WebSupergoo.ABCpdf13.Elements.InteractiveFormElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1156-labcolorspaceattributeselement/default.htm"> WebSupergoo.ABCpdf13.Elements.LabColorSpaceAttributesElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1486-legalattestationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.LegalAttestationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1688-linearizationparameterelement/default.htm"> WebSupergoo.ABCpdf13.Elements.LinearizationParameterElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1113-macosfileinformationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MacOSFileInformationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1569-markedcontentreferenceelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MarkedContentReferenceElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1564-markinformationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MarkInformationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/0016-matrixelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MatrixElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1488-measureelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MeasureElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1502-mediaclipdatamhbeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaClipDataMhBeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1500-mediaclipelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaClipElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1504-mediaclipsectionmhbeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaClipSectionMhBeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1497-mediacriteriaelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaCriteriaElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1506-mediadurationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaDurationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1509-mediaoffsetelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaOffsetElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1502-mediapermissionselement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaPermissionsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1511-mediaplayerinfoelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaPlayerInfoElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1510-mediaplayerselement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaPlayersElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1504-mediaplayparameterselement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaPlayParametersElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1504-mediaplayparametersmhbeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaPlayParametersMhBeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1506-mediascreenparameterselement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaScreenParametersElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1507-mediascreenparametersmhbeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MediaScreenParametersMhBeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1557-metadatastreamelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MetadataStreamElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1498-minimumbitdepthelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MinimumBitDepthElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1499-minimumscreensizeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MinimumScreenSizeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1516-movieactivationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MovieActivationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1516-movieelement/default.htm"> WebSupergoo.ABCpdf13.Elements.MovieElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1088-namedictionaryelement/default.htm"> WebSupergoo.ABCpdf13.Elements.NameDictionaryElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/0030-namespaceelement/default.htm"> WebSupergoo.ABCpdf13.Elements.NamespaceElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1388-navigationnodeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.NavigationNodeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2034-navigatorelement/default.htm"> WebSupergoo.ABCpdf13.Elements.NavigatorElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1490-numberformatelement/default.htm"> WebSupergoo.ABCpdf13.Elements.NumberFormatElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1572-objectreferenceelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ObjectReferenceElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1054-objectstreamelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ObjectStreamElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1647-opielement/default.htm"> WebSupergoo.ABCpdf13.Elements.OpiElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1647-opiversionelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OpiVersionElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1237-optionalcontentconfigelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentConfigElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1230-optionalcontentgroupelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentGroupElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1231-optionalcontentmembershipelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentMembershipElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1236-optionalcontentpropertieselement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentPropertiesElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1240-optionalcontentusagecreatorelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentUsageCreatorElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1240-optionalcontentusageelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentUsageElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1240-optionalcontentusageexportelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentUsageExportElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1240-optionalcontentusagelanguageelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentUsageLanguageElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1240-optionalcontentusagepageelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentUsagePageElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1240-optionalcontentusageprintelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentUsagePrintElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1240-optionalcontentusageuserelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentUsageUserElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1240-optionalcontentusageviewelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentUsageViewElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1240-optionalcontentusagezoomelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OptionalContentUsageZoomElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1376-outlineelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OutlineElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1376-outlineitemelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OutlineItemElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1641-outputintentelement/default.htm"> WebSupergoo.ABCpdf13.Elements.OutputIntentElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/0031-outputprofileselement/default.htm"> WebSupergoo.ABCpdf13.Elements.OutputProfilesElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1383-pagelabelelement/default.htm"> WebSupergoo.ABCpdf13.Elements.PageLabelElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1424-pageobjectadditionalactionselement/default.htm"> WebSupergoo.ABCpdf13.Elements.PageObjectAdditionalActionsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1085-pageobjectelement/default.htm"> WebSupergoo.ABCpdf13.Elements.PageObjectElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1560-pagepiecedataelement/default.htm"> WebSupergoo.ABCpdf13.Elements.PagePieceDataElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1084-pagetreenodeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.PageTreeNodeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2047-papermetadatagenerationparameterselement/default.htm"> WebSupergoo.ABCpdf13.Elements.PaperMetaDataGenerationParametersElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/0012-parameterelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ParameterElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1181-patternelement/default.htm"> WebSupergoo.ABCpdf13.Elements.PatternElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1485-permissionselement/default.htm"> WebSupergoo.ABCpdf13.Elements.PermissionsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2053-pointdataelement/default.htm"> WebSupergoo.ABCpdf13.Elements.PointDataElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2052-projectedcoordinatesystemelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ProjectedCoordinateSystemElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1532-projectionelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ProjectionElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/0017-rectangleelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RectangleElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1229-referenceelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ReferenceElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1111-relatedfilesetelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RelatedFileSetElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1535-rendermodeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RenderModeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1497-renditionelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RenditionElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1497-renditionmhbeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RenditionMhBeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1492-requirementelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RequirementElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1493-requirementhandlerelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RequirementHandlerElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1091-resourceelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ResourceElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2079-richmediaactivationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaActivationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2081-richmediaanimationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaAnimationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2041-richmediacommandelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaCommandElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2088-richmediaconfigelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaConfigElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2086-richmediacontentelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaContentElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2080-richmediadeactivationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaDeactivationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2084-richmediadimensionselement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaDimensionsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2089-richmediainstanceelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaInstanceElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2090-richmediaparamselement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaParamsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2085-richmediapositionelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaPositionElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2082-richmediapresentationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaPresentationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2078-richmediasettingselement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaSettingsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2084-richmediawindowelement/default.htm"> WebSupergoo.ABCpdf13.Elements.RichMediaWindowElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1640-separationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SeparationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1191-shadingelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ShadingElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1475-signatureelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SignatureElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1455-signaturefieldlockelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SignatureFieldLockElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1455-signaturefieldseedvalueelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SignatureFieldSeedValueElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1455-signaturefieldtimestampelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SignatureFieldTimeStampElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1477-signaturereferenceelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SignatureReferenceElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/0027-signaturevalidationrelatedinformationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SignatureValidationRelatedInformationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1518-slideshowelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SlideshowElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../11-transparency/1355-softmaskelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SoftMaskElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1512-softwareidentifierelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SoftwareIdentifierElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1514-soundobjectstreamelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SoundObjectStreamElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1631-sourceinformationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.SourceInformationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/1028-streamelement/default.htm"> WebSupergoo.ABCpdf13.Elements.StreamElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1566-structureelementelement/default.htm"> WebSupergoo.ABCpdf13.Elements.StructureElementElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1565-structuretreerootelement/default.htm"> WebSupergoo.ABCpdf13.Elements.StructureTreeRootElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1428-targetelement/default.htm"> WebSupergoo.ABCpdf13.Elements.TargetElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1384-threadelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ThreadElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../13-multimedia/1510-timespanelement/default.htm"> WebSupergoo.ABCpdf13.Elements.TimespanElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1478-transformparameterselement/default.htm"> WebSupergoo.ABCpdf13.Elements.TransformParametersElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1386-transitionelement/default.htm"> WebSupergoo.ABCpdf13.Elements.TransitionElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../07-syntax/0019-treenodeelement/default.htm"> WebSupergoo.ABCpdf13.Elements.TreeNodeElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1632-urlaliaselement/default.htm"> WebSupergoo.ABCpdf13.Elements.UrlAliasElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1241-usageapplicationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.UsageApplicationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1577-userpropertyelement/default.htm"> WebSupergoo.ABCpdf13.Elements.UserPropertyElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1370-viewerpreferenceselement/default.htm"> WebSupergoo.ABCpdf13.Elements.ViewerPreferencesElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/2093-viewparamselement/default.htm"> WebSupergoo.ABCpdf13.Elements.ViewParamsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1487-viewportelement/default.htm"> WebSupergoo.ABCpdf13.Elements.ViewportElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1632-webcapturecommandelement/default.htm"> WebSupergoo.ABCpdf13.Elements.WebCaptureCommandElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1634-webcapturecommandsettingselement/default.htm"> WebSupergoo.ABCpdf13.Elements.WebCaptureCommandSettingsElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1629-webcapturecontentsetelement/default.htm"> WebSupergoo.ABCpdf13.Elements.WebCaptureContentSetElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../14-document/1625-webcaptureinformationelement/default.htm"> WebSupergoo.ABCpdf13.Elements.WebCaptureInformationElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../12-interactive/1430-windowslaunchparameterelement/default.htm"> WebSupergoo.ABCpdf13.Elements.WindowsLaunchParameterElement</A><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A HREF="../../08-graphics/1209-xobjectelement/default.htm"> WebSupergoo.ABCpdf13.Elements.XObjectElement</A><BR>
+</code></p>
+            <p><code>Implements: ICloneable, IEquatable&lt;Element&gt;, IComparable&lt;Element&gt;</code></p>
+            
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top">&nbsp; </td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="sectheader"> 
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td width="160" align="center"><div align="left"><b>Method</b></div></td>
+                <td><b>Description</b></td>
+              </tr>
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><IMG width="10" height="10" border="0" alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" >&nbsp;<A 
+                  href="1-methods/01-element.htm">Element</A></TD>
+                <TD>Create a new Element.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><IMG width="10" height="10" border="0" alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" >&nbsp;<A 
+                  href="1-methods/02-assign.htm">Assign</A></TD>
+                <TD>Assign an IndirectObject to this Element.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/03-equals.htm">Equals</A></TD>
+                <TD>Test whether the two Elements are the same.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/04-getentryversion.htm">GetEntryVersion</A></TD>
+                <TD>Get the minimum PDF version required for the use of a particular named entry.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/05-validate.htm">Validate</A></TD>
+                <TD>Validate this object and report any inconsistencies.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/06-clearcache.htm">ClearCache</A></TD>
+                <TD>Clears any cached Element items.</TD></TR>
+<!-- autogen end -->
+</table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top">&nbsp; </td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="sectheader"> 
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td width="160" align="center"><div align="left"><b>Property</b></div></td>
+                <td><b>Description</b></td>
+              </tr>
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/01-host.htm">Host</A></TD>
+                <TD>Gets the host IndirectObject.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/02-ref.htm">Ref</A></TD>
+                <TD>Gets any RefAtom that is part of this Element.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/03-atom.htm">Atom</A></TD>
+                <TD>Gets any Atom that is part of this Element.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/04-reforatom.htm">RefOrAtom</A></TD>
+                <TD>Gets the Atom that was used to create this Element.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/05-object.htm">Object</A></TD>
+                <TD>Gets the IndirectObject that is part of this Element.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/06-dictatom.htm">DictAtom</A></TD>
+                <TD>Gets the Atom property as a DictAtom.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/07-arrayatom.htm">ArrayAtom</A></TD>
+                <TD>Gets the Atom property as an ArrayAtom.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/08-nameatom.htm">NameAtom</A></TD>
+                <TD>Gets the Atom property as a NameAtom.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/09-numatom.htm">NumAtom</A></TD>
+                <TD>Gets the Atom property as a NumAtom.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/10-stringatom.htm">StringAtom</A></TD>
+                <TD>Gets the Atom property as a StringAtom.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/11-boolatom.htm">BoolAtom</A></TD>
+                <TD>Gets the Atom property as a BoolAtom.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/12-entrymetadata.htm">EntryMetadata</A></TD>
+                <TD>This property represents the "Metadata" entry of the Element.</TD></TR>
+<!-- autogen end -->
+</table>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+        <tr> 
+          <td>&nbsp; </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

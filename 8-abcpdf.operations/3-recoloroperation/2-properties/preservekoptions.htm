@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>RecolorOperation PreserveKOptions Property. Determines how color transforms preserve black when recoloring to CMYK. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+            <TD class=pageheader>PreserveKOptions Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+                <TBODY>
+                    <TR>
+                        <TD align=center><B>Type</B></TD>
+                        <TD><B>Default</B></TD>
+                        <TD><B>Read Write</B></TD>
+                        <TD><B>Description</B></TD>
+                    </TR>
+                    <TR vAlign=top>
+                        <TD align=left>
+                            <SPAN class=language>[C#]</SPAN><br />
+                            <CODE>BlackPreservation</CODE><br/><br/>
+                            <SPAN class=language>[Visual&nbsp;Basic]</SPAN><BR />
+                            <CODE>BlackPreservation</CODE>                        </TD>
+                        <TD>Intent</TD>
+                        <TD>Yes</TD>
+                        <TD>Determines how color transforms preserve black when recoloring to CMYK.</TD>
+                    </TR>
+                </TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+            <TD><P>Tell the color management system how to preserve black (K) when converting color to CMYK.</P>
+                <P>Normal color transforms first convert to device independent XYZ using the source
+                    profile, then from XYZ to the destination space using the destination profile.</P>
+                <P>Since CMYK is an overdetermined colorspace, an XYZ intermediate value can be converted into a number of different and equivalent CMYK values.</P>
+                <P>The XRendering.BlackPreservation enumeration may take the following values:</P>
+                <ul>
+                  <li>Off - Do not attempt to preserve black when transforming.</li>
+                  <li>Intent - Use special rendering intents to preserve black - must be supported by the ICC profile.</li>
+                  <li>Plane - for CMYK to CMYK transforms only; run CMY through the profile, do not change K.</li>
+                  </ul>
+                <P>See also the  <a href="../../../5-abcpdf/xrendering/2-properties/preservekoptions.htm">XRendering.PreserveKOptions</a> property.</P>
+                <P>&nbsp;</P>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

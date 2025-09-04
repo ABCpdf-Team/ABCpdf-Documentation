@@ -1,0 +1,9 @@
+characters.htm
+endpos.htm
+lines.htm
+previous.htm
+truncated.htm
+fulltext.htm
+textstart.htm
+textend.htm
+textnext.htm

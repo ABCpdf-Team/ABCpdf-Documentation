@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddTextStyled Function. Adds a block of multi-styled text to the current page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddTextStyled Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Adds a block of multi-styled text to the current page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            AddTextStyled(string text)<BR>int AddTextStyled(string dummy, int 
+            chainid)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Function AddTextStyled(text As String) 
+            As Integer<BR>Function AddTextStyled(dummy As String, chainid 
+            As Integer) As Integer<BR></CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>text</TD>
+                <TD>The HTML to be added to the page.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>dummy</TD>
+                <TD>A dummy parameter. The contents are not used.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>chainid</TD>
+                <TD>The Object ID of a previously added text block.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Object ID of the newly added Text 
+            Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Adds a block of multi-styled text to the current page.</P>
+            <P>This function works in a similar manner to the <A 
+            href="addtext.htm">AddText</A> function but it allows you to add 
+            multi-styled text by inserting simple HTML tags. A listing of 
+            supported tags is given in the <A 
+            href="../../../3-concepts/b-htmlstyles.htm">Styled Text</A> 
+            section of the documentation. Please see <A 
+            href="../2-properties/pos.htm">Pos</A> for details on positioning 
+            when using vertical fonts.</P>
+            <P>You can chain together multiple text/HTML blocks so that text 
+            flows from one to the next. To do this you need to first add a block 
+            of text/HTML using <A href="addtext.htm">AddText</A> or AddTextStyled. 
+            Then add multiple new text/HTML blocks using Doc.AddTextStyled each time 
+            passing in the ID obtained from the previous call after adjusting 
+            the target location (such as the rectangle or the page).</P>
+            <P>When no more text is available the AddTextStyled function will return 
+            zero. Alternatively you can query the <A 
+            href="../../../6-abcpdf.objects/textlayer/2-properties/truncated.htm">TextLayer.Truncated</A> property 
+            of the returned object before adding a new item to the chain.</P>
+            <P>This function returns the Object ID of the newly added Text 
+            Object. If no text could be added then zero is returned. This will 
+            happen if a zero length string was supplied or if the rectangle was 
+            too small for even one character to be displayed.</P>
+            <P>Typically you will get a return value of zero if your text was 
+            too large to fit in your <A href="../2-properties/rect.htm">Rect</A> 
+            or if the <A href="../2-properties/pos.htm">Pos</A> was at the end 
+            of the Rect.</P>
+            <P>Text styles for the entire HTML content are determined at the 
+            point at which the first item in a text chain is created. This means 
+            that varying document styles will not affect the way in which 
+            subsequent items in the chain are displayed. </P>
+            <P>For an example of chaining see the <A 
+            href="../../../4-examples/02-textflow.htm">Text Flow 
+Example</A>.</P>
+            <P>Note that there is no requirement that blocks be organized in a 
+            linear chain. If you wish you can create trees of HTML blocks, 
+            flowing text from a chain head through multiple display areas on 
+            your document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code adds some styled text to a document.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.FontSize = 72;
+doc.AddTextStyled("&lt;b&gt;Gallia&lt;/b&gt; est omnis divisa in partes tres, quarum unam incolunt &lt;b&gt;Belgae&lt;/b&gt;, aliam &lt;b&gt;Aquitani&lt;/b&gt;, tertiam qui ipsorum lingua &lt;b&gt;Celtae&lt;/b&gt;, nostra &lt;b&gt;Galli&lt;/b&gt; appellantur.");
+doc.Save(Server.MapPath("docaddhtml.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 72
+&nbsp;&nbsp;doc.AddTextStyled("&lt;b&gt;Gallia&lt;/b&gt; est omnis divisa in partes tres, quarum unam incolunt &lt;b&gt;Belgae&lt;/b&gt;, aliam &lt;b&gt;Aquitani&lt;/b&gt;, tertiam qui ipsorum lingua &lt;b&gt;Celtae&lt;/b&gt;, nostra &lt;b&gt;Galli&lt;/b&gt; appellantur.")
+&nbsp;&nbsp;doc.Save(Server.MapPath("docaddhtml.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/docaddhtml.pdf.png" 
+            class="example"><BR>docaddhtml.pdf </P><p>Also see example code in: <a href="../../../4-examples/03-multistyled.htm">ABCpdf Multistyle Example</a>, <a href="../../xtextstyle/2-properties/kerning.htm">XTextStyle Kerning Property</a>.</p>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>ColorSpace ColorSpaceType Property. The type of color space. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">ColorSpaceType Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>ColorSpaceType</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>ColorSpaceType</code></td>
+                <td>&nbsp;n/a&nbsp;</td>
+                <td>No</td>
+                <td>The type of color space.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The ColorSpaceType enumeration may take the following values:</p>
+            <ul>
+              <li>None<br>
+              </li>
+              <li>DeviceGray<br>
+              </li>
+              <li>DeviceRGB<br>
+              </li>
+              <li>DeviceCMYK<br>
+              </li>
+              <li>CalGray<br>
+              </li>
+              <li>CalRGB<br>
+              </li>
+              <li>ICCBased<br>
+              </li>
+              <li>Lab<br>
+              </li>
+              <li>Indexed<br>
+              </li>
+              <li>Pattern<br>
+              </li>
+              <li>Separation<br>
+              </li>
+              <li>DeviceN
+              </li>
+            </ul>
+            <p>Device color spaces are device dependent color spaces. This means 
+              that output color will vary depending on the output medium. For 
+              example a DeviceRGB value may look different on one monitor than 
+              it does on another.</p>
+            <p>Cal, ICC and Lab color spaces are device independent color spaces. 
+              They try to define colors in terms of how they should look rather 
+              than how they should be produced. The goal is to allow colors to 
+              be reproduced accurately on different devices within the capabilities 
+              of the destination device. </p>
+            <p>The Indexed color space is used for palettized color. Each item 
+              in the palette is defined in terms of a base color space such as 
+              DeviceRGB. Palettes can hold up to 256 entries. The base color space  can be determined using the <a href="basecolorspacetype.htm">BaseColorSpaceType</a> property.</p>
+            <p>Pattern color spaces are special color spaces used for defining 
+              repeating patterns.</p>
+            <p>Separation and DeviceN color spaces define colors in terms of different 
+              base colors. Separations specify one color only. DeviceN color spaces 
+              define multiple different colors. For example using a DeviceN color 
+              space you could define an image to be printed using a combination 
+              of Gold, Silver and Black inks.</p>
+            <p>The None color space represents an unknown or undefined color space. 
+              As such you cannot set this property to be None. Attempting to do 
+              so will result in a default DeviceRGB color space.</p>
+            <p> More details of these color space types can be found in Section 
+              4.5 of the <a target="_blank" href="http://partners.adobe.com/">Adobe PDF Specification</a>.<br>
+            </p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>None.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

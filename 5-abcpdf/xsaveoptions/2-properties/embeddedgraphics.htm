@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XSaveOptions EmbeddedGraphics Property. The format to be used for exporting PDF vector graphics. ABCpdf .NET PDF Library.</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META name=GENERATOR content="MSHTML 8.00.6001.18943"></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE border=0 cellSpacing=4 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG src="../../../images/goo.gif" width=58 height=60></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=pageheader>EmbeddedGraphics Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD height=11 background=../../../images/steel-line-3.gif></TD>
+          <TD height=11 background=../../../images/steel-line-3.gif 
+          width=60></TD>
+          <TD height=11><IMG src="../../../images/steel-blob-11.gif" width=11 
+            height=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable border=5 cellSpacing=0 borderColor=#ffffff 
+            cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default Value</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR>
+                <CODE>EmbeddedGraphics</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>EmbeddedGraphics</CODE></TD>
+                <TD>EmbeddedGraphicsType.Automatic</TD>
+                <TD>No</TD>
+                <TD>The format to be used for exporting PDF vector graphics.</TD>
+              </TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This property specifies how PDF vector graphics such as paths are implemented. Different exporters can take advantage of different export formats. However, only the DOCX and HTML exporters currently support embedded graphic output.</P>
+            <P>The EmbeddedGraphicsType enumeration may take the following values:</P>
+            <ul>
+              <li>Automatic - selects a sensible default value based on the exporter and content</li>
+              <li>None - no image output</li>
+              <li>Image - graphics are rendered to a bitmapped image (valid for DOCX and HTML)</li>
+              <li>Vml - graphics are rendered using VML (valid for DOCX only)</li>
+              <li>HtmlCanvas - graphics are rendered using the HTML 5 Canvas element (valid for HTML only)</li>
+              <li>Html5WebGL - the entire page is rendered using HTML 5 WebGL (valid for HTML only)</li>
+            </ul>
+            <P>Please note the following limitations inherent in the VML specification. VML does not support the non-zero fill rule so VML paths may not be identical to PDF paths. 
+               VML does not support sophisticated dashing so dashed or dotted lines are  approximated. VML does not specify how bitmapped images and vector paths should interact so the Z-order is dependent on the VML display implementation - a graphic which overlays an image in a PDF may vanish under the image using certain VML viewers.</P>
+            <P>The HTML5 Canvas element is a blank element on which JavaScript can draw. For older versions of 
+            Internet Explorer, the canvas element is automatically converted into VML via <A target="_blank" href="http://excanvas.sourceforge.net">ExplorerCanvas</A>. </P>
+            <P>Please note the following limitations inherent in the HTML Canvas specification. The even-odd fill 
+              rule is not supported in a consistent way so enabling it requires JavaScript for browser specific support. 
+              The HTML Canvas does not support  dashing so dashed or dotted lines are  not displayed. Because VML only 
+              supports the non-zero fill rule, paths will look different in 
+              older versions of Internet Explorer which are working via the ExplorerCanvas VML conversion.</P>
+            <P>For more details about exporting to HTML with 3D WebGL please see the <a href="../../../3-concepts/j-webgl.htm">WebGL Export Reference</a>.</P>
+            <P>If an invalid type is specified for a specific export format, an 
+            exception will be thrown.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

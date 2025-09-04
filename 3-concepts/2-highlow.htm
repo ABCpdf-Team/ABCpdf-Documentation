@@ -1,0 +1,182 @@
+<html>
+<head>
+<title>ABCpdf High Level Ease with Low Level Power</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script>
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr>
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="pageheader"> High Level Ease with Low Level Power</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Intro</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>ABCpdf .NET combines the best of  high level abstraction and low level power. </p>
+            <p>ABCpdf .NET is built as a programmatic PDF toolkit from the ground up. It provides <strong>unmatched low-level control</strong> combined with surgical precision. </p>
+            <ul>
+              <li>Operate directly on every element, every object and every atom of your document. </li>
+              <li>Place every element, every image, every line,  every chunk of text exactly where you want it. </li>
+              <li>Produce output compliant with the PDF 2.0 specification.</li>
+              <li>This is critical for generating complex, highly-structured documents like legal contracts, tax forms, or engineering drawings where pixel-perfect layout is non-negotiable.</li>
+            </ul>
+            <p>However ABCpdf .NET also allows you to work at a higher level of abstraction. This gives you <strong>unparalleled ease of use</strong> - much like a powerful WYSIWYG editor.</p>
+            <ul>
+              <li>Read this Word document</li>
+              <li>Add this HTML here.</li>
+              <li>Add this  styled text here, wrapping around the HTML I just added.</li>
+              <li>Flow overflowing text seamlessly onto new pages.</li>
+              <li>Certify the document with a signature..</li>
+              <li>Stream the final PDF to a browser.</li>
+            </ul>
+            <p>The true power lies in your ability to mix and match these high- and low-level approaches seamlessly. You are always in control, never needing to fight the engine's decisions.</p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" alt="" width="64" height="10"><br>
+      High </td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>High-Level Approach: The&nbsp;<strong>Doc</strong>&nbsp;Object Methods and <strong>Operations</strong> namespace.</p>
+            <p>This is the most common and easiest way to get started. The&nbsp;Doc&nbsp;object provides a simplified, procedural API that abstracts away the underlying PDF complexity.</p>
+            <p>Think of it as giving commands like "Add a page," "Add this HTML," "Add some text here," "Save the file." The&nbsp;Doc&nbsp;object manages the current page, current position, fonts, colors, etc., for you automatically.</p>
+            <p>Key methods you use to do this include,</p>
+            <ul>
+              <li>AddImageUrl(string url),&nbsp;AddImageHtml(string html): The workhorses for HTML-to-PDF conversion.</li>
+              <li>AddText(string text), AddTextStyled(string text): Adds text at the current position.</li>
+              <li>AddImage(...): Adds an image from a file, stream, or .NET&nbsp;Bitmap.</li>
+              <li>Page,&nbsp;Rect,&nbsp;Color,&nbsp;Font: Properties that set the context for the next operation.</li>
+              <li>Save(),&nbsp;GetData(): Output the final PDF.</li>
+            </ul>
+            <p>An analogy would be using a word processor like Microsoft Word. You focus on the content and basic formatting, and the software handles the layout engine behind the scenes.</p>
+            <p>This is best for:&nbsp;Quick tasks, HTML-to-PDF conversion, simple document creation, and merging. Most developers will spend 90% of their time here.</p>
+          <p>&nbsp;</p></td>
+          <td width="60">u</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" alt="" width="64" height="10"><br>
+      Mid Level</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>Middle-Level Approach: The <strong>Objects</strong> Namespace</p>
+            <p>When you need more control over the structure of the document, you use the Objects and the Elements namespaces -  object-oriented models for PDF content.</p>
+            <p>In ABCpdf, the&nbsp;Objects&nbsp;namespace contains classes that directly represent the&nbsp;<strong>indirect objects</strong>&nbsp;that make up a PDF file's internal structure, as defined by the Adobe PDF Reference manual.</p>
+          <p>The indirect objects are held in an ObjectSoup - a managed collection of objects of type&nbsp;<strong>IndirectObject -</strong>&nbsp;that together form the complete internal structure of the PDF,  as defined by the Adobe PDF specification. The&nbsp;Doc&nbsp;object's higher-level methods (like&nbsp;AddText,&nbsp;AddImageUrl) ultimately translate their actions into manipulations of the objects within this soup.</p>
+          <p>All objects exist together in this single pool. Objects can reference each other freely, creating a interconnected web or &quot;soup&quot; of relationships. The ObjectSoup manages these connections and ensures consistency.</p>
+          <p>Specializations of the indirect objects provide useful features. A PixMap inherits from IndirectObject and has methods which alow you to resize, resample, compress or decompress. A Page has methods which allow you to get the content stream or the annotations. A Signature has methods which allow you to sign or to validate.</p>
+          <p>So the specializations are based on the PDF specification but they add features outside the specification.</p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" alt="" width="64" height="10"><br>
+      Low Level</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>Low-Level Approach: The <strong>Elements</strong> Namespace</p>
+              <p>The&nbsp;<strong>IndirectObjects</strong>&nbsp;that make up the document are  based around the types defined in the PDF specification. </p>
+              <p>However they implement high level functions on those objects - operations which one needs but that are not part of the PDF specification. </p>
+              <p>For example one often needs to resize a bitmap but the process of resizing is not part of the PDF specification.</p>
+            <p>The <strong>Elements</strong> namespace is a literal translation of the PDF 2.0 Specification into an object structure.</p>
+            <p>Each object that is defined in the PDF specification is represented as a specialized subclass of the <strong>Element</strong> class.</p>
+            <p>Each of these objects has properties that directly reflect the properties as defined in the PDF specification.</p>
+            <p>The Elements link to each other so once you have a root you can reference all the other objects from the properties of this root.</p>
+            <p>The Elements namespace represents a controlled way to ensure that the properties you add and the changes you make are allowed in and compliant with the PDF 2.0 specification.</p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" alt="" width="64" height="10"><br>
+      Assembly</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>Assembly-Level Approach: The <strong>Atoms</strong> Namespace.</p>
+            <p>In the context of ABCpdf, an&nbsp;<strong>Atom</strong>&nbsp;is a class that represents one of the eight basic immutable data types defined by the PDF specification. Think of them as the&nbsp;<strong>building blocks</strong>&nbsp;or&nbsp;<strong>primitive values</strong>&nbsp;from which a PDF document is constructed.</p>
+            <p>Every complex structure in a PDF - a dictionary of properties, an array of coordinates, a stream of drawing commands - is ultimately built from  simple atoms such as:</p>
+          <ul>
+            <li>Booleans</li>
+            <li>Numbers</li>
+            <li>Strings</li>
+            <li>Names</li>
+            <li>Arrays</li>
+            <li>Dictionaries<br>
+            </li>
+          </ul>
+          <p>Each IndirectObject and each Element contains an Atom - most commonly a Dictionary atom. </p>
+          <p>The IndirectObject specialization provides you with useful operations you can call into. It adds features  to items defined in the PDF specification.</p>
+          <p>The Element structure ensures you only insert valid combinations of atoms and provides you with a menu of choices. It constrains you to the PDF specification.</p>
+          <p>However you do not absolutely need to have that help. If you want to operate outside the box you can operate on the raw atoms. You can do things like:</p>
+          <ul>
+            <li>
+              <p><strong>Creating Custom Annotations:</strong>&nbsp;Adding sticky notes, links, or form fields with specific properties not directly supported by the high-level API.</p>
+            </li>
+            <li>
+              <p><strong>Setting Rare PDF Attributes:</strong>&nbsp;Manipulating esoteric or custom entries in the document catalog or page dictionaries.</p>
+            </li>
+            <li>
+              <p><strong>Debugging:</strong>&nbsp;Inspecting the precise internal structure of a PDF object to understand why a document is not behaving as expected.</p>
+            </li>
+            <li>
+              <p><strong>Advanced Manipulation:</strong>&nbsp;Programmatically altering the structure of a PDF after it has been created.</p>
+            </li>
+          </ul>
+          <p>You can also use&nbsp;<strong>OpAtoms</strong>&nbsp;- one of the most powerful and low-level features in ABCpdf - allowing you to directly manipulate the&nbsp;<strong>content streams</strong>&nbsp;that define what is drawn on a PDF page.</p>
+          <p>So what  is a<strong> content stream</strong>? A PDF page doe snot contain images and text in the way a Word document does. Instead, it contains a series of&nbsp;<strong>instructions</strong>&nbsp;written in a compact, postfix-notation language. This program is called a&nbsp;<strong>content stream</strong>. A graphics operator in this language is a keyword (like&nbsp;m&nbsp;for&nbsp;move&nbsp;or&nbsp;BT&nbsp;for&nbsp;Begin Text) followed by its required operands (like coordinates). For example, the instruction&nbsp;&quot;100 200 m&quot;&nbsp;means "move the current point to (100, 200)".</p>
+          <p>An&nbsp;<strong>OpAtom</strong>&nbsp;in ABCpdf is an object that represents a single one of these instructions or operators within a content stream. You can take your page content stream and turn it into an array of atoms. Then you can read through these atoms looking for particular drawing instructions.</p>
+          <p>Because of the way that this approach is designed it is incredibly fast and efficient. So using this  power and efficiency  you can do things like determine the colors and color spaces that are being used in a document or redact all text matching a particular pattern.</p>
+          <p>In summary,&nbsp;<strong>Atoms are the raw assembly language of PDFs</strong>. While you can build entire documents with the high-level&nbsp;Doc&nbsp;methods (AddText,&nbsp;AddImage),&nbsp;Atoms give you direct access to the instruction set, letting you write, read, and modify  PDF pieces and drawing commands one operation at a time.</p>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

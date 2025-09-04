@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc GetInfo Function. Gets string information about an object. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>GetInfo Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Gets string information about an object.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>string 
+            GetInfo(int id, string type)<BR></CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Function GetInfo(id As Integer, type As String) As String<BR></CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>id</TD>
+                <TD>
+                  <P>The Object ID of the object to be queried.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>type</TD>
+                <TD>
+                  <P>The type of information to be retrieved.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The returned information.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>After you modify a document you may want to get back information 
+            about the objects you have added. For example you might want to find 
+            out the natural dimensions of an image or you might want to find out 
+            how many characters were drawn when you inserted some text. This 
+            method allows you access to this information.</P>
+            <P>There are core information types that all objects support. There 
+            are also information types specific to particular types of object. 
+            You can use core information types to allow you to iterate through 
+            every object in your document finding out specific information about 
+            each of them.</P>
+            <P>If the object does not exist or does not support the requested 
+            type of information then an empty string is returned.</P>
+            <P>Every object supports the ID and Type properties. For more 
+            detailed information about this and other properties see the <A 
+            href="../../../3-concepts/2-objectpaths.htm">Object Paths</A> section 
+            of this document.</P>
+            <P>PDF objects are case sensitive so be sure you use the correct 
+            case when specifying information.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code snippet illustrates how one might report the 
+            natural dimensions of an image.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+string path = Server.MapPath("../mypics/mypic.jpg");
+int id1 = doc.AddImageFile(path, 1);
+int id2 = doc.GetInfoInt(id1, "XObject");
+string theWidth = doc.GetInfo(id2, "Width");
+string theHeight = doc.GetInfo(id2, "Height");
+Response.Write($"Width {theWidth}&lt; br&gt;");
+Response.Write($"Height {theHeight}&lt; br&gt;");
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/mypic.jpg")
+&nbsp;&nbsp;Dim theID1 As Integer = doc.AddImageFile(thePath, 1)
+&nbsp;&nbsp;Dim theID2 As Integer = doc.GetInfoInt(theID1, "XObject")
+&nbsp;&nbsp;Dim theWidth As String = doc.GetInfo(theID2, "Width")
+&nbsp;&nbsp;Dim theHeight As String = doc.GetInfo(theID2, "Height")
+&nbsp;&nbsp;Response.Write($"Width {theWidth}&lt; br&gt;")
+&nbsp;&nbsp;Response.Write($"Height {theHeight}&lt; br&gt;")
+End Using
+</code></pre></P>
+            <P>This is the kind of output you might expect.</P>
+            <P><SAMP>Width 480<BR>Height 640</SAMP><BR></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

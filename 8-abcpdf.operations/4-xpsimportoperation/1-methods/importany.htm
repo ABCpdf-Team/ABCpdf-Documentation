@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XpsImportOperation ImportAny Function. Imports a portion of a document via an intermediate XPS print-out. ABCpdf .NET PDF Library.</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META name=GENERATOR content="MSHTML 8.00.6001.18904"></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE border=0 cellSpacing=4 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG src="../../../images/goo.gif" width=58 height=60></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=pageheader>ImportAny Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD height=11 background=../../../images/steel-line-3.gif></TD>
+          <TD height=11 background=../../../images/steel-line-3.gif 
+          width=60></TD>
+          <TD height=11><IMG src="../../../images/steel-blob-11.gif" width=11 
+            height=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Imports a portion of a document via an intermediate XPS 
+            print-out.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void ImportAny(Doc doc, 
+            string path)<BR>void ImportAny(Doc doc, string path, int 
+            timeout</CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub ImportAny(doc As Doc, path As String) 
+            <BR>Sub ImportAny(doc As Doc, path As String, timeout As 
+            Integer)</CODE></P>
+            <P><CODE><IMG border=0 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 height=10> may 
+            throw Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable border=5 cellSpacing=0 borderColor=#ffffff 
+            cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>doc</TD>
+                <TD>The target PDF document.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>path</TD>
+                <TD>The file path to the source document.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>timeout</TD>
+                <TD>The timeout in milliseconds for the XPS printer driver. 
+                  The default is 15500 milliseconds.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Imports several types of documents, by converting them to XPS 
+            first using the Microsoft XPS Document Writer (MXDW). An attempt is 
+            made to silently print the document to a temporary XPS file. An 
+            application which will print the document is launched. This 
+            application is intercepted and, assuming that only the default Print 
+            dialogs are used, the XPS print output is silently captured. This 
+            output is then imported into PDF just like any other XPS file.</P>
+            <P>You can refer to <A 
+            href="../2-properties/application.htm">Application</A> for a list 
+            of supported applications. This property also determines which 
+            application will be used to print the document to XPS.</P>
+            <P>By default the shell default program will be used. To set the 
+            shell default program for a file, in Windows Explorer, right-click 
+            on the file, select "Open With" and then "Choose Default Program". 
+            When the shell default program is used, there must be a "Print" 
+            option when right-clicking on the document in Windows Explorer. If 
+            this is not the case, ImportAny will fail except for the following 
+            applications: MS Word, MS Excel, MS PowerPoint, MS InfoPath and MS 
+            Project.</P>
+            <P>If you prefer not to rely on the shell default program, set <A 
+            href="../2-properties/application.htm">Application</A> to any of 
+            the applications defined in ImportAnyApplicationType. These 
+            applications are officially supported by ImportAny. You may try your 
+            luck with other applications, but in this case you must associate 
+            your application via the shell default program.</P>
+            <P>The Microsoft XPS Document Writer (MXDW) must also be available. 
+            This is the default on Windows Vista. For Windows XP, you can 
+            download MXDW at this address: <A target="_blank" href="http://msdn.microsoft.com/en-us/library/dd183313(VS.85).aspx">http://msdn.microsoft.com/en-us/library/dd183313(VS.85).aspx</A>.</P>
+            <P>When ImportAny fails, the associated application will likely 
+            hang, normally waiting for a "Print" dialog of some sort to be 
+            closed, but this dialog is hidden by ImportAny so you will not see 
+            it. If this is the case, ImportAny will wait for the specified 
+            timeout before killing the associated application and reporting an 
+            error. The default timeout is 15.5 seconds. You can reduce or 
+            increase this value depending on your requirements, by using the 
+            overload that accepts a timeout as a parameter.</P>
+            <P><STRONG>When using ImportAny from either a Windows Service or an 
+            IIS process, it is recommended that you wrap ABCpdf into a COM+ 
+            application. Refer to the PdfEnterpriseServices example in order to 
+            do this.</STRONG></P>
+            <P>You may debug ImportAny problems using the PrintHookShow and 
+            PrintHookLog registry keys. For further details see the <A 
+            href="../../../3-concepts/d-registrykeys.htm">Registry Keys</A> 
+            section in Concepts.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P>The usage of ImportAny is identical to <A 
+            href="import.htm">Import</A> except that it takes any file format 
+            whose associated application supports the "Print" option.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

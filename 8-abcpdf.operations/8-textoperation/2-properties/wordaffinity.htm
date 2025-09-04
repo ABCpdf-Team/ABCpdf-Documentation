@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>TextOperation WordAffinity Property. The minimum distance at which two fragments will be assumed to be part of one undivided word. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>WordAffinity  Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR>
+                <CODE>double</CODE><BR>
+                <BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR>
+                <CODE>Double</CODE></TD>
+                <TD>0.15</TD>
+                <TD>No</TD>
+                <TD>The minimum distance at which two fragments will be assumed to be part of one undivided word.</TD>
+              </TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The minimum distance at which two text fragments will be assumed to be part of one undivided word. This value is specified in terms of a fraction of the font size. </P>
+            <P>PDF text does not always include spaces. It is not uncommon for spaces simply to be indicated by the positions at which characters are drawn. The fact that two text fragments are drawn some distance from each other visually indicates that there is a space between them. When extracting text from a PDF one needs to decide how far apart text fragments can be,  before one assumes that they should be separated by a space.</P>
+            <P>This property allows you to control this spacing. Increasing the property will tend to reduce the cohesiveness of fragments resulting in fewer spaces. Decreasing it will tend to increase the cohesiveness resulting in more spaces.</P>
+            <P>Broadly speaking the property is defined as the proportion of the font size at which distance a space will be assumed to be present. The precise mechanism is a little more complicated than this as it needs to take account of vertical distance and of varying font sizes between fragments. However for most purposes the broad definition will be acceptable.</P>
+            <P>&nbsp;</P>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

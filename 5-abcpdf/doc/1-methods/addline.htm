@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddLine Function. Adds a line to the current page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddLine Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Adds a line to the current page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            AddLine(double x1, double y1, double x2, double 
+            y2)<br>
+            int AddLine(double x1, double y1, double x2, double y2, LineEnding ending1, LineEnding ending2)<br>
+            int AddLine(double x1, double y1, double x2, double y2, LineEnding ending1, LineEnding ending2, double scale1, double scale2)<BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Function AddLine(x1 As Double, y1 
+            As Double, x2 As Double, y2 As Double) As Integer<br>
+            Function AddLine(x1 As Double, y1 
+            As Double, x2 As Double, y2 As Double, ending1 as LineEnding, ending2 as LineEnding) As Integer<br>
+            Function AddLine(x1 As Double, y1 
+            As Double, x2 As Double, y2 As Double, ending1 as LineEnding, ending2 as LineEnding, scale1 As Double, scale2 
+            As Double) As Integer<BR>
+            </CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>x1</TD>
+                <TD>The horizontal offset of the start point.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>x2</TD>
+                <TD>The horizontal offset of the end point.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>y1</TD>
+                <TD>The vertical offset of the start point.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>y2</TD>
+                <TD>The vertical offset of the end point.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>ending1</TD>
+                <TD>The line ending to be placed at the start of the line. Default is None.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>ending2</TD>
+                <TD>The line ending to be placed at the end of the line. Default is None.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>scale1</TD>
+                <TD>The scaling to be applied to the line ending at the start of the line. Default is 1.0.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>scale2</TD>
+                <TD>The scaling to be applied to the line ending at the end of the line. Default is 1.0.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Object ID of the newly added Graphic 
+              Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Adds a line to the current page. The line is drawn in the current 
+            <A href="../2-properties/color.htm">color</A> at the current <A 
+            href="../2-properties/width.htm">width</A> and with the current <A 
+            href="../2-properties/options.htm">options</A>.</P>
+            <P>In addition to the line, you can also specify line endings such as arrows. These can be placed at at the start of the line, the end of the line or both.</P>
+            <P>The LineEnding enumeration may take the following values:</P>
+            <ul>
+              <li>None - No symbol</li>
+              <li>Square - A square block</li>
+              <li>Circle - A filled circle</li>
+              <li>Diamond - A filled diamond</li>
+              <li>OpenArrow - Two lines forming an arrow</li>
+              <li>ClosedArrow - A triangular arrow</li>
+              <li>Butt - A perpendicular line</li>
+              <li>BigButt - A longer perpendicular line</li>
+              <li>ReverseOpenArrow - The same as OpenArrow, but pointing backwards rather than forwards</li>
+              <li>ReverseClosedArrow - The same as ClosedArrow, but pointing backwards rather than forwards</li>
+              <li>Slash - A 30 degree line</li>
+              <li>Arrowhead - A barbed arrowhead</li>
+            </ul>
+            <P> The size of the line ending is proportional to the width of the line, but you can provide a further scaling factor to make it bigger or smaller.</P>
+            <P>The tip of each line ending is placed at the end of the line so that they can be used for precise positioning. Reversed line endings have a reversed direction, so while the tip is still at the end of the line, the body of the symbol will extend past the end of the line.</P>
+            <P>The AddLine function returns the Object ID of the newly added 
+            Graphic Object.</P>
+            <P></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code adds two horizontal lines to a document. The 
+            first is blue and the second is green.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.Width = 24;
+doc.Color.String = "0 0 255";
+doc.AddLine(-50, 100, 999, 100);
+doc.Color.String = "0 255 0";
+doc.AddLine(-50, 400, 999, 400);
+doc.Save(Server.MapPath("docaddline.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Width = 24
+&nbsp;&nbsp;doc.Color.String = "0 0 255"
+&nbsp;&nbsp;doc.AddLine(-50, 100, 999, 100)
+&nbsp;&nbsp;doc.Color.String = "0 255 0"
+&nbsp;&nbsp;doc.AddLine(-50, 400, 999, 400)
+&nbsp;&nbsp;doc.Save(Server.MapPath("docaddline.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/docaddline.pdf.png" 
+            class="example"><BR>docaddline.pdf</P>
+            <p>Also see example code in: <a href="../../../4-examples/17-advancedgraphics.htm">ABCpdf Advanced Graphics Example</a>, <a href="../2-properties/topdown.htm">Doc TopDown Property</a>, <a href="../2-properties/width.htm">Doc Width Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

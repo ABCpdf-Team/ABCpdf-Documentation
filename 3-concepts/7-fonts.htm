@@ -1,0 +1,394 @@
+<html>
+<head>
+<title>Fonts and Languages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script>
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Fonts and Languages</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Base</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The base fonts are guaranteed to be available on all systems. </p>
+            <p>Using the base fonts in your PDF results in a small document which 
+              is guaranteed to render in the same way on all systems. However 
+              the base fonts do not support complex languages such as Chinese 
+              and Japanese and they do not support some characters used in Eastern 
+              Europe.</p>
+            <p>The following are the names of the base fonts.</p>
+            <ul>
+              <li>Times-Roman</li>
+              <li>Times-Bold</li>
+              <li>Times-Italic</li>
+              <li>Times-BoldItalic</li>
+              <li>Helvetica</li>
+              <li>Helvetica-Bold</li>
+              <li>Helvetica-Oblique</li>
+              <li>Helvetica-BoldOblique</li>
+              <li>Courier</li>
+              <li>Courier-Bold</li>
+              <li>Courier-Oblique</li>
+              <li>Courier-BoldOblique</li>
+              <li>Symbol</li>
+              <li>ZapfDingbats<br>
+              </li>
+            </ul>
+            <p>Use the AddFont method, with the &quot;Latin&quot; language, to reference these fonts.</p>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Embed</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Embedded TrueType or OpenType Unicode fonts are generally the most 
+              efficient and reliable way of adding complex language support to 
+              your PDF documents. However you need to ensure that you have permission 
+              to embed and redistribute your chosen font.</p>
+            <p>ABCpdf includes options to try and protect you from inadvertently 
+              embedding copyrighted fonts. However you should not rely on this 
+              protection. If you wish to embed fonts It is vitally important that 
+              you think about the way these fonts will be used and that you understand 
+              the operations permitted by the copyright holder. Ultimately you 
+              need to take responsibility for any fonts you embed in your PDF 
+              documents.</p>
+            <p>When embedding large fonts you should generally choose to subset 
+              them. Not only does it produce smaller PDF documents but It is also 
+              generally faster to embed a subset of a large font than to embed 
+              the entire font.</p>
+            <p>Use the <a href="../5-abcpdf/doc/1-methods/embedfont.htm">Doc.EmbedFont</a> 
+              method to embed fonts. Only Latin and Unicode languages can be embedded; other languages will be referenced.</p>
+            <p>The table below shows the valid combinations of language and horizontal 
+              and vertical writing directions.</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center" width="80"><b>Language</b></td>
+                <td align="center" width="80"><b>Horizontal</b></td>
+                <td align="center" width="80"><b>Vertical</b></td>
+                <td><b>Notes</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80">&quot;Latin&quot;</td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td align="center" width="80" valign="middle">&nbsp;</td>
+                <td>The default and most efficient encoding for Western languages.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80">&quot;Unicode&quot;</td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td>The setting you will most often want to use when embedding 
+                  foreign character sets.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80">&quot;Korean&quot;</td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80">&quot;Japanese&quot;</td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80"> &quot;ChineseS&quot;</td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td>Simple Chinese</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80">&quot;ChineseT&quot;</td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td>Traditional Chinese</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Refs</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Referenced TrueType or OpenType fonts produce a smaller PDF document. 
+              However for complex languages you will need a recent version of 
+              Adobe Acrobat and you will need to install the relevant language 
+              pack. Without these you will not be able to view your documents 
+              and your viewer may report errors. </p>
+            <p>Use the <a href="../5-abcpdf/doc/1-methods/addfont.htm">Doc.AddFont</a> 
+              method to reference fonts.</p>
+            <p>The table below shows the valid combinations of language and horizontal 
+              and vertical writing directions.</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center" width="80"><b>Language</b></td>
+                <td align="center" width="80"><b>Horizontal</b></td>
+                <td align="center" width="80"><b>Vertical</b></td>
+                <td><b>Notes</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80">&quot;Latin&quot;</td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td align="center" width="80" valign="middle">&nbsp;</td>
+                <td>The default and most efficient encoding for Western languages.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80">&quot;Unicode&quot;</td>
+                <td align="center" width="80" valign="middle">&nbsp;</td>
+                <td align="center" width="80" valign="middle">&nbsp;</td>
+                <td>This selector requires that the font be embedded - it cannot be used for referencing fonts.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80">&quot;Korean&quot;</td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td>Requires the relevant Adobe Acrobat Language Pack</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80">&quot;Japanese&quot;</td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td>Requires the relevant Adobe Acrobat Language Pack</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80">&quot;ChineseS&quot;</td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td>Simple Chinese requires the relevant Adobe Acrobat Language 
+                  Pack</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center" width="80">&quot;ChineseT&quot;</td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td align="center" width="80" valign="middle"><img src="../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td>Traditional Chinese requires the relevant Adobe Acrobat Language 
+                  Pack</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Type 1</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>Sometimes, typically when dealing with the Mac platform, you may 
+            need to add or embed Type 1 fonts. </p>
+            <p>You can do this using <a href="../5-abcpdf/doc/1-methods/embedfont.htm">Doc.EmbedFont</a> or <a href="../5-abcpdf/doc/1-methods/addfont.htm">Doc.AddFont</a> in exactly the same way as you would for any other font. </p>
+            <p>Type 1 fonts contain a limited set of characters. As such the only 
+                language which is available is the &quot;Latin&quot; language.</p>
+            <p>&nbsp;</p>            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Reuse</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Fonts are changed when they are inserted into a PDF document. As such it can be difficult to reuse a font which has already been embedded.</p>
+            <p>Unicode fonts are complex and the changes that are made to insert them into a PDF document mean that the characteristics that ABCpdf requires for general text operations are unlikely to be present.</p>
+            <p>Any font that has been subsetted is obviously going to present difficulty because glyphs have been removed. If you wish to reuse such a font you will not be able to generate output for those glyphs.</p>
+            <p>Because Type 1 fonts contain contain a limited set of characters and a simple encoding, they are the most reliable for re-use - they are much more reliable than TrueType fonts.</p>
+            <p>To access a font that you might be able to re-use you can scan through the <a href="../6-abcpdf.objects/2-objectsoup/default.htm">ObjectSoup</a> looking for <a href="../6-abcpdf.objects/fontobject/default.htm">FontObject</a> objects.</p>
+            <p>However be aware that the changes made to fonts may vary between software and between font types. As such this kind of operation is unpredictable.</p>
+            <p>&nbsp;</p>            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Issues</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>ABCpdf will allow you to use any valid TrueType, OpenType or Type 1 (PostScript) 
+            font.</p>
+              <p>If you are having problems accessing a particular font try disabling 
+                the ABCpdf font protection functionality. However note that you 
+                should not embed and redistribute fonts unless you have permission 
+                to do so.</p>
+            <p>ABCpdf maintains a font cache. This means that for ABCpdf to pick 
+              up on a newly installed font you will need to restart any processes 
+              that are using ABCpdf. </p>
+            <p>Alternatively you can pass the path to your font file to the AddFont 
+              or EmbedFont method. This will automatically load the font file. 
+              Do not move the font file after doing this - ABCpdf relies on fonts 
+              staying in place.</p>
+            <p>Sometimes permissions are placed on individual font files which 
+              may restrict access from restricted permission accounts such as 
+              ASP or ASP.NET.</p>
+            <p>Occasionally TrueType fonts are corrupt or non- standard. This 
+              can cause problems for ABCpdf (which will refuse to recognize them) 
+              or Acrobat (which will refuse to use a font embedded in the PDF). 
+              However this type of problem is relatively infrequent and tends 
+              to be restricted to unusual fonts such as bar-codes.</p>
+            <p>If you hit a problem you think is related to a corrupt or nonstandard 
+              font please mail us the font and we'll see what we can suggest.</p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Detail</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>ABCpdf .NET  is world class when it comes to fonts and text. A backgrounder as to what goes on behind the scenes...</p>
+            <h4>ABCpdf has a Deep, Native Understanding of PDF Font Structures</h4>
+            <p>Unlike libraries that simply "draw text" ABCpdf .NET has an intricate understanding of how fonts are embedded and referenced within a PDF file.</p>
+            <ul>
+              <li>
+                <p><strong>Font Embedding:</strong>&nbsp;ABCpdf .NET automatically and correctly handles font embedding, which is crucial for document portability. It subsets fonts (including only the glyphs actually used) to minimize file size.</p>
+              </li>
+              <li>
+                <p><strong>Font Programs:</strong>&nbsp;It can parse and work with different font types (TrueType, OpenType, Type 1, Type 3, CFF, CID fonts) at a low level, understanding their encoding maps (CMaps), glyph widths, and metrics. ABCpdf does not use  system functions as these are often imprecise and incomplete. Instead it determines metrics and finds features by directly   reading and parsing the original font files.</p>
+              </li>
+              <li>
+                <p><strong>Unicode Compliance:</strong>&nbsp;Right from inception ABCpdf .NET was designed with Unicode in mind. It correctly maps characters from your input string to the correct glyph index in the font, ensuring characters like&nbsp;&eacute;,&nbsp;&szlig;, or&nbsp;&#12385;&nbsp;appear correctly.</p>
+              </li>
+            </ul>
+            <h4>Advanced Text Layout and Rendering Engine</h4>
+            <p>The core&nbsp;layout mechanisms are built for precision.</p>
+            <ul>
+              <li>
+                <p><strong>Glyph Positioning:</strong>&nbsp;It does not just place characters; it places&nbsp;<em>glyphs</em>&nbsp;with exact control over their position, including kerning (adjusting the space between specific character pairs, like "AV") and ligatures (combining characters like &quot;fi&quot; into a single glyph).</p>
+              </li>
+              <li>
+                <p><strong>Text State Control:</strong>&nbsp;It provides meticulous control over the PDF text state parameters: character spacing, word spacing, horizontal and vertical scaling, and text rise (for superscript/subscript). This allows for professional-grade micro-typography.</p>
+              </li>
+              <li>
+                <p><strong>Correct Spacing and Line Breaks:</strong>&nbsp;The layout algorithms calculate string widths and line breaks based on the actual embedded font metrics, not on guesses from the system font. This guarantees that what you design is what you get, on every device.</p>
+              </li>
+            </ul>
+            <h4>Robust Support for Complex Scripts</h4>
+            <p>This is a major differentiator. Many simpler PDF libraries fail miserably with non-Western languages.</p>
+            <ul>
+              <li>
+                <p><strong>Right-to-Left (RTL) Languages:</strong>&nbsp;ABCpdf .NET has robust support for bi-directional languages like Arabic, Hebrew, and Farsi. It handles the complex shaping rules where a character's form changes based on its position in a word (initial, medial, final, isolated).</p>
+              </li>
+              <li>
+                <p><strong>CJK (Chinese, Japanese, Korean) Support:</strong>&nbsp;It expertly handles the thousands of glyphs in these languages, including vertical writing layout and correct line-breaking rules.</p>
+              </li>
+              <li>
+                <p><strong>Indic Scripts:</strong>&nbsp;Supports the complex conjuncts and reordering rules required for languages like Hindi, Tamil, or Bengali.</p>
+              </li>
+                            <li>
+                <p><strong>Cursive and Psudo-random Scripts:</strong>&nbsp;Supports the contextual alternates needed for the support of cursive  scripts - one where the letters are designed to connect smoothly to one another, often with flowing strokes. Supports pseudo-random  fonts - a font which includes multiple  glyphs for the same character and switches between them to avoid repetitive patterns.</p>
+              </li>
+              <li><strong>Shaping and Breaking:</strong> Uses a variety of shaping and breaking engines for control over complex scripts. Typically ABCpdf uses the official Unicode engine along with HarfBuzz and sometimes Uniscribe. HarfBuzz is the industry-standard, open-source text shaping engine used by Android, Chrome, Firefox, and most Linux systems. It supports OpenType features and all major world scripts.</li>
+            </ul>
+            <h4>The&nbsp;Styled Text&nbsp;System</h4>
+            <p>The styled text system makes complex text layout easy.</p>
+            <ul>
+              <li>
+                <p><strong>HTML-like Styling:</strong>&nbsp;You can style text with properties like indent, padding, text style, and fonts simply and easily in a way similar to HTML.</p>
+              </li>
+              <li>
+                <p><strong>Automatic Layout:</strong>&nbsp;Styled text&nbsp;is a sophisticated layout engine. You add&nbsp;styled text, and ABCpdf .NET automatically handles pagination, line breaks and alignment across multiple pages.</p>
+              </li>
+              <li>
+                <p><strong>Rich Text:</strong>&nbsp;You can control many features from obvious ones like font weight and italicisation through to less obvious ones like highlight, multiple strike-thru and text direction.</p>
+              </li>
+            </ul>
+            <h4>Meticulous Attention to the PDF Specification</h4>
+            <p>The ABCpdf .NET developers are experts on the ISO-standardized PDF specification (PDF 2.0, PDF 1.7, etc.). This means the library produces files that are not just visually correct but are also structurally sound and compliant. This is critical for:</p>
+            <ul>
+              <li>
+                <p><strong>Accessibility (PDF/UA):</strong>&nbsp;Generating tagged PDFs where text has a logical reading order, alt text for images, and proper language specification for screen readers. Correct font handling is a prerequisite for this.</p>
+              </li>
+              <li>
+                <p><strong>Archive (PDF/A):</strong>&nbsp;Generating  PDFs where text is inserted using correct subsets, entries and values for long term archival standards.</p>
+              </li>
+              <li>
+                <p><strong>Text Extraction and Search:</strong>&nbsp;Because text is stored and mapped correctly, extracting text from an ABCpdf .NET-generated PDF for search indexing or other processing is highly accurate and reliable. You will not get gibberish where special characters or ligatures should be.</p>
+              </li>
+            </ul>
+            <h4>Comparison to Simpler Alternatives</h4>
+            <p>Many other tools (like simple report generators or basic wrappers) take a naive approach:</p>
+            <ol start="1">
+              <li>
+                <p><strong>They "Print" Text:</strong>&nbsp;They often use the operating system graphics API (e.g., GDI+ on Windows, Java2D) to draw text as a series of shapes (curves and lines) onto the page. This results in larger files (as the text is not real text but paths) and makes the content non-selectable, non-searchable, and inaccessible.</p>
+              </li>
+              <li>
+                <p><strong>No Font Embedding:</strong>&nbsp;They rely on the system fonts, so the document will look different on another machine that does not have those fonts installed.</p>
+              </li>
+              <li>
+                <p><strong>No Complex Text Layout:</strong>&nbsp;They completely break on RTL or CJK languages.</p>
+              </li>
+            </ol>
+            <h4>In Summary:</h4>
+            <p>ABCpdf .NET excels at fonts and text because it&nbsp;<strong>respects text as a complex data structure</strong> and because it understands  the<strong> raw font formats.</strong>&nbsp;It knows about the semantics, encoding, and intricate rules of written language and translates that knowledge into a perfectly precise, portable, and compliant PDF document. It is the difference between a word processor and a typewriter.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

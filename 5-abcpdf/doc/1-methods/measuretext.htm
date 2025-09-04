@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc MeasureText Function. Measure the length of a block of text without adding it to the page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>MeasureText Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Measure the length of a block of text without adding it to the page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>double MeasureText(string text)<br>
+            double MeasureText(string text, double fontSize, double charSpacing, double wordSpacing, bool italic, bool bold, double outline)<BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <CODE>Function MeasureText(text As String) As Double<br>
+            Function MeasureText(text As String, fontSize As Double, charSpacing As Double, wordSpacing As Double, italic As Boolean, bold As Boolean, outline As Double) As Double<BR>
+            </CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>text</TD>
+                <TD>The text to be measured.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>fontSize</TD>
+                <TD>The size of the font.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>charSpacing</TD>
+                <TD>The spacing to be applied between each character.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>wordSpacing</TD>
+                <TD>The spacing to be applied between each word.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>italic</TD>
+                <TD>Whether a synthetic italic style is to be applied.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>bold</TD>
+                <TD>Whether a synthetic bold style is to be applied.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>outline</TD>
+                <TD>The size of any outline to be applied to the font.</TD>
+              </TR>
+<TR vAlign=top>
+  <TD align=middle>return</TD>
+  <TD>The width of the text in the units provided.</TD>
+</TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This function is used to measure the length of a block of text using the
+              current <a href="../2-properties/font.htm">Font</a> but does not support
+              complex glyphs and fonts with vertical text direction (<a
+              href="../../../6-abcpdf.objects/fontobject/2-properties/writingmode.htm">FontObject.WritingMode</a>).</P>
+            <P>This method is unit agnostic so you can use whatever units you like and the 
+              result will be returned in terms of those units. However typically you would 
+              provide point based measurements to provide a point based length.</P>
+            <P>If the text is placed at a horizontal position x and w is the value this
+              function returns, the bounding interval will be [x - outline / 2, x - outline / 2 + w].</P>
+            <P>You need to ensure that the font you are using supports the characters you are using otherwise an exception will be thrown. You may wish to use the <a href="../../../6-abcpdf.objects/fontobject/1-methods/vettext.htm">FontObject.VetText</a> function to check your text if you are using standard font encodings such as Latin.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

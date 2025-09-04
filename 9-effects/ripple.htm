@@ -1,0 +1,179 @@
+<html>
+<head>
+<title>RippleEffect</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Ripple Effect</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>The Pinch effect distorts the image as if it had been rippled.</p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Settings</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td><table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr>
+                <td><b>Name</b></td>
+                <td><b>Default</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top">
+                <td>Height</td>
+                <td>10 pixels</td>
+                <td><p>The amplitude of the wave determines how high the ripples are on the surface of the images.</p></td>
+              </tr>
+              <tr valign="top">
+                <td>Length</td>
+                <td>30 pixels</td>
+                <td><p>The length of the wave determines how far apart the ripples 
+                are placed.</p>                </td>
+              </tr>
+              <tr valign="top">
+                <td>Phase</td>
+                <td>0 degrees</td>
+                <td>The phase determines if the center of the ripple is a peak 
+                or a trough.</td>
+              </tr>
+              <tr valign="top">
+                <td>Speed</td>
+                <td>6</td>
+                <td>There is a general speed versus quality tradeoff. Higher values produce faster results at the expense of quality.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Workings</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The effect is very similar to a pond ripple. The image is distorted 
+              as if it was projected onto the surface of a pond and then a stone 
+            had been dropped into the middle.</p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example images show the effect of a Ripple filter applied to a picture with different settings.</p>
+            <p><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">void function() {
+&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img3); // original image
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectRipple.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;using (ImageLayer layer = AddImagePage(doc, img3)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (EffectOperation effect = new EffectOperation("Ripple")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectRippleDefault.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;using (ImageLayer layer = AddImagePage(doc, img3)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (EffectOperation effect = new EffectOperation("Ripple")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters["Height"].Value = 15;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectRippleHeight15.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;using (ImageLayer layer = AddImagePage(doc, img3)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (EffectOperation effect = new EffectOperation("Ripple")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters["Length"].Value = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectRippleLength10.jpg");
+&nbsp;&nbsp;}
+}
+</code></pre><br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Sub ...
+&nbsp;&nbsp;Using doc As New Doc()
+&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img3)
+&nbsp;&nbsp;&nbsp;&nbsp;' original image
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectRipple.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Ripple")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectRippleDefault.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Ripple")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Height").Value = 15
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectRippleHeight15.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Ripple")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Length").Value = 10
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectRippleLength10.jpg")
+&nbsp;&nbsp;End Using
+End Sub
+</code></pre>            </p>
+            <p>&nbsp;</p>
+          <p><img src="images/astroflag.jpg" width="259" height="243"><br>
+Original Image before Ripple </p>
+          <p><img src="images/ripple/default.jpg" width="259" height="243"><br>
+After Ripple with default settings </p>
+          <p><img src="images/ripple/h15.jpg" width="259" height="243"><br>
+Height = 15 </p>
+          <p><img src="images/ripple/l10.jpg" alt="" width="259" height="243"><br>
+Length = 10 </p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

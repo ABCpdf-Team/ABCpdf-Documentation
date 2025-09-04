@@ -1,0 +1,487 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>XHtmlOptions UseScript Property. Whether to enable JavaScript and VBScript. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head><body bgcolor="#ffffff">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tbody><tr>
+    <td valign="top"><img src="../../../images/goo.gif" height="60" width="58"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr>
+          <td class="pageheader">UseScript Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" height="11" width="11"></td>
+        </tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>
+            <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+              <tbody><tr>
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top">
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
+                <td>true</td>
+                <td>No</td>
+                <td>Whether to enable JavaScript and VBScript.</td>
+              </tr>
+            </tbody></table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr>
+          <td>
+            <p>This property determines whether JavaScript and VBScript are enabled.</p>
+            <p>By default client-side script such as JavaScript is enabled when
+              rendering HTML documents. You may wish to change this default setting for performance or security reasons.</p>
+            <p>The ABCChrome engine relies on JavaScript for HTML analysis. If you disable it the <a href="media.htm">HtmlOptions.Media</a>, <a href="addforms.htm">HtmlOptions.AddForms</a>, <a href="addtags.htm">HtmlOptions.AddTags</a> and <a href="onloadscript.htm">HtmlOptions.OnLoadScript</a> will cease to operate. In addition the <a href="browserwidth.htm">HtmlOptions.BrowserWidth</a> zero setting, which allows the page autosize behavior, will default to the <a href="initialwidth.htm">HtmlOptions.InitialWidth</a> setting.</p>
+            <p>If you have a server edition of Windows (e.g. Windows
+              Server 2008) and are using the MSHTML engine, you may need to also
+              disable Enhanced Security Configuration for user running the
+              program/application pool to allow JavaScript execution.<br>
+            </p>
+            <table class="backgrounder" border="0" cellpadding="10">
+              <tbody><tr>
+                <td>
+                  <p><b>Script-Accessible Functions and Properties. </b>These
+                    are functions and properties that script inside HTML can
+                    access. The function signatures shown are in C#-like syntax.
+                    You'll need to pass in the correct number of arguments.</p>
+                  <table border="0" cellpadding="0" cellspacing="4">
+                    <tbody><tr>
+                      <td valign="top"><small><a href="1-engine.htm">MSHTML only</a></small></td>
+                      <td width="14">&nbsp;</td>
+                      <td><b>window.external.ABCpdf_RenderWait</b> &ndash; Delays ABCpdf's rendering of the HTML page.</td>
+                    </tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Syntax</td>
+                      <td width="14">&nbsp;</td>
+                    <p><span class="language">[C#]</span><br>
+                    <pre><code class="language-csharp">bool ABCpdf_RenderWait();
+</code></pre><br>
+                    <span class="language">[Visual Basic]</span><br>
+                    <pre><code class="language-vbnet">Private Function ABCpdf_RenderWait() As Boolean
+</code></pre></p>
+                    </tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Params</td>
+                      <td width="14">&nbsp;</td>
+                      <td valign="top">
+                        <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+                          <tbody><tr>
+                            <td align="center"><b>Name</b></td>
+                            <td><b>Description</b></td>
+                          </tr>
+                          <tr valign="top">
+                            <td align="center">return</td>
+                            <td>True if ABCpdf waits (i.e. the function succeeds), otherwise false.</td>
+                          </tr>
+                        </tbody></table>
+                    </td></tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Notes</td>
+                      <td width="14">&nbsp;</td>
+                      <td valign="top">When this function is called before the page load is considered
+                      complete, the page load is not considered complete until ABCpdf_RenderComplete
+                      is called. This function returns false if ABCpdf_RenderComplete has been called.
+                      This is useful if the page relies on timeout/asynchronous events (AJAX).</td>
+                    </tr>
+                  </tbody></table>
+                  <p>&nbsp;</p>
+                  <table border="0" cellpadding="0" cellspacing="4">
+                    <tbody><tr>
+                      <td valign="top"><small><a href="1-engine.htm">MSHTML only</a></small></td>
+                      <td width="14">&nbsp;</td>
+                      <td><b>window.external.ABCpdf_RenderComplete</b> &ndash; Resumes ABCpdf's rendering of the HTML page.</td>
+                    </tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Syntax</td>
+                      <td width="14">&nbsp;</td>
+                    <p><span class="language">[C#]</span><br>
+                    <pre><code class="language-csharp">bool ABCpdf_RenderComplete();
+bool ABCpdf_RenderComplete(bool force);
+</code></pre><br>
+                    <span class="language">[Visual Basic]</span><br>
+                    <pre><code class="language-vbnet">Private Function ABCpdf_RenderComplete() As Boolean
+Private Function ABCpdf_RenderComplete(ByVal force As Boolean) As Boolean
+</code></pre></p>
+                    </tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Params</td>
+                      <td width="14">&nbsp;</td>
+                      <td valign="top">
+                        <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+                          <tbody><tr>
+                            <td align="center"><b>Name</b></td>
+                            <td><b>Description</b></td>
+                          </tr>
+                          <tr valign="top">
+                            <td align="center">force</td>
+                            <td>Whether ABCpdf ignores normal indications of page load completion.
+                            The default value is false.</td>
+                          </tr>
+                          <tr valign="top">
+                            <td align="center">return</td>
+                            <td>True if ABCpdf resumes rendering as requested (i.e. the function succeeds),
+                            otherwise false.</td>
+                          </tr>
+                        </tbody></table>
+                    </td></tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Notes</td>
+                      <td width="14">&nbsp;</td>
+                      <td valign="top">This function can be called whether ABCpdf_RenderWait
+                      has/has not been called. If force is false, ABCpdf resumes normal rendering.
+                      If force is true, ABCpdf starts rendering immediately, ignoring all other
+                      indications of page load completion. This function returns false if force
+                      is false and the function has been previously called with force true.
+                      This is useful if the page relies on timeout/asynchronous events (AJAX).</td>
+                    </tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>
+                      Examples</td>
+                      <td width="14">&nbsp;</td>
+                      <td valign="top">
+                        <p><span class="language">[C#]</span><br>
+                          <pre><code class="language-csharp">Doc doc = new Doc();
+doc.HtmlOptions.Engine = EngineType.MSHtml;
+doc.HtmlOptions.UseScript = true;
+
+// Render after 3 seconds
+doc.HtmlOptions.OnLoadScript = "(function(){"
+&nbsp;&nbsp;+ " window.external.ABCpdf_RenderWait();"
+&nbsp;&nbsp;+ " setTimeout(function(){ window.external.ABCpdf_RenderComplete(); }, 3000);"
+&nbsp;&nbsp;+ "})();";
+
+doc.AddImageUrl("http://www.websupergoo.com");
+doc.Save(Server.MapPath("wsg.pdf"));
+</code></pre><br><span
+                        class="language">[Visual Basic]</span><br><pre><code class="language-vbnet">Dim theDoc As Doc = New Doc()
+theDoc.HtmlOptions.Engine = EngineType.MSHtml
+theDoc.HtmlOptions.UseScript = True
+
+' Render after 3 seconds
+theDoc.HtmlOptions.OnLoadScript = "(function(){" _
+&nbsp;&nbsp;&amp; " window.external.ABCpdf_RenderWait();" _
+&nbsp;&nbsp;&amp; " setTimeout(function(){ window.external.ABCpdf_RenderComplete(); }, 3000);" _
+&nbsp;&nbsp;&amp; "})();"
+
+theDoc.AddImageUrl("http://www.websupergoo.com")
+theDoc.Save(Server.MapPath("wsg.pdf"))
+</code></pre></p></td>
+                    </tr>
+                  </tbody></table>
+                  <p>&nbsp;</p>
+                  <table border="0" cellpadding="0" cellspacing="4">
+                    <tbody><tr>
+                      <td valign="top"><small><a href="1-engine.htm">Gecko only</a></small></td>
+                      <td width="14">&nbsp;</td>
+                      <td><b>window.ABCpdf_go</b> &ndash; Specifies whether ABCpdf proceeds to render the HTML page.</td>
+                    </tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Syntax</td>
+                      <td width="14">&nbsp;</td>
+                    <p><span class="language">[C#]</span><br>
+                    <pre><code class="language-csharp">bool ABCpdf_go;
+</code></pre><br>
+                    <span class="language">[Visual Basic]</span><br>
+                    <pre><code class="language-vbnet">Dim ABCpdf_go As Boolean
+</code></pre></p>
+                    </tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Params</td>
+                      <td width="14">&nbsp;</td>
+                      <td valign="top">
+                        <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+                          <tbody><tr>
+                            <td align="center"><b>Value</b></td>
+                            <td><b>Description</b></td>
+                          </tr>
+                          <tr valign="top">
+                            <td align="center">undefined (initial value), true</td>
+                            <td>ABCpdf proceeds to render the HTML page.</td>
+                          </tr>
+                          <tr valign="top">
+                            <td align="center">false</td>
+                            <td>ABCpdf waits.</td>
+                          </tr>
+                        </tbody></table>
+                    </td></tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Notes</td>
+                      <td width="14">&nbsp;</td>
+                      <td valign="top">UseScript has to be true and
+                      <a href="onloadscript.htm">OnLoadScript</a> has to be non-empty for this
+                      property to be effectual. ABCpdf will wait for this property to be either
+                      undefined or true before rendering the HTML page. The whole HTML rendering
+                      operation is still subject to the <a href="timeout.htm">Timeout</a> property's value.
+                      Usually, this property is set to false in OnLoadScript and is also set
+                      to true in an event listener added in OnLoadScript. If assignments to
+                      this property are provided in both OnLoadScript
+                      and the script in the web page, please refer to the notes in
+                      <a href="onloadscript.htm">OnLoadScript</a> for the order of execution.</td>
+                    </tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>
+                      Examples</td>
+                      <td width="14">&nbsp;</td>
+                      <td valign="top">
+                        <p><span class="language">[C#]</span><br><pre><code class="language-csharp">Doc doc = new Doc();
+doc.HtmlOptions.Engine = EngineType.Gecko;
+doc.HtmlOptions.UseScript = true;
+
+// Render after 3 seconds
+doc.HtmlOptions.OnLoadScript = "(function(){"
+&nbsp;&nbsp;+ " window.ABCpdf_go = false;"
+&nbsp;&nbsp;+ " setTimeout(function(){ window.ABCpdf_go = true; }, 3000);"
+&nbsp;&nbsp;+ "})();";
+
+doc.AddImageUrl("http://www.websupergoo.com");
+doc.Save(Server.MapPath("wsg.pdf"));
+</code></pre><br><span
+                        class="language">[Visual Basic]</span><br><pre><code class="language-vbnet">Dim theDoc As Doc = New Doc()
+theDoc.HtmlOptions.Engine = EngineType.Gecko
+theDoc.HtmlOptions.UseScript = True
+
+' Render after 3 seconds
+theDoc.HtmlOptions.OnLoadScript = "(function(){" _
+&nbsp;&nbsp;&amp; " window.ABCpdf_go = false;" _
+&nbsp;&nbsp;&amp; " setTimeout(function(){ window.ABCpdf_go = true; }, 3000);" _
+&nbsp;&nbsp;&amp; "})();"
+
+theDoc.AddImageUrl("http://www.websupergoo.com")
+theDoc.Save(Server.MapPath("wsg.pdf"))
+</code></pre></p></td>
+                    </tr>
+                  </tbody></table>
+ <p>&nbsp;</p>
+                  <table border="0" cellpadding="0" cellspacing="4">
+                    <tbody><tr>
+                      <td valign="top"><small><a href="1-engine.htm">ABCChrome only</a></small></td>
+                      <td width="14">&nbsp;</td>
+                      <td><b>ABCChromeExt.Render() </b> &ndash; Triggers immediate conversion of the HTML page.</td>
+                    </tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Syntax</td>
+                      <td width="14">&nbsp;</td>
+                      <td valign="top">
+                    <p><span class="language">[C#]</span><br>
+                    <pre><code class="language-csharp">void ABCChromeExt.Render();
+</code></pre><br>
+                    <span class="language">[Visual Basic]</span><br>
+                    <pre><code class="language-vbnet">Private Sub Render()
+</code></pre></p>
+                    </tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Params</td>
+                      <td width="14">&nbsp;</td>
+                      <td valign="top">
+                        <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+                          <tbody><tr>
+                            <td align="center"><b>Value</b></td>
+                            <td><b>Description</b></td>
+                          </tr>
+                          <tr valign="top">
+                            <td align="center">n/a</td>
+                            <td>n/a</td>
+                          </tr>
+                        </tbody></table>                    </td></tr>
+                    <tr>
+                      <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Notes</td>
+                      <td width="14">&nbsp;</td>
+                      <td valign="top"><p>Calling the method ABCChromeExt.Render() in any JavaScript executed within an HTML page will force the immediate rendering of the page to PDF without delay. </p>
+                        <p>This option cannot be used in HtmlOptions.OnLoadScript - no error will occur but processing will not be curtailed.</p>
+                        <p>You will need to set a sensible value for HtmlOptions.RenderDelay to allow processing to continue past the OnLoad event.</p></td>
+                    </tr>
+                  </tbody></table>       
+                  </td></tr></tbody></table>
+            </td>
+            <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr>
+          <td>
+            <p>The following example shows one method of crawling and transferring
+              an entire site to PDF. Here, we use JavaScript to determine the links
+              present on the page. However, you could equally well use the <a href="htmlcallback.htm">HtmlCallback</a> 
+              to do the same thing.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+string uri = "https://photojournal.jpl.nasa.gov/gallery/snt";
+// Set HTML options
+doc.HtmlOptions.AddLinks = true;
+doc.HtmlOptions.UseScript = true;
+doc.HtmlOptions.PageCacheEnabled = false;
+// JavaScript is used to extract all links from the page
+doc.HtmlOptions.OnLoadScript = "var hrefCollection = document.all ? document.all.tags(\"a\") : document.getElementsByTagName(\"a\");" +
+&nbsp;&nbsp;"var allLinks = \"\";" +
+&nbsp;&nbsp;"for(i = 0; i &lt; hrefCollection.length; ++i) {" +
+&nbsp;&nbsp;"if (i &gt; 0)" +
+&nbsp;&nbsp;"&nbsp;&nbsp;allLinks += \",\";" +
+&nbsp;&nbsp;"allLinks += hrefCollection.item(i).href;" +
+&nbsp;&nbsp;"};" +
+&nbsp;&nbsp;"document.documentElement.abcpdf = allLinks;";
+// Array of links - start with base URL
+var links = new ArrayList();
+links.Add(uri);
+for (int i = 0; i &lt; links.Count; i++) {
+&nbsp;&nbsp;// Stop if we render more than 20 pages
+&nbsp;&nbsp;if (doc.PageCount &gt; 20)
+&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;// Add page
+&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;int id = doc.AddImageUrl(links[i] as string);
+&nbsp;&nbsp;// Links from the rendered page
+&nbsp;&nbsp;string allLinks = doc.HtmlOptions.GetScriptReturn(id);
+&nbsp;&nbsp;string[] newLinks = allLinks.Split(new char[] { ',' });
+&nbsp;&nbsp;foreach (string link in newLinks) {
+&nbsp;&nbsp;&nbsp;&nbsp;// Check to see if we allready rendered this page
+&nbsp;&nbsp;&nbsp;&nbsp;if (links.BinarySearch(link) &lt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Skip links inside the page
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pos = link.IndexOf("#");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!(pos &gt; 0 &amp;&amp; links.BinarySearch(link.Substring(0, pos)) &gt;= 0)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (link.StartsWith(uri)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links.Add(link);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;// Add other pages
+&nbsp;&nbsp;while (true) {
+&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect();
+&nbsp;&nbsp;&nbsp;&nbsp;if (!doc.Chainable(id))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;id = doc.AddImageToChain(id);
+&nbsp;&nbsp;}
+}
+// Link pages together
+doc.HtmlOptions.LinkPages();
+// Flatten all pages
+for (int i = 1; i &lt;= doc.PageCount; i++) {
+&nbsp;&nbsp;doc.PageNumber = i;
+&nbsp;&nbsp;doc.Flatten();
+}
+// Save the document
+doc.Save(Server.MapPath("HtmlOptionsJavaScript.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theURL As String = "https://photojournal.jpl.nasa.gov/gallery/snt"
+&nbsp;&nbsp;' Set HTML options
+&nbsp;&nbsp;doc.HtmlOptions.AddLinks = True
+&nbsp;&nbsp;doc.HtmlOptions.UseScript = True
+&nbsp;&nbsp;doc.HtmlOptions.PageCacheEnabled = False
+&nbsp;&nbsp;' JavaScript is used to extract all links from the page
+&nbsp;&nbsp;doc.HtmlOptions.OnLoadScript = "var hrefCollection = document.all ? document.all.tags(""a"") : document.getElementsByTagName(""a"");" + "var allLinks = """";" + "for(i = 0; i &lt; hrefCollection.length; ++i) {" + "if (i &gt; 0)" + vbTab &amp; "allLinks += "","";" + "allLinks += hrefCollection.item(i).href;" + "};" + "document.documentElement.abcpdf = allLinks;"
+&nbsp;&nbsp;' Array of links - start with base URL
+&nbsp;&nbsp;Dim links As New ArrayList()
+&nbsp;&nbsp;links.Add(theURL)
+&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;While i &lt; links.Count
+&nbsp;&nbsp;&nbsp;&nbsp;' Stop if we render more than 20 pages
+&nbsp;&nbsp;&nbsp;&nbsp;If doc.PageCount &gt; 20 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;' Add page
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;Dim theID As Integer = doc.AddImageUrl(TryCast(links(i), String))
+&nbsp;&nbsp;&nbsp;&nbsp;' Links from the rendered page
+&nbsp;&nbsp;&nbsp;&nbsp;Dim allLinks As String = doc.HtmlOptions.GetScriptReturn(theID)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim newLinks As String() = allLinks.Split(New Char() {","C})
+&nbsp;&nbsp;&nbsp;&nbsp;For Each link As String In newLinks
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Check to see if we allready rendered this page
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If links.BinarySearch(link) &lt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Skip links inside the page
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pos As Integer = link.IndexOf("#")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Not (pos &gt; 0 AndAlso links.BinarySearch(link.Substring(0, pos)) &gt;= 0) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If link.StartsWith(theURL) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links.Add(link)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;Next
+&nbsp;&nbsp;&nbsp;&nbsp;' Add other pages
+&nbsp;&nbsp;&nbsp;&nbsp;While True
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Not doc.Chainable(theID) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddImageToChain(theID)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;' Link pages together
+&nbsp;&nbsp;doc.HtmlOptions.LinkPages()
+&nbsp;&nbsp;' Flatten all pages
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= doc.PageCount
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten()
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsJavaScript.pdf"))
+End Using
+</code></pre></p>
+            <table border="0" cellpadding="3" cellspacing="3" width="100%">
+              <tbody><tr>
+                <td><img src="../../../images/pdf/HtmlOptionsJavaScript.pdf.png" class="example"><br>
+                  HtmlOptionsJavaScript.pdf - [Page 1]</td>
+                <td><img src="../../../images/pdf/HtmlOptionsJavaScript.pdf2.png" class="example"><br>
+                  HtmlOptionsJavaScript.pdf - [Page 2]</td>
+              </tr>
+              <tr>
+                <td><img src="../../../images/pdf/HtmlOptionsJavaScript.pdf3.png" class="example"><br>
+                  HtmlOptionsJavaScript.pdf - [Page 3]</td>
+                <td><img src="../../../images/pdf/HtmlOptionsJavaScript.pdf4.png" class="example"><br>
+                  HtmlOptionsJavaScript.pdf - [Page 4]</td>
+              </tr>
+            </tbody></table>
+            <p>&nbsp;</p>
+            <p>Also see example code in: <a href="../../../4-examples/13-pagedhtml.htm">ABCpdf Paged HTML Example</a>.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+</body></html>

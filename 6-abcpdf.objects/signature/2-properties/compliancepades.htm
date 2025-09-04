@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Signature CompliancePades Property. The signature compliance level. ABCpdf .NET PDF Library.</title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<meta name="GENERATOR" content="MSHTML 8.00.6001.18813"></head>
+<body bgcolor="#ffffff">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tbody>
+  <tr>
+    <td valign="top"><img src="../../../images/goo.gif" height="60" width="58"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td class="pageheader">CompliancePades Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr>
+        <tr>
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" height="11" width="11"></td></tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>
+            <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+              <tbody>
+              <tr>
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td></tr>
+              <tr valign="top">
+                <td align="left"><span class="language">[C#]</span><br><code>PadesLevel</code><br>
+                <br><span class="language">[Visual&nbsp;Basic]</span><br><code>PadesLevel</code></td>
+                <td>PadesLevel.None</td>
+                <td>No</td>
+                <td>The signature compliance level.</td></tr></tbody></table>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td>
+            <p>The signature PAdES compliance level.</p>
+            <p>The PadesLevel enumeration may take the following values:</p>
+<ul>
+  <li>None</li>
+  <li>PAdES_B_B - basic signature</li>
+  <li>PAdES_B_T - with added authoritative timestamp</li>
+  <li>PAdES_B_LT - with added Long Term Validation (LTV) information</li>
+  <li>PAdES_B_LTA - with added authoritative document timestamp signature</li>
+</ul>
+            <p>When you call one of the <a href="../1-methods/sign.htm">Sign</a> methods, this property specifies the desired compliance level the document should conform to.</p>
+            <p>When you call <a href="../1-methods/validate.htm">Validate</a>, this value will be set to the highest compliance level the signature conforms to. If 
+              <a href="../1-methods/validate.htm">Validate</a> has not been called on an existing signature, this value will remain set to its default value of
+              PadesLevel.None.</p>
+              <p> Any PAdES compliance level greater than PAdES_B_B, means
+                 that it is also compliant to any of the preceeding PAdES compliance levels in the order specified above. So PAdES_B_LT is also PAdES_B_T and PAdES_B_B compliant.</p>
+              <p>If a compliance level of PAdES_B_T or above is specified when signing, a Timestamp Authority will be required. 
+                If a <a href="../2-properties/TimestampServiceUrl.htm">TimestampServiceUrl</a> is specified then that value is used. 
+                If no <a href="../2-properties/TimestampServiceUrl.htm">TimestampServiceUrl</a> is specified and the signing certificate has a certificate extension with Oid 1.2.840.113583.1.1.9.1, 
+                this extension value is used. Otherwise an exception is thrown. </p>
+              <p>If a compliance level of PAdES_B_LT or PAdES_B_LTA is specified when signing, the signing certificate
+                  should have online OCSP and/or online CRL certificate extensions specified in one of the certificates
+                  in the chain of trust.
+              </p>
+            <p>PAdES baseline compliance levels are specified in ETSI TS 103 172 which can be found at <a target="_blank" href="https://www.etsi.org">www.etsi.org</a>.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr>
+          <td>
+            <p>The following example shows how to sign a PAdES_B_LTA signature with a certificate with its private key on a Hardware Security Module (HSM). </p>
+            <p>Usually when 
+              the HSM is inserted any certificates are automatically inserted into the Windows Certificate Store. The signing certificate can then be obtained via the .NET X509Store 
+              interface. </p>
+            <p>To silently sign using a certificate on an HSM you will need to provide the password as a SecureString. </p>
+            <p><span class="language">[C#]</span><br><pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("mypics/BlankSignature.pdf"));
+var sig = (Signature)doc.Form.Fields["Signature1"];
+sig.Reason = "Final Version";
+sig.Location = "New York";
+sig.TimestampServiceUrl = new Uri("http://timestamp.digicert.com");
+sig.CompliancePades = Signature.PadesLevel.PAdES_B_LTA;
+X509Certificate2 cert = Certificates.GetFromStore(); // User-defined function
+if (cert == null)
+&nbsp;&nbsp;return; // no certificate found
+var pwd = new SecureString();
+foreach (char c in "password".ToCharArray())
+&nbsp;&nbsp;pwd.AppendChar(c);
+sig.Sign(cert, pwd, new Oid(CryptoConfig.MapNameToOID("SHA256")));
+doc.Save(Server.MapPath("SignedDoc.pdf"));
+</code></pre><br><span class="language">[Visual Basic]</span><br>
+                <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("mypics/BlankSignature.pdf"))
+&nbsp;&nbsp;Dim sig As Signature = DirectCast(doc.Form.Fields("Signature1"), Signature)
+&nbsp;&nbsp;sig.Reason = "Final Version"
+&nbsp;&nbsp;sig.Location = "New York"
+&nbsp;&nbsp;sig.TimestampServiceUrl = New Uri("http://timestamp.digicert.com")
+&nbsp;&nbsp;sig.CompliancePades = Signature.PadesLevel.PAdES_B_LTA
+&nbsp;&nbsp;Dim cert As X509Certificate2 = Certificates.GetFromStore()
+&nbsp;&nbsp;' User-defined function
+&nbsp;&nbsp;Dim pwd As New SecureString()
+&nbsp;&nbsp;For Each c As Char In "password".ToCharArray()
+&nbsp;&nbsp;&nbsp;&nbsp;pwd.AppendChar(c)
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;sig.Sign(cert, pwd, New Oid(CryptoConfig.MapNameToOID("SHA256")))
+&nbsp;&nbsp;doc.Save(Server.MapPath("SignedDoc.pdf"))
+End Using
+</code></pre>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  </tbody></table>
+<p>&nbsp;</p></body></html>

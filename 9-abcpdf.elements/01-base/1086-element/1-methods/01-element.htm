@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><title>ZZ Elements Element Constructor Function</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
+<link rel="stylesheet" href="../../../../prism.css">
+<script src="../../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Element Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background="../../../../images/steel-line-3.gif" height=11></TD>
+          <TD width=60 background="../../../../images/steel-line-3.gif" 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Create a new <a href="../default.htm">Element</a>.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE> <a href="../default.htm">Element</a>()<br> <a href="../default.htm">Element</a>(<a href="../2-properties/03-atom.htm">Atom</a> atom, IndirectObject host)<br> <a href="../default.htm">Element</a>(IndirectObject obj)<br> <a href="../default.htm">Element</a>(<a href="../default.htm">Element</a> relation, CreationOptions options)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">Element</a>()<br><a href="../default.htm">Element</a>(atom As <a href="../2-properties/03-atom.htm">Atom</a>, host As IndirectObject)<br><a href="../default.htm">Element</a>(obj As IndirectObject)<br><a href="../default.htm">Element</a>(relation As <a href="../default.htm">Element</a>, options As CreationOptions)<BR>
+            </CODE>
+			</P>
+			<P>&nbsp;</P>
+			<P><CODE><IMG width="10" height="10" border="0" alt="Throws Exceptions" src="../../../../images/steel-blob-10.gif" >&nbsp;ArgumentException: Thrown if the atom is not of correct type for this type of <a href="../default.htm">Element</a>.</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>atom</TD>
+                <TD>The <a href="../2-properties/03-atom.htm">Atom</a> to be assigned to this <a href="../default.htm">Element</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>host</TD>
+                <TD>An IndirectObject. This can be any IndirectObject from the Soup but ideally should be one closely associated with the <a href="../2-properties/03-atom.htm">Atom</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>obj</TD>
+                <TD>The IndirectObject to be assigned to this <a href="../default.htm">Element</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>relation</TD>
+                <TD>An <a href="../default.htm">Element</a>. This can be any <a href="../default.htm">Element</a> in the Soup but ideally should be one closely associated with this <a href="../default.htm">Element</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>options</TD>
+                <TD>Options related to creation. For example this allows you to determine whether the <a href="../default.htm">Element</a> should be created using an IndirectObject rather than just an <a href="../2-properties/03-atom.htm">Atom</a>. If not provided a default set of options is used.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            
+<p>Create a new <a href="../default.htm">Element</a>.</p>
+<p>The different constructors allow different ways of creating an <a href="../default.htm">Element</a>. Some are used for wrapping existing Atoms or IndirectObjects and others are for creating new ones.</p>
+<p>The constructor taking a relation <a href="../default.htm">Element</a> creates a new object in the document - it is typically the constructor you will want to use. Do not specify creation options unless you have very specific needs.</p>
+<p>However for your first <a href="../default.htm">Element</a> - one you can use as a relation for the others - you will need to wrap an existing IndirectObject inside an <a href="../default.htm">Element</a>. For this you might use code of the following form "<a href="../../../07-syntax/1081-catalogelement/default.htm">CatalogElement</a> root =  new <a href="../../../07-syntax/1081-catalogelement/default.htm">CatalogElement</a>(doc.ObjectSoup.Catalog)".</p>
+<p>The parameterless constructor allows you to create an empty <a href="../default.htm">Element</a>. By empty we mean it has no contents - no <a href="../2-properties/03-atom.htm">Atom</a> within it. So before use an <a href="../2-properties/03-atom.htm">Atom</a> must be Assigned or Created. In practice it is easiest to do this using one of the other constructors.</p>
+<p>The atom and host constructor is used to wrap an existing <a href="../2-properties/03-atom.htm">Atom</a>. It creates an <a href="../default.htm">Element</a> and then Assigns the <a href="../2-properties/03-atom.htm">Atom</a> to it. The result is a specialized <a href="../default.htm">Element</a> which can be used to examine or modify the contents of the <a href="../2-properties/03-atom.htm">Atom</a>.</p>
+
+
+<p>The CreationOptions enumeration may take the following values:</p>
+<ul>
+<li>Default - Default creation options for this particular type of <a href="../default.htm">Element</a>.</li>
+<li>Indirect - Create <a href="../default.htm">Element</a> containing an IndirectObject.</li>
+<li>Direct - Create <a href="../default.htm">Element</a> containing an <a href="../2-properties/03-atom.htm">Atom</a>.</li>
+</ul>
+
+
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This code snippet is taken from TaggedPDF.cs line 87 in the AccessiblePDF example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">List&lt;<a href="../default.htm">Element</a>&gt; items = new List&lt;<a href="../default.htm">Element</a>&gt;();
+FindAll(item, items);
+return items;
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim items As New List(Of <a href="../default.htm">Element</a>)()
+FindAll(item, items)
+Return items
+</code></pre></P>
+<P>This code snippet is taken from Annotations.cs line 464 in the Annotations example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">if (inKids.Count == 0)
+&nbsp;&nbsp;throw new Exception(&quot;Cannot have a group field with no kids&quot;);
+int fieldID = Doc.AddObject(&quot;&lt;&lt; /Kids [] &gt;&gt;&quot;);
+FormField formField = new FormField(this, inName, fieldID, inKids);
+formField.FieldElement.EntryV = new <a href="../default.htm">Element</a>(new <a href="../2-properties/10-stringatom.htm">StringAtom</a>(inValue), formField.Host);
+return formField;
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">If inKids.Count = 0 Then
+&nbsp;&nbsp;Throw New Exception(&quot;Cannot have a group field with no kids&quot;)
+End If
+Dim fieldID As Integer = Doc.AddObject(&quot;&lt;&lt; /Kids [] &gt;&gt;&quot;)
+Dim formField As New FormField(Me, inName, fieldID, inKids)
+formField.FieldElement.EntryV = New <a href="../default.htm">Element</a>(New <a href="../2-properties/10-stringatom.htm">StringAtom</a>(inValue), formField.Host)
+Return formField
+</code></pre></P>
+<P>This code snippet is taken from Annotations.cs line 480 in the Annotations example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">TextFieldAnnotation textField = new TextFieldAnnotation(this, inRect);
+FormField formField = new FormField(this, inName, textField);
+formField.FieldElement.EntryFT = &quot;Tx&quot;;
+formField.FieldElement.EntryFf = (int)Field.FieldFlags.Multiline;
+formField.FieldElement.EntryQ = 1;
+if (inText != null)
+&nbsp;&nbsp;formField.FieldElement.EntryV = new <a href="../default.htm">Element</a>(new <a href="../2-properties/10-stringatom.htm">StringAtom</a>(inText), formField.FieldElement.Host);
+return formField;
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim textField As New TextFieldAnnotation(Me, inRect)
+Dim formField As New FormField(Me, inName, textField)
+formField.FieldElement.EntryFT = &quot;Tx&quot;
+formField.FieldElement.EntryFf = CInt(Math.Truncate(Field.FieldFlags.Multiline))
+formField.FieldElement.EntryQ = 1
+If inText IsNot Nothing Then
+&nbsp;&nbsp;formField.FieldElement.EntryV = New <a href="../default.htm">Element</a>(New <a href="../2-properties/10-stringatom.htm">StringAtom</a>(inText), formField.FieldElement.Host)
+End If
+Return formField
+</code></pre></P>
+<P>This code snippet is taken from Annotations.cs line 514 in the Annotations example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">CheckBoxAnnotation checkBox = new CheckBoxAnnotation(this, inRect, inValue);
+FormField formField = new FormField(this, inName, checkBox);
+formField.FieldElement.EntryFT = &quot;Btn&quot;;
+formField.FieldElement.EntryV = new <a href="../default.htm">Element</a>(new <a href="../2-properties/08-nameatom.htm">NameAtom</a>(inValue ? &quot;Yes&quot; : &quot;Off&quot;), formField.Host);
+return formField;
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim checkBox As New CheckBoxAnnotation(Me, inRect, inValue)
+Dim formField As New FormField(Me, inName, checkBox)
+formField.FieldElement.EntryFT = &quot;Btn&quot;
+formField.FieldElement.EntryV = New <a href="../default.htm">Element</a>(New <a href="../2-properties/08-nameatom.htm">NameAtom</a>(If(inValue, &quot;Yes&quot;, &quot;Off&quot;)), formField.Host)
+Return formField
+</code></pre></P>
+<P>This code snippet is taken from Annotations.cs line 529 in the Annotations example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">List&lt;WidgetAnnotation&gt; kids = new List&lt;WidgetAnnotation&gt;();
+for (int i = 0; i &lt; inRects.Length; i++) {
+&nbsp;&nbsp;RadioButtonAnnotation radioButton = new RadioButtonAnnotation(this, inRects[i], i.ToString(), i == inSelectedButton);
+&nbsp;&nbsp;kids.Add(radioButton);
+}
+int fieldID = Doc.AddObject(&quot;&lt;&lt;/FT /Btn /Ff 49152 /Kids [] /DA (/ZaDb 0 Tf 0 g)&gt;&gt;&quot;);
+FormField formField = new FormField(this, inName, fieldID, kids);
+formField.FieldElement.EntryV = new <a href="../default.htm">Element</a>(new <a href="../2-properties/08-nameatom.htm">NameAtom</a>(inSelectedButton.ToString()), formField.Host);
+return formField;
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim kids As New List(Of WidgetAnnotation)()
+For i As Integer = 0 To inRects.Length - 1
+&nbsp;&nbsp;Dim radioButton As New RadioButtonAnnotation(Me, inRects(i), i.ToString(), i = inSelectedButton)
+&nbsp;&nbsp;kids.Add(radioButton)
+Next i
+Dim fieldID As Integer = Doc.AddObject(&quot;&lt;&lt;/FT /Btn /Ff 49152 /Kids [] /DA (/ZaDb 0 Tf 0 g)&gt;&gt;&quot;)
+Dim formField As New FormField(Me, inName, fieldID, kids)
+formField.FieldElement.EntryV = New <a href="../default.htm">Element</a>(New <a href="../2-properties/08-nameatom.htm">NameAtom</a>(inSelectedButton.ToString()), formField.Host)
+Return formField
+</code></pre></P>
+<P>This code snippet is taken from Annotations.cs line 1944 in the Annotations example project.</P>
+<P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../../../12-interactive/2090-richmediaparamselement/default.htm">RichMediaParamsElement</a> pars = RichMediaElement.EntryRichMediaSettings.EntryActivation.EntryConfiguration.EntryInstances[0].EntryParams;
+if (string.IsNullOrEmpty(value))
+&nbsp;&nbsp;pars.EntryFlashVars = null;
+else if (value.Length &lt;= 128)
+&nbsp;&nbsp;pars.EntryFlashVars = new <a href="../default.htm">Element</a>(new <a href="../2-properties/10-stringatom.htm">StringAtom</a>(value), AnnotationElement.Object);
+else {
+&nbsp;&nbsp;StreamObject so = new StreamObject(Form.Doc.ObjectSoup);
+&nbsp;&nbsp;so.SetText(value);
+&nbsp;&nbsp;so.CompressFlate();
+&nbsp;&nbsp;pars.EntryFlashVars = new <a href="../default.htm">Element</a>(new RefAtom(so), AnnotationElement.Object);
+}
+</code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim pars As <a href="../../../12-interactive/2090-richmediaparamselement/default.htm">RichMediaParamsElement</a> = RichMediaElement.EntryRichMediaSettings.EntryActivation.EntryConfiguration.EntryInstances(0).EntryParams
+If String.IsNullOrEmpty(value) Then
+&nbsp;&nbsp;pars.EntryFlashVars = Nothing
+ElseIf value.Length &lt;= 128 Then
+&nbsp;&nbsp;pars.EntryFlashVars = New <a href="../default.htm">Element</a>(New <a href="../2-properties/10-stringatom.htm">StringAtom</a>(value), AnnotationElement.Object)
+Else
+&nbsp;&nbsp;Dim so As New StreamObject(Form.Doc.ObjectSoup)
+&nbsp;&nbsp;so.SetText(value)
+&nbsp;&nbsp;so.CompressFlate()
+&nbsp;&nbsp;pars.EntryFlashVars = New <a href="../default.htm">Element</a>(New RefAtom(so), AnnotationElement.Object)
+End If
+</code></pre></P>
+
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

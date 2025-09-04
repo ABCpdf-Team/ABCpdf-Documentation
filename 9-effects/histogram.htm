@@ -1,0 +1,235 @@
+<html>
+<head>
+<title>Histogram Effect</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Histogram Effect</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>Histogram is a image diagnostic rather than an image effect. When 
+              you apply the Histogram effect color levels are calculated and returned 
+            via the settings. The image is unaffected.</p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Settings</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td><table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr>
+                <td><b>Name</b></td>
+                <td><b>Default</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top">
+                <td>Red</td>
+                <td>&quot;&quot;</td>
+                <td><p>A histogram of red levels as a comma delimited string.</p></td>
+              </tr>
+              <tr valign="top">
+                <td>Green</td>
+                <td>&quot;&quot;</td>
+                <td><p>A histogram of green levels as a comma delimited string.</p></td>
+              </tr>
+              <tr valign="top">
+                <td>Blue</td>
+                <td>&quot;&quot;</td>
+                <td><p>A histogram of blue levels as a comma delimited string.</p></td>
+              </tr>
+              <tr valign="top">
+                <td>RGB</td>
+                <td>&quot;&quot;</td>
+                <td><p>A histogram of RGB levels as a comma delimited string.</p>                </td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Workings</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Image histograms show how color levels are distributed within an 
+              image. Each color channel has a value between 0 and 255 and the 
+              histogram simply returns the number of pixels with each of these 
+              values. A light image will have many values at the higher end of 
+              the histogram while a dark one will have many values at the lower 
+            end.</p>
+            <p>After the Histogram effect has been applied to an image the settings 
+              contain the histograms of each of the color channels and also of 
+              a combined RGB channel. These values are held as comma delimited 
+              strings.</p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example images show the effect of Histogram..</p>
+            <p><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">void function() {
+&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img1); // original image
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectHistogram.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;using (ImageLayer layer = AddImagePage(doc, img1)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (EffectOperation effect = new EffectOperation("Histogram")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var pars = effect.Parameters;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(255, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawGraph(doc, pars["Red"].Values);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(0, 255, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawGraph(doc, pars["Green"].Values);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(0, 0, 255);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawGraph(doc, pars["Blue"].Values);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectHistogramGraph.jpg");
+&nbsp;&nbsp;}
+}
+
+private void DrawGraph(Doc doc, double[] values) {
+&nbsp;&nbsp;double max = 0;
+&nbsp;&nbsp;for (int i = 0; i &lt; values.Length; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;max = Math.Max(max, values[i]);
+&nbsp;&nbsp;double[] points = new double[values.Length * 2];
+&nbsp;&nbsp;for (int i = 0; i &lt; values.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;double x = i * (doc.Rect.Width / values.Length);
+&nbsp;&nbsp;&nbsp;&nbsp;double y = values[i] * (doc.Rect.Height / max);
+&nbsp;&nbsp;&nbsp;&nbsp;points[(i * 2) + 0] = x;
+&nbsp;&nbsp;&nbsp;&nbsp;points[(i * 2) + 1] = y;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;doc.AddPoly(points, false);
+}
+</code></pre><br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Sub ...
+&nbsp;&nbsp;Using doc As New Doc()
+&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img1)
+&nbsp;&nbsp;&nbsp;&nbsp;' original image
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectHistogram.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Histogram")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pars = effect.Parameters
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(255, 0, 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawGraph(doc, pars("Red").Values)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(0, 255, 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawGraph(doc, pars("Green").Values)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(0, 0, 255)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawGraph(doc, pars("Blue").Values)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectHistogramGraph.jpg")
+&nbsp;&nbsp;End Using
+End Sub
+
+Private Sub DrawGraph(doc As Doc, values As Double())
+&nbsp;&nbsp;Dim max As Double = 0
+&nbsp;&nbsp;For i As Integer = 0 To values.Length - 1
+&nbsp;&nbsp;&nbsp;&nbsp;max = Math.Max(max, values(i))
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;Dim points As Double() = New Double(values.Length * 2 - 1) {}
+&nbsp;&nbsp;For i As Integer = 0 To values.Length - 1
+&nbsp;&nbsp;&nbsp;&nbsp;Dim x As Double = i * (doc.Rect.Width / values.Length)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim y As Double = values(i) * (doc.Rect.Height / max)
+&nbsp;&nbsp;&nbsp;&nbsp;points((i * 2) + 0) = x
+&nbsp;&nbsp;&nbsp;&nbsp;points((i * 2) + 1) = y
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;doc.AddPoly(points, False)
+End Sub
+</code></pre><br>
+            </p>
+            <table border="0" cellpadding="5" cellspacing="0" bordercolor="#999999">
+              <tr>
+                <td valign="top"><p><img src="images/shipforest.jpg" width="400" height="288"><br>
+                  Original Image</p></td>
+              </tr>
+              <tr>
+                <td valign="top"><img src="images/histogram/red.gif" width="257" height="145"><br>
+                  Histogram of Red Intensities</td>
+              </tr>
+              <tr>
+                <td valign="top"><img src="images/histogram/green.gif" width="257" height="145"><br>
+                  Histogram of Green Intensities </td>
+              </tr>
+              <tr>
+                <td valign="top"><img src="images/histogram/blue.gif" width="257" height="145"><br>
+                  Histogram of Blue Intensities </td>
+              </tr>
+              <tr>
+                <td valign="top"><img src="images/histogram/rgb.gif" width="257" height="145"><br>
+                  Histogram of RGB Intensities
+                  <p> Note that the photograph is unbalanced with little color 
+                    at the dark end of the spectrum. </p></td>
+              </tr>
+              <tr>
+                <td valign="top"><p>The actual values held in each of the settings and used to 
+                  produce these graphs are given below.</p>
+                    <p><font size="1">Red = &quot;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,1,1,2,1,1,2,2,3,9,9,19,14,25,<br>
+                      26,32,48,47,92,101,140,190,251,372,455,580,883,1304,1442,3397,2252,3638,5184,3402,<br>
+                      3244,2442,2754,2177,2217,1603,1776,1258,1273,1169,1030,1071,1009,953,1005,1005,<br>
+                      971,1002,998,&quot;</font></p>
+                  <p><font size="1">Green = &quot;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,2,1,5,5,5,7,15,30,40,75,167,<br>
+                    208,794,550,1373,969,1640,2007,1857,1907,4072,2507, 1964,2528,1616,1844,1384,1111,<br>
+                    1027,901,1006,1013,886,812,699,736,761,804,672,753,625,689,705,626,657,783,630,780,<br>
+                    692,791,719,666&quot;</font></p>
+                  <p><font size="1">Blue = &quot;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,3,4,7,9,<br>
+                    14,23,41,57,85,126,182,257,348,905,622,1711,1013,1940,1183,1438,2258,1481,3128,1837,<br>
+                    2640,4221,2013,2266,1618,1941,1207,1300,932,1020,840,890,784,801,742,757,873,749,797&quot;</font></p>
+                  <p><font size="1">RGB = &quot;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,2,2,2,2,5,10,14,26,59,72,271,188,<br>
+                    466,332,558,687,637,671,1398,896,737,954,704,827,740,780,1078,988,2038,1426,2154,2393,<br>
+                    1846,2079,1561,2228,1562,1870,2149,1492,1409,1172,1255,1006,1000,907,888,878,871,807&quot;</font></p></td>
+              </tr>
+            </table>            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

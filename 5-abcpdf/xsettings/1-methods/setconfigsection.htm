@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XSettings SetConfigSection Function. Set the application configuration section. ABCpdf .NET PDF Library.</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META name=GENERATOR content="MSHTML 8.00.6001.18904"></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE border=0 cellSpacing=4 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG src="../../../images/goo.gif" width=58 height=60></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=pageheader>SetConfigSection Method</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD height=11 background=../../../images/steel-line-3.gif></TD>
+          <TD height=11 background=../../../images/steel-line-3.gif 
+          width=60></TD>
+          <TD height=11><IMG src="../../../images/steel-blob-11.gif" width=11 
+            height=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Set the application configuration section.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
+            SetConfigSection(ConfigSection section)<BR></CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Sub 
+            SetConfigSection(section As ConfigSection)</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable border=5 cellSpacing=0 borderColor=#ffffff 
+            cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>section</TD>
+                <TD>The ABCpdf configuration section.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>None.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Use this method to change ABCpdf's configuration section object.</P>
+            <P>Normally, you will not need to call this method because ABCpdf 
+            automatically detects the presence of the default configuration file. 
+            It does so by calling 
+            System.Configuration.ConfigurationManager.GetSection("ABCpdf13"). 
+            So, as long as you have a valid ABCpdf13 element in your configuration 
+            file, there should be no need to call this method.</P>
+            <P>For local applications, configuration files are normally stored in the 
+            same folder as the application and are called &lt;application.exe&gt;.config, 
+            where &lt;application.exe&gt; is the file name of the application. For web 
+            applications, the configuration section is stored in Web.config. On Linux a config file must be explicitly loaded using <a href="setconfigfile.htm">SetConfigFile</a>.</P>
+            <P>The ABCpdf section name should be ABCpdf13. The type 
+            is WebSupergoo.ABCpdf13.ConfigSection. Refer to the <A 
+            href="setconfigfile.htm">SetConfigFile</A> example 
+             for details. </P>
+            <P>ConfigSection is an opaque class that contains an 
+              array of Preferences. Each preference has a Key and a Value.</P>
+            <P>The preference key is the same as the registry key name. For 
+            example, &lt;add Key="LogErrors" Value="1" /&gt; is equivalent to a 
+            DWORD registry key called LogErrors and with Value set to 1. Refer 
+            to <A 
+            href="../../../3-concepts/d-registrykeys.htm">Registry 
+            Keys</A> in Concepts for further details. Make sure that the value 
+            matches the type as specified in <A 
+            href="../../../3-concepts/d-registrykeys.htm">Registry Keys</A>.</P>
+            <P>Warning: changing preferences from ABCpdf events/callbacks for
+            operations that use those preferences may cause problems.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>For an example of a typical config file see the <A 
+            href="setconfigfile.htm">SetConfigFile</A> method. </P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

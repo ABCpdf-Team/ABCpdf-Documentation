@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc EmbedFont Function. Embeds a font into the document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>EmbedFont Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Embeds a font into the document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            EmbedFont(string name)<BR>
+            int EmbedFont(string name, LanguageType 
+            language)<BR>
+            int EmbedFont(string name, LanguageType language, 
+            bool vertical)<BR>
+            int EmbedFont(string name, LanguageType 
+            language, bool vertical, bool subset)<BR>
+            int 
+            EmbedFont(string name, LanguageType language, bool vertical, bool subset, 
+            bool force)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Function EmbedFont(name As 
+            String) As Integer<BR>
+            Function EmbedFont(name As String, 
+            language As LanguageType) As Integer<BR>
+            Function EmbedFont(name As String, language As LanguageType, vertical As Boolean) 
+            As Integer<BR>
+            Function EmbedFont(name As String, 
+            language As LanguageType, vertical As Boolean, subset As Boolean) As 
+            Integer<BR>
+            Function EmbedFont(name As String, language 
+            As LanguageType, vertical As Boolean, subset As Boolean, force As Boolean) 
+            As Integer</CODE><BR></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>name</TD>
+                <TD>The name of the font typeface.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>language</TD>
+                <TD>
+                  <P>The language type to use. The LanguageType enumeration may take the following  values:</P>
+                  <UL>
+                    <LI>Latin
+                    <LI>Unicode
+                    <LI>Korean
+                    <LI>Japanese
+                    <LI>ChineseS
+                    <LI>ChineseT                                                                                                    
+                  </UL>
+                  <P>See the <A href="../../../3-concepts/7-fonts.htm">Fonts and 
+                  Languages</A> section for details on language types. The 
+                  default language type is LanguageType.Latin.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>vertical</TD>
+                <TD>
+                  <P>Whether the text direction should be vertical.</P>
+                  <P>See the<A href="../../../3-concepts/7-fonts.htm"> Fonts and 
+                  Languages</A> section for details on writing directions. The 
+                  default is false to indicate standard left to right 
+                layout.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>subset</TD>
+                <TD>
+                  <P>Whether to subset the font.</P>
+                  <P>See the<A href="../../../3-concepts/7-fonts.htm"> Fonts and 
+                  Languages</A> section for details on subsetting. The default 
+                  is false to indicate that the font should not be 
+                subsetted.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>force</TD>
+                <TD>
+                  <P>Whether to override permissions on the font.</P>
+                  <P>Fonts often contain embedded licensing information. By 
+                  default ABCpdf will prevent you from embedding fonts which 
+                  indicate that embedding is not permitted. </P>
+                  <P>You can force the font to be embedded by passing true for 
+                  this value.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Object ID of the newly embedded Font 
+              Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Embeds a font into the document.</P>
+            <P>The font name, a description of the font style and the the font 
+            glyph descriptions themselves are placed into the document. This 
+            ensures that the document will always display perfectly on every 
+            system and that font substitutions will never need to be made. </P>
+            <P>There are a number of reasons you may not wish to embed fonts and 
+            instead use the <A href="addfont.htm">AddFont</A> method. Embedding 
+            fonts can increase the size of your PDF considerably. Additionally 
+            by distributing a PDF with an embedded font you are actually 
+            redistributing the font itself. You should check with your font 
+            supplier or legal department that you have permission to do 
+this.</P>
+            <P>For information on how to specify font names see the <A 
+            href="addfont.htm">AddFont</A> method.</P>
+            <P>The EmbedFont function returns the Object ID of the newly added 
+            Font Object. Typically you will want to assign this return value to 
+            the document Font property using code of the form.</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.Font = theDoc.AddFont("Courier");
+</code></pre><br>
+    <span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.Font = theDoc.AddFont("Courier")
+</code></pre></p>
+            <P>If the specified font could not be found then you will get an 
+            Object ID of zero returned. You may wish to check for this 
+            possibility otherwise a default font will be used.</P>
+            <P>Fonts are cached so newly added fonts will not be available to 
+            ABCpdf until the application is restarted. If you need to 
+            dynamically load a font you can pass this method a path to your font 
+            file. This will add the font to the cache and make it available for 
+            use. You should not move, rename or delete a font file which has 
+            been dynamically loaded using this technique.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code embeds the font 'Comic Sans MS' into the 
+            document and then adds some text.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.FontSize = 216;
+string font = "Comic Sans MS";
+doc.Font = doc.EmbedFont(font);
+doc.AddText(font);
+doc.Save(Server.MapPath("docembedfont.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 216
+&nbsp;&nbsp;Dim theFont As String = "Comic Sans MS"
+&nbsp;&nbsp;doc.Font = doc.EmbedFont(theFont)
+&nbsp;&nbsp;doc.AddText(theFont)
+&nbsp;&nbsp;doc.Save(Server.MapPath("docembedfont.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/docembedfont.pdf.png" 
+            class="example"><BR>docembedfont.pdf </P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

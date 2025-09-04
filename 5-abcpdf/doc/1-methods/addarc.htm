@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddArc Function. Adds an arc to the current page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddArc Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Adds an arc to the current page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            AddArc(double as, double ae, double cx, double cy, double rx, double 
+            ry)<BR>int AddArc(double as, double ae, double cx, double 
+            cy, double rx, double ry, bool filled)<BR></CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Function AddArc(as As Double, ae As Double, cx As Double, cy As Double, rx As 
+            Double, ry As Double) As Integer<BR>Function AddArc(as 
+            As Double, ae As Double, cx As Double, cy As Double, rx As Double, 
+            ry As Double, filled As Boolean) As Integer<BR></CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>as</TD>
+                <TD>
+                  <P>The start angle of the arc in degrees.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>ae</TD>
+                <TD>
+                  <P>The end angle of the arc in degrees.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>cx</TD>
+                <TD>
+                  <P>The horizontal center of the arc.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>cy</TD>
+                <TD>
+                  <P>The vertical center of the arc.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>rx</TD>
+                <TD>
+                  <P>The horizontal radius of the arc.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>ry</TD>
+                <TD>The vertical radius of the arc.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>filled</TD>
+                <TD>Whether to fill the arc rather than simply drawing it. 
+              </TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Object ID of the newly added Graphic 
+              Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Adds an arc to the current page. The arc is drawn in the current 
+            <A href="../2-properties/color.htm">color</A> at the current <A 
+            href="../2-properties/width.htm">width</A> and with the current <A 
+            href="../2-properties/options.htm">options</A>.</P>
+            <P>The arc is fixed at the center coordinate and can have different 
+            horizontal and vertical radii. Drawing starts at the start angle and 
+            the arc is swept out until the end angle is reached. Angles are 
+            measured anti-clockwise with zero at three o'clock.</P>
+            <P>The AddArc function returns the Object ID of the newly added 
+            Graphic Object.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code adds an arc to a document.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.Width = 24;
+doc.Color.String = "120 0 0";
+doc.AddArc(0, 270, 300, 400, 200, 300);
+doc.Save(Server.MapPath("docaddarc.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Width = 24
+&nbsp;&nbsp;doc.Color.String = "120 0 0"
+&nbsp;&nbsp;doc.AddArc(0, 270, 300, 400, 200, 300)
+&nbsp;&nbsp;doc.Save(Server.MapPath("docaddarc.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/docaddarc.pdf.png" class="example"><BR>docaddarc.pdf </P>
+            <p>Also see example code in: <a href="../2-properties/options.htm">Doc Options Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

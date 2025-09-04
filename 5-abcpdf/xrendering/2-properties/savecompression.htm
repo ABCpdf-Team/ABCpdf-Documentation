@@ -1,0 +1,147 @@
+<html>
+<head>
+<title>XRendering SaveCompression Property. The preferred compression method. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> SaveCompression Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>Compression</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Compression</code></td>
+                <td>None</td>
+                <td>No</td>
+                <td>The preferred compression method.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This property determines the preferred compression method.</p>
+            <p>Not all file formats support all compression methods. Not all compression 
+              methods support all color spaces. This is why this property indicates 
+              a preferred method.</p>
+            <p>The Compression enumeration accepts the following values:</p>
+            <ul>
+              <li>None [Uncompressed]</li>
+              <li>G3 [G3 Black and White Fax Compression]</li>
+              <li>G4 [G4 Black and White Fax Compression]</li>
+              <li>LZW [LZW Compression]</li>
+              <li>Jpeg [Tiff Jpeg Compression]</li>
+              <li>AdobeFlate [Adobe Flate Compression]</li>
+              <li>Flate [Flate Compression]</li>
+              <li>PackBits [Macintosh PackBits]</li>
+            </ul>
+            <p>In general this property is most useful when producing output in 
+              formats like TIFF which support a range of color spaces and compression 
+              methods.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example shows how to render a PDF into a multipage 
+              G4 compressed Fax TIFF using different vertical and horizontal resolutions.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"));
+// set up the rendering parameters
+doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Gray;
+doc.Rendering.BitsPerChannel = 1;
+doc.Rendering.DotsPerInchX = 200;
+doc.Rendering.DotsPerInchY = 400;
+// loop through the pages
+int n = doc.PageCount;
+for (int i = 1; i &lt;= n; i++) {
+&nbsp;&nbsp;doc.PageNumber = i;
+&nbsp;&nbsp;doc.Rect.String = doc.CropBox.String;
+&nbsp;&nbsp;doc.Rendering.SaveAppend = (i != 1);
+&nbsp;&nbsp;doc.Rendering.SaveCompression = XRendering.Compression.G4;
+&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("fax.tif"));
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
+&nbsp;&nbsp;' set up the rendering parameters
+&nbsp;&nbsp;doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Gray
+&nbsp;&nbsp;doc.Rendering.BitsPerChannel = 1
+&nbsp;&nbsp;doc.Rendering.DotsPerInchX = 200
+&nbsp;&nbsp;doc.Rendering.DotsPerInchY = 400
+&nbsp;&nbsp;' loop through the pages
+&nbsp;&nbsp;Dim n As Integer = doc.PageCount
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= n
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = doc.CropBox.[String]
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.SaveAppend = (i &lt;&gt; 1)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.SaveCompression = XRendering.Compression.G4
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("fax.tif"))
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+End Using
+</code></pre></p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

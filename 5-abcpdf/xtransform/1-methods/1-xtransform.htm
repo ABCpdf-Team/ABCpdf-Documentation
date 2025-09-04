@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XTransform Constructor. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6001.18099" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>XTransform &nbsp;Constructor</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>XTransform  Constructor.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE><a href="../default.htm">XTransform</a>()<BR>
+              <a href="../default.htm">XTransform</a>(string 
+            text)<br>
+            <a href="../default.htm">XTransform</a>(double[] entries)<br>
+            <a href="../default.htm">XTransform</a>(Matrix matrix)<br>
+            <a href="../default.htm">XTransform</a>(double m11, double m12, double m21, double m22, double tx, double ty)<br>
+            <a href="../default.htm">XTransform</a>(XRect src, XRect dst)<br>
+            <BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub New<BR>
+            Sub New(text As 
+            String)<br>
+            Sub New(entries As Double())<br>
+            Sub New(entries As Matrix)<br>
+            Sub New(m11 As Double, m12 As Double, m21 As Double, m22 As Double, tx As Double, ty As Double)<br>
+            Sub New(src As XRect, dst As XRect)</CODE><BR>
+            </P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>text</TD>
+                <TD>A string defining the initial rectangle in the format 
+                  returned by the <a href="../2-properties/string.htm">String</a> property.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>matrix</TD>
+                <TD>A System.Drawing.Drawing2D Matrix object  specifying the values for the transform. </TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>entries</TD>
+                <TD>An array of doubles specifying the values for the matrix. These are in the order m11,  m12,  m21,  m22,  tx and  ty.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>m11</TD>
+                <TD>Matrix entry 1,1.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>m12</TD>
+                <TD>Matrix entry 1,2.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>m21</TD>
+                <TD>Matrix entry 2,1.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>m22</TD>
+                <TD>Matrix entry 2,2.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>tx</TD>
+                <TD>The x translation to be applied.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>ty</TD>
+                <TD>The y translation to be applied.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>src</TD>
+                <TD>The source rectangle.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>dst</TD>
+                <TD>The source rectangle.</TD>
+              </TR>
+              </TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>These methods construct an XTransform  object.</P>
+            <P>The default constructor creates an identity transform.</P>
+            <P>The constructor which takes two rectangles creates a transform which maps the source rectangle  to the destination rectangle using positive scale values.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

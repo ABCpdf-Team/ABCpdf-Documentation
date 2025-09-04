@@ -1,0 +1,163 @@
+<html>
+<head>
+<title>Security and ABCpdf</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr>
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="pageheader">Security and ABCpdf</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Inro</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><P>ABCpdf is a component presenting an API, much like .NET itself.</P>
+              <P>Like .NET there are no restrictions on what you can do with the API. If you call File.Delete it will delete a file. That is what the API does.</P>
+            <P>It is not difficult to make your use of the APIs secure, but you have to actively do it. You need to be making design decisions here.</P>
+            <P>Each system is different and each system has different needs, however the following are the base principles by which you should operate when securing a system using ABCpdf.</P>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Basics</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><H2>Fundamentals</H2>
+          <p>You are in control. You call into ABCpdf. You decide what APIs to use. You decide which parts you deploy. You decide the environment in which it operates. You are in control here and the majority of choices are going to be made by you - not by ABCpdf.</p>
+            <p>Defense in depth is key. One impenetrable barrier is not enough. You want a series of barriers. If one is breached the others will hold. Layers are what keep you safe.</p>
+            <p>ABCpdf contains architectural structures which provide defense in depth. Most are internal and are not visible from outside. Some - such as our FireShield technology - are visible and documented.</p>
+            <p>Most of the defensive layers will come from you because there is a limited amount we can restrict without impacting your ability to use the software. </p>
+            <p>Evaluate security before you start to write code. Then review your evaluation as your code and architecture develops.</p>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Trust</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><H2>Do not trust your users</H2>
+            <P>Attacks can only occur if attackers can provide input to a system. The obvious route in, is via a standard  method supplied to your users. </P>
+            <P>Once this route is compromised an attacker can experiment with various inputs to see how they can manipulate your systems.</P>
+            <P>Stack overflow exploits, SQL injection and cross site scripting are just some of the many exploits which are based on insufficient input vetting of user input.</P>
+            <P>You need to be suspicious of the data that is provided to you. Vet it first and make sure it is good before passing it to ABCpdf.</P>
+            <P>If you store data, consider encrypting it so that a breach will not result in data loss. If encryption is too complex or dangerous, even just a level of obfuscation will add a significant barrier.</P>
+            <P>ABCpdf will do its own vetting too, but you know much better than it, what it is that you consider to be acceptable. </P>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+                <TR>
+                  <TD><P><B>Vetting Inputs. </B>How should input data be validated or vetted?</P>
+                      <P>Every application is different and every situation needs evaluation but there are some obvious factors which one should bear in mind. At minimum you need to ensure that your inputs and outputs are not excessively large or  numerous. </P>
+                    <P>ABCpdf will do its best to accommodate your requests, so if you ask it to do something excessive it will do its best to do so. At that point it becomes a matter related to the OS as to whether it is allowed the resources to do this or not. Better to decide these things yourself rather than leave them up to chance.</P>
+                    <p>For example, if you allow your users to upload TIFF images, consider if it would be reasonable for them to upload a 1TB image.  If you allow users to render a PDF, consider if it would be reasonable to allow them to select 72,000 dpi as the target resolution (producing a 500 Gigapixel output). If they are allowed to provide a description for an item in an invoice, should they be allowed to provide the text of Moby Dick?<BR>
+                    </p></TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <P>&nbsp;</P>
+            <H2>Do not trust your code</H2>
+            <P>ABCpdf is designed to run from a reduced permission environment. </P>
+            <P>Take advantage of this. Ensure that your code runs in a process as a low privilege user with access only to the resources that it needs.</P>
+            <P>If you are running under IIS something like this will already be in place for you. If you are running in a different environment you may need to make more active decisions.</P>
+            <P>Where ABCpdf offers further layers of protection, take advantage of them. Use technologies like FireShield to further restrict access and add layers of protection.</P>
+            <P>ABCpdf is modular so if you do not need a particular module then consider eliminating it. You deploy ABCpdf and you can decide which pieces should be deployed.</P>
+            <P>Read the documentation for the functions you use and ensure you take note of any security relevant details. If security is mentioned in the documentation it is for good reason.</P>
+            <P>&nbsp;</P>
+            <H2>Do not trust yourself</H2>
+            <P>Many of us have blind spots to our failings and there is no more obvious place for this than when we write code.</P>
+            <P>Users find bugs that developers had never dreamed of. Developers have a rather myopic view of what might happen and how things will work.</P>
+            <P>The reality is that the code you write will be flawed and you are not the best person to judge the ways in which it is flawed.</P>
+            <P>You need to submit your code for review by a third party. A third party can be someone else in your team, or for especially sensitive situations you might consider employing a penetration tester.</P>
+            <P>You should do team-based threat assessments based on the architecture of your systems. Consider the access points and think about how these might expose attackable surfaces.</P>
+            <P>Automate as much as possible to reduce the possibility that human error may creep in. A complex manual deployment is bound to go wrong sooner or later. Automate to eliminate.</P>
+            <P>&nbsp;</P>
+            <H2>Do not trust your machine</H2>
+            <P>You need perimeter security on your host machine. Most obviously this comes from a firewall and anti-virus software.</P>
+            <P>Do also consider if other technologies might be appropriate, perhaps at the network level.</P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Simple</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><H2>Simple and Secure</H2>
+              <P>Try and keep things simple. It is much easier to secure a system with one access point than it is a system with ten.</P>
+            <P>The simpler your systems, the simpler it will be to:</P>
+            <ul>
+                <li>see if they are designed well and correctly</li>
+              <li>assess any threats they may be vulnerable to</li>
+              <li>know if something goes wrong</li>
+            </ul>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Signatures</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><H2>Signed Files</H2>
+          <P>As  Microsoft Best Practice we sign all our binaries - DLLs and EXEs - using certificates issued by a Trusted Publisher.</P>
+          <P>While this forms a solid base for security and trust, this approach is insufficient for a mature and complex product like ABCpdf.</P>
+          <P>For example the ABCGecko engine contains many files including DLLs but also configuration files. Only binaries can be signed: configuration files  cannot be signed in this way. A corruption of the configuration files could be just as damaging as one affecting DLLs and EXEs, yet they cannot be verified using the standard Microsoft approach.</P>
+          <P>Each DLL which is signed requires checks. In cases where .NET needs to go to the internet to validate certificates, this can represent a substantial overhead. In cases where a few base DLLs are being verified this is acceptable. If one has to verify a thousand files, it becomes something approaching a problem.</P>
+          <P>For these reasons ABCpdf operates a dual security policy. Binaries we produce are digitally signed according to Microsoft Best Practice. Files that we use, but do not produce, are verified at run time by our signed and trusted binaries. This allows fast, low overhead, validation of integrity covering all dependencies rather than just binaries.<br>
+          </P>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

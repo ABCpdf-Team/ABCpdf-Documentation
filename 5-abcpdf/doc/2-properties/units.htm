@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc Units Property. The current measurement units. ABCpdf .NET PDF Library.</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META name=GENERATOR content="MSHTML 8.00.6001.18813"></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE border=0 cellSpacing=4 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG src="../../../images/goo.gif" width=58 height=60></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Units Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD height=11 background=../../../images/steel-line-3.gif></TD>
+          <TD height=11 background=../../../images/steel-line-3.gif 
+          width=60></TD>
+          <TD height=11><IMG src="../../../images/steel-blob-11.gif" width=11 
+            height=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable border=5 cellSpacing=0 borderColor=#ffffff 
+            cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR>
+                <CODE>UnitType</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR>
+                <CODE>UnitType</CODE></TD>
+                <TD>UnitType.Points</TD>
+                <TD>No</TD>
+                <TD>The current measurement units.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This property holds the current measurement units. </P>
+            <P>The UnitType enumeration may take the following  values:</P>
+            <UL>
+              <LI>Points (PostScript Points) - 1/72 of an Inch 
+              <LI>Twips (Twentieths of a Point) - 1/20 of a PostScript Point 
+              <LI>Didots (Didot Points) - 1/72 of a French Royal Inch 
+              <LI>ATAPoints (ATA Points) - 1/72.272 of an Inch 
+              <LI>TeXPoints (TeX Points) - 1/72.27 of an Inch 
+              <LI>INPoints (l'Imprimerie Nationale Points) - 0.4 mm 
+              <LI>Picas - 12 PostScript Points 
+              <LI>Ciceros - 12 Didot Points 
+              <LI>ATACiceros - 12 ATA Points 
+              <LI>TeXCiceros - 12 TeX Points 
+              <LI>Microns - millionths of a metre 
+              <LI>Mm - thousandths of a metre 
+              <LI>Cm - hundredths of a metre 
+              <LI>M -&nbsp;metres 
+              <LI>Inches 
+              <LI>Feet </LI>
+            </UL>
+            <P>There are a <A 
+            href="../../../3-concepts/c-coordinates.htm">variety of methods</A> 
+            you can use to change coordinate systems.</P>
+            <table class="backgrounder" border="0" cellpadding="10">
+              <tbody>
+                <tr>
+                  <td><p><b>Why are my Units a string?</b></p>
+                    <p>In older versions of ABCpdf the Units property was a string. So you might find code of this form.</p>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.Units = &quot;mm&quot;;
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.Units = &quot;mm&quot;
+</code></pre></p>
+                    <p>In Version 8 the Units property has been changed to a true enumeration. This is a safer way of coding as it allows the compiler to ensure that the values you are using are valid. Your new code should look like this.</p>
+                    <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.Units = UnitType.Mm;
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.Units = UnitType.Mm
+</code></pre></p>
+                    <p>The names of the items in the UnitType enumeration are the same as the values of the strings used in previous versions. So changing your code should be a simple search and replace operation.</p>
+                    <p>Alternatively if you need to convert between enumerations and strings automatically you can do so. To convert from a string to an enumeration use the following code.</p>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">UnitType unitType = (UnitType)Enum.Parse(typeof(UnitType), unitString, true);
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">Dim unitType As UnitType = CType([Enum].Parse(GetType(UnitType), unitString, True), UnitType)
+</code></pre></p>
+                    <p>To convert from an enumeration to a string use the following code.</p>
+    <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">string unitString = unitType.ToString(&quot;G&quot;);
+</code></pre><br>
+    <span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">Dim unitString As String = unitType.ToString(&quot;G&quot;)
+</code></pre></p>
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+            <P>&nbsp;</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>See the <A href="topdown.htm">TopDown</A> property.</P>
+            <p>Also see example code in: <a href="topdown.htm">Doc TopDown Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>PdfConformityOperation Save Function. Write the conforming PDF document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Save Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Write the conforming PDF document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Save(Doc
+            doc, string path)<BR>void Save(Doc doc, Stream
+            stream)</CODE><BR><SPAN class=language>[Visual
+            Basic]</SPAN><BR><CODE>Sub Save(doc As Doc, path As
+            String)<BR>Sub Save(doc As Doc, stream As Stream)</CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions"
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>doc</TD>
+                <TD>The document.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>path</TD>
+                <TD>The destination file path.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>stream</TD>
+                <TD>The destination stream.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This method writes the document in a conforming PDF format
+            according to the <A href="../2-properties/conformance.htm">Conformance</A>
+            property. Any conformance error is reported in the <A
+            href="../2-properties/errors.htm">Errors</A> property after the
+            method finishes.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we save a document in PDF/A-1b format.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("mypics/Acrobat.pdf"));
+string path = Server.MapPath("pdfa_save.pdf");
+using (var theOperation = new PdfConformityOperation()) {
+&nbsp;&nbsp;theOperation.Conformance = PdfConformance.PdfA1b;
+&nbsp;&nbsp;theOperation.Save(doc, path);
+
+&nbsp;&nbsp;if (theOperation.Errors.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Errors:");
+&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; theOperation.Errors.Count; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Errors[i]);
+&nbsp;&nbsp;}
+}
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("mypics/Acrobat.pdf"))
+&nbsp;&nbsp;Dim thePath As String = Server.MapPath("pdfa_save.pdf")
+&nbsp;&nbsp;Using theOperation As New PdfConformityOperation()
+&nbsp;&nbsp;&nbsp;&nbsp;theOperation.Conformance = PdfConformance.PdfA1b
+&nbsp;&nbsp;&nbsp;&nbsp;theOperation.Save(doc, thePath)
+
+&nbsp;&nbsp;&nbsp;&nbsp;If theOperation.Errors.Count &gt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Errors:")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; theOperation.Errors.Count
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Errors(i))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;End Using
+End Using
+</code></pre></P>
+            <P>&nbsp;</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

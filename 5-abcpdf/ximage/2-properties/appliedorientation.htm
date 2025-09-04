@@ -1,0 +1,107 @@
+<html>
+<head>
+<title>XImage AppliedOrientation Property. The orientation transform that should be applied to the image. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr>
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td>&nbsp;</td>
+    <td><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="pageheader"> AppliedOrientation Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr>
+          <td><p>&nbsp;</p>
+              <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+                <tr>
+                  <td align="center"><b>Type</b></td>
+                  <td><b>Default</b></td>
+                  <td><b>Read Only</b></td>
+                  <td><b>Description</b></td>
+                </tr>
+                <tr valign="top">
+                  <td align="left"><span class="language">[C#]</span><br>
+                      <code><a href="../../xrect/default.htm">int</a></code><br>
+                      <br>
+                      <span class="language">[Visual&nbsp;Basic]</span><br>
+                      <code><a href="../../xrect/default.htm">Integer</a></code></td>
+                  <td>The value of <a href="orientation.htm">Orientation</a>.</td>
+                  <td>No</td>
+                  <td>The orientation transform that should be applied to the image.</td>
+                </tr>
+              </table>
+              <pre><code class="language"><img height=10 alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" width=10 border=0> may throw Exception()
+</code></pre>            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <p>TIFF, JPEG and Postscript files can contain an <a href="orientation.htm">Orientation</a> setting describing how the image would be most naturally viewed.</p>
+            <p>The AppliedOrientation property
+            specifies a transform which will be applied to the image for presentation. The values here parallel the Orientation values and are designed to undo the reflections and rotations that each of those Orientation values represent. </p>
+            <p>As such the default value value for this property is the value of <a href="orientation.htm">Orientation</a> which means that the image will always be transformed  to present as it was intended.</p>
+            <p>The negative sign of each transform represents an
+              initial swap of the x and the y coordinates while the absolute
+              value represents the angle of a final clockwise rotation. The
+              rotation is clockwise because, by default, scan lines go from top to bottom. </p>
+            <p>The following transforms are legal.</p>
+            <ul>
+              <li>0 &mdash; identity.</li>
+              <li>-90 &mdash; reflect across the vertical mid-line, i.e. flips x.</li>
+              <li>180 &mdash; rotate 180&#176;.</li>
+              <li>-270 &mdash; reflect across the horizontal mid-line, i.e. flips y.</li>
+              <li>-360 &mdash; reflect across the major diagonal, i.e. swaps x and y.</li>
+              <li>90 &mdash; rotate 90&#176; clockwise.</li>
+              <li>-180 &mdash; reflect across the minor diagonal.</li>
+              <li>270 &mdash; rotate 270&#176; clockwise.</li>
+            </ul>
+            <p>When this property is changed, both <a href="selection.htm">Selection</a> and <a href="boundingbox.htm">BoundingBox</a> are re-oriented. If the orientation and transform combine to produce a 90 or 270 degree rotation, axis-specific values like <a href="width.htm">Width</a> / <a href="height.htm">Height</a> and <a href="hres.htm">HRes</a> / <a href="vres.htm">VRes</a> will be swapped.</p>
+            <p>Changing the value of this property may result in an
+              exception being thrown if the  file format or
+              <a href="../../xreadoptions/2-properties/1-readmodule.htm">XReadOptions.ReadModule</a>
+              does not
+              support orientation (e.g. SWF, etc.).</p>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <p>None.</p>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

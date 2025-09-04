@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc Delete Function. Deletes an object previously added to the document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Delete Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Deletes an object previously added to the document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Delete(int 
+            id)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub Delete(id As 
+            Integer)<BR></CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>id</TD>
+                <TD>
+                  <P>The Object ID of the object to be 
+            deleted.</P></TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Use this method to delete an object previously added to the 
+            document. </P>
+            <P>Deletion may be applied to pages to remove them from 
+            the document. For example to delete the current page you might use 
+            the following code:</P>
+                    <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.Delete(theDoc.Page);
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.Delete(theDoc.Page)
+</code></pre></p>
+            <P>However if you are deleting multiple pages you will probably find it more efficient to use the <a href="remappages.htm">RemapPages</a> method. as this is more optimized for moving and removing pages.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code snippet illustrates how one might add an image 
+            and then delete it if the image color space is CMYK.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+string path = Server.MapPath("../mypics/mypic.jpg");
+int id1 = doc.AddImageFile(path, 1);
+int id2 = doc.GetInfoInt(id1, "XObject");
+int comps = doc.GetInfoInt(id2, "Components");
+if (comps == 4) doc.Delete(id1);
+doc.Save(Server.MapPath("docdelete.pdf"));
+</code></pre><BR><SPAN class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/mypic.jpg")
+&nbsp;&nbsp;Dim theID1 As Integer = doc.AddImageFile(thePath, 1)
+&nbsp;&nbsp;Dim theID2 As Integer = doc.GetInfoInt(theID1, "XObject")
+&nbsp;&nbsp;Dim theComps As Integer = doc.GetInfoInt(theID2, "Components")
+&nbsp;&nbsp;If theComps = 4 Then
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Delete(theID1)
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;doc.Save(Server.MapPath("docdelete.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/docdelete.pdf.png" 
+            class="example"><BR>docdelete.pdf </P><p>Also see example code in: <a href="../../../4-examples/05-deletion.htm">ABCpdf Deletion Example</a>, <a href="../../../4-examples/15-eform2.htm">ABCpdf eForm Placeholder Example</a>.</p>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,151 @@
+<html>
+<head>
+<title>XRendering SaveAlpha Property. Whether to save the alpha channel into the output. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> SaveAlpha Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
+                <td>false</td>
+                <td>No</td>
+                <td>Whether to save the alpha channel into the output.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This property determines whether the Save method includes an alpha 
+              channel in the rendered output.</p>
+            <p>Only some types of output support alpha. These are:</p>
+            <ul>
+              <li>PNG</li>
+              <li>BMP</li>
+              <li>TIFF (Grayscale, RGB and CMYK only)</li>
+              <li>PSD (Photoshop)</li>
+              <li>Bitmap (via the <a href="../1-methods/getbitmap.htm">GetBitmap</a> 
+                function)</li>
+              </ul>
+            <p>By including an alpha channel in your output you can identify areas 
+              which are transparent and areas on which no drawing has taken place. 
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example shows the effect that this parameter has 
+              on PDF rendering. We create a PDF with some text on it. We then 
+              render the PDF with an alpha channel and add the transparent image 
+              into a new PDF with a blue background. The blue background shows 
+              through where the image is transparent.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">// Add some text
+Doc doc = new Doc();
+doc.FontSize = 196;
+doc.TextStyle.HPos = 0.5;
+doc.TextStyle.VPos = 0.3;
+doc.AddText("Hello World");
+// Render the PDF with alpha
+doc.Rendering.SaveAlpha = true;
+using var alphaBitmap = doc.Rendering.GetBitmap();
+// Create a blue PDF
+doc = new Doc();
+doc.Color.String = "0 0 255";
+doc.FillRect();
+// Add the transparent Bitmap into the PDF
+// so that the underlying blue can show through
+doc.AddImageBitmap(alphaBitmap, true);
+// Save render of pdf
+doc.Rendering.Save(Server.MapPath("RenderingSaveAlpha.png"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">' Add some text
+Dim doc As New Doc()
+doc.FontSize = 196
+doc.TextStyle.HPos = 0.5
+doc.TextStyle.VPos = 0.3
+doc.AddText("Hello World")
+' Render the PDF with alpha
+doc.Rendering.SaveAlpha = True
+Dim alphaBitmap As Bitmap = doc.Rendering.GetBitmap()
+' Create a blue PDF
+doc = New Doc()
+doc.Color.String = "0 0 255"
+doc.FillRect()
+' Add the transparent Bitmap into the PDF
+' so that the underlying blue can show through
+doc.AddImageBitmap(alphaBitmap, True)
+' Save render of pdf
+doc.Rendering.Save(Server.MapPath("RenderingSaveAlpha.png"))
+</code></pre></p>
+            <p><img src="../../../images/pdf/RenderingSaveAlpha.png" class="example"><br>
+              RenderingSaveAlpha.png</p>
+            <p>&nbsp;</p>
+          <p>Also see example code in: <a href="../../../6-abcpdf.objects/page/1-methods/getbitmap.htm">Page GetBitmap Function</a>.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

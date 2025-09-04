@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns:o = "urn:schemas-microsoft-com:office:office"><HEAD><TITLE>Doc Save Function. Saves the document as PDF. ABCpdf .NET PDF Library.</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META name=GENERATOR content="MSHTML 8.00.6001.18943"></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE border=0 cellSpacing=4 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG src="../../../images/goo.gif" width=58 height=60></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Save Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD height=11 background=../../../images/steel-line-3.gif></TD>
+          <TD height=11 background=../../../images/steel-line-3.gif 
+          width=60></TD>
+          <TD height=11><IMG src="../../../images/steel-blob-11.gif" width=11 
+            height=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Saves the document as PDF.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
+            Save(string path)<BR>void Save(Stream 
+            stream)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub Save(path As 
+            String)<BR>Sub Save(stream As Stream)<BR></CODE></P>
+            <P><CODE><IMG border=0 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 height=10> may 
+            throw Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable border=5 cellSpacing=0 borderColor=#ffffff 
+            cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>path</TD>
+                <TD>
+                  <P>The destination file path.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>stream</TD>
+                <TD>The destination stream.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Use this method to export the current document as PDF, XPS, PostScript, HTML, DOCX, WebGL or SWF.</P>
+            <P>To export as XPS, PostScript, DOCX or HTML you need to specify a file path with an appropriate extension - &quot;.xps&quot;, &quot;.ps&quot;, &quot;.docx&quot;, &quot;.htm&quot;, &quot;.html&quot; or &quot;.swf&quot;. If the file extension is unrecognized then the default PDF format will be used. </P>
+            <P>When saving to a Stream the format can be indicated using a <A 
+            href="../../xsaveoptions/2-properties/fileextension.htm">Doc.SaveOptions.FileExtension</A> property such as &quot;.htm&quot; or &quot;.xps&quot;. For HTML you must provide a sensible value for the <A 
+            href="../../xsaveoptions/2-properties/folder.htm">Doc.SaveOptions.Folder</A> property. For XPS streams must be both readable and writable - 
+              FileAccess.ReadWrite and not simply FileAccess.Write.</P>
+            <P>ABCpdf operates an intelligent just-in-time object loading scheme 
+              which ensures that only those objects that are required are loaded 
+              into memory. This means that if you are modifying large documents 
+              then server load will be kept to a minimum. The original PDF 
+              document must be available for as long as the <A 
+            href="../default.htm">Doc</A> object is being used.
+            <P>As a result you cannot modify or overwrite a PDF file while it is 
+              read into a <A href="../default.htm">Doc</A> object. You will need 
+              to save your PDF to another location and then swap the two files 
+              around after the <A href="../default.htm">Doc</A> object's use of 
+              the PDF is ended (with a call to <A href="clear.htm">Clear</A>, 
+              Dispose, or <A href="read.htm">Read</A> with another PDF file).</P>
+            <P>If you need to obtain a PDF as raw data you can use the <A 
+            href="getdata.htm">GetData</A> function.</P>
+            <P>The <A 
+            href="../../xsaveoptions/2-properties/refactor.htm">SaveOptions.Refactor</A> setting determines whether duplicate and  redundant objects are 
+            eliminated when the document is saved. </P>
+            <P></P>
+            <TABLE class=backgrounder border=0 cellPadding=10>
+              <TBODY>
+                <TR>
+                  <TD><P><B>Versions. </B>ABCpdf automatically determines the 
+                    version depending on the features you use. If you use features 
+                    from only the 1.1 specification it will write a 1.1 PDF. If 
+                    you use 1.3 features it will write a 1.3 PDF. If you use 1.4 
+                    features it will write a 1.4 PDF. Ditto 1.5 and 1.6.</P>
+                      <P>If you're using a PDF template or drawing from another PDF 
+                        the final output will be the minimum version used in these 
+                        templates. In many real world applications this will be the 
+                        factor which determines the version in the final output 
+                        produced by ABCpdf.</P>
+                    <P>There is no advantage in producing a 1.6 document if  you're 
+                      not using features from the 1.6 feature set. To do this will 
+                      simply stop users of older versions of Acrobat from accessing 
+                      a document which should be available to 
+                      them.<BR>
+                    </P></TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <P>&nbsp;</P>
+            <P>When saving to SWF, if the <A 
+            href="../../xsaveoptions/2-properties/template.htm">Doc.SaveOptions.Template</A> is null, the current page is exported with <A 
+            href="../2-properties/rect.htm">Rect</A> as the bounds of the Flash 
+              movie using <A 
+            href="../../xsavetemplatedata/2-properties/measuredpix.htm">Doc.SaveOptions.TemplateData.MeasureDpiX</A> and <A 
+            href="../../xsavetemplatedata/2-properties/measuredpiy.htm">Doc.SaveOptions.TemplateData.MeasureDpiY</A> if specified. Otherwise, <A 
+            href="../../xsaveoptions/2-properties/template.htm">Doc.SaveOptions.Template</A> specifies the path to a SWF file. The saved SWF file starts with the 
+              template SWF files, and a frame is added for each page in the 
+              document. The script added is in ActionScript 2. If the template's 
+              version is Flash Player 7 or lower, the saved file's version will be 
+              Flash Player 8. For information on the interaction between the added 
+              frames and the script from the template, please refer to the example 
+              Flash file. Images are output in JPEG if (1) they are in DeviceGray or 
+              DeviceRGB and already in JPEG (without any other compression on 
+              top), or (2) they are not in the indexed color space and both the 
+              width and the height are at least 8 pixels. For (1), the original JPEG 
+              data is used so you can control the quality by pre-compressing the 
+              images; for (2), the output will use 80% quality.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code illustrates how one might add text to a PDF 
+            and then save it out.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.FontSize = 96;
+doc.AddText("Hello World");
+doc.Save(Server.MapPath("docsave.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 96
+&nbsp;&nbsp;doc.AddText("Hello World")
+&nbsp;&nbsp;doc.Save(Server.MapPath("docsave.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/docsave.pdf.png" class="example"
+            ><BR>docsave.pdf </P><p>Also see example code in: <a href="../../../4-examples/02-textflow.htm">ABCpdf Text Flow Example</a>, <a href="../../../4-examples/02-textflow2.htm">ABCpdf Text Flow Round Image Example</a>, <a href="../../../4-examples/03-multistyled.htm">ABCpdf Multistyle Example</a>, <a href="../../../4-examples/04-image.htm">ABCpdf Image Example</a>, <a href="../../../4-examples/05-deletion.htm">ABCpdf Deletion Example</a>, <a href="../../../4-examples/06-headers.htm">ABCpdf Headers and Footers Example</a>, <a href="../../../4-examples/08-landscape.htm">ABCpdf Landscape Example</a>, <a href="../../../4-examples/09-table1.htm">ABCpdf Small Table Example</a>, <a href="../../../4-examples/10-table2.htm">ABCpdf Large Table Example</a>, <a href="../../../4-examples/12-unicode.htm">ABCpdf Unicode Example</a>, <a href="../../../4-examples/13-pagedhtml.htm">ABCpdf Paged HTML Example</a>, <a href="../../../4-examples/15-eform1.htm">ABCpdf eForm Fields Example</a>, <a href="../../../4-examples/15-eform2.htm">ABCpdf eForm Placeholder Example</a>, <a href="../../../4-examples/15-eform3.htm">ABCpdf eForm Stamp Example</a>, <a href="../../../4-examples/16-eformfdf.htm">ABCpdf eForm FDF Example</a>, <a href="../../../4-examples/17-advancedgraphics.htm">ABCpdf Advanced Graphics Example</a>, <a href="../../../4-examples/18-annotations.htm">ABCpdf Fields, Markup and Movies Example</a>, <a href="../../../4-examples/21-wpftables.htm">ABCpdf WPF Tables Example</a>, <a href="addarc.htm">Doc AddArc Function</a>, <a href="addbookmark.htm">Doc AddBookmark Function</a>, <a href="addcolorspacefile.htm">Doc AddColorSpaceFile Function</a>, <a href="addcolorspacespot.htm">Doc AddColorSpaceSpot Function</a>, <a href="addfont.htm">Doc AddFont Function</a>, <a href="addgrid.htm">Doc AddGrid Function</a>, <a href="addimagebitmap.htm">Doc AddImageBitmap Function</a>, <a href="addimagecopy.htm">Doc AddImageCopy Function</a>, <a href="addimagedoc.htm">Doc AddImageDoc Function</a>, <a href="addimagefile.htm">Doc AddImageFile Function</a>, <a href="addimageobject.htm">Doc AddImageObject 
+Function</a>, <a href="addimagetochain.htm">Doc AddImageToChain Function</a>, <a href="addimageurl.htm">Doc AddImageUrl Function</a>, <a href="addline.htm">Doc AddLine Function</a>, <a href="addobject.htm">Doc AddObject Function</a>, <a href="addoval.htm">Doc AddOval Function</a>, <a href="addpage.htm">Doc AddPage Function</a>, <a href="addpie.htm">Doc AddPie Function</a>, <a href="addpoly.htm">Doc AddPoly Function</a>, <a href="addtext.htm">Doc AddText Function</a>, <a href="addtextstyled.htm">Doc AddTextStyled Function</a>, <a href="addxobject.htm">Doc AddXObject Function</a>, <a href="append.htm">Doc Append Function</a>, <a href="delete.htm">Doc Delete Function</a>, <a href="embedfont.htm">Doc EmbedFont Function</a>, <a href="fillrect.htm">Doc FillRect Function</a>, <a href="framerect.htm">Doc FrameRect Function</a>, <a href="read.htm">Doc Read Function</a>, <a href="remappages.htm">Doc RemapPages Method</a>, <a href="setinfo.htm">Doc SetInfo Function</a>, <a href="../2-properties/color.htm">Doc Color Property</a>, <a href="../2-properties/colorspace.htm">Doc ColorSpace Property</a>, <a href="../2-properties/encryption.htm">Doc Encryption Property</a>, <a href="../2-properties/font.htm">Doc Font Property</a>, <a href="../2-properties/fontsize.htm">Doc FontSize Property</a>, <a href="../2-properties/mediabox.htm">Doc MediaBox Property</a>, <a href="../2-properties/options.htm">Doc Options Property</a>, <a href="../2-properties/page.htm">Doc Page Property</a>, <a href="../2-properties/pos.htm">Doc Pos Property</a>, <a href="../2-properties/rect.htm">Doc Rect Property</a>, <a href="../2-properties/string.htm">Doc String Property</a>, <a href="../2-properties/textstyle.htm">Doc TextStyle Property</a>, <a href="../2-properties/topdown.htm">Doc TopDown Property</a>, <a href="../2-properties/transform.htm">Doc Transform Property</a>, <a href="../2-properties/width.htm">Doc Width Property</a>, <a href="../../xcolor/2-properties/alpha.htm">XColor Alpha Property</a>, <a href="../../xcolor/2-properties/components.htm">XColor Components Property</a>, <a href="../../xencryption/1-methods/setcryptmethods.htm">XEncryption SetCryptMethods Function</a>, <a href="../../xhtmloptions/1-methods/gettagrects.htm">XHtmlOptions GetTagRects Function</a>, <a href="../../xhtmloptions/1-methods/linkdestinations.htm">XHtmlOptions LinkDestinations Method</a>, <a href="../../xhtmloptions/1-methods/linkpages.htm">XHtmlOptions LinkPages Method</a>, <a href="../../xhtmloptions/2-properties/2-forchrome.htm">XHtmlOptions ForChrome Property</a>, <a href="../../xhtmloptions/2-properties/2-forgecko.htm">XHtmlOptions ForGecko Property</a>, <a href="../../xhtmloptions/2-properties/2-formshtml.htm">XHtmlOptions ForMSHtml Property</a>, <a href="../../xhtmloptions/2-properties/2-forwebkit.htm">XHtmlOptions ForWebKit Property</a>, <a href="../../xhtmloptions/2-properties/addforms.htm">XHtmlOptions AddForms Property</a>, <a href="../../xhtmloptions/2-properties/browserwidth.htm">XHtmlOptions BrowserWidth Property</a>, <a href="../../xhtmloptions/2-properties/hidebackground.htm">XHtmlOptions HideBackground Property</a>, <a href="../../xhtmloptions/2-properties/htmlcallback.htm">XHtmlOptions HtmlCallback Property</a>, <a href="../../xhtmloptions/2-properties/htmlembedcallback.htm">XHtmlOptions HtmlEmbedCallback Property</a>, <a href="../../xhtmloptions/2-properties/httpadditionalheaders.htm">XHtmlOptions HttpAdditionalHeaders Property</a>, <a href="../../xhtmloptions/2-properties/imagequality.htm">XHtmlOptions ImageQuality Property</a>, <a href="../../xhtmloptions/2-properties/logonname.htm">XHtmlOptions LogonName Property</a>, <a href="../../xhtmloptions/2-properties/retrycount.htm">XHtmlOptions RetryCount Property</a>, <a href="../../xhtmloptions/2-properties/usescript.htm">XHtmlOptions UseScript Property</a>, <a href="../../ximage/1-methods/setdata.htm">XImage SetData Function</a>, <a href="../../ximage/1-methods/setfile.htm">XImage SetFile Function</a>, <a href="../../ximage/1-methods/setmask.htm">XImage SetMask Function</a>, <a href="../../ximage/1-methods/setstream.htm">XImage SetStream Function</a>, <a href="../../ximage/2-properties/frame.htm">XImage Frame Property</a>, <a href="../../ximage/2-properties/selection.htm">XImage Selection Property</a>, <a href="../../xpoint/2-properties/point.htm">XPoint Point Property</a>, <a href="../../xrect/2-properties/rectangle.htm">XRect Rectangle Property</a>, <a href="../../xsaveoptions/2-properties/template.htm">XSaveOptions Template Property</a>, <a href="../../xsaveoptions/2-properties/writepageseparator.htm">XSaveOptions WritePageSeparator Property</a>, <a href="../../xsavetemplatedata/1-methods/setmeasureresolution.htm">XSaveTemplateData SetMeasureResolution Function</a>, <a href="../../xtextstyle/2-properties/bold.htm">XTextStyle Bold Property</a>, <a href="../../xtextstyle/2-properties/charspacing.htm">XTextStyle CharSpacing Property</a>, <a href="../../xtextstyle/2-properties/hpos.htm">XTextStyle HPos Property</a>, <a href="../../xtextstyle/2-properties/indent.htm">XTextStyle Indent Property</a>, <a href="../../xtextstyle/2-properties/italic.htm">XTextStyle Italic Property</a>, <a href="../../xtextstyle/2-properties/justification.htm">XTextStyle Justification Property</a>, <a href="../../xtextstyle/2-properties/kerning.htm">XTextStyle Kerning Property</a>, <a href="../../xtextstyle/2-properties/leftmargin.htm">XTextStyle LeftMargin Property</a>, <a href="../../xtextstyle/2-properties/linespacing.htm">XTextStyle LineSpacing Property</a>, <a href="../../xtextstyle/2-properties/outline.htm">XTextStyle Outline Property</a>, <a href="../../xtextstyle/2-properties/paraspacing.htm">XTextStyle ParaSpacing Property</a>, <a href="../../xtextstyle/2-properties/size.htm">XTextStyle Size Property</a>, <a href="../../xtextstyle/2-properties/strike.htm">XTextStyle Strike Property</a>, <a href="../../xtextstyle/2-properties/strike2.htm">XTextStyle Strike2 Property</a>, <a href="../../xtextstyle/2-properties/underline.htm">XTextStyle Underline Property</a>, <a href="../../xtextstyle/2-properties/vpos.htm">XTextStyle VPos Property</a>, <a href="../../xtextstyle/2-properties/wordspacing.htm">XTextStyle WordSpacing Property</a>, <a href="../../xtransform/1-methods/invert.htm">XTransform Invert Function</a>, <a href="../../xtransform/1-methods/magnify.htm">XTransform Magnify Function</a>, <a href="../../xtransform/1-methods/reset.htm">XTransform Reset Function</a>, <a href="../../xtransform/1-methods/rotate.htm">XTransform Rotate Function</a>, <a href="../../xtransform/1-methods/skew.htm">XTransform Skew Function</a>, <a href="../../xtransform/1-methods/translate.htm">XTransform Translate Function</a>, <a href="../../xtransform/2-properties/angleunit.htm">XTransform AngleUnit Property</a>, <a href="../../../6-abcpdf.objects/catalog/2-properties/metadata.htm">Catalog Metadata Property</a>, <a href="../../../6-abcpdf.objects/colorspace/2-properties/gamma.htm">ColorSpace Gamma Property</a>, <a href="../../../6-abcpdf.objects/colorspace/2-properties/whitepoint.htm">ColorSpace WhitePoint Property</a>, <a href="../../../6-abcpdf.objects/filespecification/1-methods/filespecification.htm">FileSpecification FileSpecification Function</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/getbitmap.htm">Page GetBitmap Function</a>, <a href="../../../6-abcpdf.objects/page/1-methods/makeformxobject.htm">Page MakeFormXObject Function</a>, <a href="../../../6-abcpdf.objects/page/1-methods/vectorizetext.htm">Page VectorizeText Function</a>, <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>, <a href="../../../6-abcpdf.objects/page/2-properties/thumbnail.htm">Page Thumbnail Property</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/recolor.htm">PixMap Recolor Function</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/resize.htm">PixMap Resize Function</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/setalpha.htm">PixMap SetAlpha Function</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/setchromakey.htm">PixMap SetChromakey Function</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/tograyscale.htm">PixMap ToGrayscale Function</a>, <a href="../../../6-abcpdf.objects/signature/1-methods/addltv.htm">Signature AddLTV Function</a>, <a href="../../../6-abcpdf.objects/signature/1-methods/sign.htm">Signature Sign Method</a>, <a href="../../../6-abcpdf.objects/signature/1-methods/validate.htm">Signature Validate Function</a>, <a href="../../../6-abcpdf.objects/signature/2-properties/compliancepades.htm">Signature CompliancePades Property</a>, <a href="../../../6-abcpdf.objects/signature/2-properties/customsigner.htm">Signature CustomSigner Property</a>, <a href="../../../6-abcpdf.objects/signature/2-properties/customsigner2.htm">Signature CustomSigner2 Property</a>, <a href="../../../7-abcpdf.atoms/arrayatom/1-methods/fromcontentstream.htm">ArrayAtom FromContentStream Function</a>, <a href="../../../7-abcpdf.atoms/opatom/1-methods/find.htm">OpAtom Find Function</a>, <a href="../../../8-abcpdf.operations/2-processinginfo/2-properties/framenumber.htm">ProcessingInfo FrameNumber Property</a>, <a href="../../../8-abcpdf.operations/3-recoloroperation/1-methods/recolor.htm">RecolorOperation Recolor Function</a>, <a href="../../../8-abcpdf.operations/3-recoloroperation/2-properties/icccmyk.htm">RecolorOperation IccCmyk Property</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/8-textoperation/1-methods/group.htm">TextOperation Group  Function</a>, <a href="../../../8-abcpdf.operations/9-imageoperation/1-methods/getimageproperties.htm">ImageOperation GetImageProperties  Function</a>, <a href="../../../8-abcpdf.operations/A-flattentransparency/1-methods/flatten.htm">FlattenTransparencyOperation Flatten Function</a>, <a href="../../../8-abcpdf.operations/B-reducesizeoperation/1-methods/compact.htm">ReduceSizeOperation Compact  Function</a>, <a href="../../../8-abcpdf.operations/C-accessibilityoperation/1-methods/1-accessibilityoperation.htm">AccessibilityOperation AccessibilityOperation  Constructor</a>, <a href="../../../8-abcpdf.operations/L-vectorizetextoperation/1-methods/vectorize.htm">VectorizeTextOperation Vectorize Method</a>, <a href="../../../8-abcpdf.operations/M-cloudvisionoperation/1-methods/04-startocr.htm">CloudVisionOperation StartOcr Function</a>, <a href="../../../8-abcpdf.operations/Q-webpageoperation/2-properties/01-doc.htm">WebPageOperation Doc Property</a>.</p>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

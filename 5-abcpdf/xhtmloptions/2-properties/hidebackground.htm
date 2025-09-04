@@ -1,0 +1,129 @@
+<html>
+<head>
+<title>XHtmlOptions HideBackground Property. Whether to hide the background color of a page. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">HideBackground Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
+                <td>false</td>
+                <td>No</td>
+                <td>Whether to hide the background color of a page.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Whether to to hide the background color of an HTML page.</p>
+            <p>This can be useful for making HTML pages with transparent backgrounds.</p>
+            <p>Note that the background color is not the same as a background 
+              image or tiled image. This property operates on background colors 
+              only.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example shows the effect that this parameter has 
+              on HTML rendering.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+// Please note that the URL below is included for demonstration purposes only.
+// In your code you should use your own URL. The site at the URL below
+// may include other opaque elements which may obscure our blue rectangle.
+string url = "https://www.websupergoo.com/";
+// Add some content
+doc.Color.String = "0 255 255"; // light blue
+doc.FillRect(200, 200);
+// Hide the background of the HTML page so content shows through
+doc.HtmlOptions.HideBackground = true;
+doc.AddImageUrl(url);
+// Save the document
+doc.Save(Server.MapPath("HtmlOptionsHideBackground.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;' Please note that the URL below is included for demonstration purposes only.
+&nbsp;&nbsp;' In your code you should use your own URL. The site at the URL below
+&nbsp;&nbsp;' may include other opaque elements which may obscure our blue rectangle.
+&nbsp;&nbsp;Dim theURL As String = "https://www.websupergoo.com/"
+&nbsp;&nbsp;' Add some content
+&nbsp;&nbsp;doc.Color.String = "0 255 255"
+&nbsp;&nbsp;' light blue
+&nbsp;&nbsp;doc.FillRect(200, 200)
+&nbsp;&nbsp;' Hide the background of the HTML page so content shows through
+&nbsp;&nbsp;doc.HtmlOptions.HideBackground = True
+&nbsp;&nbsp;doc.AddImageUrl(theURL)
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsHideBackground.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/HtmlOptionsHideBackground.pdf.png" class="example"><br>
+              HtmlOptionsHideBackground.pdf</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>XImage Orientation Property. The orientation of the current frame. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr>
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="pageheader">Orientation Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr>
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top">
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>int</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Integer</code></td>
+                <td>See description.</td>
+                <td>Yes</td>
+                <td>The orientation of the current frame.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>
+                <p>TIFF and JPEG files can contain an <a href="orientation.htm">Orientation</a> setting describing how the image would be most naturally viewed.</p>
+                <div class="nowrap"><p>Postscript files can contain the DSC comment tag:<pre>%%Orientation: Landscape/Portrait</pre>that describes how the image would be most naturally viewed.  For Landscape orientation, this property becomes 90 degrees</p></div>
+                <p>For example an image may be rotated by 90 degrees or flipped horizontally. These kinds of settings are most commonly used when images are scanned and  orientation is only determined at a later date, perhaps via OCR.</p>
+                <p>This property may take any of the following values:</p>
+                <ul>
+                    <li>0 &mdash; (a.k.a. ORIENTATION_TOPLEFT) scan lines go from top to bottom, and pixels in each scan line go from left to right.</li>
+                    <li>-90 &mdash; (a.k.a. ORIENTATION_TOPRIGHT) scan lines go from top to bottom, and pixels in each scan lines go from right to left.</li>
+                    <li>180 &mdash; (a.k.a ORIENTATION_BOTRIGHT) scan lines go from bottom to top, and pixels in each scan lines go from right to left.</li>
+                    <li>-270 &mdash; (a.k.a ORIENTATION_BOTLEFT) scan lines go from bottom to top, and pixels in each scan lines go from left to right.</li>
+                    <li>-360 &mdash; (a.k.a ORIENTATION_LEFTTOP) scan lines go from left to right, and pixels in each scan lines go from top to bottom.</li>
+                    <li>90 &mdash; (a.k.a ORIENTATION_RIGHTTOP) scan lines go from right to left, and pixels in each scan lines go from top to bottom.</li>
+                    <li>-180 &mdash; (a.k.a ORIENTATION_RIGHTBOT) scan lines go from right to left, and pixels in each scan lines go from bottom to top.</li>
+                    <li>270 &mdash; (a.k.a ORIENTATION_LEFTBOT) scan lines go from left to right, and pixels in each scan lines go from bottom to top.</li>
+                </ul>
+                <p>By default the XImage will work with these settings to present the image the right way up. However you can select any presentation orientation by using the  <a href="appliedorientation.htm">AppliedOrientation</a> property to apply a transform of your choice.</p>
+                <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <p>None.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

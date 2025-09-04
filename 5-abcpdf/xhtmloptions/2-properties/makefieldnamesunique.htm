@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+<title>XHtmlOptions MakeFieldNamesUnique Property. Whether field names should be changed to make them unique. ABCpdf .NET PDF Library.</title><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+<body bgcolor="#ffffff">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tbody><tr>
+    <td valign="top"><img src="../../../images/goo.gif" height="60" width="58"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr>
+          <td class="pageheader">MakeFieldNamesUnique Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" height="11" width="11"></td>
+        </tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>
+            <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0"> 
+              <tbody><tr>
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top">
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
+                <td>true<br></td>
+                <td>No</td>
+                <td>Whether field names should be changed to make them unique.</td>
+              </tr>
+            </tbody></table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr>
+          <td>
+            <p>HTML forms can contain fields with the same name.</p>
+            <p>If the names of two fields in a PDF are the same, then the fields 
+              take the same value.</p>
+            <p>So if multiple HTML fields with the same name are added to a PDF, 
+              these fields will all appear to contain the same content. This is 
+              true even if the original HTML fields contained different content.</p>
+            <p>Setting this property will result in duplicate fields being renamed 
+              to allow the content to be different.</p>
+            <p>The ABCChrome engine does not support this property but it is not a difficult matter to emulate it using code of the following form.</p>
+            <p><SPAN class=language>[C#]</SPAN><BR>
+              <pre><code class="language-csharp">HashSet&lt;string&gt; names = new HashSet&lt;string&gt;();
+List&lt;Field&gt; fields = new List&lt;Field&gt;();
+foreach (Field field in theDoc.Form.Fields) {
+&nbsp;&nbsp;fields.Add(field);
+&nbsp;&nbsp;foreach (Field kid in field.GetKids(1000))
+&nbsp;&nbsp;&nbsp;&nbsp;fields.Add(kid);
+}
+foreach (Field field in fields) {
+&nbsp;&nbsp;for (int i = 1; names.Contains(field.Name); i++)
+&nbsp;&nbsp;&nbsp;&nbsp;Atom.SetItem(field.Atom, &quot;T&quot;, new StringAtom(field.PartialName + &quot;_&quot; + i.ToString()));
+&nbsp;&nbsp;names.Add(field.Name);
+}
+theDoc.Form.Refresh();
+</code></pre><BR>
+              <SPAN 
+            class=language>[Visual Basic]</SPAN><BR>
+              <pre><code class="language-vbnet">Dim names As HashSet(Of String) = New HashSet(Of String)
+Dim fields As List(Of Field) = New List(Of Field)
+For Each field As Field In theDoc.Form.Fields
+&nbsp;&nbsp;fields.Add(field)
+&nbsp;&nbsp;For Each kid As Field In field.GetKids(1000)
+&nbsp;&nbsp;&nbsp;&nbsp;fields.Add(kid)
+&nbsp;&nbsp;Next
+Next
+For Each field As Field In fields
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;Do While names.Contains(field.Name)
+&nbsp;&nbsp;&nbsp;&nbsp;Atom.SetItem(field.Atom, &quot;T&quot;, New StringAtom((field.PartialName + (&quot;_&quot; + i.ToString))))
+&nbsp;&nbsp;&nbsp;&nbsp;i = (i + 1)
+&nbsp;&nbsp;Loop
+&nbsp;&nbsp;names.Add(field.Name)
+Next
+theDoc.Form.Refresh
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr>
+          <td>
+            <p>None.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+</body></html>

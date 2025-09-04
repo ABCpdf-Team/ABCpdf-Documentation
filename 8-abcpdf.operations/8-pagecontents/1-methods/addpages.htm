@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>PageContents AddPages Function. Add pages to be processed. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddPages Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Add pages to be processed.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>void AddPages()<br>
+            void AddPages(int pageNumber)<br>
+            void AddPages(int startPageNumber, int endPageNumber)<br>
+            </CODE><BR>
+            <SPAN class=language>[Visual
+            Basic]</SPAN><BR>
+            <CODE>Sub AddPages()<br>
+            Sub AddPages(pageNumber As Integer)<br>
+            Sub AddPages(startPageNumber As Integer, endPageNumber As Integer)</CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions"
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>pageNumber</TD>
+                <TD>The number of the page to be processed. This is a one based index.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>startPageNumber</TD>
+                <TD>The number of the first page to be processed. This is a one based index.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>endPageNumber</TD>
+                <TD>The number of the last page to be processed. This is a one based index.</TD>
+              </TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This method adds pages that need to be processed. If the provided page numbers are incorrect then an exception will be raised.</P>
+            <P>The parameterless version of this function adds all the pages in the document. If you are only interested in a subsection of the document you can specify individual pages or a range of pages using the overloads. You can call this function multiple times with multiple sets of pages to get the precise selection that you require.</P>
+            <P>Adding pages is a fairly expensive operation. For this reason if you are performing multiple types of analysis on the same set of pages then you will probably want to share one PageContents object between them.</P>
+            <P>Note that the PageContents object is a cache of the current document content. Thus it may be invalidated by a call that remaps or replaces existing content in the document. For this reason you should not call <a href="../../../5-abcpdf/doc/1-methods/save.htm">Doc.Save</a>, <a href="../../../5-abcpdf/doc/1-methods/getdata.htm">Doc.GetData</a> or <a href="../../../5-abcpdf/doc/1-methods/flatten.htm">Doc.Flatten</a> while using an operation that contains a PageContents object.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>See <a href="../../8-textoperation/1-methods/group.htm">TextOperation.Group</a>.</P>
+            <p>Also see example code in: <a href="../../8-textoperation/1-methods/group.htm">TextOperation Group  Function</a>, <a href="../../9-imageoperation/1-methods/getimageproperties.htm">ImageOperation GetImageProperties  Function</a>, <a href="../../C-accessibilityoperation/1-methods/1-accessibilityoperation.htm">AccessibilityOperation AccessibilityOperation  Constructor</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

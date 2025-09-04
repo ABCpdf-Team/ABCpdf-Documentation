@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+	<HEAD>
+		<TITLE>Page VectorizeText Function. Replaces the text on the page with glyph outlines. ABCpdf .NET PDF Library.</TITLE>
+		<META content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+		<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+			<META name="GENERATOR" content="MSHTML 6.00.6000.16809"></HEAD>
+	<BODY bgColor="#ffffff">
+		<TABLE border="0" cellSpacing="4" cellPadding="0">
+			<TBODY>
+				<TR>
+					<TD vAlign="top"><IMG src="../../../images/goo.gif" width="58" height="60"></TD>
+					<TD width="14">&nbsp;</TD>
+					<TD>
+						<TABLE border="0" cellSpacing="0" cellPadding="0" width="100%">
+							<TBODY>
+								<TR>
+									<TD class="pageheader">VectorizeText Function</TD>
+									<TD width="60">&nbsp;</TD>
+									<TD>&nbsp;</TD>
+								</TR>
+								<TR>
+									<TD height="11" background="../../../images/steel-line-3.gif"></TD>
+									<TD height="11" background="../../../images/steel-line-3.gif" width="60"></TD>
+									<TD height="11"><IMG src="../../../images/steel-blob-11.gif" width="11" height="11"></TD>
+								</TR>
+								<TR>
+									<TD>
+										<P>Replaces the text on the page with glyph outlines.</P>
+										<P>&nbsp;</P>
+									</TD>
+									<TD width="60">&nbsp;</TD>
+									<TD>&nbsp;</TD>
+								</TR>
+							</TBODY></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD class="sectheader" vAlign="top"><IMG src="../../../images/steel-pin.gif" width="64" height="10"><BR>
+						Syntax</TD>
+					<TD width="14">&nbsp;</TD>
+					<TD vAlign="top">
+						<TABLE border="0" cellSpacing="0" cellPadding="0" width="100%">
+							<TBODY>
+								<TR>
+									<TD vAlign="top">
+										<P><SPAN class="language">[C#]</SPAN><BR><CODE>void VectorizeText()</CODE><BR><SPAN
+											class="language">[Visual Basic]</SPAN><BR><CODE>Sub
+											VectorizeText()</CODE>
+										</P>
+										<P><CODE><IMG border="0" alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" width="10"
+													height="10"> may throw Exception()</CODE></P>
+										<P>&nbsp;</P>
+									</TD>
+									<TD width="60">&nbsp;</TD>
+									<TD width="11">&nbsp;</TD>
+								</TR>
+							</TBODY></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD class="sectheader" vAlign="top"><IMG src="../../../images/steel-pin.gif" width="64" height="10"><BR>
+						Params</TD>
+					<TD width="14">&nbsp;</TD>
+					<TD vAlign="top">
+						<TABLE border="0" cellSpacing="0" cellPadding="0" width="100%">
+							<TBODY>
+								<TR>
+									<TD vAlign="top">
+										<TABLE class="wsgtable" border="5" cellSpacing="0" borderColor="#ffffff" cellPadding="0">
+											<TBODY>
+												<TR>
+													<TD align="center"><B>Name</B></TD>
+													<TD><B>Description</B></TD>
+												</TR>
+												<TR vAlign="top">
+													<TD align="center">none</TD>
+													<TD>&nbsp;</TD>
+												</TR>
+											</TBODY></TABLE>
+										<P>&nbsp;</P>
+									</TD>
+									<TD width="60">&nbsp;</TD>
+									<TD width="11">&nbsp;</TD>
+								</TR>
+							</TBODY></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD class="sectheader" vAlign="top"><IMG src="../../../images/steel-pin.gif" width="64" height="10"><BR>
+						Notes</TD>
+					<TD width="14">&nbsp;</TD>
+					<TD vAlign="top">
+						<TABLE border="0" cellSpacing="0" cellPadding="0" width="100%">
+							<TBODY>
+								<TR>
+									<TD>
+										<P>Use this method to vectorize the text (i.e. replace the text with equivalent glyph polygon outlines).</P>
+										<P>Note that pages may sometimes share content with other pages. If this is the case then vectorizing the text on one page will also vectorize it on other pages which use this shared content.</P>
+								  <P>&nbsp;</P></TD>
+									<TD width="60">&nbsp;</TD>
+									<TD width="11">&nbsp;</TD>
+								</TR>
+							</TBODY></TABLE>
+					</TD>
+				</TR>
+				<TR>
+					<TD class="sectheader" vAlign="top"><IMG src="../../../images/steel-pin.gif" width="64" height="10"><BR>Example</TD>
+					<TD width="14">&nbsp;</TD>
+					<TD vAlign="top">
+						<TABLE border="0" cellSpacing="0" cellPadding="0" width="100%">
+							<TBODY>
+								<TR>
+									<TD>
+										<P><SPAN class="language">[C#]</SPAN><BR>
+											<pre><code class="language-csharp">using var doc = new Doc();
+doc.FontSize = 96;
+doc.AddText("Hello World");
+foreach (var page in doc.ObjectSoup.Catalog.Pages.GetPageArrayAll())
+&nbsp;&nbsp;page.VectorizeText();
+doc.Save(Server.MapPath("VectorizedText.pdf"));
+</code></pre>
+											<BR>
+											<SPAN class="language">[Visual Basic]</SPAN><BR>
+											<pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 96
+&nbsp;&nbsp;doc.AddText("Hello World")
+&nbsp;&nbsp;For Each page As Page In doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()
+&nbsp;&nbsp;&nbsp;&nbsp;page.VectorizeText()
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedText.pdf"))
+End Using
+</code></pre>										</P>
+									  <P>&nbsp;</P>
+									</TD>
+								  <TD width="60">&nbsp;</TD>
+									<TD width="11">&nbsp;</TD>
+								</TR>
+							</TBODY></TABLE>
+					</TD>
+				</TR>
+			</TBODY></TABLE>
+		<P>&nbsp;</P>
+	</BODY>
+</HTML>

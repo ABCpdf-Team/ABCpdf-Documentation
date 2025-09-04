@@ -1,0 +1,191 @@
+<html>
+<head>
+<title>Text Flow Round Image Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Text Flow Round Image Example</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>This example shows how to flow text around an image. The 
+              techniques shown here may be used in conjunction with the  <a href="02-textflow.htm">Text Flow</a> example which shows how to flow text between areas on the same or different pages.</p>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Setup</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>First we'll set up a convenient variable to contain the text 
+              we want to display.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">// text truncated for clarity
+string text = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes...";
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">' text truncated for clarity
+Dim text As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes..."
+</code></pre><br>
+              <br>
+            </p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Doc Obj</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Next we create an ABCpdf Doc object and give it our basic settings.            </p>
+            <p>We enlarge the line width, increase the font size, enable justification 
+              and inset the drawing rectangle from the edges of the document.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.Width = 4;
+doc.FontSize = 32;
+doc.TextStyle.Justification = 1;
+doc.Rect.Inset(20, 20);
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Width = 4
+&nbsp;&nbsp;doc.FontSize = 32
+&nbsp;&nbsp;doc.TextStyle.Justification = 1
+&nbsp;&nbsp;doc.Rect.Inset(20, 20)
+</code></pre></p>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Image</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>We save the rect since we're going to need it later. Then we add an image to the left hand side of the page. This is the image we are going to flow around.</p>
+              <p><span class="language">[C#]</span><br>
+                  <pre><code class="language-csharp">string saveRect = doc.Rect.String;
+using var xi = XImage.FromFile(Server.MapPath("mypics/pic.jpg"), null);
+doc.Rect.Resize(xi.Width / 2, xi.Height / 2, XRect.Corner.TopLeft);
+doc.AddImage(xi);
+</code></pre><br>
+                  <span class="language">[Visual Basic]</span><br>
+                  <pre><code class="language-vbnet">&nbsp;&nbsp;Dim saveRect As String = doc.Rect.String
+&nbsp;&nbsp;Using xi As XImage = XImage.FromFile(Server.MapPath("mypics/pic.jpg"), Nothing)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Resize(xi.Width / 2, xi.Height / 2, XRect.Corner.TopLeft)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddImage(xi)
+&nbsp;&nbsp;End Using
+</code></pre></p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Text</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The crucial part occurs here which is where we set up the variable left margins to ensure that our text is shifted away from  the image. If we had images on the right we would want to use variable right margins too. But here it is not necessary.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">double padX = doc.FontSize;
+double padY = doc.FontSize / 3.0;
+string format = "&lt;stylerun justification=\"1.0\" leftmargins=\"0 {0} {1}\"&gt;";
+string style = string.Format(format, doc.Rect.Height + padY, doc.Rect.Width + padX);
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;Dim padX As Double = doc.FontSize
+&nbsp;&nbsp;Dim padY As Double = doc.FontSize / 3.0
+&nbsp;&nbsp;Dim format As String = "&lt;stylerun justification=""1.0"" leftmargins=""0 {0} {1}""&gt;"
+&nbsp;&nbsp;Dim style As String = String.Format(format, doc.Rect.Height + padY, doc.Rect.Width + padX)
+</code></pre>
+            </p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Save</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>After adding and framing our text we save the document to a specified location 
+              and clear our document. </p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Rect.String = saveRect;
+doc.FrameRect();
+int id = doc.AddTextStyled(style + text + "&lt;/stylerun&gt;");
+doc.Save(Server.MapPath("textflowroundimage.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Rect.String = saveRect
+&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;Dim id As Integer = doc.AddTextStyled(style + text + "&lt;/stylerun&gt;")
+&nbsp;&nbsp;doc.Save(Server.MapPath("textflowroundimage.pdf"))
+End Using
+</code></pre></p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Results</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p><img src="../images/pdf/textflowroundimage.pdf.png" class="example"><BR>
+            textflowroundimage.pdf</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

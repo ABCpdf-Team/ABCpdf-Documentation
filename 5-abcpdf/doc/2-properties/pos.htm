@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc Pos Property. The current drawing position. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Pos Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN class=language>[C#]</SPAN><BR><CODE><A 
+                  href="../../xpoint/default.htm">XPoint</A></CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE><A 
+                  href="../../xpoint/default.htm">XPoint</A></CODE></TD>
+                <TD>The top left of the current rectangle.</TD>
+                <TD>No</TD>
+                <TD>The current drawing position.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This property determines the current drawing position. </P>
+            <P>This is 
+              used by the <A 
+            href="../1-methods/addtext.htm">AddText</A> and <A 
+            href="../1-methods/addtextstyled.htm">AddTextStyled</A> methods. Text is placed within the <a href="rect.htm">Rect</a> at the starting point specified by the Pos.</P>
+            <P>When you change the <A href="page.htm">Page</A> or <A 
+            href="rect.htm">Rect</A> properties the Pos is automatically reset 
+            to the top left of the current Rect. </P>
+            <P>In general use, the  Pos specifies the top 
+            left corner of characters and text is positioned in rows  from 
+            left to right and   top to bottom. After adding text using the AddText method, the Pos is 
+            updated to point to the next text insertion position - at the top of and just after 
+            the last drawn character.</P>
+            <P>However East Asian scripts may also be positioned top to bottom, right to left. For this reason fonts may be specified as vertical - indicated using the <A 
+            href="../../../6-abcpdf.objects/fontobject/2-properties/writingmode.htm">FontObject.WritingMode</A> property. In this situation  the value of the Pos is not 
+              updated after calling AddText<A href="font.htm"></A>.</P>
+            <P>This  is the case
+              because ABCpdf applies vertical text flow  via an internal transformation applied to Pos. All horizontal positioning settings 
+              are applied to vertical coordinates and vice versa.  The transformation rotates the 
+              coordinate system by 90 degrees clock-wise and maps the top-left 
+              corner of the <A href="rect.htm">Rect</A> to the top-right corner of 
+              the <A href="rect.htm">Rect</A>. Hence the default initial value of 
+              Pos specifies that vertical text should start at the top-right corner of the <A href="rect.htm">Rect</A>. This is similar to Windows processing 
+              of text using an East Asian font whose name is prefixed with @ and 
+              applying the transformation only at the last step.</P>
+            <P>For this reason note that the 
+              effects of <A 
+            href="../../xtextstyle/2-properties/charspacing.htm">XTextStyle.CharSpacing</A> and <A 
+            href="../../xtextstyle/2-properties/wordspacing.htm">XTextStyle.WordSpacing</A> depend on the writing mode.</P>
+            <P>Please note that text in vertical fonts and text in horizontal 
+            fonts do not mix well, so stick to one type for each text area you create.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code creates a PDF document with text positioned at 
+            a number of different points within it.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.FontSize = 48;
+for (int i = 1; i &lt;= 8; i++) {
+&nbsp;&nbsp;doc.Pos.X = i * 40;
+&nbsp;&nbsp;doc.Pos.Y = i * 80;
+&nbsp;&nbsp;doc.AddText($"Pos = {doc.Pos}");
+}
+doc.Save(Server.MapPath("docpos.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 48
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= 8
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Pos.X = i * 40
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Pos.Y = i * 80
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText($"Pos = {doc.Pos}")
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;doc.Save(Server.MapPath("docpos.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/docpos.pdf.png" 
+            class="example"><BR>docpos.pdf</P><p>Also see example code in: <a href="../../../4-examples/17-advancedgraphics.htm">ABCpdf Advanced Graphics Example</a>, <a href="../../../4-examples/18-annotations.htm">ABCpdf Fields, Markup and Movies Example</a>, <a href="../../xpoint/2-properties/point.htm">XPoint Point Property</a>, <a href="../../xrendering/2-properties/antialiaspolygons.htm">XRendering AntiAliasPolygons Property</a>, <a href="../../xrendering/2-properties/antialiastext.htm">XRendering AntiAliasText Property</a>, <a href="../../xtransform/1-methods/invert.htm">XTransform Invert Function</a>, <a href="../../xtransform/1-methods/reset.htm">XTransform Reset Function</a>, <a href="../../xtransform/1-methods/rotate.htm">XTransform Rotate Function</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>.</p>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

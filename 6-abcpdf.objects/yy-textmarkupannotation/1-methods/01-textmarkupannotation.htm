@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Objects TextMarkupAnnotation TextMarkupAnnotation Function. Add text markup annotation to the current rect of the current page of the doc. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>TextMarkupAnnotation Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Add text markup annotation to the current rect of the current page of the doc.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE> <a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, string quadPoints, TextMarkupType markupType, XColor color)<br> <a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, int id, TextMarkupType markupType, XColor color)<br> <a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, TextMarkupType markupType, XColor color)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">TextMarkupAnnotation</a>(doc As Doc, quadPoints As string, markupType As TextMarkupType, color As XColor)<br><a href="../default.htm">TextMarkupAnnotation</a>(doc As Doc, id As int, markupType As TextMarkupType, color As XColor)<br><a href="../default.htm">TextMarkupAnnotation</a>(doc As Doc, markupType As TextMarkupType, color As XColor)<br>
+            TextMarkupAnnotation(doc As Doc, id As int, markupType As TextMarkupType, color As XColor, TextMarkupAdjust adjust)<br>
+            TextMarkupAnnotation(doc As Doc, markupType As TextMarkupType, color As XColor, TextMarkupAdjust adjust)<BR>
+            </CODE>			</P>
+			
+			
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>doc</TD>
+                <TD>Doc</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>quadPoints</TD>
+                <TD>Quad points of the text</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>markupType</TD>
+                <TD>Type of the markup annotation</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>color</TD>
+                <TD>Markup color</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>id</TD>
+                <TD>ID of the Text object</TD>
+              </TR>
+<TR vAlign=top>
+  <TD align=middle>adjust</TD>
+  <TD>The markup adjustement to apply. The default is TextMarkupAdjust.None.</TD>
+</TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            
+<p>Add text markup annotation to the current rect of the current page of the doc.</p>
+
+<p>The TextMarkupType enumeration may take the following values:</p>
+<ul>
+<li>Underline - Underlined text.</li>
+<li>Highlight - Highlighted text.</li>
+<li>StrikeOut - Struck through text.</li>
+<li>Squiggly - Squiggly underlined text.</li>
+</ul>
+
+
+            <P> If quad points are provided, the annotation rectangle will be set to the smallest area that contains all these points. If a text object ID is provided, the annotation rectangle will be set to match the area of the text object. If neither is provided, the annotation rectangle will be set to match the current Doc.Rect.</P>
+            <P>A quad comprises eight numbers specifying the corners of a quadrilateral in counterclockwise order. Multiple quadrilaterals can be specified, so the number of items in the list is always a multiple of eight. For the purposes of underlines the orientation is determined by a line drawn between the first two points.</P>
+            <P>These types of annotations do not work perfectly if the page is rotated and the Annotation NoRotate flag is set. Acrobat does not display such annotations the way they are supposed to be displayed. One can work around this issue but only at the cost of having them display incorrectly in other viewers such as Chrome. However to allow control over the behavior we supply the TextMarkupAdjust option.</P>
+            <P>Generally when working with rotated pages you will want RectNoRotate | Adobe for Acrobat and RectNoRotate for other viewers such as Chrome.</P>
+            <P>The TextMarkupAdjust flags based enumeration may take the following values:</P>
+            <ul>
+              <li>None - No adjustment.</li>
+              <li>Adobe - Adjust annotation for Adobe Acrobat Reader's undocumented behavior.</li>
+              <li>Rect - Adjust annotation's Rect and QuadPoints.</li>
+              <li>NoRotate - Add NoRotate flag.</li>
+              <li>RectNoRotate - Same as Rect | NoRotate.</li>
+            </ul>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            None.
+            <p>None.</p><P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

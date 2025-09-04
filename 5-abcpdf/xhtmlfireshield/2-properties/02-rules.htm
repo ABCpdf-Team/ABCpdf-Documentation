@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>XHtmlFireShield Rules Property. File access rules for the worker process. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Rules Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>IList&lt;<a href="../../xhtmlfireshield.rule/default.htm">XHtmlFireShield.Rule</a>&gt;</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>IList&lt;<a href="../../xhtmlfireshield.rule/default.htm">XHtmlFireShield.Rule</a>&gt;</code></td>
+                <td>See below.</td>
+                <td>No</td>
+                <td>
+File access rules for the worker process</td>
+              </tr>
+            </table>
+			
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>File access rules for the worker process.
+            <p>To determine whether access is allowed to a specific path, the rules are evaluated in sequence.</p>
+<p>A path may match with multiple rules and it is the final evaluated access type at the end of the sequence, which determines the access level. Rules are case insensitive.</p>
+<p>At the start of processing the evaluated access type is Deny. This means that, by default, all file access is denied.</p>
+<p>For each rule, if the file path starts with the rule path and the file name matches the pattern, then the rule access type is assigned to the evaluated access type.</p>
+<p>In this way you can set up a rule sequence which matches on a general level but then denies on a specific level. For example you might allow access to all files in a folder but then deny access to .aspx files within that folder.</p>
+            <p>The default set of rules is reasonable for most situations. However you may wish to modify it dependent on your needs.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Also see example code in: <a href="../../xhtmloptions/2-properties/fireshield.htm">XHtmlOptions FireShield Property</a>.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<html>
+<head>
+<title>Doc Page Property. The current Page ID. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Page Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>int</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Integer</code></td>
+                <td>0</td>
+                <td>No</td>
+                <td>The current Page ID.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This property holds the current Page Object ID. </p>
+            <p>It is important to note that the Page property is different to the <a href="pagenumber.htm">PageNumber</a> property. Either the Page or the PageNumber property can be used to set the 
+            current page.</p>
+            <p>The Page holds an Object ID 
+              typically returned from a call to <a href="../1-methods/addpage.htm">AddPage</a>. 
+              The PageNumber indicates the page using an index ranging between 
+              one and the <a href="pagecount.htm">PageCount</a>.</p>
+            <p>Do not set the Page property to a page number. If you have a page number you want to be using the PageNumber property.</p>
+            <p>The current page is the 
+              one that receives new objects as they are added to the document. </p>
+            <p>For example the methods <a href="../1-methods/addtext.htm">AddText</a>, <a href="../1-methods/addline.htm">AddLine</a>, <a href="../1-methods/addimage.htm">AddImage</a>, <a href="../1-methods/framerect.htm">FrameRect</a> and <a href="../1-methods/fillrect.htm">FillRect</a> all operate on the current page.</p>
+            <p>When you change the Page property the <a href="pos.htm">Pos</a> 
+              property is reset to the top left of the current <a href="rect.htm">Rect</a>.</p>
+            <p>If no page is specified the current page is taken to be the first 
+              page in the document.<br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example creates a document with two pages and adds 
+              text to each of the pages in turn.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.FontSize = 96; // big text
+doc.Page = doc.AddPage();
+doc.AddText("Page One");
+doc.Page = doc.AddPage();
+doc.AddText("Page Two");
+doc.Save(Server.MapPath("docpage.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 96
+&nbsp;&nbsp;' big text
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.AddText("Page One")
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.AddText("Page Two")
+&nbsp;&nbsp;doc.Save(Server.MapPath("docpage.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/docpage.pdf.png" class="example"></p>
+            <p><img src="../../../images/pdf/docpage.pdf2.png" class="example"><br>
+              docpage.pdf </p><p>Also see example code in: <a href="../../../4-examples/02-textflow.htm">ABCpdf Text Flow Example</a>, <a href="../../../4-examples/06-headers.htm">ABCpdf Headers and Footers Example</a>, <a href="../../../4-examples/12-unicode.htm">ABCpdf Unicode Example</a>, <a href="../../../4-examples/13-pagedhtml.htm">ABCpdf Paged HTML Example</a>, <a href="../../../4-examples/18-annotations.htm">ABCpdf Fields, Markup and Movies Example</a>, <a href="../1-methods/addbookmark.htm">Doc AddBookmark Function</a>, <a href="../1-methods/addgrid.htm">Doc AddGrid Function</a>, <a href="../1-methods/addimagedoc.htm">Doc AddImageDoc Function</a>, <a href="../1-methods/addimagetochain.htm">Doc AddImageToChain Function</a>, <a href="../1-methods/addpage.htm">Doc AddPage Function</a>, <a href="../1-methods/addtext.htm">Doc AddText Function</a>, <a href="mediabox.htm">Doc MediaBox Property</a>, <a href="../../xform/1-methods/adddoctimestamp.htm">XForm AddDocTimestamp Function</a>, <a href="../../xhtmloptions/1-methods/linkdestinations.htm">XHtmlOptions LinkDestinations Method</a>, <a href="../../xhtmloptions/1-methods/linkpages.htm">XHtmlOptions LinkPages Method</a>, <a href="../../xhtmloptions/2-properties/usescript.htm">XHtmlOptions UseScript Property</a>, <a href="../../ximage/2-properties/frame.htm">XImage Frame Property</a>, <a href="../../xtextstyle/2-properties/kerning.htm">XTextStyle Kerning Property</a>, <a href="../../xtransform/2-properties/angleunit.htm">XTransform AngleUnit Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/makeformxobject.htm">Page MakeFormXObject Function</a>, <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>, <a href="../../../6-abcpdf.objects/page/2-properties/thumbnail.htm">Page Thumbnail Property</a>, <a href="../../../6-abcpdf.objects/signature/1-methods/addltv.htm">Signature AddLTV Function</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>.</p>
+            
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

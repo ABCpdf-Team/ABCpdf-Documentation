@@ -1,0 +1,235 @@
+<html>
+<head>
+<title>PDF Metadata Representation and Info Store</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr>
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="pageheader"> PDF Metadata Representation and Info Store</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Intro</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>PDF documents can contain metadata to summarize basic information about the document. For example a document might have a title and an author.</p>
+            <p>The original method for doing this was via an Info entry in the document trailer. This supported title, author, subject, keywords, creator, producer, whether the PDF is trapped or not, creation date and modification date. This was sufficient for most people but some  required more extensible or more structured data.</p>
+            <p>As such in PDF 1.4 Adobe introduced a new XML based metadata store represented in a format called Extensible Metadata Platform (XMP).  You can attach XMP data to any object in a PDF so you could have one XMP set of metadata attached to the document, and then one for each image in the document. XMP is now  an ISO standard and it allows an extreme level of flexibility at a certain cost in terms of complexity.</p>
+            <p>While XMP solved one problem, it introduced another: it was now possible to include both old Info style metadata and also XMP style metadata in the same document. Some people would use the Info because it was  simple and backwards compatible. Others would use the XMP because it was more flexible and modern. If you end up with two titles for the document - which do you use?</p>
+            <p>To solve this problem the Info store was deprecated in PDF 2.0. As such you should now use the XMP based metadata store. ABCpdf includes objects which make it easy to work with this type of data without having to get into complex XML parsing and validation. However for backwards compatibility you may occasionally find that you  need to work with the old Info style store. </p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" alt="" width="64" height="10"><br>
+      Metadata</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>Best practice is to use the <a href="../6-abcpdf.objects/catalog/2-properties/metadata.htm">Doc.Catalog.Metadata</a> property.</p>
+            <p>This property allows you access to standard items of metadata while abstracting you from XMP construction and validation.</p>
+            <p>If you require a higher level of control over the XMP data store then you can skip the helper properties and go direct to the XML.</p>
+            <p>For full details and code samples please see the <a href="../6-abcpdf.objects/catalog/2-properties/metadata.htm">Doc.Catalog.Metadata</a> property.</p>
+      <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" alt="" width="64" height="10"><br>
+      Info</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>Best practice is to use the  <a href="../6-abcpdf.objects/catalog/2-properties/metadata.htm">Doc.Catalog.Metadata</a> property, but occasionally you may find that you need to work with the old Info store. </p>
+            <p>This example shows you how you can create and set data in this store. It requires some knowledge of the Adobe PDF Specification. See the following for details:.</p>
+            <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=558">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 317, page 550.</a></p>
+            <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 349, page 712.</a></p>
+            <p>Looking at the specification we can see that the document properties we want to change are referenced from an entry called Info in the document trailer. So we create a new PDF dictionary and reference it from the trailer, then we  insert our summary information into the object, finally we save.</p>
+            <p><span class="language">[C#]</span><br>
+                <pre><code class="language-csharp">Doc doc = new Doc();
+doc.Page = doc.AddPage();
+doc.AddText(&quot;My first document...&quot;);
+int theID = doc.AddObject(&quot;&lt;&lt; &gt;&gt;&quot;);
+doc.SetInfo(-1, &quot;/Info:Ref&quot;, theID.ToString());
+doc.SetInfo(theID, &quot;/Title:Text&quot;, &quot;ABCpdf&quot;);
+doc.SetInfo(theID, &quot;/Author:Text&quot;, &quot;WebSupergoo&quot;);
+doc.SetInfo(theID, &quot;/Subject:Text&quot;, &quot;ABCpdf Documentation&quot;);
+doc.SetInfo(theID, &quot;/Keywords:Text&quot;, &quot;ABCpdf,PDF,Docs&quot;);
+doc.SetInfo(theID, &quot;/Creator:Text&quot;, &quot;WebSupergoo&quot;);
+DateTime theDate = DateTime.Now;
+doc.SetInfo(theID, &quot;/CreationDate:Text&quot;, theDate);
+doc.SetInfo(theID, &quot;/ModDate:Text&quot;, theDate);
+doc.SetInfo(theID, &quot;/Trapped:Name&quot;, &quot;False&quot;);
+doc.Save(Server.MapPath(&quot;docprops.pdf&quot;));
+</code></pre><br>
+                <span class="language">[Visual Basic]</span><br>
+                <pre><code class="language-vbnet">Dim doc As Doc = New Doc()
+doc.Page = doc.AddPage()
+doc.AddText(&quot;My first document...&quot;);
+Dim theID As Integer = doc.AddObject("&lt;&lt; &gt;&gt;")
+doc.SetInfo(-1, "/Info:Ref", theID.ToString())
+doc.SetInfo(theID, "/Title:Text", "ABCpdf")
+doc.SetInfo(theID, "/Author:Text", "WebSupergoo")
+doc.SetInfo(theID, "/Subject:Text", "ABCpdf Documentation")
+doc.SetInfo(theID, "/Keywords:Text", "ABCpdf,PDF,Docs")
+doc.SetInfo(theID, "/Creator:Text", "WebSupergoo")
+Dim theDate As DateTime = DateTime.Now
+doc.SetInfo(theID, "/CreationDate:Text", theDate)
+doc.SetInfo(theID, "/ModDate:Text", theDate)
+doc.SetInfo(theID, "/Trapped:Name", "False")
+doc.Save(Server.MapPath("docprops.pdf"))
+</code></pre></p>
+          <p>&nbsp;</p>            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" alt="" width="64" height="10"><br>
+      Transfer</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>Sometimes you may need to copy information between the old Info store and the new Metadata store.</p>
+            <p>This example shows how you might do this. Deciding exactly how to deal with clashes between the two stores is rather application dependent so you should be expecting that you will want to adapt this code to your  needs.</p>
+            <p><span class="language">[C#]</span><br>
+                <pre><code class="language-csharp">// We do not copy over the CreationDate or ModDate because we do not have to
+// (they have not been deprecated) and we are likely simply to end up with
+// two clashing values. A similar situation is true for Trapped.
+bool copyCreationDate = false, copyModDate = false, copyTrapped = false;
+IndirectObject trailer = doc.ObjectSoup.Trailer;
+DictAtom info = trailer.Resolve(Atom.GetItem(trailer.Atom, &quot;Info&quot;)) as DictAtom;
+if (info != null) {
+&nbsp;&nbsp;string title = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Title&quot;)));
+&nbsp;&nbsp;string author = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Author&quot;)));
+&nbsp;&nbsp;string subject = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Subject&quot;)));
+&nbsp;&nbsp;string keywords = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Keywords&quot;)));
+&nbsp;&nbsp;string creator = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Creator&quot;)));
+&nbsp;&nbsp;string producer = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Producer&quot;)));
+&nbsp;&nbsp;string creationDate = copyCreationDate ? Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;CreationDate&quot;))) : null;
+&nbsp;&nbsp;string modDate = copyModDate ? Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;ModDate&quot;))) : null;
+&nbsp;&nbsp;string trapped = copyTrapped ? Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Trapped&quot;))) : null;
+&nbsp;&nbsp;bool hasValues = (!string.IsNullOrEmpty(title)) || (!string.IsNullOrEmpty(author)) || (!string.IsNullOrEmpty(subject)) ||
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(!string.IsNullOrEmpty(keywords)) || (!string.IsNullOrEmpty(creator)) || (!string.IsNullOrEmpty(producer)) ||
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(!string.IsNullOrEmpty(creationDate)) || (!string.IsNullOrEmpty(modDate)) || (!string.IsNullOrEmpty(trapped));
+&nbsp;&nbsp;if (hasValues) {
+&nbsp;&nbsp;&nbsp;&nbsp;Metadata md = doc.ObjectSoup.Catalog.Metadata;
+&nbsp;&nbsp;&nbsp;&nbsp;if (md == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;md = new Metadata(doc.ObjectSoup);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.ObjectSoup.Catalog.Metadata = md;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;if ((!string.IsNullOrEmpty(title)) &amp;&amp; (string.IsNullOrEmpty(md.InfoTitle)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;md.InfoTitle = title;
+&nbsp;&nbsp;&nbsp;&nbsp;if ((!string.IsNullOrEmpty(author)) &amp;&amp; (string.IsNullOrEmpty(md.InfoAuthor)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;md.InfoAuthor = author;
+&nbsp;&nbsp;&nbsp;&nbsp;if ((!string.IsNullOrEmpty(subject)) &amp;&amp; (string.IsNullOrEmpty(md.InfoSubject)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;md.InfoSubject = subject;
+&nbsp;&nbsp;&nbsp;&nbsp;if ((!string.IsNullOrEmpty(keywords)) &amp;&amp; (string.IsNullOrEmpty(md.InfoKeywords)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;md.InfoKeywords = keywords;
+&nbsp;&nbsp;&nbsp;&nbsp;if ((!string.IsNullOrEmpty(creator)) &amp;&amp; (string.IsNullOrEmpty(md.InfoCreator)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;md.InfoCreator = creator;
+&nbsp;&nbsp;&nbsp;&nbsp;if ((!string.IsNullOrEmpty(producer)) &amp;&amp; (string.IsNullOrEmpty(md.InfoProducer)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;md.InfoProducer = producer;
+&nbsp;&nbsp;&nbsp;&nbsp;if ((!string.IsNullOrEmpty(creationDate)) &amp;&amp; (string.IsNullOrEmpty(md.InfoCreationDate)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;md.InfoCreationDate = StringAtom.StringToDate(creationDate).ToString(&quot;o&quot;);
+&nbsp;&nbsp;&nbsp;&nbsp;if ((!string.IsNullOrEmpty(modDate)) &amp;&amp; (string.IsNullOrEmpty(md.InfoModDate)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;md.InfoModDate = StringAtom.StringToDate(modDate).ToString(&quot;o&quot;);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Title&quot;);
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Author&quot;);
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Subject&quot;);
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Keywords&quot;);
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Creator&quot;);
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Producer&quot;);
+&nbsp;&nbsp;if (copyCreationDate)
+&nbsp;&nbsp;&nbsp;&nbsp;Atom.RemoveItem(info, &quot;CreationDate&quot;);
+&nbsp;&nbsp;if (copyModDate)
+&nbsp;&nbsp;&nbsp;&nbsp;Atom.RemoveItem(info, &quot;ModDate&quot;);
+&nbsp;&nbsp;if (copyTrapped)
+&nbsp;&nbsp;&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Trapped&quot;);
+}
+</code></pre><br>
+                <span class="language">[Visual Basic]</span><br>
+                <pre><code class="language-vbnet">Dim copyCreationDate As Boolean = False, copyModDate As Boolean = False, copyTrapped As Boolean = False
+Dim trailer As IndirectObject = doc.ObjectSoup.Trailer
+Dim info As DictAtom = TryCast(trailer.Resolve(Atom.GetItem(trailer.Atom, &quot;Info&quot;)), DictAtom)
+If info IsNot Nothing Then
+&nbsp;&nbsp;Dim title As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Title&quot;)))
+&nbsp;&nbsp;Dim author As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Author&quot;)))
+&nbsp;&nbsp;Dim subject As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Subject&quot;)))
+&nbsp;&nbsp;Dim keywords As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Keywords&quot;)))
+&nbsp;&nbsp;Dim creator As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Creator&quot;)))
+&nbsp;&nbsp;Dim producer As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Producer&quot;)))
+&nbsp;&nbsp;Dim creationDate As String = If(copyCreationDate, Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;CreationDate&quot;))), Nothing)
+&nbsp;&nbsp;Dim modDate As String = If(copyModDate, Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;ModDate&quot;))), Nothing)
+&nbsp;&nbsp;Dim trapped As String = If(copyTrapped, Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Trapped&quot;))), Nothing)
+&nbsp;&nbsp;Dim hasValues As Boolean = (Not String.IsNullOrEmpty(title)) OrElse (Not String.IsNullOrEmpty(author)) OrElse (Not String.IsNullOrEmpty(subject)) OrElse _
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Not String.IsNullOrEmpty(keywords)) OrElse (Not String.IsNullOrEmpty(creator)) OrElse (Not String.IsNullOrEmpty(producer)) OrElse _
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Not String.IsNullOrEmpty(creationDate)) OrElse (Not String.IsNullOrEmpty(modDate)) OrElse (Not String.IsNullOrEmpty(trapped))
+&nbsp;&nbsp;If hasValues Then
+&nbsp;&nbsp;&nbsp;&nbsp;Dim md As Metadata = doc.ObjectSoup.Catalog.Metadata
+&nbsp;&nbsp;&nbsp;&nbsp;If md Is Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;md = New Metadata(doc.ObjectSoup)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.ObjectSoup.Catalog.Metadata = md
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(title)) AndAlso (String.IsNullOrEmpty(md.InfoTitle)) Then md.InfoTitle = title
+&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(author)) AndAlso (String.IsNullOrEmpty(md.InfoAuthor)) Then md.InfoAuthor = author
+&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(subject)) AndAlso (String.IsNullOrEmpty(md.InfoSubject)) Then md.InfoSubject = subject
+&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(keywords)) AndAlso (String.IsNullOrEmpty(md.InfoKeywords)) Then md.InfoKeywords = keywords
+&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(creator)) AndAlso (String.IsNullOrEmpty(md.InfoCreator)) Then md.InfoCreator = creator
+&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(producer)) AndAlso (String.IsNullOrEmpty(md.InfoProducer)) Then md.InfoProducer = producer
+&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(creationDate)) AndAlso (String.IsNullOrEmpty(md.InfoCreationDate)) Then md.InfoCreationDate = StringAtom.StringToDate(creationDate).ToString(&quot;o&quot;)
+&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(modDate)) AndAlso (String.IsNullOrEmpty(md.InfoModDate)) Then md.InfoModDate = StringAtom.StringToDate(modDate).ToString(&quot;o&quot;)
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Title&quot;)
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Author&quot;)
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Subject&quot;)
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Keywords&quot;)
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Creator&quot;)
+&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Producer&quot;)
+&nbsp;&nbsp;If copyCreationDate Then Atom.RemoveItem(info, &quot;CreationDate&quot;)
+&nbsp;&nbsp;If copyModDate Then Atom.RemoveItem(info, &quot;ModDate&quot;)
+&nbsp;&nbsp;If copyTrapped Then Atom.RemoveItem(info, &quot;Trapped&quot;)
+End If
+</code></pre></p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

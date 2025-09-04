@@ -1,0 +1,8 @@
+colorspacetype.htm
+components.htm
+iccprofile.htm
+basecolorspacetype.htm
+name.htm
+gamma.htm
+blackpoint.htm
+whitepoint.htm

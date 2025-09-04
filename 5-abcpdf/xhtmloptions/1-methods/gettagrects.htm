@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XHtmlOptions GetTagRects Function. Gets an array of the locations of tagged visible items. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>GetTagRects Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Gets an array of the locations of tagged visible items.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE><a href="../../xrect/default.htm">XRect</a>[] 
+            GetTagRects(int id)<BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Function GetTagRects(id As 
+            Integer) As <a href="../../xrect/default.htm">XRect</a>()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>id</TD>
+                <TD>The Object ID of the object.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The location of tagged visible HTML 
+            objects.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Use this method to retrieve the locations of tagged visible 
+            items. The locations are to be used with <A 
+            href="../../doc/2-properties/transform.htm">Doc.Transform</A> being
+            identity.</P>
+            <P>To use this method you need to enable the tagging functionality. 
+            See the <A href="../2-properties/addtags.htm">AddTags</A> property 
+            for details.</P>
+            <P>This function takes an ID obtained from a call to <A 
+            href="../../doc/1-methods/addimageurl.htm">Doc.AddImageUrl, </A><A 
+            href="../../doc/1-methods/addimagehtml.htm">Doc.AddImageHtml</A> or 
+            <A 
+            href="../../doc/1-methods/addimagetochain.htm">Doc.AddImageToChain</A> 
+            and returns the locations of any items which are visible on the PDF 
+            page as a result of that call.</P>
+            <P>The locations match up directly on a one-to-one basis with the 
+            IDs returned by the <A href="gettagids.htm">GetTagIDs</A> function. 
+            </P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following example shows the effect that this parameter has on 
+            HTML rendering.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <pre><code class="language-csharp">using var doc = new Doc();
+doc.Rect.Inset(100, 100);
+doc.Rect.Top = 700;
+doc.HtmlOptions.Engine = EngineType.Chrome123;
+doc.HtmlOptions.AddTags = true;
+// The ABCGecko and MSHTML tagging format uses styles.
+string html1 = "&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;" +
+&nbsp;&nbsp;"&lt;style type='text/css'&gt;" +
+&nbsp;&nbsp;".tag-visible { abcpdf-tag-visible:true; outline: 1px solid transparent; font-size: 72pt; }" +
+&nbsp;&nbsp;"&lt;/style&gt;" +
+&nbsp;&nbsp;"&lt;/head&gt;&lt;body&gt;" +
+&nbsp;&nbsp;"&lt;p id='p1' class='tag-visible'&gt;Gallia est omnis divisa in partes tres.&lt;/p&gt;" +
+&nbsp;&nbsp;"&lt;/body&gt;&lt;/html&gt;";
+// The ABCChrome tagging format uses attributes.
+string html2 = "&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;" +
+&nbsp;&nbsp;"&lt;style type='text/css'&gt;" +
+&nbsp;&nbsp;"p { font-size: 72pt; }" +
+&nbsp;&nbsp;"&lt;/style&gt;" +
+&nbsp;&nbsp;"&lt;/head&gt;&lt;body&gt;" +
+&nbsp;&nbsp;"&lt;p id='p1' abcpdf-tag-visible&gt;Gallia est omnis divisa in partes tres.&lt;/p&gt;" +
+&nbsp;&nbsp;"&lt;/body&gt;&lt;/html&gt;";
+string html = doc.HtmlOptions.Engine != EngineType.Chrome123 ? html1 : html2;
+int id = doc.AddImageHtml(html);
+// Frame location of the tagged element
+var tagRects = doc.HtmlOptions.GetTagRects(id);
+foreach (var rect in tagRects) {
+&nbsp;&nbsp;doc.Rect.String = rect.ToString();
+&nbsp;&nbsp;doc.FrameRect();
+}
+// Output tag ID
+var tagIds = doc.HtmlOptions.GetTagIDs(id);
+doc.Rect.String = doc.MediaBox.String;
+doc.Rect.Inset(20, 20);
+doc.FontSize = 64;
+doc.Color.String = "255 0 0";
+doc.AddText($"Tag ID \"{tagIds[0]}\":");
+// Save the document
+doc.Save(Server.MapPath("HtmlOptionsGetTagRects.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR>
+<pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Inset(100, 100)
+&nbsp;&nbsp;doc.Rect.Top = 700
+&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.Chrome123
+&nbsp;&nbsp;doc.HtmlOptions.AddTags = True
+&nbsp;&nbsp;' The ABCGecko and MSHTML tagging format uses styles.
+&nbsp;&nbsp;Dim html1 As String = "&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;" + "&lt;style type='text/css'&gt;" + ".tag-visible { abcpdf-tag-visible:true; outline: 1px solid transparent; font-size: 72pt; }" + "&lt;/style&gt;" + "&lt;/head&gt;&lt;body&gt;" + "&lt;p id='p1' class='tag-visible'&gt;Gallia est omnis divisa in partes tres.&lt;/p&gt;" + "&lt;/body&gt;&lt;/html&gt;"
+&nbsp;&nbsp;' The ABCChrome tagging format uses attributes.
+&nbsp;&nbsp;Dim html2 As String = "&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;" + "&lt;style type='text/css'&gt;" + "p { font-size: 72pt; }" + "&lt;/style&gt;" + "&lt;/head&gt;&lt;body&gt;" + "&lt;p id='p1' abcpdf-tag-visible&gt;Gallia est omnis divisa in partes tres.&lt;/p&gt;" + "&lt;/body&gt;&lt;/html&gt;"
+&nbsp;&nbsp;Dim html As String = If(doc.HtmlOptions.Engine &lt;&gt; EngineType.Chrome123, html1, html2)
+&nbsp;&nbsp;Dim id As Integer = doc.AddImageHtml(html)
+&nbsp;&nbsp;' Frame location of the tagged element
+&nbsp;&nbsp;Dim tagRects As XRect() = doc.HtmlOptions.GetTagRects(id)
+&nbsp;&nbsp;For Each theRect As XRect In tagRects
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = theRect.ToString()
+&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;' Output tag ID
+&nbsp;&nbsp;Dim tagIds As String() = doc.HtmlOptions.GetTagIDs(id)
+&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.[String]
+&nbsp;&nbsp;doc.Rect.Inset(20, 20)
+&nbsp;&nbsp;doc.FontSize = 64
+&nbsp;&nbsp;doc.Color.String = "255 0 0"
+&nbsp;&nbsp;doc.AddText($"Tag ID ""{tagIds[0]}"":")
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsGetTagRects.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG 
+            src="../../../images/pdf/HtmlOptionsGetTagRects.pdf.png" class="example"><BR>HtmlOptionsGetTagRects.pdf</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddImageHtml Function. Renders a web page specified as HTML. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddImageHtml Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Renders a web page specified as HTML.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            AddImageHtml(string html)<BR>int AddImageHtml(string html, 
+            bool paged, int width, bool disableCache)<BR></CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Function AddImageHtml(html As String) As Integer<BR>Function AddImageHtml(html As String, paged As Boolean, width As Integer, 
+            disableCache As Boolean) As Integer<BR></CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>html</TD>
+                <TD>
+                  <P>The HTML to be rendered.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>paged</TD>
+                <TD>
+                  <P>Allows you to override the default <A 
+                  href="../../xhtmloptions/2-properties/paged.htm">XHtmlOptions.Paged</A> 
+                  property.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>width</TD>
+                <TD>Allows you to override the default<A 
+                  href="../../xhtmloptions/2-properties/browserwidth.htm"> 
+                  XHtmlOptions.BrowserWidth</A> property.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>disableCache</TD>
+                <TD>
+                  <P>Allows you to override and disable the page cache. </P>
+                  <P>See the <A 
+                  href="../../xhtmloptions/2-properties/pagecacheenabled.htm">XHtmlOptions.PageCacheEnabled</A> 
+                  property for details.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The ID of the newly added object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This method is essentially the same as the <A 
+            href="addimageurl.htm">AddImageUrl</A> method but it allows you to 
+            use raw HTML rather than having to specify a URL.</P>
+            <P>Using the MSHTML, ABCGecko and ABCWebKit engines, ABCpdf saves this HTML into a temporary file and renders the file 
+            using a 'file://' protocol specifier. So this is a convenience 
+            function - it doesn't offer any performance enhancements. Sometimes the IIS users do not have full access to the temp 
+            directory. This is determined by the system setup you have on your 
+            machine. If this is the case you will get errors returned. So if you are working from ASP you may find that you need to 
+            enable access to the temp directory for the ASPNET user, the 
+            IUSR_MACHINENAME user or the IWAM_MACHINENAME user.</P>
+            <P>Under the ABCChrome engine this method works slightly differently and without an intermediate file. While in many cases this is desirable, it may not scale well for very large HTML strings. If your HTML is larger than perhaps a megabyte you may wish to consider saving the HTML to file and referencing it via a 'file://' protocol specifier.</P>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P><B>Styles and Images. </B>HTML does not exist within a file 
+                  and so it does not have a location. </P>
+                  <P>External stylesheets and images are often referenced via 
+                  relative URLs. Because the HTML has no location it is 
+                  impossible to resolve these relative reference.</P>
+                  <P>This means you need to provide your stylesheet and image links as 
+                  absolute references or provide a <a href="../../xhtmloptions/2-properties/baseuri.htm">BaseURI</a> property to allow them to be resolved. The BaseURI property is only available when you are using the ABCChrome <a href="../../xhtmloptions/2-properties/1-engine.htm">Chrome123, Chrome117 or Chrome86</a> HTML rendering engine.</P>
+                  <P>As an alternative you can insert an HTML BASE 
+                    element into your HTML to specify an appropriate base location, or you can 
+                    save your HTML to file in an appropriate location and then use 
+                    AddImageUrl. Note that any HTML BASE  tag must appear in the HEAD and it must appear before other references.</P>
+                  <P>For security reasons the ABCChrome engines will not accept &quot;file:///&quot; protocol URIs in the HTML you provide. You have to use HTTP based references for this type of resource. Note that it can also be convenient to embed small images using data URIs.<BR>
+                  </P></TD></TR></TBODY></TABLE>
+            <P>Make sure your HTML comes from trusted sources. See the Security section of the <a href="../../../3-concepts/g-htmlrender.htm">HTML / CSS Rendering</a> section of the documentation for details.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

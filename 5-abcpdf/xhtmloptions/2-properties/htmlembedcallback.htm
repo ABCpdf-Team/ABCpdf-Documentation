@@ -1,0 +1,249 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XHtmlOptions HtmlEmbedCallback Property. The multicast delegate to be called when embedding an object while HTML rendering is taking place. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>HtmlEmbedCallback Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default Value</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR><CODE>HtmlEmbedCallback</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>HtmlEmbedCallback</CODE></TD>
+                <TD>null</TD>
+                <TD>No</TD>
+                <TD>The multicast delegate to be called when embedding an 
+                  object while HTML rendering is taking 
+            place.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This delegate is called when embedding an object.</P>
+            <P>Objects embedded in HTML, such as those with the embed HTML tags, 
+            will trigger the callback if they are of certain content types. This 
+            callback provides a way to change the parameters of the embedded 
+            objects.</P>
+            <P>The definition of the HtmlEmbedCallback multicast delegate is as 
+            follows.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">delegate void HtmlEmbedCallback(<A href="../../doc/default.htm">Doc</A> doc, HtmlEmbedInfo info);
+</code></pre><BR><BR><SPAN class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language-vbnet">Delegate Sub HtmlEmbedCallback(doc As <A href="../../doc/default.htm">Doc</A>, info As HtmlEmbedInfo);
+</code></pre></P>
+            <P>doc is the target Doc for the added HTML. The properties of 
+            HtmlEmbedInfo are as follows:</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Property of HtmlEmbedInfo</B></TD>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default Value</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>Url</TD>
+                <TD><SPAN class=language>[C#]</SPAN><BR><pre><code class="language">string
+</code></pre><BR><BR><SPAN class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language">String
+</code></pre></TD>
+                <TD>n/a</TD>
+                <TD>Yes</TD>
+                <TD>The URL of the embedded object.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>BaseUrl</TD>
+                <TD><SPAN class=language>[C#]</SPAN><BR><pre><code class="language">string
+</code></pre><BR><BR><SPAN class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language">String
+</code></pre></TD>
+                <TD>n/a</TD>
+                <TD>Yes</TD>
+                <TD>The base URL for resolving relative URLs. This could be 
+                  the URL of the HTML or the URL from the base tag.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>EmbedType</TD>
+                <TD><pre><code class="language">HtmlEmbedType
+</code></pre></TD>
+                <TD>See description.</TD>
+                <TD>Yes</TD>
+                <TD>The content type of the embedded object. See the table 
+                  below for the possible values.</TD></TR>
+              <TR vAlign=top>
+                <TD 
+                align=middle><SMALL>ParameterNamesAreCaseSensitive</SMALL></TD>
+                <TD><SPAN 
+                  class=language>[C#]</SPAN><BR><pre><code class="language">bool
+</code></pre><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language">Boolean
+</code></pre></TD>
+                <TD>n/a</TD>
+                <TD>Yes</TD>
+                <TD>Indicates whether parameter names are 
+case-sensitive.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>Parameters</TD>
+                <TD><pre><code class="language">HtmlParameterDictionary
+</code></pre></TD>
+                <TD>n/a</TD>
+                <TD>Yes</TD>
+                <TD>The parameters for the embedded object. It depends on the 
+                  value of EmbedType. The public API of HtmlParameterDictionary 
+                  closely resembles that of 
+                  System.Collections.Generic.Dictionary. It behaves like a 
+                  dictionary with string keys and HtmlParameter 
+              values.</TD></TR></TBODY></TABLE>
+            <P>Parameters depends on EmbedType as follows:</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>EmbedType</B></TD>
+                <TD><B>EmbedType Description</B></TD>
+                <TD><B><SMALL>ParameterNamesAreCaseSensitive</SMALL></B></TD>
+                <TD><B>Parameters</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>None</TD>
+                <TD>No content. This value is not used.</TD>
+                <TD></TD>
+                <TD></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>Swf</TD>
+                <TD>SWF files</TD>
+                <TD>true if the version of the SWF file is 7 or above.</TD>
+                <TD>Parameters contains those in the FlashVars parameter and 
+                  the parameters in the URL of the SWF file.</TD></TR></TBODY></TABLE>
+            <P>The values in HtmlParameterDictionary are of type 
+            HtmlParameter.</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Property of HtmlParameter</B></TD>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default Value</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR>
+                <TD align=middle>Value</TD>
+                <TD><SPAN 
+                  class=language>[C#]</SPAN><BR><pre><code class="language">string
+</code></pre><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language">String
+</code></pre></TD>
+                <TD>n/a</TD>
+                <TD>No</TD>
+                <TD>The parameter value.</TD></TR>
+              <TR>
+                <TD align=middle>Conversion</TD>
+                <TD><pre><code class="language"><SMALL>HtmlParameterConversionType</SMALL>
+</code></pre></TD>
+                <TD>None</TD>
+                <TD>No</TD>
+                <TD>The conversion for the value. 
+                  <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+                  cellPadding=3 border=5>
+                    <TBODY>
+                    <TR>
+                      <TD 
+                        align=middle><B><SMALL>HtmlParameterConversionType</SMALL></B></TD>
+                      <TD><B>Description</B></TD></TR>
+                    <TR>
+                      <TD align=middle>None</TD>
+                      <TD>No conversion.</TD></TR>
+                    <TR>
+                      <TD align=middle>UrlToTextFileContent</TD>
+                      <TD>Sets the value to the text content of the file 
+                        pointed to by Value as a 
+              URL.</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following example shows the effect that this parameter has on 
+            HTML rendering.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <pre><code class="language-csharp">using var doc = new Doc();
+string uri = "https://www.websupergoo.com/";
+// Set up the callback
+doc.HtmlOptions.HtmlEmbedCallback = (Doc d, HtmlEmbedInfo info) =&gt; {
+&nbsp;&nbsp;if (info.EmbedType == HtmlEmbedType.Swf) {
+&nbsp;&nbsp;&nbsp;&nbsp;HtmlParameter param;
+&nbsp;&nbsp;&nbsp;&nbsp;if (info.Parameters.TryGetValue("dataURL", out param)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info.Parameters.Remove("dataURL");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param.Conversion = HtmlParameterConversionType.UrlToTextFileContent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info.Parameters["dataXML"] = param;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+};
+// Render html page
+doc.AddImageUrl(uri);
+// Save the document
+doc.Save(Server.MapPath("HtmlOptionsEmbedCallback.pdf"));
+</code></pre>
+            <BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR>
+<pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theURL As String = "https://www.websupergoo.com/"
+&nbsp;&nbsp;' Set up the callback
+&nbsp;&nbsp;doc.HtmlOptions.HtmlEmbedCallback = Function(d As Doc, info As HtmlEmbedInfo) 
+&nbsp;&nbsp;If info.EmbedType = HtmlEmbedType.Swf Then
+&nbsp;&nbsp;&nbsp;&nbsp;Dim param As HtmlParameter
+&nbsp;&nbsp;&nbsp;&nbsp;If info.Parameters.TryGetValue("dataURL", param) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info.Parameters.Remove("dataURL")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param.Conversion = HtmlParameterConversionType.UrlToTextFileContent
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info.Parameters("dataXML") = param
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;End If
+
+&nbsp;&nbsp;End Function
+&nbsp;&nbsp;' Render html page
+&nbsp;&nbsp;doc.AddImageUrl(theURL)
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsEmbedCallback.pdf"))
+End Using
+</code></pre></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

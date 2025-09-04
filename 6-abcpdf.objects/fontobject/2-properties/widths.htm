@@ -1,0 +1,236 @@
+<html>
+<head>
+<title>FontObject Widths Property. The widths of the characters in the font. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Widths Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>IDictionary&lt;char, int&gt;</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>IDictionary&lt;char, int&gt;</code></td>
+                <td>n/a</td>
+                <td>Yes</td>
+                <td>The widths of the characters in the font.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The character widths for all the characters in the font. </p>
+            <p>The array is indexable by Unicode value. For example to find the width of a space (ASCII 32) you would simply reference item 32 in the collection. The values are measured in in 1000ths of a PDF unit.</p>
+            <p> Font subsetting can result in characters being partially or completely removed from a font. ABCpdf will attempt to ensure that the Widths collection only contains entries for valid characters. However sometimes it is difficult to tell and as such you cannot rely on a character being present simply because it has a width.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The example below shows how to add text on a curve and text flowing round a circle.</p>
+            <p><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">string font = "Comic Sans MS";
+string text = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae...";
+string theTitle = "Commentarii de Bello Gallico";
+using var doc = new Doc();
+doc.FontSize = 36;
+doc.TextStyle.Kerning = XTextStyle.KerningType.None;
+doc.Font = doc.EmbedFont(font, LanguageType.Latin, false, true, false);
+// add some radial text in the top middle of the page
+double cx = doc.MediaBox.Width * 0.5;
+double cy = doc.MediaBox.Height * 0.6;
+double r = doc.MediaBox.Width * 0.3;
+CurvedText.AddRadial(doc, text, cx, cy, r, 225, true, false);
+// add some curved text to a rectangle
+double width = doc.MeasureText(theTitle);
+doc.Rect.SetRect(100, 100, width, doc.FontSize * 1.5);
+doc.FrameRect();
+CurvedText.AddCurved(doc, theTitle);
+// save
+doc.Save(Server.MapPath("ExampleCurvedText.pdf"));
+</code></pre>
+              <br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Dim theFont As String = "Comic Sans MS"
+Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae..."
+Dim theTitle As String = "Commentarii de Bello Gallico"
+Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 36
+&nbsp;&nbsp;doc.TextStyle.Kerning = XTextStyle.KerningType.None
+&nbsp;&nbsp;doc.Font = doc.EmbedFont(theFont, LanguageType.Latin, False, True, False)
+&nbsp;&nbsp;' add some radial text in the top middle of the page
+&nbsp;&nbsp;Dim cx As Double = doc.MediaBox.Width * 0.5
+&nbsp;&nbsp;Dim cy As Double = doc.MediaBox.Height * 0.6
+&nbsp;&nbsp;Dim r As Double = doc.MediaBox.Width * 0.3
+&nbsp;&nbsp;CurvedText.AddRadial(doc, theText, cx, cy, r, 225, _
+&nbsp;&nbsp;&nbsp;&nbsp;True, False)
+&nbsp;&nbsp;' add some curved text to a rectangle
+&nbsp;&nbsp;Dim width As Double = doc.MeasureText(theTitle)
+&nbsp;&nbsp;doc.Rect.SetRect(100, 100, width, doc.FontSize * 1.5)
+&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;CurvedText.AddCurved(doc, theTitle)
+&nbsp;&nbsp;' save
+&nbsp;&nbsp;doc.Save(Server.MapPath("ExampleCurvedText.pdf"))
+End Using
+</code></pre>
+              <p><span class=language>[C#]</span><br>
+            <pre><code class="language-csharp">class CurvedText {
+&nbsp;&nbsp;public static void AddCurved(Doc doc, string text) {
+&nbsp;&nbsp;&nbsp;&nbsp;double halfWidth = doc.Rect.Width / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;double height = doc.Rect.Height - doc.TextStyle.Size;
+&nbsp;&nbsp;&nbsp;&nbsp;double radius = ((halfWidth * halfWidth) + (height * height)) / (2 * height);
+&nbsp;&nbsp;&nbsp;&nbsp;double centerX = doc.Rect.Left + halfWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;double centerY = doc.Rect.Bottom + radius + doc.TextStyle.Size;
+&nbsp;&nbsp;&nbsp;&nbsp;double alpha = Math.Asin(halfWidth / radius) - Math.PI;
+&nbsp;&nbsp;&nbsp;&nbsp;AddRadial(doc, text, centerX, centerY, radius, RadiansToDegrees(alpha), true, false);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public static void AddRadial(Doc doc, string text, double centerX, double centerY, double radius, double startAngleDegrees, bool inside, bool clockwise) {
+&nbsp;&nbsp;&nbsp;&nbsp;var font = doc.ObjectSoup[doc.Font] as FontObject;
+&nbsp;&nbsp;&nbsp;&nbsp;var widths = font.Widths;
+&nbsp;&nbsp;&nbsp;&nbsp;int n = text.Length;
+&nbsp;&nbsp;&nbsp;&nbsp;double a = DegreesToRadians(startAngleDegrees);
+&nbsp;&nbsp;&nbsp;&nbsp;double fontWidthToRadians = doc.TextStyle.Size / (radius * 1000);
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; n; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// work out position
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x = centerX + (Math.Sin(a) * radius);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double y = centerY + (Math.Cos(a) * radius);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// add a character
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Pos.X = x;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Pos.Y = y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Reset();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double charRotation = inside ? RadiansToDegrees(-a) + 180 : RadiansToDegrees(-a);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Rotate(charRotation, x, y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(text[i].ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// increment angle
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double da = Convert.ToDouble(widths[text[i]]) * fontWidthToRadians;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a += clockwise ? da : -da;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Reset();
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;private static double DegreesToRadians(double degrees) {
+&nbsp;&nbsp;&nbsp;&nbsp;return degrees * Math.PI / 180;
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;private static double RadiansToDegrees(double radians) {
+&nbsp;&nbsp;&nbsp;&nbsp;return radians * 180 / Math.PI;
+&nbsp;&nbsp;}
+}
+</code></pre>
+            <br>
+            <span class=language>[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Private Class CurvedText
+&nbsp;&nbsp;Public Shared Sub AddCurved(doc As Doc, text As String)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim halfWidth As Double = doc.Rect.Width / 2
+&nbsp;&nbsp;&nbsp;&nbsp;Dim height As Double = doc.Rect.Height - doc.TextStyle.Size
+&nbsp;&nbsp;&nbsp;&nbsp;Dim radius As Double = ((halfWidth * halfWidth) + (height * height)) / (2 * height)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim centerX As Double = doc.Rect.Left + halfWidth
+&nbsp;&nbsp;&nbsp;&nbsp;Dim centerY As Double = doc.Rect.Bottom + radius + doc.TextStyle.Size
+&nbsp;&nbsp;&nbsp;&nbsp;Dim alpha As Double = Math.Asin(halfWidth / radius) - Math.PI
+&nbsp;&nbsp;&nbsp;&nbsp;AddRadial(doc, text, centerX, centerY, radius, RadiansToDegrees(alpha), _
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True, False)
+&nbsp;&nbsp;End Sub
+
+&nbsp;&nbsp;Public Shared Sub AddRadial(doc As Doc, text As String, centerX As Double, centerY As Double, radius As Double, startAngleDegrees As Double, _
+&nbsp;&nbsp;&nbsp;&nbsp;inside As Boolean, clockwise As Boolean)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim font As FontObject = TryCast(doc.ObjectSoup(doc.Font), FontObject)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim widths As IDictionary(Of Char, Integer) = font.Widths
+&nbsp;&nbsp;&nbsp;&nbsp;Dim n As Integer = text.Length
+&nbsp;&nbsp;&nbsp;&nbsp;Dim a As Double = DegreesToRadians(startAngleDegrees)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim fontWidthToRadians As Double = doc.TextStyle.Size / (radius * 1000)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.[String]
+&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; n
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' work out position
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim x As Double = centerX + (Math.Sin(a) * radius)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim y As Double = centerY + (Math.Cos(a) * radius)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' add a character
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Pos.X = x
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Pos.Y = y
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Reset()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim charRotation As Double = If(inside, RadiansToDegrees(-a) + 180, RadiansToDegrees(-a))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Rotate(charRotation, x, y)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(text(i).ToString())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' increment angle
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim da As Double = Convert.ToDouble(widths(text(i))) * fontWidthToRadians
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a += If(clockwise, da, -da)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Reset()
+&nbsp;&nbsp;End Sub
+
+&nbsp;&nbsp;Private Shared Function DegreesToRadians(degrees As Double) As Double
+&nbsp;&nbsp;&nbsp;&nbsp;Return degrees * Math.PI / 180
+&nbsp;&nbsp;End Function
+
+&nbsp;&nbsp;Private Shared Function RadiansToDegrees(radians As Double) As Double
+&nbsp;&nbsp;&nbsp;&nbsp;Return radians * 180 / Math.PI
+&nbsp;&nbsp;End Function
+End Class
+</code></pre>
+            </p>
+<p><img src="../../../images/pdf/ExampleCurvedText.pdf.png" class="example"><BR>
+          ExampleCurvedText.pdf</p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

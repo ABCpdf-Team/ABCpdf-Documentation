@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Signature ValidationPolicy Property. The validation policy for certificates. ABCpdf .NET PDF Library.</title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<meta name="GENERATOR" content="MSHTML 8.00.6001.18813"></head>
+<body bgcolor="#ffffff">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tbody>
+  <tr>
+    <td valign="top"><img src="../../../images/goo.gif" height="60" width="58"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td class="pageheader">ValidationPolicy Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr>
+        <tr>
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" height="11" width="11"></td></tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>
+            <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+              <tbody>
+              <tr>
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td></tr>
+              <tr valign="top">
+                <td align="left"><span class="language">[C#]</span><br><code>ValidationPolicyType</code><br><br><span class="language">[Visual&nbsp;Basic]</span><br><code>ValidationPolicyType</code></td>
+                <td>EntireChainTrust</td>
+                <td>No</td>
+                <td>The validation policy for 
+certificates.</td></tr></tbody></table>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td>
+            <p>The validation policy for certificates.</p>
+            <p>The ValidationPolicyType enumeration may take the following values:</p>
+<ul><li>EntireChainTrust
+</li><li>CertificateSignatureOnly
+</li></ul>
+            <p>When you call <a href="../1-methods/validate.htm">Validate</a>,
+            you can choose to provide additional certificates. This property 
+            indicates how such certificates are used and how the certificates in 
+            the document signature are validated.</p>
+            <p>When you set this property to EntireChainTrust, ABCpdf checks whether the
+            certificates in the document signature can be validated against a
+            trusted root Certificate Authority (trust anchor) by performing a X.509
+            certification path validation as described in <a target="_blank" href="http://www.ietf.org/rfc/rfc5280.txt">RFC 5280</a>.
+            ABCpdf will use the certificates found in "Trusted Root Certification
+            Authorities" in the Windows Certificate Store of the local machine as
+            trust anchors. Certificates you pass into the Validate method will be regarded as additional trust anchors.</p>
+            <p>When you set this property to CertificateSignatureOnly, 
+            ABCpdf checks whether at least one of the certificates in the 
+            document signature has been signed with the public key of one of the 
+            certificates passed to Validate. When this value is set, Validate does
+            not check the Windows Certificate Store. If no certificates have been passed to 
+            <a href="../1-methods/validate.htm">Validate</a>, an exception will be thrown.</p>
+            <p>EntireChainTrust is a sensible default because it is how Acrobat builds up a certificate
+            trust chain and also how PKI generally works.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr>
+          <td>
+            <p>None.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  </tbody></table>
+<p>&nbsp;</p></body></html>

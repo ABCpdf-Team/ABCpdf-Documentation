@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Signature AddLTV Function. Add Long Term Validation (LTV) to the Document Security Store (DSS). ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddLTV Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Add Long Term Validation (LTV) to the Document Security Store (DSS).</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>virtual void AddLTV(Oid oid)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE>Overridable Sub AddLTV(oid As Oid)</CODE></P>
+            <P><CODE><img alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" border="0" height="10" width="10"> may throw 
+            Exception()<BR>
+            </CODE> </P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+<TR vAlign=top>
+                <TD align=middle>oid</TD>
+                <TD>The hash algorithm to use to create the digest of the signature to be timestamped where uri is specified, for example new Oid("SHA256").</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>Add Long Term Validation (LTV) to the Document Security Store (DSS).</p>
+<p>The signature must have been signed and committed prior to calling this method.</p>
+<p>The certificate used to sign the signature must be time-valid at the time of the call or an exception will be thrown.</p>
+<p>The signing certificate and any other certificates in the signing certificate's chain of trust are extracted from the signature.</p>
+<p>Additional reference certificates may be added to the ReferenceCertificates member of this Signature.</p>
+<p>Each of these certificates is added to the document as a stream, along with any Online Certificate Status Protocol(OCSP) responses and/or Certificate Revocation Lists (CRLs) obtained.</p>
+<p>The DSS dictionary is created containing references to these streams.</p>
+<p>In addition a signature Validation Related Information (VRI) entry is added which enables fast lookup of information from the DSS.</p>
+<p>If the TimestampServiceUrl is set an RFC 3161 timestamp will be stored as a stream with its reference set in to the VRI TS entry.</p>
+<p>It it is null then the VRI TU value will be set to the current time from the computer's clock.</p>
+<p>For more information see ISO 32000-2:2017 Section 12.8.4 (https://www.iso.org/standard/63534.html).</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><p>In this example, for simplicity, we use the plain text password overload. However to improve  application security you may wish to use the SecureString overload. </p>
+            <p><span class="language">[C#]</span><br>
+            <pre><code class="language-csharp">using var doc = new Doc();
+X509Certificate2 cert = Certificates.GetFromStore(); // User-defined function
+if (cert == null)
+&nbsp;&nbsp;return; // no certificate found
+doc.Page = doc.AddPage();
+var sig = doc.Form.AddSignature(new XRect("340 160 540 220"), "Signature");
+sig.Sign(cert, false);
+sig.Commit();
+sig = (Signature)doc.Form.Fields["Signature"];
+sig.TimestampServiceUrl = new Uri("http://timestamp.comodoca.com");
+sig.AddLTV(new Oid(CryptoConfig.MapNameToOID("SHA256")));
+doc.Save(Server.MapPath("SignedLTV.pdf"));
+</code></pre>
+            <br>
+            <span class="language">[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim cert As New X509Certificate2(Server.MapPath("MyCertificate.p12"), "mypassword", X509KeyStorageFlags.Exportable)
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;Dim sig As Signature = doc.Form.AddSignature(New XRect("340 160 540 220"), "Signature")
+&nbsp;&nbsp;sig.Sign(cert, False)
+&nbsp;&nbsp;sig.Commit()
+&nbsp;&nbsp;sig = DirectCast(doc.Form.Fields("Signature"), Signature)
+&nbsp;&nbsp;sig.TimestampServiceUrl = New Uri("http://timestamp.comodoca.com")
+&nbsp;&nbsp;sig.AddLTV(New Oid(CryptoConfig.MapNameToOID("SHA256")))
+&nbsp;&nbsp;doc.Save(Server.MapPath("SignedLTV.pdf"))
+End Using
+</code></pre>
+            </p>
+<P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

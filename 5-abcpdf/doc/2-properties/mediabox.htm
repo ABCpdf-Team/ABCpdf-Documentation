@@ -1,0 +1,149 @@
+<html>
+<head>
+<title>Doc MediaBox Property. The current document page size. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> MediaBox Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code><a href="../../xrect/default.htm">XRect</a></code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code><a href="../../xrect/default.htm">XRect</a></code></td>
+                <td>Letter Size <br>
+                  [0, 0, 612, 792].</td>
+                <td>No</td>
+                <td>The current document page size.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This property reflects the size of the current page. It also determines 
+              the size of new pages created by the <a href="../1-methods/addpage.htm">AddPage</a> 
+              method. Note that changing the MediaBox does not change the current 
+              <a href="rect.htm">Rect</a>. So typically you'll want to write code 
+              like this:</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp"><!--notcode-->theDoc.MediaBox.String = &quot;0 0 200 300&quot;;
+theDoc.Rect.String = theDoc.MediaBox.String;
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet"><!--notcode-->theDoc.MediaBox.String = &quot;0 0 200 300&quot;
+theDoc.Rect.String = theDoc.MediaBox.String
+</code></pre></p>
+            <p>Changing this property will change the size of pages created by 
+              subsequent calls to AddPage. However it will not change the size 
+              of the pages that have already been created. To change the size 
+              of the pages that have already been created you need to use the 
+              <a href="../1-methods/setinfo.htm">SetInfo</a> method. For example:</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp"><!--notcode-->theDoc.SetInfo(theDoc.Page, &quot;/MediaBox:Rect&quot;, &quot;0 0 200 300&quot;);
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet"><!--notcode-->theDoc.SetInfo(theDoc.Page, &quot;/MediaBox:Rect&quot;, &quot;0 0 200 300&quot;)
+</code></pre></p>
+            <p>Similar methods can be used to control other page size measures 
+              such as the CropBox, BleedBox, TrimBox and ArtBox. For example:</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp"><!--notcode-->theDoc.SetInfo(theDoc.Page, &quot;/CropBox:Rect&quot;, &quot;20 20 180 280&quot;);
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet"><!--notcode-->theDoc.SetInfo(theDoc.Page, &quot;/CropBox:Rect&quot;, &quot;20 20 180 280&quot;)
+</code></pre></p>
+            <p></p>
+            <p>The default page size is often the one you'll want to use. However 
+              it may be that your PDFs are required to conform to a different 
+              page size. If this is the case you can simply specify the name of 
+              the size rather than the exact dimension. See the <a href="../../xrect/2-properties/string.htm">Rect.String</a> 
+              property for details.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following code creates a PDF document containing three different 
+              pages each with a different size.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.Page = doc.AddPage();
+doc.MediaBox.String = "A4";
+doc.Page = doc.AddPage();
+doc.MediaBox.String = "B5";
+doc.Page = doc.AddPage();
+doc.Save(Server.MapPath("docmediabox.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.MediaBox.String = "A4"
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.MediaBox.String = "B5"
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.Save(Server.MapPath("docmediabox.pdf"))
+End Using
+</code></pre></p>
+            <p>Also see example code in: <a href="../1-methods/addimagedoc.htm">Doc AddImageDoc Function</a>.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

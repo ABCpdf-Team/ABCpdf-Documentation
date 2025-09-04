@@ -1,0 +1,305 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Object Paths</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script>
+<META name=GENERATOR content="MSHTML 8.00.6001.18702"></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE border=0 cellSpacing=4 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG src="../images/goo.gif" width=58 height=60></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Object Paths</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD height=11 background=../images/steel-line-3.gif></TD>
+          <TD height=11 background=../images/steel-line-3.gif width=60></TD>
+          <TD height=11><IMG src="../images/steel-blob-11.gif" width=11 
+            height=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <P>Adobe Portable Document Format (PDF) files are made of a number 
+              of objects. Objects may describe a page, a resource, a sequence 
+              of drawing operations an image or many other components as required 
+              by the document.</P>
+            <p>Every object has a unique Object ID numbered from one upwards. The ID zero refers to the Empty 
+              Object which is an object required internally within ABCpdf. ID 
+              -1 refers to the document trailer. The root of the document hierarchy can be accessed using the <a href="../5-abcpdf/doc/2-properties/root.htm">Doc.Root</a> property or the <a href="../6-abcpdf.objects/2-objectsoup/2-properties/3-catalog.htm">ObjectSoup.Catalog</a>. </p>
+            <P>You can use the <A 
+            href="../5-abcpdf/doc/1-methods/getinfo.htm">GetInfo</A> and <A 
+            href="../5-abcpdf/doc/1-methods/setinfo.htm">SetInfo</A> methods to 
+              directly manipulate any PDF object in your document. However, this is 
+              not advisable unless you are reasonably familiar with the Adobe PDF 
+              Specification.</P>
+            <P>Under normal situations, ABCpdf ensures that your documents are 
+            internally consistent. Using the SetInfo method with Dictionaries, 
+            Values or Paths allows great flexibility in modifying documents but 
+            also allows you to create invalid or corrupt documents.</P>
+            <H2>Dictionaries</H2>
+            <P>If your object is a dictionary, you can specify a particular 
+            dictionary entry for replacement or insertion (dictionary entries 
+            always begin with a slash '/' character). So if you wanted to change 
+            the type of an annotation, you might use the following code:</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.SetInfo(theID, "/Subtype", "(Stamp)");
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.SetInfo(theID, "/Subtype", "(Stamp)")
+</code></pre></p>
+            <H2>Values</H2>
+            <P>Alternatively, you can use the 'Value' selector to specify a 
+            replacement for the entire object. However, if you do this, you must 
+            ensure that the type of your new object is the same as the type of 
+            your old one - you cannot replace a number with a string. For 
+            example.</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.SetInfo(theID, "Value", "&lt;&lt;/Font /Helvetica /Size 10&gt;&gt;");
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.SetInfo(theID, "Value", "&lt;&lt;/Font /Helvetica /Size 10&gt;&gt;")
+</code></pre></p>
+            <H2>Paths</H2>
+            <P>Specifications can be chained together to form complete paths. 
+            Dictionary entries are specified by preceding the entry name with a 
+            slash. Array items are specified using square brackets containing 
+            the index of the item you wish to reference (starting at zero).</P>
+            <P>For example, the code below would return the first item in the 
+            MediaBox array.</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.GetInfo(theID, "/MediaBox[0]");
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.GetInfo(theID, "/MediaBox[0]")
+</code></pre></p>
+            <P>And the code below would return the count entry of the parent of 
+            the object.</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.GetInfo(theID, "/Parent/Count");
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.GetInfo(theID, "/Parent/Count")
+</code></pre></p>
+            <H2>References</H2>
+            <P>Sometimes, you may wish to find a reference to a particular 
+            object. Sometimes, you may wish to skip through the reference and 
+            jump straight into the object itself.</P>
+            <P>You can do this using an asterisk to de-reference an object 
+            within a path. If the object is a reference, it will be 
+            de-referenced; if it is not, then the operator will be ignored.</P>
+            <P>For example, the code below might be used to return the content 
+            stream of the first page of a document.</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.GetInfo(theDoc.Root, "/Pages*/Kids*[0]*/Contents");
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.GetInfo(theDoc.Root, "/Pages*/Kids*[0]*/Contents")
+</code></pre></p>
+            <H2>SetInfo</H2>
+            <P>You can use <A 
+            href="../5-abcpdf/doc/1-methods/setinfo.htm">SetInfo</A> to insert 
+            values specified by paths. You can specify the type of object to be 
+            inserted by appending an identifier to the path.</P>
+            <TABLE class=wsgtable border=5 cellSpacing=0 borderColor=#ffffff 
+            cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Object Type</B></TD>
+                <TD align=left><B>Description</B></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Bool</TD>
+                <TD align=left>
+                  <P>A Boolean value.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Name</TD>
+                <TD align=left>
+                  <P>A name value.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Num</TD>
+                <TD align=left>
+                  <P>A numeric value</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Text</TD>
+                <TD align=left>
+                  <P>A string value.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Ref</TD>
+                <TD align=left>
+                  <P>An indirect reference to an object.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Rect</TD>
+                <TD align=left>
+                  <P>A rectangle. Internally, rectangles are held as arrays of 
+                  numbers, but this provides a convenient shortcut.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Del</TD>
+                <TD align=left>
+                  <P>This is a special entry. It does not insert an object. 
+                  Instead, it ensures that the object specified by the path is 
+                  deleted.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Text[Hex*NoBreak]</TD>
+                <TD align=left>
+                  <P>The asterisk is a delimiter. Each of 'Hex',
+                  'NoBreak', and 'Byte' is optional. For example,
+                  you can specify "/MyEntry:Text[Hex]".</P>
+                  <P>The 'Hex' specifier indicates that the text should
+                  be hex-encoded. The 'NoBreak' specifier indicates that there
+                  should be no line breaks. Also available
+                  is the 'Byte' specifier, which indicates that characters should
+                  be interpreted as a string of bytes rather than a Unicode string.
+                  These settings are used infrequently, and in general, you will not
+                  need them.</P></TD>
+              </TR>
+              <TR vAlign=center>
+                <TD align=middle>:String</TD>
+                <TD align=left><p>This only works for string atoms. </p>
+                  <p>If the string atom contains a value it returns that value.</p>
+                  <p>If there is no value, or the atom is of the wrong type, it returns the special string.</p>
+                  <p>&quot;string_is_null\0ABCpdf&quot;</p></TD>
+              </TR>
+              <TR vAlign=center>
+                <TD align=middle>:Int32</TD>
+                <TD align=left><p>The number in 32 bit integer format.</p>
+                  <p>It may not be possible to represent a value in this format if the number has a floating point element or is too big or too small.</p>
+                  <p>If it is not possible to represent the value, a default value of zero is returned.</p></TD>
+              </TR>
+              <TR vAlign=center>
+                <TD align=middle>:Int64</TD>
+                <TD align=left><p>The equivalent of Int32 but for 64 bit integer values.</p>                  </TD>
+              </TR>
+              <TR vAlign=center>
+                <TD align=middle>:Int32[-1]</TD>
+                <TD align=left><p>The equivalent of Int32 but specifying a default value of -1.</p></TD>
+              </TR>
+              <TR vAlign=center>
+                <TD align=middle>:Int64[-1]</TD>
+                <TD align=left><p>The equivalent of Int64 but specifying a default value of -1.</p></TD>
+              </TR>
+              </TBODY></TABLE>
+            <P>Suppose you wanted to insert an annotation into the page 
+            annotations array. The following code will find the page entry named 
+            "/Annots" (or it will create it if it doesn't exist). It will then 
+            ensure that this entry references an array, and it will insert a 
+            reference Atom at the beginning (item zero) of the array.</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.SetInfo(theDoc.Page, "/Annots[0]:Ref", theID);
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.SetInfo(theDoc.Page, "/Annots[0]:Ref", theID)
+</code></pre></p>
+            <P>Alternatively, if you want to insert your annotation at the end of 
+            the array, just leave out the array index:</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.SetInfo(theDoc.Page, "/Annots[]:Ref", theID);
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.SetInfo(theDoc.Page, "/Annots[]:Ref", theID)
+</code></pre></p>
+            <P>You can also locate items in an array from the end. Use -1 for 
+            the last item, -2 for the second last item, and so on.</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.GetInfo(theDoc.Page, "/Annots[-1]:Ref");
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.GetInfo(theDoc.Page, "/Annots[-1]:Ref")
+</code></pre></p>
+            <P>Insertions can be complex. The next example gets the entry called 
+            "/Font", which contains a dictionary. This dictionary includes an 
+            element called "/Names", which contains an array. The call inserts 
+            the Name object "/Helvetica" at the start of this array.</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.SetInfo(theID, "/Font/Names[0]:Name", "Helvetica");
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.SetInfo(theID, "/Font/Names[0]:Name", "Helvetica")
+</code></pre></p>
+            <H2>GetInfo</H2>
+            <P>You can use <A 
+            href="../5-abcpdf/doc/1-methods/getinfo.htm">GetInfo</A> to query 
+            values specified by paths. The format of the return value is exactly 
+            the same as would be output to your PDF file. You can specify an 
+            alternative format by appending an identifier to the string.</P>
+            <TABLE class=wsgtable border=5 cellSpacing=0 borderColor=#ffffff 
+            cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Format Name</B></TD>
+                <TD align=left><B>Description</B></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:ID</TD>
+                <TD align=left>
+                  <P>The Object ID associated with an object reference.</P>
+                  <P>Normally, object references are returned in an extended 
+                  format (e.g. <pre><code class="language">23 0 R
+</code></pre>). However, if you are only 
+                  interested in the Object ID, then you use this format specifier 
+                  to get only the Object ID (e.g. <pre><code class="language">23
+</code></pre>).</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Obj</TD>
+                <TD align=left>
+                  <P>The object value.</P>
+                  <P>This is used to ensure that all indirect references are 
+                  resolved before the value of the object is returned. This 
+                  ensures you always get an object value rather than an object 
+                  reference.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Text</TD>
+                <TD align=left>
+                  <P>The text of a name or string.</P>
+                  <P>Names and strings may be encoded in a number of ways before 
+                  output to PDF. The text format specifier ensures that the 
+                  unencoded value is returned.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Num</TD>
+                <TD align=left>
+                  <P>The value of a number.</P>
+                  <P>If the object referred to is not a number, then no value is 
+                  returned.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Rect</TD>
+                <TD align=left>
+                  <P>The rect string for a rectangle object.</P>
+                  <P>Rects are typically represented as an array. By specifying 
+                  the rect format, you will get a string value you can place 
+                  directly into the XRect object.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Count</TD>
+                <TD align=left>
+                  <P>The number of items in an array.</P>
+                  <P>The count specifier is a special directive which returns 
+                  the number of items in an array rather than an item from that 
+                  array.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:KeyCount</TD>
+                <TD align=left>
+                  <P>The number of items in a dictionary.</P>
+                  <P>The keycount specifier is a special directive which returns 
+                  the number of items in a dictionary rather than an item from that 
+                  dictionary.</P></TD></TR>
+              <TR vAlign=center>
+                <TD align=middle>:Keys</TD>
+                <TD align=left>
+                  <P>The keys for a dictionary.</P>
+                  <P>The keys specifier is a special directive which returns a 
+                  comma delimited list of the names of the entries in the 
+                  dictionary.</P></TD></TR></TBODY></TABLE>
+            <P>For example, the code below could return the rect of the page 
+            CropBox.</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.GetInfo(theID, "/CropBox:Rect");
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.GetInfo(theID, "/CropBox:Rect")
+</code></pre></p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

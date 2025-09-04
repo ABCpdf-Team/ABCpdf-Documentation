@@ -1,0 +1,142 @@
+<html>
+<head>
+<title>Doc TopDown Property. The current position of the origin. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> TopDown Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
+                <td>false</td>
+                <td>No</td>
+                <td>The current position of the origin.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>PDF coordinates are measured upwards from the bottom of the document. 
+              For some types of layout it can be useful to measure coordinates 
+              downwards from the top of the document.</p>
+            <p>By setting this property to true coordinates are assumed to start 
+              at the top rather than the bottom of the document. </p>
+            <p>More precisely the origin is assumed to be at the top-left of the 
+              current <a href="mediabox.htm">MediaBox</a>.</p>
+            <p>There are a <a href="../../../3-concepts/c-coordinates.htm">variety 
+              of methods</a> you can use to change coordinate systems.</p>
+            <p>Note that transforms operate on the underlying PDF coordinate space 
+              rather than any abstraction specified by the <a href="units.htm">Units</a> 
+              and <a href="topdown.htm">TopDown</a> properties. If you are using 
+              transforms you will find it easiest to work in the native PDF coordinate 
+              space.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following code creates a PDF document and adds a grid measured 
+              in inches.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.Units = UnitType.Inches;
+doc.TopDown = true;
+doc.Width = 1.0 / 8.0;
+doc.FontSize = 1;
+doc.Rect.Pin = XRect.Corner.TopLeft;
+for (int i = 0; i &lt;= 12; i += 2) {
+&nbsp;&nbsp;doc.AddLine(0, i, 12, i);
+&nbsp;&nbsp;doc.Rect.Position(0, i);
+&nbsp;&nbsp;doc.AddText(i.ToString());
+&nbsp;&nbsp;doc.AddLine(i, 0, i, 12);
+&nbsp;&nbsp;doc.Rect.Position(i, 0);
+&nbsp;&nbsp;doc.AddText(i.ToString());
+}
+doc.Save(Server.MapPath("doctopdown.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Units = UnitType.Inches
+&nbsp;&nbsp;doc.TopDown = True
+&nbsp;&nbsp;doc.Width = 1.0 / 8.0
+&nbsp;&nbsp;doc.FontSize = 1
+&nbsp;&nbsp;doc.Rect.Pin = XRect.Corner.TopLeft
+&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;While i &lt;= 12
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddLine(0, i, 12, i)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Position(0, i)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(i.ToString())
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddLine(i, 0, i, 12)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Position(i, 0)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(i.ToString())
+&nbsp;&nbsp;&nbsp;&nbsp;i += 2
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;doc.Save(Server.MapPath("doctopdown.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/doctopdown.pdf.png" class="example"><br>
+              doctopdown.pdf</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

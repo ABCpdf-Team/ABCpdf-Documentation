@@ -1,0 +1,9 @@
+fromgray.htm
+fromrgb.htm
+fromcmyk.htm
+fromcomponents.htm
+fromarrayatom.htm
+fromoperator.htm
+setcolor.htm
+setgray.htm
+setrgb.htm

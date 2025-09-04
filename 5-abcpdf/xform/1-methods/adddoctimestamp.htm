@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XForm AddDocTimestamp Function. Adds a Signature field compatible with a DocTimeStamp. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddDocTimestamp Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Adds a Signature field compatible with a DocTimeStamp.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>Signature AddDocTimestamp()<br>
+            Signature AddDocTimestamp(string name)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE>Function AddDocTimestamp() As Signature<br>
+            Function AddDocTimestamp(name As string) As Signature<BR>
+            </CODE>
+            </P>
+			
+			
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>name</TD>
+                <TD>The name of the document timestamp field. 
+                  If no name is specified a unique name will be added.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            
+<p>Adds a Signature field compatible with a document timestamp.</p>
+<p>Add an RFC 3161 compliant document timestamp field to the form.</p>
+<p>To sign the timestamp you need to specify either a TimestampServiceUrl or a CustomSigner and then call Timestamp.</p>
+<p>&nbsp;</p>
+</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><p>See the Annotations example project for a full example.</p>
+            <p>However the following is a code snippet showing how this might be used.</p>
+            <p><span class="language">[C#]</span><br>
+</p>
+            <pre><code class="language-csharp">using var doc = new Doc();
+// ... set up the doc perhaps by reading a PDF
+if (doc.PageCount == 0)
+&nbsp;&nbsp;doc.Page = doc.AddPage();
+var sig = doc.Form.AddDocTimestamp("Timestamp");
+var uri = new Uri("http://timestamp.digicert.com");
+var oid = new Oid(CryptoConfig.MapNameToOID("SHA256"));
+sig.TimestampServiceUrl = uri;
+sig.Timestamp(oid, 0);
+</code></pre>
+            <br>
+            <span class="language">[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Dim doc = New Doc()
+' ... set up the doc perhaps by reading a PDF
+If doc.PageCount = 0 Then
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+End If
+Dim sig = doc.Form.AddDocTimestamp("Timestamp")
+Dim uri As New Uri("http://timestamp.digicert.com")
+Dim oid As New Oid(CryptoConfig.MapNameToOID("SHA256"))
+sig.TimestampServiceUrl = uri
+sig.Timestamp(oid, 0)
+</code></pre>
+            </p>
+<P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

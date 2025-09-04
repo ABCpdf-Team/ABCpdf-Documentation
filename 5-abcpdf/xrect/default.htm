@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XRect Class</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script>
+<META content="MSHTML 6.00.6001.18099" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>XRect Class</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../images/steel-line-3.gif height=11></TD>
+          <TD height=11><IMG height=11 src="../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Represents a rectangular area in two-dimensional space. When 
+            first created the object defaults to an empty rectangle "0 0 0 
+            0".</P>
+            <P>ABCpdf uses the standard Adobe PDF coordinate space. The origin 
+            of this space is at the bottom left of the document. Distances are 
+            measured up and right in points. Points are a traditional measure 
+            for print work and there are 72 points in an inch. For further 
+            details see the <A 
+            href="../../2-getting_started/3-coordinates.htm">Coordinates</A> 
+            section of the documentation.</P>
+            <P>You can change the coordinate system used by the <A 
+            href="../doc/2-properties/rect.htm">Doc.Rect</A> and the <A 
+            href="../doc/2-properties/mediabox.htm">Doc.MediaBox</A> using the 
+            <A href="../doc/2-properties/units.htm">Doc.Units</A> and <A 
+            href="../doc/2-properties/topdown.htm">Doc.TopDown</A> 
+            properties.</P>
+            <P><CODE><!--notcode-->System.Object<BR>&nbsp;&nbsp;&nbsp;<B> WebSupergoo.ABCpdf13.XRect</B><br>
+              <br>
+            Implements: IDisposable,  IEquatable&lt;XRect&gt;, IComparable&lt;XRect&gt;</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>&nbsp; </TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=sectheader>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Method</B></TD>
+                <TD width="100%"><B>Description</B></TD></TR>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp;
+<A 
+                  href="1-methods/1-fromlbwh.htm">FromLbwh</A></TD>
+                <TD>Creates an XRect from a bottom left corner, a width and a height.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp;
+<A 
+                  href="1-methods/2-fromltwh.htm">FromLtwh</A></TD>
+                <TD>Creates an XRect from a top left corner, a width and a height.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp;
+<A 
+                  href="1-methods/3-fromsides.htm">FromSides</A></TD>
+                <TD>Creates an XRect from the coordinates of two diagonally opposite corners.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp; <A 
+                  href="1-methods/4-frompoints.htm">FromPoints</A></TD>
+                <TD>Create the smallest XRect that encloses all the points supplied.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp; <A 
+                  href="1-methods/5-fromatom.htm">FromAtom</A></TD>
+                <TD>Create an XRect from a standard PDF Rectangle ArrayAtom.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp; <A 
+                  href="1-methods/6-fromnums.htm">FromNums</A></TD>
+                <TD>Create an XRect from an array or list of four numbers.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/xrect.htm">XRect</A></TD>
+                <TD>XRect Constructor.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/contains.htm">Contains</A></TD>
+                <TD>Determine if this rectangle contains a specified point or rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/fitin.htm">FitIn</A></TD>
+                <TD>Fits the rectangle as content inside another rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/getcorners.htm">GetCorners</A></TD>
+                <TD>Get the four corners of the rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/inset.htm">Inset</A></TD>
+                <TD>Insets the edges of the rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/intersect.htm">Intersect</A></TD>
+                <TD>Intersects this rectangle with another rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/intersectswith.htm">IntersectsWith</A></TD>
+                <TD>Determine if this rectangle intersects with another.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/magnify.htm">Magnify</A></TD>
+                <TD>Magnifies the rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/move.htm">Move</A></TD>
+                <TD>Translate the rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/position.htm">Position</A></TD>
+                <TD>Position the bottom left of the rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/resize.htm">Resize</A></TD>
+                <TD>Resizes the rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/union.htm">Union</A></TD>
+                <TD>Union this rectangle with another rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/setrect.htm">SetRect</A></TD>
+                <TD>Sets the location and size of the rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/setsides.htm">SetSides</A></TD>
+                <TD>Sets the sides of the rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/tostring.htm">ToString</A></TD>
+                <TD>Returns a string representation of the object.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/equals.htm">Equals</A></TD>
+                <TD>Test whether the two rectangles are effectively the same.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/gethashcode.htm">GetHashCode</A></TD>
+                <TD>A hash code for the XRect.</TD></TR>
+<!-- autogen end -->
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>&nbsp; </TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=sectheader>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Property</B></TD>
+                <TD width="100%"><B>Description</B></TD></TR>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/bottom.htm">Bottom</A></TD>
+                <TD>The bottom coordinate.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/height.htm">Height</A></TD>
+                <TD>The height of the rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/left.htm">Left</A></TD>
+                <TD>The left coordinate.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/pin.htm">Pin</A></TD>
+                <TD>The corner of the rectangle to pin.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/rectangle.htm">Rectangle</A></TD>
+                <TD>The System.Drawing.Rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/right.htm">Right</A></TD>
+                <TD>The right coordinate.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/string.htm">String</A></TD>
+                <TD>The rect as a string.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/top.htm">Top</A></TD>
+                <TD>The top coordinate.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/width.htm">Width</A></TD>
+                <TD>The width of the rectangle.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/hasarea.htm">HasArea</A></TD>
+                <TD>Whether the rectangle has area.</TD></TR>
+<!-- autogen end -->
+</TBODY></TABLE></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR>
+        <TR>
+          <TD>&nbsp;</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

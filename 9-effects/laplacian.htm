@@ -1,0 +1,201 @@
+<html>
+<head>
+<title>Laplacian Effect</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Laplacian Effect</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>The Laplacian filter is used for detection of edges in an image. 
+              It highlights areas in which intensity changes rapidly producing 
+            a picture of all the edges in an image.</p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Settings</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td><table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr>
+                <td><b>Name</b></td>
+                <td><b>Default</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top">
+                <td>Radius</td>
+                <td>0.8 pixels</td>
+                <td><p>This value determines the size of the edges that are detected.</p>
+                  <p>This value represents the standard deviation of the Laplacian 
+                of Gaussian function.</p></td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Workings</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The Laplacian filter is a standard Laplacian of Gaussian convolution. 
+              This is a second derivative function designed to measure changes 
+              in intensity without being overly sensitive to noise. The function 
+              produces a peak at the start of the change in intensity and then 
+            at the end of the change.</p>
+            <p>Because the Laplacian of Gaussian produces a fairly wide convolution 
+              for a small radius this filter can become quite computationally 
+              expensive as radius is increased.</p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following examples show the effect of a Laplacian filter applied 
+            with a number of different settings.</p>
+            <p><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">void function() {
+&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img3); // original image
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLaplacian.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;using (ImageLayer layer = AddImagePage(doc, img3)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (EffectOperation effect = new EffectOperation("Laplacian")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters["Radius"].Value = 0.8;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLaplacian08.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;using (ImageLayer layer = AddImagePage(doc, img3)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (EffectOperation effect = new EffectOperation("Laplacian")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters["Radius"].Value = 1.6;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLaplacian16.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;using (ImageLayer layer = AddImagePage(doc, img3)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (EffectOperation effect = new EffectOperation("Laplacian")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters["Radius"].Value = 3.2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLaplacian32.jpg");
+&nbsp;&nbsp;}
+}
+</code></pre><br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Sub ...
+&nbsp;&nbsp;Using doc As New Doc()
+&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img3)
+&nbsp;&nbsp;&nbsp;&nbsp;' original image
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLaplacian.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Laplacian")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Radius").Value = 0.8
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLaplacian08.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Laplacian")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Radius").Value = 1.6
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLaplacian16.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Laplacian")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Radius").Value = 3.2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLaplacian32.jpg")
+&nbsp;&nbsp;End Using
+End Sub
+</code></pre><br>
+            </p>
+            <table border="0" width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="sectheader">&nbsp;</td>
+                <td width="11">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td width="11">&nbsp;</td>
+              </tr>
+              <tr>
+                <td><p><img src="images/astroflag.jpg" width="259" height="243"><br>
+                  Original Image before Laplacian Filter</p>
+                    <p>&nbsp;</p></td>
+                <td width="11">&nbsp;</td>
+              </tr>
+              <tr>
+                <td><p><img src="images/laplacian/r08.jpg" width="259" height="243"><br>
+                  Laplacian Radius 0.8 Pixels</p>
+                    <p>&nbsp;</p></td>
+                <td width="11">&nbsp;</td>
+              </tr>
+              <tr>
+                <td><p><img src="images/laplacian/r16.jpg" width="259" height="243"><br>
+                  Laplacian Radius 1.6 Pixels</p>
+                    <p>&nbsp;</p></td>
+                <td width="11">&nbsp;</td>
+              </tr>
+              <tr>
+                <td><p><img src="images/laplacian/r32.jpg" width="259" height="243"><br>
+                  Laplacian Radius 3.2 Pixels</p>
+                    <p>&nbsp;</p></td>
+                <td width="11">&nbsp;</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

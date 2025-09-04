@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>FlattenTransparencyOperation Flatten Function. Flatten the transparency of pages in a document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Flatten Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Flatten the transparency of pages in a document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Flatten(Doc 
+            doc)<BR>void Flatten(Pages pages)<BR>void Flatten(Page 
+            page)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub Flatten(doc As Doc)<BR>Sub Flatten(pages 
+            As Pages)<BR>Sub Flatten(page As Page)<BR></CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>doc</TD>
+                <TD>The document containing transparency to be flattened.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>pages</TD>
+                <TD>The pages whose transparency is to be flattened as referenced by a Pages 
+                  IndirectObject.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>page</TD>
+                <TD>The page whose transparency is to be flattened as referenced by a Page 
+                  IndirectObject.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P><span lang="en-us">Flattens the transparent objects on pages in the document</span>.</P>
+            <P>The FlattenTransparency operation removes any transparent objects and replaces them with opaque ones that appear the same.</P>
+            <P>Because the look of your PDF does not change it can then be displayed or printed on a device that does not support transparency. </P>
+            <P>The name 'Flatten' is used because PDF transparency is represented as a stack of objects. The FlattenTransparency operation reduces that stack height to one.</P>
+            <P>The term 'Transparency' covers perhaps more than you might think. The philosophy on this is that any construct listed in the 'Transparency' section of the PDF reference should be replaced.</P>
+            <P>Prior to PDF 1.4, objects were always opaque - the color of the object would become the color of the entire object - whether it was painted on the background or over previously painted objects. </P>
+            <P>With PDF 1.4 came the idea that some objects could contain transparent attributes that would allow a previously painted object on the page to show through the newly painted object.</P>
+            <P>These attributes include alpha, which is a numeric value for the opaqueness of an object.</P>
+            <P>They also include blend modes, where the color of the underlying object interacts with the color of the overlying object in some more complicated manner.</P>
+            <P>For more information on PDF transparency, please refer to the PDF Specification.<br>
+            </P>
+            <P>Note that this feature is only available under the ABCpdf Professional License.</P>
+            <P>&nbsp;</P>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we <span lang="en-us">flatten all the transparent objects in </span>a 
+                document.</P>
+            <P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">var op = new FlattenTransparencyOperation();
+op.DotsPerInch = 144;
+op.ColorSpace = XRendering.ColorSpaceType.Rgb;
+
+using var doc = new Doc();
+doc.Read(Server.MapPath("../mypics/sample.pdf"));
+op.Flatten(doc);
+doc.Save(Server.MapPath("Flattened.pdf"));
+</code></pre></P>
+<P><SPAN class=language>[Visual Basic]</SPAN>
+<pre><code class="language-vbnet">Dim transOp As New FlattenTransparencyOperation()
+transOp.DotsPerInch = 144
+transOp.ColorSpace = XRendering.ColorSpaceType.Rgb
+
+Dim doc As New Doc()
+doc.Read(Server.MapPath("../mypics/sample.pdf"))
+transOp.Flatten(doc)
+doc.Save(Server.MapPath("Flattened.pdf"))
+</code></pre>
+</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

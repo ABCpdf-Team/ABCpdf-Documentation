@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><title>ZZ Elements Element Assign Function</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
+<link rel="stylesheet" href="../../../../prism.css">
+<script src="../../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Assign Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background="../../../../images/steel-line-3.gif" height=11></TD>
+          <TD width=60 background="../../../../images/steel-line-3.gif" 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Assign an IndirectObject to this <a href="../default.htm">Element</a>.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>virtual bool Assign(IndirectObject obj)<br>virtual bool Assign(<a href="../2-properties/03-atom.htm">Atom</a> host, IndirectObject atom)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE>Overridable Function Assign(obj As IndirectObject) As Boolean<br>Overridable Function Assign(host As <a href="../2-properties/03-atom.htm">Atom</a>, atom As IndirectObject) As Boolean<BR>
+            </CODE>
+			</P>
+			<P>&nbsp;</P>
+			<P><CODE><IMG width="10" height="10" border="0" alt="Throws Exceptions" src="../../../../images/steel-blob-10.gif" >&nbsp;NullReferenceException: Thrown if the atom or host provided is null.</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>obj</TD>
+                <TD>The IndirectObject to be assigned to this <a href="../default.htm">Element</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>host</TD>
+                <TD>An IndirectObject closely associated with this <a href="../2-properties/03-atom.htm">Atom</a> - ideally the one that contains it.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>atom</TD>
+                <TD>The <a href="../2-properties/03-atom.htm">Atom</a> to be assigned to this <a href="../default.htm">Element</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>Whether the assignment was made successfully.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            
+<p>Assign an IndirectObject to this <a href="../default.htm">Element</a>.</p>
+<p>The process of assignment allows an existing IndirectObject to be viewed through the lens of a particular type of <a href="../default.htm">Element</a>.</p>
+<p>It is important to ensure that IndirectObjects are assigned to appropriate types of <a href="../default.htm">Element</a>.</p>
+<p>For example, while is is possible to assign a Page Indirect <a href="../2-properties/05-object.htm">Object</a> to an Image <a href="../default.htm">Element</a>, such an assignment is not going to produce any useful view of the data.</p>
+<p>In addition, some assignments cannot be made at all. This occurs if if the underlying atom types are inconsistent.</p>
+<p>For example a <a href="../../../08-graphics/0020-colorspaceelement/default.htm">ColorSpaceElement</a> is based around an <a href="../2-properties/07-arrayatom.htm">ArrayAtom</a>, so attempting to assign an IndirectObject which contains a <a href="../2-properties/06-dictatom.htm">DictAtom</a> will result in failure.</p>
+<p>Classes that inherit from this one may wish to override this function to ensure that the <a href="../2-properties/03-atom.htm">Atom</a> type that is provided is acceptable.</p>
+
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            None.
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

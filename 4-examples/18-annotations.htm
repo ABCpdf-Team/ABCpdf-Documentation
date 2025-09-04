@@ -1,0 +1,539 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Fields, Markup and Movies Example</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Fields, Markup and Movies Example</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../images/steel-line-3.gif height=11></TD>
+          <TD height=11><IMG height=11 src="../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../images/steel-pin.gif" width=64><BR>Intro</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>In general you will use PDF templates containing Fields and 
+            Annotations created by a designer.</P>
+            <P>However occasionally you may need to create Fields and 
+            Annotations at run-time. You can perform this kind of operation 
+            using the low level functionality within ABCpdf.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../images/steel-pin.gif" width=64><BR>Types</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Annotations are a generic class of objects which exist outside 
+            the page Content Stream. Because they are independent of the PDF 
+            Content Stream they operate independently of the page. They float 
+            over it rather than being embedded in it. </P>
+            <P>Movie Annotations, Note Annotations, Stamp Annotations, Line 
+            Annotations and Polygon Annotations are just a few of the many 
+            Annotation types which exist.</P>
+            <P>Fields are a specific type of Annotation combined with a named 
+            value. It is the fact that the Field is an Annotation which allows 
+            you to see it and interact with it. It is the fact that the 
+            Annotation is linked into the Field hierarchy which allows it to 
+            take a value and be located by name.</P>
+            <P>Movies are a specific type of Annotation. You can embed a variety 
+            of movie formats including Flash and WMV.</P>
+            <P>Creating these types of objects on the fly is complex. For this 
+            reason the examples here are simple summaries. You can find a full 
+            project and classes under the ABCpdf menu item.</P>
+            <P>For full details of the way that Annotations work you should see 
+            the <a target="_blank" href="http://partners.adobe.com/">Adobe PDF 
+            Specification</A>.<BR></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../images/steel-pin.gif" width=64><BR>Fields</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>&nbsp;</TD>
+          <TD>
+            <P>You may wish to generate a PDF document with Fields created 
+            dynamically at run-time. </P>
+            <P>The code below creates a set of Fields including text boxes, 
+            radio buttons, checkboxes and signatures.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;doc.Font = doc.AddFont("Helvetica");
+&nbsp;&nbsp;doc.FontSize = 36;
+
+&nbsp;&nbsp;var cat = doc.ObjectSoup.Catalog;
+
+&nbsp;&nbsp;var fileTree = new EmbeddedFileTree(doc);
+&nbsp;&nbsp;fileTree.EmbedFile("MyFile1", Server.MapPath("ABCpdf.swf"), "attachment without annotation");
+&nbsp;&nbsp;doc.SetInfo(doc.Root, "/PageMode:Name", "UseAttachments");
+
+&nbsp;&nbsp;doc.Pos.X = 40;
+&nbsp;&nbsp;doc.Pos.Y = doc.MediaBox.Top - 40;
+&nbsp;&nbsp;doc.AddText("Interactive Form annotations");
+
+&nbsp;&nbsp;// Create interactive form
+&nbsp;&nbsp;var form = doc.Form;
+&nbsp;&nbsp;int fontID = doc.AddFont("Times-Roman", LanguageType.Latin);
+&nbsp;&nbsp;string fontName = form.AddResource(doc.ObjectSoup[fontID], "Font", "TimesRoman");
+
+&nbsp;&nbsp;// Radio buttons
+&nbsp;&nbsp;var radio = form.AddRadioButtonGroup(new XRect[] { new XRect("40 610 80 650"), new XRect("40 660 80 700") }, "RadioGroupField", 0);
+&nbsp;&nbsp;doc.Pos.String = "100 696";
+&nbsp;&nbsp;doc.AddText("RadioButton 1");
+&nbsp;&nbsp;doc.Pos.String = "100 646";
+&nbsp;&nbsp;doc.AddText("RadioButton 2");
+
+&nbsp;&nbsp;// Text fields
+&nbsp;&nbsp;var text = form.AddTextField(new XRect("40 530 300 580"), "TextField1", "Hello World!");
+&nbsp;&nbsp;var textE = new FieldElement(text);
+&nbsp;&nbsp;var textW = new WidgetAnnotationElement(text);
+&nbsp;&nbsp;textE.EntryDA = $"/{fontName} 36 Tf 0 0 1 rg";
+&nbsp;&nbsp;textW.EntryMK = new AppearanceCharacteristicsElement(textE);
+&nbsp;&nbsp;textW.EntryMK.EntryBC = new double[] { 0, 0, 0 };
+&nbsp;&nbsp;textW.EntryMK.EntryBG = new double[] { 220.0 / 255.0, 220.0 / 255.0, 220.0 / 255.0 };
+&nbsp;&nbsp;textE.EntryQ = 0; // Left alignment
+
+&nbsp;&nbsp;text = form.AddTextField(new XRect("40 460 300 510"), "TextField2", "Text Field");
+&nbsp;&nbsp;textE = new FieldElement(text);
+&nbsp;&nbsp;textW = new WidgetAnnotationElement(text);
+&nbsp;&nbsp;textW.EntryMK = new AppearanceCharacteristicsElement(textE);
+&nbsp;&nbsp;textW.EntryMK.EntryBC = new double[] { 0, 0, 0 };
+&nbsp;&nbsp;textE.EntryDA = $"/{fontName} 36 Tf 0 0 1 rg";
+&nbsp;&nbsp;textE.EntryQ = 0; // Left alignment
+&nbsp;&nbsp;textE.EntryFf |= (int)Field.FieldFlags.Password;
+
+&nbsp;&nbsp;text = form.AddTextField(new XRect("320 460 370 580"), "TextField3", "Vertical");
+&nbsp;&nbsp;textE = new FieldElement(text);
+&nbsp;&nbsp;textW = new WidgetAnnotationElement(text);
+&nbsp;&nbsp;textW.EntryMK = new AppearanceCharacteristicsElement(textE);
+&nbsp;&nbsp;textW.EntryMK.EntryBC = new double[] { 0, 0, 0 };
+&nbsp;&nbsp;textE.EntryDA = $"/{fontName} 36 Tf 0 0 0 rg";
+&nbsp;&nbsp;textW.EntryMK.EntryR = 90; // Rotation
+
+&nbsp;&nbsp;// Combobox field
+&nbsp;&nbsp;var combo = form.AddComboBoxField(new XRect("40 390 300 440"), "ComboBoxField");
+&nbsp;&nbsp;var comboE = new FieldElement(combo);
+&nbsp;&nbsp;comboE.EntryDA = $"/{fontName} 24 Tf 0 0 0 rg";
+&nbsp;&nbsp;combo.Options = new string[] { "ComboBox Item 1", "ComboBox Item 2", "ComboBox Item 3" };
+
+&nbsp;&nbsp;// Listbox field
+&nbsp;&nbsp;var listbox = form.AddListBoxField(new XRect("40 280 300 370"), "ListBoxField");
+&nbsp;&nbsp;var listboxE = new FieldElement(listbox);
+&nbsp;&nbsp;listboxE.EntryDA = $"/{fontName} 24 Tf 0 0 0 rg";
+&nbsp;&nbsp;listbox.Options = new string[] { "ListBox Item 1", "ListBox Item 2", "ListBox Item 3" };
+
+&nbsp;&nbsp;// Checkbox field
+&nbsp;&nbsp;form.AddCheckbox(new XRect("40 220 80 260"), "CheckBoxField", true);
+&nbsp;&nbsp;doc.Pos.String = "100 256";
+&nbsp;&nbsp;doc.AddText("Check Box");
+
+&nbsp;&nbsp;// Pushbutton field
+&nbsp;&nbsp;var button = form.AddButton(new XRect("40 160 200 200"), "ButtonField", "Button");
+&nbsp;&nbsp;var buttonW = new WidgetAnnotationElement(button);
+&nbsp;&nbsp;buttonW.EntryMK = new AppearanceCharacteristicsElement(buttonW);
+&nbsp;&nbsp;buttonW.EntryMK.EntryBC = new double[] { 0, 0, 0 };
+&nbsp;&nbsp;buttonW.EntryBS = new BorderStyleElement(buttonW);
+&nbsp;&nbsp;buttonW.EntryBS.EntryS = "B"; // beveled
+
+&nbsp;&nbsp;// Signature field
+&nbsp;&nbsp;var sig1 = form.AddSignature(new XRect("40 100 240 150"), "Signature1");
+&nbsp;&nbsp;doc.Save(Server.MapPath("annotations1.pdf"));
+}
+</code></pre>
+            <p><span class="language">[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Font = doc.AddFont("Helvetica")
+&nbsp;&nbsp;doc.FontSize = 36
+
+&nbsp;&nbsp;Dim cat As Catalog = doc.ObjectSoup.Catalog
+
+&nbsp;&nbsp;Dim fileTree As New EmbeddedFileTree(doc)
+&nbsp;&nbsp;fileTree.EmbedFile("MyFile1", Server.MapPath("ABCpdf.swf"), "attachment without annotation")
+&nbsp;&nbsp;doc.SetInfo(doc.Root, "/PageMode:Name", "UseAttachments")
+
+&nbsp;&nbsp;doc.Pos.X = 40
+&nbsp;&nbsp;doc.Pos.Y = doc.MediaBox.Top - 40
+&nbsp;&nbsp;doc.AddText("Interactive Form annotations")
+
+&nbsp;&nbsp;' Create interactive form
+&nbsp;&nbsp;Dim form As XForm = doc.Form
+&nbsp;&nbsp;Dim fontID As Integer = doc.AddFont("Times-Roman", LanguageType.Latin)
+&nbsp;&nbsp;Dim fontName As String = form.AddResource(doc.ObjectSoup(fontID), "Font", "TimesRoman")
+
+&nbsp;&nbsp;' Radio buttons
+&nbsp;&nbsp;Dim radio As Field = form.AddRadioButtonGroup(New XRect() {New XRect("40 610 80 650"), New XRect("40 660 80 700")}, "RadioGroupField", 0)
+&nbsp;&nbsp;doc.Pos.String = "100 696"
+&nbsp;&nbsp;doc.AddText("RadioButton 1")
+&nbsp;&nbsp;doc.Pos.String = "100 646"
+&nbsp;&nbsp;doc.AddText("RadioButton 2")
+
+&nbsp;&nbsp;' Text fields
+&nbsp;&nbsp;Dim text As Field = form.AddTextField(New XRect("40 530 300 580"), "TextField1", "Hello World!")
+&nbsp;&nbsp;Dim textE As New FieldElement(text)
+&nbsp;&nbsp;Dim textW As New WidgetAnnotationElement(text)
+&nbsp;&nbsp;textE.EntryDA = $"/{fontName} 36 Tf 0 0 1 rg"
+&nbsp;&nbsp;textW.EntryMK = New AppearanceCharacteristicsElement(textE)
+&nbsp;&nbsp;textW.EntryMK.EntryBC = New Double() {0, 0, 0}
+&nbsp;&nbsp;textW.EntryMK.EntryBG = New Double() {220.0 / 255.0, 220.0 / 255.0, 220.0 / 255.0}
+&nbsp;&nbsp;textE.EntryQ = 0
+&nbsp;&nbsp;' Left alignment
+&nbsp;&nbsp;text = form.AddTextField(New XRect("40 460 300 510"), "TextField2", "Text Field")
+&nbsp;&nbsp;textE = New FieldElement(text)
+&nbsp;&nbsp;textW = New WidgetAnnotationElement(text)
+&nbsp;&nbsp;textW.EntryMK = New AppearanceCharacteristicsElement(textE)
+&nbsp;&nbsp;textW.EntryMK.EntryBC = New Double() {0, 0, 0}
+&nbsp;&nbsp;textE.EntryDA = $"/{fontName} 36 Tf 0 0 1 rg"
+&nbsp;&nbsp;textE.EntryQ = 0
+&nbsp;&nbsp;' Left alignment
+&nbsp;&nbsp;textE.EntryFf = textE.EntryFf Or DirectCast(Field.FieldFlags.Password, Integer)
+
+&nbsp;&nbsp;text = form.AddTextField(New XRect("320 460 370 580"), "TextField3", "Vertical")
+&nbsp;&nbsp;textE = New FieldElement(text)
+&nbsp;&nbsp;textW = New WidgetAnnotationElement(text)
+&nbsp;&nbsp;textW.EntryMK = New AppearanceCharacteristicsElement(textE)
+&nbsp;&nbsp;textW.EntryMK.EntryBC = New Double() {0, 0, 0}
+&nbsp;&nbsp;textE.EntryDA = $"/{fontName} 36 Tf 0 0 0 rg"
+&nbsp;&nbsp;textW.EntryMK.EntryR = 90
+&nbsp;&nbsp;' Rotation
+&nbsp;&nbsp;' Combobox field
+&nbsp;&nbsp;Dim combo As Field = form.AddComboBoxField(New XRect("40 390 300 440"), "ComboBoxField")
+&nbsp;&nbsp;Dim comboE As New FieldElement(combo)
+&nbsp;&nbsp;comboE.EntryDA = $"/{fontName} 24 Tf 0 0 0 rg"
+&nbsp;&nbsp;combo.Options = New String() {"ComboBox Item 1", "ComboBox Item 2", "ComboBox Item 3"}
+
+&nbsp;&nbsp;' Listbox field
+&nbsp;&nbsp;Dim listbox As Field = form.AddListBoxField(New XRect("40 280 300 370"), "ListBoxField")
+&nbsp;&nbsp;Dim listboxE As New FieldElement(listbox)
+&nbsp;&nbsp;listboxE.EntryDA = $"/{fontName} 24 Tf 0 0 0 rg"
+&nbsp;&nbsp;listbox.Options = New String() {"ListBox Item 1", "ListBox Item 2", "ListBox Item 3"}
+
+&nbsp;&nbsp;' Checkbox field
+&nbsp;&nbsp;form.AddCheckbox(New XRect("40 220 80 260"), "CheckBoxField", True)
+&nbsp;&nbsp;doc.Pos.String = "100 256"
+&nbsp;&nbsp;doc.AddText("Check Box")
+
+&nbsp;&nbsp;' Pushbutton field
+&nbsp;&nbsp;Dim button As Field = form.AddButton(New XRect("40 160 200 200"), "ButtonField", "Button")
+&nbsp;&nbsp;Dim buttonW As New WidgetAnnotationElement(button)
+&nbsp;&nbsp;buttonW.EntryMK = New AppearanceCharacteristicsElement(buttonW)
+&nbsp;&nbsp;buttonW.EntryMK.EntryBC = New Double() {0, 0, 0}
+&nbsp;&nbsp;buttonW.EntryBS = New BorderStyleElement(buttonW)
+&nbsp;&nbsp;buttonW.EntryBS.EntryS = "B"
+&nbsp;&nbsp;' beveled
+&nbsp;&nbsp;' Signature field
+&nbsp;&nbsp;Dim sig1 As Signature = form.AddSignature(New XRect("40 100 240 150"), "Signature1")
+&nbsp;&nbsp;doc.Save(Server.MapPath("annotations1.pdf"))
+End Using
+</code></pre></p>
+            <BR>
+            </P>
+            <P><IMG src="../images/pdf/annotations1.pdf.png" class="example"><BR></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../images/steel-pin.gif" width=64><BR>Markup</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>&nbsp;</TD>
+          <TD>
+            <P>You may wish to generate a PDF document with markup created 
+            dynamically at run-time. </P>
+            <P>The code below creates a set of markup Annotations including 
+            squares, lines, text effects, circles and polygons.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;//Markup annotations
+&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;doc.Pos.X = 40;
+&nbsp;&nbsp;doc.Pos.Y = doc.MediaBox.Top - 40;
+&nbsp;&nbsp;doc.AddText("Markup annotations");
+&nbsp;&nbsp;var cat = doc.ObjectSoup.Catalog;
+
+&nbsp;&nbsp;var square = new SquareAnnotation(doc, new XRect("40 560 300 670"), XColor.FromRgb(255, 0, 0), XColor.FromRgb(0, 0, 255));
+&nbsp;&nbsp;square.SquareElement.EntryBS = new BorderStyleElement(square.SquareElement);
+&nbsp;&nbsp;square.SquareElement.EntryBS.EntryW = 8;
+
+&nbsp;&nbsp;var line = new LineAnnotation(doc, new XPoint("100 565"), new XPoint("220 665"), XColor.FromRgb(255, 0, 0));
+&nbsp;&nbsp;line.LineElement.EntryBS = new BorderStyleElement(line.LineElement);
+&nbsp;&nbsp;line.LineElement.EntryBS.EntryW = 12;
+&nbsp;&nbsp;line.RichTextCaption = "&lt;span style= \"font-size:36pt; color:#FF0000\"&gt;Line&lt;/span&gt;";
+
+&nbsp;&nbsp;doc.FontSize = 24;
+&nbsp;&nbsp;int fontID = doc.AddFont("Times-Roman", LanguageType.Latin);
+&nbsp;&nbsp;doc.Pos.String = "400 670";
+&nbsp;&nbsp;int id = doc.AddText("Underline");
+&nbsp;&nbsp;var markup = new TextMarkupAnnotation(doc, fontID, TextMarkupType.Underline, XColor.FromRgb(0, 255, 0));
+
+&nbsp;&nbsp;doc.Pos.String = "400 640";
+&nbsp;&nbsp;fontID = doc.AddText("Highlight");
+&nbsp;&nbsp;markup = new TextMarkupAnnotation(doc, fontID, TextMarkupType.Highlight, XColor.FromRgb(255, 255, 0));
+
+&nbsp;&nbsp;doc.Pos.String = "400 610";
+&nbsp;&nbsp;fontID = doc.AddText("StrikeOut");
+&nbsp;&nbsp;markup = new TextMarkupAnnotation(doc, fontID, TextMarkupType.StrikeOut, XColor.FromRgb(255, 0, 0));
+
+&nbsp;&nbsp;doc.Pos.String = "400 580";
+&nbsp;&nbsp;fontID = doc.AddText("Squiggly");
+&nbsp;&nbsp;markup = new TextMarkupAnnotation(doc, fontID, TextMarkupType.Squiggly, XColor.FromRgb(0, 0, 255));
+
+&nbsp;&nbsp;var circle = new CircleAnnotation(doc, new XRect("80 320 285 525"), XColor.FromRgb(255, 255, 0), XColor.FromRgb(255, 128, 0));
+&nbsp;&nbsp;circle.CircleElement.EntryBS = new BorderStyleElement(circle.CircleElement);
+&nbsp;&nbsp;circle.CircleElement.EntryBS.EntryW = 20;
+&nbsp;&nbsp;circle.CircleElement.EntryBS.EntryS = "D"; // dashed
+&nbsp;&nbsp;circle.CircleElement.EntryBS.EntryD = new ArrayElement&lt;Element&gt;(Atom.FromString("[3 2]"), cat);
+
+&nbsp;&nbsp;var arrowLine = new LineAnnotation(doc, new XPoint("385 330"), new XPoint("540 520"), XColor.FromRgb(255, 0, 0));
+&nbsp;&nbsp;arrowLine.LineEndingsStyle = "ClosedArrow ClosedArrow";
+&nbsp;&nbsp;arrowLine.LineElement.EntryBS = new BorderStyleElement(arrowLine.LineElement);
+&nbsp;&nbsp;arrowLine.LineElement.EntryBS.EntryW = 6;
+&nbsp;&nbsp;arrowLine.FillColor = XColor.FromRgb(255, 0, 0);
+
+&nbsp;&nbsp;double[] v1 = new double[] { 100, 70, 50, 120, 50, 220, 100, 270, 200, 270, 250, 220, 250, 120, 200, 70 };
+&nbsp;&nbsp;var polygon = new PolygonAnnotation(doc, v1, XColor.FromRgb(255, 0, 0), XColor.FromRgb(0, 255, 0));
+&nbsp;&nbsp;double[] v2 = new double[] { 400, 70, 350, 120, 350, 220, 400, 270, 500, 270, 550, 220, 550, 120, 500, 70 };
+&nbsp;&nbsp;var cloudyPolygon = new PolygonAnnotation(doc, v2, XColor.FromRgb(255, 0, 0), XColor.FromRgb(64, 85, 255));
+&nbsp;&nbsp;cloudyPolygon.CloudyEffect = 1;
+&nbsp;&nbsp;doc.Save(Server.MapPath("annotations2.pdf"));
+}
+</code></pre>
+            <p><span class="language">[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;'Markup annotations
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.Pos.X = 40
+&nbsp;&nbsp;doc.Pos.Y = doc.MediaBox.Top - 40
+&nbsp;&nbsp;doc.AddText("Markup annotations")
+&nbsp;&nbsp;Dim cat As Catalog = doc.ObjectSoup.Catalog
+
+&nbsp;&nbsp;Dim square As New SquareAnnotation(doc, New XRect("40 560 300 670"), XColor.FromRgb(255, 0, 0), XColor.FromRgb(0, 0, 255))
+&nbsp;&nbsp;square.SquareElement.EntryBS = New BorderStyleElement(square.SquareElement)
+&nbsp;&nbsp;square.SquareElement.EntryBS.EntryW = 8
+
+&nbsp;&nbsp;Dim line As New LineAnnotation(doc, New XPoint("100 565"), New XPoint("220 665"), XColor.FromRgb(255, 0, 0))
+&nbsp;&nbsp;line.LineElement.EntryBS = New BorderStyleElement(line.LineElement)
+&nbsp;&nbsp;line.LineElement.EntryBS.EntryW = 12
+&nbsp;&nbsp;line.RichTextCaption = "&lt;span style= ""font-size:36pt; color:#FF0000""&gt;Line&lt;/span&gt;"
+
+&nbsp;&nbsp;doc.FontSize = 24
+&nbsp;&nbsp;Dim fontID As Integer = doc.AddFont("Times-Roman", LanguageType.Latin)
+&nbsp;&nbsp;doc.Pos.String = "400 670"
+&nbsp;&nbsp;Dim id As Integer = doc.AddText("Underline")
+&nbsp;&nbsp;Dim markup As New TextMarkupAnnotation(doc, fontID, TextMarkupType.Underline, XColor.FromRgb(0, 255, 0))
+
+&nbsp;&nbsp;doc.Pos.String = "400 640"
+&nbsp;&nbsp;fontID = doc.AddText("Highlight")
+&nbsp;&nbsp;markup = New TextMarkupAnnotation(doc, fontID, TextMarkupType.Highlight, XColor.FromRgb(255, 255, 0))
+
+&nbsp;&nbsp;doc.Pos.String = "400 610"
+&nbsp;&nbsp;fontID = doc.AddText("StrikeOut")
+&nbsp;&nbsp;markup = New TextMarkupAnnotation(doc, fontID, TextMarkupType.StrikeOut, XColor.FromRgb(255, 0, 0))
+
+&nbsp;&nbsp;doc.Pos.String = "400 580"
+&nbsp;&nbsp;fontID = doc.AddText("Squiggly")
+&nbsp;&nbsp;markup = New TextMarkupAnnotation(doc, fontID, TextMarkupType.Squiggly, XColor.FromRgb(0, 0, 255))
+
+&nbsp;&nbsp;Dim circle As New CircleAnnotation(doc, New XRect("80 320 285 525"), XColor.FromRgb(255, 255, 0), XColor.FromRgb(255, 128, 0))
+&nbsp;&nbsp;circle.CircleElement.EntryBS = New BorderStyleElement(circle.CircleElement)
+&nbsp;&nbsp;circle.CircleElement.EntryBS.EntryW = 20
+&nbsp;&nbsp;circle.CircleElement.EntryBS.EntryS = "D"
+&nbsp;&nbsp;' dashed
+&nbsp;&nbsp;circle.CircleElement.EntryBS.EntryD = New ArrayElement(Of Element)(Atom.FromString("[3 2]"), cat)
+
+&nbsp;&nbsp;Dim arrowLine As New LineAnnotation(doc, New XPoint("385 330"), New XPoint("540 520"), XColor.FromRgb(255, 0, 0))
+&nbsp;&nbsp;arrowLine.LineEndingsStyle = "ClosedArrow ClosedArrow"
+&nbsp;&nbsp;arrowLine.LineElement.EntryBS = New BorderStyleElement(arrowLine.LineElement)
+&nbsp;&nbsp;arrowLine.LineElement.EntryBS.EntryW = 6
+&nbsp;&nbsp;arrowLine.FillColor = XColor.FromRgb(255, 0, 0)
+
+&nbsp;&nbsp;Dim v1 As Double() = New Double() {100, 70, 50, 120, 50, 220, _
+&nbsp;&nbsp;&nbsp;&nbsp;100, 270, 200, 270, 250, 220, _
+&nbsp;&nbsp;&nbsp;&nbsp;250, 120, 200, 70}
+&nbsp;&nbsp;Dim polygon As New PolygonAnnotation(doc, v1, XColor.FromRgb(255, 0, 0), XColor.FromRgb(0, 255, 0))
+&nbsp;&nbsp;Dim v2 As Double() = New Double() {400, 70, 350, 120, 350, 220, _
+&nbsp;&nbsp;&nbsp;&nbsp;400, 270, 500, 270, 550, 220, _
+&nbsp;&nbsp;&nbsp;&nbsp;550, 120, 500, 70}
+&nbsp;&nbsp;Dim cloudyPolygon As New PolygonAnnotation(doc, v2, XColor.FromRgb(255, 0, 0), XColor.FromRgb(64, 85, 255))
+&nbsp;&nbsp;cloudyPolygon.CloudyEffect = 1
+&nbsp;&nbsp;doc.Save(Server.MapPath("annotations2.pdf"))
+End Using
+</code></pre></p>
+<BR>
+</P>
+            <P><IMG src="../images/pdf/annotations2.pdf.png" class="example"><BR></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../images/steel-pin.gif" width=64><BR>Movies</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>&nbsp;</TD>
+          <TD>
+            <P>You may wish to generate a PDF document with movies inserted 
+            dynamically at run-time. </P>
+            <P>The code below inserts a Flash movie and a WMV movie.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;//Movie annotations
+&nbsp;&nbsp;//WMV is courtesy of NASA - http://www.nasa.gov/wmv/30873main_cardiovascular_300.wmv
+&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;doc.Pos.X = 40;
+&nbsp;&nbsp;doc.Pos.Y = doc.MediaBox.Top - 40;
+&nbsp;&nbsp;doc.AddText("Multimedia features");
+
+&nbsp;&nbsp;doc.FontSize = 24;
+
+&nbsp;&nbsp;doc.Pos.String = "40 690";
+&nbsp;&nbsp;doc.AddText("Flash movie:");
+&nbsp;&nbsp;var movie1 = new ScreenAnnotation(doc, new XRect("40 420 300 650"), Server.MapPath("ABCpdf.swf"));
+
+&nbsp;&nbsp;doc.Pos.String = "312 690";
+&nbsp;&nbsp;doc.AddText("Flash rich media:");
+&nbsp;&nbsp;var media1 = new RichMediaAnnotation(doc, new XRect("312 420 572 650"), Server.MapPath("ABCpdf.swf"), "Flash");
+&nbsp;&nbsp;doc.Save(Server.MapPath("annotations3.pdf"));
+}
+</code></pre>
+            <p><span class="language">[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;'Movie annotations
+&nbsp;&nbsp;'WMV is courtesy of NASA - http://www.nasa.gov/wmv/30873main_cardiovascular_300.wmv
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.Pos.X = 40
+&nbsp;&nbsp;doc.Pos.Y = doc.MediaBox.Top - 40
+&nbsp;&nbsp;doc.AddText("Multimedia features")
+
+&nbsp;&nbsp;doc.FontSize = 24
+
+&nbsp;&nbsp;doc.Pos.String = "40 690"
+&nbsp;&nbsp;doc.AddText("Flash movie:")
+&nbsp;&nbsp;Dim movie1 As New ScreenAnnotation(doc, New XRect("40 420 300 650"), Server.MapPath("ABCpdf.swf"))
+
+&nbsp;&nbsp;doc.Pos.String = "312 690"
+&nbsp;&nbsp;doc.AddText("Flash rich media:")
+&nbsp;&nbsp;Dim media1 As New RichMediaAnnotation(doc, New XRect("312 420 572 650"), Server.MapPath("ABCpdf.swf"), "Flash")
+&nbsp;&nbsp;doc.Save(Server.MapPath("annotations3.pdf"))
+End Using
+</code></pre></p>
+<BR>
+</P>
+            <P><IMG src="../images/pdf/annotations3.pdf.png" class="example"><BR></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../images/steel-pin.gif" width=64><BR>Other</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>&nbsp;</TD>
+          <TD>
+            <P>You may wish to generate a PDF document with other types of 
+            Annotation inserted dynamically at run-time. </P>
+            <P>The code below adds a sticky note, a file attachment and some 
+            rubber stamps.</P>
+            <P><SPAN 
+            class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;doc.FontSize = 36;
+&nbsp;&nbsp;doc.Pos.X = 40;
+&nbsp;&nbsp;doc.Pos.Y = doc.MediaBox.Top - 40;
+&nbsp;&nbsp;doc.AddText("Other types of annotations");
+
+&nbsp;&nbsp;//Sticky note annotation
+&nbsp;&nbsp;doc.FontSize = 24;
+&nbsp;&nbsp;doc.Pos.String = "40 680";
+&nbsp;&nbsp;doc.AddText("Text annotation");
+&nbsp;&nbsp;var textAnnotation = new TextAnnotation(doc, new XRect("340 660 360 680"), new XRect("550 650 600 750"), "6 sets of 13 pages. Trim to 5X7.");
+
+&nbsp;&nbsp;//File attachment annotation
+&nbsp;&nbsp;doc.Pos.String = "40 640";
+&nbsp;&nbsp;doc.AddText("File Attachment annotation");
+&nbsp;&nbsp;var fileAttachment = new FileAttachmentAnnotation(doc, new XRect("340 620 360 640"), Server.MapPath("video.WMV"));
+
+&nbsp;&nbsp;//StampAnnotations
+&nbsp;&nbsp;doc.Pos.String = "40 600";
+&nbsp;&nbsp;doc.AddText("Stamp annotations");
+&nbsp;&nbsp;var stamp1 = new StampAnnotation(doc, new XRect("340 560 540 600"), "DRAFT", XColor.FromRgb(0, 0, 128));
+&nbsp;&nbsp;var stamp2 = new StampAnnotation(doc, new XRect("340 505 540 545"), "FINAL", XColor.FromRgb(0, 128, 0));
+&nbsp;&nbsp;var stamp3 = new StampAnnotation(doc, new XRect("340 450 540 490"), "NOT APPROVED", XColor.FromRgb(128, 0, 0));
+&nbsp;&nbsp;doc.Save(Server.MapPath("annotations4.pdf"));
+}
+</code></pre>
+            <p><span class="language">[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.FontSize = 36
+&nbsp;&nbsp;doc.Pos.X = 40
+&nbsp;&nbsp;doc.Pos.Y = doc.MediaBox.Top - 40
+&nbsp;&nbsp;doc.AddText("Other types of annotations")
+
+&nbsp;&nbsp;'Sticky note annotation
+&nbsp;&nbsp;doc.FontSize = 24
+&nbsp;&nbsp;doc.Pos.String = "40 680"
+&nbsp;&nbsp;doc.AddText("Text annotation")
+&nbsp;&nbsp;Dim textAnnotation As New TextAnnotation(doc, New XRect("340 660 360 680"), New XRect("550 650 600 750"), "6 sets of 13 pages. Trim to 5X7.")
+
+&nbsp;&nbsp;'File attachment annotation
+&nbsp;&nbsp;doc.Pos.String = "40 640"
+&nbsp;&nbsp;doc.AddText("File Attachment annotation")
+&nbsp;&nbsp;Dim fileAttachment As New FileAttachmentAnnotation(doc, New XRect("340 620 360 640"), Server.MapPath("video.WMV"))
+
+&nbsp;&nbsp;'StampAnnotations
+&nbsp;&nbsp;doc.Pos.String = "40 600"
+&nbsp;&nbsp;doc.AddText("Stamp annotations")
+&nbsp;&nbsp;Dim stamp1 As New StampAnnotation(doc, New XRect("340 560 540 600"), "DRAFT", XColor.FromRgb(0, 0, 128))
+&nbsp;&nbsp;Dim stamp2 As New StampAnnotation(doc, New XRect("340 505 540 545"), "FINAL", XColor.FromRgb(0, 128, 0))
+&nbsp;&nbsp;Dim stamp3 As New StampAnnotation(doc, New XRect("340 450 540 490"), "NOT APPROVED", XColor.FromRgb(128, 0, 0))
+&nbsp;&nbsp;doc.Save(Server.MapPath("annotations4.pdf"))
+End Using
+</code></pre></p>
+<BR>
+</P>
+            <P><IMG src="../images/pdf/annotations4.pdf.png" class="example"><BR></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

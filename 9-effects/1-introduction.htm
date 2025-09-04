@@ -1,0 +1,117 @@
+<html>
+<head>
+<title>Introduction to  Effects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Introduction to  Effects</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>Effects are an operation which can be applied to images. They include common and useful functions like blur and sharpen filters.</p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Basics</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Effects are applied using the <a href="../8-abcpdf.operations/D-effectoperation/default.htm">EffectOperation</a> class. To apply an effect you can use code as simple as this.</p>
+            <p><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">void function() {
+&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img5);
+&nbsp;&nbsp;&nbsp;&nbsp;using (ImageLayer layer = AddImagePage(doc, img5)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (EffectOperation effect = new EffectOperation("Sharpen")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectSharpen1b.jpg");
+}
+</code></pre><br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Sub ...
+&nbsp;&nbsp;Using doc As New Doc()
+&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img5)
+&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img5)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Sharpen")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectSharpen1b.jpg")
+End Sub
+</code></pre><br>
+</p>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Examples</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The  examples make use of a function named AddImagePage. This function simply creates an appropriate Doc object, adds the image and returns the ImageLayer which was added.</p>
+            <p><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">private ImageLayer AddImagePage(Doc doc, string path) {
+&nbsp;&nbsp;using (XImage img = XImage.FromFile(path, null)) {
+&nbsp;&nbsp;&nbsp;&nbsp;doc.MediaBox.SetSides(0, 0, img.Width, img.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;int id = doc.AddImageObject(img);
+&nbsp;&nbsp;&nbsp;&nbsp;return (ImageLayer)doc.ObjectSoup[id];
+&nbsp;&nbsp;}
+}
+</code></pre><br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Private Function AddImagePage(doc As Doc, path As String) As ImageLayer
+&nbsp;&nbsp;Using img As XImage = XImage.FromFile(path, Nothing)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.MediaBox.SetSides(0, 0, img.Width, img.Height)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.[String] = doc.MediaBox.[String]
+&nbsp;&nbsp;&nbsp;&nbsp;Dim id As Integer = doc.AddImageObject(img)
+&nbsp;&nbsp;&nbsp;&nbsp;Return DirectCast(doc.ObjectSoup(id), ImageLayer)
+&nbsp;&nbsp;End Using
+End Function
+</code></pre><br>
+            </p>
+            <p>&nbsp;</p>
+          <p></p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

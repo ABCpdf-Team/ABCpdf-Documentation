@@ -1,0 +1,265 @@
+<html>
+<head>
+<title>Headers and Footers Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Headers and Footers Example</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>This example shows one method of adding headers and footers.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Setup</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>First we create an ABCpdf Doc object and define the content we're 
+              going to be adding.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+string text = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes lingua, institutis, legibus inter se differunt. Gallos ab Aquitanis Garumna flumen, a Belgis Matrona et Sequana dividit. Horum omnium fortissimi sunt Belgae, propterea quod a cultu atque humanitate provinciae longissime absunt, minimeque ad eos mercatores saepe commeant atque ea quae ad effeminandos animos pertinent important, proximique sunt Germanis, qui trans Rhenum incolunt, quibuscum continenter bellum gerunt. Qua de causa Helvetii quoque reliquos Gallos virtute praecedunt, quod fere cotidianis proeliis cum Germanis contendunt, cum aut suis finibus eos prohibent aut ipsi in eorum finibus bellum gerunt. [Eorum una, pars, quam Gallos obtinere dictum est, initium capit a flumine Rhodano, continetur Garumna flumine, Oceano, finibus Belgarum, attingit etiam ab Sequanis et Helvetiis flumen Rhenum, vergit ad septentriones. Belgae ab extremis Galliae finibus oriuntur, pertinent ad inferiorem partem fluminis Rheni, spectant in septentrionem et orientem solem. Aquitania a Garumna flumine ad Pyrenaeos montes et eam partem Oceani quae est ad Hispaniam pertinet; spectat inter occasum solis et septentriones.] Apud Helvetios longe nobilissimus fuit et ditissimus Orgetorix. Is M. Messala, [et P.] M. Pisone consulibus regni cupiditate inductus coniurationem nobilitatis fecit et civitati persuasit ut de finibus suis cum omnibus copiis exirent: perfacile esse, cum virtute omnibus praestarent, totius Galliae imperio potiri. Id hoc facilius iis persuasit, quod undique loci natura Helvetii continentur: una ex parte flumine Rheno latissimo atque altissimo, qui agrum Helvetium a Germanis dividit; altera ex parte monte Iura altissimo, qui est inter Sequanos et Helvetios; tertia lacu Lemanno et flumine Rhodano, qui provinciam nostram ab Helvetiis dividit. His rebus fiebat ut et minus late vagarentur et minus facile finitimis bellum inferre possent; qua ex parte homines bellandi cupidi magno dolore adficiebantur. Pro multitudine autem hominum et pro gloria belli atque fortitudinis angustos se fines habere arbitrabantur, qui in longitudinem milia passuum CCXL, in latitudinem CLXXX patebant.";
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theID As Integer, theCount As Integer
+&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes lingua, institutis, legibus inter se differunt. Gallos ab Aquitanis Garumna flumen, a Belgis Matrona et Sequana dividit. Horum omnium fortissimi sunt Belgae, propterea quod a cultu atque humanitate provinciae longissime absunt, minimeque ad eos mercatores saepe commeant atque ea quae ad effeminandos animos pertinent important, proximique sunt Germanis, qui trans Rhenum incolunt, quibuscum continenter bellum gerunt. Qua de causa Helvetii quoque reliquos Gallos virtute praecedunt, quod fere cotidianis proeliis cum Germanis contendunt, cum aut suis finibus eos prohibent aut ipsi in eorum finibus bellum gerunt. [Eorum una, pars, quam Gallos obtinere dictum est, initium capit a flumine Rhodano, continetur Garumna flumine, Oceano, finibus Belgarum, attingit etiam ab Sequanis et Helvetiis flumen Rhenum, vergit ad septentriones. Belgae ab extremis Galliae finibus oriuntur, pertinent ad inferiorem partem fluminis Rheni, spectant in septentrionem et orientem solem. Aquitania a Garumna flumine ad Pyrenaeos montes et eam partem Oceani quae est ad Hispaniam pertinet; spectat inter occasum solis et septentriones.] Apud Helvetios longe nobilissimus fuit et ditissimus Orgetorix. Is M. Messala, [et P.] M. Pisone consulibus regni cupiditate inductus coniurationem nobilitatis fecit et civitati persuasit ut de finibus suis cum omnibus copiis exirent: perfacile esse, cum virtute omnibus praestarent, totius Galliae imperio potiri. Id hoc facilius iis persuasit, quod undique loci natura Helvetii continentur: una ex parte flumine Rheno latissimo atque altissimo, qui agrum Helvetium a Germanis dividit; altera ex parte monte Iura altissimo, qui est inter Sequanos et Helvetios; tertia lacu Lemanno et flumine Rhodano, qui provinciam nostram ab Helvetiis dividit. His rebus fiebat ut et minus late vagarentur et minus facile finitimis bellum inferre possent; qua ex parte homines bellandi cupidi magno dolore adficiebantur. Pro multitudine autem hominum et pro gloria belli atque fortitudinis angustos se fines habere arbitrabantur, qui in longitudinem milia passuum CCXL, in latitudinem CLXXX patebant."
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Content</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>We set up the style for our content. </p>
+            <p>We need to specify the Rect defining the area in which content 
+              will be inserted, a color (red) and a font size. </p>
+            <p>We add the text using the same method as employed in the <a href="02-textflow.htm">Text 
+              Flow Example</a>. We draw a frame round our content area each time 
+              so we can see how the text has been positioned.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Rect.String = "100 200 500 600";
+doc.Color.String = "255 0 0";
+doc.FontSize = 24;
+int id = doc.AddTextStyled(text);
+doc.FrameRect();
+while (doc.Chainable(id)) {
+&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;id = doc.AddTextStyled("", id);
+&nbsp;&nbsp;doc.FrameRect();
+}
+int count = doc.PageCount;
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Rect.String = "100 200 500 600"
+&nbsp;&nbsp;doc.Color.String = "255 0 0"
+&nbsp;&nbsp;doc.FontSize = 24
+&nbsp;&nbsp;theID = doc.AddTextStyled(theText)
+&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;While doc.Chainable(theID)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddTextStyled("", theID)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;theCount = doc.PageCount
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Header</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>We set up the style for our header. </p>
+            <p>We need to specify the Rect defining the area in which the header 
+              will be inserted, a color (green) and a font size. We use the HPos 
+              and VPos parameters to center the text both horizontally and vertically.</p>
+            <p>We then iterate through the pages in the document adding headers 
+              as we go. We frame our headers so we can see the header area.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Rect.String = "100 650 500 750";
+doc.TextStyle.HPos = 0.5;
+doc.TextStyle.VPos = 0.5;
+doc.Color.String = "0 255 0";
+doc.FontSize = 36;
+for (int i = 1; i &lt;= count; i++) {
+&nbsp;&nbsp;doc.PageNumber = i;
+&nbsp;&nbsp;doc.AddText("De Bello Gallico");
+&nbsp;&nbsp;doc.FrameRect();
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Rect.String = "100 650 500 750"
+&nbsp;&nbsp;doc.TextStyle.HPos = 0.5
+&nbsp;&nbsp;doc.TextStyle.VPos = 0.5
+&nbsp;&nbsp;doc.Color.String = "0 255 0"
+&nbsp;&nbsp;doc.FontSize = 36
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= theCount
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("De Bello Gallico")
+&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Footer</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>We set up the style for our footer. </p>
+            <p>We need to specify the Rect defining the area in which the footer 
+              will be inserted, a color (blue) and a font size. We use the HPos 
+              and VPos parameters to center the text vertically and align it to 
+              the right.</p>
+            <p>We then iterate through the pages in the document adding footers 
+              as we go. We frame our footers so we can see the footer area.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Rect.String = "100 50 500 150";
+doc.TextStyle.HPos = 1.0;
+doc.TextStyle.VPos = 0.5;
+doc.Color.String = "0 0 255";
+doc.FontSize = 36;
+for (int i = 1; i &lt;= count; i++) {
+&nbsp;&nbsp;doc.PageNumber = i;
+&nbsp;&nbsp;doc.AddText("Page " + i.ToString() + " of " + count.ToString());
+&nbsp;&nbsp;doc.FrameRect();
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Rect.String = "100 50 500 150"
+&nbsp;&nbsp;doc.TextStyle.HPos = 1.0
+&nbsp;&nbsp;doc.TextStyle.VPos = 0.5
+&nbsp;&nbsp;doc.Color.String = "0 0 255"
+&nbsp;&nbsp;doc.FontSize = 36
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= theCount
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("Page " + i.ToString() + " of " + theCount.ToString())
+&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Save</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Finally we save the PDF.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Save(Server.MapPath("headerfooter.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("headerfooter.pdf"))
+End Using
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Results</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <table cellspacing="3" cellpadding="3">
+              <tr> 
+                <td><img src="../images/pdf/headerfooter.pdf.png" class="example"><br>
+                  headerfooter.pdf [Page 1]</td>
+                <td><img src="../images/pdf/headerfooter.pdf2.png" class="example"><br>
+                  headerfooter.pdf [Page 2]</td>
+              </tr>
+              <tr> 
+                <td><img src="../images/pdf/headerfooter.pdf3.png" class="example"><br>
+                  headerfooter.pdf [Page 3]</td>
+                <td><img src="../images/pdf/headerfooter.pdf4.png" class="example"><br>
+                  headerfooter.pdf [Page 4]</td>
+              </tr>
+            </table>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

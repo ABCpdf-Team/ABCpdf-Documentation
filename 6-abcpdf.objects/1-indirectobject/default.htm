@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>IndirectObject Class</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script>
+<META content="MSHTML 6.00.6001.18099" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>IndirectObject Class</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../images/steel-line-3.gif height=11></TD>
+          <TD height=11><IMG height=11 src="../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>A PDF indirect object.</P>
+            <P>PDF supports a number of basic types of object. Objects may be 
+            labeled so that they can be referred to by other objects. This type 
+            of object is called an indirect object.</P>
+            <P>ABCpdf uses a slightly different terminology to avoid clashes 
+            with other namespaces. Objects without labels contain basic data 
+            elements and are referred to as <A 
+            href="../../7-abcpdf.atoms/1-atom/default.htm">Atoms</A>. </P>
+            <P>The term 'indirect object' is often shortened to 'PDF object' or 
+            sometime simply 'object'. There are a variety of types of PDF 
+            objects from content layers to fonts to annotations. Every object 
+            contains an Atom which represents the data held by that object.</P>
+            <P>Indirect objects are held in an <A 
+            href="../2-objectsoup/default.htm">ObjectSoup</A>. This is a 
+            non-traditional collection with some of the characteristics of an 
+            Array and some of a Dictionary.</P>
+            <P><CODE><!--notcode-->System.Object<BR>&nbsp;&nbsp;&nbsp;<B> WebSupergoo.ABCpdf13.Objects.IndirectObject</B><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="../annotation/default.htm"> WebSupergoo.ABCpdf13.Objects.Annotation</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="../bookmark/default.htm"> WebSupergoo.ABCpdf13.Objects.Bookmark</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="../catalog/default.htm"> WebSupergoo.ABCpdf13.Objects.Catalog</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="../colorspace/default.htm"> WebSupergoo.ABCpdf13.Objects.ColorSpace</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="../field/default.htm"> WebSupergoo.ABCpdf13.Objects.Field</A><BR>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="../filespecification/default.htm"> WebSupergoo.ABCpdf13.Objects.FileSpecification</A><BR>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="../fontobject/default.htm"> WebSupergoo.ABCpdf13.Objects.FontObject</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="../outline/default.htm"> WebSupergoo.ABCpdf13.Objects.Outline</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="../page/default.htm"> WebSupergoo.ABCpdf13.Objects.Page</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="../pages/default.htm"> WebSupergoo.ABCpdf13.Objects.Pages</A><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A 
+            href="../streamobject/default.htm"> WebSupergoo.ABCpdf13.Objects.StreamObject</A> 
+            <BR><BR>
+            Implements: ICloneable, IDisposable, IEquatable&lt;IndirectObject&gt;</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>&nbsp; </TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=sectheader>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Method</B></TD>
+                <TD width="100%"><B>Description</B></TD></TR>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><I><B>S&raquo;</B></I>&nbsp;
+<A 
+                  href="1-methods/1-fromstring.htm">FromString</A></TD>
+                <TD>Construct an appropriate type of IndirectObject given a string value.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/2-indirectobject.htm">IndirectObject</A></TD>
+                <TD>IndirectObject Constructor.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/3-dispose.htm">Dispose</A></TD>
+                <TD>Dispose of the object.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/4-clone.htm">Clone</A></TD>
+                <TD>Create a deep copy of the current IndirectObject.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/5-equals.htm">Equals</A></TD>
+                <TD>Test whether the two IndirectObjects are the same.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/6-gethashcode.htm">GetHashCode</A></TD>
+                <TD>A hash code for the IndirectObject.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/7-resolve.htm">Resolve</A></TD>
+                <TD>Resolves any indirect references and returns the Atom.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/8-resolveref.htm">ResolveRef</A></TD>
+                <TD>Resolves any indirect references and returns the final RefAtom.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/10-resolveobj.htm">ResolveObj</A></TD>
+                <TD>Resolves any indirect references and returns the final IndirectObject.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/9-tostring.htm">ToString</A></TD>
+                <TD>The string representation of the IndirectObject.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/transcode.htm">Transcode</A></TD>
+                <TD>Transcodes and reloads the IndirectObject.</TD></TR>
+<!-- autogen end -->
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>&nbsp; </TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=sectheader>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Property</B></TD>
+                <TD width="100%"><B>Description</B></TD></TR>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/1-id.htm">ID</A></TD>
+                <TD>The ID of the PDF object.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/2-gen.htm">Gen</A></TD>
+                <TD>The Generation of the PDF object.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/3-atom.htm">Atom</A></TD>
+                <TD>The Atom contained by the IndirectObject.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/4-version.htm">Version</A></TD>
+                <TD>The minimum version of the PDF specification required to support this object.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/5-revision.htm">Revision</A></TD>
+                <TD>The revision of the document in which this object is stored.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/5-alive.htm">Alive</A></TD>
+                <TD>Whether the IndirectObject is currently alive.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/6-doc.htm">Doc</A></TD>
+                <TD>The Doc containing this IndirectObject.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/7-soup.htm">Soup</A></TD>
+                <TD>The soup containing this IndirectObject.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/adbeextlevel.htm">AdbeExtLevel</A></TD>
+                <TD>The minimum extension level of Adobe Supplement to the PDF specification required to support this object.</TD></TR>
+<!-- autogen end -->
+</TBODY></TABLE></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR>
+        <TR>
+          <TD>&nbsp; </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

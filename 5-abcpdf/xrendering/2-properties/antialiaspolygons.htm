@@ -1,0 +1,166 @@
+<html>
+<head>
+<title>XRendering AntiAliasPolygons Property. Whether to anti-alias polygons. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> AntiAliasPolygons Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
+                <td>true</td>
+                <td>No</td>
+                <td>Whether to anti-alias polygons.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Determines whether polygons will be rendered with anti-aliased 
+              edges.</p>
+            <p>Anti-aliasing is a technique for using gradients of color to eliminate 
+              jagged edges when objects are drawn. The object edges are blurred 
+              to reduce pixelation.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example shows the effect that this parameter has 
+              on PDF rendering.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+// Add a polygon
+doc.Color.String = "255 0 0";
+doc.AddPoly("32 650 50 704 68 650 22 683 79 683 32 650", true);
+doc.Rect.String = "20 650 80 704";
+// Render the drawn area with AntiAliasPolygons (default)
+using var antiAliasedBitmap = doc.Rendering.GetBitmap();
+// Render the drawn area without AntiAliasPolygons
+doc.Rendering.AntiAliasPolygons = false;
+using var aliasedBitmap = doc.Rendering.GetBitmap();
+// Add magnified aliased image
+doc.Rect.String = "5 20 605 560";
+doc.AddImageBitmap(aliasedBitmap, false);
+// Anotate
+doc.Color.String = "black";
+doc.FontSize = 30;
+doc.Pos.String = "20 750";
+doc.AddText("Original path:");
+doc.Pos.String = "20 620";
+doc.AddText("Magnified rendered image:");
+// Render the document with aliased image
+doc.Rendering.DotsPerInch = 36;
+doc.Rect.String = doc.MediaBox.String;
+doc.Rendering.Save(Server.MapPath("RenderingAntiAliasPolygonsFalse.png"));
+// Add magnified antialiased image
+doc.Rect.String = "5 20 605 560";
+doc.AddImageBitmap(antiAliasedBitmap, false);
+// Render the document with antialiased image
+doc.Rendering.DotsPerInch = 36;
+doc.Rect.String = doc.MediaBox.String;
+doc.Rendering.Save(Server.MapPath("RenderingAntiAliasPolygonsTrue.png"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;' Add a polygon
+&nbsp;&nbsp;doc.Color.String = "255 0 0"
+&nbsp;&nbsp;doc.AddPoly("32 650 50 704 68 650 22 683 79 683 32 650", True)
+&nbsp;&nbsp;doc.Rect.String = "20 650 80 704"
+&nbsp;&nbsp;' Render the drawn area with AntiAliasPolygons (default)
+&nbsp;&nbsp;Dim antiAliasedBitmap As Bitmap = doc.Rendering.GetBitmap()
+&nbsp;&nbsp;' Render the drawn area without AntiAliasPolygons
+&nbsp;&nbsp;doc.Rendering.AntiAliasPolygons = False
+&nbsp;&nbsp;Dim aliasedBitmap As Bitmap = doc.Rendering.GetBitmap()
+&nbsp;&nbsp;' Add magnified aliased image
+&nbsp;&nbsp;doc.Rect.String = "5 20 605 560"
+&nbsp;&nbsp;doc.AddImageBitmap(aliasedBitmap, False)
+&nbsp;&nbsp;' Anotate
+&nbsp;&nbsp;doc.Color.String = "black"
+&nbsp;&nbsp;doc.FontSize = 30
+&nbsp;&nbsp;doc.Pos.String = "20 750"
+&nbsp;&nbsp;doc.AddText("Original path:")
+&nbsp;&nbsp;doc.Pos.String = "20 620"
+&nbsp;&nbsp;doc.AddText("Magnified rendered image:")
+&nbsp;&nbsp;' Render the document with aliased image
+&nbsp;&nbsp;doc.Rendering.DotsPerInch = 36
+&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.[String]
+&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingAntiAliasPolygonsFalse.png"))
+&nbsp;&nbsp;' Add magnified antialiased image
+&nbsp;&nbsp;doc.Rect.String = "5 20 605 560"
+&nbsp;&nbsp;doc.AddImageBitmap(antiAliasedBitmap, False)
+&nbsp;&nbsp;' Render the document with antialiased image
+&nbsp;&nbsp;doc.Rendering.DotsPerInch = 36
+&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.[String]
+&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingAntiAliasPolygonsTrue.png"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/RenderingAntiAliasPolygonsTrue.png" class="example"><br>
+              RenderingAntiAliasPolygonsTrue.png</p>
+            <p><img src="../../../images/pdf/RenderingAntiAliasPolygonsFalse.png" class="example"><br>
+              RenderingAntiAliasPolygonsFalse.png</p>
+          <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

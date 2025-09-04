@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XHtmlOptions BreakMethod Property. The page break logic for HTML. ABCpdf .NET PDF Library.</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META name=GENERATOR content="MSHTML 8.00.6001.18882"></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE border=0 cellSpacing=4 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG src="../../../images/goo.gif" width=58 height=60></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=pageheader>BreakMethod Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD height=11 background=../../../images/steel-line-3.gif></TD>
+          <TD height=11 background=../../../images/steel-line-3.gif
+          width=60></TD>
+          <TD height=11><IMG src="../../../images/steel-blob-11.gif" width=11
+            height=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable border=5 cellSpacing=0 borderColor=#ffffff
+            cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default Value</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN
+                  class=language>[C#]</SPAN><BR><CODE>HtmlBreakMethodType</CODE><BR><BR><SPAN
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>HtmlBreakMethodType</CODE></TD>
+                <TD>CumulativeCohesion or GlobalOptimum</TD>
+                <TD>No</TD>
+                <TD>The page break logic for HTML.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif"
+      width=64 height=10><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This property specifies the page breaking algorithm.</P>
+            <P>The HtmlBreakMethodType enumeration can take any of the following
+            values:</P>
+            <UL>
+              <LI>CumulativeCohesion - uses the cumulative cohesion of all
+              objects occupying each horizontal line/vertical position.</LI>
+              <LI>MaximumCohesion - uses the maximum cohesion among objects
+              occupying each horizontal line/vertical position.</LI></UL>
+            <P> in combination with any of the following values:</P>
+            <UL>
+              <LI>GlobalOptimum - optimizes the break position globally around a candidate position.</LI>
+              <LI>LocalOptimum - optimizes the break position locally around a candidate position.</LI>
+              <LI>NoOptimization - no optimization.</LI></UL>
+            <P>Each rendered objects in an HTML page has associated cohesion.
+            Text, images, and form controls converted to form fields have high
+            cohesion whereas simple lines and shapes have low cohesion.</P>
+            <P>Page breaks are selected at positions with low cohesion.</P>
+            <P>Use MaximumCohesion when you want to break at positions where
+            there are a lot of low-cohesion objects and no high-cohesion
+            objects.</P>
+            <P>The break position can be optimized according to the cohesion.
+            If it is optimized locally, the cohesion values of positions
+            between the final position and the candidate position
+            is a monotone function.</P>
+          <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif"
+      width=64 height=10><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

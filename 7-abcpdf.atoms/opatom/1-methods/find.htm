@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>OpAtom Find Function. Finds specified types of OpAtom entries in an array. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Find Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Finds specified types of OpAtom entries in an array</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>IList&lt;Tuple&lt;string, int&gt;&gt; Find(<a href="../../arrayatom/default.htm">ArrayAtom</a> atom)<br>
+            IList&lt;Tuple&lt;string, int&gt;&gt; Find(<a href="../../arrayatom/default.htm">ArrayAtom</a> atom, string[] names)<BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <CODE>Function Find(atom As <a href="../../arrayatom/default.htm">ArrayAtom</a>) As IList(Of Tuple(Of string, int))<br>
+            Function Find(atom As <a href="../../arrayatom/default.htm">ArrayAtom</a>, names() As String) As IList(Of Tuple(Of string, int))<BR>
+            </CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>atom</TD>
+                <TD>The ArrayAtom to be searched.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>names</TD>
+                <TD>The types of OpAtoms that should be returned.</TD>
+              </TR>
+<TR vAlign=top>
+  <TD align=middle>return</TD>
+  <TD>The positions and text of the items which were found.</TD>
+</TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Finds specified types of OpAtom entries in an array.</P>
+            <P>If you specify no names then the positions and text of all the OpAtoms in the ArrayAtom will be returned. If you are only interested in a particular set of operators then you can specify an array of those types to restrict the number of items returned.</P>
+            <P>In addition to the standard names there is also the &quot;Meta:InlineImage&quot; name which is a metatag to allow you to access inline image streams. By explicitly setting this - it must be explicitly provided - you can pick up the location of any inline image dictionaries.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This example shows how to use the <a href="../../arrayatom/1-methods/fromcontentstream.htm">Array.FromContentStream</a> function to parse a content stream and then use the Find method to search for certain types of color operators and replace them with other color operators. In this example this has the effect of converting some black parts of the PDF to red. For a more comprehensive approach one would use the  <a href="../../../8-abcpdf.operations/G-contentstreamoperation/default.htm">ContentStreamOperation</a> class to determine all content streams associated with the pages in question.</P>
+            <P><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("spaceshuttle.pdf"));
+doc.RemapPages(new int[] { 1, 1 });
+doc.PageNumber = 2;
+var page = doc.ObjectSoup[doc.Page] as Page;
+var layers = page.GetLayers();
+using var st = new MemoryStream();
+foreach (var layer in layers) {
+&nbsp;&nbsp;if (!layer.Decompress())
+&nbsp;&nbsp;&nbsp;&nbsp;throw new Exception("Unable to decompress stream.");
+&nbsp;&nbsp;byte[] data = layer.GetData();
+&nbsp;&nbsp;st.Write(data, 0, data.Length);
+&nbsp;&nbsp;layer.CompressFlate();
+}
+var array = ArrayAtom.FromContentStream(st.ToArray());
+if (true) {
+&nbsp;&nbsp;var items = OpAtom.Find(array, new string[] { "k" });
+&nbsp;&nbsp;foreach (var pair in items) { // make red
+&nbsp;&nbsp;&nbsp;&nbsp;var args = OpAtom.GetParameters(array, pair.Item2);
+&nbsp;&nbsp;&nbsp;&nbsp;if (args != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((NumAtom)args[0]).Real = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((NumAtom)args[1]).Real = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((NumAtom)args[2]).Real = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((NumAtom)args[3]).Real = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+if (true) {
+&nbsp;&nbsp;var items = OpAtom.Find(array, new string[] { "rg" });
+&nbsp;&nbsp;foreach (var pair in items) { // make green
+&nbsp;&nbsp;&nbsp;&nbsp;var args = OpAtom.GetParameters(array, pair.Item2);
+&nbsp;&nbsp;&nbsp;&nbsp;if (args != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((NumAtom)args[0]).Real = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((NumAtom)args[1]).Real = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((NumAtom)args[2]).Real = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+byte[] arrayData = array.GetData();
+var so = new StreamObject(doc.ObjectSoup);
+so.SetData(arrayData, 1, arrayData.Length - 2);
+doc.SetInfo(page.ID, "/Contents:Del", "");
+page.AddLayer(so);
+doc.Save(Server.MapPath("ReplaceColors.pdf"));
+</code></pre><br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("spaceshuttle.pdf"))
+&nbsp;&nbsp;doc.RemapPages(New Integer() {1, 1})
+&nbsp;&nbsp;doc.PageNumber = 2
+&nbsp;&nbsp;Dim page As Page = TryCast(doc.ObjectSoup(doc.Page), Page)
+&nbsp;&nbsp;Dim layers As StreamObject() = page.GetLayers()
+&nbsp;&nbsp;Dim st As New MemoryStream()
+&nbsp;&nbsp;For Each layer As StreamObject In layers
+&nbsp;&nbsp;&nbsp;&nbsp;If Not layer.Decompress() Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Throw New Exception("Unable to decompress stream.")
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;Dim data As Byte() = layer.GetData()
+&nbsp;&nbsp;&nbsp;&nbsp;st.Write(data, 0, data.Length)
+&nbsp;&nbsp;&nbsp;&nbsp;layer.CompressFlate()
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;Dim array As ArrayAtom = ArrayAtom.FromContentStream(st.ToArray())
+&nbsp;&nbsp;If True Then
+&nbsp;&nbsp;&nbsp;&nbsp;Dim items = OpAtom.Find(array, New String() {"k"})
+&nbsp;&nbsp;&nbsp;&nbsp;For Each pair As var In items
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' make red
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim args As Atom() = OpAtom.GetParameters(array, pair.Item2)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If args &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(0), NumAtom).Real = 0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(1), NumAtom).Real = 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(2), NumAtom).Real = 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(3), NumAtom).Real = 0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;Next
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;If True Then
+&nbsp;&nbsp;&nbsp;&nbsp;Dim items = OpAtom.Find(array, New String() {"rg"})
+&nbsp;&nbsp;&nbsp;&nbsp;For Each pair As var In items
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' make green
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim args As Atom() = OpAtom.GetParameters(array, pair.Item2)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If args &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(0), NumAtom).Real = 0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(1), NumAtom).Real = 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(2), NumAtom).Real = 0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;Next
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;Dim arrayData As Byte() = array.GetData()
+&nbsp;&nbsp;Dim so As New StreamObject(doc.ObjectSoup)
+&nbsp;&nbsp;so.SetData(arrayData, 1, arrayData.Length - 2)
+&nbsp;&nbsp;doc.SetInfo(page.ID, "/Contents:Del", "")
+&nbsp;&nbsp;page.AddLayer(so)
+&nbsp;&nbsp;doc.Save(Server.MapPath("ReplaceColors.pdf"))
+End Using
+</code></pre></P>
+            <p><img src="../../../images/pdf/ReplaceColors.pdf.png" class="example"><BR>
+              ReplaceColors.pdf [Page 1]</p>
+            <p><img src="../../../images/pdf/ReplaceColors.pdf2.png" class="example"><BR>
+ReplaceColors.pdf [Page 2]</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XHtmlOptions AddMovies Property. Whether active content such as movies should be added. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16674" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddMovies Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default Value</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR><CODE>bool</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>Boolean</CODE></TD>
+                <TD>false</TD>
+                <TD>No</TD>
+                <TD>Whether active content such as movies should be 
+              added.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Enables the embedding of active content such as Flash (SWF), AVI, 
+            MPEG and WMV.</P>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P><B>Flash / SWF Previews.</B> ABCpdf will automatically 
+                  create a still preview of Flash (SWF) movies.</P>
+                  <P>The preview is what you will see if you do not have Flash 
+                  installed. It is what is used when printing PDFs. In general 
+                  it is what you will see if you open your PDF using a viewer 
+                  other than Acrobat.</P>
+                  <P>The preview needs to be created at a certain resolution and 
+                  using content from a particular point in the movie. By default 
+                  the values are taken from the FlashPreviewTime and 
+                  FlashPreviewDPI <A 
+                  href="../../../3-concepts/d-registrykeys.htm">Registry 
+                  Keys</A>. However you can specify ABCpdf_PreviewTime and 
+                  ABCpdf_PreviewDPI attributes within your EMBED tag to override 
+                  these defaults.</P>
+                  <P>Some movies take time to draw themselves because they use 
+                  script to determine how they should appear. You can use the 
+                  ABCpdf_PreviewWaitTime attribute to determine the time (in 
+                  milliseconds) that the movie will be given to initialize 
+                  itself before the preview is made.</P>
+                  <P>For example to take a preview 2000 ms into the movie at 300 
+                  dpi you might use the following HTML.</P>
+                  <P><pre><CODE class="language-html">&lt;EMBED src="frogger.swf"
+WIDTH="700" HEIGHT="500"
+ABCpdf_PreviewWaitTime="2000" 
+ABCpdf_PreviewDPI="300"&gt;&lt;/EMBED&gt;</CODE></pre></P>
+                  <P>These attributes are useful if your settings are dependent 
+                  on the content within the movie rather than on the 
+                PDF.<BR></P></TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

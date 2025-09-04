@@ -1,0 +1,143 @@
+<html>
+<head>
+<title>XHtmlOptions RetryCount Property. The number of times a page should be retried if unavailable or invalid. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">RetryCount Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>int</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Integer</code></td>
+                <td>5</td>
+                <td>No</td>
+                <td>The number of times a page should be retried if unavailable 
+                  or invalid.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This property controls how many times ABCpdf will attempt to obtain 
+              a page.</p>
+            <p>HTML rendering may fail one time but succeed the next. This is 
+              often for reasons outside the control of ABCpdf.</p>
+            <p>So ABCpdf may attempt to re-request a page if it is not immediately 
+              available. This is analogous to clicking on the refresh button of 
+              a web browser if the page is failing to load.</p>
+            <p>See the <a href="contentcount.htm">ContentCount</a> and the <a href="timeout.htm">Timeout</a> 
+              properties for how ABCpdf determines if a page is unavailable or 
+              invalid.</p>
+                <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example shows the effect that this parameter has 
+              on HTML rendering.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+string uri = "https://photojournal.jpl.nasa.gov/catalog/PIA24312";
+// Set minimum number of items a page of HTML should contain.
+// Otherwise the page will be assumed to be invalid.
+doc.HtmlOptions.ContentCount = 20;
+// Try to obtain html page up to 11 times
+doc.HtmlOptions.RetryCount = 10;
+// The page must be obtained in less then 10 seconds
+doc.HtmlOptions.Timeout = 10000;
+try {
+&nbsp;&nbsp;doc.AddImageUrl(uri);
+}
+catch {
+&nbsp;&nbsp;// Page couldn't be loaded
+}
+// Save the document
+doc.Save(Server.MapPath("HtmlOptionsRetryCount.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theURL As String = "https://photojournal.jpl.nasa.gov/catalog/PIA24312"
+&nbsp;&nbsp;' Set minimum number of items a page of HTML should contain.
+&nbsp;&nbsp;' Otherwise the page will be assumed to be invalid.
+&nbsp;&nbsp;doc.HtmlOptions.ContentCount = 20
+&nbsp;&nbsp;' Try to obtain html page up to 11 times
+&nbsp;&nbsp;doc.HtmlOptions.RetryCount = 10
+&nbsp;&nbsp;' The page must be obtained in less then 10 seconds
+&nbsp;&nbsp;doc.HtmlOptions.Timeout = 10000
+&nbsp;&nbsp;Try
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddImageUrl(theURL)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Page couldn't be loaded
+&nbsp;&nbsp;Catch
+&nbsp;&nbsp;End Try
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsRetryCount.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/HtmlOptionsRetryCount.pdf.png" class="example"><br>
+              HtmlOptionsRetryCount.pdf</p>
+            <p>&nbsp;</p>
+          <p>Also see example code in: <a href="../../../8-abcpdf.operations/Q-webpageoperation/2-properties/01-doc.htm">WebPageOperation Doc Property</a>.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

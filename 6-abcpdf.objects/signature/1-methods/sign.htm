@@ -1,0 +1,225 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Signature Sign Function. Sign the digital signature using a private key and password. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<meta content="MSHTML 6.00.6000.16809" name="GENERATOR"></head>
+<body bgcolor="#ffffff">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tbody>
+  <tr>
+    <td valign="top"><img src="../../../images/goo.gif" height="60" width="58"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td class="pageheader">Sign Method</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr>
+        <tr>
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" height="11" width="11"></td></tr>
+        <tr>
+          <td>
+            <p>Sign the digital signature using a private key and password.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Syntax</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td valign="top">
+            <p><span class="language">[C#]</span><br><code>void Sign(string path, 
+            string password)<br>void Sign(byte[] data, string password)<br>
+            void 
+            Sign(Stream stream, string password)<br>
+            void 
+            Sign(Stream stream, string password, Oid oid)<br>
+            void Sign(X509Certificate2 
+            cert, bool silent)<br>
+            void Sign(X509Certificate2 
+            cert, bool silent, Oid oid, X509IncludeOption? option)<br>
+            void Sign(X509Certificate2 cert, SecureString password, Oid oid) <br>
+            void Sign(Oid oid, DataType dataType, int sizeEstimate)<br>
+            void Sign(Oid oid, DataType dataType, int sizeEstimate, X509Certificate2 cert)</code><br><span class="language">[Visual 
+            Basic]</span><br><code>Sub Sign(path As String, password As 
+            String)<br>Sub Sign(data() As Byte, password As String)<br>
+            Sub 
+            Sign(stream As Stream, password As String)<br>
+            Sub 
+            Sign(stream As Stream, password As String, oid As Oid)<br>
+            Sub Sign(cert As 
+            X509Certificate2, silent As Boolean)<br>
+            Sub Sign(cert As 
+            X509Certificate2, silent As Boolean, oid As Oid, option As X509IncludeOption?)<br>
+            Sub Sign(cert As 
+            X509Certificate2, password as SecureString, oid as Oid)
+            <br>
+            Sub Sign(oid As Oid, dataType As DataType, sizeEstimate As Int32)<br>
+            Sub Sign(oid As Oid, dataType As DataType, sizeEstimate As Int32, cert2 As 
+            X509Certificate2)</code></p>
+            <p><code><img alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" border="0" height="10" width="10"> may throw 
+            Exception()</code></p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Params</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td valign="top">
+            <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+              <tbody>
+              <tr>
+                <td align="center"><b>Name</b></td>
+                <td><b>Description</b></td></tr>
+              <tr valign="top">
+                <td align="center">path</td>
+                <td>The path to the PFX/PKCS #12 (.pfx or .p12) file used for 
+                signing.</td></tr>
+              <tr valign="top">
+                <td align="center">data</td>
+                <td>
+                  <p>The data for the PFX/PKCS #12 (.pfx or .p12) file used for 
+                  signing.</p></td></tr>
+              <tr valign="top">
+                <td align="center">stream</td>
+                <td>
+                  <p>The stream for the PFX/PKCS #12 (.pfx or .p12) file used for 
+                  signing.</p></td></tr>
+              <tr valign="top">
+                <td align="center">password</td>
+                <td><p>The password used to authorize use of the private key. Depending on the overload used this may be a String or a SecureString. 
+                  </p>
+                  <p>The SecureString overload must be used if the private key is held on a Hardware Security Module (HSM). </p>
+                  <p>Setting the SecureString value to null
+                    will force a prompt for the HSM password from a user.</p></td>
+              </tr>
+              <tr valign="top">
+                <td align="center">oid</td>
+                <td>The OID of the hash algorithm that should be used to create the digest. The default is SHA256 which is what will be used if null is passed.</td>
+              </tr>
+              <tr valign="top">
+                <td align="center">cert</td>
+                <td>
+                  <p>The 
+                  System.Security.Cryptography.X509Certificates.X509Certificate2 
+                  object for the PFX/PKCS #12 (.pfx or .p12) certificate used for 
+                  signing.</p></td></tr>
+              <tr valign="top">
+                <td align="center">silent</td>
+                <td>
+                  <p>Whether to suppress prompting the user to use the private 
+                  key. For non-interactive or unattended operation this 
+                    parameter should be set to true.</p>
+                  <p>Some certificates contain protected private keys. For example you will get such a certificate if during import  you check the option,</p>
+                  <p>&quot;Enable strong private key protected. You will be prompted every time the private key is used by an application if you enable this option.&quot; </p>
+                  <p>For such certificates you cannot make the sign operation silent. If you set the silent parameter to true then an exception will be raised. If you set it to false then a dialog box will be displayed asking you to ensure that your use of the private key is authorized.</p>                  </td></tr>
+              <tr valign="top">
+                <td align="center">option</td>
+                <td><p>The parts of the signing certificate chain which should be included in the signature. 
+                  The default is WholeChain which is what will be used if null is passed. </p>
+                  <p>NB this value is  ignored unless: the certificate does not
+                    have an exportable private key; or has a private key on a Hardware Security Module.</p></td>
+              </tr>
+              <tr valign="top">
+                <td align="center">dataType</td>
+                <td><p>The data type and options which will be provided to the CustomSigner or CustomSigner2. </p>
+                  <p>This is a flags based enum and the default is zero which is equivalent to DataType.Pkcs9Digest. This indicates that, when signing the callback will be provided with a PKCS9 ASN.1 encoded byte array containing the digest of the PDF content and attributes to be authenticated. When time stamping an RFC 3161 time stamp request will be provided and an RFC 3161 time stamp response is expected. To override these behaviors specify alternative flags.</p>
+                  <p>This may take the values,</p>
+                  <ul>
+                    <li>DataType.Pkcs9Digest - When signing the callback will be provided with a PKCS9 ASN.1 encoded byte array containing the digest of the PDF content and attributes to be authenticated.</li>
+                    <li>DataType.RawDigest - When signing the callback will be provided with a hashed digest of the document data.</li>
+                    <li>DataType.TimeStampDigest - When time stamping provide the callback with a hashed digest, the time stamp message imprint, rather than an RFC 3161 time stamp request.</li>
+                    <li>DataType.TimeStampToken - When time stamping the callback will return a time stamp token rather than an RFC 3161 time stamp response.</li>
+                    <li>DataType.NoEmbeddedTimeStampUrl - Do not use any supplied URL to embed a time stamp.</li>
+                    <li>DataType.NoEmbeddedTimeStampCustom - Do not use any supplied callback to embed a time stamp.</li>
+                  </ul>
+                  <p>&nbsp;</p></td>
+              </tr>
+              <tr valign="top">
+                <td align="center">sizeEstimate</td>
+                <td><p>The number of bytes to allocate for the SignedCMS returned by the CustomSigner delegate.</p>
+                  <p>Sizes can vary substantially as the SignedCMS may contain may different types of data. However a typical value would be in the range of 3000 to 6000.</p></td>
+              </tr>
+              <tr valign="top">
+                <td align="center">cert2</td>
+                <td>A template certificate into which the digest can be inserted.</td>
+              </tr>
+              </tbody></table>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td>
+            <p>Use this method to sign a signature field.</p>
+            <p>In order to sign a signature, you need to use your private key. To authorize the use of this key, you need to provide your password.</p>
+            <p>If you are using a X509Certificate2 certificate with a password protected private key you need to instantiate the X509Certificate2 instance with the
+                optional parameter X509KeyStorageFlags.Exportable. This will give the Sign method access to the private key. If the private key is not accessible 
+                this method will throw an exception. Where the private key is on a Hardware Security Module you should use the SecureString overload as shown in the example under
+               <a href="../2-properties/compliancepades.htm">CompliancePades</a>.</p>
+  
+            <p>If private key is held in an PFX/PKCS #12 
+            (.pfx or .p12) file, you need to provide a path to this file and a password to allow use of the private key.</p>
+
+            <p>Different digest algorithms may be used to create signatures. The default is SHA256 but you may also use SHA256, SHA384, SHA512. SHA1 can be specified but is deprecated in PDF 2.0 so it is not advised.</p>
+            <p>Time-stamped signatures can be produced by using the service of a Time Stamping Authority (TSA).
+              See <a href="../2-properties/TimestampServiceUrl.htm">TimestampServiceUrl</a>. Also see <a href="../2-properties/compliancepades.htm">Compliance</a> for
+            TSA requirements under different compliance levels.</p>
+            <p>If you are signing multiple signature fields in the same PDF document,
+            you should call <a href="commit.htm">Commit</a> manually after each signing operation.</p>
+            <p>The overloads taking a dataType parameter allow you to use a custom delegate to sign the document. The certificate is required here as a template into which the digest can be inserted.</p>
+            <p>If the file is not available, if the file is invalid or if the 
+            password is incorrect, then this function will throw an exception.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td>
+			<p>If you would like to make your signature compliant to a specific compliance level see <a href="../2-properties/compliancepades.htm">Compliance</a>.</p>
+            <p>Read a document and sign a signature field embedded within that 
+            document. Before signing, we specify a location and a reason why the 
+            document is being digitally signed. </p>
+            <p>In this example, for simplicity, we use the plain text password overload. However to improve  application security you may wish to use the SecureString overload. </p>
+            <p><span class="language">[C#]</span><br><pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../Rez/Authorization.pdf"));
+Signature theSig = (Signature)doc.Form["Signature"];
+theSig.Location = "Washington";
+theSig.Reason = "Schedule Agreed";
+theSig.Sign(Server.MapPath("../Rez/JohnSmith.pfx"), "1234");
+doc.Save(Server.MapPath("Signed.pdf"));
+</code></pre><br><span class="language">[Visual Basic]</span><br><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/Authorization.pdf"))
+&nbsp;&nbsp;Dim theSig As Signature = DirectCast(doc.Form("Signature"), Signature)
+&nbsp;&nbsp;theSig.Location = "Washington"
+&nbsp;&nbsp;theSig.Reason = "Schedule Agreed"
+&nbsp;&nbsp;theSig.Sign(Server.MapPath("../Rez/JohnSmith.pfx"), "1234")
+&nbsp;&nbsp;doc.Save(Server.MapPath("Signed.pdf"))
+End Using
+</code></pre></p>
+            <p>Also see example code in: <a href="addltv.htm">Signature AddLTV Function</a>, <a href="../2-properties/compliancepades.htm">Signature CompliancePades Property</a>, <a href="../2-properties/customsigner.htm">Signature CustomSigner Property</a>, <a href="../2-properties/customsigner2.htm">Signature CustomSigner2 Property</a>.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr></tbody></table>
+<p>&nbsp;</p></body></html>

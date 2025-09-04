@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>FontObject Flags Property. The Font Descriptor Flags entry. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Flags Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>FontFlags</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>FontFlags</code></td>
+                <td>n/a</td>
+                <td>No</td>
+                <td>The Font Descriptor Flags entry</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The Font Descriptor Flags entry.</p>
+            <p>The FontFlags type is a flags type enumeration so the different values can be combined together using bitwise operations. It may take the following  values:</p>
+            <UL>
+              <LI>FixedPitch (All glyphs have the same width; as opposed to proportional or variable-pitch fonts, which have different widths)              
+              <LI>Serif (Glyphs have serifs - short strokes drawn at an angle on the top and bottom of glyph stems. Sans serif fonts do not have serifs)              
+              <LI>Symbolic (Font contains glyphs outside the Adobe standard Latin character set. This flag and the Nonsymbolic flag are mutually exclusive)              
+              <LI>Script (Glyphs look like cursive handwriting)              
+              <LI>Nonsymbolic (Font uses the Adobe standard Latin character set or a subset of it)              
+              <LI>Italic (Glyphs have slanted dominant vertical strokes)              
+              <LI>AllCap (Font contains no lowercase letters)              
+              <LI>SmallCap (Lower case letters in this font look like smaller versions of their upper case equivalents)              
+              <LI>ForceBold (Whether bold glyphs shall be painted with extra pixels even at very small text sizes)
+            </UL>
+             <p>The flags detailed here are descriptive. So reading them from an existent font object will provide information on the style. However changing them will not necessarily change it. If the font is referenced then the viewing application will need to find an appropriate system font and it should try to take account of these flags. However if the fonts is embedded then changing the flags will not change the underlying embedded font. Make sure you understand these concepts before you change these values.</p>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+                <TR>
+                  <TD><P><B>How do I manipulate flags enumerations?</B></P>
+                      <P>To check a flag you can write code of the following form:</P>
+                      <p><span class="language">[C#]</span><br>
+                    <pre><code class="language-csharp">bool isSymbolic = font.Flags.HasFlag(FontObject.FontFlags.Symbolic);
+</code></pre><br>
+                    <span class="language">[Visual Basic]</span><br>
+                    <pre><code class="language-vbnet">Dim isSymbolic As Boolean = font.Flags.HasFlag(FontObject.FontFlags.Symbolic)
+</code></pre></p>
+                      <p>To set the flag:</p>
+                      <p><span class="language">[C#]</span><br>
+                    <pre><code class="language-csharp">font.Flags |= FontObject.FontFlags.Symbolic;
+</code></pre><br>
+                    <span class="language">[Visual Basic]</span><br>
+                    <pre><code class="language-vbnet">font.Flags = font.Flags Or FontObject.FontFlags.Symbolic
+</code></pre></p>
+                      <p>To clear the flag:</p>
+                      <p><span class="language">[C#]</span><br>
+                    <pre><code class="language-csharp">font.Flags &amp;= !FontObject.FontFlags.Symbolic;
+</code></pre><br>
+                    <span class="language">[Visual Basic]</span><br>
+                    <pre><code class="language-vbnet">font.Flags = font.Flags And Not FontObject.FontFlags.Symbolic
+</code></pre></p>
+                      </p>
+                  </TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>None.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

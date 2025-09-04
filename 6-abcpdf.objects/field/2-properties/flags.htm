@@ -1,0 +1,119 @@
+<html>
+<head>
+<title>Field Flags Property. The Field Flags (Ff) entry. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Flags Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                <code>FieldFlags</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>FieldFlags</code></td>
+                <td>n/a</td>
+                <td>No</td>
+                <td>The Field Flags (Ff) entry</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This property is used to access or change the  flags (Ff entry) for the field.</p>
+            <p>The FieldFlags type is a flags type enumeration so the different values can be combined together using bitwise operations. It may take the following  values:</p>
+            <UL>
+              <LI>ReadOnly (Do not let the user change the value of the field)
+              <LI>Required
+            (Require that the field has a value at the time it is exported by a form submission action)
+              <LI>NoExport (Do not export the value of the field as part of a form submission action)
+              <LI>NoToggleToOff              (This is used for radio buttons and specifies that exactly one button shall be selected at all times)
+              <LI>Radio              (Indicates whether the field is a radio button or a checkbox. This field is ignored if the Pushbutton flag is set)             
+              <LI>Pushbutton (Whether this field is a pushbutton that stores no permanent value)
+              <LI>RadiosInUnison (Allow radio buttons with the same 'on' value to turn on and off together)
+              <LI>Multiline              (Allow a text field to contain multiple lines of text)
+              <LI>Password (Display text field as a password box in which the text contents are obscured)
+              <LI>FileSelect (Display a text field that allows a file to be selected. When the form is submitted the contents of the file will be used as the value of the field)              
+              <LI>DoNotSpellCheck (Text in this text or choice field shall not be spell checked)              
+              <LI>DoNotScroll (Text in this text field shall not scroll. Once text has been entered which fills the field it shall accept no further characters)              
+              <LI>Comb (Use the MaxLen property to equally space out text field characters into a comb-like slot position)              
+              <LI>RichText (The value of this text field shall be a rich text string)              
+              <LI>Combo (Whether this field is a combo or list field)              
+              <LI>Edit (Whether field shall present an editable text box in addition to a list)              
+              <LI>Sort (Whether entries in the list shall be put into alphabetical order)              
+              <LI>MultiSelect (Whether more than one entry in the list can be selected at the same time)              
+              <LI>CommitOnSelChange (A change to the value of this field will be committed as soon as it is made)              
+                              </UL>
+            <p> The ReadOnly, Required and NoExport flags are used by all field types.</p>
+            <p>The NoToggleToOff, Radio, Pushbutton and RadiosInUnison flags are used by button fields.</p>
+            <p>The Multiline, Password, FileSelect, DoNotSpellCheck, DoNotScroll, Comb and RichText flags are used by text fields.</p>
+            <p>The Combo, Edit, Sort, MultiSelect, DoNotSpellCheck and CommitOnSelChange are used by choice fields.</p>
+            <p>For code shoing how to check, set or clear flags see the <a href="../../fontobject/2-properties/flags.htm">FontObject.Flags</a> property.</p>
+            <p><br>
+              <br>
+            </p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>None.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

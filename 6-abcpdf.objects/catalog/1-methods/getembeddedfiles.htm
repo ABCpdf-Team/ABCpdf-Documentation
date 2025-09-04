@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Catalog GetEmbeddedFiles Function. Gets all the embedded files in this document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>GetEmbeddedFiles Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Gets all the embedded files in this document</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>IDictionary&lt;string, <a href="../../filespecification/default.htm">FileSpecification</a>&gt; GetEmbeddedFiles()<BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <CODE>Function GetEmbeddedFiles() As IDictionary&lt;string, <a href="../../filespecification/default.htm">FileSpecification</a>&gt;<BR>
+            </CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>A set of names and the file associated with each name.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Gets all the embedded files in this document.</p>
+            <p>PDF documents can contain a set  of named files. These files can then be referenced by name elsewhere in the document.</p>
+            <p>The most common case in which named files are used is in the case of PDF portfolios. Adobe now uses the name Portfolio for this 
+            type of document but in the PDF specification they are known as Portable Collections. While the names may vary, the two are the same.</p><p>PDF Portfolios appear as one PDF document but actually contain many. Typically the first document represents the visible face of the 
+             collection when opened. After the collection is open you can switch between the embedded PDFs.</p><p>PDF portfolios can be used to represent a folder of PDFs. For example you might find a portable collection being used to display
+             multiple emails within a single PDF Portfolio.</p></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The example below show how to extract all the files embedded in a PDF portfolio. See the <a href="../../../6-abcpdf.objects/filespecification/1-methods/filespecification.htm">FileSpecification constructor</a> for the creation of  portfolios.</P>
+            <P><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+var ro = new XReadOptions();
+ro.OpenPortfolios = false;
+doc.Read(Server.MapPath("Portfolio1.pdf"), ro);
+var files = doc.ObjectSoup.Catalog.GetEmbeddedFiles();
+foreach (var pair in files) {
+&nbsp;&nbsp;var fileSpec = pair.Value;
+&nbsp;&nbsp;fileSpec.Rationalize();
+&nbsp;&nbsp;var file = fileSpec.EmbeddedFile;
+&nbsp;&nbsp;if ((file != null) &amp;&amp; (file.Decompress())) {
+&nbsp;&nbsp;&nbsp;&nbsp;string name = "Portfolio_" + fileSpec.Uri;
+&nbsp;&nbsp;&nbsp;&nbsp;string path = name;
+&nbsp;&nbsp;&nbsp;&nbsp;File.WriteAllBytes(path, file.GetData());
+&nbsp;&nbsp;}
+}
+</code></pre><br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim ro As New XReadOptions()
+&nbsp;&nbsp;ro.OpenPortfolios = False
+&nbsp;&nbsp;doc.Read(Server.MapPath("Portfolio1.pdf"), ro)
+&nbsp;&nbsp;Dim files = doc.ObjectSoup.Catalog.GetEmbeddedFiles()
+&nbsp;&nbsp;For Each pair As var In files
+&nbsp;&nbsp;&nbsp;&nbsp;Dim fileSpec As FileSpecification = pair.Value
+&nbsp;&nbsp;&nbsp;&nbsp;fileSpec.Rationalize()
+&nbsp;&nbsp;&nbsp;&nbsp;Dim file__1 As EmbeddedFile = fileSpec.EmbeddedFile
+&nbsp;&nbsp;&nbsp;&nbsp;If (file__1 &lt;&gt; Nothing) AndAlso (file__1.Decompress()) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim name As String = "Portfolio_" + fileSpec.Uri
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim path As String = name
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.WriteAllBytes(path, file__1.GetData())
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;Next
+End Using
+</code></pre></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

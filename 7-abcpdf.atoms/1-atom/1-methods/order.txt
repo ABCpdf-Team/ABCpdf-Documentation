@@ -1,0 +1,16 @@
+4-fromstring.htm
+getbool.htm
+getdouble.htm
+getid.htm
+getint.htm
+getitem.htm
+getname.htm
+gettext.htm
+removeitem.htm
+setitem.htm
+getdata.htm
+1-clone.htm
+2-dispose.htm
+3-equals.htm
+5-gethashcode.htm
+tostring.htm

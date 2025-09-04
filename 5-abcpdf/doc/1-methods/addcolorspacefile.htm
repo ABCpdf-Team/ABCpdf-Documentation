@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddColorSpaceFile Function. Adds an ICC based color space to the document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddColorSpaceFile Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Adds an ICC based color space to the document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            AddColorSpaceFile(string path)<BR></CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Function AddColorSpaceFile(path As String) As Integer</CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>path</TD>
+                <TD>
+                  <P>The path to the ICC color space file.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Object ID of the newly added ColorSpace 
+              Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Adds an ICC based color space to the document returning the ID of 
+            the newly added object.</P>
+            <P>ICC Color Spaces allow the precise representation of colors in a 
+            device independent way. The ICC format is defined by the 
+            International Color Consortium (<A target="_blank" href="http://www.color.org/">http://www.color.org/</A>). </P>
+            <P>ABCpdf will allow you to add ICC profiles in the Gray, RGB, CMYK 
+            or Lab color spaces. This method will throw an error if the file is 
+            inaccessible or invalid.</P>
+            <P>The current color space is defined by the <A 
+            href="../2-properties/colorspace.htm">ColorSpace</A> property. The 
+            current color is defined by the <A 
+            href="../2-properties/color.htm">Color</A> property. The ColorSpace 
+            is used when the Color is of a matching type. If the color type does 
+            not match then the default - device - color space is used.</P>
+            <P>For example you add a CMYK color space and assign it to the 
+            ColorSpace property. All CMYK Colors you use will be defined in 
+            terms of this color space. However RGB and Grayscale colors will 
+            continue to be defined in terms of the default - device - color 
+            spaces.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>In this example we add some CMYK text defined in an ICC based 
+            color space.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+string text = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur.";
+doc.Rect.Inset(20, 40);
+doc.FontSize = 96;
+string path = Server.MapPath("../mypics/cmyk.icc");
+doc.ColorSpace = doc.AddColorSpaceFile(path);
+doc.Color.String = "200 20 20 20";
+doc.AddText(text);
+doc.Save(Server.MapPath("docaddcolorspacefile.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur."
+&nbsp;&nbsp;doc.Rect.Inset(20, 40)
+&nbsp;&nbsp;doc.FontSize = 96
+&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/cmyk.icc")
+&nbsp;&nbsp;doc.ColorSpace = doc.AddColorSpaceFile(thePath)
+&nbsp;&nbsp;doc.Color.String = "200 20 20 20"
+&nbsp;&nbsp;doc.AddText(theText)
+&nbsp;&nbsp;doc.Save(Server.MapPath("docaddcolorspacefile.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG
+            src="../../../images/pdf/docaddcolorspacefile.pdf.png" 
+            class="example"><BR>docaddcolorspacefile.pdf </P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

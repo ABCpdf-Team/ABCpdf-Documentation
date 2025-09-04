@@ -1,0 +1,123 @@
+<html>
+<head>
+    <title>Coordinate Spaces</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script>
+</head>
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr>
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="pageheader"> Coordinate Spaces</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>General</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <p>ABCpdf uses the standard Adobe PDF coordinate space. The origin
+              of this space is at the bottom left of the document. Distances are
+              measured up and to the right in points. Points are a traditional
+              measure for print work - there are 72 points in an inch.</p>
+            <p><b>Please note that the bottom-up PDF coordinate space is different
+              from the top-down coordinate system often used in Windows. It means
+              that everything is based around the bottom left of objects - not
+              the top left</b><i>. </i>If you wish to use a different coordinate
+              system you can use the document <a href="../5-abcpdf/doc/2-properties/units.htm">Units</a>,
+              <a href="../5-abcpdf/doc/2-properties/topdown.htm">TopDown</a>
+              or <a href="../5-abcpdf/doc/2-properties/transform.htm">Transform</a>
+              to accomplish this.</p>
+            <p>ABCpdf uses the <a href="../5-abcpdf/xpoint/default.htm">XPoint</a>
+              object to represent positions in space. It uses the <a href="../5-abcpdf/xrect/default.htm">XRect</a>
+              object to represent areas like the current drawing area or the size
+              of a page.</p>
+            <p>The <a href="../5-abcpdf/doc/2-properties/rect.htm">Doc.Rect</a>
+              property is probably the most important property to be aware of.
+              <b>Virtually everything happens within the Doc.Rect.</b> If you
+              add text to a document it is added within the Doc.Rect. If you paint
+              or frame a rectangle it is done within the Doc.Rect. If you add
+              an image it is scaled to fit exactly within the Doc.Rect.</p>
+            <p>The default document size for ABCpdf is 612 by 792. This equates
+              to a physical page size of 8.5 by 11 inches.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <p>The following example draws a rectangle with the bottom left corner
+              positioned 100 points from the left of the page and 200 points up
+              from the bottom. The width of the rectangle is 400 points and the
+              height is 500 points. We add a grid to show the positioning of the
+              rectangle.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">Doc theDoc = new Doc();
+theDoc.AddGrid();
+theDoc.Color.String = &quot;255 0 0&quot;;
+theDoc.Width = 10;
+theDoc.Rect.Position(100, 200);
+theDoc.Rect.Width = 400;
+theDoc.Rect.Height = 500;
+theDoc.FrameRect();
+theDoc.Save(Server.MapPath(&quot;coordinates.pdf&quot;));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Dim theDoc As Doc = New Doc()
+theDoc.AddGrid()
+theDoc.Color.String = &quot;255 0 0&quot;
+theDoc.Width = 10
+theDoc.Rect.Position(100, 200)
+theDoc.Rect.Width = 400
+theDoc.Rect.Height = 500
+theDoc.FrameRect()
+theDoc.Save(Server.MapPath(&quot;coordinates.pdf&quot;))
+</code></pre></p>
+            <p>&nbsp;</p>
+            <p><img src="../images/pdf/coordinates.pdf.gif" class="example"><br>
+              coordinates.pdf</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

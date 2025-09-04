@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XForm MakeFieldsUnique Function. Makes shared XForm fields unique. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6001.18148" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>MakeFieldsUnique&nbsp;Function</TD>
+          <TD width=60>&nbsp; </TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Makes shared&nbsp;XForm fields unique.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
+            MakeFieldsUnique()<BR>void&nbsp;MakeFieldsUnique(string 
+            token)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub 
+            MakeFieldsUnique()<BR>Sub&nbsp;MakeFieldsUnique(token As 
+            String)<BR></CODE></P>
+            <P></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD>
+          <P></P></TR></TBODY></TABLE>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>token</TD>
+                <TD>A token appended to the existing field name, together with 
+                  the page number. This makes the field name unique. Default 
+                  value is "_page".</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Makes shared&nbsp;XForm fields unique. </P>
+            <P>After duplicating pages via calls such as <A 
+            href="../../doc/1-methods/remappages.htm">RemapPages</A>&nbsp;and <A 
+            href="../../doc/1-methods/append.htm">Append</A>, fields may end up 
+            shared by pages. This means that updating a field in a page will 
+            affect the same field in a different page. Very often this is 
+            not the desired behaviour. Fields should then be made unique. 
+            Changing fields in a page will not affect other pages when 
+            fields are unique. Call this method to make the fields unique. For 
+            example: RemapPages("1 1") creates two copies of the first 
+            page, which means that any field owned by the first page is now 
+            shared by two pages. Calling MakeFieldsUnique after 
+            RemapPages, will create separate copies of the fields, 
+            each one with a unique name.</P>
+            <P>To make names unique we use the token parameter. This is 
+            a string that is appended to the field name. It 
+            is also followed by the page number. For example, you can set 
+            the token to something like "_page", the default value. The 
+            field names will then be changed to ExistnigName_page1, 
+            where ExistingName is the current name of the field and 
+            the field is located on page 1. Fields must have unique 
+            names, this is required by the PDF specifications.</P>
+            <P>If the token already exists in the field name - and is 
+            located at the end except for digits - only the page number is 
+            changed. The token will not be appended twice. Therefore an existing 
+            field name that ends with digits, and has the exact token before 
+            such digits, will have the digits replaced by the page number and 
+            nothing else changed.</P>
+            <P>The token may be empty but be aware that any digits at the end of 
+            the field name will be replaced by the page number. If the token is 
+            null it will be replaced by the default token, _page.</P>
+            <P>If a field is shared by several widget annotations 
+            either on the same or different pages, we do our best not to break 
+            this sharing when the fields are made unique. When duplicating 
+            a shared field, the page number in the field name will be the number 
+            of the last page the field appeared on. For example, take a field 
+            called "title" and shared between pages 1 and 2. The following remap 
+            is performed: "1 1 2 2". Then MakeFieldsUnique is called. The first 
+            and third pages will then share a field called title_page3 and the 
+            second and forth pages will share a field called title_page4. If 
+            remapping with "1 2 1 2", then the first two pages share title_page2 
+            and the last two pages share title_page4.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60></TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <P></P></TBODY></TABLE>
+<P>&nbsp;</P></TD></TR></TBODY></TABLE></BODY></HTML>

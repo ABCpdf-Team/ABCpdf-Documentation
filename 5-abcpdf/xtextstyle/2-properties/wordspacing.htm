@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XTextStyle WordSpacing Property. The inter-word spacing. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>WordSpacing Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR><CODE>double</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>Double</CODE></TD>
+                <TD>0.0</TD>
+                <TD>No</TD>
+                <TD>The inter-word spacing.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This property controls the spacing between each word.</P>
+            <P>This property works in a similar way to the <A 
+            href="charspacing.htm">CharSpacing</A> property but the value is 
+            added to only space characters in the string. This has the effect of 
+            spacing out words or pushing them together depending on the sign of 
+            the value, and the property bears the same relation to the font's 
+            writing mode as <A href="charspacing.htm">CharSpacing</A>.</P>
+            <P>Because this property is an absolute value the visual effect will 
+            be greater if your text is smaller.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>In this example we add three blocks of text to a document. The 
+            first block uses the default spacing. The second block uses a 
+            positive value to stretch out the text. The last block uses a 
+            negative value to condense the text.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+string text = "This is an example of word spacing.";
+doc.TextStyle.Size = 72;
+doc.AddText(text);
+doc.Rect.Move(0, -300);
+doc.TextStyle.WordSpacing = 20;
+doc.AddText(text);
+doc.Rect.Move(0, -300);
+doc.TextStyle.WordSpacing = -20;
+doc.AddText(text);
+doc.Save(Server.MapPath("stylewspace.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theText As String = "This is an example of word spacing."
+&nbsp;&nbsp;doc.TextStyle.Size = 72
+&nbsp;&nbsp;doc.AddText(theText)
+&nbsp;&nbsp;doc.Rect.Move(0, -300)
+&nbsp;&nbsp;doc.TextStyle.WordSpacing = 20
+&nbsp;&nbsp;doc.AddText(theText)
+&nbsp;&nbsp;doc.Rect.Move(0, -300)
+&nbsp;&nbsp;doc.TextStyle.WordSpacing = -20
+&nbsp;&nbsp;doc.AddText(theText)
+&nbsp;&nbsp;doc.Save(Server.MapPath("stylewspace.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/stylewspace.pdf.png" 
+            class="example"><BR>stylewspace.pdf </P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddImageUrl Function. Renders a web page specified by URL. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16705" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddImageUrl Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Renders a web page specified by URL.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            AddImageUrl(string url)<BR>int AddImageUrl(string url, bool 
+            paged, int width, bool disableCache)<BR></CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Function AddImageUrl(url As String) As Integer<BR>Function AddImageUrl(url As String, paged As Boolean, width As Integer, 
+            disableCache As Boolean) As Integer<BR></CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>url</TD>
+                <TD>
+                  <P>The URL for the page to be rendered. The actual value may be
+                  modified depending on the value of disableCache/<A 
+                  href="../../xhtmloptions/2-properties/pagecacheenabled.htm">XHtmlOptions.PageCacheEnabled</A>.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>paged</TD>
+                <TD>
+                  <P>Allows you to override the default <A 
+                  href="../../xhtmloptions/2-properties/paged.htm">XHtmlOptions.Paged</A> 
+                  property.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>width</TD>
+                <TD>Allows you to override the default <A 
+                  href="../../xhtmloptions/2-properties/browserwidth.htm">XHtmlOptions.BrowserWidth</A>
+                  property.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>disableCache</TD>
+                <TD>
+                  <P>Allows you to override and disable the page cache.</P>
+                  <P>See the <A 
+                  href="../../xhtmloptions/2-properties/pagecacheenabled.htm">XHtmlOptions.PageCacheEnabled</A> 
+                  property for details.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The ID of the newly added object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This method adds a web page to a document.</P>
+            <P>The page is added in accordance with the current <A 
+            href="../../xhtmloptions/default.htm">XHtmlOptions</A> settings. As 
+            a convenience you can override the more commonly used settings as 
+            detailed above.</P>
+            <P>Only the first page of the document is drawn. Subsequent pages 
+            can be drawn using the <A 
+            href="addimagetochain.htm">AddImageToChain</A> method.</P>
+            <P>The web page is scaled to fill the current <A 
+            href="../2-properties/rect.htm">Rect</A>. It is transformed using 
+            the current <A 
+href="../../xtransform/default.htm">Transform</A>.</P>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P><B>Caching. </B>Sometimes you may find that pages appear to 
+                  be cached.</P>
+                  <P>If you are using AddImageUrl it is possible that the URL is 
+                  in some way being cached. So the PDF may be changing but the 
+                  content within it may be staying the same. See the <A 
+                  href="../../../3-concepts/g-htmlrender.htm">HTML / CSS 
+                  Rendering</A> section of the documentation for details.</P>
+                  <P>Alternatively it is possible that the PDF itself is being 
+                  cached. Most commonly this can happen if you're streaming the 
+                  PDF direct to the browser and you have certain IIS settings 
+                  (like Expire Content) disabled.</P>
+                  <P>Your first step should be to narrow down the problem. Why 
+                  not save the PDF to disk at the same time as sending it to the 
+                  client? That way you can establish whether the PDF itself is 
+                  being cached or whether the content is in some way being 
+                  cached (resulting in the same PDF being created again and 
+                  again).</P>
+                  <P>If the PDF is being cached you will need to look at your 
+                  IIS settings. ABCpdf is not doing the caching (and indeed it 
+                  cannot cache the PDF in this way) it will be something which 
+                  is happening either in IIS/ASP or on an intervening proxy 
+                  server or on the client.<BR></P></TD></TR></TBODY></TABLE>
+            <P>In addition to accepting URLs to web pages, this method also 
+            accepts file based URLs to MHT (MIME HTML) files. </P>
+            <P>MHT files contain a web page and any associated resources (such 
+            as images and style sheets) in one compact archive. You can save web 
+            pages in MHT format using IE. </P>
+            <P>Note that MHT files saved from more complex web pages sometimes 
+            omit some required resources. In this situation ABCpdf will attempt 
+            to download missing items from the original URL on the web. However 
+            if these items are no longer available then ABCpdf may not be able 
+            to produce a perfect output.</P>
+            <P>Make sure your URLs come from trusted sources. See the Security section of the <a href="../../../3-concepts/g-htmlrender.htm">HTML / CSS Rendering</a> section of the documentation for details.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>We create an ABCpdf Doc object, add our URL and save. That's 
+            it!</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.AddImageUrl("http://www.google.com/");
+doc.Save(Server.MapPath("htmlimport.pdf"));
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.AddImageUrl("http://www.google.com/")
+&nbsp;&nbsp;doc.Save(Server.MapPath("htmlimport.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/htmlimport.pdf.png" 
+            class="example"><BR>htmlimport.pdf</P>
+            <P>For an example of how to use paged HTML see the <A 
+            href="addimagetochain.htm">AddImageToChain</A> method.</P>
+            <p>Also see example code in: <a href="../../xhtmloptions/2-properties/2-forchrome.htm">XHtmlOptions ForChrome Property</a>, <a href="../../xhtmloptions/2-properties/2-forgecko.htm">XHtmlOptions ForGecko Property</a>, <a href="../../xhtmloptions/2-properties/2-formshtml.htm">XHtmlOptions ForMSHtml Property</a>, <a href="../../xhtmloptions/2-properties/2-forwebkit.htm">XHtmlOptions ForWebKit Property</a>, <a href="../../xhtmloptions/2-properties/browserwidth.htm">XHtmlOptions BrowserWidth Property</a>, <a href="../../xhtmloptions/2-properties/hidebackground.htm">XHtmlOptions HideBackground Property</a>, <a href="../../xhtmloptions/2-properties/htmlcallback.htm">XHtmlOptions HtmlCallback Property</a>, <a href="../../xhtmloptions/2-properties/htmlembedcallback.htm">XHtmlOptions HtmlEmbedCallback Property</a>, <a href="../../xhtmloptions/2-properties/imagequality.htm">XHtmlOptions ImageQuality Property</a>, <a href="../../xhtmloptions/2-properties/logonname.htm">XHtmlOptions LogonName Property</a>, <a href="../../xhtmloptions/2-properties/retrycount.htm">XHtmlOptions RetryCount Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

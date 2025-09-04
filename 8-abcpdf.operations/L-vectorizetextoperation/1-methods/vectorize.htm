@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>VectorizeTextOperation Vectorize Function. Vectorizes the text glyphs in the pages of a document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Vectorize Method</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+              <P>Vectorizes the text glyphs in the pages of a document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Vectorize(Doc 
+            doc)<BR>void Vectorize(Pages pages)<BR>void Vectorize(Page 
+            page)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub Vectorize(doc As Doc)<BR>Sub Vectorize(pages 
+            As Pages)<BR>Sub Vectorize(page As Page)<BR></CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>doc</TD>
+                <TD>The document containing the pages of text to be vectorized.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>pages</TD>
+                <TD>The pages of text to be vectorized as referenced by a Pages 
+                  IndirectObject.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>page</TD>
+                <TD>The page of text to be vectorized as referenced by a Page 
+                  IndirectObject.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Vectorizes the text glyphs on pages in the document.</P>
+            <P>The VectorizeTextOperation operation removes font glyphs and replaces them with polygonal outlines that appear the same.</P>
+            <P>Note that pages may sometimes share content with other pages. If this is the case then vectorizing the text on one page will also vectorize it on other pages which use this shared content.</P>
+            <p>The <a href="../../1-operation/3-events/1-processingobject.htm">Operation.ProcessingObject</a> property is used to give the user some control over which fonts would be vectorized. 
+              Setting the ProcessingObjectEventArgs.Cancel to 'true' turns off the vectorization for the particular font that's passed in to the Processing method (see examples below)</p>
+              <p>Please see the <a href="../../../6-abcpdf.objects/fontobject/default.htm">FontObject</a> class for more information on the ProcessingObjectEventArgs.Object argument</p>
+              <p>The <a href="../../1-operation/3-events/2-processedobject.htm">Operation.ProcessedObject</a> property is not used with this operation</p>
+
+            <P>&nbsp;</P>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we vectorize all the text in the document.</P>
+            <P><SPAN class=language>[C#]</SPAN>
+            <pre><code class="language-csharp">static void VectorizeDocText1(string inDocName) {
+&nbsp;&nbsp;var op = new VectorizeTextOperation();
+&nbsp;&nbsp;using var doc = new Doc();
+&nbsp;&nbsp;doc.Read(Server.MapPath(inDocName));
+&nbsp;&nbsp;op.Vectorize(doc);
+&nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"));
+}
+</code></pre></P>
+<P><SPAN class=language>[Visual Basic]</SPAN>
+<pre><code class="language-vbnet">Private Shared Sub VectorizeDocText1(inDocName As String)
+&nbsp;&nbsp;Dim vecOp As New VectorizeTextOperation()
+&nbsp;&nbsp;Dim doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath(inDocName))
+&nbsp;&nbsp;vecOp.Vectorize(doc)
+&nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"))
+End Sub
+</code></pre></P>
+<P>Here we Vectorize all but the bold text.</P>
+<P><SPAN class=language>[C#]</SPAN>
+<pre><code class="language-csharp">static void Vectorizing2(object sender, ProcessingObjectEventArgs e) {
+&nbsp;&nbsp;var font = e.Object as FontObject;
+&nbsp;&nbsp;if (font != null &amp;&amp; font.BaseFont.Contains("Bold"))
+&nbsp;&nbsp;&nbsp;&nbsp;e.Cancel = true;
+}
+static void VectorizeDocText2(string inDocName) {
+&nbsp;&nbsp;var op = new VectorizeTextOperation();
+&nbsp;&nbsp;Doc doc = new Doc();
+&nbsp;&nbsp;doc.Read(Server.MapPath(inDocName));
+&nbsp;&nbsp;// Use the 'Vectorizing' method to decide which fonts to vectorize
+&nbsp;&nbsp;op.ProcessingObject += new ProcessingObjectEventHandler(Vectorizing2);
+&nbsp;&nbsp;op.Vectorize(doc);
+&nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"));
+}
+</code></pre></P>
+<P><SPAN class=language>[Visual Basic]</SPAN>
+<pre><code class="language-vbnet">Private Shared Sub Vectorizing2(sender As Object, e As ProcessingObjectEventArgs)
+&nbsp;&nbsp;Dim theFont As FontObject = TryCast(e.[Object], FontObject)
+&nbsp;&nbsp;If theFont &lt;&gt; Nothing AndAlso theFont.BaseFont.Contains("Bold") Then
+&nbsp;&nbsp;&nbsp;&nbsp;e.Cancel = True
+&nbsp;&nbsp;End If
+End Sub
+Private Shared Sub VectorizeDocText2(inDocName As String)
+&nbsp;&nbsp;Dim vecOp As New VectorizeTextOperation()
+&nbsp;&nbsp;Dim doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath(inDocName))
+&nbsp;&nbsp;' Use the 'Vectorizing' method to decide which fonts to vectorize
+&nbsp;&nbsp;vecOp.ProcessingObject += New ProcessingObjectEventHandler(Vectorizing2)
+&nbsp;&nbsp;vecOp.Vectorize(doc)
+&nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"))
+End Sub
+</code></pre></P>
+<P>Vectorize all the external fonts.</P>
+<P><SPAN class=language>[C#]</SPAN>
+<pre><code class="language-csharp">static void Vectorizing3(object sender, ProcessingObjectEventArgs e) {
+&nbsp;&nbsp;var font = e.Object as FontObject;
+&nbsp;&nbsp;if (font != null &amp;&amp; font.EmbeddedFont != null)
+&nbsp;&nbsp;&nbsp;&nbsp;e.Cancel = true;
+}
+static void VectorizeDocText3(string inDocName) {
+&nbsp;&nbsp;var op = new VectorizeTextOperation();
+&nbsp;&nbsp;Doc doc = new Doc();
+&nbsp;&nbsp;doc.Read(Server.MapPath(inDocName));
+&nbsp;&nbsp;// Use the 'Vectorizing' method to decide which fonts to vectorize
+&nbsp;&nbsp;op.ProcessingObject += new ProcessingObjectEventHandler(Vectorizing3);
+&nbsp;&nbsp;op.Vectorize(doc);
+&nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"));
+}
+</code></pre></P>
+<P><SPAN class=language>[Visual Basic]</SPAN>
+<pre>
+<code class="language-vbnet">Private Shared Sub Vectorizing3(sender As Object, e As ProcessingObjectEventArgs)
+&nbsp;&nbsp;Dim theFont As FontObject = TryCast(e.[Object], FontObject)
+&nbsp;&nbsp;If theFont &lt;&gt; Nothing AndAlso theFont.EmbeddedFont &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;e.Cancel = True
+&nbsp;&nbsp;End If
+End Sub
+Private Shared Sub VectorizeDocText3(inDocName As String)
+&nbsp;&nbsp;Dim vecOp As New VectorizeTextOperation()
+&nbsp;&nbsp;Dim doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath(inDocName))
+&nbsp;&nbsp;' Use the 'Vectorizing' method to decide which fonts to vectorize
+&nbsp;&nbsp;vecOp.ProcessingObject += New ProcessingObjectEventHandler(Vectorizing3)
+&nbsp;&nbsp;vecOp.Vectorize(doc)
+&nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"))
+End Sub
+</code></pre></P>
+</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

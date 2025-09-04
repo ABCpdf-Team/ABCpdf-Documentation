@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddImage Function. Adds an image to the current page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddImage Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Adds an image to the current page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            AddImage(XImage image)<BR>int AddImage(string 
+            path)<BR>int AddImage(byte[] data)<BR>int 
+            AddImage(string path, int page)<BR>int AddImage(byte[] data, 
+            int page)<BR>int AddImage(int id)<BR>int 
+            AddImage(System.Drawing.Bitmap bm)<BR>int AddImage(Doc doc, 
+            int page)<BR>int AddImage(Doc doc, int page, XRect 
+            src)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Function AddImage(image As 
+            XImage) As Integer<BR>Function AddImage(path As String) 
+            As Integer<BR>Function AddImage(data() As Byte) As 
+            Integer<BR>Function AddImage(path As String, page As 
+            Integer) As Integer<BR>Function AddImage(data() As Byte, 
+            page As Integer) As Integer<BR>Function AddImage(id As 
+            Integer) As Integer<BR>Function AddImage(bm As 
+            System.Drawing.Bitmap) As Integer<BR>Function AddImage(doc As Doc, page As Integer) As Integer<BR>Function AddImage(doc As Doc, page As Integer, src As XRect) As 
+            Integer<BR></CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>image</TD>
+                <TD>
+                  <P>An <A href="../../ximage/default.htm">XImage</A> containing 
+                  the image to be added to the page.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>path</TD>
+                <TD>
+                  <P>A file path, URL or html string to be added to the 
+                page.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>data</TD>
+                <TD>
+                  <P>The raw JPEG data to be added to the page.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>id</TD>
+                <TD>
+                  <P>An existing image object ID to be copied to the page 
+                  again.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>bm</TD>
+                <TD>
+                  <P>A .NET Bitmap to be added to the page.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>doc</TD>
+                <TD>
+                  <P>A PDF document page to be added to the page.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>page</TD>
+                <TD>
+                  <P>The page of the document to be added.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>src</TD>
+                <TD>
+                  <P>The source area of the document page to be added.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The ID of the newly added Image 
+Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Adds an image to the current page returning the ID of the newly 
+            added object.</P>
+            <P>This method attempts to make a sensible decision as to which of 
+            the following methods to call dependent on the content of the 
+            ImageSpec. </P>
+            <UL>
+              <LI><A href="addimagefile.htm">AddImageFile</A> 
+              <LI><A href="addimagedata.htm">AddImageData</A> 
+              <LI><A href="addimagecopy.htm">AddImageCopy</A> 
+              <LI><A href="addimageurl.htm">AddImageUrl</A> 
+              <LI><A href="addimagehtml.htm">AddImageHtml</A> 
+              <LI><A href="addimagetochain.htm">AddImageToChain</A> 
+              <LI><A href="addimagedoc.htm">AddImageDoc</A> 
+              <LI><A href="addimageobject.htm">AddImageObject</A> 
+              <LI><A href="addimagebitmap.htm">AddImageBitmap</A> </LI></UL>
+            <P>This function is provided for backwards compatibility purposes. 
+            You should call the appropriate method directly rather than working 
+            via this method.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>Also see example code in: <a href="../../../4-examples/02-textflow2.htm">ABCpdf Text Flow Round Image Example</a>, <a href="../../xrendering/2-properties/colorspace.htm">XRendering ColorSpace Property</a>, <a href="../../xrendering/2-properties/defaulthalftone.htm">XRendering DefaultHalftone Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

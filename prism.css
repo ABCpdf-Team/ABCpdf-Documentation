@@ -1,0 +1,44 @@
+/* See prism.js for explanation */
+
+/* Used to set the colour of the text box which the code sits inside of */
+.codeBox {
+    background-color: #272822;
+	color: #f8f8f2;
+}
+
+/* For keywords which are reserved by the respective language */
+.codeKeyword {
+    color: #66d9ef;
+	font-weight: bold;
+}
+
+/* For object types and members */
+.codeType {
+    color: #f8f8f2;
+}
+
+/* For instances of objects */
+.codeOrdinary {
+    color: #f8f8f2;
+}
+
+/* For elements of the code that are part of a comment */
+.codeComment {
+    color: #8292a2;
+}
+
+/* Used for literals ie. strings */
+.codeLiteral {
+    color: #afe22e;
+    font-style: italic;
+}
+
+/* For object values of integers, floating point numbers and hexidecimal representations */
+.codeNumber {
+    color: #ae81ff;
+}
+
+/* For functions in the code as well as highlighting brackets */
+.codeFunction {
+    color: #e6db74;
+}

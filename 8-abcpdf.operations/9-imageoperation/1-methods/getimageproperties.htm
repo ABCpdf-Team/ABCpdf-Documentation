@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>ImageOperation GetImageProperties Function. Get the image information for all the raster images. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>GetImageProperties  Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Get the image information for all the raster images.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>IList&lt;<a href="../../9-imageproperties/default.htm">ImageProperties</a>&gt; GetImageProperties()</CODE><BR>
+            <SPAN class=language>[Visual
+            Basic]</SPAN><BR>
+            <CODE>Function GetImageProperties() As IList&lt;<a href="../../9-imageproperties/default.htm">ImageProperties</a>&gt;</CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions"
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>Return</TD>
+                <TD>A collection of all the image properties..</TD>
+              </TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Get the image information for all the raster images. If the <a href="../2-properties/pagecontents.htm">PageContents</a> is null then an exception will be raised.</P>
+            <P>After retrieving image properties you can iterate through them to find out information about what images there are and how they are placed in the document. Much like HTML, PDF allows a divorce between the image and the placement of that image. So you may have one PixMap which is drawn multiple times at multiple sizes in different locations within the document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we highlight a set of images in a source document by drawing a red rectangle around each one.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+                <pre><code class="language-csharp">string src = Server.MapPath("mypics/Acrobat.pdf");
+string dst = Server.MapPath("HighlightedImages.pdf");
+using var doc = new Doc();
+doc.Read(src);
+doc.Color.SetRgb(255, 0, 0);
+doc.Width = 0.1;
+var op = new ImageOperation(doc);
+op.PageContents.AddPages();
+var images = op.GetImageProperties();
+foreach (var img in images) {
+&nbsp;&nbsp;foreach (var rend in img.Renditions) {
+&nbsp;&nbsp;&nbsp;&nbsp;rend.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect();
+&nbsp;&nbsp;}
+}
+doc.Save(dst);
+</code></pre><BR>
+  <SPAN class=language>[Visual 
+    Basic]</SPAN><BR>
+                  <pre><code class="language-vbnet">Dim theSrc As String = Server.MapPath("mypics/Acrobat.pdf")
+Dim theDst As String = Server.MapPath("HighlightedImages.pdf")
+Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(theSrc)
+&nbsp;&nbsp;doc.Color.SetRgb(255, 0, 0)
+&nbsp;&nbsp;doc.Width = 0.1
+&nbsp;&nbsp;Dim op As New ImageOperation(doc)
+&nbsp;&nbsp;op.PageContents.AddPages()
+&nbsp;&nbsp;Dim images As IList(Of ImageProperties) = op.GetImageProperties()
+&nbsp;&nbsp;For Each pl As ImageProperties In images
+&nbsp;&nbsp;&nbsp;&nbsp;For Each plc As ImageRendition In pl.Renditions
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plc.Focus()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;&nbsp;&nbsp;Next
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;doc.Save(theDst)
+End Using
+</code></pre></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

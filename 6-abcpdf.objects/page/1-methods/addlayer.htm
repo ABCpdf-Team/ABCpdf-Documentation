@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Page AddLayer Function. Add a content layer at the front of the page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddLayer Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Add a content layer to the page</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>void AddLayer(<a href="../../streamobject/default.htm">string</a> text)<br>
+            void AddLayer(<a href="../../streamobject/default.htm">byte[]</a> data)<br>
+            void AddLayer(<a href="../../streamobject/default.htm">StreamObject</a> stream)<br>
+            void AddLayer(string text, int index)<br>
+            void AddLayer(byte[] data, int index)<br>
+            void AddLayer(StreamObject stream, int index)<BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <CODE>Function AddLayer(text As String) As Integer<br>
+            Function AddLayer(data As <a href="../../streamobject/default.htm">Byte()</a>) As Integer<br>
+            Function AddLayer(stream As <a href="../../streamobject/default.htm">StreamObject</a>) As Integer<br>
+            Function AddLayer(text As String, index As Integer) As Integer<br>
+Function AddLayer(data As <a href="../../streamobject/default.htm">Byte()</a>, index As Integer) As Integer<br>
+Function AddLayer(stream As <a href="../../streamobject/default.htm">StreamObject</a>, index As Integer) As Integer<BR>
+            </CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>text</TD>
+                <TD>The ASCII text to be added - typically a set of PDF drawing operators.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>data</TD>
+                <TD>The data to be added - typically an ASCII representation of a set of PDF drawing operators.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>stream</TD>
+                <TD>The stream that should be added as a new layer on page.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>index</TD>
+                <TD><p>The index at which the layer should be added. If the index is greater than or equal to the number of layers then the new layer will be added at the top. Default Int.Max.</p>
+                  </TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Object ID of the newly added StreamObject.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Add a content layer to the page.</P>
+            <P>By default the layer will go at the top or front of the page. By supplying an index parameter you can position your new layer behind other layers that already exist.</P>
+            <P>Layers draw in sequence when displayed which means that later layers may draw over the top of earlier layers.</P>
+            <P>Any <a href="../../streamobject/default.htm">StreamObject</a> that is supplied should contain PDF drawing operations. The data and text overloads are convenience functions for common operations.</P>
+            <P>You will need to ensure that any resources that are referenced in this content stream have been added to the resources of the page using a method such as <a href="addresource.htm">AddResource</a>.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>Also see example code in: <a href="makeformxobject.htm">Page MakeFormXObject Function</a>, <a href="../../../7-abcpdf.atoms/opatom/1-methods/find.htm">OpAtom Find Function</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

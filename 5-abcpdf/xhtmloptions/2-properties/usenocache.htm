@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>XHtmlOptions UseNoCache Property. Whether any proxy servers should re-request items of content. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">UseNoCache Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
+                <td>false</td>
+                <td>No</td>
+                <td>Whether any proxy servers should re-request items of content.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This property determines whether no-cache is enabled.</p>
+            <p>Setting this property to true forces any intervening proxy server 
+              to re-request the page.</p>
+            <p>For the <a href="1-engine.htm">MSHTML engine</a>, setting this
+              property to true sets INTERNET_FLAG_PRAGMA_NOCACHE. WinINET will
+              add request header <strong>Pragma: no-cache</strong> if going
+              through a HTTP/1.0 proxy and request header
+              <strong>Cache-Control: no-cache</strong> if going through a
+              HTTP/1.1 proxy.</p>
+            <p>For the <a href="1-engine.htm">Gecko engine</a>, setting this
+              property to true sets the following flags.</p>
+            <ul>
+              <li>LOAD_FLAGS_IS_REFRESH &mdash; the load should have the
+                semantics of an HTML Meta-refresh tag (i.e., that the cache
+                should be bypassed).</li>
+              <li>LOAD_FLAGS_BYPASS_HISTORY &mdash; history should not be updated.</li>
+              <li>LOAD_FLAGS_BYPASS_CACHE &mdash; the local web cache should be
+                bypassed (but an intermediate proxy cache could still be used
+                to satisfy the load).</li>
+              <li>LOAD_FLAGS_BYPASS_PROXY &mdash; any intermediate proxy caches
+                should be bypassed (i.e., that the content should be loaded from
+                the origin server).</li></ul>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>None.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

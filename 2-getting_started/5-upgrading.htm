@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Upgrading</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script>
+<meta content="MSHTML 6.00.6000.16788" name="GENERATOR">
+</head>
+<body style="background-color: rgb(255, 255, 255);">
+<table border="0" cellpadding="0" cellspacing="4">
+<tbody>
+<tr>
+<td valign="top"><img src="../images/goo.gif" height="60" width="58"></td>
+<td width="14">&nbsp;</td>
+<td>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="pageheader">Upgrading</td>
+<td width="60">&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td background="../images/steel-line-3.gif" height="11"></td>
+<td background="../images/steel-line-3.gif" height="11" width="60"></td>
+<td height="11"><img src="../images/steel-blob-11.gif" height="11" width="11"></td>
+</tr>
+<tr>
+<td>
+<p>&nbsp;</p>
+</td>
+<td width="60">&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td class="sectheader" valign="top"><img src="../images/steel-pin.gif" height="10" width="64"><br>
+Basics</td>
+<td width="14">&nbsp;</td>
+<td valign="top">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td>
+<p>ABCpdf 13 is a new version completely independent
+of the old. It incorporates the ABCpdf2, ABCpdf3, ABCpdf4, ABCpdf5,
+ABCpdf6, ABCpdf7, ABCpdf8, ABCpdf9, ABCpdf10, ABCpdf11 and ABCpdf12 namespaces so that you can upgrade with minimal
+changes to your code. When you want to take advantage of the new
+features, simply reference the new name.</p>
+<p>Simply replace...</p>
+<p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">using WebSupergoo.ABCpdf12;<!--notcode-->
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">Imports WebSupergoo.ABCpdf12
+</code></pre></p>
+<p>with...</p>
+<p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">using WebSupergoo.ABCpdf13;<!--notcode-->
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">Imports WebSupergoo.ABCpdf13
+</code></pre></p>
+<p></p>
+<p>&nbsp;</p>
+</td>
+<td width="60">&nbsp;</td>
+<td width="11">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td class="sectheader" valign="top"><img src="../images/steel-pin.gif" height="10" width="64"><br>
+Changes</td>
+<td width="14">&nbsp;</td>
+<td valign="top">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td>
+<p>ABCpdf is fully backward compatible. Although
+extensive changes have been made to the core engine, we check that
+these changes produce results that are compatible with previous
+versions.</p>
+<p>There are some minor differences in behavior between the ABCpdf12 and ABCpdf13 namespaces.</p>
+<p>The new ABCChrome123 HTML conversion engine is our new default as it is faster, more compliant and more secure than the previous one.  If your HTML conversions rely on specific output styles created by  the previous default engines - eg ABCChrome86 - you will want to use the following line of code after creating any Doc object, after calling Doc.Read and after calling Doc.Clear.</p>
+<p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">doc.HtmlOptions.Engine = EngineType.Chrome86;
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">doc.HtmlOptions.Engine = EngineType.Chrome86
+</code></pre>
+</p>
+<p>For this release we have vastly increased the capabilities of FireShield. It has much greater insight into what is happening in the current process and intercepts requests that previously might have gone unnoticed. This means that if you have custom rules for FireShield  it may pick up some events - for example file information queries - which previously it might not have done. Your rules may need to be adjusted to allow these types of events to be ignored as appropriate.</p>
+<p>You should not use objects after disposal. However the debugger does not know if an object is disposed so if you are displaying disposed objects in the watch window you may see exceptions being thrown. We have changed  behavior here  to make disposed objects more tolerant of misuse. Properties such as the <a href="../5-abcpdf/xencryption/2-properties/streamcryptionmethod.htm">XEncryption.StreamCryptionMethod</a> and <a href="../5-abcpdf/xencryption/2-properties/stringcryptionmethod.htm">XEncryption.StringCryptionMethod</a> are likely to return default values rather than throw exceptions. </p>
+<p>The app.config ABCpdf preferences section has been changes slightly. In Version 12 we had an &lt;ABCpdf12.Section&gt; tag but in version 13 is is simply &lt;ABCpdf13&gt;. We handle the camel cased XML preferences for backwards compatibility but in the current release we prefer lower case entries. See the <a href="../5-abcpdf/xsettings/1-methods/setconfigfile.htm">XSettings.SetConfigFile</a> function for details.</p>
+<p></p></td>
+<td width="60">&nbsp;</td>
+<td width="11">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+</body></html>

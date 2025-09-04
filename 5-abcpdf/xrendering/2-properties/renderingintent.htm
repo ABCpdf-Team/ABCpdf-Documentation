@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XRendering RenderingIntent Property. Gets or sets the default rendering intent. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="../../../mystyles.css" rel=stylesheet>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>RenderingIntent Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN class=language>[C#]</SPAN><BR><CODE>RenderingIntent</CODE><BR>
+                <BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>RenderingIntent</CODE></TD>
+                <TD>RelativeColorimetric</TD>
+                <TD>No</TD>
+                <TD>Gets or sets the default rendering intent.</TD>
+              </TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The default rendering intent for the operation.</P>
+            <P>The rendering intent determines how out of gamut colors are 
+            handled. The following options are available:</P>
+            <UL>
+              <LI>Perceptual 
+              <LI>RelativeColorimetric 
+              <LI>Saturation 
+              <LI>AbsoluteColorimetric </LI>
+            </UL>
+            <P>The perceptual model maps the entire gamut of the source color 
+              space into the destination one and is good for photographic type 
+              images. The saturation model is good for diagrams, cartoons or 
+              posterized images where distinctiveness of color is more important 
+              than precise color fidelity. The colorimetric methods remap only 
+              those colors which are out of gamut. The relative one keeps the 
+              color values the same while allowing the brightness to vary. The 
+              absolute colorimetric method uses the closest color at the gamut 
+              boundary. </P>
+            <P>In general you will want to use a perceptual intent when mapping 
+              from a large gamut color space (e.g. RGB) to a narrow one (e.g. CMYK). 
+              In general you will want to use a relative colorimetric intent when 
+              mapping between similar color spaces (e.g. RGB to RGB or CMYK to 
+              CMYK).</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

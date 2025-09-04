@@ -1,0 +1,95 @@
+<html>
+<head>
+<title>Page CropBox Property. The CropBox for the page. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> CropBox Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code><a href="../../../5-abcpdf/xrect/default.htm">XRect</a></code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code><a href="../../../5-abcpdf/xrect/default.htm">XRect</a></code></td>
+                <td>n/a</td>
+                <td>No</td>
+                <td>The CropBox for the page</td>
+              </tr>
+            </table>
+            <p><code><img src="../../../images/steel-blob-10.gif" width="10" height="10" border="0" alt="Throws Exceptions"> may throw NullReferenceException()</code></p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The CropBox for the page.
+            <p>The CropBox defines the visible part of the physical medium on which the page may be displayed or printed.
+            This is what you see as the boundary of the page when you view a document using Acrobat Reader.</p><p>These boundaries may be defined directly on the Page object or they may be inherited from a parent Pages object.</p><p>The CropBox is optional and if this property is null it is implicitly assumed to be the same as the MediaBox.</p><p>Assigning a new value to this property will change the property for the current Page rather than any Pages object 
+            from which the value may have been inherited. In this way the property exhibits a copy-on-write behavior.</p>
+            <p>Attempting to assign a null value to this property will result in a NullReferenceException being thrown. This is because the CropBox may be inherited from a parent page and thus removing the CropBox from the current page may simply result in it being inherited from another. This is unusual and counterintuitive behavior and can result in subtle bugs related to specific documents. As such, if you want to clear this property you should assign it the value of the MediaBox.</p>
+            <p>Note that, as with all objects in this namespace, this property is measured in points in the native PDF coordinate space. It is unaffected by the <a href="../../../5-abcpdf/doc/2-properties/units.htm">Doc.Units</a> or <a href="../../../5-abcpdf/doc/2-properties/topdown.htm">Doc.TopDown</a> properties.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>None.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

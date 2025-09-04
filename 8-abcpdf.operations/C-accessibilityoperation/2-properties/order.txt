@@ -1,0 +1,5 @@
+pagecontents.htm
+fixfonts.htm
+fixmetadata.htm
+findheaders.htm
+findfooters.htm

@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>AccessibilityOperation Constructor. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16788" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AccessibilityOperation  Constructor</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>AccessibilityOperation Constructor.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE><a href="../default.htm">AccessibilityOperation</a>(Doc 
+            doc)<BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub New(doc As Doc)<BR></CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>doc</TD>
+                <TD>The PDF Document</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Create an AccessibilityOperation for accessibility. If the doc is null then an exception will be raised.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we read an existing PDF and make it accessible. </P>
+            <P>We produce output conformant to the PDF specification and compliant with use within Acrobat. However please note that Accessibility is not well supported outside Acrobat.</P>
+            <p>In particular some versions of software such as NVDAccess do not necessarily handle all constructs correctly. In particular they have problems with form XObjects and so one needs to avoid this type of construct. </p>
+            <p>The code below calls Page.StampFormXObjects on all pages in the document to ensure that all form XObjects are removed before the document is made accessible.</p>
+            <p>The process of stamping form XObjects will not normally make much difference. However in some cases you may find there is a level of expansion in size and very occasionally you may see subtle differences in transparency blending. Nevertheless if you want compatibility, there is no other choice.</p>
+            <P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("spaceshuttle.pdf"));
+var pages = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll();
+foreach (var page in pages)
+&nbsp;&nbsp;page.StampFormXObjects(true); // see notes on NVDA above
+var op = new AccessibilityOperation(doc);
+op.PageContents.AddPages();
+op.MakeAccessible();
+doc.Save(Server.MapPath("accessible.pdf"));
+</code></pre></P>
+            <P><SPAN class=language>[Visual Basic]</SPAN><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("spaceshuttle.pdf"))
+&nbsp;&nbsp;Dim pages As Page() = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()
+&nbsp;&nbsp;For Each page As Page In pages
+&nbsp;&nbsp;&nbsp;&nbsp;page.StampFormXObjects(True)
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;' see notes on NVDA above
+&nbsp;&nbsp;Dim op As New AccessibilityOperation(doc)
+&nbsp;&nbsp;op.PageContents.AddPages()
+&nbsp;&nbsp;op.MakeAccessible()
+&nbsp;&nbsp;doc.Save(Server.MapPath("accessible.pdf"))
+End Using
+</code></pre></P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>PdfValidationOperation Read Function. Read and validate an existing document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Read Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Read and validate an existing document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>Doc Read(string
+            path, XReadOptions options)<BR>Doc Read(byte[] data,
+            XReadOptions options)<BR>Doc Read(Stream stream, XReadOptions
+            options)</CODE><BR><SPAN class=language>[Visual
+            Basic]</SPAN><BR><CODE>Function Read(path As String, options
+            As XReadOptions) As Doc<BR>Function Read(data() As Byte,
+            options As XReadOptions) As Doc<BR>Function Read(stream As
+            Stream, options As XReadOptions) As Doc</CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions"
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>path</TD>
+                <TD>The file path to PDF document.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>data</TD>
+                <TD>The source PDF data.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>stream</TD>
+                <TD>The source PDF stream.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>options</TD>
+                <TD>The settings for the read. (May be null.)</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This method reads and validates the document according to
+            the <A href="../2-properties/conformance.htm">Conformance</A>
+            property. Any conformance error or warning is reported in the <A
+            href="../2-properties/errors.htm">Errors</A> property or the <A
+            href="../2-properties/warnings.htm">Warnings</A> property after
+            the method finishes.</P>
+            <P>If the <A href="../2-properties/doc.htm">Doc</A> property
+            is null, the document is read into a new <A
+            href="../../../5-abcpdf/doc/default.htm">Doc</A> object, which
+            is returned; otherwise, the document is read into the value of
+            the <A href="../2-properties/doc.htm">Doc</A> property, which
+            is returned.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we validate a document against PDF/A-1b format.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">string path = Server.MapPath("pdfa.pdf");
+using (var op = new PdfValidationOperation()) {
+&nbsp;&nbsp;op.Conformance = PdfConformance.PdfA1b;
+&nbsp;&nbsp;using var doc = op.Read(path, null);
+
+&nbsp;&nbsp;if (op.Errors.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Errors:");
+&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; op.Errors.Count; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(op.Errors[i]);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;if (op.Warnings.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;if (op.Errors.Count &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine();
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Warnings:");
+&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; op.Warnings.Count; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(op.Warnings[i]);
+&nbsp;&nbsp;}
+}
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Dim thePath As String = Server.MapPath("pdfa.pdf")
+Using theOperation As New PdfValidationOperation()
+&nbsp;&nbsp;theOperation.Conformance = PdfConformance.PdfA1b
+&nbsp;&nbsp;Dim doc As Doc = theOperation.Read(thePath, Nothing)
+&nbsp;&nbsp;doc.Dispose()
+
+&nbsp;&nbsp;If theOperation.Errors.Count &gt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Errors:")
+&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; theOperation.Errors.Count
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Errors(i))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;If theOperation.Warnings.Count &gt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;If theOperation.Errors.Count &gt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine()
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Warnings:")
+&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; theOperation.Warnings.Count
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Warnings(i))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;End If
+End Using
+</code></pre></P>
+            <P>&nbsp;</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc Read Function. Reads an existing document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16735" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Read Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Reads an existing document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
+            Read(string path)<BR>void Read(byte[] data)<BR>void 
+            Read(Stream stream)<BR>void Read(string path, string 
+            password)<BR>void Read(byte[] data, string 
+            password)<BR>void Read(Stream stream, string 
+            password)<BR>void Read(string path, XReadOptions 
+            options)<BR>void Read(byte[] data, XReadOptions 
+            options)<BR>void Read(Stream stream, XReadOptions 
+            options)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub Read(path As 
+            String)<BR>Sub Read(data() As Byte)<BR>Sub Read(stream As Stream)<BR>Sub Read(path As String, 
+            password As String)<BR>Sub Read(data() As Byte, password 
+            As String)<BR>Sub Read(stream As Stream, password As 
+            String)<BR>Sub Read(path As String, options As 
+            XReadOptions)<BR>Sub Read(data() As Byte, options As 
+            XReadOptions)<BR>Sub Read(stream As Stream, options As 
+            XReadOptions)</CODE><BR></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>path</TD>
+                <TD>
+                  <P>The file path to the PDF, OpenOffice.org, SVG, RTF, XPS 
+                  or other supported document type.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>data</TD>
+                <TD>
+                  <P>The source PDF data.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>stream</TD>
+                <TD>
+                  <P>The source PDF or document stream.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>password</TD>
+                <TD>
+                  <P>Any password needed to open the document.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>options</TD>
+                <TD>
+                  <P>The settings for the read.</P></TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Use this method to read a file into a document object. Any 
+            existing document content will be discarded. All properties will be set back to their defaults.</P>
+            <P>You can specify a PDF as a file path or by passing in the raw PDF 
+            data. Raw data must be held as an array of bytes. You can open 
+            encrypted PDF documents if you supply a valid password.</P>
+            <P>You may notice that colors in the PDF files are slightly different
+            if you are reading non-PDF files. PDF handles alpha blending differently
+            from other file formats. Refer to <A
+            href="../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.htm">SwfImportOperation.Import</A>
+            for notes about alpha blending.</P>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P><B>Other File Types. </B>This method supports the import of 
+                  a range of other file types as standard.</P>
+                  <P>For the import of doc and docx formats we recommend the use of <a target="_blank" href="http://www.websupergoo.com/wordglue-1.htm">WordGlue</a> wherever possible. This eliminates the installation and configuration issues which can be associated with other doc import applications.</P>
+                  <P>If <a target="_blank" href="http://www.openoffice.org/">OpenOffice.org</A> 
+                  is installed you can pass this method a file path to 
+                  OpenOffice.org compatible documents. This means you can read 
+                  file types like Microsoft Word (.doc, .docx), Microsoft Excel 
+                  (.xls, xlsx), Rich Text Format (.rtf), PowerPoint (.ppt, 
+                  .pptx), WordPerfect (.wpd), Lotus 1-2-3 (.wk1) and AutoCAD 
+                  (.dxf). </P>
+                  <P>If&nbsp;both Microsoft Office and .NET 3.5 are installed 
+                  you can pass this method a path to any Microsoft Office 
+                  compatible document. By default the Microsoft 
+                  Office import operation  works direct but it can also work via the XPS printer driver if you explicitly specify that the XpsAny read module be used. ABCpdf works with Office 2007 or later.</P>
+                  <P>Rich Text Format (.rtf) documents are automatically imported using the nativeABCpdf Rich Text Format  read module. This is generally the simplest, fastest and most reliable import method. However if you have specific needs you can also import them using the OpenOffice.org or Microsoft Office <a href="../../xreadoptions/2-properties/1-readmodule.htm">XReadOptiions.ReadModules</a>.</P>
+                  <P>You can pass this method a file path to an SVG or SVGZ 
+                  document for conversion to PDF. ABCpdf supports a subset of 
+                  SVG based around the SVG Tiny specification. For details see 
+                  the <A href="../../../3-concepts/h-svgsupport.htm">SVG 
+                  Support</A> section of the documentation. You can also pass a 
+                  file path to an XPS, OXPS or EPS document for conversion to PDF.</P>
+                  <P>You can use a path to an image type such as JPEG or TIFF. 
+                  ABCpdf will import multi-page images as multi-page documents. 
+                  The image types supported are, broadly, those supported by the 
+                  XImage object.</P>
+                  <P>If you have a stream or data rather than a file path then 
+                  you will need to specify an options parameter. This is 
+                  necessary because in the case of data ABCpdf does not have a 
+                  file extension from which it can automatically decide the type 
+                  of module to use. As a result it regards all data as PDF 
+                  unless told otherwise.</P>
+                  <P>Full control over the import process can be implemented by 
+                  specifying an options parameter. Reading a document without 
+                  specifying an options parameter is functionally the same as 
+                  reading a document using a default XReadOptions 
+              object.</P></TD></TR></TBODY></TABLE>
+            <P>After the read operation is complete the <A 
+            href="../2-properties/page.htm">Page</A> property will contain the 
+            ID of the first page in the document. The <A 
+            href="../2-properties/rect.htm">Rect</A> and <A 
+            href="../2-properties/mediabox.htm">MediaBox</A> properties will 
+            reflect the size of the first page in the document.</P>
+            <P>ABCpdf .NET operates an intelligent just-in-time object loading 
+            scheme for PDFs which ensures that only those objects that are 
+            required are loaded into memory. This means that if you are 
+            modifying large documents then server load will be kept to a 
+            minimum. The original PDF document must be available for as long as 
+            the <A href="../default.htm">Doc</A> object is being used. As a 
+            result you cannot modify or overwrite a PDF file while it is read 
+            into a <A href="../default.htm">Doc</A> object. You will need to 
+            save your PDF to another location and then swap the two files around 
+            after the <A href="../default.htm">Doc</A> object's use of the PDF 
+            is ended (with a call to <A href="clear.htm">Clear</A>, Dispose, or 
+            Read with another PDF file).</P>
+            <P>Object deletion requires that all references to an object are 
+            removed. There is no way of doing this without checking each object 
+            in the document. So object deletion requires that every object in 
+            the document is loaded and for large documents this may place a 
+            significant load on the server. Reading encrypted documents places a 
+            greater load on the server because - like object deletion - it 
+            requires that every object in the document be loaded.</P>
+            <P>Please note that you are legally bound to respect the permissions 
+            present in existing PDF documents. For details please see the <A 
+            href="../../../1-introduction/8-legalrequirements.htm">Legal 
+            Requirement Section</A>.</P>
+            <P>The Read method may be used to read eForm FDF documents as well 
+            as PDF documents. Most PDF operations will not work on FDF documents 
+            but you can query field values using the GetInfo methods to return 
+            Unicode strings.</P>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P><B>Modifying Documents. </B>ABCpdf will allow you to open, 
+                  modify and save PDF documents. </P>
+                  <P>ABCpdf will allow you to draw on top of PDF documents or 
+                  add or delete pages or modify document data. However because 
+                  of the way that PDF documents are structured it's unlikely 
+                  that you'll be able to edit existing content.</P>
+                  <P>So if there are blank spaces which you can draw your 
+                  entries into that will work. Indeed you might want to draw a 
+                  white box over existing content and then draw on that.</P>
+                  <P>However you shouldn't expect to be able to edit and re-flow 
+                  text that is already in your PDF.<BR></P></TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following illustrates how one might add a large red number to 
+            every page of a PDF document.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../mypics/sample.pdf"));
+doc.FontSize = 500;
+doc.Color.String = "255 0 0";
+doc.TextStyle.HPos = 0.5;
+doc.TextStyle.VPos = 0.3;
+int count = doc.PageCount;
+for (int i = 1; i &lt;= count; i++) {
+&nbsp;&nbsp;doc.PageNumber = i;
+&nbsp;&nbsp;doc.AddText(i.ToString());
+}
+doc.Save(Server.MapPath("docread.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
+&nbsp;&nbsp;doc.FontSize = 500
+&nbsp;&nbsp;doc.Color.String = "255 0 0"
+&nbsp;&nbsp;doc.TextStyle.HPos = 0.5
+&nbsp;&nbsp;doc.TextStyle.VPos = 0.3
+&nbsp;&nbsp;Dim theCount As Integer = doc.PageCount
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= theCount
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(i.ToString())
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;doc.Save(Server.MapPath("docread.pdf"))
+End Using
+</code></pre></P>
+            <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD><IMG src="../../../images/pdf/docread.pdf.png" 
+                  class="example-landscape"><BR>docread.pdf - [Page 1]</TD>
+                <TD><IMG src="../../../images/pdf/docread.pdf2.png" 
+                  class="example-landscape"><BR>docread.pdf - [Page 2]</TD></TR>
+              <TR>
+                <TD><IMG src="../../../images/pdf/docread.pdf3.png" 
+                  class="example-landscape"><BR>docread.pdf - [Page 3]</TD>
+                <TD><IMG src="../../../images/pdf/docread.pdf4.png" 
+                  class="example-landscape"><BR>docread.pdf - [Page 4]</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P>
+            <p>Also see example code in: <a href="../../../4-examples/05-deletion.htm">ABCpdf Deletion Example</a>, <a href="../../../4-examples/15-eform1.htm">ABCpdf eForm Fields Example</a>, <a href="../../../4-examples/15-eform2.htm">ABCpdf eForm Placeholder Example</a>, <a href="../../../4-examples/15-eform3.htm">ABCpdf eForm Stamp Example</a>, <a href="../../../4-examples/16-eformfdf.htm">ABCpdf eForm FDF Example</a>, <a href="../../../4-examples/19-rendering.htm">ABCpdf PDF Rendering Example</a>, <a href="../../../4-examples/21-wpftables.htm">ABCpdf WPF Tables Example</a>, <a href="addimagecopy.htm">Doc AddImageCopy Function</a>, <a href="addimagedoc.htm">Doc AddImageDoc Function</a>, <a href="addobject.htm">Doc AddObject Function</a>, <a href="remappages.htm">Doc RemapPages Method</a>, <a href="setinfo.htm">Doc SetInfo Function</a>, <a href="../2-properties/root.htm">Doc Root Property</a>, <a href="../../xrendering/2-properties/antialiasimages.htm">XRendering AntiAliasImages Property</a>, <a href="../../xrendering/2-properties/drawannotations.htm">XRendering DrawAnnotations Property</a>, <a href="../../xrendering/2-properties/overprint.htm">XRendering Overprint Property</a>, <a href="../../xrendering/2-properties/savecompression.htm">XRendering SaveCompression Property</a>, <a href="../../xrendering/2-properties/savequality.htm">XRendering SaveQuality Property</a>, <a href="../../xsaveoptions/2-properties/template.htm">XSaveOptions Template Property</a>, <a href="../../xsaveoptions/2-properties/writepageseparator.htm">XSaveOptions WritePageSeparator Property</a>, <a href="../../xsavetemplatedata/1-methods/setmeasureresolution.htm">XSaveTemplateData SetMeasureResolution Function</a>, <a href="../../../6-abcpdf.objects/2-objectsoup.eof/1-methods/01-load.htm">Eof Load Function</a>, <a href="../../../6-abcpdf.objects/catalog/1-methods/getembeddedfiles.htm">Catalog GetEmbeddedFiles Function</a>, <a href="../../../6-abcpdf.objects/catalog/2-properties/metadata.htm">Catalog Metadata Property</a>, <a href="../../../6-abcpdf.objects/filespecification/1-methods/filespecification.htm">FileSpecification FileSpecification Function</a>, <a href="../../../6-abcpdf.objects/page/1-methods/makeformxobject.htm">Page MakeFormXObject Function</a>, <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>, <a href="../../../6-abcpdf.objects/page/2-properties/thumbnail.htm">Page Thumbnail Property</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/getbitmap.htm">PixMap GetBitmap Function</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/recolor.htm">PixMap Recolor Function</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/resize.htm">PixMap Resize Function</a>, <a href="../../../6-abcpdf.objects/signature/1-methods/sign.htm">Signature Sign Method</a>, <a href="../../../6-abcpdf.objects/signature/1-methods/validate.htm">Signature Validate Function</a>, <a href="../../../6-abcpdf.objects/signature/2-properties/compliancepades.htm">Signature CompliancePades Property</a>, <a href="../../../6-abcpdf.objects/signature/2-properties/customsigner.htm">Signature CustomSigner Property</a>, <a href="../../../6-abcpdf.objects/signature/2-properties/customsigner2.htm">Signature CustomSigner2 Property</a>, <a href="../../../7-abcpdf.atoms/arrayatom/1-methods/fromcontentstream.htm">ArrayAtom FromContentStream Function</a>, <a href="../../../7-abcpdf.atoms/opatom/1-methods/find.htm">OpAtom Find Function</a>, <a href="../../../8-abcpdf.operations/3-recoloroperation/1-methods/recolor.htm">RecolorOperation Recolor Function</a>, <a href="../../../8-abcpdf.operations/3-recoloroperation/2-properties/icccmyk.htm">RecolorOperation IccCmyk Property</a>, <a href="../../../8-abcpdf.operations/6-renderoperation/1-methods/save.htm">RenderOperation Save Function</a>, <a href="../../../8-abcpdf.operations/7-pdfconformityoperation/1-methods/save.htm">PdfConformityOperation Save Function</a>, <a href="../../../8-abcpdf.operations/8-textoperation/1-methods/group.htm">TextOperation Group  Function</a>, <a href="../../../8-abcpdf.operations/9-imageoperation/1-methods/getimageproperties.htm">ImageOperation GetImageProperties  Function</a>, <a href="../../../8-abcpdf.operations/A-flattentransparency/1-methods/flatten.htm">FlattenTransparencyOperation Flatten Function</a>, <a href="../../../8-abcpdf.operations/B-reducesizeoperation/1-methods/compact.htm">ReduceSizeOperation Compact  Function</a>, <a href="../../../8-abcpdf.operations/C-accessibilityoperation/1-methods/1-accessibilityoperation.htm">AccessibilityOperation AccessibilityOperation  Constructor</a>, <a href="../../../8-abcpdf.operations/L-vectorizetextoperation/1-methods/vectorize.htm">VectorizeTextOperation Vectorize Method</a>, <a href="../../../8-abcpdf.operations/M-cloudvisionoperation/1-methods/04-startocr.htm">CloudVisionOperation StartOcr Function</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

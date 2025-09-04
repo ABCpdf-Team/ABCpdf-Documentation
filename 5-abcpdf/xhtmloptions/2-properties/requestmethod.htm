@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XHtmlOptions RequestMethod Property. The request method for URL. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16788" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>RequestMethod Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default Value</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR><CODE>UrlRequestMethodType</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>UrlRequestMethodType</CODE></TD>
+                <TD>Get</TD>
+                <TD>No</TD>
+                <TD>The request method for URL.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The UrlRequestMethodType enumeration can take any of the following 
+            values:</P>
+            <UL>
+              <LI>Get 
+              <LI>Post</LI></UL>
+            <P>This property specifies which method <A 
+            href="../../doc/1-methods/addimageurl.htm">Doc.AddImageUrl</A> uses 
+            to get the HTML page. Normally, Get is the preferred method when 
+            requesting the page is an idempotent operation. However, the Get 
+            method supports at most 2,048 characters in the URL. If the URL is 
+            longer than 2,048 characters and contains parameters, it is 
+            necessary to use the Post method. However, the URL minus the 
+            parameters (and the question mark) is still limited to 2,048 
+            characters.</P>
+            <P>The Post method is used only when the the URL contains a question 
+            mark (and this property is set to Post). If the URL does not contain 
+            any parameter, the Post method can still be used by appending a 
+            question mark to the URL.</P>
+            <P>When the Post method is used in conjunction with the Gecko engine, ABCpdf obtains and stores the web page locally before invoking the engine. Since ABCpdf does not obtain additional headers from the Gecko engine, they are not sent in the request. The kind of headers that may not be sent include Accept, Accept-Language, Accept-Encoding, Keep-Alive, and Accept-Charset. The User-Agent may be different. In most situations, this is unimportant, but if you are relying on these headers, you can use the <a href="httpadditionalheaders.htm">HtmlOptions.HttpAdditionalHeaders</a> property to add your own headers to the request.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            
+            <P>&nbsp;</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

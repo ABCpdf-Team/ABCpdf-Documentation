@@ -1,0 +1,108 @@
+<html>
+<head>
+<title>Doc Layer Property. The insertion layer for new content. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Layer Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>int</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Integer</code></td>
+                <td>1</td>
+                <td>No</td>
+                <td>The insertion layer for new content.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The insertion layer for new content. </p>
+            <p>The default layer is one which indicates insertion at the top. 
+              So if you want to insert at the bottom and your page has ten layers 
+              you need to insert at position eleven. </p>
+            <p>Note that insertion may not behave predictably with documents read 
+              from file. It is good practice for each layer to operate independently 
+              but not all documents are set up this way.</p>
+            <p style="note">Optional Content Groups: The type of layer that this property describes is an ABCpdf construct that you cannot detect using Acrobat. Acrobat layers are something completely different and are more precisely known as Optional Content Groups (OCGs). <br>
+              <br>
+            See the Doc.Layer property for details of how to construct this type of layer.</p>
+            <p style="note">&nbsp;</p>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P><B>Optional Content Groups.</B> The type of layer that this property describes is an ABCpdf construct that you cannot detect using Acrobat. Acrobat layers are something completely different and are more precisely known as Optional Content Groups (OCG items). </P>
+                  <P>The OCGLayers example project which comes with ABCpdf shows how to create content with visibility determined using a variety of flags. In addition to  creation,  it also shows manipulation such as hiding and showing OCGs, annotation of the items on a page dependent on their OCGs,  and the redaction and and deletion of invisible items.<BR>
+                  </P>
+                  </TD></TR></TBODY></TABLE>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Also see example code in: <a href="../1-methods/addimagecopy.htm">Doc AddImageCopy Function</a>, <a href="../../../6-abcpdf.objects/page/1-methods/getbitmap.htm">Page GetBitmap Function</a>.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

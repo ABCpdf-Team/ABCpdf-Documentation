@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>XHtmlOptions BrowserWidth Property. The width of the virtual browser in pixels. ABCpdf .NET PDF Library.</title>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head><body bgcolor="#ffffff">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tbody><tr> 
+    <td valign="top"><img src="../../../images/goo.gif" height="60" width="58"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr> 
+          <td class="pageheader">BrowserWidth Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"><br>
+</td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"><br>
+</td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" height="11" width="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0"> 
+              <tbody><tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>int</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Integer</code></td>
+                <td>0</td>
+                <td>No</td>
+                <td>The width of the virtual browser in pixels.</td>
+              </tr>
+            </tbody></table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  <tr> 
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr> 
+          <td> 
+            
+            <h3>For ABCChrome, MSHtml and ABCWebKit engines</h3>
+
+            <p><br>
+This property determines or reflects the virtual browser width 
+              when rendering HTML.</p>
+
+            <p>HTML documents do not have a predefined width and height. The width 
+              of an HTML document varies as the client resizes the browser. How 
+              far the content flows down the page is dependent on the width of 
+              the browser.</p>
+            <p>The Width parameter is used to control this aspect of HTML rendering. 
+              It is exactly as if you were displaying your HTML in a browser window 
+              the same width as the supplied value. Typical values might be 800 or 1024.</p>
+            <p>If the Width is zero then the web page view will default to a size 
+              which shows all the available content without needing to scroll 
+              from left to right. You can use this default to ensure that all 
+              your HTML content is visible.</p>
+            <p>When the Width is zero the <a href="initialwidth.htm">InitialWidth</a> property is used as a minimum sensible width. The page may get wider to ensure that content is not clipped, however it will not get smaller than this value.</p>
+            <p>The ABCChrome engine relies on JavaScript to determine an appropriate with, so if you set the <a href="usescript.htm">UseScript</a> property to false, it will fall back to the <a href="initialwidth.htm">InitialWidth</a> value. </p>
+            <h3>For Gecko engine</h3>
+
+            <p>This value determines the paper width, in pixels, to use while doing layout in Gecko. </p>
+            <p>Since the Gecko engine always renders
+              in a paginated context and never needs to scroll, contents that horizontally exceed
+              this value will often be reflown vertically. </p>
+            <p>For example, a sidebar  using the CSS float property may appear below the "main content area" if the paper is
+              not wide enough to accommodate both items. </p>
+            <p>If the value is zero then the paper
+              width will be determined using the dimensions of the current <a href="../../doc/2-properties/rect.htm">Doc.Rect</a>.<br>
+            </p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+  <tr> 
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody><tr> 
+          <td> 
+            <p>The following example shows the effect that this parameter has 
+              on PDF rendering.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+string url = "https://photojournal.jpl.nasa.gov/catalog/PIA24312";
+// Render html page with default browser width
+doc.AddImageUrl(url);
+// Save the document
+doc.Save(Server.MapPath("HtmlOptionsBrowserWidth0.pdf"));
+doc.Clear();
+// Render html page with browser width = 300
+doc.HtmlOptions.BrowserWidth = 300;
+doc.AddImageUrl(url);
+// Save the document
+doc.Save(Server.MapPath("HtmlOptionsBrowserWidth300.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theURL As String = "https://photojournal.jpl.nasa.gov/catalog/PIA24312"
+&nbsp;&nbsp;' Render html page with default browser width
+&nbsp;&nbsp;doc.AddImageUrl(theURL)
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsBrowserWidth0.pdf"))
+&nbsp;&nbsp;doc.Clear()
+&nbsp;&nbsp;' Render html page with browser width = 300
+&nbsp;&nbsp;doc.HtmlOptions.BrowserWidth = 300
+&nbsp;&nbsp;doc.AddImageUrl(theURL)
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsBrowserWidth300.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/HtmlOptionsBrowserWidth0.pdf.png" class="example"><br>
+              HtmlOptionsBrowserWidth0.pdf</p>
+            <p><img src="../../../images/pdf/HtmlOptionsBrowserWidth300.pdf.png" class="example"><br>
+              HtmlOptionsBrowserWidth300.pdf</p>
+          <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </tbody></table>
+    </td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+</body></html>

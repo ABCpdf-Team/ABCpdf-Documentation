@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>XPalette Definition Property. The set of colors that may be used. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Definition Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>PaletteDefinition</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>PaletteDefinition</code></td>
+                <td>Adaptive</td>
+                <td>No</td>
+                <td><para>
+                The set of colors that may be used.</td>
+              </tr>
+            </table>
+			
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>
+            <p>The set of colors that may be used.</p>
+<p>The PaletteDefinition enumeration may take the following values:</p>
+<ul>
+  <li>Adaptive - An optimized Octree algorithm for fast, high quality color reduction.</li>
+  <li>WebSafe - A fixed number of colors compatible with Web colors.</li>
+  <li>Windows - A fixed number of colors compatible with Windows colors.</li>
+  <li>Macintosh - A fixed number of colors compatible with Macintosh colors.</li>
+  <li>Uniform - A set of colors uniformly distributed throughout the color space.</li>
+  <li>Grayscale - Use only grayscale colors.</li>
+  <li>BlackAndWhite - Only two colors: black and white.</li>
+  <li>Exact - Same as Adaptive but optimized to ensure an exact color match wherever possible.</li>
+</ul>
+<p>An Adaptive palette uses a scan through the image to determine a good set of colors based on those most commonly used. It aims to produce a palette with <a href="05-size.htm">Size</a> colors. However it may use fewer colors than specified if the image has limited colors. This is the default option and the one you will most commonly want to use. Use in conjunction with the <a href="04-fixedcolors.htm">FixedColors</a> property to ensure that colors like black and white are always present.</p>
+<p>WebSafe, Windows and Macintosh palettes are all fixed sets of 256 colors. For this reason the Size and FixedColors properties are ignored.</p>
+<p>Uniform sets of colors exist for 8, 27, 64, 125 and 216 colors and so the number of colors used may be less than the Size you specify. The FixedColors property is ignored.</p>
+<p>Grayscale palettes  uses the exact number of gray values specified using the Size with a minimum of two. The FixedColors property is ignored.</p>
+<p>Black&amp;White palettes always uses two colors - black and white. The FixedColors property is ignored.</p>
+<p>Exact palettes are very similar to Adaptive palettes except they are optimized to ensure an exact color match wherever possible. The precision required here comes at an extra cost in terms of memory use and processing speed. However in some situations, precision is more important than speed.</p>
+<p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>None.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

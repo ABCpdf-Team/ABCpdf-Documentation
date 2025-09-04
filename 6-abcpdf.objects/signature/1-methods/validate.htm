@@ -1,0 +1,394 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+    <title>Signature Validate Function. Check and validate the status of this signature. ABCpdf .NET PDF Library.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+</head>
+
+<body style="background-color: rgb(255, 255, 255);">
+  <table border="0" cellpadding="0" cellspacing="4">
+    <tbody>
+      <tr>
+        <td valign="top"><img src="../../../images/goo.gif" height=
+        "60" width="58"></td>
+
+        <td width="14">&nbsp;</td>
+
+        <td>
+          <table border="0" cellpadding="0" cellspacing="0" width=
+          "100%">
+            <tbody>
+              <tr>
+                <td class="pageheader">Validate Function</td>
+
+                <td width="60">&nbsp;</td>
+
+                <td>&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td background="../../../images/steel-line-3.gif"
+                height="11"></td>
+
+                <td background="../../../images/steel-line-3.gif"
+                height="11" width="60"></td>
+
+                <td height="11"><img src=
+                "../../../images/steel-blob-11.gif" height="11"
+                width="11"></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <p>Check and validate the status of this
+                  signature.</p>
+
+                  <p>&nbsp;</p>
+                </td>
+
+                <td width="60">&nbsp;</td>
+
+                <td>&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="sectheader" valign="top"><img src=
+        "../../../images/steel-pin.gif" height="10" width="64"><br>
+        Syntax</td>
+
+        <td width="14">&nbsp;</td>
+
+        <td valign="top">
+          <table border="0" cellpadding="0" cellspacing="0" width=
+          "100%">
+            <tbody>
+              <tr>
+                <td valign="top">
+                  <p><span class="language">[C#]</span><code>bool
+                  Validate()<br>
+                  bool Validate(string[] certificatePaths)<br>
+                  bool Validate(System.Collections.IEnumerable
+                  certificates)<br>
+                  bool Validate(<a href="../../signature.certificatecollection/default.htm">Signature.CertificateCollection</a> certificates) // non-caching</code><br>
+                  <span class="language">[Visual
+                  Basic]</span><code>Function Validate() As
+                  Boolean<br>
+                  Function Validate(certificatePaths() As String)
+                  As Boolean<br>
+                  Function Validate(certificates As
+                  System.Collections.IEnumerable) As
+                  Boolean<br>
+                  Function Validate(certificates As
+                  <a href="../../signature.certificatecollection/default.htm">Signature.CertificateCollection</a>)
+                  As Boolean ' non-caching</code></p>
+
+                  <p><code><img alt="Throws Exceptions" src=
+                  "../../../images/steel-blob-10.gif" border="0"
+                  height="10" width="10"> may throw
+                  Exception()</code></p>
+
+                  <p>&nbsp;</p>
+                </td>
+
+                <td width="60">&nbsp;</td>
+
+                <td width="11">&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="sectheader" valign="top"><img src=
+        "../../../images/steel-pin.gif" height="10" width="64"><br>
+        Params</td>
+
+        <td width="14">&nbsp;</td>
+
+        <td valign="top">
+          <table border="0" cellpadding="0" cellspacing="0" width=
+          "100%">
+            <tbody>
+              <tr>
+                <td valign="top">
+                  <table class="wsgtable" border="5" bordercolor=
+                  "#FFFFFF" cellpadding="3" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td align="center"><b>Name</b></td>
+
+                        <td><b>Description</b></td>
+                      </tr>
+
+                      <tr valign="top">
+                        <td align="center">certificatePaths</td>
+
+                        <td>An array of paths to X.509 certificate
+                        (.cer) files.</td>
+                      </tr>
+
+                      <tr valign="top">
+                        <td align="center">certificates</td>
+
+                        <td>An IEnumerable collection of
+                        System.Security.Cryptography.X509Certificates.X509Certificate2
+                        objects and string paths; or an
+                        <a href="../../signature.certificatecollection/default.htm">Signature.CertificateCollection</a>
+                        object</td>
+                      </tr>
+
+                      <tr valign="top">
+                        <td align="center">return</td>
+
+                        <td>True if the certificate is valid.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <p>&nbsp;</p>
+                </td>
+
+                <td width="60">&nbsp;</td>
+
+                <td width="11">&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="sectheader" valign="top"><img src=
+        "../../../images/steel-pin.gif" height="10" width="64"><br>
+        Notes</td>
+
+        <td width="14">&nbsp;</td>
+
+        <td valign="top">
+          <table border="0" cellpadding="0" cellspacing="0" width=
+          "100%">
+            <tbody>
+              <tr>
+                <td>
+                  <p>This function returns true if the signature is
+                  valid. </p>
+                  <p>To be precise, this method updates the
+                    properties <a href="../2-properties/algorithm.htm">Algorithm</a>, <a href=
+                  "../2-properties/ismodified.htm">IsModified</a>, <a href=
+                  "../2-properties/IsTimeValid.htm">IsTimeValid</a>, <a href=
+                  "../2-properties/IsTrusted.htm">IsTrusted</a> and <a href="../2-properties/compliancepades.htm">CompliancePades</a>.
+                    The return value is true only if the <a href=
+                  "../2-properties/ismodified.htm">IsModified</a> is false, and all of <a href=
+                  "../2-properties/IsTimeValid.htm">IsTimeValid,</a>
+                    <a href="../2-properties/issecure.htm">IsSecure</a> and <a href=
+                  "../2-properties/IsTrusted.htm">IsTrusted</a> are
+                    true.</p>
+                  <p>There are two types of signatures. Approval signatures approve a document at a particular point in time. Certification signatures approve the entire document as a one off event.</p>
+                  <p>After a document is signed with an approval signature, the document is not necessarily frozen. Most obviously it may need to be updated if another user wishes to add their own  signature. Each time the document is updated a new revision is created. The validity of a signature only refers to the revision at which it was signed - the <a href="../2-properties/signingrevision.htm">SigningRevision. </a>So while the signing revision does not affect validity you should be careful to take any subsequent revisions into account when reporting back to the user. Similarly there are some subtleties relating to the <a href="../2-properties/IsTrusted.htm">IsTrusted</a> property which are worth bearing in mind. Hybrid documents may have multiple different visual representations depending on the capabilities of the viewing application, so you may wish to be cautious if your documents contain hybrid sections. For how to detect hybrid sections see the <a href="/6-abcpdf.objects/2-objectsoup.eof/1-methods/01-load.htm">ObjectSoup.Eof.Load</a> method.</p>
+                  <p>A document may contain one and only one certification signature. A certification signature applies to the entire document as a whole. You can set permissions to allow small changes to be made after the document is certified and in this case the SigningRevision may not be the last revision. However in general you should be extremely cautious if there are subsequent revisions as it is not easy to determine programatically the importance of the changes that have been made. In this case you may wish to load the document at different revisions and display the rendered content to allow the user to see the changes visually.</p>
+                  <p>Signatures' certificates can only be validated
+                  by referencing certificates issued by
+                  certification authorities. This method allows you to check and validate
+                  the status of a signature with reference to a set
+                  of such certificates. Additionally, ABCpdf can
+                  also use certificates found in the Windows
+                  Certificate Store for validation. See <a href=
+                  "../2-properties/validationpolicy.htm">ValidationPolicy</a>
+                  for details.</p>
+
+                  <p>Except for the non-caching overload, the
+                  certificates you provide will be cached at
+                  a document level so this function is efficient
+                  even when checking multiple signatures within one
+                  document. If you do not provide any parameters,
+                  this function will use the previously cached
+                  certificates to validate the document. Therefore,
+                  unless <a href=
+                  "../2-properties/validationpolicy.htm">ValidationPolicy</a>
+                  is set to EntireChainTrust, or certificates have
+                  been provided using a previous call to this
+                  function, calling the parameterless overload of
+                  this function will cause an exception to be
+                  thrown to indicate that there are no certificates
+                  to validate against.</p>
+
+                  <p>The overload that takes an
+                  <a href="../../signature.certificatecollection/default.htm">Signature.CertificateCollection</a>
+                  does not cache the input certificates and does not use
+                  any certificates cached with the document. It only uses
+                  the certificates provided in the parameter. It allows
+                  the use the same set of certificates to validate
+                  signatures in multiple documents without re-reading
+                  the certificate files.</p>
+
+                  <p>ABCpdf does not  do revocation checks
+                  on certificates provided and on certificates
+                  embedded in a PDF document unless the <a href="/6-abcpdf.objects/signature/2-properties/compliancepades.htm">CompliancePades</a> is set to something other than None. If you need to do
+                  this type of operation, you should use the
+                  <a href="getcertificates.htm">GetCertificates</a>
+                  function and check the certificates yourself.</p>
+
+                  <p>If a certificate is unavailable or invalid,
+                  this method may throw an exception. This means
+                  validating against an unsigned signature field
+                  will cause an exception to be thrown.</p>
+                  <p>When revocation checking, ABCpdf first checks OCSP responses. If those are not available it will use the CRL. This is the fastest and most effiient way to work.</p>
+                  <table class="backgrounder" border="0"
+                  cellpadding="10">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <p><b>How does Adobe Reader validate a
+                          PDF document without certificate
+                          files?</b></p>
+
+                          <p>You may find that Adobe Reader does
+                          not need a list of certificate files to
+                          validate PDF documents. This is because
+                          Adobe Reader may use several built-in
+                          Public Key Infrastructure hierarchies to
+                          certify PDF documents:</p>
+
+                          <ul>
+                            <li><a target="_blank" href="http://www.adobe.com/security/partners_cds.html">
+                            Certified Document Services (CDS)</a>
+                            is a trust hierarchy that chains back
+                            to the Adobe Root Certification
+                            Authority (Adobe Root CA).</li>
+
+                            <li><a target="_blank" href="http://www.adobe.com/security/approved-trust-list.html">
+                            Adobe Approved Trust List (AATL)</a> is
+                            an extra list of CA certificates that
+                            Adobe Reader may download from Adobe
+                            periodically (for Adobe Reader/Acrobat
+                            9 or later).</li>
+
+                            <li>The Windows Certificate Store. This
+                            is only true if Windows digital
+                            signature integration is enabled in
+                            Acrobat, which has not been the default since 
+                            Acrobat 9.</li>
+                          </ul>
+
+                          <p>In order to validate a PDF document
+                          the same way Adobe Reader does, you need
+                          to use the same certificates it uses.
+                          This can be easily achieved by exporting
+                          the <em>trusted identities</em> from
+                          Adobe Reader to .cer format
+                          certificate files. (Note: CDS and AATL
+                          certificates are
+                          usually <em>not</em>
+                          in your Windows Certificate Store by
+                          default.).</p>
+                          <p>These then need to be placed in the Windows Certificate Store. For them to be trusted they need to be in one of the Trusted folder - Trusted People or Trusted Root Certification Authorities. Needless to say, adding items to these folders - particularly the latter - is a big deal and you must be very careful to ensure you know what you are doing.</p>
+                          <p>The Windows Certificate Store can be
+                          accessed by using
+                          System.Security.Cryptography.X509Certificates.X509Store
+                          (examples below).</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <p>&nbsp;</p>
+                </td>
+
+                <td width="60">&nbsp;</td>
+
+                <td width="11">&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="sectheader" valign="top"><img src=
+        "../../../images/steel-pin.gif" height="10" width="64"><br>Example</td>
+
+        <td width="14">&nbsp;</td>
+
+        <td valign="top">
+          <table border="0" cellpadding="0" cellspacing="0" width=
+          "100%">
+            <tbody>
+              <tr>
+                <td>
+                  <p><span class="language">[C#]</span><br>
+                  <pre><code class="language-csharp">// Validate using certificate files
+using (var doc = new Doc()) {
+&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/SignedDocument.pdf"));
+&nbsp;&nbsp;var theCerts = Server.MapPath("../Rez/JohnSmith.cer").Split(new char[] { ';' });
+&nbsp;&nbsp;var theSig = (Signature)doc.Form["Signature"];
+&nbsp;&nbsp;if ((theSig.Validate(theCerts)) &amp;&amp; (!theSig.IsModified))
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText($"Signature valid at {DateTime.Now}");
+&nbsp;&nbsp;doc.Save(Server.MapPath("SignedAndValidated1.pdf"));
+}
+</code></pre></p>
+<span class="language">[Visual Basic]</span><br>
+                  <pre><code class="language-vbnet">' Validate using certificate files
+Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/Signed.pdf"))
+&nbsp;&nbsp;Dim theCerts As String() = Server.MapPath("../Rez/JohnSmith.cer").Split(New Char() {";"C})
+&nbsp;&nbsp;Dim theSig As Signature = DirectCast(doc.Form("Signature"), Signature)
+&nbsp;&nbsp;If (theSig.Validate(theCerts)) AndAlso (Not theSig.IsModified) Then
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText($"Signature valid at {DateTime.Now}")
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;doc.Save(Server.MapPath("SignedAndValidated1.pdf"))
+End Using
+</code></pre></p>
+                  <p><span class="language">[C#]</span><br>
+                  <pre><code class="language-csharp">// Validate using the Windows Certificate Store
+using (var doc = new Doc()) {
+&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/SignedDocument.pdf"));
+&nbsp;&nbsp;var theStore = new X509Store(StoreName.Root, StoreLocation.LocalMachine);
+&nbsp;&nbsp;theStore.Open(OpenFlags.ReadOnly);
+&nbsp;&nbsp;var theSig = (Signature)doc.Form["Signature"];
+&nbsp;&nbsp;if ((theSig.Validate(theStore.Certificates)) &amp;&amp; (!theSig.IsModified))
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText($"Signature valid at {DateTime.Now}");
+&nbsp;&nbsp;theStore.Close();
+&nbsp;&nbsp;doc.Save(Server.MapPath("SignedAndValidated2.pdf"));
+}
+</code></pre></p>
+                  <p><span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">' Validate using the Windows Certificate Store
+Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/Signed.pdf"))
+&nbsp;&nbsp;Dim theStore As New X509Store(StoreName.Root, StoreLocation.LocalMachine)
+&nbsp;&nbsp;theStore.Open(OpenFlags.[ReadOnly])
+&nbsp;&nbsp;Dim theSig As Signature = DirectCast(doc.Form("Signature"), Signature)
+&nbsp;&nbsp;If (theSig.Validate(theStore.Certificates)) AndAlso (Not theSig.IsModified) Then
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText($"Signature valid at {DateTime.Now}")
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;theStore.Close()
+&nbsp;&nbsp;doc.Save(Server.MapPath("SignedAndValidated2.pdf"))
+End Using
+</code></pre></p>
+
+                  <p>&nbsp;</p>
+                </td>
+
+                <td width="60">&nbsp;</td>
+
+                <td width="11">&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>&nbsp;</p>
+</body>
+</html>

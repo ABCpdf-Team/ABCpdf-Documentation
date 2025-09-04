@@ -1,0 +1,181 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>PixMap Recolor Function. Converts the image from one color space to another. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Recolor Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Converts the image from one color space to another.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a>            space)<BR>
+            void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a> space, RenderingIntent intent) 
+            <BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub Recolor(space As <a href="../../colorspace/default.htm">ColorSpace</a>)<BR>
+            Sub 
+            Recolor(space As <a href="../../colorspace/default.htm">ColorSpace</a>, intent As RenderingIntent)</CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>space</TD>
+                <TD>The destination color space.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>intent</TD>
+                <TD>The rendering intent enumeration. If no intent is provided 
+                  the default for the image (typically RelativeColorimetric) is 
+                  used.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Converts the image from one color space to another. </P>
+            <P>Calling this method results in the pixels within the PixMap image 
+            being mapped from the current color space to the new color space. 
+            The new <A href="../../colorspace/default.htm">ColorSpace</A> is 
+            then assigned to the PixMap and (if it is not already there) added 
+            to the PixMap <A 
+            href="../../2-objectsoup/default.htm">ObjectSoup</A>. </P>
+            <P>Colors can only be sensibly mapped from one color space to 
+            another if we know something about the characteristics of the color 
+            space. If your color spaces do not contain this information (e.g. if 
+            they are device color spaces) then ABCpdf will use a default color 
+            profile.</P>
+            <P>An exception will be thrown if the operation is not possible. 
+            This may happen if the PixMap is not in an ObjectSoup or if the 
+            ColorSpace object is in some way invalid.</P>
+            <P>If the <A href="../2-properties/imagemask.htm">ImageMask</A> 
+            property is true the image has no color space and is implicitly 
+            black and white. Image masks cannot be anything other than black and 
+            white so trying to convert an image mask to another color space will 
+            result in an exception being raised.</P>
+            <P>The rendering intent determines how out of gamut colors are 
+            handled. For full details see the <a href="../../../8-abcpdf.operations/3-recoloroperation/2-properties/renderingintent.htm">RecolorOperation.RenderingIntent</a> property.</P>
+            <P>After the PixMap has been Recolored it is no longer compressed 
+            and will have a <A 
+            href="../2-properties/bitspercomponent.htm">BitsPerComponent</A> of 
+            eight or sixteen. You may wish to compress it using the <A 
+            href="../../streamobject/1-methods/compress.htm">StreamObject.Compress</A> 
+            method.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we change all the images in a document to CMYK.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"));
+List&lt;PixMap&gt; theList = new List&lt;PixMap&gt;();
+// find all the PixMap objects in the soup
+foreach (IndirectObject obj in doc.ObjectSoup) {
+&nbsp;&nbsp;var p = obj as PixMap;
+&nbsp;&nbsp;if (p != null)
+&nbsp;&nbsp;&nbsp;&nbsp;theList.Add(p);
+}
+// add our destination color space
+var cs = new ColorSpace(doc.ObjectSoup);
+cs.IccProfile = new IccProfile(doc.ObjectSoup, Server.MapPath("../Rez/abccmyk.icc"));
+// convert images to our color space
+for (int i = 0; i &lt; theList.Count; i++) {
+&nbsp;&nbsp;var p = theList[i];
+&nbsp;&nbsp;p.Recolor(cs, RenderingIntent.Perceptual);
+&nbsp;&nbsp;p.CompressJpeg(75);
+}
+doc.Save(Server.MapPath("pixmaprecolor.pdf"));
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
+&nbsp;&nbsp;Dim theList As New List(Of PixMap)()
+&nbsp;&nbsp;' find all the PixMap objects in the soup
+&nbsp;&nbsp;For Each obj As IndirectObject In doc.ObjectSoup
+&nbsp;&nbsp;&nbsp;&nbsp;Dim p As PixMap = TryCast(obj, PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;If p &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theList.Add(p)
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;' add our destination color space
+&nbsp;&nbsp;Dim cs As New ColorSpace(doc.ObjectSoup)
+&nbsp;&nbsp;cs.IccProfile = New IccProfile(doc.ObjectSoup, Server.MapPath("../Rez/abccmyk.icc"))
+&nbsp;&nbsp;' convert images to our color space
+&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;While i &lt; theList.Count
+&nbsp;&nbsp;&nbsp;&nbsp;Dim p As PixMap = theList(i)
+&nbsp;&nbsp;&nbsp;&nbsp;p.Recolor(cs, RenderingIntent.Perceptual)
+&nbsp;&nbsp;&nbsp;&nbsp;p.CompressJpeg(75)
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;doc.Save(Server.MapPath("pixmaprecolor.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/shuttle_p1.png" 
+            class="example"><BR>spaceshuttle.pdf [page 1]</P>
+            <P><IMG src="../../../images/pdf/pixmaprecolor.pdf.png" 
+            class="example"><BR>pixmaprecolor.pdf [page 1]</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

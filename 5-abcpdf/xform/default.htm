@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XForm Object</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script>
+<META content="MSHTML 6.00.6001.18148" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>XForm Object</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../images/steel-line-3.gif height=11></TD>
+          <TD height=11><IMG height=11 src="../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Represents the form and fields associated with this document.</P>
+            <P>The PDF specification makes a distinction between a field (in 
+            terms of a named value) and the visible appearance of the field on 
+            the document. </P>
+            <P>In general one field will have one visible appearance on the 
+            document. However it is possible for a field to have multiple or 
+            indeed no appearances on the document.</P>
+            <P>For example a Radio Button group encapsulates one value and is 
+            represented by one field. However each radio button has a separate 
+            appearance on the document. So one Radio Button field is likely to 
+            have many appearances.</P>
+            <P>For this reason fields exist within a hierarchy. Each field may 
+            or may not have a visible appearance. Each field may or may not have 
+            children. These children may be fields themselves and again may have 
+            their own children.</P>
+            <P>Fields are generally referenced by fully qualified name. A full 
+            name describes a path down through the field hierarchy - using 
+            periods as delimiters - to a specific field object. For example the 
+            name 'person.address.city' would reference a field with a partial 
+            field name called 'city' which has a parent called 'address' which 
+            has a parent at the top level called 'person'. You can resolve a 
+            fully qualified name using the<A href="1-methods/item.htm"> Item</A> 
+            function.</P>
+            <P>Once a field has been obtained you can query or change its 
+            values. If you wish to convert the fields into a permanent part of 
+            the document you can use the <A href="1-methods/stamp.htm">Stamp</A> 
+            method to permanently emboss them.</P>
+            <P><CODE><!--notcode-->System.Object<BR>&nbsp;&nbsp;&nbsp;<B> WebSupergoo.ABCpdf13.XForm</B></CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>&nbsp; </TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=sectheader>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Method</B></TD>
+                <TD width="100%"><B>Description</B></TD></TR>
+
+
+<!-- autogen start -->
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/addcomboboxfield.htm">AddComboBoxField</A></TD>
+                <TD>Add combo box form field.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/addlistboxfield.htm">AddListBoxField</A></TD>
+                <TD>Add list box form field.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/addgroupfield.htm">AddGroupField</A></TD>
+                <TD>Add group field.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/addtextfield.htm">AddTextField</A></TD>
+                <TD>Add text field.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/addbutton.htm">AddButton</A></TD>
+                <TD>Add button field.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/addcheckbox.htm">AddCheckbox</A></TD>
+                <TD>Add check box form field.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/addradiobuttongroup.htm">AddRadioButtonGroup</A></TD>
+                <TD>Add radio button group.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/addresource.htm">AddResource</A></TD>
+                <TD>Add a particular type of resource to the form.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/addsignature.htm">AddSignature</A></TD>
+                <TD>Add unsigned signature field.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/adddoctimestamp.htm">AddDocTimestamp</A></TD>
+                <TD>Adds a Signature field compatible with a document timestamp.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/create.htm">Create</A></TD>
+                <TD>Create an AcroForm if one does not already exist.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/getfieldnames.htm">GetFieldNames</A></TD>
+                <TD>Gets the full names of all the fields in the document.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/item.htm">Item</A></TD>
+                <TD>Gets or sets a particular field referenced by full name.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/makefieldintogroup.htm">MakeFieldIntoGroup</A></TD>
+                <TD>Make duplicate fields into synchronized groups.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/makefieldsunique.htm">MakeFieldsUnique</A></TD>
+                <TD>Makes shared XForm fields unique.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/remove.htm">Remove</A></TD>
+                <TD>Remove a field from the form.</TD>
+              </TR>
+              <TR vAlign=top bordercolor="#FFFFFF">
+                <TD align=left><A 
+                  href="1-methods/runjs.htm">RunJS</A></TD>
+                <TD>Run JavaScript code.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/stamp.htm">Stamp</A></TD>
+                <TD>Stamp all fields into the document.</TD>
+              </TR>
+<!-- autogen end -->
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>&nbsp; </TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=sectheader>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Property</B></TD>
+                <TD width="100%"><B>Description</B></TD></TR>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/datetimeformat.htm">DateTimeFormat</A></TD>
+                <TD>The format provider for formatting dates and times.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/fields.htm">Fields</A></TD>
+                <TD>All top level fields in the form.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/formatfields.htm">FormatFields</A></TD>
+                <TD>Whether values should be formatted before insertion into fields.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/generateappearances.htm">GenerateAppearances</A></TD>
+                <TD>Whether field appearances should be pre-generated.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/needappearances.htm">NeedAppearances</A></TD>
+                <TD>Whether the viewer should automatically regenerate field appearances.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/usefieldscript.htm">UseFieldScript</A></TD>
+                <TD>Whether the viewer should run JavaScript field calculations.</TD>
+              </TR>
+<!-- autogen end -->
+</TBODY></TABLE></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR>
+        <TR>
+          <TD>&nbsp; </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

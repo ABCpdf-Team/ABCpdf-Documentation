@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XSaveOptions WritePageSeparator Property. The delegate called to write the page separator for export. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16788" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>WritePageSeparator Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default Value</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR><CODE>XSaveOptions.PageSeparatorMethod</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>XSaveOptions.PageSeparatorMethod</CODE></TD>
+                <TD>null</TD>
+                <TD>No</TD>
+                <TD>The delegate called to write the page separator for export.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This delegate is called during HTML export.</P>
+            <P>If it is null, a default page separator is produced for each page.
+            You can customize the page separator by setting this property.</P>
+            <P>The definition of the XSaveOptions.PageSeparatorMethod delegate
+            is as follows.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">delegate void PageSeparatorMethod(int pageNum, ExportArgs e);
+</code></pre><BR><BR><SPAN 
+            class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language-vbnet">Delegate Sub PageSeparatorMethod(pageNum As Integer, e As ExportArgs)
+</code></pre></P>
+            <P>pageNum is the page number, starting with 1.</P>
+            <P>The page separator is to be written to e.Writer. e.Writer is an
+            XmlWriter for HTML export.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following example shows how to customize the page separator.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../mypics/sample.pdf"));
+doc.SaveOptions.WritePageSeparator = delegate (int pageNum, XSaveOptions.ExportArgs e) {
+&nbsp;&nbsp;var writer = (XmlWriter)e.Writer;
+&nbsp;&nbsp;if (pageNum &gt; 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;writer.WriteStartElement("hr");
+&nbsp;&nbsp;&nbsp;&nbsp;writer.WriteEndElement();
+&nbsp;&nbsp;}
+&nbsp;&nbsp;writer.WriteStartElement("div");
+&nbsp;&nbsp;writer.WriteAttributeString("align", "right");
+&nbsp;&nbsp;writer.WriteString(string.Format("Page {0}", pageNum));
+&nbsp;&nbsp;writer.WriteFullEndElement();
+};
+doc.Save(Server.MapPath("PageSeparator.htm"));
+doc.Dispose();
+</code></pre><BR><SPAN
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
+&nbsp;&nbsp;doc.SaveOptions.WritePageSeparator = Sub(pageNum As Integer, e As XSaveOptions.ExportArgs) 
+&nbsp;&nbsp;Dim writer As XmlWriter = DirectCast(e.Writer, XmlWriter)
+&nbsp;&nbsp;If pageNum &gt; 1 Then
+&nbsp;&nbsp;&nbsp;&nbsp;writer.WriteStartElement("hr")
+&nbsp;&nbsp;&nbsp;&nbsp;writer.WriteEndElement()
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;writer.WriteStartElement("div")
+&nbsp;&nbsp;writer.WriteAttributeString("align", "right")
+&nbsp;&nbsp;writer.WriteString(String.Format("Page {0}", pageNum))
+&nbsp;&nbsp;writer.WriteFullEndElement()
+
+&nbsp;&nbsp;End Sub
+&nbsp;&nbsp;doc.Save(Server.MapPath("PageSeparator.htm"))
+&nbsp;&nbsp;doc.Dispose()
+End Using
+</code></pre></P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

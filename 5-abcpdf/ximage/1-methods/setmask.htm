@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XImage SetMask Function. Assign a soft mask to the image. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>SetMask Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Assign a soft mask to the image.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
+            SetMask(<a href="../default.htm">XImage</a> mask, bool invert)<BR>
+            </CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Sub SetMask(mask As <a href="../default.htm">XImage</a>, invert As Boolean)<BR>
+            </CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>mask</TD>
+                <TD>The image containing the soft mask.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>invert</TD>
+                <TD>Whether to invert the mask.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Assign a soft mask or alpha channel. Soft masks are used to 
+            assign levels of transparency to an image.</P>
+            <P>The mask provided will be converted to a grayscale intensity map 
+            and may be scaled to ensure that the dimensions of the mask match 
+            those of the image. The assigned mask applies to all frames of the 
+            current image. </P>
+            <P>If the Invert parameter is set then the mask will be inverted - 
+            making transparent areas opaque and opaque areas transparent. </P>
+            <P>Different images within the mask can be accessed using the <A 
+            href="../2-properties/frame.htm">Frame</A> property. Different 
+            portions of the mask can be selected using the <A 
+            href="../2-properties/selection.htm">Selection</A> property.</P>
+            <P>Note that transparency is only applied to an Image if the <A 
+            href="../2-properties/indirect.htm">Indirect</A> property is true 
+            (which is generally the case).</P>
+            <P></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we read a TIFF file and present the data to the Image 
+            object. We then read a mask image and assign that to our Image. 
+            Finally we add the image to our document and then save the PDF.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+using var img = new XImage();
+using var msk = new XImage();
+img.SetFile(Server.MapPath("../mypics/mypic.jpg"));
+msk.SetFile(Server.MapPath("../mypics/mymask.jpg"));
+img.SetMask(msk, true);
+doc.Color.String = "0 0 0";
+doc.FillRect();
+doc.Rect.Inset(20, 20);
+doc.AddImageObject(img, true);
+doc.Save(Server.MapPath("imagesetmask.pdf"));
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theImg As New XImage()
+&nbsp;&nbsp;Dim theMsk As New XImage()
+&nbsp;&nbsp;theImg.SetFile(Server.MapPath("../mypics/mypic.jpg"))
+&nbsp;&nbsp;theMsk.SetFile(Server.MapPath("../mypics/mymask.jpg"))
+&nbsp;&nbsp;theImg.SetMask(theMsk, True)
+&nbsp;&nbsp;theMsk.Clear()
+&nbsp;&nbsp;doc.Color.String = "0 0 0"
+&nbsp;&nbsp;doc.FillRect()
+&nbsp;&nbsp;doc.Rect.Inset(20, 20)
+&nbsp;&nbsp;doc.AddImageObject(theImg, True)
+&nbsp;&nbsp;theImg.Clear()
+&nbsp;&nbsp;doc.Save(Server.MapPath("imagesetmask.pdf"))
+End Using
+</code></pre></P>
+            <P>Given the following input images.</P>
+            <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD><IMG src="../../../images/pdf/image.pdf.png" 
+                  class="example"><BR>mypic.jpg</TD>
+                <TD><IMG height=267 src="../../../images/pdf/mask.jpg" 
+                  class="example"><BR>mymask.jpg</TD></TR></TBODY></TABLE>
+            <P>This is the kind of output you might expect.</P>
+            <P><IMG src="../../../images/pdf/imagesetmask.pdf.png" 
+            class="example"><BR>imagesetmask.pdf</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

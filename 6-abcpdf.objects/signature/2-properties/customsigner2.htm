@@ -1,0 +1,230 @@
+<html>
+<head>
+<title>Signature CustomSigner2 Property. A delegate called to perform custom signing of the PDF. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">CustomSigner2 Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>SigningDelegate</code>2<br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>SigningDelegate2</code></td>
+                <td>null</td>
+                <td>No</td>
+                <td>A delegate called to perform custom signing of the PDF.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The delegate type called to perform custom signing and timestamping  of the PDF.</p>
+            <p>The definition of the SigningDelegate2 delegate is as follows. </p>
+  <P><SPAN class=language>[C#]</SPAN><BR>
+                <pre><code class="language-csharp">delegate byte[] SigningDelegate2(byte[] data, State state);
+</code></pre>
+          <BR>
+              <SPAN 
+            class=language>[Visual&nbsp;Basic]</SPAN><BR>
+            <pre><code class="language-vbnet">Delegate Function SigningDelegate2(data As Byte(), state As State) As Byte();
+</code></pre>
+            </P>
+            <P>Because a call to <a href="../1-methods/sign.htm">Sign</a> can generate both signing and timestamping callbacks, the state parameter allows you to determine which is required. The State flags enum can hold the following values,</P>
+            <ul>
+              <li>None</li>
+              <li>Signing</li>
+              <li>Timestamping</li>
+            </ul>
+            <p>For signing...</p>
+            <P>The type of data passed to your delegate is determined by the data type you specify when you call the <a href="../1-methods/sign.htm">Sign</a> method. The default type is DataType.Pkcs9Digest which is what will be used if you do not specify a type.</P>
+            <P>For DataType.Pkcs9Digest  the data is an ASN.1 encoded PKCS9 digest of the PDF content which includes the digest of the document data with additional attributes required according to any desired <a href="compliancepades.htm">CompliancePades</a> level that you have specified. For DataType.RawDigest the data is the raw digest of the document data.</P>
+            <p>In either case ABCpdf will create the digest using the algorithm specified by the Oid passed to the <a href="../1-methods/sign.htm">Signature.Sign</a> method. Where the Sign method overload does not take an Oid the default algorithm of SHA256 will be used.</p>
+            <P>For best results the CustomSigner should return the raw signature of this data such as that returned by RSACryptoServiceProvider.SignData (.NET 4) or RSACng.SignData  (.NET 5+). This ensures that ABCpdf can add any additional unsigned attributes required for <a href="compliancepades.htm">PAdES compliance</a>. When using RSACng you should use RSASSA-PKCS1-v1.5  rather than RSASSA-PSS padding.</P>
+            <p>If ABCpdf detects that the data returned is already in PKCS7 CMS format it will embed that data into the document as is, with no further processing. This is 
+              sometimes needed to accommodate certain third-party signing solutions. In this case any desired compliance will be dependent upon your solution provider.</p>
+              <p>The best way to determine the type of data your signing provider returns, is to paste the byte array as a hexadecimal string into a decoder such as the <a href="https://lapo.it/asn1js/">LAPO ASN.1 JavaScript Decoder</a>. 
+                If it can be decoded it is already in PKCS7 format. If it cannot then it is most likely the raw signature of the digest.            </P>
+              <p>For timestamping...</P>
+              <p>If a <a href="TimestampServiceUrl.htm">TimestampServiceUrl</a> is provided then this will be used for time stamping, but if one is not provided, then the custom signer will be used.</P>
+            <p>By default for timestamping you are provided an RFC 3161 time stamp request and you should return an RFC 3161 time stamp response.</P>
+              <p>However you can change the input and output timestamp data types by setting appropriate flags in the DataType parameter when calling <a href="../1-methods/timestamp.htm">Timestamp</a> or <a href="../1-methods/sign.htm">Sign</a>.</P>
+            <p>Also...</P>
+            <p>When  writing code against your signing provider it is prudent to <a href="../1-methods/validate.htm">Validate</a> the document  to ensure you are providing correct data. See the example below for details.</p>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+            <td>
+                <p>The following example shows how an external delegate might be used.</p>
+                <P>
+                    <SPAN class=language>[C#]</SPAN><BR>
+              <pre><code class="language-csharp">X509Certificate2 cert = FindCertificate();
+if (cert == null)
+&nbsp;&nbsp;return; // no certificate found
+using var doc = new Doc();
+doc.Read(Server.MapPath("mypics/BlankSignature.pdf"));
+var sig = (Signature)doc.Form.Fields["Signature1"];
+sig.CustomSigner2 = ExternalSigner;
+sig.Reason = "Test External Signing";
+// Just use public certificate from file - i.e. do not obtain from registry
+var gs = new X509Certificate2(Server.MapPath("GlobalSign.cer"));
+sig.Sign(gs, true, new Oid(CryptoConfig.MapNameToOID("SHA512")), X509IncludeOption.EndCertOnly);
+// here we commit and validate to ensure the data is correct
+sig.Commit();
+sig = (Signature)doc.Form.Fields["Signature1"]; // signature must be re-retrieved after a Commit/Save
+if (!sig.Validate())
+&nbsp;&nbsp;throw new Exception("Signing failed!");
+doc.Save(Server.MapPath("SignedDoc.pdf"));
+</code></pre>
+        <BR>
+                    <SPAN class=language>[Visual Basic]</SPAN><BR>
+                    <pre><code class="language-vbnet">Dim cert As X509Certificate2 = FindCertificate()
+If cert = Nothing Then
+&nbsp;&nbsp;Return
+End If
+' no certificate found
+Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("mypics/BlankSignature.pdf"))
+&nbsp;&nbsp;Dim sig As Signature = DirectCast(doc.Form.Fields("Signature1"), Signature)
+&nbsp;&nbsp;sig.CustomSigner2 = ExternalSigner
+&nbsp;&nbsp;sig.Reason = "Test External Signing"
+&nbsp;&nbsp;' Just use public certificate from file - i.e. do not obtain from registry
+&nbsp;&nbsp;Dim gs = New X509Certificate2(Server.MapPath("GlobalSign.cer"))
+&nbsp;&nbsp;sig.Sign(gs, True, New Oid(CryptoConfig.MapNameToOID("SHA512")), X509IncludeOption.EndCertOnly)
+&nbsp;&nbsp;' here we commit and validate to ensure the data is correct
+&nbsp;&nbsp;sig.Commit()
+&nbsp;&nbsp;sig = DirectCast(doc.Form.Fields("Signature1"), Signature)
+&nbsp;&nbsp;' signature must be re-retrieved after a Commit/Save
+&nbsp;&nbsp;If Not sig.Validate() Then
+&nbsp;&nbsp;&nbsp;&nbsp;Throw New Exception("Signing failed!")
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;doc.Save(Server.MapPath("SignedDoc.pdf"))
+End Using
+</code></pre>
+            </P>
+                <p>The code above uses the following External Signer.</p>
+                <P>
+                    <SPAN class=language>[C#]</SPAN><BR>
+              <pre><code class="language-csharp">byte[] ExternalSigner(byte[] data, Signature.State state) {
+&nbsp;&nbsp;var password = new SecureString(); // needs value
+&nbsp;&nbsp;var rsa = (RSACryptoServiceProvider)cert.PrivateKey;
+&nbsp;&nbsp;var cspParams = new CspParameters(1, rsa.CspKeyContainerInfo.ProviderName,
+&nbsp;&nbsp;&nbsp;&nbsp;rsa.CspKeyContainerInfo.UniqueKeyContainerName) {
+&nbsp;&nbsp;&nbsp;&nbsp;KeyPassword = password,
+&nbsp;&nbsp;&nbsp;&nbsp;Flags = CspProviderFlags.NoPrompt
+&nbsp;&nbsp;};
+&nbsp;&nbsp;var service = new RSACryptoServiceProvider(cspParams);
+&nbsp;&nbsp;return service.SignData(data, CryptoConfig.MapNameToOID("SHA512"));
+}
+X509Certificate2 FindCertificate() {
+&nbsp;&nbsp;string serial = "10 20 30 10 40 10 40 50 60 10 20 30"; // needs value
+&nbsp;&nbsp;X509Certificate2 cert = null;
+&nbsp;&nbsp;var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly | OpenFlags.MaxAllowed);
+&nbsp;&nbsp;&nbsp;&nbsp;var certs = store.Certificates.Find(X509FindType.FindBySerialNumber, serial, false);
+&nbsp;&nbsp;&nbsp;&nbsp;if (certs.Count == 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cert = store.Certificates.Find(X509FindType.FindBySerialNumber, serial, false)[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (cert.PrivateKey is RSACryptoServiceProvider == false)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cert = null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;finally {
+&nbsp;&nbsp;&nbsp;&nbsp;store.Close();
+&nbsp;&nbsp;}
+&nbsp;&nbsp;return cert;
+}
+</code></pre>
+        <BR>
+                    <SPAN class=language>[Visual Basic]</SPAN><BR>
+                    <pre><code class="language-vbnet">Private Function ExternalSigner(data As Byte(), state As Signature.State) As Byte()
+&nbsp;&nbsp;Dim password = New SecureString()
+&nbsp;&nbsp;' needs value
+&nbsp;&nbsp;Dim rsa = DirectCast(cert.PrivateKey, RSACryptoServiceProvider)
+&nbsp;&nbsp;Dim cspParams = New CspParameters(1, rsa.CspKeyContainerInfo.ProviderName, rsa.CspKeyContainerInfo.UniqueKeyContainerName) With { _
+&nbsp;&nbsp;&nbsp;&nbsp;Key .KeyPassword = password, _
+&nbsp;&nbsp;&nbsp;&nbsp;Key .Flags = CspProviderFlags.NoPrompt _
+&nbsp;&nbsp;}
+&nbsp;&nbsp;Dim service = New RSACryptoServiceProvider(cspParams)
+&nbsp;&nbsp;Return service.SignData(data, CryptoConfig.MapNameToOID("SHA512"))
+End Function
+Private Function FindCertificate() As X509Certificate2
+&nbsp;&nbsp;Dim serial As String = "10 20 30 10 40 10 40 50 60 10 20 30"
+&nbsp;&nbsp;' needs value
+&nbsp;&nbsp;Dim cert As X509Certificate2 = Nothing
+&nbsp;&nbsp;Dim store = New X509Store(StoreName.My, StoreLocation.CurrentUser)
+&nbsp;&nbsp;Try
+&nbsp;&nbsp;&nbsp;&nbsp;store.Open(OpenFlags.[ReadOnly] Or OpenFlags.OpenExistingOnly Or OpenFlags.MaxAllowed)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim certs = store.Certificates.Find(X509FindType.FindBySerialNumber, serial, False)
+&nbsp;&nbsp;&nbsp;&nbsp;If certs.Count = 1 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cert = store.Certificates.Find(X509FindType.FindBySerialNumber, serial, False)(0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If TypeOf cert.PrivateKey Is RSACryptoServiceProvider = False Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cert = Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;Finally
+&nbsp;&nbsp;&nbsp;&nbsp;store.Close()
+&nbsp;&nbsp;End Try
+&nbsp;&nbsp;Return cert
+End Function
+</code></pre>
+              </P>            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

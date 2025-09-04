@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XRect SetRect Function. Sets the location and size of the rectangle. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>SetRect Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Sets the location and size of the rectangle.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
+            SetRect(double x, double y, double w, double h)<BR>void SetRect(<a href="../default.htm">XRect</a> rect)</CODE><BR>
+            <SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Sub SetRect(x As Double, y As Double, w As Double, h As 
+            Double)<BR>Sub SetRect(rect As <a href="../default.htm">XRect</a>)</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>x</TD>
+                <TD>The new left position.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>y</TD>
+                <TD>The new bottom position.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>w</TD>
+                <TD>The new width.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>h</TD>
+                <TD>The new height.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>rect</TD>
+                <TD>The source rectangle.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Sets the location and size of the rectangle.</P>
+            <P>The width and height of the rectangle are set to the new width 
+            and height.</P>
+            <P>The rectangle is then moved to the supplied position while 
+            maintaining the width and height. The corner moved to the location 
+            is indicated by the <A href="../2-properties/pin.htm">Pin</A> 
+            property. The default pin corner is the bottom left.</P>
+            <P>The overload taking an XRect copies the effective location
+            and size. It behaves as if this XRect and the parameter XRect use
+            the default <A href="../2-properties/pin.htm">Pin</A> and the
+            default coordinate settings (<A
+            href="../../doc/2-properties/topdown.htm">Doc.TopDown</A> and
+            <A href="../../doc/2-properties/units.htm">Doc.Units</A>)
+            so it functions differently from the other overload and from
+            copying using <A href="../2-properties/string.htm">String</A>.
+            <A href="../2-properties/pin.htm">Pin</A> is not copied.</P>
+            <P>For example suppose you have a Doc object (called doc) for which you have set the Doc.Units to mm and also a separate XRect (called rect) that you have created. If you call rect.SetRect(doc.Rect) the rect will contain coordinates in points rather than mm. Similarly if you call doc.Rect.SetRect(rect), the point based units within the rect will be converted to mm for insertion into the doc.Rect. So there is an automatic conversion between coordinate systems.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">var rc = new XRect();
+rc.String = "20 20 220 120";
+Response.Write($"Rect = {rc}");
+Response.Write("&amp;lt;br&amp;gt;");
+rc.SetRect(20, 40, 50, 150);
+Response.Write("Pos. = {rc}");
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Dim rc As New XRect()
+rc.String = "20 20 220 120"
+Response.Write($"Rect = {rc}")
+Response.Write("&amp;lt;br&amp;gt;")
+rc.SetRect(20, 40, 50, 150)
+Response.Write("Pos. = {rc}")
+</code></pre></P>
+            <P>Produces the following output. </P>
+            <P><SAMP>Rect = 20 20 220 120<BR>Pos. = 20 40 70 190</SAMP> 
+            <P>&nbsp;</P><p>Also see example code in: <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>.</p>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

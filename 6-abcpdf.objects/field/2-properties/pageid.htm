@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Field PageID Property. The ID of the page on which the field appears. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4"> <tr> <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td><td width="14">&nbsp;</td><td> 
+<table border="0" width="100%" cellpadding="0" cellspacing="0"> <tr> <td class="pageheader"> 
+PageID Property</td><td width="60">&nbsp;</td><td>&nbsp;</td></tr> <tr> <td background="../../../images/steel-line-3.gif" height="11"></td><td background="../../../images/steel-line-3.gif" height="11" width="60"></td><td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td></tr> 
+<tr> <td> <p>&nbsp;</p><table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+<tr> <td align="center"><b>Type</b></td><td><b>Default Value</b></td><td><b>Read 
+Only</b></td><td><b>Description</b></td></tr> <tr valign="top"> <td align="left"><span class="language">[C#]</span><br> 
+<code>int</code><br> <br> <span class="language">[Visual&nbsp;Basic]</span><br> 
+<code>Integer</code></td><td>See description.</td>
+<td>No</td><td>The 
+ID of the page on which the field appears.</td></tr> </table><p><code><img src="../../../images/steel-blob-10.gif" width="10" height="10" border="0" alt="Throws Exceptions"> may throw ArgumentOutOfRangeException()</code></p>
+<p>&nbsp;</p></td><td width="60">&nbsp;</td><td>&nbsp;</td></tr> 
+</table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td><td width="14">&nbsp;</td><td valign="top"> 
+<table border="0" width="100%" cellpadding="0" cellspacing="0"> <tr> <td> <p>This 
+property reflects the page on which this field is located.</p>
+      <p>This property is only  valid if the fields has one single visible appearance on the page. If you are unsure whether  your field will always map to one visible appearance it is better to call <a href="../1-methods/getannotations.htm">GetAnnotations</a> and work with the <a href="../../annotation/2-properties/rect.htm">Annotation.Page</a> of each of the items in the array. If there is only one item in the array then this indicates that the field has one one single visible appearance on the page.</p>
+      <p>The most common 
+        case in which a field does not have a single visible appearance is in the case of radio 
+        buttons. In this case the field describes the radio button group and the children 
+        of the field are the visible buttons. Be aware that it is possible to spread radio buttons 
+        across more than one page.</p>
+      <p>This value may 
+be zero if the field does not have a visible appearance.</p><p>If this field does not have one single visible appearance on the page, attempting to assign a value to this property will result in an ArgumentOutOfRangeException being thrown.<br> </p>
+<p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
+</table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td><td width="14">&nbsp;</td><td valign="top"> 
+<table border="0" width="100%" cellpadding="0" cellspacing="0"> <tr> <td> <p>None.</p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> </table></td></tr> 
+</table><p>&nbsp;</p>
+</body>
+</html>

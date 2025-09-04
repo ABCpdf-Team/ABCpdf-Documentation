@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>eForm Placeholder Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4"> <tr> <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td><td width="14">&nbsp;</td><td> 
+<table border="0" width="100%" cellpadding="0" cellspacing="0"> <tr> <td class="pageheader"> 
+eForm Placeholder Example</td><td width="60">&nbsp;</td><td>&nbsp;</td></tr> <tr> <td background="../images/steel-line-3.gif" height="11"></td><td background="../images/steel-line-3.gif" height="11" width="60"></td><td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td></tr> 
+<tr> <td> <p>This example shows how to use eForm fields as placeholders for the 
+insertion of text. In this example we simply replace each of the fields in a form 
+with the name of that field.</p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td>&nbsp;</td></tr> 
+</table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br> 
+Src</td><td width="14">&nbsp;</td><td valign="top"> <table border="0" width="100%" cellpadding="0" cellspacing="0"> 
+<tr> <td> <p>First we create an ABCpdf Doc object and read in our template form. 
+</p><p><span class="language">[C#]</span><br> <pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../mypics/form.pdf"));
+doc.Form.NeedAppearances = false; // for PDF 2.0
+doc.Font = doc.AddFont("Helvetica-Bold");
+doc.FontSize = 16;
+doc.Rect.Pin = XRect.Corner.TopLeft;
+</code></pre>
+<br> <span class="language">[Visual Basic]</span><br> 
+<pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/form.pdf"))
+&nbsp;&nbsp;doc.Form.NeedAppearances = False
+&nbsp;&nbsp;' for PDF 2.0
+&nbsp;&nbsp;doc.Font = doc.AddFont("Helvetica-Bold")
+&nbsp;&nbsp;doc.FontSize = 16
+&nbsp;&nbsp;doc.Rect.Pin = XRect.Corner.TopLeft
+</code></pre>
+</p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
+</table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br> 
+Add</td><td width="14">&nbsp;</td><td valign="top"> <table border="0" width="100%" cellpadding="0" cellspacing="0"> 
+<tr> <td> <p>We iterate through each of the fields. For each field we focus on 
+the field. We then color the rectangle light gray and draw the name of the field 
+in dark red.</p><p><span class="language">[C#]</span><br> <pre><code class="language-csharp">var names = doc.Form.GetFieldNames();
+foreach (string name in names) {
+&nbsp;&nbsp;Field theField = doc.Form[name];
+&nbsp;&nbsp;theField.Focus();
+&nbsp;&nbsp;doc.Color.String = "240 240 255";
+&nbsp;&nbsp;doc.FillRect();
+&nbsp;&nbsp;doc.Rect.Height = 16;
+&nbsp;&nbsp;doc.Color.String = "220 0 0";
+&nbsp;&nbsp;doc.AddText(theField.Name);
+&nbsp;&nbsp;doc.Delete(theField.ID);
+}
+</code></pre><br> <span class="language">[Visual Basic]</span><br> <pre><code class="language-vbnet">&nbsp;&nbsp;Dim theNames As String() = doc.Form.GetFieldNames()
+&nbsp;&nbsp;For Each theName As String In theNames
+&nbsp;&nbsp;&nbsp;&nbsp;Dim theField As Field = doc.Form(theName)
+&nbsp;&nbsp;&nbsp;&nbsp;theField.Focus()
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = "240 240 255"
+&nbsp;&nbsp;&nbsp;&nbsp;doc.FillRect()
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Height = 16
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = "220 0 0"
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(theField.Name)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Delete(theField.ID)
+&nbsp;&nbsp;Next
+</code></pre> </p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
+</table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br> 
+Save</td><td width="14">&nbsp;</td><td valign="top"> <table border="0" width="100%" cellpadding="0" cellspacing="0"> 
+<tr> <td> <p>Finally we save. </p><p><span class="language">[C#]</span><br> <pre><code class="language-csharp">doc.Save(Server.MapPath("eform.pdf"));
+</code></pre><br> <span class="language">[Visual Basic]</span><br> <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("eform.pdf"))
+End Using
+</code></pre></p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
+</table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br> 
+Results</td><td width="14">&nbsp;</td><td valign="top"> <table border="0" width="100%" cellpadding="0" cellspacing="0"> 
+<tr> <td> <p>Given the following document.</p><p><img src="../images/pdf/form.pdf.png" class="example"><br> 
+form.pdf</p><p>This is the kind of output you might expect.</p><p><img src="../images/pdf/eform.pdf.png" class="example"><br> 
+eform.pdf</p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> </table></td></tr> 
+</table><p>&nbsp;</p>
+</body>
+</html>

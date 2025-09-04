@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc FillRect Function. Adds a painted rectangle to the current page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>FillRect Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Adds a painted rectangle to the current page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            FillRect()<BR>int FillRect(double radiusX, double 
+            radiusY)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Function FillRect() As 
+            Integer<BR>Function FillRect(radiusX As Double,
+            radiusY As Double) As Integer<BR></CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>radiusX</TD>
+                <TD>The horizontal radius to use for rounded corners.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>radiusY</TD>
+                <TD>The vertical radius to use for rounded corners.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Object ID of the newly added Graphic 
+              Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Adds a painted rectangle to the current page. The rectangle 
+            location and size is determined by the current <A 
+            href="../2-properties/rect.htm">rectangle</A>, the fill color is 
+            determined by the current <A href="../2-properties/color.htm">color 
+            </A>and any options are determined by the current <A 
+            href="../2-properties/options.htm">options</A>.</P>
+            <P>By specifying values for the horizontal and vertical radius 
+            parameters you can draw rectangles with rounded corners. The values 
+            refer to the radii of the ellipse used to draw the corners.</P>
+            <P>By setting the horizontal radius parameter to half the width of 
+            the rect and the vertical radius parameter to half the height of the 
+            rect you can draw filled ovals and circles.</P>
+            <P>The FillRect function returns the Object ID of the newly added 
+            Graphic Object.</P>
+            <P></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code adds a blue filled rectangle to a document. 
+            The frame is inset from the edges of the document by 200 points 
+            horizontally and 100 points vertically.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.Rect.Inset(200, 100);
+doc.Color.Blue = 255;
+doc.FillRect();
+doc.Save(Server.MapPath("docfillrect.pdf"));
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Inset(200, 100)
+&nbsp;&nbsp;doc.Color.Blue = 255
+&nbsp;&nbsp;doc.FillRect()
+&nbsp;&nbsp;doc.Save(Server.MapPath("docfillrect.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/docfillrect.pdf.png" 
+            class="example"><BR>docfillrect.pdf </P><p>Also see example code in: <a href="../../../4-examples/15-eform2.htm">ABCpdf eForm Placeholder Example</a>, <a href="../../../4-examples/17-advancedgraphics.htm">ABCpdf Advanced Graphics Example</a>, <a href="addimagebitmap.htm">Doc AddImageBitmap Function</a>, <a href="addimageobject.htm">Doc AddImageObject 
+Function</a>, <a href="addxobject.htm">Doc AddXObject Function</a>, <a href="../2-properties/color.htm">Doc Color Property</a>, <a href="../../xhtmloptions/2-properties/hidebackground.htm">XHtmlOptions HideBackground Property</a>, <a href="../../ximage/1-methods/setmask.htm">XImage SetMask Function</a>, <a href="../../xrendering/2-properties/savealpha.htm">XRendering SaveAlpha Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/getbitmap.htm">Page GetBitmap Function</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/setchromakey.htm">PixMap SetChromakey Function</a>.</p>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

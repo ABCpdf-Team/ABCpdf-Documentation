@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><title>XSettings SetConfigFile Function. Set the application configuration using a Linux style config file. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>SetConfigFile Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background="../../../images/steel-line-3.gif" height=11></TD>
+          <TD width=60 background="../../../images/steel-line-3.gif" 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Set the application configuration using a Linux style config file.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>static void SetConfigFile(string path)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE>Shared Function SetConfigFile(path As string)<BR>
+            </CODE>
+			</P>
+			
+			
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>path</TD>
+                <TD>The path to the config file.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>Set the application configuration file. </p>
+            <p>This can be used in situations in which you have a custom config file for your application - most commonly on Linux.</p>
+            <p>On Windows ABCpdf first looks for preferences  in the default config file. For an executable this will be app.config in the same directory as the executable. For a web site it will be a web.config at the root of the web app. Under Linux this does not happen.</p>
+            <p> If a preference is not found here then any config file specified using the SetConfigFile method will be scanned for an appropriate setting. If the method has not been called and you are on Linux then the default config file will be used - ~/.config/WebSupergoo/ABCpdf13.config.</p>
+            <p>On Windows if the preference is still not found then the registry will be scanned for the value.</p>
+            <p>Finally if no value has been found then a default will be used.</p>
+            <p>Here is an example of a .config file that contains a 
+            valid ABCpdf config section. The illustrated ABCpdf preferences
+            are TempDirectory and MakeURLsUnique.</p>
+            <CODE>&lt;?xml version="1.0" 
+            encoding="utf-8"?&gt;<BR>
+            &lt;configuration&gt;<BR>
+            &nbsp;&nbsp;&lt;configSections&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;section 
+            name="ABCpdf13" type=" WebSupergoo.ABCpdf13.ConfigSection, 
+            ABCpdf" allowLocation="true" <BR>
+            allowDefinition="Everywhere" 
+            allowExeDefinition="MachineToLocalUser" overrideModeDefault="Allow" <BR>
+            restartOnExternalChanges="true" requirePermission="true" 
+            /&gt;<BR>
+            &nbsp;&nbsp;&lt;/configSections&gt;<BR>
+&nbsp;&nbsp;&lt;ABCpdf13&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;preferences&gt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;clear 
+            /&gt;<BR>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;add
+            Key="TempDirectory" Value="C:\Temp"
+            /&gt;<BR>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;add
+            Key="MakeURLsUnique" Value="0"
+            /&gt;<BR>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/preferences&gt;<BR>
+&nbsp;&nbsp;&lt;/ABCpdf13&gt;<BR>
+&lt;/configuration&gt;</CODE>
+            <p>&nbsp;</p>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+                <TR>
+                  <TD><P><STRONG>Important:</STRONG> &lt;configSections&gt; must appear before
+                    &lt;startup&gt; if &lt;startup&gt; exists. <BR>
+                  </P></TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <p>&nbsp;            </p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>For an example of how to specify a confiig sectoin see the <A 
+            href="setconfigsection.htm">SetConfigSection</A> method.
+            <p>None.</p><P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

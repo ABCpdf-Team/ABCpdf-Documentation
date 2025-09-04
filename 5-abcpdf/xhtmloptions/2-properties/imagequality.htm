@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XHtmlOptions ImageQuality Property. The quality of compression acceptable for continuous tone images such as JPEGs. ABCpdf .NET PDF Library.</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META name=GENERATOR content="MSHTML 9.00.8112.16437"></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE border=0 cellSpacing=4 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG src="../../../images/goo.gif" width=58 height=60></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=pageheader>ImageQuality Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD height=11 background=../../../images/steel-line-3.gif></TD>
+          <TD height=11 background=../../../images/steel-line-3.gif 
+          width=60></TD>
+          <TD height=11><IMG src="../../../images/steel-blob-11.gif" width=11 
+            height=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable border=5 cellSpacing=0 borderColor=#ffffff 
+            cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=center><B>Type</B></TD>
+                <TD><B>Default Value</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR><CODE>int</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>Integer</CODE></TD>
+                <TD>101</TD>
+                <TD>No</TD>
+                <TD>The quality of compression acceptable for continuous tone 
+                  images such as JPEGs.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This property determines the image quality acceptable when 
+            rendering HTML.</P>
+            <P>ABCpdf uses a high quality lossless compression method for image 
+            compression when rendering HTML.</P>
+            <P>Using this setting you can indicate the quality of compression 
+            which is acceptable for continuous tone images such as JPEGs.</P>
+            <P>This can result in a considerable reduction in file size with 
+            little or no loss in output quality.</P>
+            <P>Note that the MSHTML engine contains optimizations to allow data 
+            to be passed directly from the web through to the PDF without 
+            recompression. However it can only do this if you do not indicate 
+            that you need this data recompressed. As such you may find it more 
+            effective in terms of output size and ouput quality, to leave the 
+            default setting in place.</P>
+            <P>Qualities should range between 0 and 100 (75 is a reasonable 
+            value). Values higher than 100 will result in lossless compression 
+            being used in all situations.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following example shows the effect that this parameter has on 
+            PDF rendering.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+string uri = "http://www.nasa.gov/multimedia/imagegallery/image_feature_313.html";
+// Set low image quality for HTML rendering
+doc.HtmlOptions.ImageQuality = 5;
+doc.AddImageUrl(uri);
+// Save the document
+doc.Save(Server.MapPath("HtmlOptionsImageQuality5.pdf"));
+doc.Clear();
+// Set lossless image quality for HTML rendering
+doc.HtmlOptions.ImageQuality = 101;
+doc.AddImageUrl(uri);
+// Save the document
+doc.Save(Server.MapPath("HtmlOptionsImageQuality101.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theURL As String = "http://www.nasa.gov/multimedia/imagegallery/image_feature_313.html"
+&nbsp;&nbsp;' Set low image quality for HTML rendering
+&nbsp;&nbsp;doc.HtmlOptions.ImageQuality = 5
+&nbsp;&nbsp;doc.AddImageUrl(theURL)
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsImageQuality5.pdf"))
+&nbsp;&nbsp;doc.Clear()
+&nbsp;&nbsp;' Set lossless image quality for HTML rendering
+&nbsp;&nbsp;doc.HtmlOptions.ImageQuality = 101
+&nbsp;&nbsp;doc.AddImageUrl(theURL)
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsImageQuality101.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG
+            src="../../../images/pdf/HtmlOptionsImageQuality5.pdf.png" class="example"
+            ><BR>HtmlOptionsImageQuality5.pdf [file size 42 KB]</P>
+            <P><IMG
+            src="../../../images/pdf/HtmlOptionsImageQuality101.pdf.png" class="example"
+            ><BR>HtmlOptionsImageQuality101.pdf [file size 
+            444 KB]</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

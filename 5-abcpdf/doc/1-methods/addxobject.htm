@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddXObject Function. Add a Form or Image XObject to the current page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddXObject Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Add a Form or Image XObject to the current page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>int AddXObject(<a href="../../../6-abcpdf.objects/pixmap/default.htm">Objects.PixMap</a> pm)<br>
+            int AddXObject(<a href="../../../6-abcpdf.objects/formxobject/default.htm">Objects.FormXObject</a> pm)<BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <CODE>Function AddXObject(pm As <a href="../../../6-abcpdf.objects/pixmap/default.htm">Objects.PixMap</a>) As Integer<br>
+            Function AddXObject(pm As <a href="../../../6-abcpdf.objects/formxobject/default.htm">Objects.FormXObject</a>) As Integer<BR>
+            </CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>pm</TD>
+                <TD>The image to be added to the page.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Object ID of the newly added Image 
+                  Object.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Add a Form or Image XObject into the current  <A 
+            href="../2-properties/rect.htm">rectangle</A> on the current page.</P>
+            <P>Form and Image XObjects represent a drawing sequence external to the main content stream of the page. Image XObjects represent a raster bitmap in one of a variety of color spaces. Form XObjects represent a separate content stream with a separate sequence of drawing commands. </P>
+            <P>For example a Form XObject might be used to represent a &quot;Draft&quot; stamp which might then be applied on various pages at various locations. The fact that this stamp is an external object  allows the viewing application to cache the representation and also allows changes to the stamp to affect the appearance of multiple instances.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><P>This example shows how to load an image into a PixMap and then draw it on the current page using the AddXObject method.</P>
+            <P><span class=language>[C#]</span><br>
+                <pre><code class="language-csharp">using var doc = new Doc();
+doc.Rect.Inset(50, 50);
+doc.Transform.Rotate(20, 200, 200);
+doc.Color.SetRgb(200, 200, 255);
+doc.FillRect();
+var pm = new PixMap(doc.ObjectSoup);
+using var img = (Bitmap)Bitmap.FromFile(Server.MapPath("mypics/mypic.png"));
+pm.SetBitmap(img, true);
+doc.AddXObject(pm);
+doc.Save(Server.MapPath("examplePixMapBitmap.pdf"));
+</code></pre><br>
+                <span class=language>[Visual Basic]</span><br>
+                <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Inset(50, 50)
+&nbsp;&nbsp;doc.Transform.Rotate(20, 200, 200)
+&nbsp;&nbsp;doc.Color.SetRgb(200, 200, 255)
+&nbsp;&nbsp;doc.FillRect()
+&nbsp;&nbsp;Dim pm As New PixMap(doc.ObjectSoup)
+&nbsp;&nbsp;Dim img As Bitmap = DirectCast(Bitmap.FromFile(Server.MapPath("mypics/mypic.png")), Bitmap)
+&nbsp;&nbsp;pm.SetBitmap(img, True)
+&nbsp;&nbsp;doc.AddXObject(pm)
+&nbsp;&nbsp;doc.Save(Server.MapPath("examplePixMapBitmap.pdf"))
+End Using
+</code></pre></P>
+            <p><img src="../../../images/pdf/examplePixMapBitmap.pdf.png" class="example"><BR>
+              examplePixMapBitmap.pdf</p>
+            <p>&nbsp;</p>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

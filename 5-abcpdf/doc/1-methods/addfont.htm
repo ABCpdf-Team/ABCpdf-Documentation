@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddFont Function. Adds a font reference to the document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddFont Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Adds a font reference to the document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <p><span class="language">[C#]</span><br>
+            <pre><code class="language-csharp">int AddFont(string name)<BR>
+int AddFont(string name, LanguageType language)<BR>
+int AddFont(string name, LanguageType language, bool vertical)
+</code></pre><br>
+            <span class="language">[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Function AddFont(name As String) As Integer <BR>
+Function AddFont(name As String, language As LanguageType) As Integer <BR>
+Function AddFont(name As String, language As LanguageType, vertical As Boolean) As Integer
+</code></pre></p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>name</TD>
+                <TD>The name of the font typeface.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>language</TD>
+                <TD>
+                  <P>The language type to use. The LanguageType enumeration may take the following  values:</P>
+                  <UL>
+                    <LI>Latin
+                    <LI>Unicode
+                    - NB: This requires that the font be embedded. If you wish to use this selector use the EmbedFont call.         <LI>Korean
+                    <LI>Japanese
+                    <LI>ChineseS
+                    <LI>ChineseT                                                                                                    
+                    </UL>
+                  <P>See the <A href="../../../3-concepts/7-fonts.htm">Fonts and 
+                  Languages</A> section for details on language types. The 
+                  default language type is Latin.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>vertical</TD>
+                <TD>
+                  <P>Whether the text direction should be vertical.</P>
+                  <P>See the<A href="../../../3-concepts/7-fonts.htm"> Fonts and 
+                  Languages</A> section for details on writing directions. The 
+                  default is false to indicate standard left to right 
+                layout.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The Object ID of the newly added Font 
+            Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Adds a font to the document.</P>
+            <P>The font name and a description of the font style is held within 
+            the document. However the actual font itself is not added to the 
+            document unless the language is Unicode. (When Unicode is specified,
+            this method will embed the font without subsetting.) If you wish to
+            embed a font or use the Unicode language, you should use the <A 
+            href="embedfont.htm">EmbedFont</A> method. </P>
+            <P>When a client opens the PDF Acrobat will attempt to find the 
+            exact same font on the client system. If the exact font is not 
+            available then a substitute font will be chosen using the font 
+            description to determine the best match.</P>
+            <P>The following fonts are guaranteed to be available on every 
+            system.</P>
+            <UL>
+              <LI>Times-Roman 
+              <LI>Times-Bold 
+              <LI>Times-Italic 
+              <LI>Times-BoldItalic 
+              <LI>Helvetica 
+              <LI>Helvetica-Bold 
+              <LI>Helvetica-Oblique 
+              <LI>Helvetica-BoldOblique 
+              <LI>Courier 
+              <LI>Courier-Bold 
+              <LI>Courier-Oblique 
+              <LI>Courier-BoldOblique 
+              <LI>Symbol 
+              <LI>ZapfDingbats </LI></UL>
+            <P>Additionally you can add any TrueType, OpenType or Type 1 font 
+            that you have installed on your system. The name you should use is 
+            the one referenced in your fonts folder. For example.</P>
+            <UL>
+              <LI>Arial 
+              <LI>Arial Black 
+              <LI>Arial Black Italic 
+              <LI>... 
+              <LI>Book Antiqua 
+              <LI>Book Antiqua Bold 
+              <LI>Book Antiqua Bold Italic 
+              <LI>Book Antiqua Italic 
+              <LI>... 
+              <LI>Venetian301BT 
+              <LI>Venetian301BT Bold 
+              <LI>... </LI></UL>
+            <P>The AddFont function returns the Object ID of the newly added 
+            Font Object. Typically you will want to assign this return value to 
+            the document Font property using code of the form.</P>
+                    <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.Font = theDoc.AddFont("Courier");
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.Font = theDoc.AddFont("Courier")
+</code></pre></p>
+            <P>If the specified font could not be found then you will get an 
+            Object ID of zero returned. You may wish to check for this 
+            possibility otherwise a default font will be used.</P>
+            <P>Fonts are cached so newly added fonts will not be available to 
+            ABCpdf until the application is restarted. If you need to 
+            dynamically load a font you can pass this method a path to your font 
+            file. This will add the font to the cache and make it available for 
+            use. You should not move, rename or delete a font file which has 
+            been dynamically loaded using this technique.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following code adds two pieces of text to a document. The 
+            first piece is in Times-Roman and the second in Helvetica-Bold.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.FontSize = 48;
+string font = "Times-Roman ";
+doc.Font = doc.AddFont(font);
+doc.AddText(font);
+font = "Helvetica-Bold";
+doc.Font = doc.AddFont(font);
+doc.AddText(font);
+doc.Save(Server.MapPath("docaddfont.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 48
+&nbsp;&nbsp;Dim theFont As String = "Times-Roman "
+&nbsp;&nbsp;doc.Font = doc.AddFont(theFont)
+&nbsp;&nbsp;doc.AddText(theFont)
+&nbsp;&nbsp;theFont = "Helvetica-Bold"
+&nbsp;&nbsp;doc.Font = doc.AddFont(theFont)
+&nbsp;&nbsp;doc.AddText(theFont)
+&nbsp;&nbsp;doc.Save(Server.MapPath("docaddfont.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/docaddfont.pdf.png" 
+            class="example"><BR>docaddfont.pdf </P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

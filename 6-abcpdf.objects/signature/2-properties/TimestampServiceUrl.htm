@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+    <title>Signature TimestampServiceUrl Property. The URL to a time-stamping service. ABCpdf .NET PDF Library.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+</head>
+<body style="background-color: rgb(255, 255, 255);">
+  <table border="0" cellpadding="0" cellspacing="4">
+    <tbody>
+      <tr>
+        <td valign="top"><img src="../../../images/goo.gif" height="60" width="58"></td>
+
+        <td width="14">&nbsp;</td>
+
+        <td>
+          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td class="pageheader">TimestampServiceUrl
+                Property</td>
+
+                <td width="60">&nbsp;</td>
+
+                <td>&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td background="../../../images/steel-line-3.gif" height="11"></td>
+
+                <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+
+                <td height="11"><img src="../../../images/steel-blob-11.gif" height="11" width="11"></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <p>&nbsp;</p>
+
+                  <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td align="center"><b>Type</b></td>
+
+                        <td><b>Default Value</b></td>
+
+                        <td><b>Read Only</b></td>
+
+                        <td><b>Description</b></td>
+                      </tr>
+
+                      <tr valign="top">
+                        <td align="left"><span class="language">[C#]</span><br>
+                        <code>System.Uri</code><br>
+                        <br>
+                        <span class="language">[Visual&nbsp;Basic]</span><br>
+                        <code>System.Uri</code></td>
+
+                        <td>null</td>
+
+                        <td>No</td>
+
+                        <td>The URL to a time-stamping
+                        service.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <p>&nbsp;</p>
+                </td>
+
+                <td width="60">&nbsp;</td>
+
+                <td>&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>
+        Notes</td>
+
+        <td width="14">&nbsp;</td>
+
+        <td valign="top">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+              <tr>
+                <td>
+                  <p>If this property is not null
+                  when you call <a href="../1-methods/sign.htm">Sign</a>, an X.509
+                  <a target="_blank" href="http://tools.ietf.org/html/rfc3161">RFC 3161</a>
+                  time-stamped signature will be created by using
+                  the service provided in the URL. Note that this
+                  property serves as an option for <a href="../1-methods/sign.htm">Sign</a>, and is not
+                  persisted in the PDF document.<p>
+                  <p>If your time-stamping service provider requires authentication, you can
+                  specify your credentials in the Uri. For example,
+                  "https://username:password@example.com/tsp".</p>
+                  <p>ABCpdf uses System.Net.WebRequest to send the time-stamping request. You can use <a target="_blank"
+                  href="http://msdn.microsoft.com/en-us/library/system.net.servicepointmanager.servercertificatevalidationcallback.aspx">System.Net.ServicePointManager.ServerCertificateValidationCallback</a>
+                  to customize trust relationship establishment when you connect to an SSL/TLS channel.</p>
+                  <p>&nbsp;</p>
+                </td>
+
+                <td width="60">&nbsp;</td>
+
+                <td width="11">&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Example</td>
+        <td width="14">&nbsp;</td>
+        <td valign="top">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tbody><tr>
+              <td>
+                <p>Also see example code in: <a href="../../../5-abcpdf/xform/1-methods/adddoctimestamp.htm">XForm AddDocTimestamp Function</a>, <a href="../1-methods/addltv.htm">Signature AddLTV Function</a>, <a href="compliancepades.htm">Signature CompliancePades Property</a>.</p>
+                <p>&nbsp;</p>
+              </td>
+              <td width="60">&nbsp;</td>
+              <td width="11">&nbsp;</td>
+            </tr>
+          </tbody></table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>&nbsp;</p>
+</body></html>

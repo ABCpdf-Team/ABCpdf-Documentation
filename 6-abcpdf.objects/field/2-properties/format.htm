@@ -1,0 +1,230 @@
+<html>
+<head>
+<title>Field Format Property. The field format. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<style type="text/css">
+<!--
+.style1 {color: #FF0000}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Format Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>string</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>String</code></td>
+                <td>See description.</td>
+                <td>Yes</td>
+                <td>The field format.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The format for this field.</p>
+            <p>The PDF specification does not define how fields should be formatted. 
+              Acrobat uses a set of standard JavaScripts to perform field formatting.</p>
+            <p>This property reflects the JavaScript formatting function which 
+              is being used and the values which are being passed to it. A typical 
+              value might be:</p>
+            <p><pre><code class="language-jscript">AFNumber_Format(2, 3, 0, 0, &quot;&quot;, true);
+</code></pre></p>
+            <p>This defines a number format with two decimal places. Other typical formatting functions you will see include AFPercent_Format, AFSpecial_Format, 
+            AFDate_Format and AFTime_Format. </p>
+            <p>For a definitive guide to these formatting functions you should see the JavaScripts which come installed with your version of Acrobat. However as of early 2019, the following  are defined.</p>
+            <p><pre><code class="language-jscript">AFNumber_Format(decimals, separator, negative, unused, currency, prepend);
+AFPercent_Format(decimals, separator);
+AFSpecial_Format(special_type)
+AFDate_Format(date_type)
+AFDate_FormatEx(date_time_format)
+AFTime_Format(time_type)
+AFTime_FormatEx(date_time_format)
+</code></pre></p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr>
+                <td align="center"><b>Name</b></td>
+                <td><b>Description</b></td>
+                <td><b>Example</b></td>
+              </tr>
+              <tr valign="top">
+                <td align="left">decimals</td>
+                <td><p>The number of figures to display after the decimal point. </p>
+                <p>eg for &quot;2&quot; the output might be &quot;1,234.567&quot;.</p></td>
+                <td>For th</td>
+              </tr>
+              <tr valign="top">
+                <td align="left">separator</td>
+                <td><p>A number indicating the style of separators for  thousands and decimal points.</p>
+                  <ul>
+                    <li>0 - Thousands separated using commas and decimals separated using a period. eg &quot;1,234.56&quot;</li>
+                    <li>1 - Decimals separated using a period. eg &quot;1234.56&quot;</li>
+                    <li>2 - Thousands separated using periods and decimals separated using a comma. eg &quot;1.234,56&quot;</li>
+                    <li>3 - Decimals separated using a comma. eg &quot;1234,56&quot;</li>
+                </ul><p></p></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr valign="top">
+                <td align="left">negative</td>
+                <td><p>A number indicating the style for negative numbers.</p>
+                  <ul>
+                    <li>0 - A preceeding dash  indicate negative numbers. eg &quot;-1,234.56&quot;</li>
+                    <li>1 - Black for positive and red for negative numbers. eg &quot;<span class="style1">1,234.56</span>&quot;</li>
+                    <li>2 - Negative numbers placed in parentheses. eg &quot;(1.234,56)&quot;</li>
+                    <li>3 - Negative numbers placed in parentheses. Also black for positive and red for negative. eg &quot;<span class="style1">(1.234,56)</span>&quot;</li>
+                  </ul>                  
+                <p></p></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr valign="top">
+                <td align="left">unused</td>
+                <td><p>This parameter is currently unused.</p>                </td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr valign="top">
+                <td align="left">currency</td>
+                <td><p>A string indicating the currency symbol to be added to numbers.</p>
+                  <p>eg for &quot;$&quot; the output might be &quot;$1,234.56&quot;.</p>
+                  </td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr valign="top">
+                <td align="left">prepend</td>
+                <td><p>A boolean which; if true, indicates that the currency symbol should be prepended; and if false, that it should be appended.</p>
+                    <p>eg for &quot;false&quot; the output might be &quot;1,234.56 &euro;&quot;.</p>                  </td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr valign="top">
+                <td align="left">special_type</td>
+                <td><p>A number indicating a fixed format style used for structures such as telephone numbers and zip codes.</p>
+                    <ul>
+                      <li>0 - Five digit zip code. eg &quot;12345&quot;</li>
+                      <li>1 - Zip plus-four code. eg &quot;12345-6789&quot;</li>
+                      <li>2 - A long or short telephone number depending on the number of digits. eg &quot;(123) 456--7890&quot; or &quot;456--7890&quot;</li>
+                      <li>3 - Social security number. eg &quot;123-45-6789&quot;</li>
+                    </ul>
+                  <p></p></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr valign="top">
+                <td align="left">date_type</td>
+                <td><p>A number indicating a  format style used to indicate a date. </p>
+                  <p>See date_time_format below for details of the format.</p>
+                  <ul>
+                      <li>0 - &quot;m/d&quot;</li>
+                      <li>1 - &quot;m/d/yy&quot;</li>
+                      <li>2 - &quot;mm/dd/yy&quot;</li>
+                      <li>3 - &quot;mm/yy&quot;</li>
+                      <li>4 - &quot;d-mmm&quot;</li>
+                      <li>5 - &quot;d-mmm-yy&quot;</li>
+                      <li>6 - &quot;dd-mmm-yy&quot;</li>
+                      <li>7 - &quot;yy-mm-dd&quot;</li>
+                      <li>8 - &quot;mmm-yy&quot;</li>
+                      <li>9 - &quot;mmmm-yy&quot;</li>
+                      <li>10 - &quot;mmm d, yyyy&quot;</li>
+                      <li>11 - &quot;mmmm d, yyyy&quot;</li>
+                      <li>12 - &quot;m/d/yy h-MM tt&quot;</li>
+                      <li>13 - &quot;m/d/yy HH-MM&quot;</li>
+                  </ul>
+                  <p></p></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr valign="top">
+                <td align="left">time_type</td>
+                <td><p>A number indicating a  format style used to indicate a time. </p>
+                  <p>See date_time_format below for details of the format.</p>
+                  <ul>
+                    <li>0 - &quot;HH:MM&quot;</li>
+                    <li>1 - &quot;h:MM tt&quot;</li>
+                    <li>2 - &quot;HH:MM:ss&quot;</li>
+                    <li>3 - &quot;h:MM:ss tt&quot;</li>
+                  </ul>
+                <p></p></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr valign="top">
+                <td align="left">date_time_format</td>
+                <td><p>A string indicating style used to format a date or time.</p>
+                  <p>See date_type above for examples of the types of styles you can use.</p>
+                  <p>The &quot;m&quot; and &quot;mm&quot; sequences indicate the month using a one and two digit number respectively - the former being of limited use. The &quot;mmm&quot; and &quot;mmmm&quot; sequence indicates the month using a short three character and full name respectively. </p>
+                  <p>The &quot;d&quot; and &quot;dd&quot; sequences indicates the ordinal day of the month (the former being of limited use) while the &quot;ddd&quot; and &quot;dddd&quot; sequences indicate the day of the week using a short three character and full name respectively.</p>
+                  <p>The &quot;yy&quot; indicates the short form of the year and the &quot;yyyy&quot; selector indicates the long form of the year.</p>
+                  <p>The &quot;h&quot;, &quot;hh&quot;, &quot;H&quot; and &quot;HH&quot; sequences indicate the hours. The upper case versions work on the twenty-four hour clock and the lower case ones on the twelve hour clock. The one character selectors indicate the hour using one character (obviously of limited use) and the two character selectors indicate it using two characters.</p>
+                  <p>The &quot;MM&quot; selector indicates the number of minutes past the current hour.</p>
+                  <p>The &quot;s&quot; and &quot;ss&quot; selectors indicate the number of seconds past the current minute. The former uses one digit - of limited use - and the latter uses two.</p>
+                  <p>The &quot;t&quot; and &quot;tt&quot; indicate the time relative to the meridiem - am or pm - using one digit or two characters respectively.</p>
+                <p></p></td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>None.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

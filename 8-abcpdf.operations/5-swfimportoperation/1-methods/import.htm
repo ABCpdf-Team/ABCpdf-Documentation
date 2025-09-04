@@ -1,0 +1,592 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>SwfImportOperation Import Function. Imports selected frames of a Flash movie. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16788" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Import Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Imports selected frames of a Flash movie.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Import(string 
+            path)<BR>void Import(Stream stream, string url)</CODE><BR><SPAN
+            class=language>[Visual Basic]</SPAN><BR><CODE>Sub Import(path As
+            String)<BR>Sub Import(stream As Stream, url As String)</CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>path</TD>
+                <TD>The file path to the Flash movie.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>stream</TD>
+                <TD>The stream containing the Flash movie.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>url</TD>
+                <TD>The value of the MovieClip._url ActionScript property.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Imports selected frames of a Flash movie. By default, only one 
+            frame is imported. ActionScript 2 or below is supported. 
+            ActionScript 3 is not supported.</P>
+            <TABLE class=backgrounder style="WIDTH: auto" cellPadding=10 border=0>
+              <TBODY>
+              <TR>
+                <TD>
+                  <P><B>Alpha Blending.</B> PDF supports using different color spaces
+                  for alpha blending. When there is a transparent object on a page, the
+                  blending color space will be used. By default, it uses DeviceCMYK.
+                  You will likely see some color shifts even for opaque objects because
+                  colors are converted to the alpha blending color space and then to
+                  DeviceRGB for display. The effect is more noticeable for objects
+                  using component-wise alpha blending.</P>
+                  <P>To use RGB as it is used in SWF for alpha blending, set the default
+                  blending color space for the page to DeviceRGB:</P>
+                      <p><span class="language">[C#]</span><br>
+                    <pre><code class="language-csharp">doc.SetInfo(doc.Page, "/Group*/Type:Name", "Group");
+doc.SetInfo(doc.Page, "/Group*/S:Name", "Transparency");
+doc.SetInfo(doc.Page, "/Group*/CS:Name", "DeviceRGB");
+</code></pre><br>
+                    <span class="language">[Visual Basic]</span><br>
+                    <pre><code class="language-vbnet">doc.SetInfo(doc.Page, "/Group*/Type:Name", "Group");
+doc.SetInfo(doc.Page, "/Group*/S:Name", "Transparency");
+doc.SetInfo(doc.Page, "/Group*/CS:Name", "DeviceRGB");
+</code></pre></p>
+                </TD></TR></TBODY></TABLE>
+            <P>You must specify a <A href="../2-properties/1-doc.htm">Doc</A> 
+            before the <A 
+            href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+            event of ProcessingSourceType.ImageFrame returns/is handled.</P>
+            <P>An exception will be thrown if the operation is not possible. 
+            This may happen if the Flash movie is corrupt.</P>
+            <OL>This method generates events as follows: 
+              <LI>Before the Flash engine advances, a <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.MultiFrameImage is generated. If <A 
+              href="../2-properties/4-resetregions.htm">ResetRegions</A> is 
+              true, <A 
+              href="../2-properties/2-backgroundregion.htm">BackgroundRegion</A> 
+              and <A href="../2-properties/3-clipregion.htm">ClipRegion</A> are 
+              reset to the frame bounds/stage size of the Flash movie when the
+              event is generated. The regions are set as if <A 
+              href="../../../5-abcpdf/xrect/1-methods/setrect.htm">XRect.SetRect</A> 
+              is called with the <A 
+              href="../../2-processinginfo/2-properties/3-x.htm">X</A>, <A 
+              href="../../2-processinginfo/2-properties/4-y.htm">Y</A>, <A 
+              href="../../2-processinginfo/2-properties/5-width.htm">Width</A>, 
+              and <A 
+              href="../../2-processinginfo/2-properties/6-height.htm">Height</A> 
+              properties of the <A 
+              href="../../2-processingobjecteventargs/2-properties/info.htm">ProcessingInfo</A>. 
+              You can provide parameters in <A
+              href="../2-properties/parameters.htm">Parameters</A> for
+              initializing the SWF machine before the first time a proper <A 
+              href="../../2-processinginfo/2-properties/framenumber.htm">FrameNumber</A>
+              is returned in this event.
+              <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+              cellPadding=3 border=5>
+                <TBODY>
+                <TR>
+                  <TD align=middle><B>Name</B></TD>
+                  <TD><B>Description</B></TD></TR>
+                <TR vAlign=top>
+                  <TD>ProcessingObjectEventArgs.Cancel</TD>
+                  <TD>See ProcessingObjectEventArgs.Info.FrameNumber 
+                below.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/2-handled.htm">ProcessingObjectEventArgs.Info.Handled</A></TD>
+                  <TD>Ignored.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/1-sourcetype.htm">ProcessingObjectEventArgs.Info.SourceType</A></TD>
+                  <TD>ProcessingSourceType.<B>MultiFrameImage</B></TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framecount.htm">ProcessingObjectEventArgs.Info.FrameCount</A></TD>
+                  <TD>The number of frames in the Flash movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framenumber.htm">ProcessingObjectEventArgs.Info.FrameNumber</A></TD>
+                  <TD>The positive number of frames from the start of the 
+                    movie to elapse before rendering. This value is not bounded 
+                    by <A 
+                    href="../../2-processinginfo/2-properties/framecount.htm">FrameCount</A>. 
+                    The value of this property for the first of such events is 
+                    one. Subsequent value is null. The event handler may set 
+                    this value to a number equal to or greater than the value 
+                    set in a previous such event. If the value is set smaller, 
+                    the corresponding <A 
+                    href="../../1-operation/3-events/2-processedobject.htm">ProcessedObject</A> 
+                    event indicating failure is generated. Set it to null to end the 
+                    processing of the entire movie. If it is null, the 
+                    corresponding <A 
+                    href="../../1-operation/3-events/2-processedobject.htm">ProcessedObject</A> 
+                    event is not generated. Otherwise, if ProcessingObjectEventArgs.Cancel 
+                    is set to true, the corresponding <A 
+                    href="../../1-operation/3-events/2-processedobject.htm">ProcessedObject</A> 
+                    event is not generated, and the same event is immediately 
+                    generated again with this value set to null.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framerate.htm">ProcessingObjectEventArgs.Info.FrameRate</A></TD>
+                  <TD>The number of frames per second of the Flash 
+movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/3-x.htm">ProcessingObjectEventArgs.Info.X</A></TD>
+                  <TD>The x-coordinate (in twips) of the frame bounds of the 
+                    Flash movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/4-y.htm">ProcessingObjectEventArgs.Info.Y</A></TD>
+                  <TD>The y-coordinate (in twips) of the frame bounds of the 
+                    Flash movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/5-width.htm">ProcessingObjectEventArgs.Info.Width</A></TD>
+                  <TD>The width (in twips) of the stage of the Flash 
+                    movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/6-height.htm">ProcessingObjectEventArgs.Info.Height</A></TD>
+                  <TD>The height (in twips) of the stage of the Flash 
+                    movie.</TD></TR></TBODY></TABLE>
+              <LI>After a proper <A 
+              href="../../2-processinginfo/2-properties/framenumber.htm">FrameNumber</A>
+              is returned in a previous <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.MultiFrameImage 
+              and the Flash engine advances to the frame, a <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.ImageFrame is generated. If <A 
+              href="../2-properties/4-resetregions.htm">ResetRegions</A> is 
+              true, <A 
+              href="../2-properties/2-backgroundregion.htm">BackgroundRegion</A> 
+              and <A href="../2-properties/3-clipregion.htm">ClipRegion</A> are 
+              reset to the frame bounds/stage size of the Flash movie when the
+              event is generated because the frame actions may have changed the
+              stage scale mode. You must specify a <A
+              href="../2-properties/1-doc.htm">Doc</A> before this event 
+              returns/is handled. The frame is rendered on to <A 
+              href="../../../5-abcpdf/doc/2-properties/rect.htm">Doc.Rect</A> 
+              of the current page using <A 
+              href="../../../5-abcpdf/doc/2-properties/transform.htm">Doc.Transform</A>. 
+
+              <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+              cellPadding=3 border=5>
+                <TBODY>
+                <TR>
+                  <TD align=middle><B>Name</B></TD>
+                  <TD><B>Description</B></TD></TR>
+                <TR vAlign=top>
+                  <TD>ProcessingObjectEventArgs.Cancel</TD>
+                  <TD>If this property is set to true, the frame is not 
+                    rendered and the corresponding <A 
+                    href="../../1-operation/3-events/2-processedobject.htm">ProcessedObject</A> 
+                    event is not generated.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/2-handled.htm">ProcessingObjectEventArgs.Info.Handled</A></TD>
+                  <TD>Ignored.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/1-sourcetype.htm">ProcessingObjectEventArgs.Info.SourceType</A></TD>
+                  <TD>ProcessingSourceType.<B>ImageFrame</B></TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framecount.htm">ProcessingObjectEventArgs.Info.FrameCount</A></TD>
+                  <TD>The number of frames in the Flash movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framenumber.htm">ProcessingObjectEventArgs.Info.FrameNumber</A></TD>
+                  <TD>The number of frames elapsed from the start of the 
+                  movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framerate.htm">ProcessingObjectEventArgs.Info.FrameRate</A></TD>
+                  <TD>The number of frames per second of the Flash 
+movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/3-x.htm">ProcessingObjectEventArgs.Info.X</A></TD>
+                  <TD>The x-coordinate (in twips) of the frame bounds of the 
+                    Flash movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/4-y.htm">ProcessingObjectEventArgs.Info.Y</A></TD>
+                  <TD>The y-coordinate (in twips) of the frame bounds of the 
+                    Flash movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/5-width.htm">ProcessingObjectEventArgs.Info.Width</A></TD>
+                  <TD>The width (in twips) of the stage of the Flash 
+                    movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/6-height.htm">ProcessingObjectEventArgs.Info.Height</A></TD>
+                  <TD>The height (in twips) of the stage of the Flash 
+                    movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/backgroundcolor.htm">ProcessingObjectEventArgs.Info.BackgroundColor</A></TD>
+                  <TD>The background color of the frame.</TD></TR></TBODY></TABLE>
+              <LI>While rendering a frame, a <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.Image is generated when an image is 
+              imported. 
+              <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+              cellPadding=3 border=5>
+                <TBODY>
+                <TR>
+                  <TD align=middle><B>Name</B></TD>
+                  <TD><B>Description</B></TD></TR>
+                <TR vAlign=top>
+                  <TD>ProcessingObjectEventArgs.Cancel</TD>
+                  <TD>Ignored.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/2-handled.htm">ProcessingObjectEventArgs.Info.Handled</A></TD>
+                  <TD>Ignored.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/1-sourcetype.htm">ProcessingObjectEventArgs.Info.SourceType</A></TD>
+                  <TD>ProcessingSourceType.<B>Image</B></TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framecount.htm">ProcessingObjectEventArgs.Info.FrameCount</A></TD>
+                  <TD>The number of frames in the Flash movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framenumber.htm">ProcessingObjectEventArgs.Info.FrameNumber</A></TD>
+                  <TD>The number of frames elapsed from the start of the 
+                  movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framerate.htm">ProcessingObjectEventArgs.Info.FrameRate</A></TD>
+                  <TD>The number of frames per second of the Flash 
+movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/5-width.htm">ProcessingObjectEventArgs.Info.Width</A></TD>
+                  <TD>The pixel width of the image.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/5-width.htm">ProcessingObjectEventArgs.Info.Height</A></TD>
+                  <TD>The pixel height of the image.</TD></TR></TBODY></TABLE>
+              <LI>While rendering a frame, a <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.ImageMask is generated when an image used 
+              as a mask is imported. 
+              <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+              cellPadding=3 border=5>
+                <TBODY>
+                <TR>
+                  <TD align=middle><B>Name</B></TD>
+                  <TD><B>Description</B></TD></TR>
+                <TR vAlign=top>
+                  <TD>ProcessingObjectEventArgs.Cancel</TD>
+                  <TD>Ignored.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/2-handled.htm">ProcessingObjectEventArgs.Info.Handled</A></TD>
+                  <TD>Ignored.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/1-sourcetype.htm">ProcessingObjectEventArgs.Info.SourceType</A></TD>
+                  <TD>ProcessingSourceType.<B>ImageMask</B></TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framecount.htm">ProcessingObjectEventArgs.Info.FrameCount</A></TD>
+                  <TD>The number of frames in the Flash movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framenumber.htm">ProcessingObjectEventArgs.Info.FrameNumber</A></TD>
+                  <TD>The number of frames elapsed from the start of the 
+                  movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/framerate.htm">ProcessingObjectEventArgs.Info.FrameRate</A></TD>
+                  <TD>The number of frames per second of the Flash 
+movie.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/5-width.htm">ProcessingObjectEventArgs.Info.Width</A></TD>
+                  <TD>The pixel width of the image.</TD></TR>
+                <TR vAlign=top>
+                  <TD><A 
+                    href="../../2-processinginfo/2-properties/5-width.htm">ProcessingObjectEventArgs.Info.Height</A></TD>
+                  <TD>The pixel height of the 
+            image.</TD></TR></TBODY></TABLE></LI></OL>
+            <P>Unless stated otherwise, a <A 
+            href="../../1-operation/3-events/2-processedobject.htm">ProcessedObject</A> 
+            event corresponding to each <A 
+            href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+            event is generated. 
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B><A 
+                  href="../../2-processinginfo/2-properties/1-sourcetype.htm">ProcessingObjectEventArgs.Info.SourceType</A></B></TD>
+                <TD><B><A 
+                  href="../../2-processedobjecteventargs/2-properties/object.htm">ProcessedObjectEventArgs.Object</A> 
+                  when <A 
+                  href="../../2-processedobjecteventargs/2-properties/successful.htm">successful</A></B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>ProcessingSourceType.MultiFrameImage</TD>
+                <TD><A 
+                  href="../../../6-abcpdf.objects/graphiclayer/default.htm">GraphicLayer</A></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>ProcessingSourceType.ImageFrame</TD>
+                <TD>null</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>ProcessingSourceType.Image</TD>
+                <TD><A 
+                  href="../../../6-abcpdf.objects/pixmap/default.htm">PixMap</A></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>ProcessingSourceType.ImageMask</TD>
+                <TD><A 
+                  href="../../../6-abcpdf.objects/pixmap/default.htm">PixMap</A></TD></TR></TBODY></TABLE>
+            <P>Imported images are not compressed. You may wish to analyse and 
+            compress these <A 
+            href="../../../6-abcpdf.objects/pixmap/default.htm">PixMap</A> 
+            objects by pre and post processing them during the <A 
+            href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+            and <A 
+            href="../../1-operation/3-events/2-processedobject.htm">ProcessedObject</A> 
+            events.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>See the <A 
+            href="../../5-swfparameters/2-properties/flashvars.htm">SwfParameters.FlashVars</A>
+            property or the <A 
+            href="../../2-processinginfo/2-properties/framenumber.htm">ProcessingInfo.FrameNumber</A> 
+            property for simple examples.</P>
+            <P>&nbsp;</P></TD></TR>
+        <TR>
+          <TD>
+            <P>Here we import 24 frames from a Flash movie alternately into two 
+            PDF documents. The frames are 0.2 seconds apart. <A 
+            href="../../../5-abcpdf/doc/2-properties/rect.htm">Doc.Rect</A> is 
+            set so that the outputs are 6-up and preserve the aspect ratio. For 
+            the fifth to the eighth imported frames in each document, the 
+            background is suppressed and a transparent oval in the same color is 
+            drawn instead.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using Doc doc1 = new Doc();
+using Doc doc2 = new Doc();
+using (var operation = new SwfImportOperation()) {
+&nbsp;&nbsp;const int fontSize = 20;
+&nbsp;&nbsp;int k = 0;
+&nbsp;&nbsp;bool failed = false;
+&nbsp;&nbsp;operation.ProcessingObject += delegate (object sender, ProcessingObjectEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;switch (e.Info.SourceType) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ProcessingSourceType.MultiFrameImage:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (failed || k &gt;= 24)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber = 1 + Convert.ToInt64(0.2 * k * e.Info.FrameRate.Value);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Tag = ProcessingSourceType.MultiFrameImage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ProcessingSourceType.ImageFrame: {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SwfImportOperation op = (SwfImportOperation)sender;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc = op.Doc == doc1 ? doc2 : doc1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const int distance = 20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const int margin = 30;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double width = op.Doc.MediaBox.Width - 2 * margin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double height = op.Doc.MediaBox.Height - 2 * margin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double scale = Math.Min((width - distance) / (2 * e.Info.Width.Value),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(height - 2 * distance - 3 * fontSize) / (3 * e.Info.Height.Value));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int p = k / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double rectWidth = scale * e.Info.Width.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double rectHeight = scale * e.Info.Height.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Rect.SetRect(margin + (width + distance) * (p % 2) / 2,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin + height - rectHeight - (height + 2 * distance) * (p / 2 % 3) / 3,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rectWidth, rectHeight);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (p % 6 == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Page = op.Doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (p &gt;= 4 &amp;&amp; p &lt; 8 &amp;&amp; e.Info.BackgroundColor != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.BackgroundRegion = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.String = e.Info.BackgroundColor.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.Alpha = 127;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.AddOval(true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;};
+&nbsp;&nbsp;operation.ProcessedObject += delegate (object sender, ProcessedObjectEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;if (!e.Successful) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;failed = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;if (e.Tag is ProcessingSourceType
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; (ProcessingSourceType)e.Tag == ProcessingSourceType.MultiFrameImage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SwfImportOperation op = (SwfImportOperation)sender;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.Gray = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.Alpha = 255;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.FontSize = fontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.TextStyle.HPos = 0.5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Rect.Top = op.Doc.Rect.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Rect.Bottom = op.Doc.MediaBox.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.AddText(string.Format("{0} secs", 0.2 * k));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++k;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;PixMap pixmap = e.Object as PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;if (pixmap != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pixmap.Compress();
+&nbsp;&nbsp;};
+&nbsp;&nbsp;operation.Import(Server.MapPath("ABCpdf.swf"));
+}
+doc1.Save(Server.MapPath("swf1.pdf"));
+doc2.Save(Server.MapPath("swf2.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim doc1 As New Doc()
+Dim doc2 As New Doc()
+Using operation As New SwfImportOperation()
+&nbsp;&nbsp;Const  fontSize As Integer = 20
+&nbsp;&nbsp;Dim k As Integer = 0
+&nbsp;&nbsp;Dim failed As Boolean = False
+&nbsp;&nbsp;operation.ProcessingObject += Sub(sender As Object, e As ProcessingObjectEventArgs) Select Case e.Info.SourceType
+&nbsp;&nbsp;&nbsp;&nbsp;Case ProcessingSourceType.MultiFrameImage
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If failed OrElse k &gt;= 24 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber = Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber = 1 + Convert.ToInt64(0.2 * k * e.Info.FrameRate.Value)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Tag = ProcessingSourceType.MultiFrameImage
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
+&nbsp;&nbsp;&nbsp;&nbsp;Case ProcessingSourceType.ImageFrame
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If True Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim op As SwfImportOperation = DirectCast(sender, SwfImportOperation)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc = If(op.Doc = doc1, doc2, doc1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Const  distance As Integer = 20
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Const  margin As Integer = 30
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim width As Double = op.Doc.MediaBox.Width - 2 * margin
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim height As Double = op.Doc.MediaBox.Height - 2 * margin
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim scale As Double = Math.Min((width - distance) / (2 * e.Info.Width.Value), (height - 2 * distance - 3 * fontSize) / (3 * e.Info.Height.Value))
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim p As Integer = k / 2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim rectWidth As Double = scale * e.Info.Width.Value
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim rectHeight As Double = scale * e.Info.Height.Value
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Rect.SetRect(margin + (width + distance) * (p Mod 2) / 2, margin + height - rectHeight - (height + 2 * distance) * (p / 2 Mod 3) / 3, rectWidth, rectHeight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If p Mod 6 = 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Page = op.Doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If p &gt;= 4 AndAlso p &lt; 8 AndAlso e.Info.BackgroundColor &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.BackgroundRegion = Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.String = e.Info.BackgroundColor.[String]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.Alpha = 127
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.AddOval(True)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
+&nbsp;&nbsp;End Select
+&nbsp;&nbsp;operation.ProcessedObject += Sub(sender As Object, e As ProcessedObjectEventArgs) 
+&nbsp;&nbsp;If Not e.Successful Then
+&nbsp;&nbsp;&nbsp;&nbsp;failed = True
+&nbsp;&nbsp;&nbsp;&nbsp;Return
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;If TypeOf e.Tag Is ProcessingSourceType AndAlso DirectCast(e.Tag, ProcessingSourceType) = ProcessingSourceType.MultiFrameImage Then
+&nbsp;&nbsp;&nbsp;&nbsp;Dim op As SwfImportOperation = DirectCast(sender, SwfImportOperation)
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.Gray = 0
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.Alpha = 255
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.FontSize = fontSize
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.TextStyle.HPos = 0.5
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Rect.Top = op.Doc.Rect.Bottom
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Rect.Bottom = op.Doc.MediaBox.Bottom
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.AddText(String.Format("{0} secs", 0.2 * k))
+&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(k)
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;Dim pixmap As PixMap = TryCast(e.[Object], PixMap)
+&nbsp;&nbsp;If pixmap &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;pixmap.Compress()
+&nbsp;&nbsp;End If
+
+&nbsp;&nbsp;End Sub
+&nbsp;&nbsp;operation.Import(Server.MapPath("ABCpdf.swf"))
+End Using
+doc1.Save(Server.MapPath("swf1.pdf"))
+doc1.Clear()
+doc2.Save(Server.MapPath("swf2.pdf"))
+doc2.Clear()
+</code></pre></P>
+            <P>swf1.pdf<BR><IMG
+            src="../../../images/pdf/swf1.pdf.png" class="example">&nbsp;<IMG
+            src="../../../images/pdf/swf1.pdf2.png" class="example"></P>
+            <P>swf2.pdf<BR><IMG
+            src="../../../images/pdf/swf2.pdf.png" class="example">&nbsp;<IMG
+            src="../../../images/pdf/swf2.pdf2.png" class="example"></P><p>Also see example code in: <a href="../../2-processinginfo/2-properties/framenumber.htm">ProcessingInfo FrameNumber Property</a>.</p>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

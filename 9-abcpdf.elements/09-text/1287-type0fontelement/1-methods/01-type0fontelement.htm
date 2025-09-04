@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><title>ZZ Elements Type0FontElement Constructor Function</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
+<link rel="stylesheet" href="../../../../prism.css">
+<script src="../../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Type0FontElement Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background="../../../../images/steel-line-3.gif" height=11></TD>
+          <TD width=60 background="../../../../images/steel-line-3.gif" 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Create a new <a href="../default.htm">Type0FontElement</a>.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE> <a href="../default.htm">Type0FontElement</a>()<br> <a href="../default.htm">Type0FontElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">Type0FontElement</a>(IndirectObject obj)<br> <a href="../default.htm">Type0FontElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">Type0FontElement</a>()<br><a href="../default.htm">Type0FontElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">Type0FontElement</a>(obj As IndirectObject)<br><a href="../default.htm">Type0FontElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
+            </CODE>
+			</P>
+			
+			
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>atom</TD>
+                <TD>The Atom to be assigned to this <a href="../../../01-base/1086-element/default.htm">Element</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>host</TD>
+                <TD>An IndirectObject. This can be any IndirectObject from the Soup but ideally should be one closely associated with the Atom.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>obj</TD>
+                <TD>The IndirectObject to be assigned to this <a href="../../../01-base/1086-element/default.htm">Element</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>relation</TD>
+                <TD>An <a href="../../../01-base/1086-element/default.htm">Element</a>. This can be any <a href="../../../01-base/1086-element/default.htm">Element</a> in the Soup but ideally should be one closely associated with this <a href="../../../01-base/1086-element/default.htm">Element</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>options</TD>
+                <TD>Options related to creation. For example this allows you to determine whether the <a href="../../../01-base/1086-element/default.htm">Element</a> should be created using an IndirectObject rather than just an Atom. If not provided a default set of options is used.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            
+<p>Create a new <a href="../default.htm">Type0FontElement</a>.</p>
+<p>The different constructors allow different ways of creating an <a href="../../../01-base/1086-element/default.htm">Element</a>. Some are used for wrapping existing Atoms or IndirectObjects and others are for creating new ones.</p>
+<p>The constructor taking a relation <a href="../../../01-base/1086-element/default.htm">Element</a> creates a new object in the document - it is typically the constructor you will want to use. Do not specify creation options unless you have very specific needs.</p>
+<p>However for your first <a href="../../../01-base/1086-element/default.htm">Element</a> - one you can use as a relation for the others - you will need to wrap an existing IndirectObject inside an <a href="../../../01-base/1086-element/default.htm">Element</a>. For this you might use code of the following form "<a href="../../../07-syntax/1081-catalogelement/default.htm">CatalogElement</a> root =  new <a href="../../../07-syntax/1081-catalogelement/default.htm">CatalogElement</a>(doc.ObjectSoup.Catalog)".</p>
+<p>The parameterless constructor allows you to create an empty <a href="../../../01-base/1086-element/default.htm">Element</a>. By empty we mean it has no contents - no Atom within it. So before use an Atom must be Assigned or Created. In practice it is easiest to do this using one of the other constructors.</p>
+<p>The atom and host constructor is used to wrap an existing Atom. It creates an <a href="../../../01-base/1086-element/default.htm">Element</a> and then Assigns the Atom to it. The result is a specialized <a href="../../../01-base/1086-element/default.htm">Element</a> which can be used to examine or modify the contents of the Atom.</p>
+
+
+<p>The CreationOptions enumeration may take the following values:</p>
+<ul>
+<li>Default - Default creation options for this particular type of <a href="../../../01-base/1086-element/default.htm">Element</a>.</li>
+<li>Indirect - Create <a href="../../../01-base/1086-element/default.htm">Element</a> containing an IndirectObject.</li>
+<li>Direct - Create <a href="../../../01-base/1086-element/default.htm">Element</a> containing an Atom.</li>
+</ul>
+
+
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            None.
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

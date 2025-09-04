@@ -1,0 +1,132 @@
+<html>
+<head>
+<title>RecolorOperation IccCmyk Property. The path to the default CMYK ICC color profile. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> IccCmyk Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>string</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>String</code></td>
+                <td>&quot;standard&quot;</td>
+                <td>No</td>
+                <td>The path to the default CMYK ICC color profile.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>A path to the default CMYK ICC color profile.</p>
+            <p>For a device independent conversion both the source and destination color spaces must both have a color profile. They may have a color profile available because one has  been embedded in the PDF, or one may be available as a fallback option via the IccCmyk, <a href="iccrgb.htm">IccRgb</a>, <a href="iccgray.htm">IccGray</a> and <a href="iccoutput.htm">IccOutput</a> properties.</p>
+            <p>If profiles are available for both source and destination, the profile for the source may be used to convert any device CMYK colors to the device independent CIE working color space. From the working space the color can then be converted to the <a href="destinationcolorspace.htm">DestinationColorSpace</a>.</p>
+            <p>If either the source or destination do not have a color profile then no accurate conversion is possible and simple mathematical formulas will be used to convert from the source color space to the destination. </p>
+            <p>This property can take a path to an icm file. If this property is set to a file name with no path information, 
+              then the system ICC color profile directory 
+              will be searched to locate the file.</p>
+            <p>However there are 
+              also two special values you can use.  If 
+              the property takes the value &quot;standard&quot; then a built in 
+              default color profile will be used. If the property takes the value 
+              &quot;device&quot; then the output is device dependent - no fallback profile is available.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <p>The following example illustrates how one could convert the first page of a PDF document so all colors and color spaces are in Lab format</p>
+            <p>Any DeviceCMYK color values are run though the CoatedGRACoL2006 ICC color profile for conversion to  Lab. </p>
+            <p>We assign 96 to the Type0SampleCount which means that continuous shading functions are converted to Type 0 (sample based) functions with 96 samples.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../mypics/SpaceShuttlePage6.pdf"));
+var cs = new ColorSpace(doc.ObjectSoup, ColorSpaceType.Lab);
+using (var op = new RecolorOperation()) {
+&nbsp;&nbsp;op.DestinationColorSpace = cs;
+&nbsp;&nbsp;op.IccCmyk = Server.MapPath("../Rez/EuroscaleCoated.icc");
+&nbsp;&nbsp;op.Type0SampleCount = 96;
+&nbsp;&nbsp;op.RenderingIntent = RenderingIntent.Perceptual;
+&nbsp;&nbsp;op.Recolor((Page)doc.ObjectSoup[doc.Page]);
+}
+doc.Save(Server.MapPath("RecolorToLab.pdf"));
+</code></pre>
+              <br>
+<span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/SpaceShuttlePage6.pdf"))
+&nbsp;&nbsp;Dim cs As New ColorSpace(doc.ObjectSoup, ColorSpaceType.Lab)
+&nbsp;&nbsp;Using op = New RecolorOperation()
+&nbsp;&nbsp;&nbsp;&nbsp;op.DestinationColorSpace = cs
+&nbsp;&nbsp;&nbsp;&nbsp;op.IccCmyk = Server.MapPath("../Rez/EuroscaleCoated.icc")
+&nbsp;&nbsp;&nbsp;&nbsp;op.Type0SampleCount = 96
+&nbsp;&nbsp;&nbsp;&nbsp;op.RenderingIntent = RenderingIntent.Perceptual
+&nbsp;&nbsp;&nbsp;&nbsp;op.Recolor(DirectCast(doc.ObjectSoup(doc.Page), Page))
+&nbsp;&nbsp;End Using
+&nbsp;&nbsp;doc.Save(Server.MapPath("RecolorToLab.pdf"))
+End Using
+</code></pre>
+              </p>
+          <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

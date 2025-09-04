@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>PDF to SVG Export</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr>
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="pageheader"> PDF to SVG Export</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Intro</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>When you use Doc.Rendering.Save to convert your PDF to SVG, ABCpdf produces a faithful rendition of the document. However for a variety of reasons the faithful rendition may not appear exactly as you expect. Here we explain why this is and how you can adapt the output to  your needs.</p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Text</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <p>PDF allows a complex set of options for sophisticated control over text display. While SVG contains many options for text layout, it does not support as wide a range as PDF.</p>
+            <p>PDF viewers are generally pretty good at supporting the text layout options supported by the PDF specification. Unfortunately the same cannot be said of SVG. Many SVG viewers ignore or misrepresent the more sophisticated text layout attributes supported by SVG.</p>
+            <p>The PDF format supports embedded fonts for high fidelity text reproduction. However the types of embedded fonts it supports are not the same as those supported by SVG and indeed subsetting may remove aspects that are crucial in the SVG representation.</p>
+            <p>For these reasons, if you require precise control over the way that your text appears when exporting to SVG, you should vectorize the page in question to convert any text into paths.</p>
+            <p>You can do this to the current page using the following code.            </p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">((Page)doc.ObjectSoup[doc.Page]).VectorizeText();
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">DirectCast(doc.ObjectSoup(doc.Page), Page).VectorizeText()
+</code></pre></p>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Images</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>&nbsp;</td>
+          <td>
+            <p>Rendering to SVG produces placeholder tags for bitmap images in the SVG.</p>
+            <p>If you require that the images be exported, you should do so using code of the following form.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">static void SaveAsSvg(Doc pdf, string file) {
+&nbsp;&nbsp;pdf.Rendering.Save(file);
+&nbsp;&nbsp;string svg = File.ReadAllText(file);
+&nbsp;&nbsp;HashSet&lt;string&gt; hrefs = new HashSet&lt;string&gt;();
+&nbsp;&nbsp;string pattern = &quot;&lt;image xlink:href\\s*=\\s*(?:[\&quot;'](?&lt;1&gt;[^\&quot;']*)[\&quot;']|(?&lt;1&gt;\\S+))&quot;;
+&nbsp;&nbsp;MatchCollection matches = Regex.Matches(svg, pattern);
+&nbsp;&nbsp;foreach (Match match in matches)
+&nbsp;&nbsp;&nbsp;&nbsp;hrefs.Add(match.Groups[1].Value);
+&nbsp;&nbsp;string folder = Path.GetDirectoryName(file);
+&nbsp;&nbsp;foreach (string href in hrefs) {
+&nbsp;&nbsp;&nbsp;&nbsp;string image = Path.Combine(folder, href);
+&nbsp;&nbsp;&nbsp;&nbsp;if (!File.Exists(image)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// href is of form &quot;imageXX.png&quot; where XX is the PixMap ID
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = int.Parse(href.Substring(5, href.Length - 9));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PixMap pm = pdf.ObjectSoup[id] as PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Bitmap bm = pm.GetBitmap())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bm.Save(image);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Private Shared Sub SaveAsSvg(pdf As Doc, file As String)
+&nbsp;&nbsp;pdf.Rendering.Save(file)
+&nbsp;&nbsp;Dim svg As String = File.ReadAllText(file)
+&nbsp;&nbsp;Dim hrefs As New HashSet(Of String)()
+&nbsp;&nbsp;Dim pattern As String = &quot;&lt;image xlink:href\s*=\s*(?:[&quot;&quot;'](?&lt;1&gt;[^&quot;&quot;']*)[&quot;&quot;']|(?&lt;1&gt;\S+))&quot;
+&nbsp;&nbsp;Dim matches As MatchCollection = Regex.Matches(svg, pattern)
+&nbsp;&nbsp;For Each match As Match In matches
+&nbsp;&nbsp;&nbsp;&nbsp;hrefs.Add(match.Groups(1).Value)
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;Dim folder As String = Path.GetDirectoryName(file)
+&nbsp;&nbsp;For Each href As String In hrefs
+&nbsp;&nbsp;&nbsp;&nbsp;Dim image As String = Path.Combine(folder, href)
+&nbsp;&nbsp;&nbsp;&nbsp;If Not File.Exists(image) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' href is of form &quot;imageXX.png&quot; where XX is the PixMap ID
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim id As Integer = Integer.Parse(href.Substring(5, href.Length - 9))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pm As PixMap = TryCast(pdf.ObjectSoup(id), PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using bm As Bitmap = pm.GetBitmap()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bm.Save(image)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;Next
+End Sub
+</code></pre></p>
+            <p>Note that in the above code the images are all exported as PNG. This is a good general purpose lossless export format. However for continuous tone images such as photographs you may wish to export as JPG as this will produce a smaller file size.</p>
+            <p>It is worth nothing that  one of the internal compression formats within PDF streams is JPEG. So in cases where the <a href="../6-abcpdf.objects/streamobject/2-properties/compressions.htm">Stream.Compressions</a> has length one and the <a href="../6-abcpdf.objects/streamobject/2-properties/compression.htm">Stream.Compression</a> is CompressionType.Jpeg, it is often possible to use <a href="../6-abcpdf.objects/streamobject/1-methods/getdata.htm">Stream.GetData</a> save the raw data directly to a JPEG file. </p>
+            <p>However you need to be aware that there are differences. So while often possible, it is not always possible. In most situations for most images in the RGB color space it will work. However for other color spaces such as CMYK it will not and even in the case of RGB the output may be missing secondary data such as any related ICC color profile.</p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

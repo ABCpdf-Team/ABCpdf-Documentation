@@ -1,0 +1,255 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>RecolorOperation Recolor Function. Recolor pages in a document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Recolor Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Recolor pages in a document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Recolor(Doc 
+            doc)<BR>void Recolor(Pages pages)<BR>void Recolor(Page 
+            page)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub Recolor(doc As Doc)<BR>Sub Recolor(pages 
+            As Pages)<BR>Sub Recolor(page As Page)<BR></CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>doc</TD>
+                <TD>The document to be recolored.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>pages</TD>
+                <TD>The pages to be recolored as referenced by a Pages 
+                  IndirectObject.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>page</TD>
+                <TD>The page to be recolored as referenced by a Page 
+                  IndirectObject.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Converts the specified pages from one color space to another.</P>
+            <P>The destination color space is specified by assigning a value to 
+            the <A 
+            href="../2-properties/destinationcolorspace.htm">DestinationColorSpace</A> 
+            property. All images used on the page are converted to the new color 
+            space. All color operators used in the page content stream are 
+            converted to the new color space.</P>
+            <P>Annotations and fields are not part of the page but instead float 
+            over the page. You can choose whether to convert the appearance 
+            stream of any annotations or leave them in their native color space. 
+            This is controlled using the <A 
+            href="../2-properties/convertannotations.htm">ConvertAnnotations</A> 
+            property.</P>
+            <P>Colors can only be sensibly mapped from one color space to 
+            another if we know something about the characteristics of the color 
+            space. If your color spaces do not contain this information (e.g. if 
+            they are device color spaces) then ABCpdf will use a default color 
+            profile.</P>
+            <P>An exception will be thrown if the operation is not possible. 
+            This may happen if the IndirectObjects provided are not in an 
+            ObjectSoup or if the destination ColorSpace is in some way 
+            invalid.</P>
+            <P>As part of the Recolor process, all images used on the page(s) 
+            are also recolored. (See also <A 
+            href="../../../6-abcpdf.objects/pixmap/1-methods/recolor.htm">PixMap.Recolor</A>.) 
+            After the recolor process has been completed these <A 
+            href="../../../6-abcpdf.objects/pixmap/default.htm">PixMap</A> 
+            objects will no longer be compressed. You may wish to analyse and 
+            recompress these images by pre and post processing them during the 
+            <A 
+            href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+            and <A 
+            href="../../1-operation/3-events/2-processedobject.htm">ProcessedObject</A> 
+            events.</P>
+            <TABLE class=backgrounder style="WIDTH: auto" cellPadding=2 border=0>
+            <TBODY><TR><TD>
+            Although the Recolor operation is designed to convert a document to a single color space, such as CMYK,
+            with actual colors unchanged, it can also be used to convert a document to a single, different, color.  When you add
+            a spot color (please see <a href="../../../5-abcpdf/doc/1-methods/addcolorspacespot.htm">AddColorSpaceSpot</a>) and
+            make it the destination color space, the conversion will be to shades of the spot color specified.
+            </TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we recolor one page out of a document. We pick up the <A 
+            href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+            events so that we can store the source color space for all the 
+            PixMap objects which are processed. We do not want to convert CMYK 
+            pixmaps so we set the Cancel property to true if we find these.</P>
+            <P>We then pick up the <A 
+            href="../../1-operation/3-events/2-processedobject.htm">ProcessedObject</A> 
+            events so that we can recompress the PixMap objects after they have 
+            been recolored. We vary the recompression method used dependent on 
+            the source color space and the size of the image.</P>
+            <P>Here we use standard delegates for backwards compatibility with 
+            older code. However anonymous delegates will provide a 
+            more compact solution.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../mypics/sample.pdf"));
+MyOp.Recolor(doc, (Page)doc.ObjectSoup[doc.Page]);
+doc.Save(Server.MapPath("RecolorOperation.pdf"));
+</code></pre>
+            <BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
+&nbsp;&nbsp;MyOp.Recolor(doc, DirectCast(doc.ObjectSoup(doc.Page), Page))
+&nbsp;&nbsp;doc.Save(Server.MapPath("RecolorOperation.pdf"))
+End Using
+</code></pre>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            </P>
+            <pre><code class="language-csharp">class MyOp {
+&nbsp;&nbsp;public static void Recolor(Doc doc, Page page) {
+&nbsp;&nbsp;&nbsp;&nbsp;var op = new RecolorOperation();
+&nbsp;&nbsp;&nbsp;&nbsp;op.DestinationColorSpace = new ColorSpace(doc.ObjectSoup, ColorSpaceType.DeviceGray);
+&nbsp;&nbsp;&nbsp;&nbsp;op.ConvertAnnotations = false;
+&nbsp;&nbsp;&nbsp;&nbsp;op.ProcessingObject += Recoloring;
+&nbsp;&nbsp;&nbsp;&nbsp;op.ProcessedObject += Recolored;
+&nbsp;&nbsp;&nbsp;&nbsp;op.Recolor(page);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public static void Recoloring(object sender, ProcessingObjectEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;var pm = e.Object as PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;if (pm != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ColorSpaceType cs = pm.ColorSpaceType;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (cs == ColorSpaceType.DeviceCMYK)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Cancel = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Tag = cs;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public static void Recolored(object sender, ProcessedObjectEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;if (e.Successful) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var pm = e.Object as PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pm != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ColorSpaceType cs = (ColorSpaceType)e.Tag;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pm.Width &gt; 1000)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.CompressJpx(30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (cs == ColorSpaceType.DeviceRGB)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.CompressJpeg(30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.Compress(); // Flate
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre>
+            <BR>
+            <SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <pre><code class="language-vbnet">Private Class MyOp
+&nbsp;&nbsp;Public Shared Sub Recolor(doc As Doc, page As Page)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim op As New RecolorOperation()
+&nbsp;&nbsp;&nbsp;&nbsp;op.DestinationColorSpace = New ColorSpace(doc.ObjectSoup, ColorSpaceType.DeviceGray)
+&nbsp;&nbsp;&nbsp;&nbsp;op.ConvertAnnotations = False
+&nbsp;&nbsp;&nbsp;&nbsp;op.ProcessingObject += Recoloring
+&nbsp;&nbsp;&nbsp;&nbsp;op.ProcessedObject += Recolored
+&nbsp;&nbsp;&nbsp;&nbsp;op.Recolor(page)
+&nbsp;&nbsp;End Sub
+
+&nbsp;&nbsp;Public Shared Sub Recoloring(sender As Object, e As ProcessingObjectEventArgs)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim pm As PixMap = TryCast(e.[Object], PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;If pm &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim cs As ColorSpaceType = pm.ColorSpaceType
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If cs = ColorSpaceType.DeviceCMYK Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Cancel = True
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Tag = cs
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;End Sub
+
+&nbsp;&nbsp;Public Shared Sub Recolored(sender As Object, e As ProcessedObjectEventArgs)
+&nbsp;&nbsp;&nbsp;&nbsp;If e.Successful Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pm As PixMap = TryCast(e.[Object], PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If pm &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim cs As ColorSpaceType = DirectCast(e.Tag, ColorSpaceType)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If pm.Width &gt; 1000 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.CompressJpx(30)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ElseIf cs = ColorSpaceType.DeviceRGB Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.CompressJpeg(30)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.Compress()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Flate
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;End Sub
+End Class
+</code></pre>
+            <P>&nbsp;</P>
+            <P></P>
+            <p>Also see example code in: <a href="../2-properties/icccmyk.htm">RecolorOperation IccCmyk Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

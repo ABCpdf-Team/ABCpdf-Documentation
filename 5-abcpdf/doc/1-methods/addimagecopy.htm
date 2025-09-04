@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddImageCopy Function. Adds a copy of an existing image in the Doc, to the current page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddImageCopy Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Adds a copy of an existing image in the Doc, to the current page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
+            AddImageCopy(int id)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Function AddImageCopy(id As 
+            Integer) As Integer<BR></CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>id</TD>
+                <TD>
+                  <P>An existing image object ID to be copied to the page 
+                  again.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The ID of the newly added Image 
+Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Adds a copy of an image which has already been inserted elsewhere 
+            in the document.</P>
+            <P>You can use this facility to add commonly used graphics such as 
+            watermarks. The raw image data is inserted only once which means 
+            that PDF size is greatly reduced. </P>
+            <P>This method only works with raster or bitmap images. So your ID 
+            must have been obtained from a previous call to <A 
+            href="addimagefile.htm">AddImageFile</A>, <A 
+            href="addimagedata.htm">AddImageData</A> or <A 
+            href="addimageobject.htm">AddImageObject</A>.</P>
+            <P></P>
+            <P>The image is scaled to fill the current <A 
+            href="../2-properties/rect.htm">Rect</A>. It is transformed using 
+            the current <A 
+href="../../xtransform/default.htm">Transform</A>.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This example shows how to read an existing PDF document and 
+            insert a background image into every page.</P>
+            <P>We start by reading our template PDF document and finding out 
+            core information we will need to reference each page.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../mypics/sample.pdf"));
+int count = doc.PageCount;
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
+&nbsp;&nbsp;Dim theCount As Integer = doc.PageCount
+</code></pre></P>
+            <P>We cycle through the pages inserting images as we go.</P>
+            <P>We set the layer property to ensure that the image gets added in 
+            the background rather than on top of existing content. </P>
+            <P>The first time we add an image file. Subsequent times we 
+            reference the image ID. This means that we embed only one copy of 
+            the image data and simply reference that data from each page. </P>
+            <P>Finally we save the modified PDF.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">int id = 0;
+for (int i = 1; i &lt;= count; i++) {
+&nbsp;&nbsp;doc.PageNumber = i;
+&nbsp;&nbsp;doc.Layer = doc.LayerCount + 1;
+&nbsp;&nbsp;if (i == 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;string path = Server.MapPath("../mypics/light.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;id = doc.AddImageFile(path, 1);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddImageCopy(id);
+}
+doc.Save(Server.MapPath("watermark.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;Dim theID As Integer = 0
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= theCount
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Layer = doc.LayerCount + 1
+&nbsp;&nbsp;&nbsp;&nbsp;If i = 1 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/light.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddImageFile(thePath, 1)
+&nbsp;&nbsp;&nbsp;&nbsp;Else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddImageCopy(theID)
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;doc.Save(Server.MapPath("watermark.pdf"))
+End Using
+</code></pre></P>
+            <P>Given the following document.</P>
+            <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD><IMG src="../../../images/pdf/sample.pdf.png" 
+                  class="example"><BR>sample.pdf - [Page 1]</TD>
+                <TD><IMG src="../../../images/pdf/sample.pdf2.png" 
+                  class="example"><BR>sample.pdf - [Page 2]</TD></TR>
+              <TR>
+                <TD><IMG  src="../../../images/pdf/sample.pdf3.png" 
+                  class="example"><BR>sample.pdf - [Page 3]</TD>
+                <TD><IMG src="../../../images/pdf/sample.pdf4.png" 
+                  class="example"><BR>sample.pdf - [Page 4]</TD></TR></TBODY></TABLE>
+            <P>And the following image.</P>
+            <P><IMG width=200 border="1" src="../../../images/light.jpg"></P>
+            <P>This is the kind of output you might expect.</P>
+            <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD><IMG 
+                  src="../../../images/pdf/watermark.pdf.png" 
+                  class="example-landscape"><BR>watermark.pdf - [Page 1]</TD>
+                <TD><IMG
+                  src="../../../images/pdf/watermark.pdf2.png" 
+                  class="example-landscape"><BR>watermark.pdf - [Page 2]</TD></TR>
+              <TR>
+                <TD><IMG
+                  src="../../../images/pdf/watermark.pdf3.png" 
+                  class="example-landscape"><BR>watermark.pdf - [Page 3]</TD>
+                <TD><IMG
+                  src="../../../images/pdf/watermark.pdf4.png" 
+                  class="example-landscape"><BR>watermark.pdf - [Page 4]</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P>
+            <P>&nbsp;</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

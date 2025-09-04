@@ -1,0 +1,282 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>RenderOperation Save Function. Renders and saves a page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16788" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Save Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Renders and saves a page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
+            Save(string path)<BR></CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><CODE>Sub Save(path As 
+            String)<BR></CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>path</TD>
+                <TD>The destination file path.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Renders and saves a page. </P>
+            <P>The page and rendering options which will be used are those which were current at the time the 
+              RenderOperation was  created.</P>
+            <P>This method is similar in functionality to <A 
+            href="../../../5-abcpdf/xrendering/1-methods/save.htm">XRendering.Save</A>, 
+            but allows safe  multithreaded use. </P>
+            <P>You can create multiple  different RenderOperations to render different pages, or indeed the same page, of a document. Each RenderOperation may live on a different thread. So the typical process is to create multiple RenderOperations on the main thread and then parcel them off to different threads which will call the Save method.  The only restriction is that the pages in question must not be   modified while being rendered.</P>
+            Furthermore, this 
+            method generates the following events, allowing fine tuning of the 
+            rendering operations: 
+            <OL>
+              <LI>Before rendering begins, a <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.PageContent is generated. Set 
+              the event arguments' Cancel property to true to skip rendering altogether. 
+              <LI>When a PDF path stroking or filling operator is found in the 
+              page content, a <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.Path is generated. Set the event arguments'
+              Cancel property to true to skip this object. The stream length and 
+              position can be retrieved via the StreamPosition and StreamLength 
+              properties. Set the stream position to null to skip the remaining 
+              of the stream. 
+              <LI>When a text PDF operator is found, a <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.Text is generated. The Unicode text can be 
+              retrieved in the Text property of the event Info property. the 
+              event cancel property to true to skip this object. The stream 
+              length and position can be retrieved via the <A 
+              href="../../2-processinginfo/2-properties/streamposition.htm">StreamPosition</A>
+              and <A 
+              href="../../2-processinginfo/2-properties/streamlength.htm">StreamLength</A>
+              properties. Set the stream position to null to skip the remaining of the stream. 
+              <LI>When a shading PDF operator is found, a <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.Shading is generated. The same comments of 
+              point 2 above apply, for skipping the object or retrieving/setting 
+              the stream position and length. 
+              <LI>When an image is found (inline or XObject), a <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.Image is generated. If the image is 
+              XObject, the indirect object can be retrieved via the event arguments'
+              Object property. the event cancel property to true to skip this object. 
+              The stream length and position can be retrieved via the <A 
+              href="../../2-processinginfo/2-properties/streamposition.htm">StreamPosition</A>
+              and <A 
+              href="../../2-processinginfo/2-properties/streamlength.htm">StreamLength</A>
+              properties. Set the stream position to null to skip the remaining of the stream. 
+              <LI>When a Form XObject is found, a <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.FormXObject is generated. The 
+              indirect object can be retrieved via the event arguments' Object 
+              property. Set the event arguments' Cancel property to true to skip this 
+              object. The stream length and position can be retrieved via the <A 
+              href="../../2-processinginfo/2-properties/streamposition.htm">StreamPosition</A>
+              and <A 
+              href="../../2-processinginfo/2-properties/streamlength.htm">StreamLength</A>
+              properties. Set the stream position to null to skip the remaining
+              of the stream. In addition, because Forms contain streams, a <A 
+              href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+              event of ProcessingSourceType.Stream will follow. You can set the stream 
+              position to null to skip the stream at any time. That 
+              is events for the objects contained in the Form stream will 
+              be generated, as described in points 2 to 5. Setting the stream 
+              position to null for Form objects will skip the Form stream, not 
+              the entire page content.</LI></OL>
+            <p>Every <A 
+            href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</A> 
+            event is followed by a corresponding <A 
+            href="../../1-operation/3-events/2-processedobject.htm">ProcessedObject</A>, 
+            event with the same source type. The PageContent <A 
+            href="../../1-operation/3-events/2-processedobject.htm">ProcessedObject</A> event will 
+            be the last event received, in that all the page objects events are 
+            sandwiched between a PageContent processing and processed events. 
+            Similarly for form streams, all the form objects events are 
+            sandwiched between a Stream processing and processed events, which 
+            in turn are sandwiched between the FormXObject processing and 
+            processed events.</p>
+            <p>Any event property or event Info property not mentioned here 
+            will be ignored.</p>
+            <p>&nbsp;</p></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here we render all the pages of the doc using 10 threads at a 
+            time. We alternate rendering format between jpg and tiff. We also 
+            alternate resolution between 150 and 300 dpi. Note how the 
+            RenderingOperation is created in the constructor of 
+            TheRenderingWorker. This is because at this point a copy of the 
+            rendering options is made. Had we created the 
+            RenderingOperation in DoWork, we would have picked up only the last 
+            doc.Rendering.DotsPerInch, because the threads are started in the 
+            following loop. Also note how we dispose the operation in DoWork, to 
+            release resources stored on the native side (the copy of the 
+            rendering options basically).</P>
+            <P><SPAN class=language>[C#]</SPAN>
+
+            <pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("spaceshuttle.pdf"));
+string[] xts = { ".jpg", ".tif" };
+int[] dpis = { 150, 300 };
+var threads = new Thread[10];
+int pageNum = 1, pageCount = doc.PageCount;
+while (pageNum &lt;= pageCount) {
+&nbsp;&nbsp;int count = 0;
+&nbsp;&nbsp;while (count &lt; threads.Length &amp;&amp; pageNum &lt;= pageCount) {
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.DotsPerInch = dpis[(pageNum - 1) % 2];
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = pageNum;
+&nbsp;&nbsp;&nbsp;&nbsp;string path = Server.MapPath($"ABCpdf{pageNum}{xts[(pageNum - 1) % 2]}");
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;threads[count] = new Thread(new RenderingWorker(doc, path).DoWork);
+&nbsp;&nbsp;&nbsp;&nbsp;++count;
+&nbsp;&nbsp;&nbsp;&nbsp;++pageNum;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;for (int i = 0; i &lt; count; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;threads[i].Start();
+&nbsp;&nbsp;for (int i = 0; i &lt; count; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;threads[i].Join();
+}
+</code></pre>
+            </P>
+            <P><SPAN class=language>[Visual Basic]</SPAN>
+            <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("spaceshuttle.pdf"))
+&nbsp;&nbsp;Dim theExts As String() = {".jpg", ".tif"}
+&nbsp;&nbsp;Dim theDpis As Integer() = {150, 300}
+&nbsp;&nbsp;Dim threadList As Thread() = New Thread(9) {}
+&nbsp;&nbsp;Dim pageNum As Integer = 1, pageCount As Integer = doc.PageCount
+&nbsp;&nbsp;While pageNum &lt;= pageCount
+&nbsp;&nbsp;&nbsp;&nbsp;Dim count As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While count &lt; threadList.Length AndAlso pageNum &lt;= pageCount
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.DotsPerInch = theDpis((pageNum - 1) Mod 2)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = pageNum
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim path As String = Server.MapPath($"ABCpdf{pageNum}{theExts[(pageNum - 1) % 2]}")
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threadList(count) = New Thread(New RenderingWorker(doc, path).DoWork)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(count)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(pageNum)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; count
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threadList(i).Start()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; count
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threadList(i).Join()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;End While
+End Using
+</code></pre>
+            <P>            
+            
+            </P>
+            <P><SPAN class=language>[C#]</SPAN> </P>
+            <pre><code class="language-csharp">class RenderingWorker {
+&nbsp;&nbsp;private string mPath;
+&nbsp;&nbsp;private RenderOperation mOp;
+
+&nbsp;&nbsp;public RenderingWorker(Doc inDoc, string inPath) {
+&nbsp;&nbsp;&nbsp;&nbsp;mPath = inPath;
+&nbsp;&nbsp;&nbsp;&nbsp;mOp = new RenderOperation(inDoc);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public void DoWork() {
+&nbsp;&nbsp;&nbsp;&nbsp;mOp.Save(mPath);
+&nbsp;&nbsp;&nbsp;&nbsp;mOp.Dispose();
+&nbsp;&nbsp;}
+}
+</code></pre>
+            </P>
+            <P><SPAN class=language>[Visual Basic]</SPAN>
+            <pre><code class="language-vbnet">Private Class RenderingWorker
+&nbsp;&nbsp;Private mPath As String
+&nbsp;&nbsp;Private mOp As RenderOperation
+
+&nbsp;&nbsp;Public Sub New(inDoc As Doc, inPath As String)
+&nbsp;&nbsp;&nbsp;&nbsp;mPath = inPath
+&nbsp;&nbsp;&nbsp;&nbsp;mOp = New RenderOperation(inDoc)
+&nbsp;&nbsp;End Sub
+
+&nbsp;&nbsp;Public Sub DoWork()
+&nbsp;&nbsp;&nbsp;&nbsp;mOp.Save(mPath)
+&nbsp;&nbsp;&nbsp;&nbsp;mOp.Dispose()
+&nbsp;&nbsp;End Sub
+End Class
+</code></pre>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>ProcessingInfo FrameNumber Property. Gets or sets the frame number of the source frame being/to be processed. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>FrameNumber Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR><CODE>long?</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>Nullable(Of&nbsp;Long)</CODE></TD>
+                <TD>n/a</TD>
+                <TD>No</TD>
+                <TD>Gets or sets the frame number of the source frame being/to 
+                  be processed.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The value of this property when the <A 
+            href="../../1-operation/3-events/1-processingobject.htm">Operation.ProcessingObject</A> 
+            event is generated depends on the operation.</P>
+            <P>The event handler should change this value when a processing 
+            sequence other than the default is desired. Set this value to null 
+            to end the processing of the current set of frames.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>See the <A 
+            href="../../5-swfimportoperation/1-methods/import.htm">SwfImportOperation.Import</A> 
+            method.</P>
+            <P>&nbsp;</P></TD></TR>
+        <TR>
+          <TD>
+            <P>Here we import the frame at 3.5 seconds.</P></TD></TR>
+        <TR>
+          <TD>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+using (var operation = new SwfImportOperation()) {
+&nbsp;&nbsp;operation.Doc = doc;
+&nbsp;&nbsp;operation.ContentAlign = ContentAlign.Top;
+&nbsp;&nbsp;operation.ContentScaleMode = ContentScaleMode.ShowAll;
+&nbsp;&nbsp;operation.ProcessingObject += delegate (object sender, ProcessingObjectEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;if (e.Info.SourceType == ProcessingSourceType.MultiFrameImage &amp;&amp; e.Info.FrameNumber.HasValue)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber = 1 + (long)(e.Info.FrameRate.Value * 3.5);
+&nbsp;&nbsp;};
+&nbsp;&nbsp;operation.Import(Server.MapPath("ABCpdf.swf"));
+}
+doc.Save(Server.MapPath("swf.pdf"));
+</code></pre><BR><SPAN
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Using operation As New SwfImportOperation()
+&nbsp;&nbsp;&nbsp;&nbsp;operation.Doc = doc
+&nbsp;&nbsp;&nbsp;&nbsp;operation.ContentAlign = ContentAlign.Top
+&nbsp;&nbsp;&nbsp;&nbsp;operation.ContentScaleMode = ContentScaleMode.ShowAll
+&nbsp;&nbsp;&nbsp;&nbsp;operation.ProcessingObject += Sub(sender As Object, e As ProcessingObjectEventArgs) If e.Info.SourceType = ProcessingSourceType.MultiFrameImage AndAlso e.Info.FrameNumber.HasValue Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber = 1 + DirectCast(e.Info.FrameRate.Value * 3.5, Long)
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;operation.Import(Server.MapPath("ABCpdf.swf"))
+&nbsp;&nbsp;End Using
+&nbsp;&nbsp;doc.Save(Server.MapPath("swf.pdf"))
+End Using
+</code></pre></P><p>Also see example code in: <a href="../../5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>.</p>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

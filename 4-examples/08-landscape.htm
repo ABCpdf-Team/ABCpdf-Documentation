@@ -1,0 +1,149 @@
+<html>
+<head>
+<title>Landscape Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Landscape Example</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>This example shows how to create a PDF document rotated by 90 degrees 
+              for a landscape rather than portrait view.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Setup</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>We start by creating a PDF document. We use two transforms to apply 
+              a generic 90 degree rotation around the center of the document and 
+              rotate the drawing rectangle by the same amount. After applying 
+              our rotation we add some text to the page.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+// apply a rotation transform
+double w = doc.MediaBox.Width;
+double h = doc.MediaBox.Height;
+double l = doc.MediaBox.Left;
+double b = doc.MediaBox.Bottom;
+doc.Transform.Rotate(90, l, b);
+doc.Transform.Translate(w, 0);
+
+// rotate our rectangle
+doc.Rect.Width = h;
+doc.Rect.Height = w;
+
+// add some text
+doc.Rect.Inset(50, 50);
+doc.FontSize = 96;
+doc.AddText("Landscape Orientation");
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;' apply a rotation transform
+&nbsp;&nbsp;Dim w As Double = doc.MediaBox.Width
+&nbsp;&nbsp;Dim h As Double = doc.MediaBox.Height
+&nbsp;&nbsp;Dim l As Double = doc.MediaBox.Left
+&nbsp;&nbsp;Dim b As Double = doc.MediaBox.Bottom
+&nbsp;&nbsp;doc.Transform.Rotate(90, l, b)
+&nbsp;&nbsp;doc.Transform.Translate(w, 0)
+
+&nbsp;&nbsp;' rotate our rectangle
+&nbsp;&nbsp;doc.Rect.Width = h
+&nbsp;&nbsp;doc.Rect.Height = w
+
+&nbsp;&nbsp;' add some text
+&nbsp;&nbsp;doc.Rect.Inset(50, 50)
+&nbsp;&nbsp;doc.FontSize = 96
+&nbsp;&nbsp;doc.AddText("Landscape Orientation")
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Rotate</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Drawing the text rotated does not rotate the page itself. To change 
+              the default orientation of the document we need to apply a rotation 
+              to the root page object. By doing this we ensure that every page 
+              in the document is viewed rotated.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">// adjust the default rotation and save
+int id = doc.GetInfoInt(doc.Root, "Pages");
+doc.SetInfo(id, "/Rotate", "90");
+doc.Save(Server.MapPath("landscape.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;' adjust the default rotation and save
+&nbsp;&nbsp;Dim theID As Integer = doc.GetInfoInt(doc.Root, "Pages")
+&nbsp;&nbsp;doc.SetInfo(theID, "/Rotate", "90")
+&nbsp;&nbsp;doc.Save(Server.MapPath("landscape.pdf"))
+End Using
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Results</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p><img src="../images/pdf/landscape.pdf.png" class="example-landscape"><br>
+              landscape.pdf</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

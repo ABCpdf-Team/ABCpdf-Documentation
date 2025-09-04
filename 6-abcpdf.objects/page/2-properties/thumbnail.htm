@@ -1,0 +1,117 @@
+<html>
+<head>
+<title>Page Thumbnail Property. The Thumbnail for the page. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Thumbnail Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code><a href="../../pixmap/default.htm">PixMap</a></code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code><a href="../../pixmap/default.htm">PixMap</a></code></td>
+                <td>n/a</td>
+                <td>No</td>
+                <td>The Thumbnail for the page</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Each page can have a thumbnail image for quick preview purposes. This property allows to access such a thumbnail if it exists, or to assign such a thumbnail to a page if it does not.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This example shows how to create and embed thumbnails in a PDF document.</p>
+            <p><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+using var src = new Doc();
+doc.Read(Server.MapPath("spaceshuttle.pdf"));
+doc.Rendering.DotsPerInch = 18;
+var pages = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll();
+foreach (var page in pages) {
+&nbsp;&nbsp;doc.Page = page.ID;
+&nbsp;&nbsp;using (var xi = XImage.FromData(doc.Rendering.GetData(".jpg"), null))
+&nbsp;&nbsp;&nbsp;&nbsp;page.Thumbnail = PixMap.FromXImage(doc.ObjectSoup, xi);
+}
+doc.Save(Server.MapPath("embedthumbnails.pdf"));
+</code></pre><br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc(), srcDoc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("spaceshuttle.pdf"))
+&nbsp;&nbsp;doc.Rendering.DotsPerInch = 18
+&nbsp;&nbsp;Dim pages As Page() = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()
+&nbsp;&nbsp;For Each page As Page In pages
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = page.ID
+&nbsp;&nbsp;&nbsp;&nbsp;Using xi As XImage = XImage.FromData(doc.Rendering.GetData(".jpg"), Nothing)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.Thumbnail = PixMap.FromXImage(doc.ObjectSoup, xi)
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;doc.Save(Server.MapPath("embedthumbnails.pdf"))
+End Using
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>XRendering Metadata Property. A collection of TIFF tags that should be written to the output file. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Metadata Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                <code>IDictionary&lt;string, string&gt;</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>IDictionary&lt;String, String&gt;</code></td>
+                <td>null</td>
+                <td>No</td>
+                <td>A collection of TIFF tags that should be written to the output file.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This property can be used to insert custom tags for TIFF output.</p>
+            <p>To use this property, create a  dictionary and assign it to this property. Then add a sequence of tag names and values for output to file. You will find a full list of TIFF tag names in the TIFF specification.</p>
+            <p>Most tags, such as the PageName, take a string value. However some tags may take one or more numbers instead. For example the PageNumber tag takes two numbers, the first of which specifies the (zero based) index of the current page and the second of which specifies the total number of pages (zero indicates undetermined). So  to indicate the second page of a nine page output, you might use code of the following form.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">theDoc.Rendering.Metadata.Add(&quot;PageNumber&quot;, &quot;2 9&quot;);
+theDoc.Rendering.Metadata.Add(&quot;PageName&quot;, &quot;Page Two&quot;);
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.Rendering.Metadata.Add(&quot;PageNumber&quot;, &quot;2 9&quot;)
+theDoc.Rendering.Metadata.Add(&quot;PageName&quot;, &quot;Page Two&quot;)
+</code></pre></p>
+            <p>To indicate that a value should be cleared you can assign an entry with a value of null. This can be useful if you want to, for example, disable the automatic insertion of page name and number tags.</p>
+            <p>Custom TIFF tags can be indicated using a hash followed by the number of the tag. For example the EXIF standard describes a UserComment tag with ID 37510. To insert such a tag you would use the name &quot;#37510&quot;. All custom tags are assumed to be string based.</p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>None.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<html>
+<head>
+<title>XRendering DrawAnnotations Property. Whether to render fields and annotations. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> DrawAnnotations Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
+                <td>true</td>
+                <td>No</td>
+                <td>Whether to render fields and annotations.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Determines whether fields and annotations will be rendered.</p>
+            <p>PDF fields and annotations are not part of the PDF content. Instead 
+              they float over the PDF background. You may choose to render these 
+              fields or you may wish to avoid rendering them.</p>
+            <p>The export of file types like XPS, DOCX and HTML is implemented using rendering. For this reason the DrawAnnotations proprety will determine if Annotations are exported when saving these formats using the <a href="../../doc/1-methods/save.htm">Doc.Save</a> method.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example shows the effect that this parameter has 
+              on PDF rendering.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../mypics/Annotations.pdf"));
+doc.Rect.Pin = XRect.Corner.TopLeft;
+doc.Rect.Height = 300;
+// Render document with DrawAnnotations (default)
+doc.Rendering.Save(Server.MapPath("RenderingDrawAnnotationsTrue.png"));
+// Render document without DrawAnnotations
+doc.Rendering.DrawAnnotations = false;
+doc.Rendering.Save(Server.MapPath("RenderingDrawAnnotationsFalse.png"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/Annotations.pdf"))
+&nbsp;&nbsp;doc.Rect.Pin = XRect.Corner.TopLeft
+&nbsp;&nbsp;doc.Rect.Height = 300
+&nbsp;&nbsp;' Render document with DrawAnnotations (default)
+&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingDrawAnnotationsTrue.png"))
+&nbsp;&nbsp;' Render document without DrawAnnotations
+&nbsp;&nbsp;doc.Rendering.DrawAnnotations = False
+&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingDrawAnnotationsFalse.png"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/RenderingDrawAnnotationsTrue.png" class="example-landscape"><br>
+              RenderingDrawAnnotationsTrue.png</p>
+            <p><img src="../../../images/pdf/RenderingDrawAnnotationsFalse.png" class="example-landscape"><br>
+              RenderingDrawAnnotationsFalse.png</p>
+          <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

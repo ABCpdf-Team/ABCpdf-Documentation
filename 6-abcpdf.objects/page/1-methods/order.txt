@@ -1,0 +1,11 @@
+deinline.htm
+detach.htm
+flatten.htm
+getannotations.htm
+getlayers.htm
+getnamedseparations.htm
+getresourcesbytype.htm
+getresourcemap.htm
+gettext.htm
+recolor.htm
+vectorizetext.htm

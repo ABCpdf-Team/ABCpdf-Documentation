@@ -1,0 +1,1942 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<title>Low Level Overrides</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script>
+</head>
+<body bgcolor="#ffffff">
+	<table border="0" cellpadding="0" cellspacing="4">
+		<tbody>
+			<tr>
+				<td valign="top"><img src="../images/goo.gif" height="60" width="58"></td>
+				<td width="14">&nbsp;</td>
+				<td>
+					<table border="0" cellpadding="0" cellspacing="0" width="100%">
+						<tbody>
+							<tr>
+								<td class="pageheader">Low Level Overrides</td>
+								<td width="60">&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td background="../images/steel-line-3.gif" height="11"><br></td>
+								<td background="../images/steel-line-3.gif" height="11" width="60"><br></td>
+								<td height="11"><img src="../images/steel-blob-11.gif" height="11" width="11"></td>
+							</tr>
+							<tr>
+								<td>
+									<p>&nbsp;</p>
+									<p>
+									Some aspects of ABCpdf can be controlled on a global level. </p>
+									<p>These are low level settings and are infrequently used. In general you will not need them.</p>
+									<p>Defaults can be adjusted using
+									  registry keys or config files but more often you will simply want to override them on a per-document basis using Doc.SetInfo. </p>
+									<p>For example to ensure that CCITT images are decompressed and recompressed rather than being inserted directly, you might use code of the following form.</p>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">theDoc.SetInfo(0, "InsertEmbeddedCCITTsDirect", 0);
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.SetInfo(0, "InsertEmbeddedCCITTsDirect", 0)
+</code></pre></p>
+					  <p>
+									Registry settings are held at:</p>
+								  <p style="margin-left:6ex">HKEY_LOCAL_MACHINE\SOFTWARE\WebSupergoo\ABCpdfNET\13</p>
+									<p>
+										Except those listed as "registry only", they can also be
+										specified in app.config or web.config. Please see
+										<a href="../5-abcpdf/xsettings/1-methods/setconfigsection.htm">XSettings.SetConfigSection</a>
+										for the syntax.
+									</p>
+									<table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+<tbody>
+											<tr>
+												<td align="center"><b>Name</b></td>
+												<td align="center"><b>Type</b></td>
+												<td align="center"><b>Default</b></td>
+												<td align="center"><b>Overridable</b></td>
+												<td align="left"><b>Description</b></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">TempDirectory</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">""</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>ABCpdf uses the temp directory.</p>
+													<p>
+														You can override the location it uses by setting this
+														value. The specified directory must pre-exist; ABCpdf does
+														not create the non-default temp directory.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">V3Compatible</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														By setting this value to 1, you can ensure full
+														compatibility with ABCpdf version 3 layout
+														algorithms.													</p>
+													<p>This setting is obsolete.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">V4Compatible</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														By setting this value to 1, you can ensure full
+														compatibility with ABCpdf version 4 layout
+														algorithms.													</p>
+													<p>This setting is obsolete.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">V5Compatible</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														By setting this value to 1, you can ensure full
+														compatibility with ABCpdf version 5 layout
+														algorithms.													</p>
+													<p>This setting is obsolete.</p>												</td>
+											</tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">RAMLimitPercent</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">200</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p>This provides guidance to ABCpdf as to the maximum amount of memory it should use. </p>
+											      <p>In a 64 bit environment Windows will attempt to honor all memory requests. However if very large amounts of memory are requested then paging will slow the system down. For this reason ABCpdf will attempt to be a good citizen and limit the maximum amount of memory it will request.</p>
+											      <p>This value is determined in terms of the percentage of RAM available. So if the figure is 200% on a system with 32GB of RAM then ABCpdf will try not to ask for more than 64GB of memory.</p>										      </td>
+				    </tr>
+											<tr valign="middle">
+												<td align="center" height="23">MemoryManager</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>This determines the memory management routines used by ABCpdf. </p>
+													<p>The default memory manager is designed for speed and low fragmentation.</p>
+													<p>You are unlikely to want to change the value of this key.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">DisableCCITT</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														ABCpdf compresses black and white images using CCITT
+														compression.													</p>
+													<p>
+														You can disable this type of compression if you wish to
+														produce simple flate compressed images.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">InsertJPEGsDirect</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														When you insert JPEGs using the XImage object, they bypass
+														the normal rendering process and are inserted direct. This can
+														result in a considerable reduction in file size without any
+														loss of visual quality.													</p>
+													<p>
+														However, the final output may vary slightly from that
+														produced by older versions of ABCpdf.													</p>
+													<p>
+														By setting this value to 0, you can ensure
+														compatibility.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">InsertTIFFsDirect</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>When you insert TIFFs using the XImage object, they bypass the normal rendering process and are inserted direct. This can result in a considerable reduction in file size without any loss of visual quality. </p>
+													<p>If this flag is set  this enables certain special features like autorotation.</p>
+													<p>If the flat is cleared then these features are disabled.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">InsertEmbeddedCCITTsDirect</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>Formats such as TIFF may contain embedded CCITT data which can be inserted directly into a PDF. </p>
+													<p> On the positive side avoiding a decompression-recompression cycle can save significant time. On the negative side, because the data is not decompressed, there are no checks to ensure the validity of the compression. Acrobat is generally more particular about the format of data and occasionally it can fail to display data that renders correctly when inside a different wrapper. This is rare but not unheard of.</p>
+													<p>If this flag is set  this enables the direct import of this type of data. If the flat is cleared then these features are disabled.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">InsertEmbeddedJBIG2sDirect</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>JBIG2 images can be inserted directly into a PDF. </p>
+													<p>On the positive side avoiding a decompression-recompression cycle can save significant time. On the negative side, because the data is not decompressed, there are no checks to ensure the validity of the compression. Acrobat is generally more particular about the format of data and occasionally it can fail to display data that renders correctly when inside a different wrapper. This is not something we have ever seen any problems with but it is possible.</p>
+													<p>If this flag is set this enables the direct import of this type of data. If the flat is cleared then these features are disabled.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">InsertEmbeddedJPEGsDirect</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>Formats such as TIFF may contain embedded JPEG data which can be inserted directly into a PDF. </p>
+													<p>On the positive side avoiding a decompression-recompression cycle can save significant time. On the negative side, because the data is not decompressed, there are no checks to ensure the validity of the compression. Acrobat is generally more particular about the format of data and occasionally it can fail to display data that renders correctly when inside a different wrapper. This is exceptionally rare but not unheard of.</p>
+													<p>If this flag is set this enables the direct import of this type of data. If the flat is cleared then these features are disabled.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">ExtractJPEGFromTIFFUsingGDIPlus</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>Formats such as TIFF may contain embedded JPEG data which can be inserted directly into a PDF.</p>
+													<p>This data can be extracted by ABCpdf directly or it can be extracted using features of GDI+. ABCpdf is probably slightly faster at doing this but historically it has used GDI+ as a first option before falling back to its own methods.</p>
+													<p>If this flag is set  this feature will be attempted first using GDI+.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center">LogEvents</td>
+												<td align="center">DWORD</td>
+												<td align="center">1 [true]</td>
+												<td align="center">&nbsp;</td>
+												<td align="left">
+													<p>
+														Determines whether anything will be logged in the Application
+														Event Log.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center">LogErrors</td>
+												<td align="center">DWORD</td>
+												<td align="center">0 [false]</td>
+												<td align="center">&nbsp;</td>
+												<td align="left">
+													<p>
+														Determines whether errors will be logged in the Application
+														Event Log.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center">AutoRecover</td>
+												<td align="center">DWORD</td>
+												<td align="center">0 [false]</td>
+												<td align="center">&nbsp;</td>
+												<td align="left">
+													<p>
+														Whether ABCpdf should automatically attempt to recover from
+														serious errors.													</p>
+													<p>
+														This is generally set to false. Recovery may work in some
+														situations but in others it will leave the application in an
+														inconsistent state.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center">LogOperations</td>
+												<td align="center">DWORD</td>
+												<td align="center">0 [false]</td>
+												<td align="center">&nbsp;</td>
+												<td align="left">Unused in release versions.</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center">MaxOperationTime</td>
+												<td align="center">DWORD</td>
+												<td align="center">1,000</td>
+												<td align="center">&nbsp;</td>
+												<td align="left">Unused in release versions.</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center">LogDirectory</td>
+												<td align="center">STRING</td>
+												<td align="center"><small><nobr>"%SystemRoot</nobr>%\Temp\"</small></td>
+												<td align="center">&nbsp;</td>
+												<td align="left">Unused in release versions.</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center">LogMaxFileSize</td>
+												<td align="center">DWORD</td>
+												<td align="center">0xFFFF</td>
+												<td align="center">&nbsp;</td>
+												<td align="left">Unused in release versions.</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center">LogAsserts</td>
+												<td align="center">DWORD</td>
+												<td align="center">1 [true]</td>
+												<td align="center">&nbsp;</td>
+												<td align="left">
+													<p>
+														If true, certain run-time consistency checks will be
+														enabled.													</p>
+													<p>
+														If any consistency check fails, then an error will be
+														logged in the Application Event Log.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">LogAssertsMax</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">5</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													The maximum number of times an
+													assertion will log an error. This is kept at a small number to
+													avoid excessive use of the Application Event Log.												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">ClearoutSize</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1,000</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														On startup, the ABCpdf temp directory is checked. If it
+														appears that there are a large number of unused items, then
+														the directory will be cleared.													</p>
+													<p>
+														This setting determines the maximum number of items which
+														are permitted in the directory before a clearout is deemed
+														necessary.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">MaxID</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">500,000</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p>Internally PDFs are made of objects, numbered from one upwards. In a small single page PDF there might be ten or twenty of these. In a large complex document containing thousands of pages you might get perhaps 100,000 objects.</p>
+											    <p>A document containing 500,000 objects is conceivable but unlikely. If you have this many objects you are going to run into limits within the PDF spec. In general it means something has gone wrong.</p>
+											    <p>ABCpdf will post  a warning event if the maximum number is exceeded and it will ping as the count doubles. So with the setting at the default, it will log a warning at 500,000 then 1,000,000 then 2,000,000 and so on.</p>
+									            <p>if you see this warning the most likely cause is that you have run into an infinite loop in which you continue adding pages and content. The warning will simply be a harbinger of future problems.</p>
+								              <p>Set the property to zero to disable these warnings.</p></td>
+				    </tr>
+											<tr valign="middle">
+												<td align="center" height="23">LoadType1Fonts</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													Whether ABCpdf should allow the use
+													of Type 1 fonts.												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">WriteVersionNumber</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													Whether the ABCpdf version should be
+													embedded in the PDF output.												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">SetInfoProps</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														Whether registry keys can be overridden on a per-document
+														basis.													</p>
+													<p>
+														To override a registry key, use SetInfo with the name of
+														the key and passing zero as the ID. For example:													</p>
+													<p>theDoc.SetInfo(0, "UseScript", "1")</p>
+													<p>
+														Note that only keys marked as overridable can be overridden
+														this way.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">CheckSaveRestore</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														Some PDFs do not conform to Adobe document structuring
+														conventions. For details see section 4.3.1 of the <a target="_blank" href="http://partners.adobe.com/">
+															Adobe PDF
+															Specification
+														</a>.													</p>
+													<p>
+														Conforming documents should save the graphics state at the
+														start of drawing and restore the graphics state after drawing
+														is complete. This way it is guaranteed that drawing operations
+														are independent of each other.													</p>
+													<p>
+														Non-conforming documents may make transform and other
+														graphics state changes which cannot easily be undone. When you
+														add your content, it is affected by these leftover state
+														changes.													</p>
+													<p>
+														This key determines whether ABCpdf will automatically
+														detect and fix non-conforming documents.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">Preflight</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														Whether to preflight objects in the destination
+														document&nbsp;when appending or adding a page from another
+														document.													</p>
+													<p>See <a href="../5-abcpdf/xsaveoptions/2-properties/preflight.htm">XSaveOptions.Preflight</a> for details.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">Refactor</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														Whether to eliminate redundant objects on save or
+														append.													</p>
+													<p>See <a href="../5-abcpdf/xsaveoptions/2-properties/refactor.htm">XSaveOptions.Refactor</a> for details.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">IgnoreObjectsOnIncSave</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">""</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														A comma separated list of object ids to ignore when <a href="../5-abcpdf/xsaveoptions/2-properties/incremental.htm">XSaveOptions.Incremental</a> is set to true. 
+														It is provided for debugging puposes.</p> 
+														<p><u>NB this option can only be set using Doc.SetInfo for example: theDoc.SetInfo(0, "IgnoreObjectsOnIncSave", "15,99,101");</u></p>												</td>
+											</tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">PagesMaxKids</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">20</td>
+											  <td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+											  <td align="left" height="23"><p> The maximum number of children of non-leaf nodes in the
+											    page tree. If it is 2 or below, no balancing of the page tree
+											    is performed. </p>
+											      <p> The page tree gives the order to the pages. The look-up of
+											        pages from page numbers and the identification of page numbers
+											        from the pages' IDs are performed using the page tree. The
+											        time complexity of these operations is O(PagesMaxKids&#215;log
+											        PageCount/log PagesMaxKids) so the smaller PagesMaxKids, the
+											        faster the operations. </p>
+											    <p> If the value is 3 or above, the entire tree is balanced
+											      when the first time the page tree is modified either by adding
+											      a page or removing a page or a non-leaf node (a Pages object).
+											      When a page is added such that the parent node has more than
+											      PagesMaxKids children or when a page or a non-leaf node is
+											      removed such that the (non-root) parent node has less than
+											      PagesMaxKids/2 children (or equivalently, less than the floor
+											      of (PagesMaxKids + 1)/2 children), the page tree is partially
+											      balanced. The balancing of the tree is triggered more often if
+											      PagesMaxKids is small. </p></td>
+				    </tr>
+											<tr valign="middle">
+												<td align="center" height="23">ErrorOnBadPage</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>Setting the PageNumber property to a particular value is not always possible. Most obviously if one sets it to a value smaller than one or greater than the PageCount, the operation is not possible.</p>
+													<p>Less commonly, PDF documents can contain page trees which are corrupt. In this case when one sets the PageNumber property it may be that the object which is indicated is not a page.</p>
+												  <p>This property determines what should happen in these cases. The default is to ignore the error and leave the current page unchanged. However if you prefer an exception to be thrown you can change the default value of this property.</p>											  </td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">FontInheritsStyles</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														When the value is false (zero), <a href="../5-abcpdf/doc/1-methods/addtextstyled.htm">Doc.AddTextStyled</a>
+														removes pre-existing bold &lt;b&gt; and italic &lt;i&gt; styles
+														within specification of font face in the HTML.													</p>
+													<p>
+														When the value is true (non-zero), <a href="../5-abcpdf/doc/1-methods/addtextstyled.htm">Doc.AddTextStyled</a>
+														maintains pre-existing bold &lt;b&gt; and italic &lt;i&gt; styles
+														within specification of font face in the HTML unless overridden by the specification.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">SVGDrawInvisible</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														This flag controls whether invisible SVG elements are
+														drawn as transparent objects when converted to PDF. Invisible
+														SVG elements are defined as those with "visibility" set to
+														"false", those without any strokes or any fills, or those with
+														both stroke-opacity and fill-opacity set to 0.													</p>
+													<p>
+														For presentation purposes, it is best to not draw invisible
+														objects (the default) because transparency in PDF may
+														radically change the rendering mode in many PDF readers.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">AutorotateTIFFImages</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" alt="" width="10" height="10" align="middle"></td>
+												<td align="left" height="23">
+													<p>TIFF and JPEG images may contain flags to indicate orientation and mirroring.</p>
+													<p>If this flag is set, ABCpdf will use these flags to ensure that your TIFF and JPEG images are automatically provided the right way up.</p>
+													<p>This flag also affects the default value of <a href="../5-abcpdf/ximage/2-properties/appliedorientation.htm">XImage.AppliedOrientation</a>.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">AutosizeImages</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" alt="" width="10" height="10" align="middle"></td>
+												<td align="left" height="23">
+													<p>In ABCpdf10 and earlier, images were  autosized   if the width or height of the destination rectangle was zero. </p>
+													<p>
+														If you were working in <A href="../5-abcpdf/doc/2-properties/topdown.htm">TopDown</A> mode the image was
+														positioned with its top left pinned at the location indicated by the
+														rectangle. If you were not in TopDown mode the bottom left of the
+														image was pinned at the location indicated by the rectangle. In both
+														cases the natural dimensions of the supplied image were used to
+														determine the displayed width and height resulting in a 72 dpi
+														output.													</p>
+												  <p>The functions that performed autosizing were AddImageBitmap, AddImageCopy, AddImageDoc, AddImageFile and AddImageObject.</p>
+													<p>This autosizing was problematic for many reasons and it is now disabled by default.</p>
+													<p>If this  flag is set autosizing will be performed.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">KerningType</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23"><p>This flag controls the default value of the <a href="../5-abcpdf/xtextstyle/2-properties/kerning.htm">TextStyle.Kerning</a> property.</p></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">EncryptCompat</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>AES Encryption has been through a number of revisions.</p>
+													<p>Revision 4 used to be the default. However in 2014 Adobe  stopped using it and moved to revision 5. </p>
+													<p>Adobe products  automatically re-encode any revision 4 documents as revision 5. As such ABCpdf now does the same.</p>
+													<p>We expect revision 4 to be deprecated in due course.</p>
+													<p>If, for compatibility, you require the use of revision 4, you  can re-enable it by setting this flag.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">CompressedDataPaddingLeniency</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">2</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														When decompressing data, ABCpdf occaisionally encounters decompression errors.  If a quantity of data is decompressed before the error
+														occurs, then this value is a tolerance for how much compressed data is left over after the error.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">PreferToUnicode</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">0</td>
+											  <td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+											  <td align="left" height="23"><p>Documents can contain multiple different mappings for characters. Most of the time the mappings are correct and in sync. Occasionally you may come across PDFs which have inconsistent mappings in the different tables.</p>
+											      <p>If this occurs then extracting text from a PDF becomes an imprecise science. Depending on the table used, the output will be different. Most of the time the differences are small but sometimes, on severely compromised documents, they can be abrupt.</p>
+											    <p>In this situation ABCpdf has to determine the most appropriate table using a heuristic method. To prefer the ToUnicode table over this heuristic you can set this property to 1 (true).</p></td>
+				    </tr>
+											<tr valign="middle">
+												<td align="center" height="23">ProgressiveJPEGRecompressionQuality</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23"><p>Acrobat can sometimes find it difficult to decompress and display progressive JPEG images. So sometimes, if you add this type of data directly into a PDF the image may not display when viewed in Acrobat.</p>
+												  <p>In the long run we would expect that Adobe will resolve this issue within Acrobat. However in the shorter run it can be desirable to work around this issue.</p>
+												  <p>To mitigate the effect of this problem you can detect and recompress progressive JPEG images as they are added to. To do this you simply need to specify  a quality setting between 1 and 100.</p>									            </td>
+											</tr>
+											<tr><td colspan="5" style="padding:0"><h2 style="display:inline; width:100%">Annotation and Field</h2></td></tr>
+											<tr>
+												<td align="center"><b>Name</b></td>
+												<td align="center"><b>Type</b></td>
+												<td align="center"><b>Default</b></td>
+												<td align="center"><b>Overridable</b></td>
+												<td align="left"><b>Description</b></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">AnnotBorder</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"><br><small>SetInfo only</small></td>
+												<td align="left" height="23">
+													<p>
+														The default width of borders on Annotations added to PDF
+														documents.													</p>
+													<p>
+														This property is only accessible using the Doc.SetInfo method.
+														The default cannot be overridden using a registry
+														key.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">NeverClipAppearances</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														This parameter allows control over the way that text field
+														appearances are generated.													</p>
+													<p>
+														Some documents contain text fields which are not tall
+														enough for the text that they contain. There are two choices
+														here. You can preserve the requested text size and let the
+														text be clipped. Alternatively, you can reduce the text size
+														so that it fits the height of the field.													</p>
+													<p>
+														The default behavior is to reduce the text size. However,
+														in some cases you may want to override this behavior by
+														altering this setting.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">ForceUpdateAppearances</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>In general ABCpdf will try to avoid updating field appearances. This is because different applications have different ways of generating field appearances and so any update is likely to cause  changes.</p>
+													<p>These changes are likely to be pretty subtle - involving pixel level movements and perhaps changes in text wrapping. However because there is no specification relating to how field appearances should be generated these kind of subtle shifts are inevitable if you regenerate appearance streams.</p>
+													<p>Acrobat will always regenerate field appearance streams for any documents in which the NeedsAppearances flag is set. This comes at the cost of the kind of subtle shifts detailed above. However because this is done interactively this doesn't tend to matter very much.</p>
+													<p>Some PDF producers create PDF documents containing incorrect appearance streams. Because Acrobat  regenerates the field appearance streams it will display these correctly. ABCpdf will assume that because they are there they are correct and will not.</p>
+													<p>In this case you may wish to mimic the behavior of Acrobat force the update of the appearance streams. This flag allows you to specify that this should be the case.</p>												</td>
+											</tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">SignatureSizeMultiplier</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">15</td>
+											  <td align="center" height="23"><img src="../images/steel-blob-10.gif" alt="" width="10" height="10" align="middle"></td>
+											  <td align="left" height="23"><p> This can affect the sizes of buffers ABCpdf will allocate
+											    for the /Contents field in signatures. The value is in 1/10 time, so the default value represents 1.5 times. </p>
+											      <p> This is a low level setting. If ABCpdf encounters error related to buffer
+											        size not big enough to hold signed messages, you can manually
+											        increase this multiplier. </p></td>
+				    </tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">CustomProp_Build</td>
+											  <td align="center" height="23">STRING</td>
+											  <td align="center" height="23">&quot;&quot;</td>
+											  <td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+											  <td align="left" height="23"><p> When a document is signed a Prop_Build entry is generated which describes the software environment used to generate the signature. </p>
+											    <p>This is a PDF requirement which is needed so that, if in future, part of the environment is found to be compromised, one can identify documents which may have been affected.</p>
+											    <p> By default ABCpdf will enter elements it feels are relevant. If you wish to add in your own application identifier you can do this by assigning  a three element, semicolon delimited string to this property. The three elements within the string relate to the Name, the R and the REx entry respectively. </p>
+											    <p>This property is only accessible using the Doc.SetInfo method. The default cannot be overridden using a registry key. </p></td>
+				    </tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">EnableKeystrokeJS</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">0</td>
+											  <td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"><br>
+                                                  <small>SetInfo only</small></td>
+											  <td align="left" height="23"><p> Field JavaScript can be used to modify and validate field values.</p>
+											      <p>Each time a character is added by a user, a keystroke JavaScript is triggered to ensure that the value is allowed. Then when the user leaves the field, a validation JavaScript runs to check the entire field. Each time one of these scripts is run the field value may be altered.</p>
+											    <p>Sometimes when you change the value of a field programmatically, you may want to operate in the same way as a user. So programmatically changing a value might be equivalent to a user copying and pasting a value into a field. In that case you would want both the keystroke and validation scripts to be run in the same they would be for a user.</p>
+											    <p>This property allows you to enable the keystroke script.</p>
+											    <p>This property is only accessible using the Doc.SetInfo method.
+											      The default cannot be overridden using a registry
+											      key. </p></td>
+				    </tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">ThousandsSeparator</td>
+											  <td align="center" height="23">STRING</td>
+											  <td align="center" height="23">&quot;,&quot;</td>
+											  <td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"><br>
+										      <small>SetInfo only</small></td>
+											  <td align="left" height="23"><p> Different locales allow the use of different decimal point and thousand separator symbols.</p>
+											    <p>However Acrobat does not cater for these differences and thus assumptions have to be made.</p>
+											    <p>This property allows you to change the character which is used for delimiting thousands in numeric values.</p>
+											    <p>It will only be used in cases where there are multiple possible interpretations of a string.</p>
+											    <p>This property is only accessible using the Doc.SetInfo method.
+														The default cannot be overridden using a registry
+												key. </p></td>
+				    </tr>
+											<tr><td colspan="5" style="padding:0"><h2 style="display:inline; width:100%">HTML/EMF Rendering</h2></td></tr>
+											<tr>
+												<td align="center"><b>Name</b></td>
+												<td align="center"><b>Type</b></td>
+												<td align="center"><b>Default</b></td>
+												<td align="center"><b>Overridable</b></td>
+												<td align="left"><b>Description</b></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderDelay</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														HTML rendering sometimes requires two stages: an
+														information gathering stage and a render stage.													</p>
+													<p>
+														For backwards compatibility reasons, you can insert a delay
+														between these two stages. This value is measured in
+														milliseconds.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">AutoDeleteHTML</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														Certain HTML temp files are automatically deleted by ABCpdf
+														after use.													</p>
+													<p>
+														You are unlikely to want to change the value of this
+														key.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">OneStageRender</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														This property is included for backwards compatibility
+														reasons.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">LargeDocumentSize</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">2,000</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														The size at which a binary search tree is constructed for
+														HTML rendering.													</p>
+													<p>
+														For larger documents, a binary search tree is a much more
+														efficient structure for HTML rendering than is a linear search
+														tree.													</p>
+													<p>
+														For smaller documents, the time taken to build the tree can
+														outweigh the speed advantages so a linear search tree is
+														better.													</p>
+													<p>
+														This property determines the point at which ABCpdf shifts
+														its strategy from linear to binary searches. The number
+														relates to the number of object fragments in the HTML. The
+														number of object fragments is extremely dependent on the
+														complexity of the page, but a couple of hundred object
+														fragments per PDF page would not be atypical.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">DisableFilters</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"><br><small>SetInfo only</small></td>
+												<td align="left" height="23">
+													<p>Whether to automatically disable HTML filters.</p>
+													<p>
+														HTML filters can interfere with the HTML to PDF conversion
+														process because they are raster rather than vector based. For
+														this reason, we try to disable them.													</p>
+													<p>
+														This property is only accessible using the Doc.SetInfo method.
+														The default cannot be overridden using a registry
+														key.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">JPEGThreshold</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">256</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"><br><small>SetInfo only</small></td>
+												<td align="left" height="23">
+													<p>The threshold at which images are JPEG compressed.</p>
+													<p>
+														When an uncompressed image is added to a document ABCpdf
+														may decide whether to use JPEG (lossy) compression or lossless
+														compression based on an analysis of the image.													</p>
+													<p>
+														ABCpdf counts the number of colors used in the image and if
+														the number is greater than this threshold ABCpdf assumes that
+														the image is continuous tone and thus eligible for JPEG
+														compression. The threshold for grayscale images is half that
+														for color images.													</p>
+													<p>
+														This property is only accessible using the Doc.SetInfo method.
+														The default cannot be overridden using a registry
+														key.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">UnloadInterval</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"><br><small>SetInfo only</small></td>
+												<td align="left" height="23">
+													<p>
+														Whether we allow MSHTML to be unloaded when the screen
+														depth changes.													</p>
+													<p>
+														Appropriate values are 0 (MSHTML is never unloaded) and 10
+														(it is unloaded a little while after the screen properties
+														change).													</p>
+													<p>
+														The number actually refers to the number of calls that
+														ABCpdf makes (once a monitor change has occurred) without
+														keeping MSHTML force loaded. We assume that at some point
+														during this period, Windows will unload the DLL.													</p>
+													<p>
+														This property is only accessible using the Doc.SetInfo method.
+														The default cannot be overridden using a registry
+														key.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">MakeURLsUnique</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														Whether to make URLs unique when the page cache is
+														disabled. A URL parameter with a 7-random-uppercase-letter
+														name and a 7-random-uppercase-letter value is added to the
+														URL. It is applied to URLs that contain queries or have paths
+														that do not end with a slash.													</p>
+													<p>
+														Sometimes caching can occur outside of ABCpdf. Making the
+														URL unique can provide an effective way of forcing the page to
+														be refreshed.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">BgImageVertProximity</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">480</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														ABCpdf treats background and foreground
+														images differently. For example, it is generally acceptable to
+														split a background image across pages while it is much less
+														acceptable to split a foreground image in this way.													</p>
+													<p>
+														For this reason, ABCpdf tries to determine whether images
+														are foreground or background using a variety of methods.													</p>
+													<p>
+														If the same image appears a number of times within a
+														limited area of the HTML, ABCpdf will assume it is a
+														background image.													</p>
+													<p>
+														This property represents the vertical distance (in pixels)
+														above a particular image in which ABCpdf looks for repeated
+														images.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">BgImageMinRepeat</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">5</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														ABCpdf treats background and foreground
+														images differently. For example, it is generally acceptable to
+														split a background image across pages while it is much less
+														acceptable to split a foreground image in this way.													</p>
+													<p>
+														For this reason, ABCpdf tries to determine whether images
+														are foreground or background using a variety of methods.													</p>
+													<p>
+														If the same image appears a number of times within a
+														limited area of the HTML, ABCpdf will assume it is a
+														background image.													</p>
+													<p>
+														This property represents the number of repeats above which
+														ABCpdf determines that the image is background.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">NarrowBgImageMaxWidth</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">80</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														ABCpdf treats background and foreground
+														images differently. For example, it is generally acceptable to
+														split a background image across pages while it is much less
+														acceptable to split a foreground image in this way.													</p>
+													<p>
+														For this reason, ABCpdf tries to determine whether images
+														are foreground or background using a variety of methods.													</p>
+													<p>
+														If an image is very tall and thin, ABCpdf will assume it is
+														a background image.													</p>
+													<p>
+														This property represents the maximum width for this
+														test.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">NarrowBgImageMinHeight</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">480</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														ABCpdf treats background and foreground
+														images differently. For example, it is generally acceptable to
+														split a background image across pages while it is much less
+														acceptable to split a foreground image in this way.													</p>
+													<p>
+														For this reason, ABCpdf tries to determine whether images
+														are foreground or background using a variety of methods.													</p>
+													<p>
+														If an image is very tall and thin, ABCpdf will assume it is
+														a background image.													</p>
+													<p>
+														This property represents the minimum height for this
+														test.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">CheckBgImages</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														Sometimes, Windows can tell ABCpdf that
+														an HTML page is complete even though background images have
+														not yet finished loading.													</p>
+													<p>
+														This option allows you to specify that ABCpdf should
+														force-load any background images.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">HTMLBottomExtraMargin</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">30</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														Change this value to change the extra
+														margin that ABCpdf adds at the bottom when rendering HTML
+														pages. Due to rendering issues in Internet Explorer, it is
+														necessary to make the HTML page a bit taller. This extra
+														margin is then clipped and so it does not alter the final PDF
+														output.													</p>
+													<p>
+														However, if the page contains objects positioned relatively
+														to the bottom of the page, the objects may be clipped/shifted.
+														Set this property to zero or to a smaller value in order to
+														avoid such problems.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">HostWebBrowser</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>The initial value of <a href="../5-abcpdf/xhtmloptions/2-properties/hostwebbrowser.htm">XHtmlOptions.HostWebBrowser</a>.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">URLPolicies</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">"0x1608 0x03"</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														<span lang="EN-GB">
+															This setting allows you to override the
+															default URL security policies in place on your machine. You
+															can open up or lock down security settings using this registry
+															key.														</span>													</p>
+													<p>
+														<span lang="EN-GB">
+															The string is a sequence of URL Actions
+															(such as URLACTION_HTML_META_REFRESH) and policies (e.g. URLPOLICY_DISALLOW) in a space delimited list. Appropriate
+															values for these type of actions and policies can be found on
+															the Microsoft web site. The default value for this setting
+															disables meta-refresh tags.														</span>													</p>
+													<p>
+														<span lang="EN-GB">
+															Treat with caution as existing security
+															settings are there for a reason.														</span>													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">TrustedSites</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">""</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														<span lang="EN-GB">
+															Cross domain operations are not normally
+															permitted when accessing the HTML DOM. This means that if you
+															have a frameset on one domain and frames in another ABCpdf
+															will be unable to determine appropriate widths and heights for
+															any of the frames.														</span>													</p>
+													<p>
+														<span lang="EN-GB">
+															Ideally to resolve this type of issue you
+															should move the pages to the same domain or reference the
+															domain within the frameset to ensure that MSHTML will allow
+															this type of cross domain scripting. In situations where this
+															is not possible you can specify sites which should be trusted.
+															Any page URLs which start with one of the trusted site URLs
+															will be assigned a special trusted status.														</span>													</p>
+													<p>
+														<span lang="EN-GB">
+															URL lists are space delimited. For
+															example:														</span>													</p>
+													<p>
+														<span lang="EN-GB">
+															http://www.google.com/
+															http://www.microsoft.com/ http://www.yahoo.com/														</span>													</p>
+													<p>
+														<span lang="EN-GB">
+															Treat with caution as existing security
+															settings are there for a reason.														</span>													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">CharWidthRatioMin</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">700</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														When importing EMF or HTML content using the MSHTML engine, this
+														property specifies the minimum EMF-to-PDF character-width ratio in 1000ths.													</p>
+													<p>
+														Characters whose (EMF and PDF) widths form ratios between
+														the specified minimum and CharWidthRatioMax (exclusively)
+														assume the PDF character widths as font substitution may
+														occur. Characters whose widths form ratios outside the
+														interval are placed as specified because the text is placed in
+														an unusual way.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">CharWidthRatioMax</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1,400</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														When importing EMF or HTML content using the MSHTML engine, this
+														property specifies the maximum EMF-to-PDF character-width ratio in 1000ths.													</p>
+													<p>
+														Characters whose (EMF and PDF) widths form ratios between
+														CharWidthRatioMin and the specified maximum (exclusively)
+														assume the PDF character widths as font substitution may
+														occur. Characters whose widths form ratios outside the
+														interval are placed as specified because the text is placed in
+														an unusual way.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">FlashPreviewTime</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														When HTML contained Flash (SWF) movies are added to a PDF
+														document, ABCpdf will make a preview image for the movie.													</p>
+													<p>
+														The preview is what you will see if you do not have Flash
+														installed. It is what is used when printing PDFs. In general,
+														it is what you will see if you open your PDF using a viewer
+														other than Acrobat.													</p>
+													<p>
+														<u>
+															This value is used for SWF raster import in previous
+															versions of ABCpdf and has the same meaning as
+															FlashPreviewWaitTime for SWF vector import.														</u>													</p>
+													<p>
+														When the movie is intialized, you can specify a time (in
+														milliseconds) at which the movie will be started.													</p>
+													<p>
+														Note that many movies contain script which can alter the
+														way that the movie is played. For example, a script might
+														reset the the current frame to the start after five seconds of
+														content have been played. So the content you get by setting
+														the preview time to ten seconds may be very different to the
+														content a user will see after watching the movie for ten
+														seconds.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">FlashPreviewWaitTime</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">2,000</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														When HTML contained Flash (SWF) movies are added to a PDF
+														document, ABCpdf will make a preview image for the movie.													</p>
+													<p>
+														The preview is what you will see if you do not have Flash
+														installed. It is what is used when printing PDFs. In general,
+														it is what you will see if you open your PDF using a viewer
+														other than Acrobat.													</p>
+													<p>
+														This property determines the time (in milliseconds) that
+														the movie will be given to play before the preview will be
+														made.													</p>
+													<p>
+														Note that many movies contain script which can alter the
+														way that the movie is played. For example, a movie might reset
+														the the current frame to the start after five seconds of
+														content have been played. So the content you get by setting
+														the preview time to ten seconds may be very different to the
+														content a user will see after watching the movie for ten
+														seconds.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">FlashPreviewDPI</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">96</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														When HTML contained Flash (SWF) movies are added to a PDF
+														document, ABCpdf will make a preview image for the movie.													</p>
+													<p>
+														The preview is what you will see if you do not have Flash
+														installed. It is what is used when printing PDFs. In general,
+														it is what you will see if you open your PDF using a viewer
+														other than Acrobat.													</p>
+													<p>
+														<u>
+															This value is used for SWF raster import in previous
+															versions of ABCpdf and is not used for SWF vector
+															import.														</u>													</p>
+													<p>
+														This property determines the resolution (in dots per inch)
+														at which the preview will be made.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">CheckDisplaySettings</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														Changing the screen resolution while a process is running
+														can cause some versions of MSHTML to become confused. If the
+														screen size is reduced then portions of the output HTML may be
+														clipped at the right hand side.													</p>
+													<p>
+														It is unusual for this to be a problem because changing the
+														screen resolution is not a normal event. However some remote
+														access applications can change screen settings in an
+														uncontrolled way which means that someone logging onto a
+														server remotely can sometimes trigger this kind of event in a
+														long running process such as a web application.													</p>
+													<p>
+														This registry key allows you to control what ABCpdf does
+														when this type of event is detected. The possible options
+														are.													</p>
+													<ul>
+														<li>0 - Ignore any screen changes.</li>
+														<li>
+															1 - Raise an exception "Display settings changed.". This
+															may be used as a trigger for recycling the current package
+															and thus resolving the issue.														</li>
+														<li>
+															2 - Attempt to revert screen to previous settings,
+															raising an exception only if this could not be done.														</li>
+													</ul>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">HtmlProcessPoolSize</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">10</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														When using the out-of-process HTML rendering, such as the
+														Gecko HTML engine or MSHtml with MSHtmlBootstrap specifying
+														out-of-process, ABCpdf maintains a pool
+														of worker processes. This value specifies the maximum number
+														of such processes that ABCpdf can spawn. Please also see <a href="../5-abcpdf/xhtmlprocessoptions/2-properties/1-maxprocesses.htm">XHtmlProcessOptions.MaxProcesses</a>.													</p>
+													<p>
+														The default value is optimized for multi-threaded environments such as a
+														Web server. If your application does not use multiple threads
+														to perform HTML rendering, you can reduce this value to save
+														system resources.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">MSHtmlBootstrap</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>This setting determines the method ABCpdf uses to bootstrap MSHTML.</p>
+													<ul>
+														<li>
+															0 - This is the same as 3 (writing to the registry) if IE9 or above is
+															installed. If IE9 or above is not installed, this is the same as 5
+															(no bootstrap).														</li>
+														<li>
+															1 - MSHTML will be hosted out-of-process, and ABCpdf will attempt to
+															load IE8 DLLs, which allows you to achieve better compatibility. This
+															requires certain IE8 DLLs to be present in the system.														</li>
+														<li>
+															2 - ABCpdf will attempt to perform the required registry-based
+															configuration without writing to the registry. This can be used
+															if you cannot enable "Load User Profile" or have no access to the registry.														</li>
+														<li>
+															3 - ABCpdf will write the required configuration to the HKCU
+															registry hive if equivalent registry values are not in effect. For
+															IIS applications, this requires "Load User Profile" to be enabled.														</li>
+														<li>
+															4 - ABCpdf will attempt to load IE8 DLLs in-process, which allows
+															you to achieve better compatibility. This requires certain IE8 DLLs to
+															be present in the system, and your application should not have accessed
+															MSHTML (e.g. using the WebBrowser control) before ABCpdf loads the DLLs.														</li>
+														<li>5 - ABCpdf will not do additional bootstrap for MSHTML.</li>
+													</ul>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">AddLinksToIDs</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														This is a setting that may be used to speed up HTML
+														rendering of documents when AddLinks is set to true.													</p>
+													<p>
+														Fragment links within an HTML page may refer to
+														anchor names or to element IDs. So to use the LinkPages method
+														one has to keep track of all the IDs in the page. This can add
+														a significant overhead for pages which contain many elements
+														with IDs.													</p>
+													<p>
+														If you are not going to use the LinkPages method you can
+														safely set this property to false. Indeed even if you set it
+														to false ABCpdf will still keep track of names and IDs in
+														anchor elements as there is little overhead associated with
+														this subset of elements.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">AddImagePolicy</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [default]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														This is a setting that determines how images in HTML are
+														added to a document.													</p>
+													<p>
+														The default behavior is to add all
+														images directly as long as an ImageQuality has not been
+														specified. This ensures that the quality and size of JPEG
+														images is maintained, that transparent PNG images are
+														inserted using correct transparency&nbsp;and that memory use
+														is minimized.													</p>
+													<p>
+														By setting this property to one you can force images to be
+														inserted indirectly. The HTML rendering engine will be used to
+														decompress any images and then they will be recompressed for
+														insertion into the PDF.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">MSHtmlOverrideKeyPath</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">""</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														The registry key path in HKEY_CURRENT_USER for overriding
+														MSHTML options. This is the value returned through
+														IDocHostUIHandler2::GetOverrideKeyPath.													</p>
+													<p>
+														You can place keys/values in the specified key in HKEY_CURRENT_USER
+														to override values in "Software\Microsoft\Internet Explorer".
+														While MSHTML queries "Software\Microsoft\Internet Explorer"
+														in both HKEY_CURRENT_USER and HKEY_LOCAL_MACHINE, the path
+														specified by this setting is only queried in HKEY_CURRENT_USER.													</p>
+													<p>
+														If this setting is specified and valid, ABCpdf will write in the
+														specified key instead of "Software\Microsoft\Internet Explorer" when
+														bootstrapping MSHTML.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">XULRunnerDirectory</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">""</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														The path to the parent directory containing the XULRunner38_0 folder
+														for the Gecko engine.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">GeckoPrefFile</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">""</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														The path to the JavaScript file that sets the preferences for the Gecko engine.
+														See <a href="../5-abcpdf/xhtmloptions/2-properties/1-engine.htm">XHtmlOptions.Engine</a>
+														for details.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">ABCGeckoDisableFileCheck</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>When the Gecko worker process pool is started, dependent files are checked to ensure that they are untampered. If the files appear to be different from the ones expected, an exception will be thrown.</p>
+													<p>The check of Non-Microsoft code files involves signature validation, which requires the establishment of a chain of trust, which may require Internet access - something that may not be permitted easily on all setups.</p>
+													<p>For most setups validation is fast but occasionally, checking certificate revocation may be slow, which can lead to an excessive startup overhead in the region of some seconds.</p>
+												  <p>The value is treated as flags if it is not 1, so 0xffff has the same effect as 1. However, any value greater than 0xffff is invalid and the corresponding behavior is undefined.</p>
+													<ul>
+														<li>0 - All dependent files are checked.</li>
+														<li>1 - No file is checked.</li>
+														<li>2 (bit 1) - Non-Microsoft code files (.exe, .dll, .xpt) are not checked.</li>
+														<li>4 (bit 2) - Microsoft code files (.exe, .dll) are not checked.</li>
+														<li>8 (bit 3) - Image files (.gif, .png) are not checked.</li>
+														<li>0x10 (bit 4) - Media files (.wav) are not checked.</li>
+														<li>0x20 (bit 5) - JavaScript files (.js, .jsm) are not checked.</li>
+														<li>0x40 (bit 6) - CSS files (.css) are not checked.</li>
+														<li>0x80 (bit 7) - XML files (.xul, .xhtml, .html, .xml, .xsl, .svg, .rdf) are not checked.</li>
+														<li>0x100 (bit 8) - DTD files (.dtd, .ent) are not checked.</li>
+														<li>0x800 (bit 11) - Text files (.manifest, .list, .ini, .xulrunner, .properties, .txt, .aff, .dic, .info, .voucher, LICENSE) are not checked.</li>
+														<li>0xf600 (bits 9, 10, 12-15) - Other files are not checked. These are the unused bits in 0xffff. (Currently, no file is in this category.)
+                                                                                                                  Though disabling the check is not recommended, if you want to future-proof the disabling of the check of other files, you may want to set all these bits to 1.</li>
+													</ul>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">IPCTransport</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														When MSHTML or the Gecko engine is run in a separate worker process, this specifies
+														the method of interprocess communication between ABCpdf and the worker process.													</p>
+													<ul>
+														<li>
+															0 - This is the same as 1 if the OS is Windows XP or Windows Server 2003 or earlier.
+															This is the same as 2, otherwise.														</li>
+														<li>1 - Named pipe.</li>
+														<li>2 - Standard/console I/O streams.</li>
+													</ul>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">UseCSSClassToAddTags</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														When the Gecko engine is used, this setting specifies whether
+														CSS class 'abcpdf-tag-visible' may be used for adding tags (<a href="../5-abcpdf/xhtmloptions/2-properties/addtags.htm">XHtmlOptions.AddTags</a>). For example,</p>
+													<p><pre><code class="language-html">&lt;p id="p1" class="abcpdf-tag-visible" style="border: 1px solid transparent"&gt;Gallia est omnis divisa in partes tres.&lt;/p&gt;</code></pre></p>
+													<p>
+														However this method  is deprecated. Use CSS style
+														'abcpdf-tag-visible: true', instead.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">StopSMILAnimation</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														When the Gecko engine is used, this setting specifies whether SMIL
+														animation is stopped. When the animation is stopped, the first
+														frame/sample is used.													</p>												</td>
+											<tr valign="middle">
+												<td align="center" height="23">RelCharShiftTolerance</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">60</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														This value is in 1000ths of the font size. When the Gecko engine
+														is used, this specifies the maximum relative horizontal shift
+														between adjacent glyphs to consider the glyphs to be in a continuous
+														flow of text. Because of font hinting, character widths and positions
+														reported by Gecko may be different from those in the fonts. Glyphs in
+														a continuous flow are evenly spaced in the text area.													</p>												</td>
+											<tr valign="middle">
+												<td align="center" height="23">AbsCharShiftTolerance</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">500</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														This value is in 1000ths of a point. (A point is 1/72 of an inch.)
+														When the Gecko engine is used, this specifies the maximum absolute horizontal
+														shift between adjacent glyphs to consider the glyphs to be in a continuous
+														flow of text. Because of font hinting, character widths and positions
+														reported by Gecko may be different from those in the fonts. Glyphs in
+														a continuous flow are evenly spaced in the text area.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">ABCChromeDirectory</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">&quot;&quot;</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>For HTML rendering using the default ABCChrome rendering engine (currently ABCChrome123), access is required to the current default ABCChrome executable worker process.</p>
+													<p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting.</p>
+													<p>NB the more specific ABCChrome123Directory setting, the current default engine, will override any value set here. This setting maintains backward compatibility.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">ABCChrome65Directory</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">&quot;&quot;</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>For HTML rendering using the ABCChrome65 rendering engine, access is required to the ABCChrome65.exe worker process.</p>
+													<p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting.</p>												</td>
+											</tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">ABCChrome86Directory</td>
+											  <td align="center" height="23">STRING</td>
+											  <td align="center" height="23">&quot;&quot;</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p>For HTML rendering using the ABCChrome86 rendering engine, access is required to the ABCChrome86.exe worker process.</p>
+											      <p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. This value overrides the ABCChromeDirectory setting as it is version specific.</p></td>
+				    </tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">ABCChrome117Directory</td>
+											  <td align="center" height="23">STRING</td>
+											  <td align="center" height="23">&quot;&quot;</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p>For HTML rendering using the ABCChrome117 rendering engine, access is required to the ABCChrome117.exe worker process.</p>
+											      <p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. This value overrides the ABCChromeDirectory setting as it is version specific.</p></td>
+				    </tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">ABCChrome123Directory</td>
+											  <td align="center" height="23">STRING</td>
+											  <td align="center" height="23">&quot;&quot;</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p>For HTML rendering using the ABCChrome123 rendering engine, access is required to the ABCChrome123.exe worker process.</p>
+											      <p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. This value overrides the ABCChromeDirectory setting as it is version specific.</p></td>
+				    </tr>											
+											<tr valign="middle">
+												<td align="center" height="23">ABCChromeReportSearchPath</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>If the ABCChrome.exe worker process could not be found, a short error message is provided.</p>
+													<p>By setting this value to one, you can ensure that the full set of folders which was searched, is reported in this message.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">ABCChromeDisableFileCheck</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>Before the ABCChrome.exe worker process and dependent files are loaded, a quick sanity check is done to ensure they are correct. If the files appear to be different from the ones expected then an error will be raised.</p>
+													<p>Part of this check involves signature validation, which requires the establishment of a chain of trust, which may require internet access - something that may not be easily  on all setups. </p>
+													<p>For most setups validation is fast but occasionally, checking certificate revocation may be slow, which can lead to an excessive startup overhead in the region of some seconds.</p>
+											  <p>By setting this value to one, you can disable this file check. Be cautious about doing this as, to do so, invites the possibility of loading files which are wrong and may produce crashes or unusual behavior.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">ABCChromeLogSeverity</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>ABCChrome defaults to a sensible tolerance level. It will not report errors if it thinks that the web page has not been affected by them.</p>
+													<p>By setting this property you can make it more sensitive and less tolerant. This may help in diagnosing subtle network and permissions issues.</p>
+													<p>The possible values are:</p>
+													<ul>
+														<li>0 - Default</li>
+														<li>1 - Verbose</li>
+														<li>2 - Info</li>
+														<li>3 - Warning</li>
+														<li>4 - Errors</li>
+													</ul>
+													<p>In general you will want the Info level. The verbose level provides more information but can be overly intrusive and can disrupt multi-threaded operation. </p>
+													<p>You should not use anything other than zero while in production use.</p>												</td>
+											</tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">ABCWebKitDirectory</td>
+											  <td align="center" height="23">STRING</td>
+											  <td align="center" height="23">&quot;&quot;</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p>For HTML rendering using the ABCWebKit rendering engine, access is required to the wkhtmltopdf.exe worker process.</p>
+											      <p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting.</p></td>
+				    </tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">ABCWebKitReportSearchPath</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">0</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p>If the wkhtmltopdf.exe worker process could not be found, a short error message is provided.</p>
+											      <p>By setting this value to one, you can ensure that the full set of folders which was searched, is reported in this message.</p></td>
+				    </tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">ABCWebKitDisableFileCheck</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">0</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p>Before the wkhtmltopdf.exe worker process and dependent files are loaded, a quick sanity check is done to ensure they are correct. If the files appear to be different from the ones expected then an error will be raised.</p>
+											      <p>Part of this check involves signature validation, which requires the establishment of a chain of trust, which may require internet access - something that may not be easily  on all setups.</p>
+											      <p>For most setups validation is fast but occasionally, checking certificate revocation may be slow, which can lead to an excessive startup overhead in the region of some seconds.</p>
+									          <p>By setting this value to one, you can disable this file check. Be cautious about doing this as, to do so, invites the possibility of loading files which are wrong and may produce crashes or unusual behavior.</p></td>
+				    </tr>
+											<tr><td colspan="5" style="padding:0"><h2 style="display:inline; width:100%">Rendering</h2></td></tr>
+											<tr>
+												<td align="center"><b>Name</b></td>
+												<td align="center"><b>Type</b></td>
+												<td align="center"><b>Default</b></td>
+												<td align="center"><b>Overridable</b></td>
+												<td align="left"><b>Description</b></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderNoBitmap</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"><br><small>SetInfo only</small></td>
+												<td align="left" height="23">
+													<p>
+														This parameter allows low-level control over the way that
+														documents are rendered to vector formats like EMF and EPS.													</p>
+													<p>
+														During the generation of an EMF or EPS file, bitmap
+														generation due to transparency detection will be suppressed.
+														This can cause some unexpected results as neither EMF nor EPS
+														format supports transparency and non-default blending modes to
+														the extent that PDF does.													</p>
+													<p>
+														This property is only accessible using the Doc.SetInfo method.
+														The default cannot be overridden using a registry
+														key.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderNoDisplayList</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"><br><small>SetInfo only</small></td>
+												<td align="left" height="23">
+													<p>
+														This parameter allows low-level control over the way that
+														documents are rendered to bitmap outputs.													</p>
+													<p>
+														During the generation of a high-resolution or
+														scene-antialiased bitmap, the renderer stores PDF rendering
+														objects in a display list. The bitmap is broken into sections
+														and the display list is rendered to each section.													</p>
+													<p>
+														For some very complex PDF files, this display list can
+														become rather large and consume a lot of memory. In these
+														cases, it is better to allocate a complete image and render
+														the PDF objects directly to the image than it is to try and
+														store the individual PDF objects.													</p>
+													<p>
+														This property is only accessible using the Doc.SetInfo method.
+														The default cannot be overridden using a registry
+														key.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderTextAsText</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"><br><small>SetInfo only</small></td>
+												<td align="left" height="23">
+													<p>
+														This parameter allows low-level control over the way that
+														text is rendered into vector formats like EPS.													</p>
+													<p>
+														If the value is true, the text is placed directly into the
+														output file when possible. If it is false, the text is
+														converted to vectors, which are then output to the file.													</p>
+													<p>
+														The former method results in smaller files. The latter
+														results in larger but font-independent output files. It is
+														important to note that not everything that looks like text is
+														actually text or can be extracted as text.													</p>
+													<p>
+														This property is only accessible using the Doc.SetInfo method.
+														The default cannot be overridden using a registry
+														key.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderEmfType</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"><br><small>SetInfo only</small></td>
+												<td align="left" height="23">
+													<p>
+														This parameter allows low-level control over the way that
+														documents are rendered to EMF.													</p>
+													<p>
+														This setting controls the type of EMF output. Possible
+														values are:													</p>
+													<ul>
+														<li>0 - EmfOnly</li>
+														<li>1 - EmfPlusOnly</li>
+														<li>2 - EmfPlusDual.</li>
+													</ul>
+													<p>
+														You may want to change the setting to EmfPlusDual, which
+														means that both EMF and EMF+ entries are included in the
+														output. This produces greater compatibility but at the cost of
+														a doubling in file size.													</p>
+													<p>
+														This property is only accessible using the Doc.SetInfo method.
+														The default cannot be overridden using a registry
+														key.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderInstallFonts</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														This registry key allows you to control the installation of
+														embedded fonts when rendering to EMF.													</p>
+													<p>
+														By default, when you use Rendering.GetData to render to
+														EMF, fonts will be installed in memory and will remain
+														available to the ABCpdf process until Doc.Clear is called.
+														This means that the EMF can be spooled to a printer and the
+														fonts will appear correctly.													</p>
+													<p>
+														By default, when you use Rendering.Save to render to EMF,
+														embedded fonts are not installed and text will be rendered as
+														polygons for any fonts that are not available on the system.
+														This is because when an EMF file is viewed outside the ABCpdf
+														process, memory-resident fonts are not available. Thus any
+														text using those fonts would be subject to font substitution
+														by Windows.													</p>
+													<p>
+														Set this value to 0xFFFFFFFF to disable the installation of
+														embedded fonts in memory, even when calling Rendering.GetData.
+														This results in text rendered with polygons for embedded
+														fonts. Hence, the rendering is slower and the output is
+														bigger.													</p>
+													<p>
+														Set this value to 1 to always install fonts, even when
+														calling Rendering.Save. This results in faster rendering and
+														smaller outputs. However, viewing emf files outside the ABCpdf
+														process may not display embedded fonts correctly.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderAlwaysInstallFonts</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														This registry key allows you to selectively control the installation of
+														embedded fonts when rendering to EMF.													</p>
+													<p>Assuming that RenderInstallFonts is set appropriately, embedded fonts will be installed in memory. However many embedded fonts are subsets of standard system fonts. Referencing the copy which exists in the fonts folder provides two advantages. The first is that the amount of memory used is reduced. However, more importantly, subsetting can occasionally result in a font which looks viable to Acrobat but not to Windows. In this case using the embedded font can result in unreliable text output.</p>
+													<p>When this value is set to 1 embedded fonts will always be installed. If it is set to 0 then only those fonts that do not appear to have an analog in the fonts folder will be installed.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderBypassDeviceIcc</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														<span lang="EN-GB">
+															Some PDFs contain color profiles which do
+															not handle black objects correctly.														</span>													</p>
+													<p>
+														<span lang="EN-GB">
+															This option allows you to bypass the
+															profile transformation if the input colorspace is CMYK ICC and
+															the output is device CMYK, or if the input is Gray ICC based
+															and the output is device CMYK.														</span>													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">EmfDeviceName</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">""</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"><br><small>SetInfo only</small></td>
+												<td align="left" height="23">
+													<p>When an EMF is created the standard settings are taken from the default screen.</p>
+													<p>Under some circumstances it can be desirable to allow these settings to be taken from a different screen or indeed a device such as a printer.</p>
+													<p>This property allows you to specify the name of the device to be used for the default EMF settings.</p>
+													<p>This property is only accessible using the Doc.SetInfo method. The default cannot be overridden using a registry key.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderResizeupThreshold</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">600000000</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23"><p>Maximum number of bytes used to resize up an image.  When rendering to a high resolution output image, internal pdf images will get resized using the normal resizing methods.  It the target (temporary) image exceeds this threshold, we will use a sampling algorithm to place the image in the output image.</p></td>
+											</tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">ColorConvertWHighPrecision</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">0</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p>Disabled by default. Set to 1 to enable. Converting color spaces using ICC profiles and high precision can take extra processing time, especially for embedded images, however it may be necessary for certain applications or 16 bit output.</p></td>
+				    </tr>
+											<tr valign="middle">
+												<td align="center" height="23">ColorProfileDirectory</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">See notes.</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23"><p>The system ICC color profile directory is the location in which system ICC color profiles are stored. <br>
+												  <br>
+												  On Windows the default is,</p>
+											    <p>%SystemRoot%\system32\spool\drivers\color\</p>
+											    <p>On Linux it is,</p>
+											    <p>/usr/share/color/icc/</p></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderUseAVXExtension</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23"><p>Enabled by default if processor supports the advanced vector instructions (AVX).  Set to 0 if you do not wish to use these instructions.</p></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderUseFontHints</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23"><p>Disabled by default unless rendering is 1 bit per sample.  When rendering to anti-aliased continuous tone images, the glyphs appear nicer when the glyph is not drawn hinted. Set this to 1 to enable font glyph hinting.</p></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderAdjustSubGlyphMat</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23"><p>When fonts are not embedded in the pdf, we look for a suitable external font.  Occasionally the chosen external font's glyph metrics do not match the metrics specified by the pdf, so we compromise by mapping the width of an external glyph to it's corresponding width as specified in the source pdf.  Set to 0 if you do not want this mapping to occur.</p></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderCurveFlatness</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">"1"</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														When rendering stroked curves, the curve is broken into a series of line segments.  The flatness value is the default value for this tesselation,
+														default is '1' which means that when the curve has deviated by 1 pixel, it is broken into a line segment.  Note that even though its registry representation is
+														type 'STRING', it will be converted into a DOUBLE numerical value.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">RenderCurveFlatnessEnabled</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">0 [false]</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p> PDF documents can contain operators which set the curve flatness. However most PDF applications ignore these requests as they typically make curves look like jagged lines. We also ignore such requests unless this property is changed to true.</p></td>
+				    </tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderHalftoneGamma</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">"1"</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														When creating a 1 bit per pixel image, some images may come out too light or too dark.  This value allows you to customize the general tone of the image.
+														The greater the value, the darker the resulting image. (Enter a value between .01 and 10), 2 is a good value to start for darkening.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">RenderMinLineWidth</td>
+											  <td align="center" height="23">STRING</td>
+											  <td align="center" height="23">"0.25"</td>
+											  <td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+											  <td align="left" height="23"><p>The same as property <a href="../5-abcpdf/xrendering/2-properties/minimumlinewidth.htm">XRendering.MinimumLineWidth</a>.</p></td>
+				    </tr>
+											<tr valign="middle">
+												<td align="center" height="23">RenderVerboseLog</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>Setting this property to true produces a more verbose output for  the Doc.Rendering.Log.</p>												</td>
+											</tr>
+											<tr><td colspan="5" style="padding:0"><h2 style="display:inline; width:100%">XPS/HTML Export</h2></td></tr>
+											<tr>
+												<td align="center"><b>Name</b></td>
+												<td align="center"><b>Type</b></td>
+												<td align="center"><b>Default</b></td>
+												<td align="center"><b>Overridable</b></td>
+												<td align="left"><b>Description</b></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">XPSExportWMPImages</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1 [true]</td>
+												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+												<td align="left" height="23">
+													<p>
+														This hint flag controls ABCpdf policy regarding the
+														use of <a target="_blank" href="http://wikipedia.org/wiki/JPEG_XR" target="_blank">Windows Media Photo (WMP/JPEG XR)</a> images in
+														converted XPS documents. If this flag is set, ABCpdf would
+														prefer to use WMP over PNG in some situations.													</p>
+													<p>
+														WMP is a versatile format that can handle lossless and lossy
+														compression as well as transparency. It can often reduce the
+														file size of produced XPS documents.													</p>
+													<p>
+														However, some compact .NET runtime environments, such as Silverlight, do not
+														support decoding WMP images. If your XPS documents need to be
+														used in those environments, you may want to turn this flag off.													</p>
+													<p>
+														Images in color-spaces such as CMYK must always be
+														represented as WMP in XPS documents. As such, if you wish to
+														ensure that your documents never use WMP, they must be
+														converted to RGB or Grayscale before export.													</p>												</td>
+											</tr>
+											<tr><td colspan="5" style="padding:0"><h2 style="display:inline; width:100%">XpsAny Import</h2></td></tr>
+											<tr>
+												<td align="center"><b>Name</b></td>
+												<td align="center"><b>Type</b></td>
+												<td align="center"><b>Default</b></td>
+												<td align="center"><b>Overridable</b></td>
+												<td align="left"><b>Description</b></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">PrintHookLog</td>
+												<td align="center" height="23">DWORD or STRING</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23"><small>registry only</small></td>
+												<td align="left" height="23">
+													<p>
+														Set this value to 1 to enable the logging of the PrintHook
+														library using <nobr>%SystemRoot</nobr>%\Temp or set it to a
+														path to a folder to enable the logging using that folder.													</p>
+													<p>
+														The PrintHook library is used to print files to XPS, which
+														are then converted to PDF in ImportAny operations. We may ask
+														you to enable the logging and send us the log files for
+														debugging purposes if you request us to solve related
+														problems.													</p>
+													<p>Log files are named spy_&lt;PID&gt;.txt.</p>
+													<p>
+														On 64-bit machines, you will need to set this value in the
+														32-bit registry section (Wow6432Node) as well for intercepting
+														32-bit processes.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">PrintHookShow</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														Set this value to 1 for viewing applications that are
+														launched by Operations.ImportAny(), typically Office
+														applications. Set it to 0 or remove it to hide them.													</p>
+													<p>
+														We use Office applications to print their documents to XPS
+														files, which we then convert to PDF. Sometimes these
+														applications get stuck on pop-ups of various types, so it may
+														be useful to see what they are doing.													</p>
+													<p>
+														Please note that there are limitations with this feature&#8212;it
+														may not be possible to view applications that run under a
+														different user account. This is normally the case when running
+														Office Applications in a web server process.													</p>												</td>
+											</tr>
+											<tr><td colspan="5" style="padding:0"><h2 style="display:inline; width:100%">MSOffice Import</h2></td></tr>
+											<tr>
+												<td align="center"><b>Name</b></td>
+												<td align="center"><b>Type</b></td>
+												<td align="center"><b>Default</b></td>
+												<td align="center"><b>Overridable</b></td>
+												<td align="left"><b>Description</b></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">MSOfficeShow</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													Setting this to true will cause MSOffice application
+													windows to be displayed when using the MSOffice read module.
+													This can be useful for troubleshooting purposes.												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">PreferDCOMLaunch</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">0 [false]</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>This is a setting for the MSOffice read module.</p>
+													<p>
+														Set to true to prefer using Windows' DCOMLaunch service to create
+														MSOffice application processes. This is mainly needed for
+														using the MSOffice read module in Classic ASP. Please refer to
+														our support page for more instructions to prepare the system
+														for the MSOffice read module in Classic ASP.													</p>												</td>
+											</tr>
+											<tr><td colspan="5" style="padding:0"><h2 style="display:inline; width:100%">WordGlue Import</h2></td></tr>
+											<tr>
+												<td align="center"><b>Name</b></td>
+												<td align="center"><b>Type</b></td>
+												<td align="center"><b>Default</b></td>
+												<td align="center"><b>Overridable</b></td>
+												<td align="left"><b>Description</b></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">WordGlueAssemblyPath</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">""</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>If WordGlue .NET is installed, then ABCpdf will use it for importing DOC and DOCX content.</p>
+													<p>ABCpdf will look in standard locations for WordGlue. However, if you have WordGlue installed in an unusual location, you may wish to let ABCpdf know where to look using this setting.</p>												</td>
+											</tr>
+											<tr><td colspan="5" style="padding:0"><h2 style="display:inline; width:100%">Postscript (EPS) Import</h2></td></tr>
+											<tr>
+												<td align="center"><b>Name</b></td>
+												<td align="center"><b>Type</b></td>
+												<td align="center"><b>Default</b></td>
+												<td align="center"><b>Overridable</b></td>
+												<td align="left"><b>Description</b></td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">EPSDoSeparations</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>This applies to the processing of Separation and DeviceN colorspaces.  When EPS is converted to PDF, by default we try to keep the original colorspaces.</p>
+													<p>However, there may be instances where the Separation or DeviceN colorspace causes problems. Set to '0' to force the interpreter to use the equivalent alternate colorspace.</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">EPSUseDistillerOps</td>
+												<td align="center" height="23">DWORD</td>
+												<td align="center" height="23">1</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														There are special postscript operators that Distiller supplies to help specially written postscript files convert to
+														pdf (namely 'pdfmark').  Setting this value to '0' disables those operators.													</p>												</td>
+											</tr>
+											<tr valign="middle">
+												<td align="center" height="23">EPSDeviceScale</td>
+												<td align="center" height="23">STRING</td>
+												<td align="center" height="23">"100"</td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23">
+													<p>
+														Some Postscript or EPS files may look for a device resolution and attempt to optimize the placement of certain object
+														based on that assumed resolution.  This can cause problems when converting to PDF, which is resolution independent.
+														Since both EPS and PDF use 'points' as the default resolution, it can appear to a postscript program that the resolution is
+														72 dots per inch (1 point is 1/72 of an inch).  This setting allows one to make the output device (PDF) appear to be any resolution,
+														and the default value of '100' makes the pdf output device appear to the postscript program to be a device with
+														7200 dots per inch (72 * 100).  Making the output device appear as a higher resolution device limits the effect of
+														some postscript functions such as the 'snap_to_device' function that some AI postscript output files may incorporate.													</p>												</td>
+											</tr>
+										</tbody>
+									</table>
+								  <p>&nbsp;</p>
+									<p><br></p>
+								</td>
+								<td width="60">&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>&nbsp;</p>
+</body>
+</html>

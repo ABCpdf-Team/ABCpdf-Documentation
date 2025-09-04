@@ -1,0 +1,420 @@
+<html>
+<head>
+<title>WPF Tables Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> WPF Tables Example</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>This example shows how to import Windows Presentation Foundation 
+              (WPF) Extensible Application Markup Language (XAML) tables into 
+              a PDF document. Each table has been specified in a XAML file. </p>
+            <p>You can find the full project and classes under the ABCpdf menu 
+              item. The project includes code for laying out four different types 
+              of tables. Two get their input data from text files and two from 
+              XML files.</p>
+            <p>The tables are intentionally very similar to those in the <a href="09-table1.htm">Small 
+              Table Example</a> and <a href="10-table2.htm">Large Table Example</a> 
+              to allow you to compare the two different layout methods.</p>
+            <table border="0" cellpadding="10" class="backgrounder">
+              <tr> 
+                <td> 
+                  <p><b>WPF Limitations.</b> The WPF Table component does not 
+                    support the following features:</p>
+                  <p>WPF supports row and column backgrounds and table and cell 
+                    borders. However, it does not support row or column borders.</p>
+                  <p>WPF does not support automatic header and footer repetition 
+                    when a table is split across pages. Some people appear to 
+                    have extended the DocumentPaginator class to add headers manually 
+                    in code during the XPS serialization process. However, our 
+                    code does not demonstrate this technique.</p>
+                  <p>WPF does not directly support list data binding. By this, 
+                    we mean that there is no way to define a row template and 
+                    then have the table automatically add a row for each data 
+                    item in the data provider. We achieve this functionality by 
+                    manipulating the XAML code in memory to add additional rows. 
+                  </p>
+                </td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      XAML</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>First, we define the table structure.</p>
+            <p>Our Small and Large tables have a fairly simple structure. For 
+              example, the small table structure is defined in a XAML design file 
+              - SmallTable.xaml. </p>
+            <p> <code class="language-undefined"> 
+              <!--notcode-->
+              &lt;Table Name=&quot;ItemsTable&quot; CellSpacing=&quot;10&quot; 
+              BorderBrush=&quot;Black&quot; BorderThickness=&quot;2&quot; TextAlignment=&quot;Justify&quot;&gt;<br>
+              &nbsp;&nbsp;&lt;Table.Columns&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;TableColumn Width=&quot;120&quot;/&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;TableColumn Width=&quot;180&quot;/&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;TableColumn Width=&quot;120&quot;/&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;TableColumn Width=&quot;140&quot;/&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;TableColumn Width=&quot;140&quot;/&gt;<br>
+              &nbsp;&nbsp;&lt;/Table.Columns&gt;<br>
+              &nbsp;&nbsp;&lt;TableRowGroup Background=&quot;White&quot; DataContext=&quot;{Binding 
+              Source={StaticResource InputData}, Path=[0]}&quot;&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;TableRow&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TableCell&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Paragraph&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TextBlock 
+              TextWrapping=&quot;Wrap&quot; Text=&quot;{Binding Path=Columns[0]}&quot;/&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Paragraph&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TableCell&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TableCell&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Paragraph&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TextBlock 
+              TextWrapping=&quot;Wrap&quot; Text=&quot;{Binding Path=Columns[1]}&quot;/&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Paragraph&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TableCell&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TableCell&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Paragraph&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TextBlock 
+              TextWrapping=&quot;Wrap&quot; Text=&quot;{Binding Path=Columns[2]}&quot;/&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Paragraph&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TableCell&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TableCell&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Paragraph&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TextBlock 
+              TextWrapping=&quot;Wrap&quot; Text=&quot;{Binding Path=Columns[3]}&quot;/&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Paragraph&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TableCell&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TableCell&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;Paragraph&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;TextBlock 
+              TextWrapping=&quot;Wrap&quot; Text=&quot;{Binding Path=Columns[4]}&quot;/&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/Paragraph&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/TableCell&gt;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;/TableRow&gt;<br>
+              &nbsp;&nbsp;&lt;/TableRowGroup&gt;<br>
+              &lt;/Table&gt;;<br>
+              </code></p>
+            <p>Refer to the <a target="_blank" href="http://msdn2.microsoft.com/en-us/library/ms747133.aspx">MSDN 
+              WPF Table Overview</a> for more information on how to define WPF 
+              tables. Note that we are using Table and not Grid because we need 
+              to place our table in a Flow Document. Although Grid can be wrapped 
+              in a UI container so as to appear in a flow document, it cannot be 
+              split over multiple pages.</p>
+            <p>Our table definition contains a single row with five columns. We 
+              will see later on how to duplicate this row so that there is one 
+              for every item in the data source so as to achieve list binding 
+              in code. Our data source is defined as follows:</p>
+            <p><pre><code class="language-undefined">&lt;c:TextDataProvider x:Key=&quot;InputData&quot; FileName=&quot;text6.txt&quot;/&gt;
+</code></pre></p>
+            <p>Our TextDataProvider is a custom-written class that extracts text 
+              from a tab separated input file. It supplies this text to the targets 
+              via the binding indicated by the DataContext and Binding attributes:</p>
+            <p><pre><code class="language-undefined">&lt;TableRowGroup Background=&quot;White&quot; DataContext=&quot;{Binding Source={StaticResource InputData}, Path=[0]}&quot;&gt;
+</code></pre></p>
+            <p>... indicates that this row group is bound to the first line of 
+              the file.</p>
+            <p><pre><code class="language-undefined">&lt;TextBlock TextWrapping=&quot;Wrap&quot; Text=&quot;{Binding Path=Columns[0]}&quot;/&gt;
+</code></pre></p>
+            <p>... indicates that the text block in this cell is bound to the 
+              first column of the line. </p>
+            <p>The large table structure is almost identical to the small table 
+              structure. It is defined in LargeTable.xaml. Because the pagination 
+              is done automatically by the flow document paginator, the implementation 
+              of the two tables is identical apart from the small differences 
+              in the XAML table definitions. The difference between the table 
+              definitions is that they bind to different input files and have 
+              different numbers of columns.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Bind</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Next, we add the table rows</p>
+            <p>Because Table does not support binding to a collection of Items 
+              (unlike for example other WPF UI controls such as ListBox or ItemsControl) 
+              - also known as list binding, we manually add table rows in code. 
+            </p>
+            <p>To do so, we load the XAML design file at runtime. We then use XML 
+              classes to duplicate rows and bind them to different data items. 
+              To load XAML design files at runtime, we must set their type as &quot;Content&quot; 
+              in the Visual Studio file properties. It may also help to copy them 
+              into the binary location.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">MemoryStream ModifyXamlUsingTextProvider(string mDataProvider, string mXamlFile, string mTableXamlLocation, string mTableName) {
+&nbsp;&nbsp;var dataProvider = new TextDataProvider(mDataProvider);
+&nbsp;&nbsp;var xamlDoc = new XmlDocument();
+&nbsp;&nbsp;var xamlFile = new FileStream(mXamlFile, FileMode.Open);
+&nbsp;&nbsp;xamlDoc.Load(xamlFile);
+
+&nbsp;&nbsp;var nsmgr = new XmlNamespaceManager(xamlDoc.NameTable);
+&nbsp;&nbsp;nsmgr.AddNamespace("x", "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
+
+&nbsp;&nbsp;var itemsTable = xamlDoc.DocumentElement.SelectSingleNode(mTableXamlLocation + "[@Name='" + mTableName + "']", nsmgr);
+
+&nbsp;&nbsp;for (int i = 1; i &lt; dataProvider.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;var rowGroup = itemsTable.LastChild;
+&nbsp;&nbsp;&nbsp;&nbsp;var newRowGroup = rowGroup.Clone();
+&nbsp;&nbsp;&nbsp;&nbsp;string bindingText = newRowGroup.Attributes["DataContext"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;bindingText = bindingText.Remove(bindingText.LastIndexOf('[')) + "[" + i + "] }";
+&nbsp;&nbsp;&nbsp;&nbsp;newRowGroup.Attributes["DataContext"].Value = bindingText;
+&nbsp;&nbsp;&nbsp;&nbsp;newRowGroup.Attributes["Background"].Value = (i % 2) == 0 ? "White" : "LightGray";
+&nbsp;&nbsp;&nbsp;&nbsp;itemsTable.InsertAfter(newRowGroup, rowGroup);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;var memStream = new MemoryStream();
+&nbsp;&nbsp;xamlDoc.Save(memStream);
+&nbsp;&nbsp;xamlFile.Close();
+&nbsp;&nbsp;return memStream;
+}
+</code></pre> </p>
+            <p><span class="language">[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Private Function ModifyXamlUsingTextProvider(mDataProvider As String, mXamlFile As String, mTableXamlLocation As String, mTableName As String) As MemoryStream
+&nbsp;&nbsp;Dim dataProvider As New TextDataProvider(mDataProvider)
+&nbsp;&nbsp;Dim xamlDoc As New XmlDocument()
+&nbsp;&nbsp;Dim xamlFile As New FileStream(mXamlFile, FileMode.Open)
+&nbsp;&nbsp;xamlDoc.Load(xamlFile)
+
+&nbsp;&nbsp;Dim nsmgr As New XmlNamespaceManager(xamlDoc.NameTable)
+&nbsp;&nbsp;nsmgr.AddNamespace("x", "http://schemas.microsoft.com/winfx/2006/xaml/presentation")
+
+&nbsp;&nbsp;Dim itemsTable As XmlNode = xamlDoc.DocumentElement.SelectSingleNode(mTableXamlLocation + "[@Name='" + mTableName + "']", nsmgr)
+
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt; dataProvider.Count
+&nbsp;&nbsp;&nbsp;&nbsp;Dim rowGroup As XmlNode = itemsTable.LastChild
+&nbsp;&nbsp;&nbsp;&nbsp;Dim newRowGroup As XmlNode = rowGroup.Clone()
+&nbsp;&nbsp;&nbsp;&nbsp;Dim bindingText As String = newRowGroup.Attributes("DataContext").Value
+&nbsp;&nbsp;&nbsp;&nbsp;bindingText = bindingText.Remove(bindingText.LastIndexOf("["C)) + "[" + i + "] }"
+&nbsp;&nbsp;&nbsp;&nbsp;newRowGroup.Attributes("DataContext").Value = bindingText
+&nbsp;&nbsp;&nbsp;&nbsp;newRowGroup.Attributes("Background").Value = If((i Mod 2) = 0, "White", "LightGray")
+&nbsp;&nbsp;&nbsp;&nbsp;itemsTable.InsertAfter(newRowGroup, rowGroup)
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+
+&nbsp;&nbsp;Dim memStream As New MemoryStream()
+&nbsp;&nbsp;xamlDoc.Save(memStream)
+&nbsp;&nbsp;xamlFile.Close()
+&nbsp;&nbsp;Return memStream
+End Function
+</code></pre>
+            </p>
+<p>The data provider is loaded directly from code so we know how many 
+              data items (text file lines) are available. The XAML design document 
+              is loaded as a XmlDocument. We retrieve the XML node that corresponds 
+              to our table via the Xpath query passed to SelectSingleNode() in 
+              the document element. For this, we need to load the WPF namespace 
+              else the query will fail. </p>
+            <p>Once we have our items table, we get hold of the row group. The 
+              row group is the last child of the table. We duplicate the row group 
+              by using the XmlNode.Clone() method and then change the data binding 
+              to point to the next row. We also alternate the row background colors. 
+              After all items have been added, we save the XML document into a 
+              memory stream. </p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var stm = ModifyXamlUsingTextProvider(null, null, null, null);
+var page = XamlReader.Load(stm) as System.Windows.Controls.Page;
+var docViewer = LogicalTreeHelper.FindLogicalNode(page, "DocViewer") as FlowDocumentPageViewer;
+page.Content = null;
+</code></pre>             <p><span class="language">[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Dim stm As Stream = ModifyXamlUsingTextProvider(Nothing, Nothing, Nothing, Nothing)
+Dim page = TryCast(XamlReader.Load(stm), System.Windows.Controls.Page)
+Dim docViewer As FlowDocumentPageViewer = TryCast(LogicalTreeHelper.FindLogicalNode(page, "DocViewer"), FlowDocumentPageViewer)
+page.Content = Nothing
+stm.Close()
+</code></pre></p>
+<br>
+              We use XamlReader.Load() to load the root object specified in the 
+              XAML design file (stored in the memory stream). This is not the 
+              Table, or the FlowDocument (so as to then convert it directly to 
+              XPS and PDF as shown below); it is a Page. This is because it is 
+              convenient to view the Table in the Visual Studio XAML designer 
+              so we chose to have a Page as the root element. This page contains 
+              a flow document viewer and this allows the designer to show the 
+              table as we type XML tags. We then simply discard the page and keep 
+              the document viewer if we want to show the document in a window 
+              or we just keep the document if we only want to convert it to XPS. 
+              The page content must be set to null; otherwise, the child elements 
+              (the document viewer and document) cannot be attached to a different 
+              container (the window or the XPS document). </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Save</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The table is saved as XPS first and then converted into PDF. </p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">void SaveToXps(Stream fileStream, FlowDocumentPageViewer viewer) {
+&nbsp;&nbsp;using var package = Package.Open(fileStream, FileMode.Create, FileAccess.ReadWrite);
+&nbsp;&nbsp;using var doc = new XpsDocument(package);
+&nbsp;&nbsp;var writer = XpsDocument.CreateXpsDocumentWriter(doc);
+&nbsp;&nbsp;var document = viewer.Document;
+&nbsp;&nbsp;writer.Write(document.DocumentPaginator);
+}
+
+void SaveToPdf(string pdfFileName, FlowDocumentPageViewer viewer) {
+&nbsp;&nbsp;using  var memStream = new MemoryStream();
+&nbsp;&nbsp;SaveToXps(memStream, viewer);
+&nbsp;&nbsp;using var pdfDoc = new Doc();
+&nbsp;&nbsp;pdfDoc.Read(memStream, new XReadOptions() { FileExtension = ".xps" });
+&nbsp;&nbsp;pdfDoc.Save(pdfFileName);
+}
+</code></pre></p>
+                        <p><span class="language">[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Private Sub SaveToXps(fileStream As Stream, viewer As FlowDocumentPageViewer)
+&nbsp;&nbsp;Dim package__1 = Package.Open(fileStream, FileMode.Create, FileAccess.ReadWrite)
+&nbsp;&nbsp;Dim doc = New XpsDocument(package__1)
+&nbsp;&nbsp;Dim writer = XpsDocument.CreateXpsDocumentWriter(doc)
+&nbsp;&nbsp;Dim document = viewer.Document
+&nbsp;&nbsp;writer.Write(document.DocumentPaginator)
+&nbsp;&nbsp;doc.Close()
+&nbsp;&nbsp;package__1.Close()
+End Sub
+
+Private Sub SaveToPdf(pdfFileName As String, viewer As FlowDocumentPageViewer)
+&nbsp;&nbsp;Dim memStream As New MemoryStream()
+&nbsp;&nbsp;SaveToXps(memStream, viewer)
+&nbsp;&nbsp;Dim pdfDoc = New Doc()
+&nbsp;&nbsp;pdfDoc.Read(memStream, New XReadOptions() With { _
+&nbsp;&nbsp;&nbsp;&nbsp;Key .FileExtension = ".xps" _
+&nbsp;&nbsp;})
+&nbsp;&nbsp;pdfDoc.Save(pdfFileName)
+&nbsp;&nbsp;pdfDoc.Clear()
+&nbsp;&nbsp;memStream.Close()
+End Sub
+</code></pre>
+            </p>
+            <p>We create an XPS file in memory using MemoryStream. We then pass 
+              the document paginator to the XPS writer. The document paginator 
+              splits the flow document into a set of pages and writes them to 
+              the XPS document. The PDF document Read() method accepts a Stream 
+              containing the XPS document and a type. After the XPS document has 
+              been loaded into the PDF document, this can be saved to file.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      XML</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The Invoice and Space table examples bind to an XML data source 
+              and have a more complex structure. </p>
+            <p>As such, please see the XAML design files, InvoiceTable.xaml and 
+              SpaceTable.xml, for the full table structure.</p>
+            <p>Because the table input data is specified as XML, we can use the 
+              WPF standard data provider, XmlDataProvider, instead of our own 
+              custom TextDataProvider. </p>
+            <p>Because the data provider is XML, we can use the XmlDocument for 
+              the data files as well as XAML design files. </p>
+            <p>Each table item is mapped to an XML item so we can count the XML 
+              items and add a new row group for each one of them (bar of course 
+              the first one as defined in the design file). Note that the XmlDataProvider 
+              indexing is one rather than zero based.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Results</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>We get output very similar to that from the Tables Example project. 
+              For example.</p>
+            <p><img src="../images/pdf/table2.pdf.png" class="example"><br>
+              table2.pdf - [Page 1]</p>
+            <table width="100%" border="0" cellspacing="3" cellpadding="3">
+              <tr> 
+                <td><img src="../images/pdf/table2.pdf2.png" class="example"><br>
+                  table2.pdf - [Page 2]</td>
+                <td><img src="../images/pdf/table2.pdf3.png" class="example"><br>
+                  table2.pdf - [Page 3]</td>
+              </tr>
+              <tr> 
+                <td><img src="../images/pdf/table2.pdf4.png" class="example"><br>
+                  table2.pdf - [Page 4]</td>
+                <td><img src="../images/pdf/table2.pdf5.png" class="example"><br>
+                  table2.pdf - [Page 5]</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

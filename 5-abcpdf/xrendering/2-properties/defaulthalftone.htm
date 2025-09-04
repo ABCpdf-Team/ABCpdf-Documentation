@@ -1,0 +1,173 @@
+<html>
+<head>
+<title>XRendering DefaultHalftone Property. Halftone type and options. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> DefaultHalftone Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>string</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>String</code></td>
+                <td>&quot;Spot,30,100,CosineDot&quot;</td>
+                <td>No</td>
+                <td>Halftone type and options.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Specifies the default halftone type and options.</p>
+            <p>The default halftone remains in effect until an embedded halftone 
+              screen is encountered. <br>
+            </p>
+            <p>The Type can be:</p>
+            <ul>
+              <li>Spot</li>
+              <li>ErrorDiffusion</li>
+              <li>OrderedDither</li>
+              <li>Threshold</li>
+            </ul>
+            <p>If the type is Spot then an angle in degrees, frequency and spot 
+              function can also be specified. These should be separated by commas 
+              with no extraneous spaces. The spot functions available are:</p>
+            <ul>
+              <li>SimpleDot</li>
+              <li>InvertedSimpleDot</li>
+              <li>DoubleDot</li>
+              <li>InvertedDoubleDot</li>
+              <li>CosineDot</li>
+              <li>Double</li>
+              <li>InvertedDouble</li>
+              <li>Line</li>
+              <li>LineX</li>
+              <li>LineY</li>
+              <li>Round</li>
+              <li>Ellipse</li>
+              <li>EllipseA</li>
+              <li>InvertedEllipseA</li>
+              <li>EllipseB</li>
+              <li>EllipseC</li>
+              <li>InvertedEllipseC</li>
+              <li>Square</li>
+              <li>Cross</li>
+              <li>Rhomboid</li>
+              <li>Diamond</li>
+            </ul>
+            <p>If the type is Threshold you should specify a value - for example 
+              &quot;'threshold=60&quot;. This is used when calculating the value 
+              of a black and white pixel. If the grey level l is greater than 
+              the threshold the pixel will be black otherwise it will be white.</p>
+            <p>For full details of how Halftones work you should see the Adobe 
+              PDF Specification available from the Adobe web site.<br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example shows the effect that this parameter has 
+              on PDF rendering.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+using var image = new XImage();
+image.SetFile(Server.MapPath("../mypics/Shuttle.jpg"));
+doc.Rect.String = image.Selection.String;
+doc.AddImage(image);
+// Save rendered image as black and white picture using Line spot function
+doc.Rendering.UseEmbeddedHalftone = false;
+doc.Rendering.DotsPerInch = 50;
+doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Gray;
+doc.Rendering.BitsPerChannel = 1;
+doc.Rendering.DefaultHalftone = "Spot,30,100,Line";
+doc.Rendering.Save(Server.MapPath("RenderingHalftoneLine.png"));
+// Save rendered image as black and white picture using Diamond spot function
+doc.Rendering.DefaultHalftone = "Spot,0,100,Diamond";
+doc.Rendering.Save(Server.MapPath("RenderingHalftoneDiamond.png"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim image As New XImage()
+&nbsp;&nbsp;image.SetFile(Server.MapPath("../mypics/Shuttle.jpg"))
+&nbsp;&nbsp;doc.Rect.String = image.Selection.[String]
+&nbsp;&nbsp;doc.AddImage(image)
+&nbsp;&nbsp;' Save rendered image as black and white picture using Line spot function
+&nbsp;&nbsp;doc.Rendering.UseEmbeddedHalftone = False
+&nbsp;&nbsp;doc.Rendering.DotsPerInch = 50
+&nbsp;&nbsp;doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Gray
+&nbsp;&nbsp;doc.Rendering.BitsPerChannel = 1
+&nbsp;&nbsp;doc.Rendering.DefaultHalftone = "Spot,30,100,Line"
+&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingHalftoneLine.png"))
+&nbsp;&nbsp;' Save rendered image as black and white picture using Diamond spot function
+&nbsp;&nbsp;doc.Rendering.DefaultHalftone = "Spot,0,100,Diamond"
+&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingHalftoneDiamond.png"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/RenderingHalftoneLine.png" class="example"><br>
+              RenderingHalftoneLine.png</p>
+            <p><img src="../../../images/pdf/RenderingHalftoneDiamond.png" class="example"><br>
+              RenderingHalftoneDiamond.png</p>
+          <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

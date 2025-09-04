@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>ReduceSizeOperation Compact Function. Compact and compress the document. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Compact  Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Compact and compress the document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>void Compact(bool wholeDocument)</CODE><BR>
+            <SPAN class=language>[Visual
+            Basic]</SPAN><BR>
+            <CODE>Function Compact(wholeDocument As Boolean)</CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>wholeDocument</TD>
+                <TD>Whether to compact the entire document or only selected pages.</TD>
+              </TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Compact and compress the document.</P>
+            <P>The two main types of resources which take up file space are images and embedded fonts. As such this method allows you to resize images to a lower resolution, compress them using different methods and quality settings and remove embedded fonts. The particular options appropriate to your documents can be set using the properties on this operation.</P>
+            <P>During processing <a href="../../1-operation/3-events/1-processingobject.htm">ProcessingObject</a> and <a href="../../1-operation/3-events/2-processedobject.htm">ProcessedObject</a> events will be fired for each font or image object that is being operated upon. Using the arguments included with these events you can take finer control over the application of this operation.</P>
+            <P>If you have previously added content to the document it will need to be frozen in place. This may result in changes to the <a href="../../../5-abcpdf/doc/2-properties/htmloptions.htm">Doc.HtmlOptions</a>, <a href="../../../5-abcpdf/doc/2-properties/rendering.htm">Doc.Rendering</a> and <a href="../../../5-abcpdf/doc/2-properties/saveoptions.htm">Doc.SaveOptions</a> properties.</P>
+            <P>You may also wish to set the <a href="../../../5-abcpdf/xsaveoptions/2-properties/compressobjects.htm">SaveOptions.CompressObects</a> property to true, to further reduce the output size on save.</P>
+            <P>This type of operations is fairly complex and can take some time on larger documents.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The following example shows how to compress a document.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+                <pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../mypics/sample.pdf"));
+using (var op = new ReduceSizeOperation(doc))
+&nbsp;&nbsp;op.Compact(true);
+doc.Save(Server.MapPath("ReduceSizeOperation.pdf"));
+</code></pre><BR>
+              <SPAN class=language>[Visual 
+                Basic]</SPAN><BR>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
+&nbsp;&nbsp;Using op As New ReduceSizeOperation(doc)
+&nbsp;&nbsp;&nbsp;&nbsp;op.Compact(True)
+&nbsp;&nbsp;End Using
+&nbsp;&nbsp;doc.Save(Server.MapPath("ReduceSizeOperation.pdf"))
+End Using
+</code></pre></P>
+            <P></P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

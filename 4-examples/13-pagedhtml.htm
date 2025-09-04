@@ -1,0 +1,283 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Paged HTML Example</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script>
+<META content="MSHTML 6.00.6000.16705" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Paged HTML Example</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../images/steel-line-3.gif height=11></TD>
+          <TD height=11><IMG height=11 src="../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>This example shows how to import an HTML page into a multi-page 
+            PDF document.</P>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+                <TR>
+                  <TD><P><B>How ABCpdf .NET Masterfully Solves HTML-to-PDF Conversion Challenges. </B>ABCpdf .NET eliminates the common headaches of HTML-to-PDF conversion by leveraging the power of multiple, industry-standard browser engines, providing unmatched flexibility and reliability.</P>
+                      <p><strong>Multi-Engine Rendering for Perfect Fidelity:</strong><br>
+                        ABCpdf is not limited to a single renderer. It includes a suite of engines, allowing you to choose the best fit for your needs:</p>
+                    <ul>
+                        <li>
+                          <p><strong>ABCChrome (e.g., ABCChrome123):</strong>&nbsp;The current default, offering best-in-class support for modern HTML5, CSS3, and JavaScript, ensuring pixel-perfect results matching the Chrome browser.</p>
+                        </li>
+                      <li>
+                          <p><strong>The WebKit Engine:</strong>&nbsp;A lightweight, high-performance option ideal for server environments with restricted permissions or stripped-down operating systems, where larger engines cannot be deployed.</p>
+                      </li>
+                      <li>
+                          <p><strong>Legacy Engines (Gecko/FireFos &amp; IE/MSHTML):</strong>&nbsp;Provide robust fallback options for specialized compatibility requirements.</p>
+                      </li>
+                    </ul>
+                    <p>This multi-engine approach guarantees that complex, modern web content&mdash;including Flexbox, Grid, and web fonts&mdash;is rendered with absolute accuracy.</p>
+                    <p><strong>Beyond Rendering: Structure and Professional Polish:</strong><br>
+                      ABCpdf .NET excels at creating professional, accessible documents, not just image-like snapshots. Using the current HTML engine you get all of the following and more:</p>
+                    <ul>
+                        <li>
+                          <p><strong>Preservation of Structure:</strong>&nbsp;Using the&nbsp;<a href="/Manual/8-abcpdf.operations/Q-webpageoperation/default.htm">WebPageOperation</a>&nbsp;class you can  automatically maintain the logical tag structure and document outline from well-formed HTML, ensuring output is accessible (PDF/UA compliant) and retains selectable text and functional hyperlinks.</p>
+                        </li>
+                      <li>
+                          <p><strong>Advanced Pagination with Headers/Footers:</strong>&nbsp;Using the&nbsp;WebPageOperation&nbsp;class, you can seamlessly inject consistent headers, footers, page numbers, and page totals across every page of the generated PDF, after the main content is rendered. This allows for professional document assembly without altering the original HTML.</p>
+                      </li>
+                      <li>
+                          <p><strong>Intelligent Dynamic Content Handling:</strong>&nbsp;ABCpdf .NETcan monitor the HTML document for ongoing changes after the initial load. Using the <a href="/Manual/5-abcpdf/xhtmloptions/2-properties/repaintdelay.htm">RepaintDelay</a> it intelligently detects activity such as AJAX calls, DOM manipulations, and animations, and automatically waits for these processes to complete before rendering the PDF. This ensures all dynamically loaded content is fully present in the final output, eliminating issues with missing or partially rendered data.</p>
+                      </li>
+                      <li>
+                          <p><strong>Custom JavaScript Injection:</strong>&nbsp;ABCpdf allows you to inject and execute custom JavaScript to be run in the web page before the conversion to PDF. This enables you to manipulate DOM content, click elements, hide unwanted sections, or wait for specific application state flags before triggering the conversion, giving you precise control over both the final content and the exact moment rendering occurs. You can also return values based from the script which can be useful for   validating the page or querying the web content. See the <a href="/Manual/5-abcpdf/xhtmloptions/2-properties/onloadscript.htm">OnLoadScript</a> property for details.</p>
+                      </li>
+                      <li>
+                          <p><strong>Internal Link Remapping:</strong>&nbsp;ABCpdf can automatically parse the generated PDF structure and intelligently convert qualified external hyperlinks (e.g.,&nbsp;original-site.com/page.html#section) into internal document links that point to the corresponding content or destination within the final PDF itself. This ensures the link structure works entirely internally, creating a seamless, self-contained document experience without relying on external web pages.</p>
+                      </li>
+                      <li>
+                          <p><strong>Font Fidelity: </strong>When converting HTML to PDF, ABCpdf's rendering engine actively embeds the fonts used in the document directly into the PDF file. This ensures text is displayed portably and consistently for all viewers, even if they don't have those specific fonts installed on their system. Crucially, the engine understands and respects&nbsp;@font-face&nbsp;CSS rules, allowing it to successfully download, process, and embed web fonts (such as those from Google Fonts or from a local URL) just like a modern web browser would, preserving the intended design and layout of the original webpage.</p>
+                      </li>
+                      <li>
+                          <p><strong>Content Tagging and PDF Coordinate Mapping:</strong>&nbsp;You can pre-tag specific HTML elements with custom attributes (e.g.,&nbsp;abcpdf-tag-visible=""). After conversion, the ABCpdf API allows you to retrieve the precise coordinates (X, Y, width, height) and page number of where that tagged content was rendered in the final PDF. This is invaluable for&nbsp;<strong>post-processing automation</strong>, such as programmatically adding annotations, stamps, or form fields directly onto specific content in the generated document, based on its semantic meaning rather than a fixed layout.</p>
+                      </li>
+                      <li>
+                          <p><strong>Automatic Form Field Conversion:</strong>&nbsp;ABCpdf can intelligently parse HTML form elements (like input fields, checkboxes, radio buttons, and dropdowns) and automatically convert them into fully functional, native PDF form fields (AcroForms) within the generated document. This preserves the interactivity of the original web form, allowing users to fill  the PDF without any loss of functionality, making it ideal for generating dynamic forms from web applications.</p>
+                      </li>
+                      <li>
+                          <p><strong>WebPageSnapshot for State-Dependent Content:</strong>&nbsp;The WebPageSnapshot example project demonstrates how to capture the&nbsp;<em>current, in-memory DOM state</em>&nbsp;of a web page (including user interactions, unsaved form data, or dynamically generated content) and serialize it into a self-contained HTML snapshot. This snapshot, rather than just a URL, is then passed to ABCpdf for conversion. This is critical for accurately capturing content that depends on a&nbsp;<strong>specific user's state or session</strong>&nbsp;(e.g., a logged-in user's dashboard, a partially completed form, or the results of client-side calculations), ensuring the PDF reflects exactly what the user saw, even if that state cannot be reproduced from the URL alone.</p>
+                      </li>
+                      <li>
+                          <p><strong>Flexible Media Type Selection:</strong>&nbsp;While ABCpdf defaults to using&nbsp;<strong>"print"</strong>&nbsp;CSS media queries to generate a cleaner, paged layout, this can sometimes be undesirable if the print stylesheet is poorly implemented, untested, or simply not present. In such cases, the library allows you to override the default and force the use of&nbsp;<strong>"screen"</strong>&nbsp;media styles instead. This ensures the final PDF accurately mirrors the familiar, visually rich layout users see in their browser, bypassing potentially broken or minimalist print CSS to guarantee a reliable and visually consistent output.</p>
+                      </li>
+                      <li>
+                          <p><strong>Granular Page Break Control:</strong>&nbsp;ABCpdf provides comprehensive control over pagination by respecting CSS rules specifying behavior for paged media output. You can use standard print directives like&nbsp;page-break-before: always;,&nbsp;page-break-after: avoid;, or&nbsp;page-break-inside: avoid;&nbsp;to prevent orphaned headings, keep tables and images intact, and ensure logical content flow. For advanced pagination scenarios, ABCpdf enables you to inject custom JavaScript before conversion to dynamically analyze the DOM and intelligently insert or modify page break indicators. This allows you to implement complex, application-specific breaking logic&mdash;such as ensuring figures and captions stay together or preventing breaks within critical data sets&mdash;that goes beyond static CSS rules, ensuring optimal readability and structure in the final PDF.</p>
+                      </li>
+                      <li>
+                          <p><strong>FireShield Security Sandbox:</strong>&nbsp;ABCpdf includes the&nbsp;<strong>FireShield</strong>&nbsp;security module, which provides a robust, isolated sandbox environment for HTML rendering. This containment layer prevents potentially malicious or unstable web content&mdash;such as scripts, plugins, or active content&mdash;from compromising the stability and security of the host server or application. By executing conversions within this shielded environment, FireShield ensures that server integrity and performance are maintained, which is critical for processing untrusted or third-party HTML content in automated workflows.</p>
+                      </li>
+                      <li>
+                          <p><strong>High-Volume, Thread-Safe Architecture:</strong>&nbsp;ABCpdf is engineered for enterprise-scale deployment, utilizing a sophisticated and efficient resource management system. It employs a&nbsp;<strong>shared, pooled engine model</strong>&nbsp;where multiple threads can safely and simultaneously request conversions without contention. This approach maximizes throughput and minimizes memory overhead, making it highly scalable and reliably suited for high-volume, server-side processing where stability and performance under load are critical.</p>
+                      </li>
+                    </ul>
+                    <p>By combining superior rendering engines with powerful post-processing tools, ABCpdf .NET delivers a complete, industrial-strength solution for converting web content into polished, accessible, and professional PDF documents.</p></TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG 
+      src="../images/steel-pin.gif" alt="" width=64 height=10><BR>
+      Setup</TD>
+    <TD>&nbsp;</TD>
+    <TD vAlign=top><TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+          <TR>
+            <TD><P>We first create a Doc object and inset the edges a little so that 
+              the HTML will appear in the middle of the page.</P>
+                <P><SPAN class=language>[C#]</SPAN><BR>
+                    <pre><code class="language-csharp">using var doc = new Doc();
+doc.Rect.Inset(72, 144);
+</code></pre><BR>
+                  <SPAN 
+            class=language>[Visual Basic]</SPAN><BR>
+                  <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Inset(72, 144)
+</code></pre></P>
+              <P>&nbsp;</P></TD>
+            <TD width=60>&nbsp;</TD>
+            <TD width=11>&nbsp;</TD>
+          </TR>
+        </TBODY>
+    </TABLE></TD>
+  </TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG 
+      src="../images/steel-pin.gif" alt="" width=64 height=10><BR>
+      Features</TD>
+    <TD>&nbsp;</TD>
+    <TD vAlign=top><TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+          <TR>
+            <TD><P>We set some HTML options to choose the HTML engine and features we are interested in. The defaults assigned here are set up for ease of development and you may wish to change some for release.</P>
+                <P><SPAN class=language>[C#]</SPAN><BR>
+                    <pre><code class="language-csharp">doc.HtmlOptions.Engine = EngineType.Chrome123;
+doc.HtmlOptions.UseScript = true; // enable JavaScript
+doc.HtmlOptions.Media = MediaType.Print; // Or Screen for a more screen oriented output
+doc.HtmlOptions.InitialWidth = 800; // In case we have a responsive site which is non-specific on good widths
+
+//doc.HtmlOptions.RepaintDelay = 500; // Only required if you have AJAX or animated content such as graphs
+//doc.HtmlOptions.IgnoreCertificateErrors = false; // Disabled for ease of debugging
+//doc.HtmlOptions.FireShield.Policy = XHtmlFireShield.Enforcement.Deny; // Disabled for ease of debugging
+</code></pre><BR>
+                  <SPAN 
+            class=language>[Visual Basic]</SPAN><BR>
+                  <pre><code class="language-vbnet">&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.Chrome123
+&nbsp;&nbsp;doc.HtmlOptions.UseScript = True
+&nbsp;&nbsp;' enable JavaScript
+&nbsp;&nbsp;doc.HtmlOptions.Media = MediaType.Print
+&nbsp;&nbsp;' Or Screen for a more screen oriented output
+&nbsp;&nbsp;doc.HtmlOptions.InitialWidth = 800
+&nbsp;&nbsp;' In case we have a responsive site which is non-specific on good widths
+&nbsp;&nbsp;'doc.HtmlOptions.RepaintDelay = 500; // Only required if you have AJAX or animated content such as graphs
+&nbsp;&nbsp;'doc.HtmlOptions.IgnoreCertificateErrors = false; // Disabled for ease of debugging
+&nbsp;&nbsp;'doc.HtmlOptions.FireShield.Policy = XHtmlFireShield.Enforcement.Deny; // Disabled for ease of debugging
+</code></pre></P>
+              <P>&nbsp;</P></TD>
+            <TD width=60>&nbsp;</TD>
+            <TD width=11>&nbsp;</TD>
+          </TR>
+        </TBODY>
+    </TABLE></TD>
+  </TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../images/steel-pin.gif" width=64><BR>Page</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>We add the first page of HTML. We save the returned ID as this 
+            will be used to add subsequent pages.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">doc.Page = doc.AddPage();
+int id = doc.AddImageUrl("http://www.yahoo.com/");
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;Dim theID As Integer
+&nbsp;&nbsp;theID = doc.AddImageUrl("http://www.yahoo.com/")
+</code></pre></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../images/steel-pin.gif" width=64><BR>Chain</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>We now chain subsequent pages together. We stop when we reach a 
+            page which wasn't truncated.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">while (true) {
+&nbsp;&nbsp;doc.FrameRect(); // add a black border
+&nbsp;&nbsp;if (!doc.Chainable(id))
+&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;id = doc.AddImageToChain(id);
+}
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;While True
+&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;&nbsp;&nbsp;' add a black border
+&nbsp;&nbsp;&nbsp;&nbsp;If Not doc.Chainable(theID) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddImageToChain(theID)
+&nbsp;&nbsp;End While
+</code></pre></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../images/steel-pin.gif" width=64><BR>Flatten</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>After adding the pages we can flatten them. We can't do this 
+            until after the pages have been added because flattening will 
+            invalidate our previous ID and break the chain.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">for (int i = 1; i &lt;= doc.PageCount; i++) {
+&nbsp;&nbsp;doc.PageNumber = i;
+&nbsp;&nbsp;doc.Flatten();
+}
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= doc.PageCount
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten()
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+</code></pre></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../images/steel-pin.gif" width=64><BR>Save</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Finally we save. </P>
+            <P><SPAN 
+            class=language>[C#]</SPAN><pre><code class="language-csharp">doc.Save(Server.MapPath("pagedhtml.pdf"));
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("pagedhtml.pdf"))
+End Using
+</code></pre></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../images/steel-pin.gif" width=64><BR>Results</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>We get the following output.</P>
+            <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD><IMG src="../images/pdf/pagedhtml.pdf.png" 
+                  class="example"><BR>pagedhtml.pdf [Page 1]</TD>
+                <TD><IMG src="../images/pdf/pagedhtml.pdf2.png" 
+                  class="example"><BR>pagedhtml.pdf [Page 2]</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P>
+            <P>&nbsp;</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

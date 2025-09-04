@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddImageObject Function. Adds an XImage based image to the current page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0> <TBODY> <TR> <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD><TD width=14>&nbsp;</TD><TD> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD class=pageheader>AddImageObject 
+Function</TD><TD width=60>&nbsp;</TD><TD>&nbsp;</TD></TR> <TR> <TD background=../../../images/steel-line-3.gif height=11></TD><TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD><TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR> <TR> <TD> <P>Adds an XImage based image to the current page.</P><P>&nbsp;</P></TD><TD width=60>&nbsp;</TD><TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR> 
+<TR> <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD><TD width=14>&nbsp;</TD><TD vAlign=top> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD vAlign=top> 
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">int AddImageObject(XImage image) <BR>
+int AddImageObject(XImage image, bool transparent)
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">Function AddImageObject(image As XImage) As Integer <BR>
+Function AddImageObject(image As XImage, transparent As Boolean) As Integer
+</code></pre></p>
+    <P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+Exception()</CODE></P><P>&nbsp;</P></TD><TD width=60>&nbsp;</TD><TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR> 
+<TR> <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD><TD width=14>&nbsp;</TD><TD vAlign=top> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD vAlign=top> 
+<TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5> <TBODY> <TR> <TD align=middle><B>Name</B></TD><TD><B>Description</B></TD></TR> 
+<TR vAlign=top> <TD align=middle>image</TD><TD> <P>An <A href="../../ximage/default.htm">XImage</A> 
+containing the image to be added to the page.</P></TD></TR> <TR vAlign=top> <TD align=middle>transparent</TD><TD> 
+<P>Whether transparency information should be preserved. This parameter overrides 
+the <A 
+                  href="../../xreadoptions/2-properties/preservetransparency.htm">PreserveTransparency</A> 
+property of the <A 
+                  href="../../xreadoptions/default.htm">XReadOptions</A> used 
+to create the <A href="../../ximage/default.htm">XImage</A>. If this parameter 
+is not specified and the <A 
+                  href="../../ximage/default.htm">XImage</A> has been created 
+without a <A 
+                  href="../../xreadoptions/default.htm">XReadOptions</A>, this 
+parameter is defaulted to false.</P></TD></TR> <TR vAlign=top> <TD align=middle>return</TD><TD>The 
+ID of the newly added Image Object. If the image is added as multiple objects, 
+such as if it has been created with an <A href="../../xreadoptions/default.htm">XReadOptions</A> 
+with <A 
+                  href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</A> 
+of SwfVector (with a non-null <A 
+                  href="../../xreadoptions/2-properties/operation.htm">Operation</A>), 
+Xps, or XpsAny, the ID is zero. If <A 
+                  href="../../xreadoptions/2-properties/operation.htm">XReadOptions.Operation</A> 
+has been null, the temporary <A 
+                  href="../../../8-abcpdf.operations/5-swfimportoperation/default.htm">SwfImportOperation</A> 
+allows this method to return the ID of the <A 
+                  href="../../../6-abcpdf.objects/graphiclayer/default.htm">GraphicLayer</A> 
+for the frame of <A 
+                  href="../../xreadoptions/2-properties/frame.htm">XReadOptions.Frame</A>.</TD></TR></TBODY></TABLE><P>&nbsp;</P></TD><TD width=60>&nbsp;</TD><TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR> 
+<TR> <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD><TD width=14>&nbsp;</TD><TD vAlign=top> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD> <P>If 
+the <A href="../../ximage/default.htm">XImage</A> has been created with an <A 
+            href="../../xreadoptions/default.htm">XReadOptions</A> with <A 
+            href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</A> 
+that uses an <A 
+            href="../../xreadoptions/2-properties/operation.htm">Operation</A>, 
+the operation will be invoked and the result depends on the operation. Otherwise, 
+this method gets an image from the Image object and adds it to the current page 
+returning the ID of the newly added object.</P><P>Adds the <A 
+            href="../../ximage/2-properties/selection.htm">Selection</A> of the 
+current <A href="../../ximage/2-properties/frame.htm">Frame</A> returning the 
+ID of the newly added object.</P>
+<P>Ultimately each image which is imported goes through a <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a>, so see that property for the types of images that can be imported and how they are handled.</P>
+<P>If 
+the Transparent parameter is set to true then any transparency information will 
+be preserved. This allows you to add formats such as transparent GIF, PNG with 
+alpha channel, or images with masks set using the <A 
+            href="../../ximage/1-methods/setmask.htm">Image.SetMask</A> method.</P><P>The 
+image is scaled to fill the current <A 
+            href="../2-properties/rect.htm">Rect</A>. It is transformed using 
+the current <A 
+href="../../xtransform/default.htm">Transform</A>.</P>
+<TABLE class=backgrounder border=0 cellPadding=10>
+  <TBODY>
+    <TR>
+      <TD><P><B>Hyperlinks. </B>Sometimes you may wish to insert annotations such as links to an external web page specified using a URI or URL. The AddTextStyled method allows you to specify links but only on text. If, for example, you want to insert a link over content such as an image you need to add it separately. You can do this using code of the following form.</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">static int AddLinkToUri(Doc doc, XRect rect, string uri) {
+&nbsp;&nbsp;int id = doc.AddObject(&quot;&lt;&lt; /Type /Annot /Subtype /Link /A &lt;&lt; /Type /Action /S /URI /URI () &gt;&gt; /Border [0 0 0] &gt;&gt;&quot;);
+&nbsp;&nbsp;doc.SetInfo(doc.Page, &quot;/Annots*[]:Ref&quot;, id);
+&nbsp;&nbsp;doc.SetInfo(id, &quot;/Rect:Rect&quot;, doc.Rect.String);
+&nbsp;&nbsp;doc.SetInfo(id, &quot;/A/URI:Text&quot;, uri);
+&nbsp;&nbsp;return id;
+}
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">Private Shared Function AddLinkToUri(ByVal doc As Doc, ByVal rect As XRect, ByVal uri As String) As Integer
+&nbsp;&nbsp;Dim id As Integer = doc.AddObject(&quot;&lt;&lt; /Type /Annot /Subtype /Link /A &lt;&lt; /Type /Action /S /URI /URI () &gt;&gt; /Border [0 0 0] &gt;&gt;&quot;)
+&nbsp;&nbsp;doc.SetInfo(doc.Page, &quot;/Annots*[]:Ref&quot;, id)
+&nbsp;&nbsp;doc.SetInfo(id, &quot;/Rect:Rect&quot;, doc.Rect.String)
+&nbsp;&nbsp;doc.SetInfo(id, &quot;/A/URI:Text&quot;, uri)
+&nbsp;&nbsp;Return id
+End Function
+</code></pre></p>
+          <P>If you wish to link to a particular page specified by page ID you can use code of the following form.</P>
+            <p><span class="language">[C#]</span><br>
+<pre><code class="language-csharp">static int AddLinkToPage(Doc doc, XRect rect, int pageID) {
+&nbsp;&nbsp;int id = doc.AddObject(&quot;&lt;&lt; /Type /Annot /Subtype /Link /Border [0 0 0] /A &lt;&lt; /Type /Action /S /GoTo /D [ /XYZ null null 0] &gt;&gt; &gt;&gt;&quot;);
+&nbsp;&nbsp;doc.SetInfo(doc.Page, &quot;/Annots*[]:Ref&quot;, id);
+&nbsp;&nbsp;doc.SetInfo(id, &quot;/Rect:Rect&quot;, doc.Rect.String);
+&nbsp;&nbsp;doc.SetInfo(id, &quot;/A/D[0]:Ref&quot;, pageID.ToString());
+&nbsp;&nbsp;return id;
+}
+</code></pre><br>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">Private Shared Function AddLinkToPage(ByVal doc As Doc, ByVal rect As XRect, ByVal pageID As Integer) As Integer
+&nbsp;&nbsp;Dim id As Integer = doc.AddObject(&quot;&lt;&lt; /Type /Annot /Subtype /Link /Border [0 0 0] /A &lt;&lt; /Type /Action /S /GoTo /D [ /XYZ null null 0] &gt;&gt; &gt;&gt;&quot;)
+&nbsp;&nbsp;doc.SetInfo(doc.Page, &quot;/Annots*[]:Ref&quot;, id)
+&nbsp;&nbsp;doc.SetInfo(id, &quot;/Rect:Rect&quot;, doc.Rect.String)
+&nbsp;&nbsp;doc.SetInfo(id, &quot;/A/D[0]:Ref&quot;, pageID.ToString())
+&nbsp;&nbsp;Return id
+End Function
+</code></pre></p>
+        </TD>
+    </TR>
+  </TBODY>
+</TABLE>
+<P>&nbsp;</P></TD><TD width=60>&nbsp;</TD><TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR> 
+<TR> <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD><TD width=14>&nbsp;</TD><TD vAlign=top> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD> <P>The 
+following code adds a transparent GIF against a gray background.</P><P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var img = new XImage();
+img.SetFile(Server.MapPath("../mypics/mypic.gif"));
+using Doc doc = new Doc();
+doc.Color.String = "200 200 200";
+doc.FillRect();
+doc.Rect.String = "0 0 480 640";
+doc.AddImageObject(img, true);
+doc.Save(Server.MapPath("docaddimageobject.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theImg As New XImage()
+theImg.SetFile(Server.MapPath("../mypics/mypic.gif"))
+Dim doc As New Doc()
+doc.Color.String = "200 200 200"
+doc.FillRect()
+doc.Rect.String = "0 0 480 640"
+doc.AddImageObject(theImg, True)
+theImg.Clear()
+doc.Save(Server.MapPath("docaddimageobject.pdf"))
+doc.Clear()
+</code></pre></P><P><IMG
+            src="../../../images/pdf/docaddimageobject.pdf.png" 
+            class="example"><BR>docaddimageobject.pdf</P><p>Also see example code in: <a href="../../../4-examples/04-image.htm">ABCpdf Image Example</a>, <a href="../../ximage/1-methods/setdata.htm">XImage SetData Function</a>, <a href="../../ximage/1-methods/setfile.htm">XImage SetFile Function</a>, <a href="../../ximage/1-methods/setmask.htm">XImage SetMask Function</a>, <a href="../../ximage/1-methods/setstream.htm">XImage SetStream Function</a>, <a href="../../ximage/2-properties/frame.htm">XImage Frame Property</a>, <a href="../../ximage/2-properties/selection.htm">XImage Selection Property</a>.</p>
+            <P>&nbsp;</P></TD><TD width=60>&nbsp;</TD><TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><P>&nbsp;</P>
+</BODY></HTML>

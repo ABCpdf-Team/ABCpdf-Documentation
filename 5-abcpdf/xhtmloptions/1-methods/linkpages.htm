@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XHtmlOptions LinkPages Function. Convert external links to internal links wherever possible. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>LinkPages Method</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Convert external links to internal links wherever possible.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
+            LinkPages()<br>
+            void 
+            LinkPages(bool inPageNavigation)<BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <CODE>Sub LinkPages()<br>
+            Sub LinkPages(inPageNavigation as Boolean)</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>inPageNavigation</TD>
+                <TD>If true then links will target particular locations on the destination page, if false then they will target just the page. Default false.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>n/a.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This method scans the entire document converting external links 
+            to internal links wherever possible. As an alternative you can restrict the scope of the
+            conversion by using the <a href="linkdestinations.htm">LinkDestinations</a>
+            method.</P>
+            <P>By default, links in rendered HTML are preserved as is. This means 
+            that links in a web page link to external URLs. When you click on 
+            them, a browser window will be launched and the original target of 
+            the link displayed.</P>
+            <P>In some situations, you may wish to resolve links within the 
+            document so that they take you between pages in the PDF rather than 
+            launching an external browser window.</P>
+            <P>For example, you might add a number of web pages which contain 
+            links to each other. Rather than linking to the pages on the 
+            original web site, you might like to resolve the links so that they 
+            point at the pages as they now appear in the PDF.</P>
+            <P>Similarly, if you use named destinations (HTML fragments) with 
+            links within the document, you will may wish to use this method to 
+            convert them from external links to internal ones. If you do this you will probably want to set the <a href="../2-properties/addids.htm">AddIDs</a> and <a href="../2-properties/addnames.htm">AddNames</a> properties to true to ensure that this type of fragment destination is tracked.</P>
+            <P></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This example shows how to import an HTML page which uses named 
+            destinations.</P>
+            <P>We first create a <A href="../default.htm">Doc</A> object and 
+            inset the edges a little so that the HTML will appear in the middle 
+            of the page. We assign the appropriate HTML options so that links 
+            will be rendered live.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.Rect.Inset(18, 18);
+doc.HtmlOptions.AddLinks = true;
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Inset(18, 18)
+&nbsp;&nbsp;doc.HtmlOptions.AddLinks = True
+</code></pre></P>
+            <P>We add the pages to the document.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">int id = doc.AddImageUrl("http://www.websupergoo.com/support.htm");
+while (true) {
+&nbsp;&nbsp;if (!doc.Chainable(id))
+&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;id = doc.AddImageToChain(id);
+}
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;Dim theID As Integer = doc.AddImageUrl("http://www.websupergoo.com/support.htm")
+&nbsp;&nbsp;While True
+&nbsp;&nbsp;&nbsp;&nbsp;If Not doc.Chainable(theID) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddImageToChain(theID)
+&nbsp;&nbsp;End While
+</code></pre></P>
+            <P>The URL we've referenced makes extensive use of named 
+            destinations. We want these named destination links to take us 
+            between pages on the PDF rather than taking us to the original 
+            URL.</P>
+            <P>After adding the pages, we can flatten them. We can't do this 
+            until after the pages have been added because flattening will 
+            invalidate our previous ID and break the chain.</P>
+            <P><SPAN 
+            class=language>[C#]</SPAN><BR><pre><code class="language-csharp">doc.HtmlOptions.LinkPages();
+for (int i = 1; i &lt;= doc.PageCount; i++) {
+&nbsp;&nbsp;doc.PageNumber = i;
+&nbsp;&nbsp;doc.Flatten();
+}
+</code></pre><BR><SPAN 
+            class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;doc.HtmlOptions.LinkPages()
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= doc.PageCount
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten()
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+</code></pre></P>
+            <P>Finally, we save.</P>
+            <P><SPAN 
+            class=language>[C#]</SPAN><pre><code class="language-csharp">doc.Save(Server.MapPath("linkpages.pdf"));
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("linkpages.pdf"))
+End Using
+</code></pre></P>
+            <P>We get the following output. The links work &ndash; where possible &ndash; 
+            within the PDF.</P>
+            <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
+              <TBODY>
+              <TR>
+                <TD><IMG
+                  src="../../../images/pdf/linkpages.pdf.png" 
+                  class="example"><BR>linkpages.pdf [Page 1]</TD>
+                <TD><IMG
+                  src="../../../images/pdf/linkpages.pdf2.png" 
+                  class="example"><BR>linkpages.pdf [Page 2]</TD></TR></TBODY></TABLE>
+            <p>Also see example code in: <a href="../2-properties/usescript.htm">XHtmlOptions UseScript Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

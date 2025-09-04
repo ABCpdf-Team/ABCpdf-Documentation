@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Page MakeFormXObject Function. Makes a FormXObject out of the page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>MakeFormXObject Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Makes a FormXObject out of the page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE><a href="../../formxobject/default.htm">FormXObject</a> MakeFormXObject()<BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <CODE>Function MakeFormXObject() As <a href="../../formxobject/default.htm">FormXObject</a><BR>
+            </CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The newly created FormXObject.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Makes a <a href="../../formxobject/2-properties/matrix.htm">FormXObject</a> out of the page.</P>
+            <P>This process involves copying the page content stream to a new Form XObject and referencing any required resources. The current page is left unaltered.</P>
+            <P>The returned FormXObject will have been added to the same ObjectSoup as contains the Page. The returned Form XObject can then be added to other pages using methods such as <a href="../../../5-abcpdf/doc/1-methods/addxobject.htm">AddXObject</a>.</P>
+            <P>&nbsp;</P>
+            <P>&nbsp;</P>
+            </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This example shows how to take a page, convert it into a separate drawing object and then draw it, scaled, onto the page it came from.</P>
+            <P><span class=language>[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../mypics/HyperX.pdf"));
+var page1 = doc.ObjectSoup[doc.Page] as Page;
+var form = page1.MakeFormXObject();
+doc.Transform.Magnify(0.5, 0.5, 0, 0);
+doc.Page = doc.AddPage();
+var page2 = doc.ObjectSoup[doc.Page] as Page;
+string name = page2.AddResource(form, "XObject", "Iabc");
+// Here we create our own layer for the purposes of the demonstration.
+// However a simpler approach would be to use Doc.AddXObject.
+var layer = new StreamObject(doc.ObjectSoup);
+layer.SetText(String.Format("q {0} cm /{1} Do Q ", doc.Transform.ToString(), name));
+page2.AddLayer(layer);
+doc.Save(Server.MapPath("exampleformxobject.pdf"));
+</code></pre><br>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/HyperX.pdf"))
+&nbsp;&nbsp;Dim page1 As Page = TryCast(doc.ObjectSoup(doc.Page), Page)
+&nbsp;&nbsp;Dim form As FormXObject = page1.MakeFormXObject()
+&nbsp;&nbsp;doc.Transform.Magnify(0.5, 0.5, 0, 0)
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;Dim page2 As Page = TryCast(doc.ObjectSoup(doc.Page), Page)
+&nbsp;&nbsp;Dim name As String = page2.AddResource(form, "XObject", "Iabc")
+&nbsp;&nbsp;' Here we create our own layer for the purposes of the demonstration.
+&nbsp;&nbsp;' However a simpler approach would be to use Doc.AddXObject.
+&nbsp;&nbsp;Dim layer As New StreamObject(doc.ObjectSoup)
+&nbsp;&nbsp;layer.SetText([String].Format("q {0} cm /{1} Do Q ", doc.Transform.ToString(), name))
+&nbsp;&nbsp;page2.AddLayer(layer)
+&nbsp;&nbsp;doc.Save(Server.MapPath("exampleformxobject.pdf"))
+End Using
+</code></pre></P>
+            <p><img src="../../../images/pdf/exampleformxobject.pdf.png" class="example-landscape"><BR>
+              exampleformxobject.pdf [Page 1]</p>
+            <P><img src="../../../images/pdf/exampleformxobject.pdf2.png" class="example-landscape"><BR>
+exampleformxobject.pdf [Page 2]</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,226 @@
+<html>
+<head>
+<title>Field Class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Field Class</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>Represents a field in a document.</p>
+            <p>The PDF specification makes a distinction between a field (in terms 
+              of a named value) and the visible appearance of the field on the 
+              document. </p>
+            <p>So not every field has a visible appearance. Those that do can 
+              be located using the <a href="2-properties/page.htm">Page</a> and 
+              <a href="2-properties/rect.htm">Rect</a> properties. The value of 
+              the field can be modified using the <a href="2-properties/value.htm">Value</a> 
+              property.</p>
+            <p>Fields exist within a hierarchy. Fields have children and their 
+              children can have children in turn. You can drill down through the 
+              hierarchy using the <a href="2-properties/kids.htm">Kids</a> property.</p>
+            <p>Alternatively - given a fully qualified name - you can use the 
+              <a href="../../5-abcpdf/xform/default.htm">XForm</a> level methods 
+              to obtain references directly.</p>
+            <p>Note that the Field object is an abstraction of the underlying 
+              objects defined in the document. As such the Object ID may refer 
+              to an Annotation Widget or it may refer to a Field or it may refer 
+              to a hybrid Widget Field as defined in the PDF specification.</p>
+            <p></p>
+            <p><code> 
+              <!--notcode-->
+              System.Object<br>
+              &nbsp;&nbsp;&nbsp;<a href="../1-indirectobject/default.htm"> WebSupergoo.ABCpdf13.Objects.IndirectObject</a><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b> WebSupergoo.ABCpdf13.Objects.Field</b></code></p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top">&nbsp; </td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="sectheader"> 
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Method</b></td>
+                <td width="100%"><b>Description</b></td>
+              </tr>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/focus.htm">Focus</A></TD>
+                <TD>Prepare document for drawing at the field location.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/getannotations.htm">GetAnnotations</A></TD>
+                <TD>Gets all the Annotations referenced by this field or its children.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/getkids.htm">GetKids</A></TD>
+                <TD>Gets a set of Fields that are descendents of this one.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/getexportvalues.htm">GetExportValues</A></TD>
+                <TD>Gets the export values for this field.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/setfont.htm">SetFont</A></TD>
+                <TD>Sets the font and font size to be used for text.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/stamp.htm">Stamp</A></TD>
+                <TD>Stamp this field into the document.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/updateappearance.htm">UpdateAppearance</A></TD>
+                <TD>Update the appearance of all the Annotations associated with this field.</TD></TR>
+<!-- autogen end -->
+<tr valign="top"> 
+                <td align="center">&nbsp;</td>
+                <td><a href="../1-indirectobject/default.htm">inherited methods...</a></td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top">&nbsp; </td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="sectheader"> 
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Property</b></td>
+                <td width="100%"><b>Description</b></td>
+              </tr>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/defaultappearance.htm">DefaultAppearance</A></TD>
+                <TD>The default appearance (DA) used for the text.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/fieldtype.htm">FieldType</A></TD>
+                <TD>The field type.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/flags.htm">Flags</A></TD>
+                <TD>The Field Flags (Ff) entry.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/format.htm">Format</A></TD>
+                <TD>The field format.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/kids.htm">Kids</A></TD>
+                <TD>All the immediate children of this field.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/multiselect.htm">MultiSelect</A></TD>
+                <TD>Whether the field supports multiple selections.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/name.htm">Name</A></TD>
+                <TD>The fully qualified field name.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/options.htm">Options</A></TD>
+                <TD>The field options.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><IMG width="10" height="10" border="0" alt="Throws Exceptions" src="../../images/steel-blob-10.gif" >&nbsp;<A 
+                  href="2-properties/page.htm">Page</A></TD>
+                <TD>The Page on which the field appears.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><IMG width="10" height="10" border="0" alt="Throws Exceptions" src="../../images/steel-blob-10.gif" >&nbsp;<A 
+                  href="2-properties/pageid.htm">PageID</A></TD>
+                <TD>The ID of the page on which the field appears.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/parent.htm">Parent</A></TD>
+                <TD>The parent of this field.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/partialname.htm">PartialName</A></TD>
+                <TD>The partial field name.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><IMG width="10" height="10" border="0" alt="Throws Exceptions" src="../../images/steel-blob-10.gif" >&nbsp;<A 
+                  href="2-properties/rect.htm">Rect</A></TD>
+                <TD>The location and size of the field.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/textalignment.htm">TextAlignment</A></TD>
+                <TD>The alignment for the text.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/textcolor.htm">TextColor</A></TD>
+                <TD>The color used for the text.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/textfont.htm">TextFont</A></TD>
+                <TD>The font used for the text.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/textsize.htm">TextSize</A></TD>
+                <TD>The font size used for the text.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/value.htm">Value</A></TD>
+                <TD>The field value.</TD></TR>
+<!-- autogen end -->
+<tr valign="top"> 
+                <td align="center">&nbsp;</td>
+                <td><a href="../1-indirectobject/default.htm">inherited properties...</a></td>
+              </tr>
+            </table>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+        <tr> 
+          <td>&nbsp; </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

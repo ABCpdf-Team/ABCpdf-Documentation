@@ -1,0 +1,135 @@
+<html>
+<head>
+<title>Doc Encryption Property. The current encryption settings. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Encryption Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code><a href="../../xencryption/default.htm">XEncryption</a></code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code><a href="../../xencryption/default.htm">XEncryption</a></code></td>
+                <td>No encryption.</td>
+                <td>No</td>
+                <td>The current encryption settings.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This property determines the current encryption settings. When 
+              you save the document the encryption settings - if any - will be 
+              used to determine the method of encryption to be used.</p>
+            <p>By default documents are not encrypted when created. However if 
+              you read an existing PDF document the encryption property will be 
+              updated to reflect the encryption settings used to create the original 
+              document.</p>
+            <p>PDF encryption supports two different types of password - a user 
+              password and an owner password. You can use either password to open 
+              and view the document. However unless you supply the owner password, 
+              permissions will be applied and access to the document may be restricted.</p>
+            <p>Typically PDF encryption is used to apply permissions to a document. 
+              The user password is left blank and only an owner password supplied. 
+              PDF readers will not prompt for a password if there is no user password. 
+              However any permissions will automatically be applied. In this way 
+              you can allow anyone to open the document but restrict access to 
+              operations like copying text, printing the document or extracting 
+              images.</p>
+            <p>The PDF 2.0 standard deprecates a number of these options as being potentially insecure. The recommended set for PDF 2.0 compliant documents is <a href="../../xencryption/2-properties/type.htm">XEncryption.Type</a> 5 with <a href="../../xencryption/1-methods/setcryptmethods.htm">XEncryption.SetCryptMethods</a> AESV3.</p>
+            <p>Please note that you are legally bound to respect the permissions 
+              present in existing PDF documents. For details please see the <a href="../../../1-introduction/8-legalrequirements.htm">Legal 
+              Requirement Section</a>.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following code saves a simple PDF document using a 128 bit 
+              encryption key. It applies a copy-protection permission to stop 
+              people copying text out of the document.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.FontSize = 96;
+doc.AddText("Hello World!");
+doc.Encryption.Type = 5;
+doc.Encryption.SetCryptMethods(CryptMethodType.AESV3);
+doc.Encryption.CanCopy = false;
+doc.Encryption.OwnerPassword = "owner";
+doc.Save(Server.MapPath("docencrypt.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 96
+&nbsp;&nbsp;doc.AddText("Hello World!")
+&nbsp;&nbsp;doc.Encryption.Type = 5
+&nbsp;&nbsp;doc.Encryption.SetCryptMethods(CryptMethodType.AESV3)
+&nbsp;&nbsp;doc.Encryption.CanCopy = False
+&nbsp;&nbsp;doc.Encryption.OwnerPassword = "owner"
+&nbsp;&nbsp;doc.Save(Server.MapPath("docencrypt.pdf"))
+End Using
+</code></pre></p>
+            <p>Also see example code in: <a href="../../xencryption/1-methods/setcryptmethods.htm">XEncryption SetCryptMethods Function</a>.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

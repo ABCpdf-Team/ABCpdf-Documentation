@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>DictAtom Item Property. Get or set the entry with the specified name. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Item Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code><a href="../../1-atom/default.htm">Atom</a>
+                  this[string name]<br>
+                  int this[string name, int def]<br>
+                  double this[string name, double def]<br>
+                  string this[string name, string def]<br>
+                  string this[string name, Enum def]</code>                  <br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Default Property Item(name As String) As
+                  <a href="../../1-atom/default.htm">Atom</a><br>
+                  Default Property Item(name As String, def 
+                  As Integer) As Integer<br>
+                  Default Property Item(name As String, def 
+                  As Double) As Double<br>
+                  Default Property Item(>name As String, def 
+                  As String) As String<br>
+                  Default Property Item(name As String, def 
+                  As Enum) As String</code></td>
+                <td>&nbsp;n/a&nbsp;</td>
+                <td>Yes</td>
+                <td>Get or set the entry with the specified name.</td>
+              </tr>
+            </table>
+            <p><code><img src="../../../images/steel-blob-10.gif" width="10" height="10" border="0" alt="Throws Exceptions"> 
+              may throw ArgumentNullException()</code></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Get or set the Atom with the specified name. In C# this property 
+              is the indexer for the class.</p>
+            <p>You can access an Atom directly or you can use one of the overloaded 
+              operators to specify numbers or strings. Using the overloads to 
+              access numbers or strings is more efficient than accessing an Atom 
+              and extracting the value from it.</p>
+            <p>You specify one of the overloads using the def parameter. If you 
+              are setting a value then this parameter is ignored. If you are getting 
+              a value then this parameter becomes the default value to be used 
+              if the underlying Atom was not the correct type. For example the 
+              default would be returned if you attempted to get an integer but 
+              the underlying Atom was actually a <a href="../../stringatom/default.htm">StringAtom</a>.</p>
+            <p>The integer and double overload allow access to NumAtoms. The string overload allows access to StringAtom values while the Enum overload allows access to NameAtom values. Any Enum may be used and if the entry is not valid or available the string value of the Enum will be returned.</p>
+            <p>Atoms can exist in only one place at a time. If the Atom supplied 
+              is already contained by another object then a <a href="../../1-atom/1-methods/1-clone.htm">Clone</a> 
+              of the Atom is added.</p>
+            <p>Adding a null value will result in a <a href="../../nullatom/default.htm">NullAtom</a> 
+              being added to the array. </p>
+            <p>If the name is null this property throws an ArgumentNullException.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>None.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

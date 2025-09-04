@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XTextStyle CharSpacing Property. The inter-character spacing. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>CharSpacing Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR><CODE>double</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>Double</CODE></TD>
+                <TD>0.0</TD>
+                <TD>No</TD>
+                <TD>The inter-character spacing.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This property controls the spacing between each character. It is 
+            sometimes called tracking but should not be confused with <a href="kerning.htm">kerning</a> which is slightly different.</P>
+            <P>Each character in a string of text has a width which is used for 
+            positioning the next character. The CharSpacing is added to the 
+            width of each character.</P>
+            <P>In the horizontal writing mode, specifying a positive value has 
+            the effect of stretching out the text. Specifying negative values 
+            has the effect of condensing the text. In the vertical writing mode, 
+            positive values condense the text, and negative values stretch out 
+            the text. See the <A 
+            href="../../../6-abcpdf.objects/fontobject/2-properties/writingmode.htm">FontObject.WritingMode</A> 
+            property.&nbsp;</P>
+            <P>Because this property is measured as an absolute value measured in points, the visual 
+            effect will be greater if your text is smaller.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>In this example we add three blocks of text to a document. The 
+            first block uses the default spacing. The second block uses a 
+            positive value to stretch out the text. The last block uses a 
+            negative value to condense the text.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
+doc.TextStyle.Size = 96;
+doc.AddText("Zero CharSpacing");
+doc.Rect.Move(0, -300);
+doc.TextStyle.CharSpacing = 10;
+doc.AddText("Positive CharSpacing");
+doc.Rect.Move(0, -300);
+doc.TextStyle.CharSpacing = -10;
+doc.AddText("Negative CharSpacing");
+doc.Save(Server.MapPath("stylecspace.pdf"));
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.TextStyle.Size = 96
+&nbsp;&nbsp;doc.AddText("Zero CharSpacing")
+&nbsp;&nbsp;doc.Rect.Move(0, -300)
+&nbsp;&nbsp;doc.TextStyle.CharSpacing = 10
+&nbsp;&nbsp;doc.AddText("Positive CharSpacing")
+&nbsp;&nbsp;doc.Rect.Move(0, -300)
+&nbsp;&nbsp;doc.TextStyle.CharSpacing = -10
+&nbsp;&nbsp;doc.AddText("Negative CharSpacing")
+&nbsp;&nbsp;doc.Save(Server.MapPath("stylecspace.pdf"))
+End Using
+</code></pre></P>
+            <P><IMG src="../../../images/pdf/stylecspace.pdf.png" 
+            class="example"><BR>stylecspace.pdf </P>
+            <P>&nbsp;</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

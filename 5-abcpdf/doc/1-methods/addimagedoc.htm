@@ -1,0 +1,278 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc AddImageDoc Function. Draw a page from one PDF document onto the current page of this document. ABCpdf .NET PDF Library.</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META name=GENERATOR content="MSHTML 9.00.8112.16421"></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE border=0 cellSpacing=4 cellPadding=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG src="../../../images/goo.gif" width=58 height=60></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddImageDoc Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD height=11 background=../../../images/steel-line-3.gif></TD>
+          <TD height=11 background=../../../images/steel-line-3.gif 
+          width=60></TD>
+          <TD height=11><IMG src="../../../images/steel-blob-11.gif" width=11 
+            height=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Draw a page from one PDF document onto the current page of this 
+            document.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+              <CODE>int 
+            AddImageDoc(Doc doc, int page, XRect rect)<br>
+            int 
+            AddImageDoc(Doc doc, int page, XRect rect, bool copyAnnotations)<BR>
+            int 
+            AddImageDoc(Doc doc, int page, XRect rect, bool copyAnnotations, double alpha)
+              <br>
+              int AddImageDoc(Doc doc, int page, XRect rect, bool copyAnnotations, bool copyTags, double alpha) </CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Function AddImageDoc(doc As Doc, page As Integer, rect As XRect) As 
+            Integer<br>
+            Function AddImageDoc(doc As Doc, page As Integer, rect As XRect, copyAnnotations As Boolean) As Integer<br />
+            Function AddImageDoc(doc As Doc, page As Integer, rect As XRect, copyAnnotations As Boolean, alpha As Double) As Integer<br>
+            Function AddImageDoc(doc As Doc, page As Integer, rect As XRect, copyAnnotations As Boolean, copyTags As Boolean, alpha As Double) As Integer<BR>
+              </CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable border=5 cellSpacing=0 borderColor=#ffffff 
+            cellPadding=3>
+              <TBODY>
+              <TR>
+                <TD align=center><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=center>doc</TD>
+                <TD>
+                  <P>The document to be used as the source.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=center>page</TD>
+                <TD>
+                  <P>The page you want drawn. Use one to indicate the first 
+                  page.</P></TD></TR>
+              <TR vAlign=top>
+                <TD align=center>rect</TD>
+                <TD>
+                  <P>The portion of the page you want drawn. Pass null to 
+                  specify the entire page.</P>                  </TD></TR>
+              <tr vAlign=top>
+                <TD align=center>copyAnnotations</TD>
+                <TD>Whether to copy fields and annotations - default false.</TD>
+              </tr>
+              <tr vAlign=top>
+                <TD align=center>copyTags</TD>
+                <TD>Whether to copy accessibility tags - default false.</TD>
+              </tr>
+              <TR vAlign=top>
+                <TD align=center>alpha</TD>
+                <TD>The level of alpha to apply to the drawn page from transparent through to fully opaque (0 to 255).</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=center>return</TD>
+                <TD>The ID of the newly added Image 
+Object.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Draw a page from one PDF document onto the current page of this 
+            document returning the ID of the newly added object.</P>
+            <P>The page is scaled to fill the current <A 
+            href="../2-properties/rect.htm">Rect</A>. It is transformed using 
+            the current <A 
+href="../../xtransform/default.htm">Transform</A>.</P>
+            <P>Many field and  annotation types can only exist as a simple rectangle with sides parallel to the page borders. For this reason you should be cautious about the transforms you use when specifying that annotations should be copied. A transform which involves scale and translation will be fine but one involving rotation and skew factors may result in unusual output if the field or annotation does not support this combination.</P>
+            <P>If you are copying accessibility  tags they are taken from the source page and placed into a non structural group. The group is then inserted at the end of the  structure for the destination page. In most cases this is what you want. However tagging structures can be complex and not all documents are compatible with each other. If incompatible structures are found the structures in the destination document will be preferred over those from the source document.</P>
+            <P>The <A 
+            href="../../xsaveoptions/2-properties/refactor.htm">SaveOptions.Refactor</A> setting determines whether duplicate and  redundant objects are 
+            eliminated. The <A 
+            href="../../xsaveoptions/2-properties/preflight.htm">SaveOptions.Preflight</A> setting determines whether objects in the destination document are 
+            validated before this operation is performed. </P>
+            <P>Unless the document 
+              and the pages are big in terms of memory use and have many common 
+              objects, it is faster to disable SaveOptions.Refactor and SaveOptions.Preflight for adding 
+              the pages and enable them for saving the document. </P>
+            <P>Pages may be rotated. As such, when drawing one page onto another, you may wish to copy the <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page.Rotation</a> from the source page to the destination page. More complex example code to de-rotate a page may be found under the documentation for the Page.Rotation.</P>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+                <TR>
+                  <TD><P><B>How ABCpdf .NET Masters Page Drawing Operations. </B>ABCpdf .NET distinguishes itself by not only preserving vector content during import operations but also intelligently managing the underlying complexities that typically plague such processes. Through the AddImageDoc method and the more advanced <a href="/Manual/8-abcpdf.operations/F-drawpagesoperation/default.htm">DrawPagesOperation</a> class, it provides a robust, professional-grade solution.</P>
+                      <ul>
+                        <li>
+                          <p><strong>Advanced Resource Management:</strong>&nbsp;It features intelligent resource handling, automatically de-duplicating identical fonts, images, and color spaces between documents. This prevents conflicts and ensures visual consistency while optimizing the final file size. For the complete elimination of any duplicates, before saving, you should use the <a href="/Manual/8-abcpdf.operations/B-reducesizeoperation/default.htm">ReduceSizeOperation</a> to combine and re-subset any similar fonts.</p>
+                        </li>
+                        <li>
+                          <p><strong>Precise Layout and Control:</strong>&nbsp;It provides extensive properties such as to manage scaling, alignment, and positioning, effortlessly handling different page sizes and preventing clipping or overflow issues. The Doc object allows easy access to the source and destination <a href="/Manual/5-abcpdf/doc/2-properties/rect.htm">Rect</a>, the <a href="/Manual/5-abcpdf/doc/2-properties/mediabox.htm">MediaBox</a> and <a href="/Manual/5-abcpdf/doc/2-properties/cropbox.htm">CropBox</a> while the <a href="/Manual/6-abcpdf.objects/page/default.htm">Page</a> class also allows access to the <a href="/Manual/6-abcpdf.objects/page/2-properties/trimbox.htm">TrimBox</a>, <a href="/Manual/6-abcpdf.objects/page/2-properties/artbox.htm">ArtBox</a> and <a href="/Manual/6-abcpdf.objects/page/2-properties/bleedbox.htm">BleedBox</a>.</p>
+                        </li>
+                        <li>
+                          <p><strong>Preservation of Annotations:</strong>&nbsp;The library is designed to maintain important elements like annotations, fields and external hyperlinks during the import process, a significant advantage over basic methods.</p>
+                        </li>
+                        <li>
+                          <p><strong>Intelligent Tag Merging:</strong>&nbsp;The class excels at  intelligently merging the logical structure trees from source documents. It correctly reassembles the tagging hierarchy, preserving reading order and semantic meaning across imported pages. For more control here you may also access the <a href="/Manual/8-abcpdf.operations/F-drawpagesoperation/2-properties/05-roottag.htm">RootTag</a> to allow you to customize the location of the inserted page within the semantic structure of the destination document.</p>
+                        </li>
+                        <li>
+                          <p><strong>Preservation of Accessibility:</strong>&nbsp;This robust handling ensures that the imported content does not become a "tag black hole." Screen readers can continue to navigate and interpret the content logically, which is a fundamental requirement for creating inclusive, professional-grade documents.</p>
+                        </li>
+                        <li>
+                          <p><strong>Optimized Performance:</strong>&nbsp;The DrawPagesOperation is engineered for efficiency when copying many pages from one document to another. It handles the processing of complex document structures and resources in a streamlined manner to avoid performance overhead and reduce file bloat.</p>
+                        </li>
+                      </ul>
+                    <p>Crucially, both approaches are built upon ABCpdf's deep understanding of the PDF specification, ensuring that color spaces, transparency, and overprint settings are correctly interpreted and rendered. By offering both a straightforward method (AddImageDoc) and a powerful, optimized class (DrawPagesOperation), ABCpdf .NET gives developers the tools to implement reliable, efficient, and high-quality vector import operations without the typical pitfalls, ensuring professional results every time.<BR>
+                    </p></TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG src="../../../images/steel-pin.gif" 
+      width=64 height=10><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This example shows how to draw one PDF into another. It takes a 
+            PDF document and creates a 'four-up' summary document by drawing 
+            four pages on each page of the new document.</P>
+            <P>First we create an ABCpdf Doc object and read in our source 
+            document. </P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var src = new Doc();
+src.Read(Server.MapPath("../Rez/spaceshuttle.pdf"));
+int count = src.PageCount;
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theSrc As New Doc()
+theSrc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
+Dim theCount As Integer = theSrc.PageCount
+</code></pre></P>
+            <P>Next we create a destination Doc object and set the <A 
+            href="../2-properties/mediabox.htm">MediaBox</A> so that the page 
+            size will match that of the source document. We change the rect so 
+            that it occupies a quarter of the page with room to accomodate a 
+            small margin.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var dst = new Doc();
+dst.MediaBox.String = src.MediaBox.String;
+dst.Rect.String = dst.MediaBox.String;
+dst.Rect.Magnify(0.5, 0.5);
+dst.Rect.Inset(10, 10);
+double x = dst.MediaBox.Width / 2;
+double y = dst.MediaBox.Height / 2;
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theDst As New Doc()
+theDst.MediaBox.String = theSrc.MediaBox.[String]
+theDst.Rect.String = theDst.MediaBox.[String]
+theDst.Rect.Magnify(0.5, 0.5)
+theDst.Rect.Inset(10, 10)
+Dim theX As Double, theY As Double
+theX = theDst.MediaBox.Width / 2
+theY = theDst.MediaBox.Height / 2
+</code></pre></P>
+            <P>We go through every page in the source document drawing a framed 
+            copy of each page at a different position on our four-up document. 
+            Every fourth page we add a new page into our destination 
+            document.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">for (int i = 1; i &lt;= count; i++) {
+&nbsp;&nbsp;switch (i % 4) {
+&nbsp;&nbsp;&nbsp;&nbsp;case 1:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dst.Page = dst.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dst.Rect.Position(10, y + 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;case 2:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dst.Rect.Position(x + 10, y + 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;case 3:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dst.Rect.Position(10, 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;case 0:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dst.Rect.Position(x + 10, 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;dst.AddImageDoc(src, i, null);
+&nbsp;&nbsp;dst.FrameRect();
+}
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim i As Integer = 1
+While i &lt;= theCount
+&nbsp;&nbsp;Select Case i Mod 4
+&nbsp;&nbsp;&nbsp;&nbsp;Case 1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDst.Page = theDst.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDst.Rect.Position(10, theY + 10)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
+&nbsp;&nbsp;&nbsp;&nbsp;Case 2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDst.Rect.Position(theX + 10, theY + 10)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
+&nbsp;&nbsp;&nbsp;&nbsp;Case 3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDst.Rect.Position(10, 10)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
+&nbsp;&nbsp;&nbsp;&nbsp;Case 0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDst.Rect.Position(theX + 10, 10)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
+&nbsp;&nbsp;End Select
+&nbsp;&nbsp;theDst.AddImageDoc(theSrc, i, Nothing)
+&nbsp;&nbsp;theDst.FrameRect()
+&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+End While
+</code></pre></P>
+            <P>Finally we save. </P>
+            <P><SPAN 
+            class=language>[C#]</SPAN><BR><pre><code class="language-csharp">dst.Save(Server.MapPath("fourup.pdf"));
+// finished
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">theDst.Save(Server.MapPath("fourup.pdf"))
+' finished
+</code></pre></P>
+            <P>We get the following output.</P>
+            <TABLE border=0 cellSpacing=3 cellPadding=3 width="100%">
+              <TBODY>
+              <TR>
+                <TD><IMG src="../../../images/pdf/fourup.pdf.png" class="example"
+                  ><BR>fourup.pdf - [Page 1]</TD>
+                <TD><IMG src="../../../images/pdf/fourup.pdf2.png" class="example"
+                  ><BR>fourup.pdf - [Page 2]</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P>
+            <p>Also see example code in: <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

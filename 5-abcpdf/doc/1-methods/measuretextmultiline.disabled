@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Doc MeasureTextMultiline Function. Measure the length of a block of text broken into lines using end-of-line markers without adding it to the page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>MeasureTextMultiline Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Measure the length of a block of text broken into lines using end-of-line markers without adding it to the page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>double MeasureTextMultiline(string text, out int lines)<br>
+            double MeasureTextMultiline(string text, double fontSize, double charSpacing, double wordSpacing, bool italic, bool bold, double outline, out int lines)<BR>
+            </CODE><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <CODE>Function MeasureTextMultiline(text As String, &lt;Out&gt; ByRef lines As Integer) As Double<br>
+            Function MeasureTextMultiline(text As String, fontSize As Double, charSpacing As Double, wordSpacing As Double, italic As Boolean, bold As Boolean, outline As Double, &lt;Out&gt; ByRef lines As Integer) As Double<BR>
+            </CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>text</TD>
+                <TD>The text to be measured.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>fontSize</TD>
+                <TD>The size of the font.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>charSpacing</TD>
+                <TD>The spacing to be applied between each character.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>wordSpacing</TD>
+                <TD>The spacing to be applied between each word.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>italic</TD>
+                <TD>Whether a synthetic italic style is to be applied.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>bold</TD>
+                <TD>Whether a synthetic bold style is to be applied.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>outline</TD>
+                <TD>The size of any outline to be applied to the font.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>lines</TD>
+                <TD>(Output) The number of lines the text is broken into.</TD>
+              </TR>
+<TR vAlign=top>
+  <TD align=middle>return</TD>
+  <TD>The length of the longest line of the text in the units provided.</TD>
+</TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This function is used to measure the length of a block of text using the
+              current <a href="../2-properties/font.htm">Font</a>. Besides the style
+              specified by the parameters (or by the corresponding properties of <a
+              href="../2-properties/textstyle.htm">TextStyle</a>), this function also
+              uses <a href="../../xtextstyle/2-properties/direction.htm">Direction</a>,
+              <a href="../../xtextstyle/2-properties/kerning.htm">Kerning</a>, and
+              <a href="../../xtextstyle/2-properties/preservespace.htm">PreserveSpace</a>
+              properties of <a href="../2-properties/textstyle.htm">TextStyle</a>.
+              End-of-line markers are CR, LF, and CR LF.</P>
+            <P>This method is unit agnostic so you can use whatever units you like and the 
+              result will be returned in terms of those units. However typically you would 
+              provide point based measurements to provide a point based length.</P>
+            <P>In the horizontal writing mode, if the text is placed at a horizontal
+              position x and w is the value this function returns, the bounding interval
+              will be [x - outline / 2, x - outline / 2 + w]. In the vertical writing mode,
+              if the text is placed at a vertical position y and h is the value this function
+              returns, the bounding interval will be [y + outline / 2 - h, y + outline / 2]
+              (where y increases upwards in the default coordinate system). (See the <A 
+              href="../../../6-abcpdf.objects/fontobject/2-properties/writingmode.htm">FontObject.WritingMode</A> 
+              property.)</P>
+            <P>Characters not supported by the font will have default width (<A 
+              href="../../../6-abcpdf.objects/fontobject/2-properties/defaultwidth.htm">FontObject.DefaultWidth</A>
+              if in the horizontal writing mode).</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>None.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

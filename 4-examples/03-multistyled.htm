@@ -1,0 +1,170 @@
+<html>
+<head>
+<title>Multistyle Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr>
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="pageheader"> Multistyle Example</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr>
+          <td>
+            <p>This example shows how to create multistyled text.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Setup</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <p>We want to display all our proper names in bold so we enclose them
+              in bold tags.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">string text = "&lt;b&gt;Gallia&lt;/b&gt; est omnis divisa in partes tres, quarum unam incolunt &lt;b&gt;Belgae&lt;/b&gt;, aliam &lt;b&gt;Aquitani&lt;/b&gt;, tertiam qui ipsorum lingua &lt;b&gt;Celtae&lt;/b&gt;, nostra &lt;b&gt;Galli&lt;/b&gt; appellantur.";
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Dim theText As String = "&lt;b&gt;Gallia&lt;/b&gt; est omnis divisa in partes tres, quarum unam incolunt &lt;b&gt;Belgae&lt;/b&gt;, aliam &lt;b&gt;Aquitani&lt;/b&gt;, tertiam qui ipsorum lingua &lt;b&gt;Celtae&lt;/b&gt;, nostra &lt;b&gt;Galli&lt;/b&gt; appellantur."
+</code></pre><br>
+              <br>
+            </p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Doc Obj</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <p>Next we create an ABCpdf Doc object and give it some basic settings.
+              Although we could pass our styled text directly to
+              the AddTextStyled function, we can take more control over the way that
+              fonts are added to the PDF if we specify font IDs.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.FontSize = 72;
+doc.Rect.Inset(10, 10);
+doc.FrameRect();
+int font1 = doc.EmbedFont("Verdana", LanguageType.Latin, false, true);
+int font2 = doc.EmbedFont("Verdana Bold", LanguageType.Latin, false, true);
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 72
+&nbsp;&nbsp;doc.Rect.Inset(10, 10)
+&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;Dim theFont1 As Integer = doc.EmbedFont("Verdana", LanguageType.Latin, False, True)
+&nbsp;&nbsp;Dim theFont2 As Integer = doc.EmbedFont("Verdana Bold", LanguageType.Latin, False, True)
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Adding</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <p>We replace the bold tags with font tags that directly reference
+              our chosen fonts and then add the styled text to the current
+              rectangle.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">text = "&lt;font pid=" + font1.ToString() + "&gt;" + text + "&lt;/font&gt;";
+text = text.Replace("&lt;b&gt;", "&lt;font pid=" + font2.ToString() + "&gt;");
+text = text.Replace("&lt;/b&gt;", "&lt;/font&gt;");
+doc.AddTextStyled(text);
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;theText = "&lt;font pid=" + theFont1.ToString() + "&gt;" + theText + "&lt;/font&gt;"
+&nbsp;&nbsp;theText = theText.Replace("&lt;b&gt;", "&lt;font pid=" + theFont2.ToString() + "&gt;")
+&nbsp;&nbsp;theText = theText.Replace("&lt;/b&gt;", "&lt;/font&gt;")
+&nbsp;&nbsp;doc.AddTextStyled(theText)
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Save</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <p>Finally we save and clear the document. </p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Save(Server.MapPath("styles.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("styles.pdf"))
+End Using
+</code></pre></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Results</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+
+            <p><img src="../images/pdf/styles.pdf.png" class="example"><br>
+              styles.pdf </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

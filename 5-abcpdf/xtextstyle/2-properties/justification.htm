@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>XTextStyle Justification Property. The horizontal justification factor. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Justification Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>double</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Double</code></td>
+                <td>0.0</td>
+                <td>No</td>
+                <td>The horizontal justification factor.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Allows you to adjust the horizontal justification.</p>
+            <p>Every line of text is drawn within a bounding box determined by 
+              the <a href="../../doc/2-properties/rect.htm">Doc.Rect</a> property. 
+              The justification property can be used to space out words so that 
+              they fit the bounding box exactly.</p>
+            <p>Typically you will only need to use values of zero - no justification 
+              - and one - full justification. However intermediate values can 
+              be used to partially justify text.</p>
+            <p>As each line is drawn the difference between the width of the line 
+              and the width of the bounding box is evaluated to determine the 
+              amount of free width. This free width is divided by the number of 
+              space characters in the line and then multiplied by the justification 
+              factor to produce an inter-word spacing for the line. Lines at the 
+              end of paragraphs are not justified.</p>
+            <p>Text alignment is determined by the <a href="hpos.htm">TextStyle.HPos</a> 
+              and <a href="vpos.htm">TextStyle.VPos</a> properties.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>In this example we add two blocks of text to a document. The first 
+              is added with no justification and the second is added with a justification 
+              factor of one.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+string text = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur.";
+doc.Rect.Inset(20, 40);
+doc.TextStyle.Size = 48;
+doc.AddText(text);
+doc.Rect.Move(0, -350);
+doc.TextStyle.Justification = 1.0;
+doc.AddText(text);
+doc.Save(Server.MapPath("stylejustification.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur."
+&nbsp;&nbsp;doc.Rect.Inset(20, 40)
+&nbsp;&nbsp;doc.TextStyle.Size = 48
+&nbsp;&nbsp;doc.AddText(theText)
+&nbsp;&nbsp;doc.Rect.Move(0, -350)
+&nbsp;&nbsp;doc.TextStyle.Justification = 1.0
+&nbsp;&nbsp;doc.AddText(theText)
+&nbsp;&nbsp;doc.Save(Server.MapPath("stylejustification.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/stylejustification.pdf.png" class="example"><br>
+              stylejustification.pdf </p>
+            <p>&nbsp;</p>
+          <p>Also see example code in: <a href="../../../4-examples/02-textflow.htm">ABCpdf Text Flow Example</a>, <a href="../../../4-examples/02-textflow2.htm">ABCpdf Text Flow Round Image Example</a>, <a href="../../doc/2-properties/textstyle.htm">Doc TextStyle Property</a>.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

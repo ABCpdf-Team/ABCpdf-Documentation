@@ -1,0 +1,1137 @@
+<html>
+<head>
+<title>Advanced Graphics Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Advanced Graphics Example</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Intro</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Virtually all the drawing operations you will require are achievable 
+              using methods such as <a href="../5-abcpdf/doc/1-methods/framerect.htm">FrameRect</a>, 
+              <a href="../5-abcpdf/doc/1-methods/fillrect.htm">FillRect</a>, 
+              <a href="../5-abcpdf/doc/1-methods/addline.htm">AddLine</a> and 
+              <a href="../5-abcpdf/doc/1-methods/addarc.htm">AddArc</a>.</p>
+            <p>However occasionally you may require more sophisticated control 
+              over your drawing operations. In these situations you need direct 
+              access to the PDF Content Stream.<br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Content</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Page content is defined by the page Content Stream. The Content 
+              Stream is a sequence of descriptions of graphics objects to be placed 
+              on the page. ABCpdf allows you to create or modify these content 
+              streams allowing you access to the full power of PDF drawing operators. 
+            </p>
+            <p>It was intentionally decided not to encapsulate this type of drawing 
+              within a closed API. Instead these examples are provided as source 
+              code. This allows you to adapt the classes to your needs.</p>
+            <p>You can find the full project and classes under the ABCpdf menu 
+              item.</p>
+            <p>Here we describe how to perform common tasks. We do not cover the 
+              entire range of possible operators and functions. For full details 
+              you should see the <a target="_blank" href="http://partners.adobe.com/">Adobe PDF 
+              Specification</a>.<br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Paths</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>A path object is a shape made up of straight lines, rectangles 
+              and B&eacute;zier curves. It may intersect itself and may have disconnected 
+              sections and holes. After the path has been defined it may be painted, 
+              filled, used for clipping or a combination of these operations.</p>
+            <p>Each path is constructed of one or more subpaths. Each subpath 
+              is constructed of one or more connected segments. Subpaths may be 
+              open or closed. When a subpath is closed the start of the path is 
+              connected to the end.</p>
+            <p>All paths are located in the standard <a href="../2-getting_started/3-coordinates.htm">Adobe 
+              PDF coordinate space</a>. The following is a list of standard path 
+              construction operators.<br>
+            </p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center" width="80"><b>Name</b></td>
+                <td align="center" width="50"><b>Parameters</b></td>
+                <td align="center" width="50"><b>Operator</b></td>
+                <td align="left"><b>Description</b></td>
+              </tr>
+              <tr> 
+                <td>Move</td>
+                <td>x y</td>
+                <td>m</td>
+                <td>Begin a new subpath by moving to the coordinates specified.</td>
+              </tr>
+              <tr> 
+                <td>Line</td>
+                <td>x y </td>
+                <td>l</td>
+                <td>Add a straight line from the current location to the coordinates 
+                  specified.</td>
+              </tr>
+              <tr> 
+                <td>Rect</td>
+                <td>x y w h</td>
+                <td>re</td>
+                <td>Add a rectangular subpath with the lower left corner at (x, 
+                  y) with width w and height h.</td>
+              </tr>
+              <tr> 
+                <td>B&eacute;zier</td>
+                <td>x1 y1 x2 y2 x3 y3</td>
+                <td> c</td>
+                <td> 
+                  <p>Add a B&eacute;zier curve from the current location to the 
+                    coordinates specified (x3, y3) using the other coordinates 
+                    (x1, y1) and (x2, y2) as control points.</p>
+                </td>
+              </tr>
+              <tr> 
+                <td>Close</td>
+                <td>&nbsp;</td>
+                <td>h</td>
+                <td>Close the current subpath joining the start to the end.</td>
+              </tr>
+              <tr> 
+                <td>Stroke</td>
+                <td>&nbsp;</td>
+                <td>S</td>
+                <td>Paint a line along the current path using the current stroke 
+                  color.</td>
+              </tr>
+              <tr> 
+                <td height="28">Fill</td>
+                <td height="28">&nbsp;</td>
+                <td height="28">f</td>
+                <td height="28"> 
+                  <p>Fill the current path using the current fill color. </p>
+                  <p>This fill method uses the nonzero winding number rule. There 
+                    are other PDF operators to allow the use of the even-odd rule 
+                    but these are not generally useful.</p>
+                </td>
+              </tr>
+              <tr> 
+                <td height="28">Clip</td>
+                <td height="28">&nbsp;</td>
+                <td height="28">W n</td>
+                <td height="28"> 
+                  <p>Intersect the path with the current clipping path to establish 
+                    a new clipping path. </p>
+                  <p>This actually comprises two operators rather than one but 
+                    they are almost invariably used in this combination.</p>
+                </td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      State</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>The graphics state defines the parameters within which the PDF 
+              operators work. For example the graphics state defines the current 
+              line width which will be used whenever a line is drawn. It also 
+              defines the current non-stroking color which will be used whenever 
+              a path is filled. </p>
+            <p>You can push copies of the graphics state onto a stack and then 
+              restore them later. This can be very useful for doing and undoing 
+              graphics state operations.</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center" width="80"><b>Name</b></td>
+                <td align="center" width="50"><b>Parameters</b></td>
+                <td align="center" width="50"><b>Operator</b></td>
+                <td align="left"><b>Description</b></td>
+              </tr>
+              <tr> 
+                <td>Save State</td>
+                <td>&nbsp;</td>
+                <td>q</td>
+                <td>Push a copy of the current graphics state onto the stack.</td>
+              </tr>
+              <tr> 
+                <td>Restore State</td>
+                <td>&nbsp;</td>
+                <td>Q</td>
+                <td>Restore the current graphics state from the top of the stack.</td>
+              </tr>
+              <tr> 
+                <td>SetLineWidth</td>
+                <td>v</td>
+                <td>w</td>
+                <td>Set the width to be used when stroking lines.</td>
+              </tr>
+              <tr> 
+                <td>SetGrayStrokeColor</td>
+                <td>w</td>
+                <td>G</td>
+                <td> 
+                  <p>Set the gray level to use for stroking operations.The component 
+                    ranges between 0.0 and 1.0 (black and white respectively).</p>
+                </td>
+              </tr>
+              <tr> 
+                <td>SetGrayNonStrokeColor</td>
+                <td>w</td>
+                <td>g</td>
+                <td>The same as G but for non-stroking operations.</td>
+              </tr>
+              <tr> 
+                <td>SetRGBStrokeColor</td>
+                <td>r g b</td>
+                <td>RG</td>
+                <td>Set the RGB color to use for stroking operations. Each component 
+                  ranges between 0.0 and 1.0.</td>
+              </tr>
+              <tr> 
+                <td>SetRGBNonStrokeColor</td>
+                <td>r g b</td>
+                <td>rg</td>
+                <td>The same as RG but for non-stroking operations.</td>
+              </tr>
+              <tr> 
+                <td>SetCMYKStrokeColor</td>
+                <td>c m y k</td>
+                <td>K</td>
+                <td>Set the CMYK color to use for stroking operations. Each component 
+                  ranges between 0.0 and 1.0.</td>
+              </tr>
+              <tr> 
+                <td>SetCMYKNonStrokeColor</td>
+                <td>c m y k</td>
+                <td>k</td>
+                <td>The same as K but for non-stroking operations.</td>
+              </tr>
+              <tr> 
+                <td>Transform</td>
+                <td>a b c d e f</td>
+                <td>cm</td>
+                <td> 
+                  <p>Concatenate matrix with the current transform matrix. Common 
+                    transforms include:</p>
+                  <ul>
+                    <li>Translation: A matrix of the form [1 0 0 1 tx ty] shifts 
+                      the coordinate system by tx horizontally and ty vertically.</li>
+                    <li>Scaling: A matrix of the form [sx 0 0 sy 0 0] scales the 
+                      coordinate system by a factor of sx horizontally and sy 
+                      vertically pinned at the origin.</li>
+                    <li>Rotation: A matrix of the form [cos(ra) sin(ra) -sin(ra) 
+                      cos(ra) 0 0] rotates the coordinate system by the angle 
+                      ra anti-clockwise around the origin.</li>
+                    <li>Skew: A matrix of the form [1 tan(ra) tan(ra) 1 0 0] skews 
+                      the x and y axes by the angle ra.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr> 
+                <td>SetLineCap</td>
+                <td>v</td>
+                <td>J</td>
+                <td> 
+                  <p>The line cap for the ends of any lines to be stroked. Possible 
+                    values are:</p>
+                  <ol>
+                    <li value=0>Butt. The stroke is square at the end of the path 
+                      and does not project beyond the end of the path.</li>
+                    <li value=1>Round. A semicircle is added at the end of the 
+                      path projecting beyond the endpoints.</li>
+                    <li value=2>Projecting Square. The stroke is square but projects 
+                      a distance of half the line width beyond the ends of the 
+                      path.</li>
+                  </ol>
+                </td>
+              </tr>
+              <tr> 
+                <td>SetLineJoin</td>
+                <td>v</td>
+                <td>j</td>
+                <td> 
+                  <p>The line join for the shape of joints between connected segments 
+                    of a path. Possible values are:</p>
+                  <ol>
+                    <li value=0>Miter. The outer edges for the two segments are 
+                      extended until they meet. This is the same way that wooden 
+                      segments are joined to make a picture frame. If the segments 
+                      meet at an overly steep angle a bevel join is used instead. 
+                      The precise cut-off point is called the Miter Limit (see 
+                      below).</li>
+                    <li value=1>Round. A pie slice is added to the junction of 
+                      the two segments to produce a rounded corner.</li>
+                    <li value=2>Bevel. The two segments are finished with butt 
+                      caps and any notch between the two is filled in.</li>
+                  </ol>
+                </td>
+              </tr>
+              <tr> 
+                <td>SetMiterLimit</td>
+                <td>v</td>
+                <td>M</td>
+                <td> 
+                  <p>The maximum length of mitered line joins for paths.</p>
+                  <p>The miter limit is expressed in terms of the ratio of the 
+                    thickness of the line to the thickness of the join. </p>
+                  <p>For example a value of 1.5 will allow the width of the line 
+                    at the join to be up to one and a half times the thickness 
+                    of the width of an individual line segment.</p>
+                </td>
+              </tr>
+              <tr> 
+                <td>LineDash</td>
+                <td>a p</td>
+                <td>d</td>
+                <td>The dash pattern to use for stroked lines. The parameters 
+                  include a - an array for the pattern and p - the phase of the 
+                  dash.</td>
+              </tr>
+            </table>
+            <h1></h1>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Stroke</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>Paths can be stroked (drawn) using the current stroking color. 
+            </p>
+            <p>For example you might wish to draw a star.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;var theContent = new PDFContent(doc);
+&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;theContent.SetLineWidth(30);
+&nbsp;&nbsp;theContent.SetLineJoin(2);
+&nbsp;&nbsp;theContent.Move(124, 158);
+&nbsp;&nbsp;theContent.Line(300, 700);
+&nbsp;&nbsp;theContent.Line(476, 158);
+&nbsp;&nbsp;theContent.Line(15, 493);
+&nbsp;&nbsp;theContent.Line(585, 493);
+&nbsp;&nbsp;theContent.Close();
+&nbsp;&nbsp;theContent.Stroke();
+&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_draw.pdf"));
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
+&nbsp;&nbsp;theContent.SaveState()
+&nbsp;&nbsp;theContent.SetLineWidth(30)
+&nbsp;&nbsp;theContent.SetLineJoin(2)
+&nbsp;&nbsp;theContent.Move(124, 158)
+&nbsp;&nbsp;theContent.Line(300, 700)
+&nbsp;&nbsp;theContent.Line(476, 158)
+&nbsp;&nbsp;theContent.Line(15, 493)
+&nbsp;&nbsp;theContent.Line(585, 493)
+&nbsp;&nbsp;theContent.Close()
+&nbsp;&nbsp;theContent.Stroke()
+&nbsp;&nbsp;theContent.RestoreState()
+&nbsp;&nbsp;theContent.AddToDoc()
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_draw.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../images/pdf/adv_star_draw.pdf.png" class="example"><br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Fill</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>Paths can be filled with the current non-stroking color. </p>
+            <p>For example you might wish to construct a filled star.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;var theContent = new PDFContent(doc);
+&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;theContent.SetLineWidth(30);
+&nbsp;&nbsp;theContent.SetLineJoin(2);
+&nbsp;&nbsp;theContent.Move(124, 158);
+&nbsp;&nbsp;theContent.Line(300, 700);
+&nbsp;&nbsp;theContent.Line(476, 158);
+&nbsp;&nbsp;theContent.Line(15, 493);
+&nbsp;&nbsp;theContent.Line(585, 493);
+&nbsp;&nbsp;theContent.Close();
+&nbsp;&nbsp;theContent.Fill();
+&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_fill.pdf"));
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
+&nbsp;&nbsp;theContent.SaveState()
+&nbsp;&nbsp;theContent.SetLineWidth(30)
+&nbsp;&nbsp;theContent.SetLineJoin(2)
+&nbsp;&nbsp;theContent.Move(124, 158)
+&nbsp;&nbsp;theContent.Line(300, 700)
+&nbsp;&nbsp;theContent.Line(476, 158)
+&nbsp;&nbsp;theContent.Line(15, 493)
+&nbsp;&nbsp;theContent.Line(585, 493)
+&nbsp;&nbsp;theContent.Close()
+&nbsp;&nbsp;theContent.Fill()
+&nbsp;&nbsp;theContent.RestoreState()
+&nbsp;&nbsp;theContent.AddToDoc()
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_fill.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../images/pdf/adv_star_fill.pdf.png" class="example"><br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      B&eacute;zier</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>Paths can contain curved segments.</p>
+            <p>Curved segments are specified as cubic B&eacute;zier curves. These 
+              provide a flexible and practical way to draw curves and curved paths.</p>
+            <p>Each segment is defined by four points. The first point and the 
+              final point define the ends of the segment. The second and third 
+              points define the control points. The line is pulled towards the 
+              first control point as it leaves the start and it is pulled towards 
+              the second control point as it arrives at the end.</p>
+            <p>The easiest way to illustrate this is with an example. Note that 
+              in this example the B&eacute;zier curve takes relatively little 
+              code to define. Most of the code is related to illustrating how 
+              the control points affect the shape of the curve.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;var theContent = new PDFContent(doc);
+&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;theContent.SetLineWidth(30);
+&nbsp;&nbsp;theContent.Move(100, 50);
+&nbsp;&nbsp;theContent.Bezier(200, 650, 400, 550, 500, 250);
+&nbsp;&nbsp;theContent.Stroke();
+&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;// annotate Bezier curve in red
+&nbsp;&nbsp;doc.Color.String = "255 0 0";
+&nbsp;&nbsp;doc.Width = 20;
+&nbsp;&nbsp;doc.FontSize = 30;
+&nbsp;&nbsp;doc.Pos.String = "100 50";
+&nbsp;&nbsp;doc.AddText("p0 (current point)");
+&nbsp;&nbsp;doc.Pos.String = "200 650";
+&nbsp;&nbsp;doc.Pos.Y = doc.Pos.Y + doc.FontSize;
+&nbsp;&nbsp;doc.AddText("p1 (x1, y1)");
+&nbsp;&nbsp;doc.Pos.String = "400 550";
+&nbsp;&nbsp;doc.Pos.Y = doc.Pos.Y + doc.FontSize;
+&nbsp;&nbsp;doc.AddText("p2 (x2, y2)");
+&nbsp;&nbsp;doc.Pos.String = "500 250";
+&nbsp;&nbsp;doc.Pos.X = doc.Pos.X - doc.FontSize;
+&nbsp;&nbsp;doc.AddText("p3 (x3, y3)");
+&nbsp;&nbsp;doc.AddLine(100, 50, 200, 650);
+&nbsp;&nbsp;doc.AddLine(400, 550, 500, 250);
+&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_bezier.pdf"));
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
+&nbsp;&nbsp;theContent.SaveState()
+&nbsp;&nbsp;theContent.SetLineWidth(30)
+&nbsp;&nbsp;theContent.Move(100, 50)
+&nbsp;&nbsp;theContent.Bezier(200, 650, 400, 550, 500, 250)
+&nbsp;&nbsp;theContent.Stroke()
+&nbsp;&nbsp;theContent.RestoreState()
+
+&nbsp;&nbsp;' annotate Bezier curve in red
+&nbsp;&nbsp;doc.Color.String = "255 0 0"
+&nbsp;&nbsp;doc.Width = 20
+&nbsp;&nbsp;doc.FontSize = 30
+&nbsp;&nbsp;doc.Pos.String = "100 50"
+&nbsp;&nbsp;doc.AddText("p0 (current point)")
+&nbsp;&nbsp;doc.Pos.String = "200 650"
+&nbsp;&nbsp;doc.Pos.Y = doc.Pos.Y + doc.FontSize
+&nbsp;&nbsp;doc.AddText("p1 (x1, y1)")
+&nbsp;&nbsp;doc.Pos.String = "400 550"
+&nbsp;&nbsp;doc.Pos.Y = doc.Pos.Y + doc.FontSize
+&nbsp;&nbsp;doc.AddText("p2 (x2, y2)")
+&nbsp;&nbsp;doc.Pos.String = "500 250"
+&nbsp;&nbsp;doc.Pos.X = doc.Pos.X - doc.FontSize
+&nbsp;&nbsp;doc.AddText("p3 (x3, y3)")
+&nbsp;&nbsp;doc.AddLine(100, 50, 200, 650)
+&nbsp;&nbsp;doc.AddLine(400, 550, 500, 250)
+&nbsp;&nbsp;theContent.AddToDoc()
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_bezier.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../images/pdf/adv_bezier.pdf.png" class="example"><br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Clip</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>You can use a path to define a clipping area. </p>
+            <p>The graphics state holds a clipping path that restricts the areas 
+              on the page which can be painted on. Marks falling within the clipping 
+              area will be displayed and those falling outside will not.</p>
+            <p>The default clipping path is the entire page. You can intersect 
+              the current clipping path with a new path using the clipping path 
+              operators. </p>
+            <p>You cannot expand a clipping path. Instead you must save the graphics 
+              state before applying your clipping path and then restore the graphics 
+              state after you have finished using it.</p>
+            <p>Here we fill a rectangle clipped by our star shape.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;var theContent = new PDFContent(doc);
+&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;theContent.SetLineWidth(30);
+&nbsp;&nbsp;theContent.SetLineJoin(2);
+&nbsp;&nbsp;theContent.Move(124, 158);
+&nbsp;&nbsp;theContent.Line(300, 700);
+&nbsp;&nbsp;theContent.Line(476, 158);
+&nbsp;&nbsp;theContent.Line(15, 493);
+&nbsp;&nbsp;theContent.Line(585, 493);
+&nbsp;&nbsp;theContent.Clip();
+&nbsp;&nbsp;theContent.Rect(100, 200, 400, 400);
+&nbsp;&nbsp;theContent.Fill();
+&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_clip.pdf"));
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
+&nbsp;&nbsp;theContent.SaveState()
+&nbsp;&nbsp;theContent.SetLineWidth(30)
+&nbsp;&nbsp;theContent.SetLineJoin(2)
+&nbsp;&nbsp;theContent.Move(124, 158)
+&nbsp;&nbsp;theContent.Line(300, 700)
+&nbsp;&nbsp;theContent.Line(476, 158)
+&nbsp;&nbsp;theContent.Line(15, 493)
+&nbsp;&nbsp;theContent.Line(585, 493)
+&nbsp;&nbsp;theContent.Clip()
+&nbsp;&nbsp;theContent.Rect(100, 200, 400, 400)
+&nbsp;&nbsp;theContent.Fill()
+&nbsp;&nbsp;theContent.RestoreState()
+&nbsp;&nbsp;theContent.AddToDoc()
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_clip.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../images/pdf/adv_star_clip.pdf.png" class="example"><br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Caps</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>You can define the way that the end points of your paths are capped.</p>
+            <p>The following options are available:</p>
+            <p>Butt. The stroke is square at the end of the path and does not 
+              project beyond the end of the path.</p>
+            <p>Round. A semicircle is added at the end of the path projecting 
+              beyond the endpoints.</p>
+            <p>Projecting Square. The stroke is square but projects a distance 
+              of half the line width beyond the ends of the path.</p>
+            <p>This example shows how different line caps are drawn. Note that 
+              the line cap themselves take relatively little code to define. Most 
+              of the code is related to annotating the drawing so that you can 
+              see how the caps relate to the end points.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;var theContent = new PDFContent(doc);
+&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;theContent.SetLineWidth(100);
+&nbsp;&nbsp;theContent.SetLineCap(0);
+&nbsp;&nbsp;theContent.Move(100, 600);
+&nbsp;&nbsp;theContent.Line(500, 600); // line
+&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;theContent.SetLineCap(1); // round cap
+&nbsp;&nbsp;theContent.Move(100, 400);
+&nbsp;&nbsp;theContent.Line(500, 400);
+&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;theContent.SetLineCap(2);
+&nbsp;&nbsp;theContent.Move(100, 200);
+&nbsp;&nbsp;theContent.Line(500, 200);
+&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;// add capped lines
+&nbsp;&nbsp;theContent.AddToDoc();
+
+&nbsp;&nbsp;// annotate capped lines
+&nbsp;&nbsp;doc.FontSize = 48;
+&nbsp;&nbsp;doc.Pos.String = "50 720";
+&nbsp;&nbsp;doc.AddText("0 - Butt Cap");
+&nbsp;&nbsp;doc.Pos.String = "50 520";
+&nbsp;&nbsp;doc.AddText("1 - Round Cap");
+&nbsp;&nbsp;doc.Pos.String = "50 320";
+&nbsp;&nbsp;int id = doc.AddText("2 - Projecting Square Cap");
+&nbsp;&nbsp;doc.Width = 20;
+
+&nbsp;&nbsp;doc.Color.String = "255 255 255";
+&nbsp;&nbsp;doc.AddLine(100, 200, 500, 200);
+&nbsp;&nbsp;doc.Rect.String = "80 180 120 220";
+&nbsp;&nbsp;doc.FillRect(20, 20);
+&nbsp;&nbsp;doc.Rect.String = "480 180 520 220";
+&nbsp;&nbsp;doc.FillRect(20, 20);
+&nbsp;&nbsp;doc.AddLine(100, 400, 500, 400);
+&nbsp;&nbsp;doc.Rect.String = "80 380 120 420";
+&nbsp;&nbsp;doc.FillRect(20, 20);
+&nbsp;&nbsp;doc.Rect.String = "480 380 520 420";
+&nbsp;&nbsp;doc.FillRect(20, 20);
+&nbsp;&nbsp;doc.AddLine(100, 600, 500, 600);
+&nbsp;&nbsp;doc.Rect.String = "80 580 120 620";
+&nbsp;&nbsp;doc.FillRect(20, 20);
+&nbsp;&nbsp;doc.Rect.String = "480 580 520 620";
+&nbsp;&nbsp;doc.FillRect(20, 20);
+&nbsp;&nbsp;doc.Color.String = "0 0 0";
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_linecap.pdf"));
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
+&nbsp;&nbsp;theContent.SaveState()
+&nbsp;&nbsp;theContent.SetLineWidth(100)
+&nbsp;&nbsp;theContent.SetLineCap(0)
+&nbsp;&nbsp;theContent.Move(100, 600)
+&nbsp;&nbsp;theContent.Line(500, 600)
+&nbsp;&nbsp;' line
+&nbsp;&nbsp;theContent.Stroke()
+
+&nbsp;&nbsp;theContent.SetLineCap(1)
+&nbsp;&nbsp;' round cap
+&nbsp;&nbsp;theContent.Move(100, 400)
+&nbsp;&nbsp;theContent.Line(500, 400)
+&nbsp;&nbsp;theContent.Stroke()
+
+&nbsp;&nbsp;theContent.SetLineCap(2)
+&nbsp;&nbsp;theContent.Move(100, 200)
+&nbsp;&nbsp;theContent.Line(500, 200)
+&nbsp;&nbsp;theContent.Stroke()
+
+&nbsp;&nbsp;' add capped lines
+&nbsp;&nbsp;theContent.AddToDoc()
+
+&nbsp;&nbsp;' annotate capped lines
+&nbsp;&nbsp;doc.FontSize = 48
+&nbsp;&nbsp;doc.Pos.String = "50 720"
+&nbsp;&nbsp;doc.AddText("0 - Butt Cap")
+&nbsp;&nbsp;doc.Pos.String = "50 520"
+&nbsp;&nbsp;doc.AddText("1 - Round Cap")
+&nbsp;&nbsp;doc.Pos.String = "50 320"
+&nbsp;&nbsp;Dim id As Integer = doc.AddText("2 - Projecting Square Cap")
+&nbsp;&nbsp;doc.Width = 20
+
+&nbsp;&nbsp;doc.Color.String = "255 255 255"
+&nbsp;&nbsp;doc.AddLine(100, 200, 500, 200)
+&nbsp;&nbsp;doc.Rect.String = "80 180 120 220"
+&nbsp;&nbsp;doc.FillRect(20, 20)
+&nbsp;&nbsp;doc.Rect.String = "480 180 520 220"
+&nbsp;&nbsp;doc.FillRect(20, 20)
+&nbsp;&nbsp;doc.AddLine(100, 400, 500, 400)
+&nbsp;&nbsp;doc.Rect.String = "80 380 120 420"
+&nbsp;&nbsp;doc.FillRect(20, 20)
+&nbsp;&nbsp;doc.Rect.String = "480 380 520 420"
+&nbsp;&nbsp;doc.FillRect(20, 20)
+&nbsp;&nbsp;doc.AddLine(100, 600, 500, 600)
+&nbsp;&nbsp;doc.Rect.String = "80 580 120 620"
+&nbsp;&nbsp;doc.FillRect(20, 20)
+&nbsp;&nbsp;doc.Rect.String = "480 580 520 620"
+&nbsp;&nbsp;doc.FillRect(20, 20)
+&nbsp;&nbsp;doc.Color.String = "0 0 0"
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_linecap.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../images/pdf/adv_linecap.pdf.png" class="example"><br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Joins</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>You can define the way that your line segments are joined.</p>
+            <p>The following options are available:</p>
+            <p>Miter. The outer edges for the two segments are extended until 
+              they meet. This is the same way that wooden segments are joined 
+              to make a picture frame. If the segments meet at an overly steep 
+              angle a bevel join is used instead. The precise cut-off point is 
+              called the Miter Limit.</p>
+            <p>Round. A pie slice is added to the junction of the two segments 
+              to produce a rounded corner.</p>
+            <p>Bevel. The two segments are finished with butt caps and any notch 
+              between the two is filled in.</p>
+            <p>This example shows how different line joins are drawn. Note that 
+              the line joins themselves take relatively little code to define. 
+              Most of the code is related to annotating the drawing.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;var theContent = new PDFContent(doc);
+&nbsp;&nbsp;theContent.SetLineWidth(50);
+&nbsp;&nbsp;theContent.SetLineJoin(0);
+&nbsp;&nbsp;theContent.Move(300, 500);
+&nbsp;&nbsp;theContent.Line(400, 700);
+&nbsp;&nbsp;theContent.Line(500, 500);
+&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;theContent.SetLineJoin(1);
+&nbsp;&nbsp;theContent.Move(300, 300);
+&nbsp;&nbsp;theContent.Line(400, 500);
+&nbsp;&nbsp;theContent.Line(500, 300);
+&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;theContent.SetLineJoin(2);
+&nbsp;&nbsp;theContent.Move(300, 100);
+&nbsp;&nbsp;theContent.Line(400, 300);
+&nbsp;&nbsp;theContent.Line(500, 100);
+&nbsp;&nbsp;theContent.Stroke();
+&nbsp;&nbsp;theContent.AddToDoc();
+
+&nbsp;&nbsp;doc.FontSize = 48;
+&nbsp;&nbsp;doc.Pos.String = "50 700";
+&nbsp;&nbsp;doc.AddText("0 - Miter");
+&nbsp;&nbsp;doc.Pos.String = "50 500";
+&nbsp;&nbsp;doc.AddText("1 - Round ");
+&nbsp;&nbsp;doc.Pos.String = "50 300";
+&nbsp;&nbsp;doc.AddText("2 - Bevel");
+&nbsp;&nbsp;doc.Width = 10;
+&nbsp;&nbsp;doc.Color.String = "255 255 255";
+&nbsp;&nbsp;doc.AddLine(300, 500, 400, 700);
+&nbsp;&nbsp;doc.AddLine(400, 700, 500, 500);
+&nbsp;&nbsp;doc.Rect.String = "390 690 410 710";
+&nbsp;&nbsp;doc.FillRect(10, 10);
+&nbsp;&nbsp;doc.AddLine(300, 300, 400, 500);
+&nbsp;&nbsp;doc.AddLine(400, 500, 500, 300);
+&nbsp;&nbsp;doc.Rect.String = "390 490 410 510";
+&nbsp;&nbsp;doc.FillRect(10, 10);
+&nbsp;&nbsp;doc.AddLine(300, 100, 400, 300);
+&nbsp;&nbsp;doc.AddLine(400, 300, 500, 100);
+&nbsp;&nbsp;doc.Rect.String = "390 290 410 310";
+&nbsp;&nbsp;doc.FillRect(10, 10);
+&nbsp;&nbsp;doc.Color.String = "0 0 0";
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_linejoin.pdf"));
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
+&nbsp;&nbsp;theContent.SetLineWidth(50)
+&nbsp;&nbsp;theContent.SetLineJoin(0)
+&nbsp;&nbsp;theContent.Move(300, 500)
+&nbsp;&nbsp;theContent.Line(400, 700)
+&nbsp;&nbsp;theContent.Line(500, 500)
+&nbsp;&nbsp;theContent.Stroke()
+
+&nbsp;&nbsp;theContent.SetLineJoin(1)
+&nbsp;&nbsp;theContent.Move(300, 300)
+&nbsp;&nbsp;theContent.Line(400, 500)
+&nbsp;&nbsp;theContent.Line(500, 300)
+&nbsp;&nbsp;theContent.Stroke()
+
+&nbsp;&nbsp;theContent.SetLineJoin(2)
+&nbsp;&nbsp;theContent.Move(300, 100)
+&nbsp;&nbsp;theContent.Line(400, 300)
+&nbsp;&nbsp;theContent.Line(500, 100)
+&nbsp;&nbsp;theContent.Stroke()
+&nbsp;&nbsp;theContent.AddToDoc()
+
+&nbsp;&nbsp;doc.FontSize = 48
+&nbsp;&nbsp;doc.Pos.String = "50 700"
+&nbsp;&nbsp;doc.AddText("0 - Miter")
+&nbsp;&nbsp;doc.Pos.String = "50 500"
+&nbsp;&nbsp;doc.AddText("1 - Round ")
+&nbsp;&nbsp;doc.Pos.String = "50 300"
+&nbsp;&nbsp;doc.AddText("2 - Bevel")
+&nbsp;&nbsp;doc.Width = 10
+&nbsp;&nbsp;doc.Color.String = "255 255 255"
+&nbsp;&nbsp;doc.AddLine(300, 500, 400, 700)
+&nbsp;&nbsp;doc.AddLine(400, 700, 500, 500)
+&nbsp;&nbsp;doc.Rect.String = "390 690 410 710"
+&nbsp;&nbsp;doc.FillRect(10, 10)
+&nbsp;&nbsp;doc.AddLine(300, 300, 400, 500)
+&nbsp;&nbsp;doc.AddLine(400, 500, 500, 300)
+&nbsp;&nbsp;doc.Rect.String = "390 490 410 510"
+&nbsp;&nbsp;doc.FillRect(10, 10)
+&nbsp;&nbsp;doc.AddLine(300, 100, 400, 300)
+&nbsp;&nbsp;doc.AddLine(400, 300, 500, 100)
+&nbsp;&nbsp;doc.Rect.String = "390 290 410 310"
+&nbsp;&nbsp;doc.FillRect(10, 10)
+&nbsp;&nbsp;doc.Color.String = "0 0 0"
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_linejoin.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../images/pdf/adv_linejoin.pdf.png" class="example"><br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Dash</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>You can define dashed lines.</p>
+            <p>The dash pattern is specified by a dash array and a dash phase. 
+              The dash array specifies the length of dashes and gaps. The dash 
+              phase specifies the distance into the array at which the line dashes 
+              should start.</p>
+            <p>When the lengths in the array are exhausted the dash pattern starts 
+              again at the beginning. You can use an empty array and zero phase 
+              to specify a solid line</p>
+            <p>Dashed lines can be applied to any kind of path including straight 
+              lines and curves. Each subpath in a path is treated separately - 
+              the dash phase starts at the beginning again.</p>
+            <p>This example shows how different line dash patterns are drawn.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;var theContent = new PDFContent(doc);
+&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;theContent.SetLineWidth(20);
+&nbsp;&nbsp;theContent.LineDash("[ ] 0");
+&nbsp;&nbsp;theContent.Move(100, 650);
+&nbsp;&nbsp;theContent.Line(500, 650);
+&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;theContent.LineDash("[ 90 ] 0");
+&nbsp;&nbsp;theContent.Move(100, 500);
+&nbsp;&nbsp;theContent.Line(500, 500);
+&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;theContent.LineDash("[ 60 ] 30");
+&nbsp;&nbsp;theContent.Move(100, 350);
+&nbsp;&nbsp;theContent.Line(500, 350);
+&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;theContent.LineDash("[ 60 30 ] 0");
+&nbsp;&nbsp;theContent.Move(100, 200);
+&nbsp;&nbsp;theContent.Line(500, 200);
+&nbsp;&nbsp;theContent.Stroke();
+&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;// annotate dashed lines
+&nbsp;&nbsp;doc.Color.String = "0 0 0";
+&nbsp;&nbsp;doc.FontSize = 36;
+&nbsp;&nbsp;doc.Pos.String = "50 710";
+&nbsp;&nbsp;doc.AddText("[ ] 0 - no dashes");
+&nbsp;&nbsp;doc.Pos.String = "50 560";
+&nbsp;&nbsp;doc.AddText("[ 90 ] 0 - 90 on, 90 off...");
+&nbsp;&nbsp;doc.Pos.String = "50 410";
+&nbsp;&nbsp;doc.AddText("[ 60 ] 30 - 30 on, 60 off, 60 on...");
+&nbsp;&nbsp;doc.Pos.String = "50 260";
+&nbsp;&nbsp;doc.AddText("[ 60 30 ] 0 - 60 on, 30 off, 60 on...");
+
+&nbsp;&nbsp;// add dashed lines
+&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_dashes.pdf"));
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
+&nbsp;&nbsp;theContent.SaveState()
+&nbsp;&nbsp;theContent.SetLineWidth(20)
+&nbsp;&nbsp;theContent.LineDash("[ ] 0")
+&nbsp;&nbsp;theContent.Move(100, 650)
+&nbsp;&nbsp;theContent.Line(500, 650)
+&nbsp;&nbsp;theContent.Stroke()
+
+&nbsp;&nbsp;theContent.LineDash("[ 90 ] 0")
+&nbsp;&nbsp;theContent.Move(100, 500)
+&nbsp;&nbsp;theContent.Line(500, 500)
+&nbsp;&nbsp;theContent.Stroke()
+
+&nbsp;&nbsp;theContent.LineDash("[ 60 ] 30")
+&nbsp;&nbsp;theContent.Move(100, 350)
+&nbsp;&nbsp;theContent.Line(500, 350)
+&nbsp;&nbsp;theContent.Stroke()
+
+&nbsp;&nbsp;theContent.LineDash("[ 60 30 ] 0")
+&nbsp;&nbsp;theContent.Move(100, 200)
+&nbsp;&nbsp;theContent.Line(500, 200)
+&nbsp;&nbsp;theContent.Stroke()
+&nbsp;&nbsp;theContent.RestoreState()
+
+&nbsp;&nbsp;' annotate dashed lines
+&nbsp;&nbsp;doc.Color.String = "0 0 0"
+&nbsp;&nbsp;doc.FontSize = 36
+&nbsp;&nbsp;doc.Pos.String = "50 710"
+&nbsp;&nbsp;doc.AddText("[ ] 0 - no dashes")
+&nbsp;&nbsp;doc.Pos.String = "50 560"
+&nbsp;&nbsp;doc.AddText("[ 90 ] 0 - 90 on, 90 off...")
+&nbsp;&nbsp;doc.Pos.String = "50 410"
+&nbsp;&nbsp;doc.AddText("[ 60 ] 30 - 30 on, 60 off, 60 on...")
+&nbsp;&nbsp;doc.Pos.String = "50 260"
+&nbsp;&nbsp;doc.AddText("[ 60 30 ] 0 - 60 on, 30 off, 60 on...")
+
+&nbsp;&nbsp;' add dashed lines
+&nbsp;&nbsp;theContent.AddToDoc()
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_dashes.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../images/pdf/adv_dashes.pdf.png" class="example"><br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      XForms </td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>You can define transforms which affect the world space.</p>
+            <p>A transform allows you to translate, scale, rotate, or skew objects. 
+              Multiple transforms can be concatenated so that you can perform 
+              a combination of these operations.</p>
+            <p>A transform is defined by six numbers. Common transforms include:</p>
+            <p>Translation: A matrix of the form [1 0 0 1 tx ty] shifts the coordinate 
+              system by tx horizontally and ty vertically.</p>
+            <p>Scaling: A matrix of the form [sx 0 0 sy 0 0] scales the coordinate 
+              system by a factor of sx horizontally and sy vertically pinned at 
+              the origin.</p>
+            <p>Rotation: A matrix of the form [cos(ra) sin(ra) -sin(ra) cos(ra) 
+              0 0] rotates the coordinate system by the angle ra anticlockwise 
+              around the origin.</p>
+            <p>Skew: A matrix of the form [1 tan(ra) tan(ra) 1 0 0] skews the 
+              x and y axes by the angle ra.</p>
+            <p>This example shows how to apply a 45 degree rotation to a drawing 
+              of a star.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using (var doc = new Doc()) {
+&nbsp;&nbsp;var star = new PDFContent(doc);
+&nbsp;&nbsp;star.Move(124, 108);
+&nbsp;&nbsp;star.Line(300, 650);
+&nbsp;&nbsp;star.Line(476, 108);
+&nbsp;&nbsp;star.Line(15, 443);
+&nbsp;&nbsp;star.Line(585, 443);
+&nbsp;&nbsp;star.Close();
+&nbsp;&nbsp;star.Stroke();
+
+&nbsp;&nbsp;var theContent = new PDFContent(doc);
+&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;theContent.SetLineWidth(30);
+&nbsp;&nbsp;theContent.SetLineJoin(2);
+&nbsp;&nbsp;theContent.AddContent(star);
+&nbsp;&nbsp;theContent.SetRGBStrokeColor(1, 0, 0);
+&nbsp;&nbsp;theContent.Transform(0.7, 0.7, -0.7, 0.7, 0, 0);
+&nbsp;&nbsp;theContent.AddContent(star);
+&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_rotate.pdf"));
+}
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim star As New PDFContent(doc)
+&nbsp;&nbsp;star.Move(124, 108)
+&nbsp;&nbsp;star.Line(300, 650)
+&nbsp;&nbsp;star.Line(476, 108)
+&nbsp;&nbsp;star.Line(15, 443)
+&nbsp;&nbsp;star.Line(585, 443)
+&nbsp;&nbsp;star.Close()
+&nbsp;&nbsp;star.Stroke()
+
+&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
+&nbsp;&nbsp;theContent.SaveState()
+&nbsp;&nbsp;theContent.SetLineWidth(30)
+&nbsp;&nbsp;theContent.SetLineJoin(2)
+&nbsp;&nbsp;theContent.AddContent(star)
+&nbsp;&nbsp;theContent.SetRGBStrokeColor(1, 0, 0)
+&nbsp;&nbsp;theContent.Transform(0.7, 0.7, -0.7, 0.7, 0, 0)
+&nbsp;&nbsp;theContent.AddContent(star)
+&nbsp;&nbsp;theContent.RestoreState()
+&nbsp;&nbsp;theContent.AddToDoc()
+&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_rotate.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../images/pdf/adv_star_rotate.pdf.png" class="example"><br>
+            </p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Other</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>Other examples including text operators, transparency modes and 
+              blend modes can be found in the example project.</p>
+            <p>You can find the full project and classes under the ABCpdf menu 
+              item.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

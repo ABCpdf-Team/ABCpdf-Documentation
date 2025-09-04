@@ -1,0 +1,209 @@
+<html>
+<head>
+<title>XEncryption Type Property. The level of encryption to use. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Type Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>int</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Integer</code></td>
+                <td>0</td>
+                <td>No</td>
+                <td>The level of encryption to use.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This property determines the level of encryption used when saving 
+              the document. The default value of zero indicates that no encryption 
+              will be used.</p>
+            <p>Higher levels of encryption provide higher levels of security and 
+              more flexibility in applying permissions but also require more recent 
+              versions of Adobe Acrobat to view. The table below details valid 
+              combinations.</p>
+            <p>The PDF 2.0 standard deprecates a number of these options as being potentially insecure. The recommended set for PDF 2.0 compliant documents is Type 5 with <a href="../1-methods/setcryptmethods.htm">SetCryptMethods</a> AESV3.</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td><b>Type Value</b></td>
+                <td valign="middle" align="center"><b>0</b></td>
+                <td valign="middle" align="center"><b>1</b></td>
+                <td valign="middle" align="center"><b>2</b></td>
+                <td valign="middle" align="center"><b>4</b></td>
+                <td valign="middle" align="center"><b>5</b></td>
+              </tr>
+              <tr> 
+                <td><b>Acrobat Version Required</b></td>
+                <td valign="middle" align="center">Any</td>
+                <td valign="middle" align="center">2.0</td>
+                <td valign="middle" align="center">5.0</td>
+                <td valign="middle" align="center">7.0 / X - see below</td>
+                <td valign="middle" align="center">9.0 / X - see below</td>
+              </tr>
+              <tr> 
+                <td><b>Encryption Key Length (bits)</b></td>
+                <td valign="middle" align="center">None</td>
+                <td valign="middle" align="center">40</td>
+                <td valign="middle" align="center">128</td>
+                <td valign="middle" align="center">128</td>
+                <td valign="middle" align="center">256</td>
+              </tr>
+              <tr> 
+                <td><a href="../1-methods/setcryptmethods.htm">Encryption Algorithm</a></td>
+                <td valign="middle" align="center">Identity</td>
+                <td valign="middle" align="center">RC4</td>
+                <td valign="middle" align="center">RC4</td>
+                <td valign="middle" align="center">Identity/RC4/AES</td>
+                <td valign="middle" align="center">Identity/AES</td>
+              </tr>
+              <tr> 
+                <td><a href="canassemble.htm">Can Assemble</a></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+              </tr>
+              <tr> 
+                <td><a href="canchange.htm">Can Change</a></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+              </tr>
+              <tr> 
+                <td><a href="cancopy.htm">Can Copy</a></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+              </tr>
+              <tr> 
+                <td><a href="canedit.htm">Can Edit</a></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+              </tr>
+              <tr> 
+                <td><a href="canextract.htm">Can Extract</a></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+              </tr>
+              <tr> 
+                <td><a href="canfillforms.htm">Can Fill Forms</a></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+              </tr>
+              <tr> 
+                <td><a href="canprint.htm">Can Print</a></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+              </tr>
+              <tr> 
+                <td><a href="canprinthi.htm">Can Print Hi</a></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><b><i><font size="2">&nbsp;</font></i></b></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+                <td valign="middle" align="center"><img src="../../../images/steel-blob-10.gif" width="10" height="10" align="middle"></td>
+              </tr>
+            </table>
+            <p>On a technical level Acrobat 9 supported 256 bit AES encryption. However there were a number of security flaws in the specification and Adobe released an update to resolve these using PDF 1.7 Extension Level 8. Since we felf it important that the encryption be secure, we produce AES 256 documents conforming to this later specification - hence only readable by Acrobat X and later.</p>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+                <TR>
+                  <TD><P><B>AES 256 Support in Acrobat. </B></P>
+                    <P>On a technical level Acrobat 7 supported 128 bit AES and Acrobat 9 supported 256 bit AES encryption. However there were  security flaws in the specification as relates to the way passwords were handled.</P>
+                    <P>For this reason Adobe released an update to resolve these - PDF 1.7 Extension Level 8 - requiring Acrobat X. The specification for this was never formally published but it became part of the PDF 2.0 specification.</P>
+                    <P>Since we feel it important that  encryption be secure, we produce AES 128 and AES 256 documents conforming to this later specification - hence only readable by Acrobat X and later.<BR>
+                  </P></TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <p>&nbsp;</p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>See the <a href="../../doc/2-properties/encryption.htm">Doc.Encryption</a> 
+              property and the <a href="../1-methods/setcryptmethods.htm">SetCryptMethods</a> method.</p>
+            <p>Also see example code in: <a href="../../doc/2-properties/encryption.htm">Doc Encryption Property</a>, <a href="../1-methods/setcryptmethods.htm">XEncryption SetCryptMethods Function</a>.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

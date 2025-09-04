@@ -1,0 +1,128 @@
+<html>
+<head>
+<title>XImage Selection Property. The current selection rectangle. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Selection Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code><a href="../../xrect/default.htm">XRect</a></code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code><a href="../../xrect/default.htm">XRect</a></code></td>
+                <td>The dimensions of the current frame.</td>
+                <td>No</td>
+                <td>The current selection rectangle.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>You may wish to add only a portion of an image. By changing the 
+              selection rectangle you can specify different areas to be added. 
+            </p>
+            <p>Note that this property only has an effect on an Image if the <a href="indirect.htm">Indirect</a> 
+              property is true (which is generally the case).</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td>Here we open a TIFF file using the XImage object. We add the entire 
+            image to the document and then just a portion of the image using the 
+            Selection property. 
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var img = new XImage();
+using var doc = new Doc();
+img.SetFile(Server.MapPath("../mypics/mypic.jpg"));
+doc.Rect.String = img.Selection.String;
+doc.Rect.Magnify(0.5, 0.5);
+doc.Rect.Position(100, 30);
+doc.AddImageObject(img, false);
+img.Selection.Inset(100, 200);
+doc.Rect.String = img.Selection.String;
+doc.Rect.Position(170, 400);
+doc.AddImageObject(img, false);
+doc.Save(Server.MapPath("imageselect.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Dim theImg As New XImage()
+Dim doc As New Doc()
+theImg.SetFile(Server.MapPath("../mypics/mypic.jpg"))
+doc.Rect.String = theImg.Selection.[String]
+doc.Rect.Magnify(0.5, 0.5)
+doc.Rect.Position(100, 30)
+doc.AddImageObject(theImg, False)
+theImg.Selection.Inset(100, 200)
+doc.Rect.String = theImg.Selection.[String]
+doc.Rect.Position(170, 400)
+doc.AddImageObject(theImg, False)
+theImg.Clear()
+doc.Save(Server.MapPath("imageselect.pdf"))
+doc.Clear()
+</code></pre></p>
+            <p><img src="../../../images/pdf/imageselect.pdf.png" class="example"><br>
+              imageselect.pdf</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

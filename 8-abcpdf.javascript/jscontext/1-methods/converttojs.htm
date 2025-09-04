@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>JSContext ConvertToJS Method. Gets a JavaScript value for the parameter value. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>ConvertToJS Method</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Gets a JavaScript value for the parameter value.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>JSValue
+            ConvertToJS(bool v)<BR>JSValue ConvertToJS(double v)<BR>JSValue
+            ConvertToJS(int v)<BR>JSValue ConvertToJS(long v)<BR>JSValue
+            ConvertToJS(string v)<BR>JSValue ConvertToJS(Func&lt;JSCallInfo,
+            object&gt; v)<BR>JSValue ConvertToJS(object
+            v)</CODE><BR><SPAN class=language>[Visual
+            Basic]</SPAN><BR><CODE>Function ConvertToJS(v As Boolean)
+            As JSValue<BR>Function ConvertToJS(v As Double) As
+            JSValue<BR>Function ConvertToJS(v As Integer) As
+            JSValue<BR>Function ConvertToJS(v As Long) As
+            JSValue<BR>Function ConvertToJS(v As String) As
+            JSValue<BR>Function ConvertToJS(v As Func(Of JSCallInfo,
+            Object)) As JSValue<BR>Function ConvertToJS(v As Object)
+            As JSValue</CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions"
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>v</TD>
+                <TD>The value for conversion.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The converted JavaScript value.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>The method creates a value in the JavaScript engine.
+              The parameter can be any of the following independent values:</P>
+            <UL>
+              <LI><b>JSConstant.Undefined</b> &ndash; the undefined value.</LI>
+              <LI><b>JSConstant.Null</b> &ndash; the null value.</LI>
+              <LI>A <b>JSValue</b> &ndash; itself; no conversion.</LI>
+              <LI>A <b>Boolean</b> &ndash; a primitive Boolean.</LI>
+              <LI>A <b>Char</b> &ndash; a primitive string consisting of one character.</LI>
+              <LI>A <b>SByte</b>, <b>Byte</b>, <b>Int16</b>, <b>UInt16</b>,
+              <b>Int32</b>, <b>UInt32</b>, <b>Int64</b>, <b>UInt64</b>,
+              <b>Single</b>, <b>Double</b> or <b>Decimal</b> &ndash; a primitive number.</LI>
+              <LI>A <b>String</b> &ndash; a primitive string.</LI>
+              <LI>A <b>Func&lt;JSCallInfo, object&gt;</b> &ndash; a function.</LI>
+              <LI><b>IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt;</b> &ndash; an object
+              created using Object.defineProperty. (Please see <a
+              href="../../jsvalue/1-methods/1-defineproperty.htm">JSValue.DefineProperty</a>.)
+              In addition to the independent values listed here, KeyValuePair&lt;string,
+              object&gt;.Value may be JSDataDescriptor or JSAccessorDescriptor.</LI>
+              <LI><b>IEnumerable&lt;T&gt;</b> &ndash; an array with the values
+              after this conversion as the element values. If the parameter is
+              an ICollection&lt;T&gt; or IReadOnlyCollection&lt;T&gt;, the array
+              is create with the given length.</LI><P>T can be any of the following types:</P>
+              <UL>
+                <LI>SByte &ndash; the array is a signed-8bit typed array.</LI>
+                <LI>Byte &ndash; the array is a unsigned-8bit typed array.</LI>
+                <LI>Int16 &ndash; the array is a signed-16bit typed array.</LI>
+                <LI>UInt16 &ndash; the array is a unsigned-16bit typed array.</LI>
+                <LI>Int32 &ndash; the array is a signed-32bit typed array.</LI>
+                <LI>UInt32 &ndash; the array is a unsigned-32bit typed array.</LI>
+                <LI>Int64 &ndash; the array is a signed-64bit typed array.</LI>
+                <LI>UInt64 &ndash; the array is a unsigned-64bit typed array.</LI>
+                <LI>Single, Double, or Decimal &ndash; the array is a 64bit-floating-point typed array.</LI>
+                <LI>Object (other than the above types) &ndash; items are values after this conversion.</LI>
+              </UL>
+            </UL>
+            <P>Reference semantics of objects is supported. When the same object (which is
+              an independent value) is in different parts of this parameter, the same
+              JavaScript value is used. In particular, you can create objects and
+              properties/element values that form circular references.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

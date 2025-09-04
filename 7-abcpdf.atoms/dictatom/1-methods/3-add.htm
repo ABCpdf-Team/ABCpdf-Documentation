@@ -1,0 +1,158 @@
+<html>
+<head>
+<title>DictAtom Add Function. Add an item to the dictionary. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Add Function</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>Add an item to the dictionary.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Syntax</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td valign="top"> 
+            <p><span class="language">[C#]</span><br>
+              <code>void Add(string key, <a href="../../1-atom/default.htm">Atom</a> atm)<br>
+              void Add(string key, int num)<br>
+              void Add(string key, double real)<br>
+              void Add(string key, string str) <br>
+              </code><br>
+              <span class="language">[Visual Basic]</span><br>
+              <code>Sub Add(key As String, atm As <a href="../../1-atom/default.htm">Atom</a>)<br>
+              Sub Add(key As String, num As Integer)<br>
+              Sub Add(key As String, real As Double)<br>
+              Sub Add(key As String, str As String)</code></p>
+            <p><code><img src="../../../images/steel-blob-10.gif" width="10" height="10" border="0" alt="Throws Exceptions"> 
+              may throw ArgumentException()</code><br>
+              <code><img src="../../../images/steel-blob-10.gif" width="10" height="10" border="0" alt="Throws Exceptions"> 
+              may throw ArgumentNullException()</code></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Params</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td valign="top"> 
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Name</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center">key</td>
+                <td>The string to use as the key of the element to add.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center">atm</td>
+                <td>The Atom to be added.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center">num</td>
+                <td>The integer to be added.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center">real</td>
+                <td>The floating point value to be added.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center">str</td>
+                <td>The string to be added.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This method adds an item to the dictionary.</p>
+            <p>You can add an Atom directly into the dictionary or you can use 
+              one of the overloaded operators to add numbers or strings. </p>
+            <p>When you add a string this is encapsulated within a <a href="../../stringatom/default.htm">StringAtom</a> 
+              and then inserted. When you add an integer or floating point value 
+              this is converted to a <a href="../../numatom/default.htm">NumAtom</a> 
+              and then inserted. These operations are more efficient than creating 
+              an Atom and adding it yourself.</p>
+            <p>Atoms can exist in only one place at a time. If the Atom supplied 
+              is already contained by another object then a <a href="../../1-atom/1-methods/1-clone.htm">Clone</a> 
+              of the Atom is added.</p>
+            <p>Adding a null value will result in a <a href="../../nullatom/default.htm">NullAtom</a> 
+              being added to the dictionary. </p>
+            <p>If the key is null then this method will throw an ArgumentNullException. 
+              If the key is already present in the dictionary then this method 
+              will throw an ArgumentException.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>None.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

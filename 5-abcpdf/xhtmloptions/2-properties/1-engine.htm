@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>XHtmlOptions Engine Property. The engine to use for HTML import operations. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<meta content="MSHTML 6.00.6000.16788" name="GENERATOR">
+</head>
+<body style="background-color: rgb(255, 255, 255);">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tbody>
+  <tr>
+    <td valign="top"><img src="../../../images/goo.gif" height="60" width="58"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td class="pageheader">Engine Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr>
+        <tr>
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" height="11" width="11"></td></tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>
+            <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+              <tbody>
+              <tr>
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td></tr>
+              <tr valign="top">
+                <td align="left"><span class="language">[C#]</span><br><code>EngineType</code><br><br><span
+                  class="language">[Visual&nbsp;Basic]</span><br><code>EngineType</code></td>
+                <td>Chrome123</td>
+                <td>No</td>
+                <td>The engine to use for HTML import operations.</td></tr></tbody></table>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif"
+      height="10" width="64"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td>
+            <p>This property specifies the HTML engine to use when importing HTML pages.</p>
+            <p>The EngineType enumeration can take any of the
+            following values:</p>
+            <ul>
+              <li>Chrome123</li>
+              <li>Chrome117 (available in the MSI installer and as a separate NuGet package)</li>
+              <li>Chrome86 (available in the MSI installer and as a separate NuGet package)</li>
+              <li>Chrome65 (available in the MSI installer and as a separate NuGet package)</li>
+              <li>Gecko (available in the MSI installer and as a separate NuGet package)</li>
+              <li>WebKit (available in the MSI installer and as a separate NuGet package)</li>
+              <li>MSHtml (part of the Windows OS)</li>
+              </ul>
+            <p>Each HTML engine supports a different subset of HtmlOptions methods and properties.
+            You can use one of the filter objects: <a href="2-forchrome.htm">ForChrome</a>, <a href="2-forgecko.htm">ForGecko</a>, <a href="2-formshtml.htm">ForWebKit</a> and <a href="2-formshtml.htm">ForMSHtml</a>            to filter the supported options in your IDE.</p>
+            <p>&nbsp;</p>
+            <p><strong><b>Characteristics of the ABCChrome Engines:</b> </strong></p>
+            <ul>
+              
+                  <li>Chrome123 and Chrome117 require  Windows Server 2016 / Windows 10  or later and at minimum an Intel Pentium 4  supporting SSE3.</li>
+                  <li>Earlier ABCChrome versions require  Windows 2008 R2 / Windows 7 or later.</li>
+                  <li>The engine is x64 only.</li>
+                  <li>The  engine is an  independent component. It will not be affected even if you 
+                    upgrade your Internet Explorer or local Chrome 
+                    installation.</li>
+                  <li>It is generally faster than the other engines, producing smaller PDFs.</li>
+                  <li>It supports a wide range of the HTML5 and CSS3 standards.</li>
+                  <li>It supports the majority of the SVG Full profile.</li>
+                  <li>It supports web fonts, Font Awesome and similar dynamic font technologies.</li>
+                  <li>Fonts are always embedded and are never substituted.</li>
+                  <li>It supports dynamic and AJAX pages including content like animated graphs and maps.</li>
+                  <li>It supports increased security via a variety of technologies including FireShield.</li>
+                  <li>It is better at handling very large web pages or chunks of HTML.</li>
+                  <li>You can specify print or screen style sheets through the use of the <a href="media.htm">Media</a> property.</li>
+                  <li>In large tables that span across pages, table headers and footers are repeated across pages. The ABCGecko engine handles complex nested headers and footers better, but most pages are not that complex.</li>
+                  <li>The rendered HTML will always fill the entire current 
+                    rectangle. After the initial call to <a
+                    href="../../doc/1-methods/addimageurl.htm">Doc.AddImageUrl</a> or <a href="../../doc/1-methods/addimagehtml.htm">Doc.AddImageHtml</a>, 
+                    the page height will be fixed at that point. Subsequent pages 
+                    rendered using <a href="../../doc/1-methods/addimagetochain.htm">Doc.AddImageToChain</a> will be automatically scaled (instead of having the contents reflowed) to fit in the 
+                    current rectangle.</li>
+                  <li>ActiveX components are not supported.</li>
+                  <li>The <a href="paged.htm">Paged</a> property is always assumed 
+                    to be true.                  </li>
+                  <li>It does not check for blank pages and does not throw blank page exceptions.</li>
+                  <li>It does not support Flash movies.</li>
+                </ul>
+            <p>The default ABCChrome representation involves an overhead of about 120 bytes per page. In most situations this is irrelevant but for documents with large numbers of pages, you may wish to eliminate it by calling Page.StampFormXObjects(true) for each page in the document. </p>
+            <p>Similarly, while font embedding is generally a good idea,  it does slightly increase the size of the output.  A typical overhead is in the region of 50KB per document, so in most cases this is a tiny part of a much bigger whole. However if you are dealing with very small documents of only a few KB in size, it can become significant. If this is the case you can use the <a href="../../../8-abcpdf.operations/B-reducesizeoperation/default.htm">ReduceSizeOperation</a> or <a href="../../../4-examples/01-introduction.htm">FontUnembedment</a> project to remove fonts which have been embedded.</p>
+            <p>ABCpdf Version 11.0 shipped with ABCChrome 59. Version 11.2 ships with ABCChrome 65. Version 12.0 ships with ABCChrome 86. Version 13.0 ships with ABCChrome 117. Version 13.1 ships with ABCChrome 123. </p>
+            <p>The core improvements in 65 relates to better handling of repeated headers and footers in tables using the thead and tfoot tags. The way that transparent images are displayed is much improved. There have been minor improvements in text kerning and layout - you should note that these can lead to subtly different line breaking. JavaScript redirects between local files (ie 'file://' protocol URLs) on your machine have been disabled for security reasons. </p>
+            <p>ABCChrome 86 introduces a raft of security measures designed to make your development more secure. However this improvement did come at some cost in terms of speed.</p>
+            <p>ABCChrome 117 &amp; 123 are notable in that they are much faster than  ABCChrome 86. In our local HTML tests they typically come in  twice as fast: a significant improvement over both ABCChrome 86 and ABCChrome 65.</p>
+            <p>&nbsp;</p>
+            <p><b>Characteristics of the ABCGecko Engine:</b>                </p>
+            <ul>
+                  <li>The ABCGecko engine is a component independent of other parts of 
+                  the Operating System. It will not be affected even if you 
+                  upgrade your Internet Explorer or another local Firefox 
+                  installation.</li>
+                  <li>It supports a wide range of the HTML5 and CSS3 standards.</li>
+                  <li>It supports the majority of the SVG Full profile. SVG graphics 
+                  embedded inside Web pages convert natively to PDF primitives. 
+                  Alternatively, you can specify the a SVG file's location 
+                  in <a href="../../doc/1-methods/addimageurl.htm">Doc.AddImageUrl</a> or 
+                  provide a string of SVG contents to <a
+                    href="../../doc/1-methods/addimagehtml.htm">Doc.AddImageHtml</a> 
+                  to have it converted to PDF using the Gecko engine.</li>
+                  <li>It supports XML pages with XSLT and MathML.</li>
+                  <li>You can specify which set of style sheets to use 
+                  (Print/Screen) through the use of the <a href="media.htm">Media</a> property.</li>
+                  <li>In large tables that span across pages, <span
+                    style="font-family: monospace">thead</span> and <span
+                    style="font-family: monospace">tfoot</span> elements are repeated 
+                  across different pages properly.</li>
+                  <li>The rendered HTML will always fill the entire current 
+                  rectangle. After the initial call to <a
+                    href="../../doc/1-methods/addimageurl.htm">Doc.AddImageUrl</a> or 
+                  <a href="../../doc/1-methods/addimagehtml.htm">Doc.AddImageHtml</a>, 
+                  the page height will be fixed at that point. Subsequent pages 
+                  rendered using <a href="../../doc/1-methods/addimagetochain.htm">Doc.AddImageToChain</a> 
+                  will be automatically <em>scaled</em> (instead of having the contents reflowed) to fit in the 
+                  current rectangle as much as possible.</li>
+                  <li>ActiveX components are not supported.</li>
+                  <li>The <a href="paged.htm">Paged</a> property is always assumed 
+                  to be true.</li>
+                  <li>The Gecko engine does not use Page caching. This means that 
+                  your rendered PDF is never stored in a memory cache.</li>
+                  <li>On the other hand, Web caching is used to store contents 
+                  downloaded over the Internet and is configurable using with 
+                  the <a href="usenocache.htm">UseNoCache</a> property.
+                  <li>JavaScript in <a href="onloadscript.htm">OnLoadScript</a> 
+                  cannot directly modify the document object. For example, <span
+                  style="font-family: monospace">document.write("hello 
+                  world");</span> would not work. Most of the time, you can work 
+                  around to get your desired effect by indirectly modifying elements 
+                  on the page, such as <span style="font-family: monospace">document.body.innerHTML
+                  = "hello world";</span></li>
+                  <li>The use of <a href="onloadscript.htm">OnLoadScript</a> does 
+                  not require <a href="usescript.htm">UseScript</a>. You are free to 
+                  use JavaScript to customize the page without allowing JavaScript 
+                  execution in the HTML.</li>
+                </ul>
+                <p>Gecko configuration...</p>
+                <p>The ABCGecko engine contains a number of preferences that can be
+                  configured. There are a set of .js files in the &quot;XULRunner??_?\defaults\pref&quot;
+                  folder that are loaded in alphabetical order when it starts. Each
+                  file contains a set of preferences. So by adding your own .js file
+                  to this folder, you can add in your own settings.</p>
+                <p>If you are not familiar with the format of these files, you
+                  may find it easier to copy a configuration file from Firefox:</p>
+                <ul>
+                  <li>View the URI &quot;about:config&quot; in Firefox.</li>
+                  <li>Modify the configuration as usual.</li>
+                  <li>Close Firefox. The configuration is saved to the file only
+                    when Firefox is completely closed.</li>
+                  <li>See the Path value in %APPDATA\Mozilla\Firefox\profile.ini.
+                    For example, the value may be Profiles/sx4fgjw2.default.</li>
+                  <li>Copy prefs.js in the folder pointed to by the Path value
+                    (relative to the path of profile.ini) to:
+                    <ul>
+                        <li>XULRunner??_?\defaults\pref. The preferences are considered
+                          to be set by the <strong>software developer</strong>. For example, copy
+                          C:\Users\&lt;user&gt;\AppData\Roaming\Mozilla\Firefox\Profiles\sx4fgjw2.default\prefs.js
+                          to XULRunner??_?\defaults\pref.</li>
+                      <li>some place outside of XULRunner??_? and set the file path
+                        (including the file name) to the <a
+                          href="../../../3-concepts/d-registrykeys.htm">GeckoPrefFile</a> registry value.
+                        The preferences are considered to be set by the <strong>end user</strong>. See
+                        below for the differences between preferences set by the end user
+                        and those set by the software developer.</li>
+                    </ul>
+                  <li>Do not delete or change the first line in prefs.js.
+                    You need only the lines relevant for your configuration change.
+                    You can delete other irrelevant lines.</li>
+                </ul>
+                <p>Preferences set by the <strong>end user</strong> are in the JavaScript file whose
+                  path is assigned to the <a href="../../../3-concepts/d-registrykeys.htm">GeckoPrefFile</a> registry value. (Registry values can alternatively be specified in <a
+                    href="../../xsettings/1-methods/setconfigsection.htm">web.config or app.config</a>.)
+                  The file is loaded after all JavaScript files in "XULRunner??_?\defaults\pref",
+                  so user-set preferences take precedence. Some preferences
+                  are in effect only when set by the end user. Here is an
+                  incomplete list of such preferences:</p>
+                <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+                  <tbody>
+                    <tr>
+                      <td align="center"><b>Preference in effect only if it is set by the end user</b></td>
+                      <td><b>Default Value</b></td>
+                      <td><b>Description</b></td>
+                    </tr>
+                    <tr valign="top">
+                      <td align="center">intl.accept_languages</td>
+                      <td>"en-US, en"</td>
+                      <td>The order of languages of the fonts to search when
+                        the specified font does not support a character. The Gecko
+                        engine appends to the list the ones that are missing in the
+                        following in order ja, ko, zh-CN, zh-HK, zh-TW. For example,
+                        without specifying this preference, a piece of simplified
+                        Chinese text (in a Latin font) may be imported
+                        in multiple fonts because some characters are supported by
+                        Japanese fonts and some are not.</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p>Additional supported settings:</p>
+                <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+                  <tbody>
+                    <tr>
+                      <td align="center"><b>Preference</b></td>
+                      <td><b>Default Value</b></td>
+                    </tr>
+                    <tr valign="top">
+                      <td align="center">print.print_shrink_to_fit</td>
+                      <td>true</td>
+                    </tr>
+                    <tr valign="top">
+                      <td align="center">print.print_scaling</td>
+                      <td>"1"</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </li>
+            <p><strong>Characteristics of the ABCWebKit Engine</strong></p>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+                <TR>
+                  <TD><P><B>Important Note. </B>The ABCWebKit engine should only be used in very special situations. Read carefully and enable this engine at your own risk.</P>
+                      <P>The LGPL under which this module is released requires that you be able to swap different versions in and out and that means that we cannot necessarily ensure that the module you have is even the one you think it is. We sign the engine and check the signature but if you disable this feature to allow use of a different version then you also disable large amounts of security.</P>
+                      <P>For example we have added <a href="fireshield.htm">FireShield&trade;</a> security to the default ABCWebKit engine. It is strongly recommended that you set the <a href = "../../xhtmlfireshield/default.htm">FireShield policy</a> to Deny or Mask and add minimal allowable paths to the <a href="../../xhtmlfireshield.rule/default.htm">FireShield rules</a>. Without FireShield,   ABCWebKit is outside the sandbox so any malicious code it might contain is contained within the security environment for the spawned process - but no more than that. FireShield  is only loaded if the <a href="../../xhtmlfireshield/2-properties/01-policy.htm">Policy</a> is not None and if there are rules to apply. </P>
+                      <P>The ABCWebKit engine is based on   technology from 2012. It does not support modern HTML correctly and it contains known security flaws. It is only really suitable for use if you have complete control over the inputs you provide to it. Under no circumstances should you allow untrusted URLs or HTML to be provided to this engine. While FireShield provides a good level of defense relating to file access, innovative attackers can find ways to use your machines even if they do not have access to the file system.</P>
+                    <P>You can read more about this here: <a href="https://wkhtmltopdf.org/">https://wkhtmltopdf.org/</a></P>
+					</TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <p>The ABCWebKit engine, first shipped with ABCpdf 12.1, is by no means as full featured or secure as the other engines. However it is much less dependent on the OS and as a result it can often operate on stripped down  systems such as those used in Azure. The characteristics are</p>
+            <ul>
+              <li>It will run as an App Service on Azure (it is 64-bit so B1 and higher).</li>
+              <li>Security is low to non-existent so you must have complete control over your input HTML or URLs.</li>
+              <li>It is based on Qt 4 which ended support in 2015. WebKit itself was last updated in 2012.</li>
+              <li>HTML support is fragile in the face of real world or modern HTML.</li>
+              <li>Technologies outside of HTML - web fonts, charts, maps etc - are unlikely to work.</li>
+              <li>Screen and print media types work only for simple queries.</li>
+              <li>Repeated headers and footers in tables work only for simple structures.</li>
+              <li>Errors are often manifested as blank output rather than exceptions.</li>
+            </ul>
+            <p>This engine is based on WkHtmlToPdf which in turn is based on QtWebKit API. So if you do get unexpected output you may wish to check how the HTML renders in the <a href="http://www.qtweb.net/">Qt Web Browser</a>.</p>
+            <p>If you should wish to use your own custom wkhtmltopdf engine with ABCpdf you will need to change the value for ABCWebKitDisableFileCheck.</p>
+            <p>For unusual fonts  you can often use an SVG version of the font instead. However because these are SVG rather than &quot;real&quot; fonts it is not possible to search or copy and paste. You can make SVG fonts on sites like https://transfonter.org/.            </p>
+            <p>While ABCWebKit will work on Azure, you should note that Azure provides a rather stripped down OS   notably light on resources like fonts. Security may be locked down tightly which may stop you using features like FireShield. For these reasons, the behavior and output you get on your local machine may be different from that you get on your Azure platform. </p>
+            <p>&nbsp;</p>
+            <p><strong>Characteristics of the MSHtml Engine</strong></p>
+            <TABLE class=backgrounder cellPadding=10 border=0>
+              <TBODY>
+                <TR>
+                  <TD><P><B>Important Note. </B>The MSHtml engine is only supported for backwards compatibility. Read carefully before enabling this engine.</P>
+                      <P>There is no sandboxing and little security for this engine because it runs in-process. Behavior is reasonably safe because the core technologies are installed on your machine by Microsoft. However because they are installed by Microsoft they may vary between machines.</P>
+                      <P>The engine is based on   Internet Explorer components that come with Windows. The lifecycle policy from Microsoft is that these form part of the OS and thus if your OS is supported then your IE installation is supported. You need IE 9 at minimum.</P>
+                      <P>However the last version of IE was released in 2012 and the Microsoft policy is to move forward with Microsoft Edge rather than Internet Explorer. So you need to be realistic about how much effort Microsoft is going to  put into these components.</P></TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <ul>
+              <li>The Screen style sheets are used during the rendering process.</li>
+              <li>Page heights can vary across different pages. Segments of the 
+                HTML document are composed dynamically to fit the target rectangle 
+                as accurately as possible during each call to <a 
+                  href="../../doc/1-methods/addimagetochain.htm">Doc.AddImageToChain</a>.
+                This means the target rectangle will be filled with more contents 
+                for larger target rectangles instead of scaled to fit.</li>
+              <li>For definite control of HTTP requests, you should set <a
+                    href="transfermodule.htm">TransferModule</a> to a non-default
+                value.</li>
+              <li>The Doc.Rect can be zero width or height to allow the page to auto-size.</li>
+              </ul>
+            <p>Internet Explorer configuration...</p>
+            <p>The Fusion Log Viewer is known to interfere with the
+              initialization of the MSHtml engine. If any problem arises,
+              try disabling it or specify a local custom log path.</p>
+            <p>Currently, there are some limitations when using the MSHtml
+              engine hosted out-of-process (See <a href="../../../3-concepts/d-registrykeys.htm">MSHtmlBootstrap</a>):</p>
+            <ul>
+              <li>The <a href="htmlcallback.htm">HtmlCallback</a> property 
+                is not supported.</li>
+              <li>The <a 
+                      href="htmlembedcallback.htm">HtmlEmbedCallback</a> property is 
+                not supported.</li>
+              </ul>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr>
+            <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>Also see example code in: <a href="../../../4-examples/13-pagedhtml.htm">ABCpdf Paged HTML Example</a>, <a href="../1-methods/gettagrects.htm">XHtmlOptions GetTagRects Function</a>, <a href="2-forchrome.htm">XHtmlOptions ForChrome Property</a>, <a href="2-forgecko.htm">XHtmlOptions ForGecko Property</a>, <a href="2-formshtml.htm">XHtmlOptions ForMSHtml Property</a>, <a href="2-forwebkit.htm">XHtmlOptions ForWebKit Property</a>, <a href="fireshield.htm">XHtmlOptions FireShield Property</a>, <a href="httpadditionalheaders.htm">XHtmlOptions HttpAdditionalHeaders Property</a>, <a href="logonname.htm">XHtmlOptions LogonName Property</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></tbody></table>
+<p>&nbsp;</p></body></html>

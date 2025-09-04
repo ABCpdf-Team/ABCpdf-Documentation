@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>Signature TimestampHashAlgorithm Property. The hash algorithm used to create the digest for timestamp requests. ABCpdf .NET PDF Library.</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+</head>
+<body style="background-color: rgb(255, 255, 255);">
+<table border="0" cellpadding="0" cellspacing="4">
+<tbody>
+<tr>
+<td valign="top"><img src="../../../images/goo.gif" height="60" width="58"></td>
+<td width="14">&nbsp;</td>
+<td>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="pageheader">TimestampHashAlgorithm Property</td>
+<td width="60">&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td background="../../../images/steel-line-3.gif" height="11"></td>
+<td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+<td height="11"><img src="../../../images/steel-blob-11.gif" height="11" width="11"></td>
+</tr>
+<tr>
+<td>
+<p>&nbsp;</p>
+<table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+<tbody>
+<tr>
+<td align="center"><b>Type</b></td>
+<td><b>Default Value</b></td>
+<td><b>Read Only</b></td>
+<td><b>Description</b></td>
+</tr>
+<tr valign="top">
+<td align="left"><span class="language">[C#]</span><br>
+<code>System.Security.Cryptography.Oid</code><br>
+<br>
+<span class="language">[Visual&nbsp;Basic]</span><br>
+<code>System.Security.Cryptography.Oid</code></td>
+<td>Oid("SHA256")</td>
+<td>No</td>
+<td>The hash algorithm used to create the digest for timestamp requests.</td>
+</tr></tbody></table><p>&nbsp;</p>
+</td>
+<td width="60">&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+
+<tr>
+<td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>
+Notes</td>
+<td width="14">&nbsp;</td>
+<td valign="top">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td>
+<p>This property enables you to specify the hash algorithm to be used for timestamp requests using your desired Time Stamping Authority (TSA).</p>
+<p>In signature workflows there may be a number of different timestamps:</p>
+<ul>
+<li>The signature itself may be timestamped as with PAdES B_T compliance.</li>
+<li>An optional timestamp entry (/TS) may be added to the /VRI entry in the Document Security Store (DSS) for PAdES B_LT.</li>
+<li>A document timestamp is a special form of signature certifying the document at a particular time, as with PAdES B_LTA compliance.</li>
+</ul>
+<p>For convenience when a signature is created with <a href="compliancepades.htm">SignatureCompliance</a> set to a level above PAdES_B_B 
+this value is used to compute the digests for all required timestamping operations.</p>
+<p>Note that MD5 or SHA1 should not be used where PAdES conformance is required.</p>
+<p>It is unlikely that you would need to change this from the default Oid for SHA256.</p>
+
+<p>&nbsp;</p>
+</td>
+<td width="60">&nbsp;</td>
+<td width="11">&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>None.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+</tbody>
+</table>
+<p>&nbsp;</p>
+</body></html>

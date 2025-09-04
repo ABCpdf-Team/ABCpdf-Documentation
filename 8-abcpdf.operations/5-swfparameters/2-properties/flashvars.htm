@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>SwfParameters FlashVars Property. The Flash variables. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>FlashVars Property</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>&nbsp;</P>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Type</B></TD>
+                <TD><B>Default</B></TD>
+                <TD><B>Read Only</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=left><SPAN 
+                  class=language>[C#]</SPAN><BR><CODE>IEnumerable&lt;KeyValuePair&lt;string,
+                  object&gt;&gt;</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>IEnumerable(Of&nbsp;KeyValuePair(Of&nbsp;String,
+                  Object))</CODE></TD>
+                <TD>null</TD>
+                <TD>No</TD>
+                <TD>The Flash variables.</TD></TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This property specifies the Flash variables. The object values
+            can be any of the following:</P>
+            <UL>
+              <LI>SwfActionValue.Undefined &ndash; the undefined value.</LI>
+              <LI>SwfActionValue.Null &ndash; the null value.</LI>
+              <LI>A Boolean &ndash; a primitive Boolean.</LI>
+              <LI>A Char &ndash; a primitive string consisting of one character.</LI>
+              <LI>A SByte, Byte, Int16, UInt16, or Int32 &ndash; a primitive number (32-bit integer).</LI>
+              <LI>A UInt32, Int64, or UInt64 &ndash; a primitive number (32-bit integer if it
+              is within the range of 32-bit integer; double-precision floating-point number, otherwise).</LI>
+              <LI>A Single &ndash; a primitive number (single-precision floating-point number).</LI>
+              <LI>A Double &ndash; a primitive number (double-precision floating-point number).</LI>
+              <LI>A Decimal &ndash; a primitive number (32-bit integer if it is an integer
+              within the range of 32-bit integer; double-precision floating-point number, otherwise).</LI>
+              <LI>A String &ndash; a primitive string.</LI>
+              <LI>IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; &ndash; an object with
+              KeyValuePair&lt;string, object&gt;.Key as the property names and
+              KeyValuePair&lt;string, object&gt;.Value after this conversion as the property values.</LI>
+              <LI>IEnumerable&lt;object&gt; &ndash; an array with the objects
+              after this conversion as the element values.</LI>
+            </UL>
+            <P>Reference semantics of objects is supported. When the same
+            IEnumerable&lt;KeyValuePair&lt;string, object&gt;&gt; or the same
+            IEnumerable&lt;object&gt; is in different parts of this property value,
+            the same object is used. In particular, you can create objects
+            and properties/element values that form circular references.
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>Here, we import the chart in the frame at two seconds into a Flash movie.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>Doc doc = new
+            Doc();<BR>using(SwfImportOperation operation = new SwfImportOperation())
+            {<BR>&nbsp;&nbsp;operation.Doc = doc;<BR>&nbsp;&nbsp;operation.ContentAlign
+            = ContentAlign.Top;<BR>&nbsp;&nbsp;operation.ContentScaleMode =
+            ContentScaleMode.ShowAll;<BR>&nbsp;&nbsp;operation.ProcessingObject
+            += delegate(object sender, ProcessingObjectEventArgs e)
+            {<BR>&nbsp;&nbsp;&nbsp;&nbsp;if(e.Info.SourceType==ProcessingSourceType.MultiFrameImage
+            &amp;&amp; e.Info.FrameNumber.HasValue)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber
+            = 1+(long)(e.Info.FrameRate.Value*2);<BR>&nbsp;&nbsp;};<BR><BR>&nbsp;&nbsp;const
+            int chartWidth = 400;<BR>&nbsp;&nbsp;const int chartHeight =
+            300;<BR>&nbsp;&nbsp;SwfParameters parameters = new
+            SwfParameters();<BR>&nbsp;&nbsp;parameters.StageWidth =
+            chartWidth*20;<BR>&nbsp;&nbsp;parameters.StageHeight =
+            chartHeight*20;<BR><BR>&nbsp;&nbsp;Dictionary&lt;string, object&gt;
+            flashVars = new Dictionary&lt;string,
+            object&gt;();<BR>&nbsp;&nbsp;flashVars.Add("chartWidth",
+            chartWidth);<BR>&nbsp;&nbsp;flashVars.Add("chartHeight",
+            chartHeight);<BR>&nbsp;&nbsp;flashVars.Add("dataXML",
+            <BR>&nbsp;&nbsp;&nbsp;&nbsp;"&lt;chart caption='Weekly Sales Summary'
+            xAxisName='Week'"<BR>&nbsp;&nbsp;&nbsp;&nbsp;+" yAxisName='Amount'
+            numberPrefix='$'&gt;"<BR>&nbsp;&nbsp;&nbsp;&nbsp;+"&lt;set
+            label='Week 1' value='14400' /&gt;"<BR>&nbsp;&nbsp;&nbsp;&nbsp;+"&lt;set
+            label='Week 2' value='19600' /&gt;"<BR>&nbsp;&nbsp;&nbsp;&nbsp;+"&lt;set
+            label='Week 3' value='24000' /&gt;"<BR>&nbsp;&nbsp;&nbsp;&nbsp;+"&lt;set
+            label='Week 4' value='15700'
+            /&gt;"<BR>&nbsp;&nbsp;&nbsp;&nbsp;+"&lt;/chart&gt;");<BR>&nbsp;&nbsp;parameters.FlashVars
+            = flashVars;<BR>&nbsp;&nbsp;operation.Parameters =
+            parameters;<BR>&nbsp;&nbsp;operation.Import(Server.MapPath("Column3D.swf"));
+            <BR>}<BR>doc.Save(Server.MapPath("chart.pdf"));<BR>doc.Clear();</CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Dim theDoc As Doc = New
+            Doc()<BR>Using theOperation As New
+            SwfImportOperation<BR>&nbsp;&nbsp;theOperation.Doc =
+            theDoc<BR>&nbsp;&nbsp;theOperation.ContentAlign =
+            ContentAlign.Top<BR>&nbsp;&nbsp;theOperation.ContentScaleMode =
+            ContentScaleMode.ShowAll<BR>&nbsp;&nbsp;AddHandler theOperation.ProcessingObject,
+            AddressOf Processing<BR><BR>&nbsp;&nbsp;Const theChartWidth As
+            Integer = 400<BR>&nbsp;&nbsp;Const theChartHeight As Integer =
+            300<BR>&nbsp;&nbsp;Dim theParameters As SwfParameters = New
+            SwfParameters()<BR>&nbsp;&nbsp;theParameters.StageWidth =
+            theChartWidth * 20<BR>&nbsp;&nbsp;theParameters.StageHeight =
+            theChartHeight * 20<BR><BR>&nbsp;&nbsp;Dim theFlashVars As Dictionary(Of
+            String, Object) = New Dictionary(Of String,
+            Object)()<BR>&nbsp;&nbsp;theFlashVars.Add("chartWidth",
+            theChartWidth)<BR>&nbsp;&nbsp;theFlashVars.Add("chartHeight",
+            theChartHeight)<BR>&nbsp;&nbsp;theFlashVars.Add("dataXML", _
+            <BR>&nbsp;&nbsp;&nbsp;&nbsp;"&lt;chart caption='Weekly Sales Summary'
+            xAxisName='Week'" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp;
+            " yAxisName='Amount' numberPrefix='$'&gt;" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp; "&lt;set
+            label='Week 1' value='14400' /&gt;" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp; "&lt;set
+            label='Week 2' value='19600' /&gt;" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp; "&lt;set
+            label='Week 3' value='24000' /&gt;" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp; "&lt;set
+            label='Week 4' value='15700' /&gt;" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp;
+            "&lt;/chart&gt;")<BR>&nbsp;&nbsp;theParameters.FlashVars
+            = theFlashVars<BR>&nbsp;&nbsp;theOperation.Parameters =
+            theParameters<BR>&nbsp;&nbsp;theOperation.Import(Server.MapPath("Column3D.swf"))<BR>End
+            Using<BR>theDoc.Save(Server.MapPath("chart.pdf"))<BR>theDoc.Clear()<BR><BR>Private
+            Shared Sub Processing(sender As Object, e As
+            ProcessingObjectEventArgs)<BR>&nbsp;&nbsp;If
+            e.Info.SourceType = ProcessingSourceType.MultiFrameImage
+            _<BR>&nbsp;&nbsp;&nbsp;&nbsp;AndAlso
+            e.Info.FrameNumber.HasValue Then<BR>&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber
+            = 1 + CLng(e.Info.FrameRate.Value * 2)</BR>&nbsp;&nbsp;End If<BR>End
+            Sub</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>Doc ColorSpace Property. The current ColorSpace ID. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> ColorSpace Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>int</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Integer</code></td>
+                <td>0</td>
+                <td>No</td>
+                <td>The current ColorSpace ID.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The current color space.</p>
+            <p>The ColorSpace is used when the <a href="color.htm">Color</a> is 
+              of a matching type. If the color type does not match then the default 
+              - device - color space is used.</p>
+            <p>For example you add a CMYK color space and assign it to the ColorSpace 
+              property. All CMYK Colors you use will be defined in terms of this 
+              color space. However RGB and Grayscale colors will continue to be 
+              defined in terms of the default - device - color spaces.</p>
+            <p>To get a ColorSpace ID you need to add your color space to the 
+              current document using the <a href="../1-methods/addcolorspacefile.htm">AddColorSpaceFile</a> 
+              or <a href="../1-methods/addcolorspacespot.htm">AddColorSpaceSpot</a> 
+              method.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following code shows how to colorize an image. It adds a base 
+              image to the current page and converts it to grayscale. Then it 
+              creates a new spot color space and assigns the new color space to 
+              the image.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.Rect.Inset(20, 20);
+
+using var img = new XImage();
+img.SetFile(Server.MapPath("../mypics/mypic.jpg"));
+int id = doc.AddImageObject(img, false);
+
+id = doc.GetInfoInt(id, "XObject");
+doc.SetInfo(id, "Grayscale", "");
+
+int theCS = doc.AddColorSpaceSpot("MAGENTA", "0 100 0 0");
+doc.SetInfo(id, "/ColorSpace:Ref", theCS.ToString());
+doc.SetInfo(id, "/Decode", "[1 0]");
+
+doc.Save(Server.MapPath("doccolorspace.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Inset(20, 20)
+
+&nbsp;&nbsp;Dim theImg As New XImage()
+&nbsp;&nbsp;theImg.SetFile(Server.MapPath("../mypics/mypic.jpg"))
+&nbsp;&nbsp;Dim theID As Integer = doc.AddImageObject(theImg, False)
+
+&nbsp;&nbsp;theID = doc.GetInfoInt(theID, "XObject")
+&nbsp;&nbsp;doc.SetInfo(theID, "Grayscale", "")
+
+&nbsp;&nbsp;Dim theCS As Integer = doc.AddColorSpaceSpot("MAGENTA", "0 100 0 0")
+&nbsp;&nbsp;doc.SetInfo(theID, "/ColorSpace:Ref", theCS.ToString())
+&nbsp;&nbsp;doc.SetInfo(theID, "/Decode", "[1 0]")
+
+&nbsp;&nbsp;doc.Save(Server.MapPath("doccolorspace.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/doccolorspace.pdf.png" class="example"><br>
+              doccolorspace.pdf</p><p>Also see example code in: <a href="../1-methods/addcolorspacefile.htm">Doc AddColorSpaceFile Function</a>, <a href="../1-methods/addcolorspacespot.htm">Doc AddColorSpaceSpot Function</a>, <a href="../../xcolor/2-properties/components.htm">XColor Components Property</a>, <a href="../../../6-abcpdf.objects/colorspace/2-properties/gamma.htm">ColorSpace Gamma Property</a>, <a href="../../../6-abcpdf.objects/colorspace/2-properties/whitepoint.htm">ColorSpace WhitePoint Property</a>.</p>
+            
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

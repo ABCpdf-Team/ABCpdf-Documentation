@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>AccessibilityOperation MakeAccessible Function. Tags the document for accessibility. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>MakeAccessible  Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Tags the document for accessibility.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+              <CODE>void MakeAccessible()<BR></CODE><BR>
+            <SPAN class=language>[Visual
+            Basic]</SPAN><BR>
+            <CODE>Sub MakeAccessible()</CODE></P>
+            <P><CODE><IMG height=10 alt="Throws Exceptions"
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw
+            Exception()</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>Return</TD>
+                <TD>The text.</TD>
+              </TR></TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>This function scans the document, performs a semantic analysis on it and tags it for accessibility purposes using techniques broadly based around the PDF/UA standard and Section 508 compliance. </P>
+            <P>User accessibility standards like PDF/UA rely on Tagged PDF. This standard was initially put forward by the Association for Information and Image Management (AIIM) but was later adopted via the ISO in the form of ISO 14289-1 Document management applications -- Electronic document file format enhancement for accessibility. </P>
+            <P>Strictly speaking Section 508 refers to the application rather than the document but of course this means that the producers of applications which consume documents are in a good position to mandate that documents must conform to certain standards so that the application can provide appropriate information. This is what people generally refer to when they talk about PDFs as being Section 508 compliant. Appropriate tagging achieves that aim.</P>
+            <P>Tagging allows people who have disabilities to have the content in a PDF presented to them via different mechanisms, For example an accessible PDF would provide information on page structure to allow a PDF reader to speak the content of the document. However there are a variety of assistive technologies available, ranging from readers to magnifiers to navigational aids.</P>
+            <P>Tagged PDFs are the same as normal PDFs but they have been  annotated  with metadata in the form of PDF tags. This metadata is required because  PDF documents contain good layout information but little semantic structure. The tags that are required supply this semantic structure. The way they are inserted and operate is defined in the Adobe PDF  Specification. The types of tags that are used and the way they are used are defined by accessibility standards such as PDF/UA.</P>
+            <P>The  semantic analysis provided by ABCpdf is  based around reading order and results in the  the logical structure of the PDF being determined. Content that is regarded as irrelevant is tagged as being an artifact in line with the PDF/UA standard. </P>
+            <P>Images present a particular challenge as automated processes do not find it easy to generate descriptions from bitmaps. However if you know what the different images represent you can tag each <a href="../../../6-abcpdf.objects/pixmap/default.htm">PixMap</a> object dictionary with a &quot;XXAlt&quot; entry referring to a <a href="../../../7-abcpdf.atoms/stringatom/default.htm">StringAtom</a>. When the MakeAccessible function is called these entries will be picked up and used and then deleted.</P>
+            <P>The MakeAccessible function will result in any existing tagged content being discarded. This is necessary because, while it is possible to determine if a document is already tagged, it is not possible to determine if it has been correctly tagged. Many PDF consumers do not understand tags and will not update the metadata appropriately if they operate on such documents.</P>
+            <P>To determine whether a document has been tagged you can find the &quot;MarkInfo&quot; entry  in the <a href="../../../6-abcpdf.objects/catalog/default.htm">Doc.Catalog</a> as a <a href="../../../7-abcpdf.atoms/dictatom/default.htm">DictAtom</a> and then get the &quot;Marked&quot; entry of that as a <a href="../../../7-abcpdf.atoms/boolatom/default.htm">BoolAtom</a>. The default is false.</P>
+            <P>You may  wish to set the <a href="../../../5-abcpdf/xsaveoptions/2-properties/compressobjects.htm">SaveOptions.CompressObects</a> property to true, to  reduce  output size on save.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <P>See the <a href="1-accessibilityoperation.htm">AccessibilityOperation Constructor</a>.</P>
+            <p>Also see example code in: <a href="1-accessibilityoperation.htm">AccessibilityOperation AccessibilityOperation  Constructor</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

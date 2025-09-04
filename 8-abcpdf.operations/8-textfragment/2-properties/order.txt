@@ -1,0 +1,14 @@
+font.htm
+fontcolor.htm
+fontsize.htm
+fontobliqueangle.htm
+pageid.htm
+streamid.htm
+streamoffset.htm
+streamlength.htm
+textspanindex.htm
+textoffset.htm
+rect.htm
+rotation.htm
+text.htm
+rawtext.htm

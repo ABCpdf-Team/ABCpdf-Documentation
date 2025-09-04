@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>Other Coordinate Spaces</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Other Coordinate Spaces</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Basics</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>ABCpdf uses the standard <a href="../2-getting_started/3-coordinates.htm"> 
+              PDF coordinate space</a>.</p>
+            <p>The origin of this space is at the bottom left of the document. 
+              Distances are measured up and to the right in points.</p>
+            <p>Windows often uses a top-down coordinate space. The difference 
+              between the bottom-up nature of PDF and the top-down nature of Windows 
+              can result in confusion. Using the <a href="../5-abcpdf/doc/1-methods/addgrid.htm">AddGrid</a> 
+              method in your code can be very helpful in resolving this type of 
+              issue.</p>
+            <p>Abstracting the coordinate space can make layout easier but removes 
+              you from the underlying page layout embedded into your PDF. For 
+              this reason we would suggest you stick to the standard PDF coordinate 
+              space where practical.</p>
+            <p>If you wish to use a different coordinate system you can use the 
+              document <a href="../5-abcpdf/doc/2-properties/units.htm">Units</a> 
+              and <a href="../5-abcpdf/doc/2-properties/topdown.htm">TopDown</a> 
+              properties or a <a href="../5-abcpdf/doc/2-properties/transform.htm">Transform</a> 
+              to accomplish this. There are subtle differences between these approaches.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Units</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="sectheader">&nbsp;</td>
+          <td class="sectheader">&nbsp;</td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p>The document <a href="../5-abcpdf/doc/2-properties/units.htm">Units</a> 
+              and <a href="../5-abcpdf/doc/2-properties/topdown.htm">TopDown</a> 
+              properties allow you to use units of measurement like mm or cm. 
+              They also allow you to invert the coordinate system so that distances 
+              are measured down from the top rather than up from the bottom.</p>
+            <p> These properties enable an abstraction designed to make layout 
+              easier. However the underlying units of measurement and page layout 
+              remain the same. </p>
+            <p>When you call a page layout operation like <a href="../5-abcpdf/doc/1-methods/addtext.htm">AddText</a> 
+              or <a href="../5-abcpdf/doc/1-methods/framerect.htm">FrameRect</a> 
+              your abstracted coordinates are translated into PDF coordinates 
+              before the object is inserted into the document.</p>
+            <p>For most layout tasks you can ignore the translation. However if 
+              you are using low-level access to the PDF structure or if you are 
+              using <a href="../5-abcpdf/xtransform/default.htm">Transforms</a> 
+              then you need to be aware of it.</p>
+            <p>Suppose you call <a href="../5-abcpdf/doc/1-methods/framerect.htm">FrameRect</a> 
+              and then extract the raw content stream from the returned object. 
+              You must be aware that the base coordinates included in the stream 
+              are measured in the PDF coordinate space and not in your current 
+              coordinate system.</p>
+            <p>Document Transforms operate on the native PDF coordinate space. 
+              So when you specify a rotation around the origin - the origin specified 
+              is at the bottom left of the document - not the top.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Transform</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="sectheader">&nbsp;</td>
+          <td class="sectheader">&nbsp;</td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+        <tr> 
+          <td>&nbsp;</td>
+          <td> 
+            <p><a href="../5-abcpdf/xtransform/default.htm">Transforms</a> are 
+              an inherent part of the PDF specification. They are not an abstraction 
+              imposed by ABCpdf but a set of drawing instructions inserted into 
+              the PDF document to modify the PDF drawing space. The fact that 
+              there is no abstraction can be very useful.</p>
+            <p>For example suppose you impose a scale transform so you can specify 
+              your page layout in mm rather than points. You then call <a href="../5-abcpdf/doc/1-methods/framerect.htm">FrameRect</a> 
+              and get the raw content stream from the returned object. The coordinates 
+              included in the stream are measured in mm rather than points.</p>
+            <p>However transforms can be difficult to understand and they are 
+              extremely literal.</p>
+            <p> Suppose you impose a transform to flip, scale and translate your 
+              coordinate space so that distances are measured in mm from the top 
+              left rather than points from the bottom left. </p>
+            <p>Many graphical objects - lines and rectangles - will appear correctly. 
+              However the transform is literal and the flip aspect means that 
+              any images and text you add will appear upside down.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

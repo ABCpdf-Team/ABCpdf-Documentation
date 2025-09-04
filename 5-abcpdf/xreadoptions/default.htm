@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>XReadOptions Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script>
+<meta content="MSHTML 6.00.6001.18148" name="GENERATOR"></head><body bgcolor="#ffffff">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tbody>
+  <tr>
+    <td valign="top"><img src="../../images/goo.gif" height="60" width="58"></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td class="pageheader">XReadOptions Object</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr>
+        <tr>
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" height="11" width="11"></td></tr>
+        <tr>
+          <td>
+            <p>Represents settings for read operations. </p>
+            <p>By creating a XReadOptions object and passing it in during a read 
+            operation you can take complete control of the way in which your 
+            content is imported. There can be different read modules which can 
+            import content in different ways. For example a Microsoft Word 
+            Document can be converted to PDF either using OpenOffice.org or by 
+            using Microsoft Word. A read options object allows you to precisely 
+            target one or more modules using particular settings.</p>
+            <p><code><!--notcode-->System.Object<br>&nbsp;&nbsp;&nbsp;<b> WebSupergoo.ABCpdf13.XReadOptions</b><br>
+              <br>
+            Implements: IDisposable, IEquatable&lt;XReadOptions&gt;</code></p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td valign="top">&nbsp; </td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td class="sectheader">
+            <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+              <tbody>
+              <tr>
+                <td align="center"><b>Method</b></td>
+                <td width="100%"><b>Description</b></td></tr>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/1-xreadoptions.htm">XReadOptions</A></TD>
+                <TD>XReadOptions Constructor.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/clearcache.htm">ClearCache</A></TD>
+                <TD>Clear cached data and terminate worker threads and worker processes for a read module.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/dispose.htm">Dispose</A></TD>
+                <TD>Dispose of the object.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/equals.htm">Equals</A></TD>
+                <TD>Test whether the two objects are effectvely the same.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/gethashcode.htm">GetHashCode</A></TD>
+                <TD>A hash code for the XReadOptions.</TD></TR>
+<!-- autogen end -->
+</tbody></table>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td valign="top">&nbsp; </td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tbody>
+        <tr>
+          <td class="sectheader">
+            <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+              <tbody>
+              <tr>
+                <td align="center"><b>Property</b></td>
+                <td width="100%"><b>Description</b></td></tr>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/1-readmodule.htm">ReadModule</A></TD>
+                <TD>Gets or sets the module to use.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/addforms.htm">AddForms</A></TD>
+                <TD>Whether form fields should be live.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/addlinks.htm">AddLinks</A></TD>
+                <TD>Whether links should be live.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/bookmarks.htm">Bookmarks</A></TD>
+                <TD>Bookmark creation strategy.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/contentitem.htm">ContentItem</A></TD>
+                <TD>Gets or sets the content items to process.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/defaultfont.htm">DefaultFont</A></TD>
+                <TD>The font to use for text that does not specify a font.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/defaultrect.htm">DefaultRect</A></TD>
+                <TD>The default document size for documents that do not specify a size.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/defaultrect.htm">DotsPerInch</A></TD>
+                <TD>The default resolution to use for the import.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/enablemsofficemacros.htm">EnableMSOfficeMacros</A></TD>
+                <TD>Whether to enable macros when opening MS Office documents.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/errorhandling.htm">ErrorHandling</A></TD>
+                <TD>The error handling behavior.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/frame.htm">Frame</A></TD>
+                <TD>The frame to be read from a multiple frame image such as a movie.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/fileextension.htm">FileExtension</A></TD>
+                <TD>Gets or sets the file extension for data sources that do not have file names.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/log.htm">Log</A></TD>
+                <TD>The log for the read operation.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/makefieldnamesunique.htm">MakeFieldNamesUnique</A></TD>
+                <TD>Whether field names should be changed to make them unique.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/msofficeparameters.htm">MSOfficeParameters</A></TD>
+                <TD>MS Office  PDF conversion control parameters.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/openofficeparameters.htm">OpenOfficeParameters</A></TD>
+                <TD>OpenOffice.org PDF conversion control parameters.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/operation.htm">Operation</A></TD>
+                <TD>Gets or sets the Operation to use.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/password.htm">Password</A></TD>
+                <TD>Gets or sets the password needed to read the source.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/preservetransparency.htm">PreserveTransparency</A></TD>
+                <TD>Gets or sets a value that indicates whether the transparency of raster images should be preserved.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/repair.htm">Repair</A></TD>
+                <TD>Whether to apply extra processing to enable certain types of corrupt document to be read.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/richconversion.htm">RichConversion</A></TD>
+                <TD>Whether rich conversion should be performed.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><a href="2-properties/shrinktofit.htm">ShrinkToFit</a></TD>
+                <TD>Whether to try and determine the document size based on the size of the content.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/timeout.htm">Timeout</A></TD>
+                <TD>Gets or sets the timeout in milliseconds for external components.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/skiprevisions.htm">SkipRevisions</A></TD>
+                <TD>Skip back a number of revisions when reading an incrementally saved PDF document.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/openportfolios.htm">OpenPortfolios</A></TD>
+                <TD>Whether to automatically open the default document inside a PDF portfolio rather than the portfolio itself.</TD></TR>
+<!-- autogen end -->
+</tbody></table></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr></tbody></table>
+<p>&nbsp;</p></body></html>

@@ -1,0 +1,200 @@
+<html>
+<head>
+<title>PixMap Resize Function. Resizes the image. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Resize Function</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>Resizes the image.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Syntax</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td valign="top"> 
+            <p><span class="language">[C#]</span><br>
+              <code>void Resize(int width, int height)<br>
+              void Resize(int width, int height, Interpolation interpolation) 
+              <br>
+              </code><br>
+              <span class="language">[Visual Basic]</span><br>
+              <code>Sub Resize(width As Integer, height As Integer)<br>
+              Sub Resize(width As Integer, height As Integer, interpolation As 
+              Interpolation) </code></p>
+            <p><code><img src="../../../images/steel-blob-10.gif" width="10" height="10" border="0" alt="Throws Exceptions"> may throw Exception()</code></p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Params</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td valign="top"> 
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Name</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center">width</td>
+                <td>The destination width for the image.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center">height</td>
+                <td>The destination height for the image.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center">interpolation</td>
+                <td>The type of interpolation to be used when resizing the image. 
+                  The default value is Auto.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Resizes the image to a specified width and height using a specified 
+              interpolation method. </p>
+            <p>The interpolation parameter should be viewed as a request rather 
+              than a command because not all types of interpolation can be used 
+              on all types of image. If the method you specify is not appropriate 
+              then ABCpdf will automatically select a suitable alternative.</p>
+            <p>After an image has been resized it is no longer compressed. You 
+              may wish to compress it using the <a href="../../streamobject/1-methods/compress.htm">StreamObject.Compress</a> 
+              method.</p>
+            <p>The Interpolation enumeration may take the following values:</p>
+            <ul>
+              <li>Auto</li>
+              <li>NearestNeighbor</li>
+              <li>Linear</li>
+              <li>Cubic</li>
+              <li>Super</li>
+              <li>Lanczos</li>
+            </ul>
+            <p>The Auto setting allows ABCpdf to automatically choose an appropriate 
+              interpolation algorithm given the type of image and the type of 
+              scaling. If you are aiming to maximize quality this is the setting 
+              you should use.</p>
+            <p>The nearest neighbor algorithm is the fastest but also the lowest 
+              quality method. It simply finds the nearest pixel in the source 
+              image and maps it through to the destination image. However it is 
+              also the only method which can be used for Indexed color images.</p>
+            <p>The Linear, Cubic and Lanzcos methods are progressively higher 
+              quality methods based around a weighted average of pixels from the 
+              source image. However they are also progressively slower. The Lanzcos 
+              function used is the three lobed variety.</p>
+            <p>The Linear, Cubic and Lanzcos methods use weighted averages from 
+              a limited number of pixels in the source image. For large size reductions 
+              this may result in information from some pixels in the source image 
+              being completely discarded. The super method aims to work around 
+              this issue by increasing coverage to all the pixels in the source 
+              image. It only works if an image is being reduced in both height 
+              and width.</p>
+            <p>This function is optimized for resizing one, three and four component 
+              images at precisions of eight or sixteen bits per component.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Here we resize all the images in a document to a quarter of their 
+              previous resolution.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"));
+foreach (IndirectObject io in doc.ObjectSoup) {
+&nbsp;&nbsp;if (io is PixMap) {
+&nbsp;&nbsp;&nbsp;&nbsp;var pm = (PixMap)io;
+&nbsp;&nbsp;&nbsp;&nbsp;pm.Realize(); // eliminate indexed color images
+&nbsp;&nbsp;&nbsp;&nbsp;pm.Resize(pm.Width / 4, pm.Height / 4);
+&nbsp;&nbsp;}
+}
+doc.Save(Server.MapPath("pixmapresize.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
+&nbsp;&nbsp;For Each io As IndirectObject In doc.ObjectSoup
+&nbsp;&nbsp;&nbsp;&nbsp;If TypeOf io Is PixMap Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pm As PixMap = DirectCast(io, PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.Realize()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' eliminate indexed color images
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.Resize(pm.Width / 4, pm.Height / 4)
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;doc.Save(Server.MapPath("pixmapresize.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/shuttle_p1.png" class="example"><br>
+              spaceshuttle.pdf [page 1]</p>
+            <p><img src="../../../images/pdf/pixmapresize.pdf.png" class="example"><br>
+              pixmapresize.pdf [page 1]</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

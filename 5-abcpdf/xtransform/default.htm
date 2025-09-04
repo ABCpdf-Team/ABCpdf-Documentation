@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XTransform Class</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script>
+<META content="MSHTML 6.00.6001.18099" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>XTransform Class</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background=../../images/steel-line-3.gif height=11></TD>
+          <TD width=60 background=../../images/steel-line-3.gif height=11></TD>
+          <TD height=11><IMG height=11 src="../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Represents a world space transform. When first created the object 
+            defaults to the identity - no transformation.</P>
+            <P>A world space transform is not same an object transform. You are 
+            changing the coordinate system - not the objects you're 
+            inserting.</P>
+            <P><CODE><!--notcode-->System.Object<BR>&nbsp;&nbsp;&nbsp;<B> WebSupergoo.ABCpdf13.XTransform</B><br>
+              <br>
+            Implements: IDisposable, IEquatable&lt;XTransform&gt;, IComparable&lt;XTransform&gt;</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>&nbsp; </TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=sectheader>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Method</B></TD>
+                <TD width="100%"><B>Description</B></TD></TR>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/1-xtransform.htm">XTransform</A></TD>
+                <TD>XTransform Constructor.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/invert.htm">Invert</A></TD>
+                <TD>Invert the transform.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/equals.htm">Equals</A></TD>
+                <TD>Determines if two transforms are effectively the same.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/magnify.htm">Magnify</A></TD>
+                <TD>Scale about a locked anchor point.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/premultiply.htm">PreMultiply</A></TD>
+                <TD>Pre-multiplies this transformation matrix by the supplied transform.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/postmultiply.htm">PostMultiply</A></TD>
+                <TD>Post-multiplies this transformation matrix by the supplied transform.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/reset.htm">Reset</A></TD>
+                <TD>Reset to the identity.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/rotate.htm">Rotate</A></TD>
+                <TD>Rotate about a locked anchor point (angle in degrees).</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/skew.htm">Skew</A></TD>
+                <TD>Skew horizontally and vertically about a locked anchor point.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/settransform.htm">SetTransform</A></TD>
+                <TD>Set the transform.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/tostring.htm">ToString</A></TD>
+                <TD>Returns a string representation of the object.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/transformpoint.htm">TransformPoint</A></TD>
+                <TD>Applies this transform to a specified point.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/transformpoints.htm">TransformPoints</A></TD>
+                <TD>Applies this transform to a specified array of points.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/translate.htm">Translate</A></TD>
+                <TD>Translate horizontally and vertically.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="1-methods/gethashcode.htm">GetHashCode</A></TD>
+                <TD>A hash code for the XTransform.</TD></TR>
+<!-- autogen end -->
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD vAlign=top>&nbsp; </TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=sectheader>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Property</B></TD>
+                <TD width="100%"><B>Description</B></TD></TR>
+
+
+<!-- autogen start -->
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/string.htm">String</A></TD>
+                <TD>The transform as a string.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/angleunit.htm">AngleUnit</A></TD>
+                <TD>The angle unit, degrees or radians.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/elements.htm">Elements</A></TD>
+                <TD>The transform as an array of floating-point values.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/matrix.htm">Matrix</A></TD>
+                <TD>The transform as a System.Drawing.Drawing2D Matrix.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/mediamatrix.htm">MediaMatrix</A></TD>
+                <TD>The transform as a System.Windows.Media Matrix.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/offsetx.htm">OffsetX</A></TD>
+                <TD>The x translation.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/offsety.htm">OffsetY</A></TD>
+                <TD>The y translation.</TD></TR>
+<!-- autogen end -->
+</TBODY></TABLE>
+            <DIV>&nbsp;</DIV>
+            <DIV>&nbsp;</DIV></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR>
+        <TR>
+          <TD>&nbsp; </TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

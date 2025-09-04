@@ -1,0 +1,10 @@
+bottom.htm
+height.htm
+left.htm
+pin.htm
+rectangle.htm
+right.htm
+string.htm
+top.htm
+width.htm
+hasarea.htm

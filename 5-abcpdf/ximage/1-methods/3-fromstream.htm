@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>XImage FromStream Function. Creates an XImage from a Stream. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16640" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0> <TBODY> <TR> <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD><TD width=14>&nbsp;</TD><TD> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD class=pageheader>FromStream 
+Function</TD><TD width=60>&nbsp;</TD><TD>&nbsp;</TD></TR> <TR> <TD background=../../../images/steel-line-3.gif height=11></TD><TD width=60 background=../../../images/steel-line-3.gif 
+          height=11></TD><TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR> <TR> <TD> <P>Creates an XImage from a Stream.</P><P>&nbsp;</P></TD><TD width=60>&nbsp;</TD><TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR> 
+<TR> <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD><TD width=14>&nbsp;</TD><TD vAlign=top> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD vAlign=top> 
+<P><SPAN class=language>[C#]</SPAN><BR>
+<CODE>static <a href="../default.htm">XImage</a> FromStream(Stream stream, 
+<a href="../../xreadoptions/default.htm">XReadOptions</a> options)<BR>
+</CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Shared Function FromStream(stream 
+As Stream, options As <a href="../../xreadoptions/default.htm">XReadOptions</a>) As <a href="../default.htm">XImage</a><BR>
+</CODE></P><P><CODE><IMG height=10 alt="Throws Exceptions" 
+            src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
+Exception()</CODE></P><P>&nbsp;</P></TD><TD width=60>&nbsp;</TD><TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR> 
+<TR> <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD><TD width=14>&nbsp;</TD><TD vAlign=top> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD vAlign=top> 
+<TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5> <TBODY> <TR> <TD align=middle><B>Name</B></TD><TD><B>Description</B></TD></TR> 
+<TR vAlign=top> <TD align=middle>stream</TD><TD>The stream containing the graphic.</TD></TR> 
+<TR vAlign=top> <TD align=middle>options</TD><TD>The settings for the read. The 
+XImage takes ownership of this parameter. This may be null.</TD>
+</TR> 
+<TR vAlign=top> <TD align=middle>return</TD><TD>The resulting IndirectObject.</TD></TR></TBODY></TABLE><P>&nbsp;</P></TD><TD width=60>&nbsp;</TD><TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR> 
+<TR> <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD><TD width=14>&nbsp;</TD><TD vAlign=top> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD> <P>The stream will typically be one of the following types: JPEG, GIF, TIFF, BMP, 
+            PNG, PSD, PDB, EXIF, WMF, EMF, EPS, PS or SWF (Flash).</P>
+        <P>For details of additional  formats which are supported and the way they are imported, see the <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a> property and the the <A 
+            href="../../doc/1-methods/read.htm">Doc.Read</A> method.</P>
+        <P>The advantage of  this method over <A 
+            href="setstream.htm">SetStream</A>, is that you can specify the <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a> you would like to use. This allows precise control over the way that your graphics are imported.</P>
+        <P>In addition you can also control the way that transparency is treated using the <A 
+            href="../../xreadoptions/2-properties/preservetransparency.htm">PreserveTransparency</A> property.</P>
+        <P>The object takes the ownership of the XReadOptions, which is 
+          disposed of when the object is disposed of. You can make the object 
+          release the ownership without disposing of the XReadOptions using 
+          the parameterized overloads of <A href="4-dispose.htm">Dispose</A> and <A href="clear.htm">Clear</A>. The XReadOptions must not be 
+          modified as long as the object has the ownership.</P>
+        <P>If the returned XImage has the <A href="../2-properties/needsstream.htm">NeedsStream</A><A 
+            href="../2-properties/needsfile.htm"></A> property set to true, you must ensure that the specified stream 
+             will remain present and unmodified  until the XImage object is  cleared, 
+            disposed of, or garbage-collected. When this happens the 
+  XImage takes  ownership of the Stream, which is disposed of when the object 
+  is disposed of. You can make the object release the ownership, without disposing 
+  of the Stream using the parameterized overloads of <A href="4-dispose.htm">Dispose</A> and <A 
+            href="clear.htm">Clear</A>.</P>
+        <P>&nbsp;</P></TD><TD width=60>&nbsp;</TD><TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR> 
+<TR> <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD><TD width=14>&nbsp;</TD><TD vAlign=top> 
+<TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD> <p>None.</p><P>&nbsp;</P></TD><TD width=60>&nbsp;</TD><TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><P>&nbsp;</P> 
+</BODY></HTML>

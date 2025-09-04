@@ -1,0 +1,117 @@
+<html>
+<head>
+<title>XTextStyle Size Property. The current text size. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Size Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF">
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><span class="language">[C#]</span><br>
+                  <code>double</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Double</code></td>
+                <td>10.0</td>
+                <td>No</td>
+                <td>The current text size.</td>
+              </tr>
+            </table>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>This property determines the size of text that is added to the 
+              document using the  <a href="../../doc/1-methods/addtext.htm">AddText</a> and <a href="/5-abcpdf/doc/1-methods/addtextstyled.htm">AddTextStyled</a> methods.            </p>
+            <p>The Size property is equivalent to the the <a href="../../doc/2-properties/fontsize.htm">Doc.FontSize</a> 
+              property but unlike the FontSize property it allows fractional point 
+              sizes to be specified.</p>
+            <p>The font size is measured in units.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>The following example adds two blocks of styled text to a document. 
+              The first block is in 96.5 point type and the second is in 192.5 
+              point type.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.TextStyle.Size = 96.5;
+doc.AddText("Small ");
+doc.TextStyle.Size = 192.5;
+doc.AddText("Big");
+doc.Save(Server.MapPath("stylesize.pdf"));
+</code></pre><br>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.TextStyle.Size = 96.5
+&nbsp;&nbsp;doc.AddText("Small ")
+&nbsp;&nbsp;doc.TextStyle.Size = 192.5
+&nbsp;&nbsp;doc.AddText("Big")
+&nbsp;&nbsp;doc.Save(Server.MapPath("stylesize.pdf"))
+End Using
+</code></pre></p>
+            <p><img src="../../../images/pdf/stylesize.pdf.png" class="example"><br>
+              stylesize.pdf </p>
+          <p>Also see example code in: <a href="../../doc/2-properties/textstyle.htm">Doc TextStyle Property</a>, <a href="bold.htm">XTextStyle Bold Property</a>, <a href="charspacing.htm">XTextStyle CharSpacing Property</a>, <a href="indent.htm">XTextStyle Indent Property</a>, <a href="italic.htm">XTextStyle Italic Property</a>, <a href="justification.htm">XTextStyle Justification Property</a>, <a href="kerning.htm">XTextStyle Kerning Property</a>, <a href="leftmargin.htm">XTextStyle LeftMargin Property</a>, <a href="linespacing.htm">XTextStyle LineSpacing Property</a>, <a href="outline.htm">XTextStyle Outline Property</a>, <a href="paraspacing.htm">XTextStyle ParaSpacing Property</a>, <a href="strike.htm">XTextStyle Strike Property</a>, <a href="strike2.htm">XTextStyle Strike2 Property</a>, <a href="underline.htm">XTextStyle Underline Property</a>, <a href="wordspacing.htm">XTextStyle WordSpacing Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/getbitmap.htm">Page GetBitmap Function</a>.</p>
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>
