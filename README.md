@@ -1,6 +1,6 @@
 <h1>ABCpdf .NET Official Documentation</h1>
 <p><img src="images/banner.jpg" /></p>
-<p>The ABCpdf .NET documentation is the comprehensive, canonical resource for the ABCpdf .NET library, an industry-leading component for the programmatic generation and manipulation of PDF documents. This official guid provides the essential foundation for integrating robust, world class PDF functionality into .NET applications.</p>
+<p>The ABCpdf .NET documentation is the comprehensive, canonical resource for the ABCpdf .NET library, an industry-leading component for the programmatic generation and manipulation of PDF documents. This official guide provides the essential foundation for integrating robust, world class PDF functionality into .NET applications.</p>
 <p>This comprehensive documentation is structured to support the entire development lifecycle, providing tailored resources for every need:
 <ul>
 <li><strong>API Reference:</strong> Exhaustive descriptions of namespaces, classes, methods, and properties, complemented by practical code examples for common tasks.</li>
