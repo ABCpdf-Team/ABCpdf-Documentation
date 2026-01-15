@@ -42,5 +42,5 @@ End Using
 ```
 
 ## Results
-- ../images/pdf/form.pdf.png — form.pdf
-- ../images/pdf/eformstamp.pdf.png — eformstamp.pdf
+![form.pdf](../../images/pdf/form.pdf.png) — form.pdf
+![eformstamp.pdf](../../images/pdf/eformstamp.pdf.png) — eformstamp.pdf

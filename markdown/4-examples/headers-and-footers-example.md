@@ -107,7 +107,7 @@ End Using
 ```
 
 ## Results
-- ../images/pdf/headerfooter.pdf.png — Page 1
-- ../images/pdf/headerfooter.pdf2.png — Page 2
-- ../images/pdf/headerfooter.pdf3.png — Page 3
-- ../images/pdf/headerfooter.pdf4.png — Page 4
+![headerfooter.pdf](../../images/pdf/headerfooter.pdf.png) — Page 1
+![headerfooter.pdf](../../images/pdf/headerfooter.pdf2.png) — Page 2
+![headerfooter.pdf](../../images/pdf/headerfooter.pdf3.png) — Page 3
+![headerfooter.pdf](../../images/pdf/headerfooter.pdf4.png) — Page 4

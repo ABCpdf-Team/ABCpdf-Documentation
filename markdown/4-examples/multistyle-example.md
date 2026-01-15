@@ -52,4 +52,4 @@ End Using
 ```
 
 ## Results
-- ../images/pdf/styles.pdf.png — styles.pdf
+![styles.pdf](../../images/pdf/styles.pdf.png) — styles.pdf

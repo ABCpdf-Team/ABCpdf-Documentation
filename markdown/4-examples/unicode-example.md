@@ -58,5 +58,5 @@ End Using
 ```
 
 ## Results
-- ../images/pdf/unicode.pdf.png — Page 1
-- ../images/pdf/unicode.pdf2.png — Page 2
+![unicode.pdf](../../images/pdf/unicode.pdf.png) — Page 1
+![unicode.pdf](../../images/pdf/unicode.pdf2.png) — Page 2

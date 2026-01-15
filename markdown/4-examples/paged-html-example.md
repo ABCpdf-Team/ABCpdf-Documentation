@@ -88,5 +88,5 @@ End Using
 ```
 
 ## Results
-- ../images/pdf/pagedhtml.pdf.png — Page 1
-- ../images/pdf/pagedhtml.pdf2.png — Page 2
+![pagedhtml.pdf](../../images/pdf/pagedhtml.pdf.png) — Page 1
+![pagedhtml.pdf](../../images/pdf/pagedhtml.pdf2.png) — Page 2

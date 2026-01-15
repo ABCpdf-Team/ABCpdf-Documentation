@@ -73,4 +73,4 @@ End Using
 ```
 
 ## Results
-- ../images/pdf/table1.pdf.png — table1.pdf
+![table1.pdf](../../images/pdf/table1.pdf.png) — table1.pdf

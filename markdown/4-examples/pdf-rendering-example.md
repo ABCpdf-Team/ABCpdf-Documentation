@@ -39,7 +39,7 @@ End While
 ```
 
 ## Results
-- ../images/pdf/shuttle_p1.png — Page 1
-- ../images/pdf/shuttle_p2.png — Page 2
-- ../images/pdf/shuttle_p3.png — Page 3
-- ../images/pdf/shuttle_p4.png — Page 4
+![shuttle_p1.png](../../images/pdf/shuttle_p1.png) — Page 1
+![shuttle_p2.png](../../images/pdf/shuttle_p2.png) — Page 2
+![shuttle_p3.png](../../images/pdf/shuttle_p3.png) — Page 3
+![shuttle_p4.png](../../images/pdf/shuttle_p4.png) — Page 4

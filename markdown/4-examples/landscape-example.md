@@ -58,4 +58,4 @@ End Using
 ```
 
 ## Results
-- ../images/pdf/landscape.pdf.png — landscape.pdf
+![landscape.pdf](../../images/pdf/landscape.pdf.png) — landscape.pdf

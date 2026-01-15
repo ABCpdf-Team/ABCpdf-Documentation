@@ -210,11 +210,11 @@ Examples for dash patterns like `[ ] 0`, `[ 90 ] 0`, `[ 60 ] 30`, `[ 60 30 ] 0`.
 Apply transforms to content and re-add; e.g., rotation matrix and red stroke overlay.
 
 ## Results
-- ../images/pdf/adv_star_draw.pdf.png — Stroke
-- ../images/pdf/adv_star_fill.pdf.png — Fill
-- ../images/pdf/adv_bezier.pdf.png — Bézier
-- ../images/pdf/adv_star_clip.pdf.png — Clip
-- ../images/pdf/adv_linecap.pdf.png — Caps
-- ../images/pdf/adv_linejoin.pdf.png — Joins
-- ../images/pdf/adv_dashes.pdf.png — Dash
-- ../images/pdf/adv_star_rotate.pdf.png — Transform
+![adv_star_draw.pdf](../../images/pdf/adv_star_draw.pdf.png) — Stroke
+![adv_star_fill.pdf](../../images/pdf/adv_star_fill.pdf.png) — Fill
+![adv_bezier.pdf](../../images/pdf/adv_bezier.pdf.png) — Bézier
+![adv_star_clip.pdf](../../images/pdf/adv_star_clip.pdf.png) — Clip
+![adv_linecap.pdf](../../images/pdf/adv_linecap.pdf.png) — Caps
+![adv_linejoin.pdf](../../images/pdf/adv_linejoin.pdf.png) — Joins
+![adv_dashes.pdf](../../images/pdf/adv_dashes.pdf.png) — Dash
+![adv_star_rotate.pdf](../../images/pdf/adv_star_rotate.pdf.png) — Transform

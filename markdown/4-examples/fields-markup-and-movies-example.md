@@ -110,7 +110,7 @@ using (var doc = new Doc()) {
 ```
 
 ## Results
-- ../images/pdf/annotations1.pdf.png — Fields
-- ../images/pdf/annotations2.pdf.png — Markup
-- ../images/pdf/annotations3.pdf.png — Movies
-- ../images/pdf/annotations4.pdf.png — Other
+![annotations1.pdf](../../images/pdf/annotations1.pdf.png) — Fields
+![annotations2.pdf](../../images/pdf/annotations2.pdf.png) — Markup
+![annotations3.pdf](../../images/pdf/annotations3.pdf.png) — Movies
+![annotations4.pdf](../../images/pdf/annotations4.pdf.png) — Other

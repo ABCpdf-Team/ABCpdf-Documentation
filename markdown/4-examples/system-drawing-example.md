@@ -93,4 +93,4 @@ doc.Save(Server.MapPath("abcpdf.drawing.pdf"))
 ```
 
 ## Results
-- ../images/pdf/abcpdf.drawing.pdf.png — abcpdf.drawing.pdf
+![abcpdf.drawing.pdf](../../images/pdf/abcpdf.drawing.pdf.png) — abcpdf.drawing.pdf

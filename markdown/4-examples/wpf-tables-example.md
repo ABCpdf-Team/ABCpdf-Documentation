@@ -97,8 +97,8 @@ void SaveToPdf(string pdfFileName, FlowDocumentPageViewer viewer) {
 
 ## Results
 Similar to [Large Table Example](10-table2.htm):
-- ../images/pdf/table2.pdf.png — Page 1
-- ../images/pdf/table2.pdf2.png — Page 2
-- ../images/pdf/table2.pdf3.png — Page 3
-- ../images/pdf/table2.pdf4.png — Page 4
-- ../images/pdf/table2.pdf5.png — Page 5
+![table2.pdf](../../images/pdf/table2.pdf.png) — Page 1
+![table2.pdf](../../images/pdf/table2.pdf2.png) — Page 2
+![table2.pdf](../../images/pdf/table2.pdf3.png) — Page 3
+![table2.pdf](../../images/pdf/table2.pdf4.png) — Page 4
+![table2.pdf](../../images/pdf/table2.pdf5.png) — Page 5

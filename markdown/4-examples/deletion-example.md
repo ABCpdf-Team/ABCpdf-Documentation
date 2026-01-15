@@ -50,4 +50,4 @@ End Using
 ```
 
 ## Results
-- ../images/pdf/deletion.pdf.png — deletion.pdf
+![deletion.pdf](../../images/pdf/deletion.pdf.png) — deletion.pdf
