@@ -746,6 +746,18 @@
 														key.													</p>												</td>
 											</tr>
 											<tr valign="middle">
+                                              <td align="center" height="23">DrawTextWithInvalidRects</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">1 [true]</td>
+											  <td align="center" height="23"><img src="../images/steel-blob-10.gif" alt="" width="10" height="10" align="middle"><br>
+											      <small>SetInfo only</small></td>
+											  <td align="left" height="23"><p>Text in EMF documents has both a location and  an enclosing rectangle.</p>
+											      <p>If the location of the text does not match up with the enclosing rectangle this property is used to decide if the text should be shown or hidden. </p>
+											      <p> This property is only accessible using the Doc.SetInfo method.
+											      The default cannot be overridden using a registry
+											      key. </p></td>
+				    </tr>
+											<tr valign="middle">
 												<td align="center" height="23">JPEGThreshold</td>
 												<td align="center" height="23">DWORD</td>
 												<td align="center" height="23">256</td>
@@ -1631,22 +1643,25 @@
 													<p>When this value is set to 1 embedded fonts will always be installed. If it is set to 0 then only those fonts that do not appear to have an analog in the fonts folder will be installed.</p>												</td>
 											</tr>
 											<tr valign="middle">
-												<td align="center" height="23">RenderBypassDeviceIcc</td>
-												<td align="center" height="23">DWORD</td>
-												<td align="center" height="23">0</td>
-												<td align="center" height="23">&nbsp;</td>
-												<td align="left" height="23">
-													<p>
-														<span lang="EN-GB">
-															Some PDFs contain color profiles which do
-															not handle black objects correctly.														</span>													</p>
-													<p>
-														<span lang="EN-GB">
-															This option allows you to bypass the
-															profile transformation if the input colorspace is CMYK ICC and
-															the output is device CMYK, or if the input is Gray ICC based
-															and the output is device CMYK.														</span>													</p>												</td>
-											</tr>
+                                              <td align="center" height="23">RenderBypassDeviceIcc</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">0</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p> <span lang="EN-GB"> Some PDFs contain color profiles which do
+											    not handle black objects correctly. </span> </p>
+											      <p> <span lang="EN-GB"> This option allows you to bypass the
+											        profile transformation if the input colorspace is CMYK ICC and
+											        the output is device CMYK, or if the input is Gray ICC based
+											        and the output is device CMYK. </span> </p></td>
+				    </tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">RenderBypassEmbeddedICC</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">0</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p> <span lang="EN-GB"> Some PDFs contain color profiles which are not well constructed. </span> </p>
+											      <p> <span lang="EN-GB"> This option allows you to bypass embedded color profiles and instead use known good ones.</span> </p></td>
+				    </tr>
 											<tr valign="middle">
 												<td align="center" height="23">EmfDeviceName</td>
 												<td align="center" height="23">STRING</td>

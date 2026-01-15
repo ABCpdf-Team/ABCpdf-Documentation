@@ -68,12 +68,25 @@
               <a href="../../xrect/default.htm">XRect</a> object represent the 
               bottom left and top right corners of the area.</p>
             <p>AddText adds text within the current rectangle wrapping the text 
-              at the edges.</p>
-            <p>The AddImage methods add an image scaled to fill the current rectangle.</p>
-            <p>FrameRect frames the current rectangle and FillRect fills the current 
+              at the edges. The AddImage methods add an image scaled to fill the current rectangle. FrameRect frames the current rectangle and FillRect fills the current 
               rectangle.</p>
             <p>When you change this property the <a href="pos.htm">Pos</a> property 
               is reset to point to the top left of the Rect.</p>
+            <TABLE class=backgrounder border=0 cellPadding=10>
+              <TBODY>
+                <TR>
+                  <TD><P><B>XRect is a class not a struct. </B>Unlike  System.Drawing Rectangle and RectangleF the XRect is a class rather than a struct. This means that variables are passed by reference rather than value - you may have more than one reference to the same object. As such you need to be careful not to over share. For example the following is wrong,<br>
+                      </P>
+                      <pre><code class="language-csharp">theDoc.Rect = theDoc.MediaBox; // incorrect
+</code></pre>
+                      <p>The reason it is incorrect is because you are now sharing one rectangle between two properties - if you change the Rect you also change the MediaBox. Suppose you change the Rect, add some text, then add a new page. Because the Rect has changed, the MediaBox has also changed, and when you add a new page it will likely be the wrong size.</p>
+                      <p>Instead you want something more like one of these,</p>
+                    <pre><code class="language-csharp">theDoc.Rect = theDoc.MediaBox.Clone(); // correct<br>theDoc.Rect.String = theDoc.MediaBox.String; // also correct<br></code></pre>
+                  </p></TD>
+                </TR>
+              </TBODY>
+            </TABLE>
+            <p>&nbsp;</p>
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>

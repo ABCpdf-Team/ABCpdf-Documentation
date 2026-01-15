@@ -207,8 +207,8 @@
           <pre><code class="language-html">dotnet publish helloworld.csproj -r linux-x64 -c Release --self-contained false --output \\wsl.localhost\Ubuntu\home\pcuser\helloworld
 </code></pre>
               <p>You  need to flag your compiled output as executable. Open up a bash shell by clicking in the Windows task bar search box and typing &quot;bash&quot;. Enter the following.</p>
-          <pre><code class="language-html">cd ~/helloworld
-dir # just a sanity check
+          <pre><code class="language-html">cd ~/helloworld<br>
+dir # just a sanity check<br>
 sudo chmod +x helloworld
 </code></pre>
               <p>If you are deploying ABCChrome then you will need to flag that too.</p>
@@ -236,7 +236,7 @@ sudo chmod +x helloworld
             <li>ABCChrome123 &amp; ABCChrome117 are the only HTML conversion engines.</li>
             <li>FireShield is not available.</li>
             <li>Some read modules are not available: XpsAny,  MSOffice, OpenOffice, RichTextFormat and EmfVector.</li>
-            <li>Exports which depend on WIC codecs (eg .dds, .heic, .heif, .jxr, .wdp) or will not work.</li>
+            <li>Exports which depend on WIC codecs (eg .dds, .heic, .heif, .jxr, .wdp)  will not work.</li>
             <li>EMF import and export is not supported.</li>
             <li>Different fonts will be available so font substitution will be different.</li>
             <li>There may be subtle differences in the positioning of characters on the page.</li>
