@@ -2,62 +2,60 @@
 
 Renders a web page specified by URL.
 
-- Class: `Doc`
-- Returns: The ID of the newly added object
-- May throw: `Exception()`
-
 ## Syntax
+
 ```csharp
-int AddImageUrl(string url);
-int AddImageUrl(string url, bool paged, int width, bool disableCache);
-```
-```vbnet
-Function AddImageUrl(url As String) As Integer
-Function AddImageUrl(url As String, paged As Boolean, width As Integer, disableCache As Boolean) As Integer
+int AddImageUrl(string url)
+int AddImageUrl(string url, bool paged, int width, bool disableCache)
 ```
 
-## Parameters
-- **url**: The URL for the page to be rendered. The actual value may be modified depending on `disableCache`/[XHtmlOptions.PageCacheEnabled](../../xhtmloptions/2-properties/pagecacheenabled.htm).
-- **paged**: Overrides the default [XHtmlOptions.Paged](../../xhtmloptions/2-properties/paged.htm) property.
-- **width**: Overrides the default [XHtmlOptions.BrowserWidth](../../xhtmloptions/2-properties/browserwidth.htm) property.
-- **disableCache**: Overrides and disables the page cache. See [XHtmlOptions.PageCacheEnabled](../../xhtmloptions/2-properties/pagecacheenabled.htm).
+## Params
+
+| Name | Description |
+| --- | --- |
+| url | The URL for the page to be rendered. The actual value may be modified depending on the value of disableCache/XHtmlOptions.PageCacheEnabled. |
+| paged | Allows you to override the default XHtmlOptions.Paged property. |
+| width | Allows you to override the default XHtmlOptions.BrowserWidth property. |
+| disableCache | Allows you to override and disable the page cache. See the XHtmlOptions.PageCacheEnabled property for details. |
+| return | The ID of the newly added object. |
 
 ## Notes
-- Adds a web page to a document according to the current [XHtmlOptions](../../xhtmloptions/default.htm). Common options can be overridden via parameters above.
-- Only the first page is drawn. Chain subsequent pages using [AddImageToChain](addimagetochain.htm).
-- The web page is scaled to fill the current [Rect](../2-properties/rect.htm) and transformed using the current [Transform](../../xtransform/default.htm).
 
-### Caching
-Sometimes pages appear to be cached.
-- When using `AddImageUrl`, the URL content may be cached; see the [HTML / CSS Rendering](../../../3-concepts/g-htmlrender.htm) discussion for details.
-- Alternatively the PDF itself may be cached when streamed to a browser if certain IIS settings (e.g., “Expire Content”) are disabled.
-- To diagnose, save the PDF to disk as well as streaming it to the client to determine whether the PDF or its source content is cached.
-- If the PDF is cached, check IIS/ASP settings, proxy behavior, or client caching.
+This method adds a web page to a document.
 
-### MHT (MIME HTML)
-- Also accepts file-based URLs to MHT files containing a web page and its resources.
-- Complex pages saved as MHT may omit some required resources; ABCpdf attempts to download missing items from the original URL if available.
+- The page is added in accordance with the current XHtmlOptions settings; commonly used settings can be overridden via parameters above.
+- Only the first page is drawn; subsequent pages can be drawn using AddImageToChain.
+- The web page is scaled to fill the current Rect and transformed using the current Transform.
 
-### Security
-- Only use URLs from trusted sources. See the Security section of [HTML / CSS Rendering](../../../3-concepts/g-htmlrender.htm).
+Caching considerations:
+
+- Page content may be cached when using AddImageUrl; see HTML / CSS Rendering documentation for details.
+- The PDF itself may be cached when streaming to a browser depending on IIS settings (e.g., Expire Content). To diagnose, also save the PDF to disk and compare.
+- If the PDF is being cached, review IIS/ASP or proxy/client caching configuration.
+
+MHT support:
+
+- Accepts file-based URLs to MHT (MIME HTML) files saved via IE.
+- Complex pages may omit required resources in MHT; ABCpdf attempts to download missing items from the original URL if available.
+
+Security:
+
+- Ensure URLs come from trusted sources; see the HTML / CSS Rendering security section.
 
 ## Example
-We create an ABCpdf `Doc`, add our URL, and save.
+
+We create an ABCpdf `Doc` object, add our URL and save.
 
 ```csharp
 using var doc = new Doc();
 doc.AddImageUrl("http://www.google.com/");
-doc.Save(Server.MapPath("htmlimport.pdf"));
-```
-```vbnet
-Using doc As New Doc()
-  doc.AddImageUrl("http://www.google.com/")
-  doc.Save(Server.MapPath("htmlimport.pdf"))
-End Using
+doc.Save(Server.MapPath("htmlimport.pdf")); // Windows specific
 ```
 
-## Result
+For paged HTML, see AddImageToChain.
+
+Also see related examples in XHtmlOptions properties such as ForChrome, ForGecko, ForMSHtml, ForWebKit, BrowserWidth, HideBackground, HtmlCallback, HtmlEmbedCallback, ImageQuality, LogonName, RetryCount.
+
+## Results
 
 ![htmlimport.pdf](../../../../images/pdf/htmlimport.pdf.png) — htmlimport.pdf
-
-See also: [AddImageToChain](addimagetochain.htm)

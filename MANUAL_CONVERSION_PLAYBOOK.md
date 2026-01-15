@@ -6,18 +6,11 @@ This guide explains how to manually convert ABCpdf docs HTML pages to Markdown w
 
 - Input: Any HTML page under the repo (e.g., `1-introduction/*.htm`, `4-examples/*.htm`, `5-abcpdf/doc/**/*.htm`).
 - Output: A Markdown file under a mirrored path rooted at `markdown/`.
+- Perform the conversion manually without using scripts.
 
 ## Output Path & Naming
 
-- Mirror the source folder structure under `markdown/`.
-
-  - Example: `4-examples/02-textflow.htm` → `markdown/4-examples/text-flow-example.md`.
-  - Example: `5-abcpdf/doc/1-methods/addimageurl.htm` → `markdown/5-abcpdf/doc/1-methods/addimageurl-function.md`.
-
-- Filename: derive from the HTML `<title>` text.
-
-  - Lowercase, dash-separated slug; keep short and readable.
-  - Remove punctuation; keep meaningful words (e.g., "AddImageUrl Function" → `addimageurl-function.md`).
+- Mirror the source folder structure under `markdown/` preserving orginal filename.
 
 ## Page Structure
 
@@ -31,13 +24,10 @@ This guide explains how to manually convert ABCpdf docs HTML pages to Markdown w
 ## Code Blocks
 
 - Use fenced blocks with language tags and preserve indentation:
-
+- Ignore Visual Basic Code blocks
+  
 ```csharp
 // C# fenced code example
-```
-
-```vbnet
-' VB.NET fenced code example
 ```
 
 ```xml
@@ -45,7 +35,9 @@ This guide explains how to manually convert ABCpdf docs HTML pages to Markdown w
 ```
 
 - Keep the sample code faithful; do not alter semantics.
-- Accept Windows/IIS specifics (e.g., `Server.MapPath(...)`) as-is.
+- Accept Windows/IIS specifics (e.g., `Server.MapPath(...)`) as-is but add a comment `Windows specific` at the end of the line
+- Any code that is invalid for .NET 10.0 and or C# 14 ads an end-of-line comment indicating the problem on the first line with an issue.
+- In a separate markdown file called CODE_ISSUES.md create links files to windows specific code and invalid .NET 10.0 code followed by code block complete with issue comments.
 
 ## Images (Results)
 
@@ -68,13 +60,14 @@ This guide explains how to manually convert ABCpdf docs HTML pages to Markdown w
 ## Minimal Workflow (per file)
 
 1. Read the source `.htm`.
-1. Extract the `<title>` and create a slugged filename.
-1. Create destination folder under `markdown/` mirroring the source path.
+1. Create destination folder under `markdown/` mirroring the source path and filename.
 1. Write content:
 
+- Ensure correctly linted markdown.
 - H1 from the title.
 - Convert body text to Markdown sections.
-- Convert code samples to fenced `csharp` / `vbnet` blocks.
+- Convert code samples to fenced blocks - e.g. `csharp`  blocks.
+- Ignore all visual basic code samples.
 - Add a `## Results` section with embedded images using correct relative paths.
 
 1. Save.
@@ -106,6 +99,7 @@ This guide explains how to manually convert ABCpdf docs HTML pages to Markdown w
 ## Done Definition
 
 - The Markdown file exists at the mirrored `markdown/...` path.
+- The Markdown file is linted correctly.
 - Code samples render correctly and are readable.
 - “Results” images display inline.
 - The page is consistent with prior converted examples in tone and structure.
