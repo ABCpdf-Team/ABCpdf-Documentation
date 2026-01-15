@@ -1,3 +1,4 @@
 bin
 obj
 .vs
+__pycache__/convert_html_to_md.cpython-313.pyc
