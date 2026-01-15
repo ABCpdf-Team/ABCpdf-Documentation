@@ -364,9 +364,10 @@ def convert_single_file(input_dir, output_dir, relative_path):
         print(f"Error: '{relative_path}' is not an HTML file")
         return False
     
-    # Calculate output path maintaining directory structure
+    # Calculate output path maintaining directory structure and including input folder
+    input_dir_name = input_path.name
     rel_dir = Path(relative_path).parent
-    output_path = Path(output_dir) / rel_dir / (html_file.stem + ".md")
+    output_path = Path(output_dir) / input_dir_name / rel_dir / (html_file.stem + ".md")
     
     # Convert the file using integrated conversion
     if convert_file_content(html_file, output_path):
@@ -402,8 +403,9 @@ def convert_directory(input_dir, output_dir):
     for html_file in html_files:
         # Calculate relative path from input directory
         rel_path = html_file.relative_to(input_path)
-        # Calculate output path maintaining directory structure
-        output_path = Path(output_dir) / rel_path.with_suffix(".md")
+        # Calculate output path maintaining directory structure and including input folder
+        input_dir_name = input_path.name
+        output_path = Path(output_dir) / input_dir_name / rel_path.with_suffix(".md")
         
         # Convert the file using integrated conversion
         if convert_file_content(html_file, output_path):
