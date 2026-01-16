@@ -139,17 +139,33 @@
   </tr>
   <tr>
     <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
-      Signatures</td>
+      Integrity</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><H2>Signed Files</H2>
+              <P>As  Microsoft Best Practice we sign all our binaries - DLLs and EXEs - using certificates issued by a Trusted Publisher.</P>
+            <P>While this forms a solid base for security and trust, this approach is insufficient for a mature and complex product like ABCpdf.</P>
+            <P>For example the ABCGecko engine contains many files including DLLs but also configuration files. Only binaries can be signed: configuration files  cannot be signed in this way. A corruption of the configuration files could be just as damaging as one affecting DLLs and EXEs, yet they cannot be verified using the standard Microsoft approach.</P>
+            <P>Each DLL which is signed requires checks. In cases where .NET needs to go to the internet to validate certificates, this can represent a substantial overhead. In cases where a few base DLLs are being verified this is acceptable. If one has to verify a thousand files, it becomes something approaching a problem.</P>
+            <P>For these reasons ABCpdf operates a dual security policy. Binaries we produce are digitally signed according to Microsoft Best Practice. Files that we use, but do not produce, are verified at run time by our signed and trusted binaries. This allows fast, low overhead, validation of integrity covering all dependencies rather than just binaries.<br>
+              </P>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Cautions</td>
     <td width="14">&nbsp;</td>
     <td valign="top">
       <table border="0" width="100%" cellpadding="0" cellspacing="0">
         <tr>
-          <td><H2>Signed Files</H2>
-          <P>As  Microsoft Best Practice we sign all our binaries - DLLs and EXEs - using certificates issued by a Trusted Publisher.</P>
-          <P>While this forms a solid base for security and trust, this approach is insufficient for a mature and complex product like ABCpdf.</P>
-          <P>For example the ABCGecko engine contains many files including DLLs but also configuration files. Only binaries can be signed: configuration files  cannot be signed in this way. A corruption of the configuration files could be just as damaging as one affecting DLLs and EXEs, yet they cannot be verified using the standard Microsoft approach.</P>
-          <P>Each DLL which is signed requires checks. In cases where .NET needs to go to the internet to validate certificates, this can represent a substantial overhead. In cases where a few base DLLs are being verified this is acceptable. If one has to verify a thousand files, it becomes something approaching a problem.</P>
-          <P>For these reasons ABCpdf operates a dual security policy. Binaries we produce are digitally signed according to Microsoft Best Practice. Files that we use, but do not produce, are verified at run time by our signed and trusted binaries. This allows fast, low overhead, validation of integrity covering all dependencies rather than just binaries.<br>
+          <td><H2>Vulnerability in Your Code</H2>
+          <P>HTML conversion is a common task and in most situations it is safe. However be  cautious about allowing untrusted input here as HTML can pull in many different technologies and it exposes quite a wide attack surface. While ABCpdf .NET has many layers of defense here it is best to apply your own too. More details may be be found in the <a href="/Manual/3-concepts/g-htmlrender.htm">HTML / CSS Rendering</a> section of the documentation.</P>
+          <P>Document rendering shows you how a document should appear but it does not say anything about the validity of a document. It is easy to craft a document which has a part which looks like a signature - so it may appear to be signed even though it is not. If you are relying on  document signatures you must validate them in your code and report the results back to the user so that they are not mislead.<br>
           </P>
           <p>&nbsp;</p>          </td>
           <td width="60">&nbsp;</td>
