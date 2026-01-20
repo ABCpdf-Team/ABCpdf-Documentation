@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Page MakeFormXObject Function. Makes a FormXObject out of the page. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -113,7 +113,23 @@ layer.SetText(String.Format("q {0} cm /{1} Do Q ", doc.Transform.ToString(), nam
 page2.AddLayer(layer);
 doc.Save(Server.MapPath("exampleformxobject.pdf"));
 </code></pre><br>
-              </P>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/HyperX.pdf"))
+&nbsp;&nbsp;Dim page1 As Page = TryCast(doc.ObjectSoup(doc.Page), Page)
+&nbsp;&nbsp;Dim form As FormXObject = page1.MakeFormXObject()
+&nbsp;&nbsp;doc.Transform.Magnify(0.5, 0.5, 0, 0)
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;Dim page2 As Page = TryCast(doc.ObjectSoup(doc.Page), Page)
+&nbsp;&nbsp;Dim name As String = page2.AddResource(form, "XObject", "Iabc")
+&nbsp;&nbsp;' Here we create our own layer for the purposes of the demonstration.
+&nbsp;&nbsp;' However a simpler approach would be to use Doc.AddXObject.
+&nbsp;&nbsp;Dim layer As New StreamObject(doc.ObjectSoup)
+&nbsp;&nbsp;layer.SetText([String].Format("q {0} cm /{1} Do Q ", doc.Transform.ToString(), name))
+&nbsp;&nbsp;page2.AddLayer(layer)
+&nbsp;&nbsp;doc.Save(Server.MapPath("exampleformxobject.pdf"))
+End Using
+</code></pre></P>
             <p><img src="../../../images/pdf/exampleformxobject.pdf.png" class="example-landscape"><BR>
               exampleformxobject.pdf [Page 1]</p>
             <P><img src="../../../images/pdf/exampleformxobject.pdf2.png" class="example-landscape"><BR>

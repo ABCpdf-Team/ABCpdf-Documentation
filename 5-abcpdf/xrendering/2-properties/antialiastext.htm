@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>XRendering AntiAliasText Property. Whether to anti-alias text. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code></td>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
                 <td>true</td>
                 <td>No</td>
                 <td>Whether to anti-alias text.</td>
@@ -111,7 +114,41 @@ doc.Rendering.AntiAliasText = true;
 doc.Rendering.DotsPerInch = 36;
 doc.Rendering.Save(Server.MapPath("RenderingAntiAliasText.png"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Inset(50, 50)
+&nbsp;&nbsp;' Add some text
+&nbsp;&nbsp;doc.FontSize = 48
+&nbsp;&nbsp;doc.Pos.String = "50 690"
+&nbsp;&nbsp;Dim id As Integer = doc.AddText("Abc")
+&nbsp;&nbsp;' Render images
+&nbsp;&nbsp;doc.Rect.String = doc.GetInfo(id, "rect")
+&nbsp;&nbsp;doc.Rendering.AntiAliasText = True
+&nbsp;&nbsp;Dim antialiasedBitmap As Bitmap = doc.Rendering.GetBitmap()
+&nbsp;&nbsp;doc.Rendering.AntiAliasText = False
+&nbsp;&nbsp;Dim aliasedBitmap As Bitmap = doc.Rendering.GetBitmap()
+&nbsp;&nbsp;' Add enlarged images to the pdf file
+&nbsp;&nbsp;doc.Rect.Magnify(5, 5)
+&nbsp;&nbsp;doc.Rect.Move(0, -300)
+&nbsp;&nbsp;doc.AddImageBitmap(aliasedBitmap, False)
+&nbsp;&nbsp;doc.Rect.Move(0, -300)
+&nbsp;&nbsp;doc.AddImageBitmap(antialiasedBitmap, False)
+&nbsp;&nbsp;' Annotate
+&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.[String]
+&nbsp;&nbsp;doc.Color.String = "255 0 0"
+&nbsp;&nbsp;doc.FontSize = 36
+&nbsp;&nbsp;doc.Pos.String = "50 740"
+&nbsp;&nbsp;doc.AddText("Original text:")
+&nbsp;&nbsp;doc.Pos.String = "50 620"
+&nbsp;&nbsp;doc.AddText("Magnified aliased image:")
+&nbsp;&nbsp;doc.Pos.String = "50 320"
+&nbsp;&nbsp;doc.AddText("Magnified antialiased image:")
+&nbsp;&nbsp;' Save render of pdf files
+&nbsp;&nbsp;doc.Rendering.AntiAliasText = True
+&nbsp;&nbsp;doc.Rendering.DotsPerInch = 36
+&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingAntiAliasText.png"))
+End Using
+</code></pre></p>
             <p><img src="../../../images/pdf/RenderingAntiAliasText.png" class="example"><br>
               RenderingAntiAliasText.png</p>
             <p>&nbsp;</p>

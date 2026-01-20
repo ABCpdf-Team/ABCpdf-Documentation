@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>Doc MediaBox Property. The current document page size. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,6 +35,9 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
+                  <code><a href="../../xrect/default.htm">XRect</a></code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code><a href="../../xrect/default.htm">XRect</a></code></td>
                 <td>Letter Size <br>
                   [0, 0, 612, 792].</td>
@@ -66,7 +69,10 @@
               <pre><code class="language-csharp"><!--notcode-->theDoc.MediaBox.String = &quot;0 0 200 300&quot;;
 theDoc.Rect.String = theDoc.MediaBox.String;
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet"><!--notcode-->theDoc.MediaBox.String = &quot;0 0 200 300&quot;
+theDoc.Rect.String = theDoc.MediaBox.String
+</code></pre></p>
             <p>Changing this property will change the size of pages created by 
               subsequent calls to AddPage. However it will not change the size 
               of the pages that have already been created. To change the size 
@@ -75,13 +81,17 @@ theDoc.Rect.String = theDoc.MediaBox.String;
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp"><!--notcode-->theDoc.SetInfo(theDoc.Page, &quot;/MediaBox:Rect&quot;, &quot;0 0 200 300&quot;);
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet"><!--notcode-->theDoc.SetInfo(theDoc.Page, &quot;/MediaBox:Rect&quot;, &quot;0 0 200 300&quot;)
+</code></pre></p>
             <p>Similar methods can be used to control other page size measures 
               such as the CropBox, BleedBox, TrimBox and ArtBox. For example:</p>
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp"><!--notcode-->theDoc.SetInfo(theDoc.Page, &quot;/CropBox:Rect&quot;, &quot;20 20 180 280&quot;);
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet"><!--notcode-->theDoc.SetInfo(theDoc.Page, &quot;/CropBox:Rect&quot;, &quot;20 20 180 280&quot;)
+</code></pre></p>
             <p></p>
             <p>The default page size is often the one you'll want to use. However 
               it may be that your PDFs are required to conform to a different 
@@ -114,7 +124,16 @@ doc.MediaBox.String = "B5";
 doc.Page = doc.AddPage();
 doc.Save(Server.MapPath("docmediabox.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.MediaBox.String = "A4"
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.MediaBox.String = "B5"
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.Save(Server.MapPath("docmediabox.pdf"))
+End Using
+</code></pre></p>
             <p>Also see example code in: <a href="../1-methods/addimagedoc.htm">Doc AddImageDoc Function</a>.</p>
             <p>&nbsp;</p>
             </td>

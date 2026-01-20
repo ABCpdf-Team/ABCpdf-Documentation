@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>Doc TopDown Property. The current position of the origin. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code></td>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
                 <td>false</td>
                 <td>No</td>
                 <td>The current position of the origin.</td>
@@ -104,7 +107,26 @@ for (int i = 0; i &lt;= 12; i += 2) {
 }
 doc.Save(Server.MapPath("doctopdown.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Units = UnitType.Inches
+&nbsp;&nbsp;doc.TopDown = True
+&nbsp;&nbsp;doc.Width = 1.0 / 8.0
+&nbsp;&nbsp;doc.FontSize = 1
+&nbsp;&nbsp;doc.Rect.Pin = XRect.Corner.TopLeft
+&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;While i &lt;= 12
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddLine(0, i, 12, i)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Position(0, i)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(i.ToString())
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddLine(i, 0, i, 12)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Position(i, 0)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(i.ToString())
+&nbsp;&nbsp;&nbsp;&nbsp;i += 2
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;doc.Save(Server.MapPath("doctopdown.pdf"))
+End Using
+</code></pre></p>
             <p><img src="../../../images/pdf/doctopdown.pdf.png" class="example"><br>
               doctopdown.pdf</p>
             </td>

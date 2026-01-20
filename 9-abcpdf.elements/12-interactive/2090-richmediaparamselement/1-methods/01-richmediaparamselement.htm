@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements RichMediaParamsElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,6 +40,8 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">RichMediaParamsElement</a>()<br> <a href="../default.htm">RichMediaParamsElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">RichMediaParamsElement</a>(IndirectObject obj)<br> <a href="../default.htm">RichMediaParamsElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">RichMediaParamsElement</a>()<br><a href="../default.htm">RichMediaParamsElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">RichMediaParamsElement</a>(obj As IndirectObject)<br><a href="../default.htm">RichMediaParamsElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -183,7 +185,62 @@ settings.EntryActivation.EntryConfiguration = configuration;
 annot.EntryRichMediaSettings = settings;
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 </code></pre></P>
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">If mediaType &lt;&gt; &quot;Flash&quot; AndAlso mediaType &lt;&gt; &quot;Video&quot; AndAlso mediaType &lt;&gt; &quot;Sound&quot; AndAlso mediaType &lt;&gt; &quot;3D&quot; Then
+&nbsp;&nbsp;Throw New ArgumentException(&quot;Invalid media type.&quot;, &quot;mediaType&quot;)
+End If
 
+Dim annot As New <a href="../../2077-richmediaannotationelement/default.htm">RichMediaAnnotationElement</a>(AnnotationElement.Object)
+annot.EntrySubtype = &quot;RichMedia&quot;
+annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect)), annot.Host)
+
+Dim fileName As String
+Dim fileSpec As New <a href="../../../07-syntax/1110-fullfilespecificationelement/default.htm">FullFileSpecificationElement</a>(annot)
+fileSpec.EntryType = &quot;Filespec&quot;
+If filePathOrUrl.StartsWith(&quot;http://&quot;, StringComparison.OrdinalIgnoreCase) OrElse filePathOrUrl.StartsWith(&quot;https://&quot;, StringComparison.OrdinalIgnoreCase) OrElse filePathOrUrl.StartsWith(&quot;rtmp://&quot;, StringComparison.OrdinalIgnoreCase) Then
+&nbsp;&nbsp;fileSpec.EntryFS = &quot;URL&quot;
+&nbsp;&nbsp;fileName = FixUrl(filePathOrUrl)
+Else
+&nbsp;&nbsp;Dim fileInfo As New FileInfo(filePathOrUrl)
+&nbsp;&nbsp;fileSpec.EntryEF = New <a href="../../../07-syntax/1111-embeddedfilesetelement/default.htm">EmbeddedFileSetElement</a>(annot)
+&nbsp;&nbsp;fileSpec.EntryEF.EntryF = EmbedFileStream(fileInfo)
+&nbsp;&nbsp;fileName = EncodeName(fileInfo.Name)
+End If
+fileSpec.EntryF = fileName
+fileSpec.EntryUF = fileName
+
+annot.Object.AdbeExtLevel = New Integer() { 7, 3 }
+Dim content As New <a href="../../2086-richmediacontentelement/default.htm">RichMediaContentElement</a>(annot, CreationOptions.Indirect)
+content.EntryType = &quot;RichMediaContent&quot;
+content.EntryAssets = New <a href="../../../07-syntax/1097-nametreenodeelement_t_/default.htm">NameTreeNodeElement</a>(Of <a href="../../../07-syntax/0011-filespecificationelement/default.htm">FileSpecificationElement</a>)(annot, CreationOptions.Indirect)
+content.EntryAssets.EntryNames = New <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>(Of <a href="../../../01-base/1086-element/default.htm">Element</a>)(annot)
+content.EntryAssets.EntryNames.Add(New <a href="../../../01-base/1086-element/default.htm">Element</a>(New StringAtom(fileName), annot.Host))
+content.EntryAssets.EntryNames.Add(fileSpec)
+
+Dim configuration As New <a href="../../2088-richmediaconfigelement/default.htm">RichMediaConfigElement</a>(annot, CreationOptions.Indirect)
+configuration.EntryType = &quot;RichMediaConfiguration&quot;
+configuration.EntrySubtype = mediaType
+Dim instance As New <a href="../../2089-richmediainstanceelement/default.htm">RichMediaInstanceElement</a>(annot, CreationOptions.Indirect)
+instance.EntryType = &quot;RichMediaInstance&quot;
+instance.EntrySubtype = mediaType
+instance.EntryParams = New <a href="../default.htm">RichMediaParamsElement</a>(annot)
+instance.EntryParams.EntryType = &quot;RichMediaParams&quot;
+instance.EntryParams.EntryBinding = &quot;Foreground&quot;
+instance.EntryAsset = fileSpec
+configuration.EntryInstances = New <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>(Of <a href="../../2089-richmediainstanceelement/default.htm">RichMediaInstanceElement</a>)(annot)
+configuration.EntryInstances.Add(instance)
+
+content.EntryConfigurations = New <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>(Of <a href="../../2088-richmediaconfigelement/default.htm">RichMediaConfigElement</a>)(annot)
+content.EntryConfigurations.Add(configuration)
+annot.EntryRichMediaContent = content
+
+Dim settings As New <a href="../../2078-richmediasettingselement/default.htm">RichMediaSettingsElement</a>(annot, CreationOptions.Indirect)
+settings.EntryType = &quot;RichMediaSettings&quot;
+settings.EntryActivation = New <a href="../../2079-richmediaactivationelement/default.htm">RichMediaActivationElement</a>(annot)
+settings.EntryActivation.EntryType = &quot;RichMediaActivation&quot;
+settings.EntryActivation.EntryConfiguration = configuration
+annot.EntryRichMediaSettings = settings
+<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
+</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

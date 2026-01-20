@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XHtmlOptions LinkDestinations Function. Convert a restricted selection of external links to internal links. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -136,7 +136,11 @@
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
 doc.Rect.Inset(18, 18);
 doc.HtmlOptions.AddLinks = true;
-</code></pre><BR></P>
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Inset(18, 18)
+&nbsp;&nbsp;doc.HtmlOptions.AddLinks = True
+</code></pre></P>
             <P>We add the pages to the document.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">var theList = new List&lt;int&gt;();
 int id = doc.AddImageUrl("http://www.websupergoo.com/support.htm");
@@ -147,7 +151,18 @@ while (true) {
 &nbsp;&nbsp;doc.Page = doc.AddPage();
 &nbsp;&nbsp;id = doc.AddImageToChain(id);
 }
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;Dim theList As New List(Of Integer)()
+&nbsp;&nbsp;Dim theID As Integer = doc.AddImageUrl("http://www.websupergoo.com/support.htm")
+&nbsp;&nbsp;While True
+&nbsp;&nbsp;&nbsp;&nbsp;theList.Add(theID)
+&nbsp;&nbsp;&nbsp;&nbsp;If Not doc.Chainable(theID) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddImageToChain(theID)
+&nbsp;&nbsp;End While
+</code></pre></P>
             <P>The URL we've referenced makes extensive use of named 
             destinations. We want these named destination links to take us 
             between pages on the PDF rather than taking us to the original 
@@ -161,11 +176,23 @@ for (int i = 1; i &lt;= doc.PageCount; i++) {
 &nbsp;&nbsp;doc.PageNumber = i;
 &nbsp;&nbsp;doc.Flatten();
 }
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;doc.HtmlOptions.LinkDestinations(theList)
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= doc.PageCount
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten()
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+</code></pre></P>
             <P>Finally, we save.</P>
             <P><SPAN 
             class=language>[C#]</SPAN><pre><code class="language-csharp">doc.Save(Server.MapPath("linkdestinations.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("linkdestinations.pdf"))
+End Using
+</code></pre></P>
             <P>We get the following output. The links work within the PDF.</P>
             <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
               <TBODY>

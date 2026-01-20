@@ -1,4 +1,4 @@
-ï»¿<html>
+<html>
 <head>
 <title>Doc Page Property. The current Page ID. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code></td>
+                  <code>int</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Integer</code></td>
                 <td>0</td>
                 <td>No</td>
                 <td>The current Page ID.</td>
@@ -98,10 +101,20 @@ doc.Page = doc.AddPage();
 doc.AddText("Page Two");
 doc.Save(Server.MapPath("docpage.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 96
+&nbsp;&nbsp;' big text
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.AddText("Page One")
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.AddText("Page Two")
+&nbsp;&nbsp;doc.Save(Server.MapPath("docpage.pdf"))
+End Using
+</code></pre></p>
             <p><img src="../../../images/pdf/docpage.pdf.png" class="example"></p>
             <p><img src="../../../images/pdf/docpage.pdf2.png" class="example"><br>
-              docpage.pdf </p><p>Also see example code in: <a href="../../../4-examples/02-textflow.htm">ABCpdf Text Flow Example</a>, <a href="../../../4-examples/06-headers.htm">ABCpdf Headers and Footers Example</a>, <a href="../../../4-examples/12-unicode.htm">ABCpdf Unicode Example</a>, <a href="../../../4-examples/13-pagedhtml.htm">ABCpdf Paged HTML Example</a>, <a href="../../../4-examples/18-annotations.htm">ABCpdf Fields, Markup and Movies Example</a>, <a href="../1-methods/addbookmark.htm">Doc AddBookmark Function</a>, <a href="../1-methods/addgrid.htm">Doc AddGrid Function</a>, <a href="../1-methods/addimagedoc.htm">Doc AddImageDoc Function</a>, <a href="../1-methods/addimagetochain.htm">Doc AddImageToChain Function</a>, <a href="../1-methods/addpage.htm">Doc AddPage Function</a>, <a href="../1-methods/addtext.htm">Doc AddText Function</a>, <a href="mediabox.htm">Doc MediaBox Property</a>, <a href="../../xform/1-methods/adddoctimestamp.htm">XForm AddDocTimestamp Function</a>, <a href="../../xhtmloptions/1-methods/linkdestinations.htm">XHtmlOptions LinkDestinations Method</a>, <a href="../../xhtmloptions/1-methods/linkpages.htm">XHtmlOptions LinkPages Method</a>, <a href="../../xhtmloptions/2-properties/usescript.htm">XHtmlOptions UseScript Property</a>, <a href="../../ximage/2-properties/frame.htm">XImage Frame Property</a>, <a href="../../xtextstyle/2-properties/kerning.htm">XTextStyle Kerning Property</a>, <a href="../../xtransform/2-properties/angleunit.htm">XTransform AngleUnitï¿½Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/makeformxobject.htm">Page MakeFormXObject Function</a>, <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>, <a href="../../../6-abcpdf.objects/page/2-properties/thumbnail.htm">Page Thumbnail Property</a>, <a href="../../../6-abcpdf.objects/signature/1-methods/addltv.htm">Signature AddLTV Function</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>.</p>
+              docpage.pdf </p><p>Also see example code in: <a href="../../../4-examples/02-textflow.htm">ABCpdf Text Flow Example</a>, <a href="../../../4-examples/06-headers.htm">ABCpdf Headers and Footers Example</a>, <a href="../../../4-examples/12-unicode.htm">ABCpdf Unicode Example</a>, <a href="../../../4-examples/13-pagedhtml.htm">ABCpdf Paged HTML Example</a>, <a href="../../../4-examples/18-annotations.htm">ABCpdf Fields, Markup and Movies Example</a>, <a href="../1-methods/addbookmark.htm">Doc AddBookmark Function</a>, <a href="../1-methods/addgrid.htm">Doc AddGrid Function</a>, <a href="../1-methods/addimagedoc.htm">Doc AddImageDoc Function</a>, <a href="../1-methods/addimagetochain.htm">Doc AddImageToChain Function</a>, <a href="../1-methods/addpage.htm">Doc AddPage Function</a>, <a href="../1-methods/addtext.htm">Doc AddText Function</a>, <a href="mediabox.htm">Doc MediaBox Property</a>, <a href="../../xform/1-methods/adddoctimestamp.htm">XForm AddDocTimestamp Function</a>, <a href="../../xhtmloptions/1-methods/linkdestinations.htm">XHtmlOptions LinkDestinations Method</a>, <a href="../../xhtmloptions/1-methods/linkpages.htm">XHtmlOptions LinkPages Method</a>, <a href="../../xhtmloptions/2-properties/usescript.htm">XHtmlOptions UseScript Property</a>, <a href="../../ximage/2-properties/frame.htm">XImage Frame Property</a>, <a href="../../xtextstyle/2-properties/kerning.htm">XTextStyle Kerning Property</a>, <a href="../../xtransform/2-properties/angleunit.htm">XTransform AngleUnit Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/makeformxobject.htm">Page MakeFormXObject Function</a>, <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>, <a href="../../../6-abcpdf.objects/page/2-properties/thumbnail.htm">Page Thumbnail Property</a>, <a href="../../../6-abcpdf.objects/signature/1-methods/addltv.htm">Signature AddLTV Function</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>.</p>
             
           </td>
           <td width="60">&nbsp;</td>

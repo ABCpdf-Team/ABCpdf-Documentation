@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XHtmlOptions HtmlEmbedCallback Property. The multicast delegate to be called when embedding an object while HTML rendering is taking place. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -36,7 +36,8 @@
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
                 <TD align=left><SPAN 
-                  class=language>[C#]</SPAN><BR><CODE>HtmlEmbedCallback</CODE></TD>
+                  class=language>[C#]</SPAN><BR><CODE>HtmlEmbedCallback</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>HtmlEmbedCallback</CODE></TD>
                 <TD>null</TD>
                 <TD>No</TD>
                 <TD>The multicast delegate to be called when embedding an 
@@ -62,7 +63,8 @@
             <P>The definition of the HtmlEmbedCallback multicast delegate is as 
             follows.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">delegate void HtmlEmbedCallback(<A href="../../doc/default.htm">Doc</A> doc, HtmlEmbedInfo info);
-</code></pre><BR><BR></P>
+</code></pre><BR><BR><SPAN class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language-vbnet">Delegate Sub HtmlEmbedCallback(doc As <A href="../../doc/default.htm">Doc</A>, info As HtmlEmbedInfo);
+</code></pre></P>
             <P>doc is the target Doc for the added HTML. The properties of 
             HtmlEmbedInfo are as follows:</P>
             <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
@@ -77,14 +79,16 @@
               <TR vAlign=top>
                 <TD align=middle>Url</TD>
                 <TD><SPAN class=language>[C#]</SPAN><BR><pre><code class="language">string
-</code></pre><BR><BR></TD>
+</code></pre><BR><BR><SPAN class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language">String
+</code></pre></TD>
                 <TD>n/a</TD>
                 <TD>Yes</TD>
                 <TD>The URL of the embedded object.</TD></TR>
               <TR vAlign=top>
                 <TD align=middle>BaseUrl</TD>
                 <TD><SPAN class=language>[C#]</SPAN><BR><pre><code class="language">string
-</code></pre><BR><BR></TD>
+</code></pre><BR><BR><SPAN class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language">String
+</code></pre></TD>
                 <TD>n/a</TD>
                 <TD>Yes</TD>
                 <TD>The base URL for resolving relative URLs. This could be 
@@ -102,7 +106,9 @@
                 align=middle><SMALL>ParameterNamesAreCaseSensitive</SMALL></TD>
                 <TD><SPAN 
                   class=language>[C#]</SPAN><BR><pre><code class="language">bool
-</code></pre><BR><BR></TD>
+</code></pre><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language">Boolean
+</code></pre></TD>
                 <TD>n/a</TD>
                 <TD>Yes</TD>
                 <TD>Indicates whether parameter names are 
@@ -154,7 +160,9 @@ case-sensitive.</TD></TR>
                 <TD align=middle>Value</TD>
                 <TD><SPAN 
                   class=language>[C#]</SPAN><BR><pre><code class="language">string
-</code></pre><BR><BR></TD>
+</code></pre><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language">String
+</code></pre></TD>
                 <TD>n/a</TD>
                 <TD>No</TD>
                 <TD>The parameter value.</TD></TR>
@@ -213,7 +221,28 @@ doc.AddImageUrl(uri);
 // Save the document
 doc.Save(Server.MapPath("HtmlOptionsEmbedCallback.pdf"));
 </code></pre>
-            <BR></P>
+            <BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR>
+<pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theURL As String = "https://www.websupergoo.com/"
+&nbsp;&nbsp;' Set up the callback
+&nbsp;&nbsp;doc.HtmlOptions.HtmlEmbedCallback = Function(d As Doc, info As HtmlEmbedInfo) 
+&nbsp;&nbsp;If info.EmbedType = HtmlEmbedType.Swf Then
+&nbsp;&nbsp;&nbsp;&nbsp;Dim param As HtmlParameter
+&nbsp;&nbsp;&nbsp;&nbsp;If info.Parameters.TryGetValue("dataURL", param) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info.Parameters.Remove("dataURL")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;param.Conversion = HtmlParameterConversionType.UrlToTextFileContent
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info.Parameters("dataXML") = param
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;End If
+
+&nbsp;&nbsp;End Function
+&nbsp;&nbsp;' Render html page
+&nbsp;&nbsp;doc.AddImageUrl(theURL)
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsEmbedCallback.pdf"))
+End Using
+</code></pre></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

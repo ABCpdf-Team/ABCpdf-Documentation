@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>JSOptions SetUp Event. Occurs after the JavaScript engine is initialized and before the specified JavaScript code is executed. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -39,7 +39,9 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>event
-            Func&lt;JSCallInfo, object&gt; SetUp;</CODE></P>
+            Func&lt;JSCallInfo, object&gt; SetUp;</CODE><BR><SPAN
+            class=language>[Visual Basic]</SPAN><BR><CODE>Event SetUp
+            As Func(Of JSCallInfo, Object)</CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -161,7 +163,81 @@
 &nbsp;&nbsp;doc.Form.RunJS("var f = this.getField(\"Text1\"); f.display = display.hidden;", options);
 &nbsp;&nbsp;doc.Save(Server.MapPath("hiddenfield.pdf"));
 }
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
+&nbsp;&nbsp;Dim field As Field = doc.Form("CheckBox1")
+&nbsp;&nbsp;Dim options As New JSOptions()
+&nbsp;&nbsp;AddHandler options.SetUp, Function(arg As JSCallInfo)
+&nbsp;&nbsp;&nbsp;&nbsp;Dim prototype As JSValue = arg.Context.GetFieldPrototype()
+&nbsp;&nbsp;&nbsp;&nbsp;If Not prototype.HasProperty("display") Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim desc As New JSAccessorDescriptor()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;desc.Configurable = False
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;desc.Enumerable = True
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;desc.Get = Function(info As JSCallInfo)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim context As JSContext = info.Context
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim id As Integer = info.This.GetDocObjectID()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If id = 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim annot As Annotation = CType(context.Doc.ObjectSoup(id), Annotation)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim flags As Annotation.AnnotationFlags = annot.Flags
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If (flags And Annotation.AnnotationFlags.Hidden) &lt;&gt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return 1 ' display.hidden
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim v As Integer = 0 ' display.visible
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If (flags And Annotation.AnnotationFlags.Print) = 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v = v Or 2 ' display.noPrint
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If (flags And Annotation.AnnotationFlags.NoView) &lt;&gt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v = v Xor 2 Or 1 ' display.hidden, display.noView
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return v
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Function
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;desc.Set = Function(info As JSCallInfo)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If info.ArgCount &lt; 2 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim context As JSContext = info.Context
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim id As Integer = info.This.GetDocObjectID()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If id = 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim annot As Annotation = CType(context.Doc.ObjectSoup(id), Annotation)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim flags As Annotation.AnnotationFlags = annot.Flags
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim v As Integer = info.Args(1).GetValueInt()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select Case v
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case 0 ' display.visible
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flags = flags And Not Annotation.AnnotationFlags.Hidden _
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And Not Annotation.AnnotationFlags.NoView _
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Or Annotation.AnnotationFlags.Print
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case 1 ' display.hidden
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flags = flags And Not Annotation.AnnotationFlags.NoView _
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Or Annotation.AnnotationFlags.Print _
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Or Annotation.AnnotationFlags.Hidden
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case 2 ' display.noPrint
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flags = flags And Not Annotation.AnnotationFlags.Hidden _
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And Not Annotation.AnnotationFlags.NoView _
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And Not Annotation.AnnotationFlags.Print
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case 3 ' display.noView
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flags = flags And Not Annotation.AnnotationFlags.Hidden _
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Or Annotation.AnnotationFlags.Print _
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Or Annotation.AnnotationFlags.NoView
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case Else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Select
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;annot.Flags = flags
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Function
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prototype.DefineProperty("display", desc)
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;Return Nothing
+&nbsp;&nbsp;End Function
+&nbsp;&nbsp;options.LoadGlobals = True
+&nbsp;&nbsp;doc.Form.RunJS("var f = this.getField(""Text1""); f.display = display.hidden;", options)
+&nbsp;&nbsp;doc.Save(Server.MapPath("hiddenfield.pdf"))
+End Using
+</code></pre></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

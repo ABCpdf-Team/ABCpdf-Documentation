@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>Atom Class</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,32 +35,42 @@
                         <pre><code class="language-csharp">NameAtom type = io.Resolve(Atom.GetItem(io.Atom, &quot;Type&quot;)) as NameAtom;
 </code></pre><br>
                         <br>
-                        </p>
+                        <span class="language">[Visual&nbsp;Basic]</span><br>
+                        <pre><code class="language-vbnet">Dim type As NameAtom = io.Resolve(Atom.GetItem(io.Atom, &quot;Type&quot;))
+</code></pre></p>
                   <p>Get an value out of an array atom. In the the event that the atom is not an array or does not have sufficient entries then the return value will be null. In the example below we are looking for entry two - this is the third entry since entries are zero based:</p>
               <p><span class="language">[C#]</span><br>
                         <pre><code class="language-csharp">NumAtom num = io.Resolve(Atom.GetItem(atom, 2)) as NumAtom;
 </code></pre><br>
                         <br>
-                        </p>
+                        <span class="language">[Visual&nbsp;Basic]</span><br>
+                        <pre><code class="language-vbnet">Dim num As NumAtom = io.Resolve(Atom.GetItem(atom, 2))
+</code></pre></p>
                   <p>Get a stream referenced from a property of an IndirectObject. In the example below we use the FontFile2 property (a reference to an embedded TrueType font):</p>
                 <p><span class="language">[C#]</span><br>
                       <pre><code class="language-csharp">StreamObject stream = io.ResolveObj(Atom.GetItem(io.Atom, &quot;FontFile2&quot;)) as StreamObject;
 </code></pre><br>
                       <br>
-                      </p>
+                      <span class="language">[Visual&nbsp;Basic]</span><br>
+                      <pre><code class="language-vbnet">Dim stream As StreamObject = io.ResolveObj(Atom.GetItem(io.Atom, &quot;FontFile2&quot;))
+</code></pre></p>
                   <p>Add a named entry to an IndirectObject.  In the example below we add a V entry which is a string. We keep the returned StringAtom so we can manipulate the value:</p>
                   <p><span class="language">[C#]</span><br>
                       <pre><code class="language-csharp">StringAtom str = (StringAtom)Atom.SetItem(io.Atom, &quot;V&quot;, new StringAtom());
 </code></pre><br>
                       <br>
-                      <br>
+                      <span class="language">[Visual&nbsp;Basic]</span><br>
+                      <pre><code class="language-vbnet">Dim str As StringAtom = Atom.SetItem(io.Atom, &quot;V&quot;, New StringAtom())
+</code></pre><br>
                   </p>
                   <p>Add a named entry to an IndirectObject.  In the example below we add an array entry to specify a border array. Rather than creating an ArrayAtom and specifying the individual values we just specify the raw string value of the object:</p>
                   <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">Atom.SetItem(io.Atom, &quot;Border&quot;, Atom.FromString(&quot;[ 0 0 1 ]&quot;));
 </code></pre><br>
                     <br>
-                    </p>
+                    <span class="language">[Visual&nbsp;Basic]</span><br>
+                    <pre><code class="language-vbnet">Atom.SetItem(io.Atom, &quot;Border&quot;, Atom.FromString(&quot;[ 0 0 1 ]&quot;))
+</code></pre></p>
                 </td>
               </tr>
             </table>

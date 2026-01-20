@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>XPoint String Property. The point as a string. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>string</code></td>
+                  <code>string</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>String</code></td>
                 <td>&quot;0 0&quot;</td>
                 <td>No</td>
                 <td>The point as a string</td>
@@ -81,7 +84,13 @@ Response.Write($"X = {pt.X}");
 Response.Write("&lt;br&gt;");
 Response.Write($"Y = {pt.Y}");
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Dim pt As New XPoint()
+pt.String = "20 10"
+Response.Write($"X = {pt.X}")
+Response.Write("&lt;br&gt;")
+Response.Write($"Y = {pt.Y}")
+</code></pre></p>
             <p>Produces the following output. 
             <p><samp>X = 20<br>
               Y = 10</samp> 

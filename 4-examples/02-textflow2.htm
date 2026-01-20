@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>Text Flow Round Image Example</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -46,7 +46,10 @@
               <pre><code class="language-csharp">// text truncated for clarity
 string text = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes...";
 </code></pre><br>
-              
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">' text truncated for clarity
+Dim text As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes..."
+</code></pre><br>
               <br>
             </p>          </td>
           <td width="60">&nbsp;</td>
@@ -71,7 +74,13 @@ doc.FontSize = 32;
 doc.TextStyle.Justification = 1;
 doc.Rect.Inset(20, 20);
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Width = 4
+&nbsp;&nbsp;doc.FontSize = 32
+&nbsp;&nbsp;doc.TextStyle.Justification = 1
+&nbsp;&nbsp;doc.Rect.Inset(20, 20)
+</code></pre></p>
             <p>&nbsp;</p>          </td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td>
@@ -91,7 +100,13 @@ using var xi = XImage.FromFile(Server.MapPath("mypics/pic.jpg"), null);
 doc.Rect.Resize(xi.Width / 2, xi.Height / 2, XRect.Corner.TopLeft);
 doc.AddImage(xi);
 </code></pre><br>
-                  </p>
+                  <span class="language">[Visual Basic]</span><br>
+                  <pre><code class="language-vbnet">&nbsp;&nbsp;Dim saveRect As String = doc.Rect.String
+&nbsp;&nbsp;Using xi As XImage = XImage.FromFile(Server.MapPath("mypics/pic.jpg"), Nothing)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Resize(xi.Width / 2, xi.Height / 2, XRect.Corner.TopLeft)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddImage(xi)
+&nbsp;&nbsp;End Using
+</code></pre></p>
             <p>&nbsp;</p></td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td>
@@ -113,7 +128,13 @@ double padY = doc.FontSize / 3.0;
 string format = "&lt;stylerun justification=\"1.0\" leftmargins=\"0 {0} {1}\"&gt;";
 string style = string.Format(format, doc.Rect.Height + padY, doc.Rect.Width + padX);
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;Dim padX As Double = doc.FontSize
+&nbsp;&nbsp;Dim padY As Double = doc.FontSize / 3.0
+&nbsp;&nbsp;Dim format As String = "&lt;stylerun justification=""1.0"" leftmargins=""0 {0} {1}""&gt;"
+&nbsp;&nbsp;Dim style As String = String.Format(format, doc.Rect.Height + padY, doc.Rect.Width + padX)
+</code></pre>
+            </p>
           <p>&nbsp;</p>          </td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td>
@@ -135,7 +156,13 @@ doc.FrameRect();
 int id = doc.AddTextStyled(style + text + "&lt;/stylerun&gt;");
 doc.Save(Server.MapPath("textflowroundimage.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Rect.String = saveRect
+&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;Dim id As Integer = doc.AddTextStyled(style + text + "&lt;/stylerun&gt;")
+&nbsp;&nbsp;doc.Save(Server.MapPath("textflowroundimage.pdf"))
+End Using
+</code></pre></p>
           <p>&nbsp;</p>          </td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td>

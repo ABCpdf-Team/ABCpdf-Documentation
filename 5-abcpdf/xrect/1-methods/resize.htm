@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XRect Resize Function. Resizes the rectangle. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -41,6 +41,9 @@
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
             Resize(double w, double h)<br>
             void Resize(double w, double h, Corner corner)<BR>
+            </CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Sub Resize(w As Double, h As Double)<br>
+            Sub Resize(w As Double, h As Double, corner as Corner)<BR>
             </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -109,7 +112,14 @@ Response.Write($"Rect = {rc}");
 Response.Write("&amp;lt;br&amp;gt;");
 rc.Resize(50, 150);
 Response.Write($"Pos. = {rc}");
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim rc As New XRect()
+rc.String = "20 20 220 120"
+Response.Write($"Rect = {rc}")
+Response.Write("&amp;lt;br&amp;gt;")
+rc.Resize(50, 150)
+Response.Write($"Pos. = {rc}")
+</code></pre></P>
             <P>Produces the following output. </P>
             <P><SAMP>Rect = 20 20 220 120<BR>Pos. = 20 20 70 170</SAMP> 
             <P>&nbsp;</P><p>Also see example code in: <a href="../../../4-examples/02-textflow2.htm">ABCpdf Text Flow Round Image Example</a>.</p>

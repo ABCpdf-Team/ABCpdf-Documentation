@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>PdfValidationOperation Read Function. Read and validate an existing document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -134,7 +134,34 @@ using (var op = new PdfValidationOperation()) {
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(op.Warnings[i]);
 &nbsp;&nbsp;}
 }
-</code></pre><BR></P>
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Dim thePath As String = Server.MapPath("pdfa.pdf")
+Using theOperation As New PdfValidationOperation()
+&nbsp;&nbsp;theOperation.Conformance = PdfConformance.PdfA1b
+&nbsp;&nbsp;Dim doc As Doc = theOperation.Read(thePath, Nothing)
+&nbsp;&nbsp;doc.Dispose()
+
+&nbsp;&nbsp;If theOperation.Errors.Count &gt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Errors:")
+&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; theOperation.Errors.Count
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Errors(i))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;If theOperation.Warnings.Count &gt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;If theOperation.Errors.Count &gt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine()
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Warnings:")
+&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; theOperation.Warnings.Count
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Warnings(i))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;End If
+End Using
+</code></pre></P>
             <P>&nbsp;</P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

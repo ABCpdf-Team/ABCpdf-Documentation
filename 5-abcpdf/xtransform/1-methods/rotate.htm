@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XTransform Rotate Function. Rotate about a locked anchor point (angle in degrees). ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -39,7 +39,8 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
-            Rotate(double angle, double anchorX, double anchorY)<BR></CODE></P>
+            Rotate(double angle, double anchorX, double anchorY)<BR></CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Sub Rotate(angle As Double, anchorX As Double, anchorY As Double)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -109,10 +110,25 @@ for (int i = 1; i &lt;= 8; i++) {
 &nbsp;&nbsp;doc.AddText($"Rotated {angle}");
 }
 doc.Save(Server.MapPath("rotate.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 48
+&nbsp;&nbsp;doc.TextStyle.Indent = 48
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= 8
+&nbsp;&nbsp;&nbsp;&nbsp;Dim theAngle As Integer = i * 45
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Pos.String = "302 396"
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Reset()
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Rotate(theAngle, 302, 396)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText($"Rotated {theAngle}")
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;doc.Save(Server.MapPath("rotate.pdf"))
+End Using
+</code></pre></P>
             <P><IMG src="../../../images/pdf/rotate.pdf.png" 
             class="example"><BR>rotate.pdf</P>
-            <p>Also see example code in: <a href="../../../4-examples/08-landscape.htm">ABCpdf Landscape Example</a>, <a href="../../doc/1-methods/addgrid.htm">Doc AddGrid Function</a>, <a href="../../doc/1-methods/addxobject.htm">Doc AddXObject Function</a>, <a href="../../doc/2-properties/transform.htm">Doc Transform Property</a>, <a href="invert.htm">XTransform Invert Function</a>, <a href="reset.htm">XTransform Reset Function</a>, <a href="../2-properties/angleunit.htm">XTransform AngleUnitï¿½Property</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>.</p>
+            <p>Also see example code in: <a href="../../../4-examples/08-landscape.htm">ABCpdf Landscape Example</a>, <a href="../../doc/1-methods/addgrid.htm">Doc AddGrid Function</a>, <a href="../../doc/1-methods/addxobject.htm">Doc AddXObject Function</a>, <a href="../../doc/2-properties/transform.htm">Doc Transform Property</a>, <a href="invert.htm">XTransform Invert Function</a>, <a href="reset.htm">XTransform Reset Function</a>, <a href="../2-properties/angleunit.htm">XTransform AngleUnit Property</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>.</p>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

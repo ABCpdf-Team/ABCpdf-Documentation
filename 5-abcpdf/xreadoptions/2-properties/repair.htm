@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XReadOptions Repair Property. Whether to apply extra processing to enable certain types of corrupt document to be read. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -36,7 +36,8 @@
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
                 <TD align=left><SPAN 
-                  class=language>[C#]</SPAN><BR><CODE>bool</CODE></TD>
+                  class=language>[C#]</SPAN><BR><CODE>bool</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>Boolean</CODE></TD>
                 <TD>false</TD>
                 <TD>No</TD>
                 <TD>Whether to apply extra processing to enable certain types of corrupt document to be read.</TD>
@@ -67,7 +68,15 @@ catch {
 &nbsp;&nbsp;theDoc.Read(theFile, xr);
 }
 </code></pre><br>
-              </P>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Try
+&nbsp;&nbsp;theDoc.Read(theFile)
+Catch
+&nbsp;&nbsp;Dim xr As New XReadOptions()
+&nbsp;&nbsp;xr.Repair = True
+&nbsp;&nbsp;theDoc.Read(theFile, xr)
+End Try
+</code></pre></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>

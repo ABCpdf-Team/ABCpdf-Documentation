@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>FileSpecification Constructor. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -141,6 +141,40 @@ doc.SetInfo(doc.Root, "/Collection*/D:Text", files[0]);
 doc.Save(Server.MapPath("createportfolio.pdf"));
 </code></pre>
                 <br>
+                <span class=language>[Visual Basic]</span><br>
+                <pre><code class="language-vbnet">Dim files As String() = {"SignedDocument.pdf", "spaceshuttle.pdf", "Authorization.pdf", "Portfolio1.pdf"}
+Using doc As New Doc()
+&nbsp;&nbsp;Dim fileSpecs = New List(Of Tuple(Of String, FileSpecification))()
+&nbsp;&nbsp;For Each file As String In files
+&nbsp;&nbsp;&nbsp;&nbsp;Dim data As Byte() = Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;Using subDoc = New Doc()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subDoc.Read(Server.MapPath(file))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = subDoc.GetData()
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;Dim embedFile = New EmbeddedFile(doc.ObjectSoup, data)
+&nbsp;&nbsp;&nbsp;&nbsp;embedFile.CompressFlate()
+&nbsp;&nbsp;&nbsp;&nbsp;Dim fileSpec = New FileSpecification(doc.ObjectSoup)
+&nbsp;&nbsp;&nbsp;&nbsp;fileSpec.EmbeddedFile = embedFile
+&nbsp;&nbsp;&nbsp;&nbsp;fileSpec.Uri = file
+&nbsp;&nbsp;&nbsp;&nbsp;Dim name As String = Path.GetFileName(file)
+&nbsp;&nbsp;&nbsp;&nbsp;fileSpecs.Add(New Tuple(Of String, FileSpecification)(name, fileSpec))
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;fileSpecs.Sort(Function(a, b) a.Item1.CompareTo(b.Item1))
+&nbsp;&nbsp;' we do not really need to delete existing files but we do so as an example
+&nbsp;&nbsp;doc.SetInfo(doc.Root, "/Names*/EmbeddedFiles*/Names:Del", "")
+&nbsp;&nbsp;For Each fileSpec As var In fileSpecs
+&nbsp;&nbsp;&nbsp;&nbsp;doc.SetInfo(doc.Root, "/Names*/EmbeddedFiles*/Names*[]:Text", fileSpec.Item1)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.SetInfo(doc.Root, "/Names*/EmbeddedFiles*/Names*[]:Ref", fileSpec.Item2.ID)
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;' add placeholder text
+&nbsp;&nbsp;doc.AddText("This is a Adobe Acrobat Portfolio file. Please use Adobe Acrobat software to open it.")
+&nbsp;&nbsp;' save
+&nbsp;&nbsp;doc.ObjectSoup.Catalog.Version = 17
+&nbsp;&nbsp;doc.SaveOptions.Linearize = False
+&nbsp;&nbsp;doc.SetInfo(doc.Root, "/Collection*/D:Text", files(0))
+&nbsp;&nbsp;doc.Save(Server.MapPath("createportfolio.pdf"))
+End Using
+</code></pre>
                 </p>
             <p></p>
             <P>&nbsp;</P></TD>

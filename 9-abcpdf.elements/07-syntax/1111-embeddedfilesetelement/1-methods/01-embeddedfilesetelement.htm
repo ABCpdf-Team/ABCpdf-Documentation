@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements EmbeddedFileSetElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,6 +40,8 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">EmbeddedFileSetElement</a>()<br> <a href="../default.htm">EmbeddedFileSetElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">EmbeddedFileSetElement</a>(IndirectObject obj)<br> <a href="../default.htm">EmbeddedFileSetElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">EmbeddedFileSetElement</a>()<br><a href="../default.htm">EmbeddedFileSetElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">EmbeddedFileSetElement</a>(obj As IndirectObject)<br><a href="../default.htm">EmbeddedFileSetElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -137,7 +139,18 @@ file.EntryEF.EntryF = stream;
 file.EntryDesc = description;
 return file;
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim info As New FileInfo(filePath)
+Dim stream As <a href="../../1112-embeddedfilestreamelement/default.htm">EmbeddedFileStreamElement</a> = EmbedFileStream(info, soup)
+Dim cat As New <a href="../../1081-catalogelement/default.htm">CatalogElement</a>(soup.Catalog)
+Dim file As New <a href="../../1110-fullfilespecificationelement/default.htm">FullFileSpecificationElement</a>(cat)
+file.EntryType = &quot;Filespec&quot;
+file.EntryF = info.Name
+file.EntryUF = info.Name
+file.EntryEF = New <a href="../default.htm">EmbeddedFileSetElement</a>(file)
+file.EntryEF.EntryF = stream
+file.EntryDesc = description
+Return file
+</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

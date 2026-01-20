@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddImageCopy Function. Adds a copy of an existing image in the Doc, to the current page. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -118,7 +118,11 @@ href="../../xtransform/default.htm">Transform</A>.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
 doc.Read(Server.MapPath("../mypics/sample.pdf"));
 int count = doc.PageCount;
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
+&nbsp;&nbsp;Dim theCount As Integer = doc.PageCount
+</code></pre></P>
             <P>We cycle through the pages inserting images as we go.</P>
             <P>We set the layer property to ensure that the image gets added in 
             the background rather than on top of existing content. </P>
@@ -138,7 +142,23 @@ for (int i = 1; i &lt;= count; i++) {
 &nbsp;&nbsp;&nbsp;&nbsp;doc.AddImageCopy(id);
 }
 doc.Save(Server.MapPath("watermark.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;Dim theID As Integer = 0
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= theCount
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Layer = doc.LayerCount + 1
+&nbsp;&nbsp;&nbsp;&nbsp;If i = 1 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/light.jpg")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddImageFile(thePath, 1)
+&nbsp;&nbsp;&nbsp;&nbsp;Else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddImageCopy(theID)
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;doc.Save(Server.MapPath("watermark.pdf"))
+End Using
+</code></pre></P>
             <P>Given the following document.</P>
             <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
               <TBODY>

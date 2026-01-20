@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>FlattenTransparencyOperation Flatten Function. Flatten the transparency of pages in a document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -123,7 +123,16 @@ doc.Read(Server.MapPath("../mypics/sample.pdf"));
 op.Flatten(doc);
 doc.Save(Server.MapPath("Flattened.pdf"));
 </code></pre></P>
-<P>
+<P><SPAN class=language>[Visual Basic]</SPAN>
+<pre><code class="language-vbnet">Dim transOp As New FlattenTransparencyOperation()
+transOp.DotsPerInch = 144
+transOp.ColorSpace = XRendering.ColorSpaceType.Rgb
+
+Dim doc As New Doc()
+doc.Read(Server.MapPath("../mypics/sample.pdf"))
+transOp.Flatten(doc)
+doc.Save(Server.MapPath("Flattened.pdf"))
+</code></pre>
 </P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

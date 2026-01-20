@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements Element Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,6 +40,8 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">Element</a>()<br> <a href="../default.htm">Element</a>(<a href="../2-properties/03-atom.htm">Atom</a> atom, IndirectObject host)<br> <a href="../default.htm">Element</a>(IndirectObject obj)<br> <a href="../default.htm">Element</a>(<a href="../default.htm">Element</a> relation, CreationOptions options)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">Element</a>()<br><a href="../default.htm">Element</a>(atom As <a href="../2-properties/03-atom.htm">Atom</a>, host As IndirectObject)<br><a href="../default.htm">Element</a>(obj As IndirectObject)<br><a href="../default.htm">Element</a>(relation As <a href="../default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			<P>&nbsp;</P>
@@ -129,7 +131,10 @@
 FindAll(item, items);
 return items;
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim items As New List(Of <a href="../default.htm">Element</a>)()
+FindAll(item, items)
+Return items
+</code></pre></P>
 <P>This code snippet is taken from Annotations.cs line 464 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">if (inKids.Count == 0)
 &nbsp;&nbsp;throw new Exception(&quot;Cannot have a group field with no kids&quot;);
@@ -138,7 +143,14 @@ FormField formField = new FormField(this, inName, fieldID, inKids);
 formField.FieldElement.EntryV = new <a href="../default.htm">Element</a>(new <a href="../2-properties/10-stringatom.htm">StringAtom</a>(inValue), formField.Host);
 return formField;
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">If inKids.Count = 0 Then
+&nbsp;&nbsp;Throw New Exception(&quot;Cannot have a group field with no kids&quot;)
+End If
+Dim fieldID As Integer = Doc.AddObject(&quot;&lt;&lt; /Kids [] &gt;&gt;&quot;)
+Dim formField As New FormField(Me, inName, fieldID, inKids)
+formField.FieldElement.EntryV = New <a href="../default.htm">Element</a>(New <a href="../2-properties/10-stringatom.htm">StringAtom</a>(inValue), formField.Host)
+Return formField
+</code></pre></P>
 <P>This code snippet is taken from Annotations.cs line 480 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">TextFieldAnnotation textField = new TextFieldAnnotation(this, inRect);
 FormField formField = new FormField(this, inName, textField);
@@ -149,7 +161,16 @@ if (inText != null)
 &nbsp;&nbsp;formField.FieldElement.EntryV = new <a href="../default.htm">Element</a>(new <a href="../2-properties/10-stringatom.htm">StringAtom</a>(inText), formField.FieldElement.Host);
 return formField;
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim textField As New TextFieldAnnotation(Me, inRect)
+Dim formField As New FormField(Me, inName, textField)
+formField.FieldElement.EntryFT = &quot;Tx&quot;
+formField.FieldElement.EntryFf = CInt(Math.Truncate(Field.FieldFlags.Multiline))
+formField.FieldElement.EntryQ = 1
+If inText IsNot Nothing Then
+&nbsp;&nbsp;formField.FieldElement.EntryV = New <a href="../default.htm">Element</a>(New <a href="../2-properties/10-stringatom.htm">StringAtom</a>(inText), formField.FieldElement.Host)
+End If
+Return formField
+</code></pre></P>
 <P>This code snippet is taken from Annotations.cs line 514 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">CheckBoxAnnotation checkBox = new CheckBoxAnnotation(this, inRect, inValue);
 FormField formField = new FormField(this, inName, checkBox);
@@ -157,7 +178,12 @@ formField.FieldElement.EntryFT = &quot;Btn&quot;;
 formField.FieldElement.EntryV = new <a href="../default.htm">Element</a>(new <a href="../2-properties/08-nameatom.htm">NameAtom</a>(inValue ? &quot;Yes&quot; : &quot;Off&quot;), formField.Host);
 return formField;
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim checkBox As New CheckBoxAnnotation(Me, inRect, inValue)
+Dim formField As New FormField(Me, inName, checkBox)
+formField.FieldElement.EntryFT = &quot;Btn&quot;
+formField.FieldElement.EntryV = New <a href="../default.htm">Element</a>(New <a href="../2-properties/08-nameatom.htm">NameAtom</a>(If(inValue, &quot;Yes&quot;, &quot;Off&quot;)), formField.Host)
+Return formField
+</code></pre></P>
 <P>This code snippet is taken from Annotations.cs line 529 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">List&lt;WidgetAnnotation&gt; kids = new List&lt;WidgetAnnotation&gt;();
 for (int i = 0; i &lt; inRects.Length; i++) {
@@ -169,7 +195,16 @@ FormField formField = new FormField(this, inName, fieldID, kids);
 formField.FieldElement.EntryV = new <a href="../default.htm">Element</a>(new <a href="../2-properties/08-nameatom.htm">NameAtom</a>(inSelectedButton.ToString()), formField.Host);
 return formField;
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim kids As New List(Of WidgetAnnotation)()
+For i As Integer = 0 To inRects.Length - 1
+&nbsp;&nbsp;Dim radioButton As New RadioButtonAnnotation(Me, inRects(i), i.ToString(), i = inSelectedButton)
+&nbsp;&nbsp;kids.Add(radioButton)
+Next i
+Dim fieldID As Integer = Doc.AddObject(&quot;&lt;&lt;/FT /Btn /Ff 49152 /Kids [] /DA (/ZaDb 0 Tf 0 g)&gt;&gt;&quot;)
+Dim formField As New FormField(Me, inName, fieldID, kids)
+formField.FieldElement.EntryV = New <a href="../default.htm">Element</a>(New <a href="../2-properties/08-nameatom.htm">NameAtom</a>(inSelectedButton.ToString()), formField.Host)
+Return formField
+</code></pre></P>
 <P>This code snippet is taken from Annotations.cs line 1944 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../../../12-interactive/2090-richmediaparamselement/default.htm">RichMediaParamsElement</a> pars = RichMediaElement.EntryRichMediaSettings.EntryActivation.EntryConfiguration.EntryInstances[0].EntryParams;
 if (string.IsNullOrEmpty(value))
@@ -183,7 +218,18 @@ else {
 &nbsp;&nbsp;pars.EntryFlashVars = new <a href="../default.htm">Element</a>(new RefAtom(so), AnnotationElement.Object);
 }
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim pars As <a href="../../../12-interactive/2090-richmediaparamselement/default.htm">RichMediaParamsElement</a> = RichMediaElement.EntryRichMediaSettings.EntryActivation.EntryConfiguration.EntryInstances(0).EntryParams
+If String.IsNullOrEmpty(value) Then
+&nbsp;&nbsp;pars.EntryFlashVars = Nothing
+ElseIf value.Length &lt;= 128 Then
+&nbsp;&nbsp;pars.EntryFlashVars = New <a href="../default.htm">Element</a>(New <a href="../2-properties/10-stringatom.htm">StringAtom</a>(value), AnnotationElement.Object)
+Else
+&nbsp;&nbsp;Dim so As New StreamObject(Form.Doc.ObjectSoup)
+&nbsp;&nbsp;so.SetText(value)
+&nbsp;&nbsp;so.CompressFlate()
+&nbsp;&nbsp;pars.EntryFlashVars = New <a href="../default.htm">Element</a>(New RefAtom(so), AnnotationElement.Object)
+End If
+</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

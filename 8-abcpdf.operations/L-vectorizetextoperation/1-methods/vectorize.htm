@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>VectorizeTextOperation Vectorize Function. Vectorizes the text glyphs in the pages of a document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -118,7 +118,15 @@
 &nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"));
 }
 </code></pre></P>
-<P></P>
+<P><SPAN class=language>[Visual Basic]</SPAN>
+<pre><code class="language-vbnet">Private Shared Sub VectorizeDocText1(inDocName As String)
+&nbsp;&nbsp;Dim vecOp As New VectorizeTextOperation()
+&nbsp;&nbsp;Dim doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath(inDocName))
+&nbsp;&nbsp;vecOp.Vectorize(doc)
+&nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"))
+End Sub
+</code></pre></P>
 <P>Here we Vectorize all but the bold text.</P>
 <P><SPAN class=language>[C#]</SPAN>
 <pre><code class="language-csharp">static void Vectorizing2(object sender, ProcessingObjectEventArgs e) {
@@ -136,7 +144,23 @@ static void VectorizeDocText2(string inDocName) {
 &nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"));
 }
 </code></pre></P>
-<P></P>
+<P><SPAN class=language>[Visual Basic]</SPAN>
+<pre><code class="language-vbnet">Private Shared Sub Vectorizing2(sender As Object, e As ProcessingObjectEventArgs)
+&nbsp;&nbsp;Dim theFont As FontObject = TryCast(e.[Object], FontObject)
+&nbsp;&nbsp;If theFont &lt;&gt; Nothing AndAlso theFont.BaseFont.Contains("Bold") Then
+&nbsp;&nbsp;&nbsp;&nbsp;e.Cancel = True
+&nbsp;&nbsp;End If
+End Sub
+Private Shared Sub VectorizeDocText2(inDocName As String)
+&nbsp;&nbsp;Dim vecOp As New VectorizeTextOperation()
+&nbsp;&nbsp;Dim doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath(inDocName))
+&nbsp;&nbsp;' Use the 'Vectorizing' method to decide which fonts to vectorize
+&nbsp;&nbsp;vecOp.ProcessingObject += New ProcessingObjectEventHandler(Vectorizing2)
+&nbsp;&nbsp;vecOp.Vectorize(doc)
+&nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"))
+End Sub
+</code></pre></P>
 <P>Vectorize all the external fonts.</P>
 <P><SPAN class=language>[C#]</SPAN>
 <pre><code class="language-csharp">static void Vectorizing3(object sender, ProcessingObjectEventArgs e) {
@@ -154,7 +178,24 @@ static void VectorizeDocText3(string inDocName) {
 &nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"));
 }
 </code></pre></P>
-<P></P>
+<P><SPAN class=language>[Visual Basic]</SPAN>
+<pre>
+<code class="language-vbnet">Private Shared Sub Vectorizing3(sender As Object, e As ProcessingObjectEventArgs)
+&nbsp;&nbsp;Dim theFont As FontObject = TryCast(e.[Object], FontObject)
+&nbsp;&nbsp;If theFont &lt;&gt; Nothing AndAlso theFont.EmbeddedFont &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;e.Cancel = True
+&nbsp;&nbsp;End If
+End Sub
+Private Shared Sub VectorizeDocText3(inDocName As String)
+&nbsp;&nbsp;Dim vecOp As New VectorizeTextOperation()
+&nbsp;&nbsp;Dim doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath(inDocName))
+&nbsp;&nbsp;' Use the 'Vectorizing' method to decide which fonts to vectorize
+&nbsp;&nbsp;vecOp.ProcessingObject += New ProcessingObjectEventHandler(Vectorizing3)
+&nbsp;&nbsp;vecOp.Vectorize(doc)
+&nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedSample.pdf"))
+End Sub
+</code></pre></P>
 </TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

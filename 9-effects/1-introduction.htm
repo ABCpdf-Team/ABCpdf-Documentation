@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>Introduction to  Effects</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -53,7 +53,18 @@
 &nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectSharpen1b.jpg");
 }
 </code></pre><br>
-              
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Sub ...
+&nbsp;&nbsp;Using doc As New Doc()
+&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img5)
+&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img5)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Sharpen")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectSharpen1b.jpg")
+End Sub
+</code></pre><br>
 </p>
             <p>&nbsp;</p>          </td>
           <td width="60">&nbsp;</td>
@@ -81,7 +92,17 @@
 &nbsp;&nbsp;}
 }
 </code></pre><br>
-              
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Private Function AddImagePage(doc As Doc, path As String) As ImageLayer
+&nbsp;&nbsp;Using img As XImage = XImage.FromFile(path, Nothing)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.MediaBox.SetSides(0, 0, img.Width, img.Height)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.[String] = doc.MediaBox.[String]
+&nbsp;&nbsp;&nbsp;&nbsp;Dim id As Integer = doc.AddImageObject(img)
+&nbsp;&nbsp;&nbsp;&nbsp;Return DirectCast(doc.ObjectSoup(id), ImageLayer)
+&nbsp;&nbsp;End Using
+End Function
+</code></pre><br>
             </p>
             <p>&nbsp;</p>
           <p></p>          </td>

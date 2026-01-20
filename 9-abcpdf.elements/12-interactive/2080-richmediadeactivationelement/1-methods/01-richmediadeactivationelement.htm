@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements RichMediaDeactivationElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,6 +40,8 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">RichMediaDeactivationElement</a>()<br> <a href="../default.htm">RichMediaDeactivationElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">RichMediaDeactivationElement</a>(IndirectObject obj)<br> <a href="../default.htm">RichMediaDeactivationElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">RichMediaDeactivationElement</a>()<br><a href="../default.htm">RichMediaDeactivationElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">RichMediaDeactivationElement</a>(obj As IndirectObject)<br><a href="../default.htm">RichMediaDeactivationElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -129,7 +131,11 @@
 &nbsp;&nbsp;RichMediaElement.EntryRichMediaSettings.EntryDeactivation = new <a href="../default.htm">RichMediaDeactivationElement</a>(<a href="../../1391-annotationelement/default.htm">AnnotationElement</a>);
 RichMediaElement.EntryRichMediaSettings.EntryDeactivation.EntryCondition = value;
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">If RichMediaElement.EntryRichMediaSettings.EntryDeactivation Is Nothing Then
+&nbsp;&nbsp;RichMediaElement.EntryRichMediaSettings.EntryDeactivation = New <a href="../default.htm">RichMediaDeactivationElement</a>(<a href="../../1391-annotationelement/default.htm">AnnotationElement</a>)
+End If
+RichMediaElement.EntryRichMediaSettings.EntryDeactivation.EntryCondition = value
+</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

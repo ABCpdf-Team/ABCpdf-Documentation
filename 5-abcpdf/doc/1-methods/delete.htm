@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc Delete Function. Deletes an object previously added to the document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -85,7 +85,9 @@
                     <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.Delete(theDoc.Page);
 </code></pre><br>
-</p>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.Delete(theDoc.Page)
+</code></pre></p>
             <P>However if you are deleting multiple pages you will probably find it more efficient to use the <a href="remappages.htm">RemapPages</a> method. as this is more optimized for moving and removing pages.</P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -108,7 +110,17 @@ int id2 = doc.GetInfoInt(id1, "XObject");
 int comps = doc.GetInfoInt(id2, "Components");
 if (comps == 4) doc.Delete(id1);
 doc.Save(Server.MapPath("docdelete.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/mypic.jpg")
+&nbsp;&nbsp;Dim theID1 As Integer = doc.AddImageFile(thePath, 1)
+&nbsp;&nbsp;Dim theID2 As Integer = doc.GetInfoInt(theID1, "XObject")
+&nbsp;&nbsp;Dim theComps As Integer = doc.GetInfoInt(theID2, "Components")
+&nbsp;&nbsp;If theComps = 4 Then
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Delete(theID1)
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;doc.Save(Server.MapPath("docdelete.pdf"))
+End Using
+</code></pre></P>
             <P><IMG src="../../../images/pdf/docdelete.pdf.png" 
             class="example"><BR>docdelete.pdf </P><p>Also see example code in: <a href="../../../4-examples/05-deletion.htm">ABCpdf Deletion Example</a>, <a href="../../../4-examples/15-eform2.htm">ABCpdf eForm Placeholder Example</a>.</p>
             </TD>

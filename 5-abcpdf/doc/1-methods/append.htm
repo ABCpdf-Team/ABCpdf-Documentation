@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc Append Function. Appends a PDF to the end of the document. ABCpdf .NET PDF Library.</TITLE>
 <META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -180,7 +180,21 @@ doc2.AddText("World");
 doc1.Append(doc2);
 doc1.Save(Server.MapPath("docjoin.pdf"));
 </code></pre>
-            <BR></P>
+            <BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim doc1 As New Doc()
+doc1.FontSize = 192
+doc1.TextStyle.HPos = 0.5
+doc1.TextStyle.VPos = 0.5
+doc1.AddText("Hello")
+Dim doc2 As New Doc()
+doc2.FontSize = 192
+doc2.TextStyle.HPos = 0.5
+doc2.TextStyle.VPos = 0.5
+doc2.AddText("World")
+doc1.Append(doc2)
+doc1.Save(Server.MapPath("docjoin.pdf"))
+</code></pre>
+            </P>
             <P></P>
             <P><IMG src="../../../images/pdf/docjoin.pdf.png" class="example"
             ><BR>docjoin.pdf [Page 1]</P>

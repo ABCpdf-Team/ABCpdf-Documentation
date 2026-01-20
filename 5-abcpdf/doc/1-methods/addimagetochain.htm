@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddImageToChain Function. Adds a new page from a paged HTML or PostScript render. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -127,11 +127,17 @@
             of the page.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
 doc.Rect.Inset(72, 144);
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Inset(72, 144)
+</code></pre></P>
             <P>We add the first page of HTML. We save the returned ID as this 
             will be used to add subsequent pages.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">int id = doc.AddImageUrl("http://www.yahoo.com/");
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;Dim theID As Integer
+&nbsp;&nbsp;theID = doc.AddImageUrl("http://www.yahoo.com/")
+</code></pre></P>
             <P>We now chain subsequent pages together. We stop when we reach a 
             page which wasn't truncated.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">while (true) {
@@ -141,7 +147,16 @@ doc.Rect.Inset(72, 144);
 &nbsp;&nbsp;doc.Page = doc.AddPage();
 &nbsp;&nbsp;id = doc.AddImageToChain(id);
 }
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;While True
+&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;&nbsp;&nbsp;If Not doc.Chainable(theID) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddImageToChain(theID)
+&nbsp;&nbsp;End While
+</code></pre></P>
             <P>After adding the pages we can flatten them. We can't do this 
             until after the pages have been added because flattening will 
             invalidate our previous ID and break the chain.</P>
@@ -149,12 +164,23 @@ doc.Rect.Inset(72, 144);
 &nbsp;&nbsp;doc.PageNumber = i;
 &nbsp;&nbsp;doc.Flatten();
 }
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= doc.PageCount
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten()
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+</code></pre></P>
             <P>Finally we save. </P>
             <P><SPAN 
             class=language>[C#]</SPAN>
             <pre><code class="language-csharp">doc.Save(Server.MapPath("paged_html.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR>
+            <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("paged_html.pdf"))
+End Using
+</code></pre></P>
             <P>We get the following output.</P>
             <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
               <TBODY>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Catalog GetEmbeddedFiles Function. Gets all the embedded files in this document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -115,7 +115,24 @@ foreach (var pair in files) {
 &nbsp;&nbsp;}
 }
 </code></pre><br>
-              </P>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim ro As New XReadOptions()
+&nbsp;&nbsp;ro.OpenPortfolios = False
+&nbsp;&nbsp;doc.Read(Server.MapPath("Portfolio1.pdf"), ro)
+&nbsp;&nbsp;Dim files = doc.ObjectSoup.Catalog.GetEmbeddedFiles()
+&nbsp;&nbsp;For Each pair As var In files
+&nbsp;&nbsp;&nbsp;&nbsp;Dim fileSpec As FileSpecification = pair.Value
+&nbsp;&nbsp;&nbsp;&nbsp;fileSpec.Rationalize()
+&nbsp;&nbsp;&nbsp;&nbsp;Dim file__1 As EmbeddedFile = fileSpec.EmbeddedFile
+&nbsp;&nbsp;&nbsp;&nbsp;If (file__1 &lt;&gt; Nothing) AndAlso (file__1.Decompress()) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim name As String = "Portfolio_" + fileSpec.Uri
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim path As String = name
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.WriteAllBytes(path, file__1.GetData())
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;Next
+End Using
+</code></pre></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

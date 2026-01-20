@@ -1,0 +1,59 @@
+name: Convert and Publish Documentation
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+          dotnet-quality: 'preview'
+
+      - name: Build WSGHelpUtils
+        run: dotnet build WSGHelpUtils/WSGHelpUtils.csproj -c Release
+
+      - name: Convert HTML to Markdown
+        run: dotnet run --project WSGHelpUtils/WSGHelpUtils.csproj -c Release -- . _site --clean
+
+      - name: Create index page
+        run: |
+          if [ -f "_site/default.md" ]; then
+            cp _site/default.md _site/index.md
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

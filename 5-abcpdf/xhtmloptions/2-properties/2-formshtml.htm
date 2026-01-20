@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XHtmlOptions ForMSHtml Property. An object that provides access to only the HTML options supported by the MSHTML engine. ABCpdf .NET PDF Library.</TITLE>
 <META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -35,6 +35,9 @@
               </tr>
               <tr valign="top">
                 <td align="left"><span class="language">[C#]</span><br>
+                    <code>IHtmlMSHtmlOptions</code><br>
+                    <br>
+                    <span class="language">[Visual&nbsp;Basic]</span><br>
                     <code>IHtmlMSHtmlOptions</code></td>
                 <td>n/a</td>
                 <td>Yes</td>
@@ -149,7 +152,22 @@ options.AutoTruncate = true;
 
 doc.AddImageUrl("http://www.websupergoo.com");
 doc.Save(Server.MapPath("wsg3.pdf"));
-</code></pre><BR></P></TD>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR>
+<pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.MSHtml
+&nbsp;&nbsp;doc.HtmlOptions.ForMSHtml.AddLinks = True
+
+&nbsp;&nbsp;' You can store a reference to the filter to reduce code repetition
+&nbsp;&nbsp;Dim options As IHtmlMSHtmlOptions = doc.HtmlOptions.ForMSHtml
+
+&nbsp;&nbsp;options.UseActiveX = True
+&nbsp;&nbsp;options.AutoTruncate = True
+
+&nbsp;&nbsp;doc.AddImageUrl("http://www.websupergoo.com")
+&nbsp;&nbsp;doc.Save(Server.MapPath("wsg3.pdf"))
+End Using
+</code></pre></P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
 <P>&nbsp;</P></BODY></HTML>

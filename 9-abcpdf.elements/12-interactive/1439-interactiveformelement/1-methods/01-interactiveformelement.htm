@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements InteractiveFormElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,6 +40,8 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">InteractiveFormElement</a>()<br> <a href="../default.htm">InteractiveFormElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">InteractiveFormElement</a>(IndirectObject obj)<br> <a href="../default.htm">InteractiveFormElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">InteractiveFormElement</a>()<br><a href="../default.htm">InteractiveFormElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">InteractiveFormElement</a>(obj As IndirectObject)<br><a href="../default.htm">InteractiveFormElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -144,7 +146,27 @@ if (cat.EntryAcroForm.EntryDR.EntryFont == null)
 cat.EntryAcroForm.EntryDR.EntryFont[&quot;TimesRoman&quot;] = new <a href="../../../09-text/1262-fontelement/default.htm">FontElement</a>(times);
 FormElement = cat.EntryAcroForm;
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Doc = inDoc
+Dim cat As New <a href="../../../07-syntax/1081-catalogelement/default.htm">CatalogElement</a>(Doc.ObjectSoup.Catalog)
+If cat.EntryAcroForm Is Nothing Then
+&nbsp;&nbsp;cat.EntryAcroForm = New <a href="../default.htm">InteractiveFormElement</a>(cat, CreationOptions.Indirect)
+&nbsp;&nbsp;cat.EntryAcroForm.EntryFields = New <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>(Of <a href="../../1440-fieldelement/default.htm">FieldElement</a>)(cat)
+Else &#39; convert indirect reference to direct one
+&nbsp;&nbsp;If cat.EntryAcroForm.EntryFields.Ref IsNot Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;cat.EntryAcroForm.EntryFields = cat.EntryAcroForm.EntryFields
+&nbsp;&nbsp;End If
+End If
+&#39; add font for text fields
+Dim times As IndirectObject = Doc.ObjectSoup(Doc.AddFont(&quot;Times-Roman&quot;))
+If cat.EntryAcroForm.EntryDR Is Nothing Then
+&nbsp;&nbsp;cat.EntryAcroForm.EntryDR = New <a href="../../../07-syntax/1091-resourceelement/default.htm">ResourceElement</a>(cat)
+End If
+If cat.EntryAcroForm.EntryDR.EntryFont Is Nothing Then
+&nbsp;&nbsp;cat.EntryAcroForm.EntryDR.EntryFont = New <a href="../../../01-base/0003-dictelement_t_/default.htm">DictElement</a>(Of <a href="../../../09-text/1262-fontelement/default.htm">FontElement</a>)(cat)
+End If
+cat.EntryAcroForm.EntryDR.EntryFont(&quot;TimesRoman&quot;) = New <a href="../../../09-text/1262-fontelement/default.htm">FontElement</a>(times)
+FormElement = cat.EntryAcroForm
+</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

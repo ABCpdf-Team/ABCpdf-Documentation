@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XpsImportOperation Import Function. Imports a portion of an XPS document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="../../../mystyles.css">
@@ -40,7 +40,9 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Import(Doc doc,
-            string path)<BR></CODE></P>
+            string path)<BR></CODE><BR><SPAN
+            class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>Sub Import(doc
+            As Doc, path As String)<BR></CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions"
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw
             Exception()</CODE></P>
@@ -375,7 +377,13 @@ importOp.Import(Server.MapPath("mypics/AdvancedGraphicsExamples.xps"));
 doc.Save(Server.MapPath("xps.pdf"));
 </code></pre>
             </P>
-            <P>
+            <P><SPAN class=language>[Visual Basic]</SPAN>
+            <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim importOp As New MyImportOperation(doc)
+&nbsp;&nbsp;importOp.Import(Server.MapPath("mypics/AdvancedGraphicsExamples.xps"))
+&nbsp;&nbsp;doc.Save(Server.MapPath("xps.pdf"))
+End Using
+</code></pre>
             <P></P>
             <P><SPAN class=language>[C#]</SPAN><BR>
             </P>
@@ -457,7 +465,85 @@ doc.Save(Server.MapPath("xps.pdf"));
 }
 </code></pre>
             </P>
-            <P>
+            <P><SPAN class=language>[Visual Basic]</SPAN>
+            <pre><code class="language-vbnet">Private Class MyImportOperation
+&nbsp;&nbsp;Private _doc As Doc = Nothing
+&nbsp;&nbsp;Private _margin As Double = 10
+&nbsp;&nbsp;Private _pagesAdded As Integer = 0
+
+&nbsp;&nbsp;Public Sub New(doc As Doc)
+&nbsp;&nbsp;&nbsp;&nbsp;_doc = doc
+
+&nbsp;&nbsp;&nbsp;&nbsp;_doc.Transform.Rotate(90, _doc.MediaBox.Left, _doc.MediaBox.Bottom)
+&nbsp;&nbsp;&nbsp;&nbsp;_doc.Transform.Translate(_doc.MediaBox.Width, 0)
+
+&nbsp;&nbsp;&nbsp;&nbsp;Dim theID As Integer = _doc.GetInfoInt(_doc.Root, "Pages")
+&nbsp;&nbsp;&nbsp;&nbsp;_doc.SetInfo(theID, "/Rotate", "90")
+&nbsp;&nbsp;End Sub
+
+&nbsp;&nbsp;Public Sub Import(inPath As String)
+&nbsp;&nbsp;&nbsp;&nbsp;Using op As New XpsImportOperation()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.ProcessingObject += Processing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.ProcessedObject += Processed
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Import(_doc, inPath)
+&nbsp;&nbsp;&nbsp;&nbsp;End Using
+&nbsp;&nbsp;End Sub
+
+&nbsp;&nbsp;Public Sub Processing(sender As Object, e As ProcessingObjectEventArgs)
+&nbsp;&nbsp;&nbsp;&nbsp;If e.Info.SourceType = ProcessingSourceType.Page AndAlso e.Info.PageNumber &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If (e.Info.PageNumber Mod 2) = 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(e.Info.PageNumber),e.Info.PageNumber - 1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If e.Info.PageNumber &gt;= 8 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.PageNumber = Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Tag = e.Info.PageNumber
+&nbsp;&nbsp;&nbsp;&nbsp;ElseIf e.Info.SourceType = ProcessingSourceType.PageContent Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If (_pagesAdded Mod 2) = 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Page = _doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim width As Double = _doc.MediaBox.Height
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim height As Double = _doc.MediaBox.Width
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim scale As Double = Math.Min((width - 4 * _margin) / (2 * e.Info.Width.Value), (height - 2 * _margin) / e.Info.Height.Value)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim rectWidth As Double = scale * e.Info.Width.Value
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim rectHeight As Double = scale * e.Info.Height.Value
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim distanceX As Double = (width - 2 * rectWidth) / 3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim distanceY As Double = (height - rectHeight) / 2
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Rect.SetRect(distanceX + (_pagesAdded Mod 2) * (distanceX + rectWidth), distanceY, rectWidth, rectHeight)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.Handled = True
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(_pagesAdded),_pagesAdded - 1)
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;End Sub
+
+&nbsp;&nbsp;Public Sub Processed(sender As Object, e As ProcessedObjectEventArgs)
+&nbsp;&nbsp;&nbsp;&nbsp;If e.Successful Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pixmap As PixMap = TryCast(e.[Object], PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If pixmap &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pixmap.Compress()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim graphic As GraphicLayer = TryCast(e.[Object], GraphicLayer)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If graphic &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.FrameRect()
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pageNumber As Integer = DirectCast(e.Tag, Integer)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.FontSize = 16
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.TextStyle.HPos = 0.5
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Rect.Top = _doc.Rect.Bottom - _margin
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Rect.Bottom = _doc.MediaBox.Bottom
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.AddText(String.Format("Page {0}", pageNumber))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;End Sub
+End Class
+</code></pre>
             </P>
             <P></P>
             <P><BR><IMG src="../../../images/pdf/xps.pdf.png" class="example-landscape"> <IMG

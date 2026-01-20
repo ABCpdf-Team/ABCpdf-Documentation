@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XHtmlOptions ForChrome Property. An object that provides access to only the HTML options supported by the ABCChrome engine. ABCpdf .NET PDF Library.</TITLE>
 <META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -35,6 +35,9 @@
               </tr>
               <tr valign="top">
                 <td align="left"><span class="language">[C#]</span><br>
+                    <code>IHtmlChromeOptions</code><br>
+                    <br>
+                    <span class="language">[Visual&nbsp;Basic]</span><br>
                     <code>IHtmlChromeOptions</code></td>
                 <td>n/a</td>
                 <td>Yes</td>
@@ -115,7 +118,22 @@ options.AddTags = true;
 
 doc.AddImageUrl("http://www.websupergoo.com");
 doc.Save(Server.MapPath("wsg1.pdf"));
-</code></pre><BR></P></TD>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR>
+<pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.Chrome123
+&nbsp;&nbsp;doc.HtmlOptions.ForChrome.AddLinks = True
+
+&nbsp;&nbsp;' You can store a reference to the filter to reduce code repetition
+&nbsp;&nbsp;Dim options As IHtmlChromeOptions = doc.HtmlOptions.ForChrome
+
+&nbsp;&nbsp;options.UseScript = False
+&nbsp;&nbsp;options.AddTags = True
+
+&nbsp;&nbsp;doc.AddImageUrl("http://www.websupergoo.com")
+&nbsp;&nbsp;doc.Save(Server.MapPath("wsg1.pdf"))
+End Using
+</code></pre></P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
 <P>&nbsp;</P></BODY></HTML>

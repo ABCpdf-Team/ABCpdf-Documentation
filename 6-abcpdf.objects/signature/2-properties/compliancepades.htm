@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head><title>Signature CompliancePades Property. The signature compliance level. ABCpdf .NET PDF Library.</title>
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -32,7 +32,8 @@
                 <td><b>Read Only</b></td>
                 <td><b>Description</b></td></tr>
               <tr valign="top">
-                <td align="left"><span class="language">[C#]</span><br><code>PadesLevel</code></td>
+                <td align="left"><span class="language">[C#]</span><br><code>PadesLevel</code><br>
+                <br><span class="language">[Visual&nbsp;Basic]</span><br><code>PadesLevel</code></td>
                 <td>PadesLevel.None</td>
                 <td>No</td>
                 <td>The signature compliance level.</td></tr></tbody></table>
@@ -101,7 +102,25 @@ foreach (char c in "password".ToCharArray())
 &nbsp;&nbsp;pwd.AppendChar(c);
 sig.Sign(cert, pwd, new Oid(CryptoConfig.MapNameToOID("SHA256")));
 doc.Save(Server.MapPath("SignedDoc.pdf"));
-</code></pre><br><p>&nbsp;</p>
+</code></pre><br><span class="language">[Visual Basic]</span><br>
+                <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("mypics/BlankSignature.pdf"))
+&nbsp;&nbsp;Dim sig As Signature = DirectCast(doc.Form.Fields("Signature1"), Signature)
+&nbsp;&nbsp;sig.Reason = "Final Version"
+&nbsp;&nbsp;sig.Location = "New York"
+&nbsp;&nbsp;sig.TimestampServiceUrl = New Uri("http://timestamp.digicert.com")
+&nbsp;&nbsp;sig.CompliancePades = Signature.PadesLevel.PAdES_B_LTA
+&nbsp;&nbsp;Dim cert As X509Certificate2 = Certificates.GetFromStore()
+&nbsp;&nbsp;' User-defined function
+&nbsp;&nbsp;Dim pwd As New SecureString()
+&nbsp;&nbsp;For Each c As Char In "password".ToCharArray()
+&nbsp;&nbsp;&nbsp;&nbsp;pwd.AppendChar(c)
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;sig.Sign(cert, pwd, New Oid(CryptoConfig.MapNameToOID("SHA256")))
+&nbsp;&nbsp;doc.Save(Server.MapPath("SignedDoc.pdf"))
+End Using
+</code></pre>
+            <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td>

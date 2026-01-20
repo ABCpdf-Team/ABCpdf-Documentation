@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XHtmlOptions HtmlCallback Property. The multicast delegate to be called while HTML rendering is taking place. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -36,7 +36,8 @@
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
                 <TD align=left><SPAN 
-                  class=language>[C#]</SPAN><BR><CODE>HtmlCallback</CODE></TD>
+                  class=language>[C#]</SPAN><BR><CODE>HtmlCallback</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>HtmlCallback</CODE></TD>
                 <TD>null</TD>
                 <TD>No</TD>
                 <TD>The multicast delegate to be called while HTML rendering 
@@ -66,7 +67,9 @@
             <P>The definition of the HtmlCallback multicast delegate is as 
             follows.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">delegate void HtmlCallback(string stage, object page);
-</code></pre><BR><BR></P>
+</code></pre><BR><BR><SPAN 
+            class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language-vbnet">Delegate Sub HtmlCallback(stage As String, page As Object);
+</code></pre></P>
             <P>Current values for the stage variable are 'get width', 'get 
             height' and 'render'. The first occurs prior to finding the natural 
             width of the HTML (the width it can occupy without scrolling). The 
@@ -106,7 +109,24 @@ doc.AddText(theLog.ToString());
 // Save the document
 doc.Save(Server.MapPath("HtmlOptionsCallback.pdf"));
 </code></pre>
-            <BR></P>
+            <BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR>
+<pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theURL As String = "https://photojournal.jpl.nasa.gov/catalog/PIA24312"
+&nbsp;&nbsp;' Set up the callback
+&nbsp;&nbsp;Dim theLog As New StringBuilder()
+&nbsp;&nbsp;doc.HtmlOptions.HtmlCallback = Function(stage As String, page As Object) theLog.AppendLine(stage)
+&nbsp;&nbsp;' Render html page
+&nbsp;&nbsp;doc.AddImageUrl(theURL)
+&nbsp;&nbsp;' Add log over the top of the content
+&nbsp;&nbsp;doc.Rect.Inset(100, 100)
+&nbsp;&nbsp;doc.Color.String = "255 0 0"
+&nbsp;&nbsp;doc.FontSize = 96
+&nbsp;&nbsp;doc.AddText(theLog.ToString())
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsCallback.pdf"))
+End Using
+</code></pre></P>
             <P><IMG
             src="../../../images/pdf/HtmlOptionsCallback.pdf.png" class="example"><BR>HtmlOptionsCallback.pdf</P>
             <P>&nbsp;</P></TD>

@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>eForm Stamp Example</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -52,7 +52,14 @@ doc.Form.NeedAppearances = false; // for PDF 2.0
 doc.Font = doc.AddFont("Helvetica-Bold");
 </code></pre>
         <br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/form.pdf"))
+&nbsp;&nbsp;doc.Form.NeedAppearances = False
+&nbsp;&nbsp;' for PDF 2.0
+&nbsp;&nbsp;doc.Font = doc.AddFont("Helvetica-Bold")
+</code></pre>
+            </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -78,7 +85,13 @@ doc.Form["Year"].Value = "2005";
 doc.Form["State"].Value = "Arizona";
 doc.Form.Stamp();
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Form("Day").Value = "23"
+&nbsp;&nbsp;doc.Form("Month").Value = "February"
+&nbsp;&nbsp;doc.Form("Year").Value = "2005"
+&nbsp;&nbsp;doc.Form("State").Value = "Arizona"
+&nbsp;&nbsp;doc.Form.Stamp()
+</code></pre></p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -99,7 +112,10 @@ doc.Form.Stamp();
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">doc.Save(Server.MapPath("eformstamp.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("eformstamp.pdf"))
+End Using
+</code></pre></p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

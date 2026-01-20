@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements PolylineAnnotationElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,6 +40,8 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">PolylineAnnotationElement</a>()<br> <a href="../default.htm">PolylineAnnotationElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">PolylineAnnotationElement</a>(IndirectObject obj)<br> <a href="../default.htm">PolylineAnnotationElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">PolylineAnnotationElement</a>()<br><a href="../default.htm">PolylineAnnotationElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">PolylineAnnotationElement</a>(obj As IndirectObject)<br><a href="../default.htm">PolylineAnnotationElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -133,7 +135,14 @@ annot.EntryRect = new <a href="../../../07-syntax/0017-rectangleelement/default.
 annot.EntryC = Array.ConvertAll(borderColor.Split(new char[] { &#39; &#39; }), s =&gt; double.Parse(s, NumberFormatInfo.InvariantInfo) / 255);
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">PolylineAnnotationElement</a>(AnnotationElement.Object)
+Dim vertices() As Double = Array.ConvertAll(polygon.Split(New Char() { &quot; &quot;c }), Function(s) Double.Parse(s, NumberFormatInfo.InvariantInfo))
+annot.EntrySubtype = &quot;PolyLine&quot;
+annot.EntryVertices = vertices
+annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(InteractiveForm.GetBoundingRect(vertices)), annot.Host)
+annot.EntryC = Array.ConvertAll(borderColor.Split(New Char() { &quot; &quot;c }), Function(s) Double.Parse(s, NumberFormatInfo.InvariantInfo) / 255)
+<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
+</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

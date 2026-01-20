@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>eForm FDF Example</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -48,7 +48,10 @@
               <pre><code class="language-csharp">using var fdf = new Doc();
 fdf.Read(Server.MapPath("../Rez/form.fdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Dim theFDF As New Doc()
+theFDF.Read(Server.MapPath("../Rez/form.fdf"))
+</code></pre></p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -70,7 +73,10 @@ fdf.Read(Server.MapPath("../Rez/form.fdf"));
               <pre><code class="language-csharp">string theValues = "";
 int lastID = Convert.ToInt32(fdf.GetInfo(0, "Count"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Dim theValues As String = ""
+Dim theLastID As Integer = Convert.ToInt32(theFDF.GetInfo(0, "Count"))
+</code></pre></p>
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>
@@ -112,7 +118,34 @@ for (int i = 0; i &lt;= lastID; i++) {
 &nbsp;&nbsp;}
 }
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">' extract annotation values (for insertion into PDF)
+Dim i As Integer = 0
+While i &lt;= theLastID
+&nbsp;&nbsp;Dim theType As String = theFDF.GetInfo(i, "Type")
+&nbsp;&nbsp;If theType = "anno" Then
+&nbsp;&nbsp;&nbsp;&nbsp;If theFDF.GetInfo(i, "SubType") = "Text" Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim theCont As String
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theCont = theFDF.GetInfo(i, "Contents")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theValues = theValues + theCont + vbCr &amp; vbLf &amp; vbCr &amp; vbLf
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+End While
+' extract field values (for demonstration purposes)
+Dim i As Integer = 0
+While i &lt;= theLastID
+&nbsp;&nbsp;Dim [theN] As Integer = theFDF.GetInfoInt(i, "/FDF*/Fields*:Count")
+&nbsp;&nbsp;Dim j As Integer = 0
+&nbsp;&nbsp;While j &lt; [theN]
+&nbsp;&nbsp;&nbsp;&nbsp;Dim theName As String = theFDF.GetInfo(i, "/FDF*/Fields*[" + j + "]*/T:Text")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' here we would do something with the field value we've found
+&nbsp;&nbsp;&nbsp;&nbsp;Dim theValue As String = theFDF.GetInfo(i, "/FDF*/Fields*[" + j + "]*/V:Text")
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(j),j - 1)
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+End While
+</code></pre></p>
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>
@@ -138,7 +171,15 @@ doc.Rect.Inset(10, 10);
 doc.AddText(theValues);
 doc.Save(Server.MapPath("fdf.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Font = doc.EmbedFont("Arial", LanguageType.Unicode, False, True)
+&nbsp;&nbsp;doc.FontSize = 96
+&nbsp;&nbsp;doc.Rect.Inset(10, 10)
+&nbsp;&nbsp;doc.AddText(theValues)
+&nbsp;&nbsp;doc.Save(Server.MapPath("fdf.pdf"))
+End Using
+</code></pre> </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

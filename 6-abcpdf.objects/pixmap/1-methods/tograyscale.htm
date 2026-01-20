@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>PixMap ToGrayscale Function. Converts the image to grayscale. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -43,6 +43,9 @@
           <td valign="top"> 
             <p><span class="language">[C#]</span><br>
               <code>void ToGrayscale()<br>
+              </code><br>
+              <span class="language">[Visual Basic]</span><br>
+              <code>Sub ToGrayscale()<br>
               </code></p>
             <p>&nbsp;</p>
           </td>
@@ -116,7 +119,19 @@ var im = (ImageLayer)doc.ObjectSoup[i];
 im.PixMap.ToGrayscale();
 doc.Save(Server.MapPath("pixmaptograyscale.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Pin = XRect.Corner.TopLeft
+&nbsp;&nbsp;doc.Rect.Magnify(0.5, 0.5)
+&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/mypic.jpg")
+&nbsp;&nbsp;doc.AddImageFile(thePath, 1)
+&nbsp;&nbsp;doc.Rect.Move(doc.Rect.Width, -doc.Rect.Height)
+&nbsp;&nbsp;Dim i As Integer = doc.AddImageFile(thePath, 1)
+&nbsp;&nbsp;Dim im As ImageLayer = DirectCast(doc.ObjectSoup(i), ImageLayer)
+&nbsp;&nbsp;im.PixMap.ToGrayscale()
+&nbsp;&nbsp;doc.Save(Server.MapPath("pixmaptograyscale.pdf"))
+End Using
+</code></pre></p>
             <p><img src="../../../images/pdf/pixmaptograyscale.pdf.png" class="example"><br>
               pixmaptograyscale.pdf</p>
             <p>&nbsp;</p>

@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>XTextStyle Kerning Property. The kerning method. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,6 +35,9 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
+                  <code>KerningType</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code>KerningType</code></td>
                 <td>Default</td>
                 <td>No</td>
@@ -92,7 +95,22 @@ doc.Page = doc.AddPage();
 doc.AddTextStyled(text.Replace(" ~", "&lt;leader&gt;.&lt;/leader&gt;"));
 doc.Save(Server.MapPath("TableOfContentsWithLeaders.pdf"));
 </code></pre><br>
-              </p>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Dim text As String = File.ReadAllText(Server.MapPath("tableofcontents.txt"))
+text = text.Replace(vbCr, "&lt;br&gt;")
+' make our carriage returns into breaks
+text = text.Replace(" ", vbTab &amp; vbTab &amp; " ")
+' make our indent at start of line into nbsp
+Using doc As New Doc()
+&nbsp;&nbsp;doc.TextStyle.Size = 36
+&nbsp;&nbsp;doc.TextStyle.Kerning = XTextStyle.KerningType.None
+&nbsp;&nbsp;doc.Rect.Inset(10, 10)
+&nbsp;&nbsp;doc.Page = doc.AddPage()
+&nbsp;&nbsp;doc.AddTextStyled(text.Replace(" ~", "&lt;leader&gt;.&lt;/leader&gt;"))
+&nbsp;&nbsp;doc.Save(Server.MapPath("TableOfContentsWithLeaders.pdf"))
+End Using
+</code></pre>
+        </p>
               <p>Using the following input text.</p>
               <p><code width="100%" height="100%">Chapter 1: Getting Started ~1<br>
                 Introduction ~2<br>

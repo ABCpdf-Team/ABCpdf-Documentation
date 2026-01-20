@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head><title>Signature Sign Function. Sign the digital signature using a private key and password. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -209,7 +209,15 @@ theSig.Location = "Washington";
 theSig.Reason = "Schedule Agreed";
 theSig.Sign(Server.MapPath("../Rez/JohnSmith.pfx"), "1234");
 doc.Save(Server.MapPath("Signed.pdf"));
-</code></pre><br></p>
+</code></pre><br><span class="language">[Visual Basic]</span><br><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/Authorization.pdf"))
+&nbsp;&nbsp;Dim theSig As Signature = DirectCast(doc.Form("Signature"), Signature)
+&nbsp;&nbsp;theSig.Location = "Washington"
+&nbsp;&nbsp;theSig.Reason = "Schedule Agreed"
+&nbsp;&nbsp;theSig.Sign(Server.MapPath("../Rez/JohnSmith.pfx"), "1234")
+&nbsp;&nbsp;doc.Save(Server.MapPath("Signed.pdf"))
+End Using
+</code></pre></p>
             <p>Also see example code in: <a href="addltv.htm">Signature AddLTV Function</a>, <a href="../2-properties/compliancepades.htm">Signature CompliancePades Property</a>, <a href="../2-properties/customsigner.htm">Signature CustomSigner Property</a>, <a href="../2-properties/customsigner2.htm">Signature CustomSigner2 Property</a>.</p>
             <p>&nbsp;</p></td>
           <td width="60">&nbsp;</td>

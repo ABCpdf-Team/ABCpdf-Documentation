@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>Doc Root Property. The root catalog object. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code></td>
+                  <code>int</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Integer</code></td>
                 <td>0</td>
                 <td>Yes</td>
                 <td>The root catalog object.</td>
@@ -93,7 +96,20 @@ Response.Write($"Names {names}&amp;lt;br&amp;gt;");
 Response.Write($"Pages ID {pages}&amp;lt;br&amp;gt;");
 Response.Write($"Outlines ID {outlines}&amp;lt;br&amp;gt;");
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/mydoc.pdf"))
+&nbsp;&nbsp;Dim theVers As String, theNames As String, thePages As String, theOutlines As String
+&nbsp;&nbsp;theVers = doc.GetInfo(doc.Root, "Version")
+&nbsp;&nbsp;theNames = doc.GetInfo(doc.Root, "/Names")
+&nbsp;&nbsp;thePages = doc.GetInfo(doc.Root, "pages")
+&nbsp;&nbsp;theOutlines = doc.GetInfo(doc.Root, "outlines")
+&nbsp;&nbsp;Response.Write($"Version {theVers}&amp;lt;br&amp;gt;")
+&nbsp;&nbsp;Response.Write($"Names {theNames}&amp;lt;br&amp;gt;")
+&nbsp;&nbsp;Response.Write($"Pages ID {thePages}&amp;lt;br&amp;gt;")
+&nbsp;&nbsp;Response.Write($"Outlines ID {theOutlines}&amp;lt;br&amp;gt;")
+End Using
+</code></pre></p>
             <p>This might result in the following output.</p>
             <p><samp>Version /1.4<br>
               Names 12 0 R<br>

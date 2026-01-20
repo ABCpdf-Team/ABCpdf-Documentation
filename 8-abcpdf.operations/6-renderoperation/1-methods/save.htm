@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>RenderOperation Save Function. Renders and saves a page. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -208,7 +208,38 @@ while (pageNum &lt;= pageCount) {
 }
 </code></pre>
             </P>
-            <P>
+            <P><SPAN class=language>[Visual Basic]</SPAN>
+            <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("spaceshuttle.pdf"))
+&nbsp;&nbsp;Dim theExts As String() = {".jpg", ".tif"}
+&nbsp;&nbsp;Dim theDpis As Integer() = {150, 300}
+&nbsp;&nbsp;Dim threadList As Thread() = New Thread(9) {}
+&nbsp;&nbsp;Dim pageNum As Integer = 1, pageCount As Integer = doc.PageCount
+&nbsp;&nbsp;While pageNum &lt;= pageCount
+&nbsp;&nbsp;&nbsp;&nbsp;Dim count As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While count &lt; threadList.Length AndAlso pageNum &lt;= pageCount
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.DotsPerInch = theDpis((pageNum - 1) Mod 2)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = pageNum
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim path As String = Server.MapPath($"ABCpdf{pageNum}{theExts[(pageNum - 1) % 2]}")
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threadList(count) = New Thread(New RenderingWorker(doc, path).DoWork)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(count)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(pageNum)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; count
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threadList(i).Start()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; count
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threadList(i).Join()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;End While
+End Using
+</code></pre>
             <P>            
             
             </P>
@@ -229,7 +260,22 @@ while (pageNum &lt;= pageCount) {
 }
 </code></pre>
             </P>
-            <P>
+            <P><SPAN class=language>[Visual Basic]</SPAN>
+            <pre><code class="language-vbnet">Private Class RenderingWorker
+&nbsp;&nbsp;Private mPath As String
+&nbsp;&nbsp;Private mOp As RenderOperation
+
+&nbsp;&nbsp;Public Sub New(inDoc As Doc, inPath As String)
+&nbsp;&nbsp;&nbsp;&nbsp;mPath = inPath
+&nbsp;&nbsp;&nbsp;&nbsp;mOp = New RenderOperation(inDoc)
+&nbsp;&nbsp;End Sub
+
+&nbsp;&nbsp;Public Sub DoWork()
+&nbsp;&nbsp;&nbsp;&nbsp;mOp.Save(mPath)
+&nbsp;&nbsp;&nbsp;&nbsp;mOp.Dispose()
+&nbsp;&nbsp;End Sub
+End Class
+</code></pre>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

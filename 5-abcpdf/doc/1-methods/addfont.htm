@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddFont Function. Adds a font reference to the document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -43,7 +43,11 @@
 int AddFont(string name, LanguageType language)<BR>
 int AddFont(string name, LanguageType language, bool vertical)
 </code></pre><br>
-            </p>
+            <span class="language">[Visual Basic]</span><br>
+            <pre><code class="language-vbnet">Function AddFont(name As String) As Integer <BR>
+Function AddFont(name As String, language As LanguageType) As Integer <BR>
+Function AddFont(name As String, language As LanguageType, vertical As Boolean) As Integer
+</code></pre></p>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -154,7 +158,9 @@ int AddFont(string name, LanguageType language, bool vertical)
                     <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.Font = theDoc.AddFont("Courier");
 </code></pre><br>
-</p>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.Font = theDoc.AddFont("Courier")
+</code></pre></p>
             <P>If the specified font could not be found then you will get an 
             Object ID of zero returned. You may wish to check for this 
             possibility otherwise a default font will be used.</P>
@@ -187,7 +193,18 @@ font = "Helvetica-Bold";
 doc.Font = doc.AddFont(font);
 doc.AddText(font);
 doc.Save(Server.MapPath("docaddfont.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 48
+&nbsp;&nbsp;Dim theFont As String = "Times-Roman "
+&nbsp;&nbsp;doc.Font = doc.AddFont(theFont)
+&nbsp;&nbsp;doc.AddText(theFont)
+&nbsp;&nbsp;theFont = "Helvetica-Bold"
+&nbsp;&nbsp;doc.Font = doc.AddFont(theFont)
+&nbsp;&nbsp;doc.AddText(theFont)
+&nbsp;&nbsp;doc.Save(Server.MapPath("docaddfont.pdf"))
+End Using
+</code></pre></P>
             <P><IMG src="../../../images/pdf/docaddfont.pdf.png" 
             class="example"><BR>docaddfont.pdf </P></TD>
           <TD width=60>&nbsp;</TD>

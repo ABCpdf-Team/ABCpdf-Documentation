@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements TextAnnotationElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,6 +40,8 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">TextAnnotationElement</a>()<br> <a href="../default.htm">TextAnnotationElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">TextAnnotationElement</a>(IndirectObject obj)<br> <a href="../default.htm">TextAnnotationElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">TextAnnotationElement</a>()<br><a href="../default.htm">TextAnnotationElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">TextAnnotationElement</a>(obj As IndirectObject)<br><a href="../default.htm">TextAnnotationElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -136,7 +138,17 @@ if (!string.IsNullOrEmpty(rect2)) {
 }
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">TextAnnotationElement</a>(AnnotationElement.Object)
+annot.EntrySubtype = &quot;Text&quot;
+annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect1)), annot.Host)
+annot.EntryName = &quot;Comment&quot;
+annot.EntryContents = contents
+If Not String.IsNullOrEmpty(rect2) Then
+&nbsp;&nbsp;Dim popup As New PopupAnnotation(form, rect2, AnnotationElement.Object.ID)
+&nbsp;&nbsp;annot.EntryPopup = CType(popup.AnnotationElement, <a href="../../1414-popupannotationelement/default.htm">PopUpAnnotationElement</a>)
+End If
+<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
+</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

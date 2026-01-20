@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>XTextStyle Outline Property. The width of character outlining. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>double</code></td>
+                  <code>double</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Double</code></td>
                 <td>0</td>
                 <td>No</td>
                 <td>The width of character outlining.</td>
@@ -90,7 +93,19 @@ doc.TextStyle.Outline = 10;
 doc.AddText("Outline 10");
 doc.Save(Server.MapPath("styleoutline.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.TextStyle.Size = 144
+&nbsp;&nbsp;doc.AddText("Outline 0")
+&nbsp;&nbsp;doc.Rect.Move(0, -300)
+&nbsp;&nbsp;doc.TextStyle.Outline = 4
+&nbsp;&nbsp;doc.AddText("Outline 4")
+&nbsp;&nbsp;doc.Rect.Move(0, -300)
+&nbsp;&nbsp;doc.TextStyle.Outline = 10
+&nbsp;&nbsp;doc.AddText("Outline 10")
+&nbsp;&nbsp;doc.Save(Server.MapPath("styleoutline.pdf"))
+End Using
+</code></pre></p>
             <p><img src="../../../images/pdf/styleoutline.pdf.png" class="example"><br>
               styleoutline.pdf </p>
             <p>&nbsp;</p>

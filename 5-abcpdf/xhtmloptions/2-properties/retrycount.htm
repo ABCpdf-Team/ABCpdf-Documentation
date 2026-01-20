@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>XHtmlOptions RetryCount Property. The number of times a page should be retried if unavailable or invalid. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code></td>
+                  <code>int</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Integer</code></td>
                 <td>5</td>
                 <td>No</td>
                 <td>The number of times a page should be retried if unavailable 
@@ -103,7 +106,25 @@ catch {
 // Save the document
 doc.Save(Server.MapPath("HtmlOptionsRetryCount.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theURL As String = "https://photojournal.jpl.nasa.gov/catalog/PIA24312"
+&nbsp;&nbsp;' Set minimum number of items a page of HTML should contain.
+&nbsp;&nbsp;' Otherwise the page will be assumed to be invalid.
+&nbsp;&nbsp;doc.HtmlOptions.ContentCount = 20
+&nbsp;&nbsp;' Try to obtain html page up to 11 times
+&nbsp;&nbsp;doc.HtmlOptions.RetryCount = 10
+&nbsp;&nbsp;' The page must be obtained in less then 10 seconds
+&nbsp;&nbsp;doc.HtmlOptions.Timeout = 10000
+&nbsp;&nbsp;Try
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddImageUrl(theURL)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Page couldn't be loaded
+&nbsp;&nbsp;Catch
+&nbsp;&nbsp;End Try
+&nbsp;&nbsp;' Save the document
+&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsRetryCount.pdf"))
+End Using
+</code></pre></p>
             <p><img src="../../../images/pdf/HtmlOptionsRetryCount.pdf.png" class="example"><br>
               HtmlOptionsRetryCount.pdf</p>
             <p>&nbsp;</p>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XTextStyle WordSpacing Property. The inter-word spacing. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -36,7 +36,8 @@
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
                 <TD align=left><SPAN 
-                  class=language>[C#]</SPAN><BR><CODE>double</CODE></TD>
+                  class=language>[C#]</SPAN><BR><CODE>double</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>Double</CODE></TD>
                 <TD>0.0</TD>
                 <TD>No</TD>
                 <TD>The inter-word spacing.</TD></TR></TBODY></TABLE>
@@ -88,7 +89,20 @@ doc.Rect.Move(0, -300);
 doc.TextStyle.WordSpacing = -20;
 doc.AddText(text);
 doc.Save(Server.MapPath("stylewspace.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theText As String = "This is an example of word spacing."
+&nbsp;&nbsp;doc.TextStyle.Size = 72
+&nbsp;&nbsp;doc.AddText(theText)
+&nbsp;&nbsp;doc.Rect.Move(0, -300)
+&nbsp;&nbsp;doc.TextStyle.WordSpacing = 20
+&nbsp;&nbsp;doc.AddText(theText)
+&nbsp;&nbsp;doc.Rect.Move(0, -300)
+&nbsp;&nbsp;doc.TextStyle.WordSpacing = -20
+&nbsp;&nbsp;doc.AddText(theText)
+&nbsp;&nbsp;doc.Save(Server.MapPath("stylewspace.pdf"))
+End Using
+</code></pre></P>
             <P><IMG src="../../../images/pdf/stylewspace.pdf.png" 
             class="example"><BR>stylewspace.pdf </P>
             <P>&nbsp;</P></TD>

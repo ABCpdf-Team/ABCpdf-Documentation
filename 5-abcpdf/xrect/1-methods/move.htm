@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XRect Move Function. Translate the rectangle. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -100,7 +100,14 @@ Response.Write($"Rect = {rc}");
 rc.Move(50, 50);
 Response.Write("&amp;lt;br&amp;gt;");
 Response.Write($"Move = {rc}");
-</code></pre><BR></P>
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">Dim rc As New XRect()
+rc.String = "20 20 220 120"
+Response.Write($"Rect = {rc}")
+rc.Move(50, 50)
+Response.Write("&amp;lt;br&amp;gt;")
+Response.Write($"Move = {rc}")
+</code></pre></P>
             <P>Produces the following output. </P>
             <P><SAMP>Rect = 20 20 220 120<BR>Move = 70 70 270 170</SAMP> 
             <P>&nbsp;</P><p>Also see example code in: <a href="../../doc/1-methods/addcolorspacespot.htm">Doc AddColorSpaceSpot Function</a>, <a href="../../xcolor/2-properties/alpha.htm">XColor Alpha Property</a>, <a href="../../xrendering/2-properties/antialiastext.htm">XRendering AntiAliasText Property</a>, <a href="../../xtextstyle/2-properties/charspacing.htm">XTextStyle CharSpacing Property</a>, <a href="../../xtextstyle/2-properties/hpos.htm">XTextStyle HPos Property</a>, <a href="../../xtextstyle/2-properties/justification.htm">XTextStyle Justification Property</a>, <a href="../../xtextstyle/2-properties/leftmargin.htm">XTextStyle LeftMargin Property</a>, <a href="../../xtextstyle/2-properties/linespacing.htm">XTextStyle LineSpacing Property</a>, <a href="../../xtextstyle/2-properties/outline.htm">XTextStyle Outline Property</a>, <a href="../../xtextstyle/2-properties/paraspacing.htm">XTextStyle ParaSpacing Property</a>, <a href="../../xtextstyle/2-properties/vpos.htm">XTextStyle VPos Property</a>, <a href="../../xtextstyle/2-properties/wordspacing.htm">XTextStyle WordSpacing Property</a>, <a href="../../xtransform/1-methods/magnify.htm">XTransform Magnify Function</a>, <a href="../../../6-abcpdf.objects/page/1-methods/getbitmap.htm">Page GetBitmap Function</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/setalpha.htm">PixMap SetAlpha Function</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/tograyscale.htm">PixMap ToGrayscale Function</a>.</p>

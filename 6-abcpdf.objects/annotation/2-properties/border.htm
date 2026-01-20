@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>Annotation Border Property. The border appearance. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,6 +35,9 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
+                  <code>ArrayAtom</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code>ArrayAtom</code></td>
                 <td>n/a</td>
                 <td>No</td>
@@ -66,7 +69,9 @@
             <p><span class="language">[C#]</span><br>
                 <pre><code class="language-csharp">annot.Border = (ArrayAtom)Atom.FromString(&quot;[0 0 1&quot;);<!--notcode-->
 </code></pre><br>
-                </p>
+                <span class="language">[Visual Basic]</span><br>
+                <pre><code class="language-vbnet">annot.Border = DirectCast(Atom.FromString(&quot;[0 0 1]&quot;), ArrayAtom)
+</code></pre></p>
             <p>After changing this property you will need to call <a href="../1-methods/updateappearance.htm">UpdateAppearance</a> to realize the change. </p>
             <p>&nbsp;</p>
             </td>

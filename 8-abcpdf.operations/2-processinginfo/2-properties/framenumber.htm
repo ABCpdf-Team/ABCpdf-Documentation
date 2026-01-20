@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>ProcessingInfo FrameNumber Property. Gets or sets the frame number of the source frame being/to be processed. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -36,7 +36,8 @@
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
                 <TD align=left><SPAN 
-                  class=language>[C#]</SPAN><BR><CODE>long?</CODE></TD>
+                  class=language>[C#]</SPAN><BR><CODE>long?</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>Nullable(Of&nbsp;Long)</CODE></TD>
                 <TD>n/a</TD>
                 <TD>No</TD>
                 <TD>Gets or sets the frame number of the source frame being/to 
@@ -92,7 +93,20 @@ using (var operation = new SwfImportOperation()) {
 &nbsp;&nbsp;operation.Import(Server.MapPath("ABCpdf.swf"));
 }
 doc.Save(Server.MapPath("swf.pdf"));
-</code></pre><BR></P><p>Also see example code in: <a href="../../5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>.</p>
+</code></pre><BR><SPAN
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Using operation As New SwfImportOperation()
+&nbsp;&nbsp;&nbsp;&nbsp;operation.Doc = doc
+&nbsp;&nbsp;&nbsp;&nbsp;operation.ContentAlign = ContentAlign.Top
+&nbsp;&nbsp;&nbsp;&nbsp;operation.ContentScaleMode = ContentScaleMode.ShowAll
+&nbsp;&nbsp;&nbsp;&nbsp;operation.ProcessingObject += Sub(sender As Object, e As ProcessingObjectEventArgs) If e.Info.SourceType = ProcessingSourceType.MultiFrameImage AndAlso e.Info.FrameNumber.HasValue Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber = 1 + DirectCast(e.Info.FrameRate.Value * 3.5, Long)
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;operation.Import(Server.MapPath("ABCpdf.swf"))
+&nbsp;&nbsp;End Using
+&nbsp;&nbsp;doc.Save(Server.MapPath("swf.pdf"))
+End Using
+</code></pre></P><p>Also see example code in: <a href="../../5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>.</p>
             </TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

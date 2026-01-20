@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>XImage Selection Property. The current selection rectangle. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,6 +35,9 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
+                  <code><a href="../../xrect/default.htm">XRect</a></code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code><a href="../../xrect/default.htm">XRect</a></code></td>
                 <td>The dimensions of the current frame.</td>
                 <td>No</td>
@@ -92,7 +95,22 @@ doc.Rect.Position(170, 400);
 doc.AddImageObject(img, false);
 doc.Save(Server.MapPath("imageselect.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Dim theImg As New XImage()
+Dim doc As New Doc()
+theImg.SetFile(Server.MapPath("../mypics/mypic.jpg"))
+doc.Rect.String = theImg.Selection.[String]
+doc.Rect.Magnify(0.5, 0.5)
+doc.Rect.Position(100, 30)
+doc.AddImageObject(theImg, False)
+theImg.Selection.Inset(100, 200)
+doc.Rect.String = theImg.Selection.[String]
+doc.Rect.Position(170, 400)
+doc.AddImageObject(theImg, False)
+theImg.Clear()
+doc.Save(Server.MapPath("imageselect.pdf"))
+doc.Clear()
+</code></pre></p>
             <p><img src="../../../images/pdf/imageselect.pdf.png" class="example"><br>
               imageselect.pdf</p>
             <p>&nbsp;</p>

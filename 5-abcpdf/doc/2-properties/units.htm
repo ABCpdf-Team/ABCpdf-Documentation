@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc Units Property. The current measurement units. ABCpdf .NET PDF Library.</TITLE>
 <META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -37,6 +37,8 @@
               <TR vAlign=top>
                 <TD align=left><SPAN 
                   class=language>[C#]</SPAN><BR>
+                <CODE>UnitType</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR>
                 <CODE>UnitType</CODE></TD>
                 <TD>UnitType.Points</TD>
                 <TD>No</TD>
@@ -84,23 +86,31 @@
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.Units = &quot;mm&quot;;
 </code></pre><br>
-</p>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.Units = &quot;mm&quot;
+</code></pre></p>
                     <p>In Version 8 the Units property has been changed to a true enumeration. This is a safer way of coding as it allows the compiler to ensure that the values you are using are valid. Your new code should look like this.</p>
                     <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.Units = UnitType.Mm;
 </code></pre><br>
-</p>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">theDoc.Units = UnitType.Mm
+</code></pre></p>
                     <p>The names of the items in the UnitType enumeration are the same as the values of the strings used in previous versions. So changing your code should be a simple search and replace operation.</p>
                     <p>Alternatively if you need to convert between enumerations and strings automatically you can do so. To convert from a string to an enumeration use the following code.</p>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">UnitType unitType = (UnitType)Enum.Parse(typeof(UnitType), unitString, true);
 </code></pre><br>
-</p>
+<span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">Dim unitType As UnitType = CType([Enum].Parse(GetType(UnitType), unitString, True), UnitType)
+</code></pre></p>
                     <p>To convert from an enumeration to a string use the following code.</p>
     <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">string unitString = unitType.ToString(&quot;G&quot;);
 </code></pre><br>
-    </p>
+    <span class="language">[Visual Basic]</span><br>
+<pre><code class="language-vbnet">Dim unitString As String = unitType.ToString(&quot;G&quot;)
+</code></pre></p>
                     </td>
                 </tr>
               </tbody>

@@ -1,4 +1,4 @@
-ï»¿<html>
+<html>
 <head>
 <title>XTextStyle Underline Property. Whether to underline text. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code></td>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
                 <td>false</td>
                 <td>No</td>
                 <td>Whether to underline text.</td>
@@ -83,10 +86,19 @@ doc.TextStyle.Underline = true;
 doc.AddText(text);
 doc.Save(Server.MapPath("styleunderline.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur."
+&nbsp;&nbsp;doc.Rect.Inset(20, 40)
+&nbsp;&nbsp;doc.TextStyle.Size = 96
+&nbsp;&nbsp;doc.TextStyle.Underline = True
+&nbsp;&nbsp;doc.AddText(theText)
+&nbsp;&nbsp;doc.Save(Server.MapPath("styleunderline.pdf"))
+End Using
+</code></pre></p>
             <p><img src="../../../images/pdf/styleunderline.pdf.png" class="example"><br>
               styleunderline.pdf </p>
-            <p>Also see example code in: <a href="../../xtransform/2-properties/angleunit.htm">XTransform AngleUnitï¿½Property</a>.</p>
+            <p>Also see example code in: <a href="../../xtransform/2-properties/angleunit.htm">XTransform AngleUnit Property</a>.</p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

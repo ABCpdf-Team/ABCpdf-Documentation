@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>XRendering AntiAliasImages Property. Whether to anti-alias images. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code></td>
+                  <code>bool</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>Boolean</code></td>
                 <td>true</td>
                 <td>No</td>
                 <td>Whether to anti-alias images.</td>
@@ -91,7 +94,18 @@ doc.Rendering.AntiAliasImages = false;
 // Save the image
 doc.Rendering.Save(Server.MapPath("RenderingAntiAliasImagesFalse.png"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/HyperX.pdf"))
+&nbsp;&nbsp;doc.Rect.Inset(200, 200)
+&nbsp;&nbsp;' Render document with AntiAliasImages = true (default)
+&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingAntiAliasImagesTrue.png"))
+&nbsp;&nbsp;' Render document with AntiAliasImages = false
+&nbsp;&nbsp;doc.Rendering.AntiAliasImages = False
+&nbsp;&nbsp;' Save the image
+&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingAntiAliasImagesFalse.png"))
+End Using
+</code></pre></p>
             <p><img src="../../../images/pdf/RenderingAntiAliasImagesTrue.png" class="example-landscape"><br>
               RenderingAntiAliasImagesTrue.png</p>
             <p><img src="../../../images/pdf/RenderingAntiAliasImagesFalse.png" class="example-landscape"><br>

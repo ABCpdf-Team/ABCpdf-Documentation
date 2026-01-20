@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddTextStyled Function. Adds a block of multi-styled text to the current page. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -142,7 +142,13 @@ Example</A>.</P>
 doc.FontSize = 72;
 doc.AddTextStyled("&lt;b&gt;Gallia&lt;/b&gt; est omnis divisa in partes tres, quarum unam incolunt &lt;b&gt;Belgae&lt;/b&gt;, aliam &lt;b&gt;Aquitani&lt;/b&gt;, tertiam qui ipsorum lingua &lt;b&gt;Celtae&lt;/b&gt;, nostra &lt;b&gt;Galli&lt;/b&gt; appellantur.");
 doc.Save(Server.MapPath("docaddhtml.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.FontSize = 72
+&nbsp;&nbsp;doc.AddTextStyled("&lt;b&gt;Gallia&lt;/b&gt; est omnis divisa in partes tres, quarum unam incolunt &lt;b&gt;Belgae&lt;/b&gt;, aliam &lt;b&gt;Aquitani&lt;/b&gt;, tertiam qui ipsorum lingua &lt;b&gt;Celtae&lt;/b&gt;, nostra &lt;b&gt;Galli&lt;/b&gt; appellantur.")
+&nbsp;&nbsp;doc.Save(Server.MapPath("docaddhtml.pdf"))
+End Using
+</code></pre></P>
             <P><IMG src="../../../images/pdf/docaddhtml.pdf.png" 
             class="example"><BR>docaddhtml.pdf </P><p>Also see example code in: <a href="../../../4-examples/03-multistyled.htm">ABCpdf Multistyle Example</a>, <a href="../../xtextstyle/2-properties/kerning.htm">XTextStyle Kerning Property</a>.</p>
             </TD>

@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>XRect String Property. The rect as a string. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>string</code></td>
+                  <code>string</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>String</code></td>
                 <td>&quot;0 0 0 0&quot;</td>
                 <td>No</td>
                 <td>The rect as a string.</td>
@@ -162,7 +165,13 @@ Response.Write($"Width = {rc.Width}");
 Response.Write("&amp;lt;br&amp;gt;");
 Response.Write($"Height = {rc.Height}");
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Dim rc As New XRect()
+rc.String = "10 10 200 100"
+Response.Write($"Width = {rc.Width}")
+Response.Write("&amp;lt;br&amp;gt;")
+Response.Write($"Height = {rc.Height}")
+</code></pre></p>
             <p>Produces the following output. </p>
             <p><samp>Width = 190<br>
               Height = 90 </samp> 

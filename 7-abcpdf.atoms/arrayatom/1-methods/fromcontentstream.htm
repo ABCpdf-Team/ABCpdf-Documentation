@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>ArrayAtom FromContentStream Function. Create an array of Atoms from a byte array containing a sequence of PDF objects. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -169,7 +169,76 @@ using (var doc = new Doc()) {
 &nbsp;&nbsp;doc.Save(Server.MapPath("PageContents.pdf"));
 }
 </code></pre><br>
-              </P>
+              <span class=language>[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Dim sb As New StringBuilder()
+Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("spaceshuttle.pdf"))
+&nbsp;&nbsp;Dim page As Page = TryCast(doc.ObjectSoup(doc.Page), Page)
+&nbsp;&nbsp;Dim array As ArrayAtom = ArrayAtom.FromContentStream(page.GetContentData())
+&nbsp;&nbsp;Dim indent As Integer = 0
+&nbsp;&nbsp;Dim indentPlus As New HashSet(Of String)(New String() {"q", "BT"})
+&nbsp;&nbsp;Dim indentMinus As New HashSet(Of String)(New String() {"Q", "ET"})
+&nbsp;&nbsp;Dim items As IList(Of Tuple(Of String, Integer)) = OpAtom.Find(array)
+&nbsp;&nbsp;Dim index As Integer = 0
+&nbsp;&nbsp;For Each pair As var In items
+&nbsp;&nbsp;&nbsp;&nbsp;Dim op As String = DirectCast(array(pair.Item2), OpAtom).Text
+&nbsp;&nbsp;&nbsp;&nbsp;' add indent to code
+&nbsp;&nbsp;&nbsp;&nbsp;If indentMinus.Contains(op) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Decrement(indent),indent + 1)
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; indent
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(" ")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;&nbsp;&nbsp;' write out the operators
+&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = index
+&nbsp;&nbsp;&nbsp;&nbsp;While i &lt;= pair.Item2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i &lt;&gt; index Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(" ")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim item As Atom = array(i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' we write arrays out individually so that
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' we can override default cr lf behavior
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim itemArray As ArrayAtom = TryCast(item, ArrayAtom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If itemArray &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim n As Integer = itemArray.Count
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append("[")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim j As Integer = 0
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While j &lt; n
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(itemArray(j).ToString())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If j &lt;&gt; n - 1 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(" ")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(j),j - 1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append("]")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(item.ToString())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;&nbsp;&nbsp;End While
+&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine()
+&nbsp;&nbsp;&nbsp;&nbsp;If indentPlus.Contains(op) Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(indent),indent - 1)
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;index = pair.Item2 + 1
+&nbsp;&nbsp;Next
+&nbsp;&nbsp;' write out any atoms that are left over
+&nbsp;&nbsp;Dim i As Integer = index
+&nbsp;&nbsp;While i &lt; array.Count
+&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(" ")
+&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(array(i).ToString())
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+End Using
+Using doc As New Doc()
+&nbsp;&nbsp;doc.Font = doc.AddFont("Courier")
+&nbsp;&nbsp;doc.Rect.Inset(20, 20)
+&nbsp;&nbsp;doc.AddText(sb.ToString())
+&nbsp;&nbsp;doc.Save(Server.MapPath("PageContents.pdf"))
+End Using
+</code></pre></P>
             <p><img src="../../../images/pdf/pagecontents.pdf.png" class="example"><BR>
               PageContents.pdf</p>
             </TD>

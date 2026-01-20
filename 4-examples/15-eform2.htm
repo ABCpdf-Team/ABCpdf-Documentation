@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>eForm Placeholder Example</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -23,7 +23,16 @@ doc.Font = doc.AddFont("Helvetica-Bold");
 doc.FontSize = 16;
 doc.Rect.Pin = XRect.Corner.TopLeft;
 </code></pre>
-<br> </p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
+<br> <span class="language">[Visual Basic]</span><br> 
+<pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/form.pdf"))
+&nbsp;&nbsp;doc.Form.NeedAppearances = False
+&nbsp;&nbsp;' for PDF 2.0
+&nbsp;&nbsp;doc.Font = doc.AddFont("Helvetica-Bold")
+&nbsp;&nbsp;doc.FontSize = 16
+&nbsp;&nbsp;doc.Rect.Pin = XRect.Corner.TopLeft
+</code></pre>
+</p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
 </table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br> 
 Add</td><td width="14">&nbsp;</td><td valign="top"> <table border="0" width="100%" cellpadding="0" cellspacing="0"> 
 <tr> <td> <p>We iterate through each of the fields. For each field we focus on 
@@ -39,11 +48,24 @@ foreach (string name in names) {
 &nbsp;&nbsp;doc.AddText(theField.Name);
 &nbsp;&nbsp;doc.Delete(theField.ID);
 }
-</code></pre><br> </p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
+</code></pre><br> <span class="language">[Visual Basic]</span><br> <pre><code class="language-vbnet">&nbsp;&nbsp;Dim theNames As String() = doc.Form.GetFieldNames()
+&nbsp;&nbsp;For Each theName As String In theNames
+&nbsp;&nbsp;&nbsp;&nbsp;Dim theField As Field = doc.Form(theName)
+&nbsp;&nbsp;&nbsp;&nbsp;theField.Focus()
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = "240 240 255"
+&nbsp;&nbsp;&nbsp;&nbsp;doc.FillRect()
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Height = 16
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = "220 0 0"
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(theField.Name)
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Delete(theField.ID)
+&nbsp;&nbsp;Next
+</code></pre> </p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
 </table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br> 
 Save</td><td width="14">&nbsp;</td><td valign="top"> <table border="0" width="100%" cellpadding="0" cellspacing="0"> 
 <tr> <td> <p>Finally we save. </p><p><span class="language">[C#]</span><br> <pre><code class="language-csharp">doc.Save(Server.MapPath("eform.pdf"));
-</code></pre><br> </p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
+</code></pre><br> <span class="language">[Visual Basic]</span><br> <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("eform.pdf"))
+End Using
+</code></pre></p><p>&nbsp;</p></td><td width="60">&nbsp;</td><td width="11">&nbsp;</td></tr> 
 </table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br> 
 Results</td><td width="14">&nbsp;</td><td valign="top"> <table border="0" width="100%" cellpadding="0" cellspacing="0"> 
 <tr> <td> <p>Given the following document.</p><p><img src="../images/pdf/form.pdf.png" class="example"><br> 

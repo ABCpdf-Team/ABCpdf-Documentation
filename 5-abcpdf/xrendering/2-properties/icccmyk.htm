@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>XRendering IccCmyk Property. The path to the default CMYK ICC color profile. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>string</code></td>
+                  <code>string</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>String</code></td>
                 <td>&quot;standard&quot;</td>
                 <td>No</td>
                 <td>The path to the default CMYK ICC color profile.</td>
@@ -111,7 +114,21 @@ doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Rgb;
 // Save the image
 doc.Rendering.Save(Server.MapPath("RenderingIccCmyk.png"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Inset(20, 40)
+&nbsp;&nbsp;doc.FontSize = 96
+&nbsp;&nbsp;' Add CMYK Content
+&nbsp;&nbsp;doc.Color.String = "200 20 20 20"
+&nbsp;&nbsp;doc.AddText("Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur.")
+&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.[String]
+&nbsp;&nbsp;doc.Rendering.DotsPerInch = 36
+&nbsp;&nbsp;doc.Rendering.IccCmyk = Server.MapPath("../mypics/cmyk.icc")
+&nbsp;&nbsp;doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Rgb
+&nbsp;&nbsp;' Save the image
+&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingIccCmyk.png"))
+End Using
+</code></pre></p>
             <p><img src="../../../images/pdf/RenderingIccCmyk.png" class="example"><br>
               RenderingIccCmyk.png</p>
             <p>&nbsp;</p>

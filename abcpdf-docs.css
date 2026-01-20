@@ -1,0 +1,112 @@
+/* ABCpdf Documentation Styles - Generated for Markdown rendering */
+
+:root {
+    --primary-color: rgb(58, 54, 73);
+    --secondary-color: rgb(0, 123, 147);
+    --accent-color: rgb(0, 123, 147);
+    --background-color: #FFFFFF;
+    --header-font: 'Trebuchet MS', Verdana, Arial, sans-serif;
+    --body-font: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+    --code-font: 'Courier New', Courier, monospace;
+    --dark-blue: rgb(0, 123, 147);
+    --light-blue: rgb(153, 204, 204);
+    --orange: rgb(246, 140, 88);
+    --dark-grey: rgb(58, 54, 73);
+    --light-grey: rgb(232, 229, 211);
+    --table-bg: rgb(230, 242, 242);
+}
+
+body {
+    font-family: var(--body-font);
+    font-size: 9pt;
+    color: var(--primary-color);
+    background-color: var(--background-color);
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: var(--dark-grey);
+    font-family: var(--header-font);
+    font-size: 18pt;
+    font-weight: bold;
+    border-bottom: 2px solid var(--light-blue);
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+h2 {
+    color: white;
+    font-family: var(--header-font);
+    font-size: 10pt;
+    font-weight: bold;
+    background: var(--light-blue);
+    padding: 5px 10px;
+    margin-top: 20px;
+}
+
+h3 {
+    color: #333;
+    font-family: var(--header-font);
+    font-size: 12pt;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+p { color: var(--primary-color); margin: 10px 0; }
+strong, b { color: black; }
+a { color: var(--dark-blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code {
+    font-family: var(--code-font);
+    font-size: 9pt;
+    background: #f1f5f9;
+    border: 1px solid #c7cfd5;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+pre {
+    background: #f1f5f9;
+    border: 1px solid #c7cfd5;
+    padding: 12px;
+    overflow-x: auto;
+    border-radius: 4px;
+}
+
+pre code { background: transparent; border: none; padding: 0; }
+
+table {
+    width: 100%;
+    background-color: var(--table-bg);
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+th, td {
+    font-family: var(--body-font);
+    font-size: 9pt;
+    color: var(--primary-color);
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid rgba(0, 123, 147, 0.2);
+}
+
+th { background-color: rgba(0, 123, 147, 0.1); font-weight: bold; }
+
+ul, ol { color: var(--primary-color); font-size: 9pt; line-height: 1.5; }
+li { margin: 5px 0; }
+
+blockquote {
+    border-left: 3px solid var(--orange);
+    margin: 15px 10px;
+    padding: 10px 20px;
+    background: rgba(246, 140, 88, 0.05);
+}
+
+img { max-width: 100%; height: auto; border: 1px solid #ddd; margin: 10px 0; }
+hr { border: none; border-top: 1px solid var(--light-blue); margin: 20px 0; }

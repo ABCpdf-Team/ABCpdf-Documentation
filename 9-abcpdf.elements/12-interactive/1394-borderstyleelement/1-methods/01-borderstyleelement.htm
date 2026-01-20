@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements BorderStyleElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,6 +40,8 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">BorderStyleElement</a>()<br> <a href="../default.htm">BorderStyleElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">BorderStyleElement</a>(IndirectObject obj)<br> <a href="../default.htm">BorderStyleElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
+            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
+            <CODE><a href="../default.htm">BorderStyleElement</a>()<br><a href="../default.htm">BorderStyleElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">BorderStyleElement</a>(obj As IndirectObject)<br><a href="../default.htm">BorderStyleElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -131,7 +133,13 @@ if (element.EntryBS == null)
 &nbsp;&nbsp;element.EntryBS = new <a href="../default.htm">BorderStyleElement</a>(<a href="../../1391-annotationelement/default.htm">AnnotationElement</a>);
 return element.EntryBS;
 </code></pre></P>
-
+<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">&#39; The BS entry is not applicable for all Annotation types. However we coerce it into a type which supports it.
+Dim element As New <a href="../../1409-circleannotationelement/default.htm">CircleAnnotationElement</a>(AnnotationElement.Object)
+If element.EntryBS Is Nothing Then
+&nbsp;&nbsp;element.EntryBS = New <a href="../default.htm">BorderStyleElement</a>(<a href="../../1391-annotationelement/default.htm">AnnotationElement</a>)
+End If
+Return element.EntryBS
+</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

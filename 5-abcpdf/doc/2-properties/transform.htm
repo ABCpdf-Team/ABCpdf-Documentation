@@ -1,4 +1,4 @@
-ï»¿<html>
+<html>
 <head>
 <title>Doc Transform Property. The current transformation for drawing. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,6 +35,9 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
+                  <code><a href="../../xtransform/default.htm">XTransform</a></code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code><a href="../../xtransform/default.htm">XTransform</a></code></td>
                 <td>No transformation.</td>
                 <td>No</td>
@@ -104,9 +107,23 @@ doc.FontSize = 24;
 doc.AddText(text);
 doc.Save(Server.MapPath("doctransform.pdf"));
 </code></pre><br>
-              </p>
+              <span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;Dim theText As String
+&nbsp;&nbsp;theText = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes lingua, institutis, legibus inter se differunt. Gallos ab Aquitanis Garumna flumen, a Belgis Matrona et Sequana dividit."
+&nbsp;&nbsp;theText = theText + vbCr &amp; vbLf + theText + vbCr &amp; vbLf + theText + vbCr &amp; vbLf
+&nbsp;&nbsp;doc.Rect.Magnify(0.5, 0.5)
+&nbsp;&nbsp;doc.Rect.Position(151, 198)
+&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;doc.Transform.Rotate(45, 302, 396)
+&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;doc.FontSize = 24
+&nbsp;&nbsp;doc.AddText(theText)
+&nbsp;&nbsp;doc.Save(Server.MapPath("doctransform.pdf"))
+End Using
+</code></pre></p>
             <p><img src="../../../images/pdf/doctransform.pdf.png" class="example"><br>
-              doctransform.pdf</p><p>Also see example code in: <a href="../../../4-examples/08-landscape.htm">ABCpdf Landscape Example</a>, <a href="../1-methods/addgrid.htm">Doc AddGrid Function</a>, <a href="../1-methods/addxobject.htm">Doc AddXObject Function</a>, <a href="../../xtransform/1-methods/invert.htm">XTransform Invert Function</a>, <a href="../../xtransform/1-methods/magnify.htm">XTransform Magnify Function</a>, <a href="../../xtransform/1-methods/reset.htm">XTransform Reset Function</a>, <a href="../../xtransform/1-methods/rotate.htm">XTransform Rotate Function</a>, <a href="../../xtransform/1-methods/skew.htm">XTransform Skew Function</a>, <a href="../../xtransform/1-methods/translate.htm">XTransform Translate Function</a>, <a href="../../xtransform/2-properties/angleunit.htm">XTransform AngleUnitï¿½Property</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/getbitmap.htm">Page GetBitmap Function</a>, <a href="../../../6-abcpdf.objects/page/1-methods/makeformxobject.htm">Page MakeFormXObject Function</a>, <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>.</p>
+              doctransform.pdf</p><p>Also see example code in: <a href="../../../4-examples/08-landscape.htm">ABCpdf Landscape Example</a>, <a href="../1-methods/addgrid.htm">Doc AddGrid Function</a>, <a href="../1-methods/addxobject.htm">Doc AddXObject Function</a>, <a href="../../xtransform/1-methods/invert.htm">XTransform Invert Function</a>, <a href="../../xtransform/1-methods/magnify.htm">XTransform Magnify Function</a>, <a href="../../xtransform/1-methods/reset.htm">XTransform Reset Function</a>, <a href="../../xtransform/1-methods/rotate.htm">XTransform Rotate Function</a>, <a href="../../xtransform/1-methods/skew.htm">XTransform Skew Function</a>, <a href="../../xtransform/1-methods/translate.htm">XTransform Translate Function</a>, <a href="../../xtransform/2-properties/angleunit.htm">XTransform AngleUnit Property</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/getbitmap.htm">Page GetBitmap Function</a>, <a href="../../../6-abcpdf.objects/page/1-methods/makeformxobject.htm">Page MakeFormXObject Function</a>, <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>.</p>
             
           </td>
           <td width="60">&nbsp;</td>

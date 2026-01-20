@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>SwfImportOperation Import Function. Imports selected frames of a Flash movie. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -39,7 +39,9 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Import(string 
-            path)<BR>void Import(Stream stream, string url)</CODE></P>
+            path)<BR>void Import(Stream stream, string url)</CODE><BR><SPAN
+            class=language>[Visual Basic]</SPAN><BR><CODE>Sub Import(path As
+            String)<BR>Sub Import(stream As Stream, url As String)</CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -103,7 +105,11 @@
 doc.SetInfo(doc.Page, "/Group*/S:Name", "Transparency");
 doc.SetInfo(doc.Page, "/Group*/CS:Name", "DeviceRGB");
 </code></pre><br>
-                    </p>
+                    <span class="language">[Visual Basic]</span><br>
+                    <pre><code class="language-vbnet">doc.SetInfo(doc.Page, "/Group*/Type:Name", "Group");
+doc.SetInfo(doc.Page, "/Group*/S:Name", "Transparency");
+doc.SetInfo(doc.Page, "/Group*/CS:Name", "DeviceRGB");
+</code></pre></p>
                 </TD></TR></TBODY></TABLE>
             <P>You must specify a <A href="../2-properties/1-doc.htm">Doc</A> 
             before the <A 
@@ -503,7 +509,77 @@ using (var operation = new SwfImportOperation()) {
 }
 doc1.Save(Server.MapPath("swf1.pdf"));
 doc2.Save(Server.MapPath("swf2.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim doc1 As New Doc()
+Dim doc2 As New Doc()
+Using operation As New SwfImportOperation()
+&nbsp;&nbsp;Const  fontSize As Integer = 20
+&nbsp;&nbsp;Dim k As Integer = 0
+&nbsp;&nbsp;Dim failed As Boolean = False
+&nbsp;&nbsp;operation.ProcessingObject += Sub(sender As Object, e As ProcessingObjectEventArgs) Select Case e.Info.SourceType
+&nbsp;&nbsp;&nbsp;&nbsp;Case ProcessingSourceType.MultiFrameImage
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If failed OrElse k &gt;= 24 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber = Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber = 1 + Convert.ToInt64(0.2 * k * e.Info.FrameRate.Value)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Tag = ProcessingSourceType.MultiFrameImage
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
+&nbsp;&nbsp;&nbsp;&nbsp;Case ProcessingSourceType.ImageFrame
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If True Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim op As SwfImportOperation = DirectCast(sender, SwfImportOperation)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc = If(op.Doc = doc1, doc2, doc1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Const  distance As Integer = 20
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Const  margin As Integer = 30
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim width As Double = op.Doc.MediaBox.Width - 2 * margin
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim height As Double = op.Doc.MediaBox.Height - 2 * margin
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim scale As Double = Math.Min((width - distance) / (2 * e.Info.Width.Value), (height - 2 * distance - 3 * fontSize) / (3 * e.Info.Height.Value))
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim p As Integer = k / 2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim rectWidth As Double = scale * e.Info.Width.Value
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim rectHeight As Double = scale * e.Info.Height.Value
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Rect.SetRect(margin + (width + distance) * (p Mod 2) / 2, margin + height - rectHeight - (height + 2 * distance) * (p / 2 Mod 3) / 3, rectWidth, rectHeight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If p Mod 6 = 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Page = op.Doc.AddPage()
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If p &gt;= 4 AndAlso p &lt; 8 AndAlso e.Info.BackgroundColor &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.BackgroundRegion = Nothing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.String = e.Info.BackgroundColor.[String]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.Alpha = 127
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.AddOval(True)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
+&nbsp;&nbsp;End Select
+&nbsp;&nbsp;operation.ProcessedObject += Sub(sender As Object, e As ProcessedObjectEventArgs) 
+&nbsp;&nbsp;If Not e.Successful Then
+&nbsp;&nbsp;&nbsp;&nbsp;failed = True
+&nbsp;&nbsp;&nbsp;&nbsp;Return
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;If TypeOf e.Tag Is ProcessingSourceType AndAlso DirectCast(e.Tag, ProcessingSourceType) = ProcessingSourceType.MultiFrameImage Then
+&nbsp;&nbsp;&nbsp;&nbsp;Dim op As SwfImportOperation = DirectCast(sender, SwfImportOperation)
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.Gray = 0
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Color.Alpha = 255
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.FontSize = fontSize
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.TextStyle.HPos = 0.5
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Rect.Top = op.Doc.Rect.Bottom
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Rect.Bottom = op.Doc.MediaBox.Bottom
+&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.AddText(String.Format("{0} secs", 0.2 * k))
+&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(k)
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;Dim pixmap As PixMap = TryCast(e.[Object], PixMap)
+&nbsp;&nbsp;If pixmap &lt;&gt; Nothing Then
+&nbsp;&nbsp;&nbsp;&nbsp;pixmap.Compress()
+&nbsp;&nbsp;End If
+
+&nbsp;&nbsp;End Sub
+&nbsp;&nbsp;operation.Import(Server.MapPath("ABCpdf.swf"))
+End Using
+doc1.Save(Server.MapPath("swf1.pdf"))
+doc1.Clear()
+doc2.Save(Server.MapPath("swf2.pdf"))
+doc2.Clear()
+</code></pre></P>
             <P>swf1.pdf<BR><IMG
             src="../../../images/pdf/swf1.pdf.png" class="example">&nbsp;<IMG
             src="../../../images/pdf/swf1.pdf2.png" class="example"></P>

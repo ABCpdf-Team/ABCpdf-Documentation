@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XSaveOptions WritePageSeparator Property. The delegate called to write the page separator for export. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -36,7 +36,8 @@
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
                 <TD align=left><SPAN 
-                  class=language>[C#]</SPAN><BR><CODE>XSaveOptions.PageSeparatorMethod</CODE></TD>
+                  class=language>[C#]</SPAN><BR><CODE>XSaveOptions.PageSeparatorMethod</CODE><BR><BR><SPAN 
+                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>XSaveOptions.PageSeparatorMethod</CODE></TD>
                 <TD>null</TD>
                 <TD>No</TD>
                 <TD>The delegate called to write the page separator for export.</TD></TR></TBODY></TABLE>
@@ -58,7 +59,9 @@
             <P>The definition of the XSaveOptions.PageSeparatorMethod delegate
             is as follows.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">delegate void PageSeparatorMethod(int pageNum, ExportArgs e);
-</code></pre><BR><BR></P>
+</code></pre><BR><BR><SPAN 
+            class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language-vbnet">Delegate Sub PageSeparatorMethod(pageNum As Integer, e As ExportArgs)
+</code></pre></P>
             <P>pageNum is the page number, starting with 1.</P>
             <P>The page separator is to be written to e.Writer. e.Writer is an
             XmlWriter for HTML export.</P>
@@ -90,7 +93,25 @@ doc.SaveOptions.WritePageSeparator = delegate (int pageNum, XSaveOptions.ExportA
 };
 doc.Save(Server.MapPath("PageSeparator.htm"));
 doc.Dispose();
-</code></pre><BR></P></TD>
+</code></pre><BR><SPAN
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
+&nbsp;&nbsp;doc.SaveOptions.WritePageSeparator = Sub(pageNum As Integer, e As XSaveOptions.ExportArgs) 
+&nbsp;&nbsp;Dim writer As XmlWriter = DirectCast(e.Writer, XmlWriter)
+&nbsp;&nbsp;If pageNum &gt; 1 Then
+&nbsp;&nbsp;&nbsp;&nbsp;writer.WriteStartElement("hr")
+&nbsp;&nbsp;&nbsp;&nbsp;writer.WriteEndElement()
+&nbsp;&nbsp;End If
+&nbsp;&nbsp;writer.WriteStartElement("div")
+&nbsp;&nbsp;writer.WriteAttributeString("align", "right")
+&nbsp;&nbsp;writer.WriteString(String.Format("Page {0}", pageNum))
+&nbsp;&nbsp;writer.WriteFullEndElement()
+
+&nbsp;&nbsp;End Sub
+&nbsp;&nbsp;doc.Save(Server.MapPath("PageSeparator.htm"))
+&nbsp;&nbsp;doc.Dispose()
+End Using
+</code></pre></P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
 <P>&nbsp;</P></BODY></HTML>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddColorSpaceSpot Function. Adds a separation color space to the document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -39,7 +39,9 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
-            AddColorSpaceSpot(string name, string color)<BR></CODE></P>
+            AddColorSpaceSpot(string name, string color)<BR></CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Function AddColorSpaceSpot(name As String, color As String) As 
+            Integer</CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -134,7 +136,21 @@ for (int i = 1; i &lt;= 10; i++) {
 &nbsp;&nbsp;doc.Rect.Move(25, -50);
 }
 doc.Save(Server.MapPath("docaddcolorspacespot.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Inset(20, 20)
+&nbsp;&nbsp;doc.FontSize = 300
+&nbsp;&nbsp;doc.ColorSpace = doc.AddColorSpaceSpot("GOLD", "0 0 100 0")
+&nbsp;&nbsp;Dim i As Integer = 1
+&nbsp;&nbsp;While i &lt;= 10
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.Gray = 255 / i
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(doc.Color.Gray.ToString())
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Move(25, -50)
+&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
+&nbsp;&nbsp;End While
+&nbsp;&nbsp;doc.Save(Server.MapPath("docaddcolorspacespot.pdf"))
+End Using
+</code></pre></P>
             <P><IMG
             src="../../../images/pdf/docaddcolorspacespot.pdf.png" 
             class="example"><BR>docaddcolorspacespot.pdf </P>

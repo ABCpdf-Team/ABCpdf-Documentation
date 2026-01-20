@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XTransform Translate Function. Translate horizontally and vertically. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -39,7 +39,8 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
-            Translate(double x, double y)<BR></CODE></P>
+            Translate(double x, double y)<BR></CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Sub Translate(x As Double, y As Double)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -105,7 +106,20 @@ doc.Transform.Translate(200, 200);
 doc.Color.String = "255 0 0"; // red
 doc.FrameRect();
 doc.Save(Server.MapPath("transformtranslate.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Rect.Width = 200
+&nbsp;&nbsp;doc.Rect.Height = 250
+&nbsp;&nbsp;doc.Rect.Position(100, 100)
+&nbsp;&nbsp;doc.Width = 20
+&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;doc.Transform.Translate(200, 200)
+&nbsp;&nbsp;doc.Color.String = "255 0 0"
+&nbsp;&nbsp;' red
+&nbsp;&nbsp;doc.FrameRect()
+&nbsp;&nbsp;doc.Save(Server.MapPath("transformtranslate.pdf"))
+End Using
+</code></pre></P>
             <P><IMG
             src="../../../images/pdf/transformtranslate.pdf.png" 
             class="example"><BR>transformtranslate.pdf</P>

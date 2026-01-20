@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc SetInfo Function. Sets information about an object. ABCpdf .NET PDF Library.</TITLE>
 <META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -44,7 +44,14 @@
             SetInfo(int id, string type, double info)<BR>void 
             SetInfo(int id, string type, DateTime info)<br>
             void 
-            SetInfo(int id, string type, bool info)</CODE></P>
+            SetInfo(int id, string type, bool info)</CODE><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><CODE>Sub SetInfo(id As Integer, type As String, info As 
+            String)<BR>Sub SetInfo(id As Integer, type As String,
+            info As Integer)<BR>Sub SetInfo(id As Integer, type
+            As String, info As Double)<BR>Sub SetInfo(id As
+            Integer, type As String, info As DateTime)<br>
+            Sub SetInfo(id As
+            Integer, type As String, info As Boolean)</CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -122,7 +129,16 @@ int page2 = doc.GetInfoInt(pages, "Page 2");
 string action = $"[ {page2} 0 R /Fit ]";
 doc.SetInfo(doc.Root, "/OpenAction", action);
 doc.Save(Server.MapPath("docsetinfo.pdf"));
-</code></pre><BR></P>
+</code></pre><BR><SPAN 
+            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
+&nbsp;&nbsp;Dim thePages As Integer = doc.GetInfoInt(doc.Root, "Pages")
+&nbsp;&nbsp;Dim thePage2 As Integer = doc.GetInfoInt(thePages, "Page 2")
+&nbsp;&nbsp;Dim theAction As String = $"[ {thePage2} 0 R /Fit ]"
+&nbsp;&nbsp;doc.SetInfo(doc.Root, "/OpenAction", theAction)
+&nbsp;&nbsp;doc.Save(Server.MapPath("docsetinfo.pdf"))
+End Using
+</code></pre></P>
             <TABLE class=backgrounder border=0 cellPadding=10>
               <TBODY>
               <TR>

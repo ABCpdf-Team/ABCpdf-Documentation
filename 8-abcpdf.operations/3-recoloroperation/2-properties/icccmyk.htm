@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <title>RecolorOperation IccCmyk Property. The path to the default CMYK ICC color profile. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,7 +35,10 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>string</code></td>
+                  <code>string</code><br>
+                  <br>
+                  <span class="language">[Visual&nbsp;Basic]</span><br>
+                  <code>String</code></td>
                 <td>&quot;standard&quot;</td>
                 <td>No</td>
                 <td>The path to the default CMYK ICC color profile.</td>
@@ -100,7 +103,21 @@ using (var op = new RecolorOperation()) {
 doc.Save(Server.MapPath("RecolorToLab.pdf"));
 </code></pre>
               <br>
-</p>
+<span class="language">[Visual Basic]</span><br>
+              <pre><code class="language-vbnet">Using doc As New Doc()
+&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/SpaceShuttlePage6.pdf"))
+&nbsp;&nbsp;Dim cs As New ColorSpace(doc.ObjectSoup, ColorSpaceType.Lab)
+&nbsp;&nbsp;Using op = New RecolorOperation()
+&nbsp;&nbsp;&nbsp;&nbsp;op.DestinationColorSpace = cs
+&nbsp;&nbsp;&nbsp;&nbsp;op.IccCmyk = Server.MapPath("../Rez/EuroscaleCoated.icc")
+&nbsp;&nbsp;&nbsp;&nbsp;op.Type0SampleCount = 96
+&nbsp;&nbsp;&nbsp;&nbsp;op.RenderingIntent = RenderingIntent.Perceptual
+&nbsp;&nbsp;&nbsp;&nbsp;op.Recolor(DirectCast(doc.ObjectSoup(doc.Page), Page))
+&nbsp;&nbsp;End Using
+&nbsp;&nbsp;doc.Save(Server.MapPath("RecolorToLab.pdf"))
+End Using
+</code></pre>
+              </p>
           <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

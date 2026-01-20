@@ -1,4 +1,4 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc GetStream Function. Gets a document as raw data stream. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -190,7 +190,32 @@ using (Stream theStream = theDoc.GetStream()) {
 }
 Response.End();
 %&gt;
-</code></pre><BR></P>
+</code></pre><BR><SPAN class=language>[Visual 
+            Basic]</SPAN><BR><pre><code class="language-vbnet">&lt;% @Page Language="Visual Basic" %&gt;
+&lt;% @Import Namespace=" WebSupergoo.ABCpdf13" %&gt;
+&lt;%
+Dim theDoc As Doc = New Doc()
+theDoc.FontSize = 96
+theDoc.AddText("Hello World")
+Using theStream As Stream = theDoc.GetStream()
+&nbsp;&nbsp;Response.Clear()
+&nbsp;&nbsp;Response.ContentType = "application/pdf"
+&nbsp;&nbsp;Response.AddHeader("content-disposition", "inline; filename=MyPDF.PDF")
+&nbsp;&nbsp;Response.AddHeader("content-length", theStream.Length.ToString())
+&nbsp;&nbsp;Dim theLen As Long = theStream.Length;
+&nbsp;&nbsp;Dim theData() As Byte = New Byte(Math.Min(32768, theLen))
+&nbsp;&nbsp;Do While theLen &gt; 0
+&nbsp;&nbsp;&nbsp;&nbsp;theStream.Read(theData, 0, theData.Length)
+&nbsp;&nbsp;&nbsp;&nbsp;Response.BinaryWrite(theData)
+&nbsp;&nbsp;&nbsp;&nbsp;theLen -= theData.Length
+&nbsp;&nbsp;&nbsp;&nbsp;If theLen &lt; theData.Length AndAlso theLen &gt; 0 Then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theData = New Byte(theLen)
+&nbsp;&nbsp;&nbsp;&nbsp;End If
+&nbsp;&nbsp;Loop
+End Using
+Response.End()
+%&gt;
+</code></pre></P>
             <P><IMG src="../../../images/pdf/docsave.pdf.png" 
             class="example"><BR>hello.asp<BR></P>
             <P>&nbsp;</P></TD>
