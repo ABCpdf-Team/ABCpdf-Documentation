@@ -2,7 +2,7 @@ name: Convert and Publish Documentation
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, conversion]
   workflow_dispatch:
 
 permissions:
