@@ -49,9 +49,6 @@
             the type of an annotation, you might use the following code:</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.SetInfo(theID, "/Subtype", "(Stamp)");
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.SetInfo(theID, "/Subtype", "(Stamp)")
 </code></pre></p>
             <H2>Values</H2>
             <P>Alternatively, you can use the 'Value' selector to specify a 
@@ -61,9 +58,6 @@
             example.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.SetInfo(theID, "Value", "&lt;&lt;/Font /Helvetica /Size 10&gt;&gt;");
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.SetInfo(theID, "Value", "&lt;&lt;/Font /Helvetica /Size 10&gt;&gt;")
 </code></pre></p>
             <H2>Paths</H2>
             <P>Specifications can be chained together to form complete paths. 
@@ -74,17 +68,11 @@
             MediaBox array.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.GetInfo(theID, "/MediaBox[0]");
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.GetInfo(theID, "/MediaBox[0]")
 </code></pre></p>
             <P>And the code below would return the count entry of the parent of 
             the object.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.GetInfo(theID, "/Parent/Count");
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.GetInfo(theID, "/Parent/Count")
 </code></pre></p>
             <H2>References</H2>
             <P>Sometimes, you may wish to find a reference to a particular 
@@ -97,9 +85,6 @@
             stream of the first page of a document.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.GetInfo(theDoc.Root, "/Pages*/Kids*[0]*/Contents");
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.GetInfo(theDoc.Root, "/Pages*/Kids*[0]*/Contents")
 </code></pre></p>
             <H2>SetInfo</H2>
             <P>You can use <A 
@@ -190,25 +175,16 @@
             reference Atom at the beginning (item zero) of the array.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.SetInfo(theDoc.Page, "/Annots[0]:Ref", theID);
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.SetInfo(theDoc.Page, "/Annots[0]:Ref", theID)
 </code></pre></p>
             <P>Alternatively, if you want to insert your annotation at the end of 
             the array, just leave out the array index:</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.SetInfo(theDoc.Page, "/Annots[]:Ref", theID);
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.SetInfo(theDoc.Page, "/Annots[]:Ref", theID)
 </code></pre></p>
             <P>You can also locate items in an array from the end. Use -1 for 
             the last item, -2 for the second last item, and so on.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.GetInfo(theDoc.Page, "/Annots[-1]:Ref");
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.GetInfo(theDoc.Page, "/Annots[-1]:Ref")
 </code></pre></p>
             <P>Insertions can be complex. The next example gets the entry called 
             "/Font", which contains a dictionary. This dictionary includes an 
@@ -216,9 +192,6 @@
             the Name object "/Helvetica" at the start of this array.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.SetInfo(theID, "/Font/Names[0]:Name", "Helvetica");
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.SetInfo(theID, "/Font/Names[0]:Name", "Helvetica")
 </code></pre></p>
             <H2>GetInfo</H2>
             <P>You can use <A 
@@ -295,9 +268,6 @@
             CropBox.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.GetInfo(theID, "/CropBox:Rect");
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.GetInfo(theID, "/CropBox:Rect")
 </code></pre></p>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

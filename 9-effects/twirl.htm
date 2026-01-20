@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Twirl Effect</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -121,35 +121,7 @@
 &nbsp;&nbsp;}
 }
 </code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Sub ...
-&nbsp;&nbsp;Using doc As New Doc()
-&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img3)
-&nbsp;&nbsp;&nbsp;&nbsp;' original image
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectTwirl.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Twirl")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectTwirlDefault.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Twirl")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Angle").Value = 360
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectTwirlAngle360.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Twirl")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Extent").Value = 100
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectTwirlExtent100.jpg")
-&nbsp;&nbsp;End Using
-End Sub
-</code></pre>            </p>
+              </p>
             <p>&nbsp;</p>
           <p><img src="images/astroflag.jpg" width="259" height="243"><br>
 Original Image before Twirl</p>

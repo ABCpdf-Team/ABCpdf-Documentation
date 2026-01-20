@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements LineAnnotationElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,8 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">LineAnnotationElement</a>()<br> <a href="../default.htm">LineAnnotationElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">LineAnnotationElement</a>(IndirectObject obj)<br> <a href="../default.htm">LineAnnotationElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE><a href="../default.htm">LineAnnotationElement</a>()<br><a href="../default.htm">LineAnnotationElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">LineAnnotationElement</a>(obj As IndirectObject)<br><a href="../default.htm">LineAnnotationElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -134,45 +132,29 @@ annot.EntryL = Array.ConvertAll(line.Split(new char[] { &#39; &#39; }), s =&gt; 
 annot.EntryC = Array.ConvertAll(color.Split(new char[] { &#39; &#39; }), s =&gt; double.Parse(s, NumberFormatInfo.InvariantInfo) / 255);
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">LineAnnotationElement</a>(AnnotationElement.Object)
-annot.EntrySubtype = &quot;Line&quot;
-annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(line)), annot.Host)
-annot.EntryL = Array.ConvertAll(line.Split(New Char() { &quot; &quot;c }), Function(s) Double.Parse(s, NumberFormatInfo.InvariantInfo))
-annot.EntryC = Array.ConvertAll(color.Split(New Char() { &quot; &quot;c }), Function(s) Double.Parse(s, NumberFormatInfo.InvariantInfo) / 255)
-<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
-</code></pre></P>
+
 <P>This code snippet is taken from Annotations.cs line 1467 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../default.htm">LineAnnotationElement</a> annot = new <a href="../default.htm">LineAnnotationElement</a>(AnnotationElement.Object);
 annot.EntryLE = styles;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">LineAnnotationElement</a>(AnnotationElement.Object)
-annot.EntryLE = styles
-</code></pre></P>
+
 <P>This code snippet is taken from Annotations.cs line 1478 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../default.htm">LineAnnotationElement</a> annot = new <a href="../default.htm">LineAnnotationElement</a>(AnnotationElement.Object);
 annot.EntryCap = value != null;
 annot.EntryContents = value;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">LineAnnotationElement</a>(AnnotationElement.Object)
-annot.EntryCap = value IsNot Nothing
-annot.EntryContents = value
-</code></pre></P>
+
 <P>This code snippet is taken from Annotations.cs line 1489 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../default.htm">LineAnnotationElement</a> annot = new <a href="../default.htm">LineAnnotationElement</a>(AnnotationElement.Object);
 annot.EntryCap = value != null;
 annot.EntryRC = new <a href="../../../01-base/1086-element/default.htm">Element</a>(new StringAtom(value), annot.Host);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">LineAnnotationElement</a>(AnnotationElement.Object)
-annot.EntryCap = value IsNot Nothing
-annot.EntryRC = New <a href="../../../01-base/1086-element/default.htm">Element</a>(New StringAtom(value), annot.Host)
-</code></pre></P>
+
 <P>This code snippet is taken from Annotations.cs line 1500 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../default.htm">LineAnnotationElement</a> annot = new <a href="../default.htm">LineAnnotationElement</a>(AnnotationElement.Object);
 annot.EntryIC = Array.ConvertAll(value.Split(new char[] { &#39; &#39; }), s =&gt; double.Parse(s, NumberFormatInfo.InvariantInfo) / 255);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">LineAnnotationElement</a>(AnnotationElement.Object)
-annot.EntryIC = Array.ConvertAll(value.Split(New Char() { &quot; &quot;c }), Function(s) Double.Parse(s, NumberFormatInfo.InvariantInfo) / 255)
-</code></pre></P>
+
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

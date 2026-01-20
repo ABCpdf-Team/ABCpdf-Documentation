@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc EmbedFont Function. Embeds a font into the document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -158,9 +158,7 @@ this.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.Font = theDoc.AddFont("Courier");
 </code></pre><br>
-    <span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.Font = theDoc.AddFont("Courier")
-</code></pre></p>
+    </p>
             <P>If the specified font could not be found then you will get an 
             Object ID of zero returned. You may wish to check for this 
             possibility otherwise a default font will be used.</P>
@@ -190,15 +188,7 @@ string font = "Comic Sans MS";
 doc.Font = doc.EmbedFont(font);
 doc.AddText(font);
 doc.Save(Server.MapPath("docembedfont.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 216
-&nbsp;&nbsp;Dim theFont As String = "Comic Sans MS"
-&nbsp;&nbsp;doc.Font = doc.EmbedFont(theFont)
-&nbsp;&nbsp;doc.AddText(theFont)
-&nbsp;&nbsp;doc.Save(Server.MapPath("docembedfont.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/docembedfont.pdf.png" 
             class="example"><BR>docembedfont.pdf </P></TD>
           <TD width=60>&nbsp;</TD>

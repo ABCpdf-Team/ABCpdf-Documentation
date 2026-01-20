@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements TextMarkupAnnotationElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,8 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">TextMarkupAnnotationElement</a>()<br> <a href="../default.htm">TextMarkupAnnotationElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">TextMarkupAnnotationElement</a>(IndirectObject obj)<br> <a href="../default.htm">TextMarkupAnnotationElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE><a href="../default.htm">TextMarkupAnnotationElement</a>()<br><a href="../default.htm">TextMarkupAnnotationElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">TextMarkupAnnotationElement</a>(obj As IndirectObject)<br><a href="../default.htm">TextMarkupAnnotationElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -133,12 +131,7 @@ annot.EntryQuadPoints = Array.ConvertAll(quadPoints.Split(new char[] { &#39; &#3
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 Color = color;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">TextMarkupAnnotationElement</a>(AnnotationElement.Object)
-annot.EntrySubtype = markupType
-annot.EntryQuadPoints = Array.ConvertAll(quadPoints.Split(New Char() { &quot; &quot;c }), Function(s) Double.Parse(s, NumberFormatInfo.InvariantInfo))
-<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
-Color = color
-</code></pre></P>
+
 <P>This code snippet is taken from Annotations.cs line 1767 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">XRect rect = new XRect(Form.Doc.GetInfo(id, &quot;Rect&quot;));
 <a href="../default.htm">TextMarkupAnnotationElement</a> annot = new <a href="../default.htm">TextMarkupAnnotationElement</a>(AnnotationElement.Object);
@@ -148,14 +141,7 @@ annot.EntryRect = new <a href="../../../07-syntax/0017-rectangleelement/default.
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 Color = color;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim rect As New XRect(Form.Doc.GetInfo(id, &quot;Rect&quot;))
-Dim annot As New <a href="../default.htm">TextMarkupAnnotationElement</a>(AnnotationElement.Object)
-annot.EntrySubtype = markupType
-annot.EntryQuadPoints = New Double() { rect.Left, rect.Top, rect.Right, rect.Top, rect.Left, rect.Bottom, rect.Right, rect.Bottom }
-annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(rect), annot.Host)
-<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
-Color = color
-</code></pre></P>
+
 <P>This code snippet is taken from Annotations.cs line 1784 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">XRect rect = Form.Doc.Rect;
 <a href="../default.htm">TextMarkupAnnotationElement</a> annot = new <a href="../default.htm">TextMarkupAnnotationElement</a>(AnnotationElement.Object);
@@ -165,14 +151,7 @@ annot.EntryRect = new <a href="../../../07-syntax/0017-rectangleelement/default.
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 Color = color;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim rect As XRect = Form.Doc.Rect
-Dim annot As New <a href="../default.htm">TextMarkupAnnotationElement</a>(AnnotationElement.Object)
-annot.EntrySubtype = markupType
-annot.EntryQuadPoints = New Double() { rect.Left, rect.Top, rect.Right, rect.Top, rect.Left, rect.Bottom, rect.Right, rect.Bottom }
-annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(rect), annot.Host)
-<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
-Color = color
-</code></pre></P>
+
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

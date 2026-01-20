@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XRect SetRect Function. Sets the location and size of the rectangle. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -39,10 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
-            SetRect(double x, double y, double w, double h)<BR>void SetRect(<a href="../default.htm">XRect</a> rect)</CODE><BR>
-            <SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Sub SetRect(x As Double, y As Double, w As Double, h As 
-            Double)<BR>Sub SetRect(rect As <a href="../default.htm">XRect</a>)</CODE></P>
+            SetRect(double x, double y, double w, double h)<BR>void SetRect(<a href="../default.htm">XRect</a> rect)</CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -124,14 +121,7 @@ Response.Write($"Rect = {rc}");
 Response.Write("&amp;lt;br&amp;gt;");
 rc.SetRect(20, 40, 50, 150);
 Response.Write("Pos. = {rc}");
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">Dim rc As New XRect()
-rc.String = "20 20 220 120"
-Response.Write($"Rect = {rc}")
-Response.Write("&amp;lt;br&amp;gt;")
-rc.SetRect(20, 40, 50, 150)
-Response.Write("Pos. = {rc}")
-</code></pre></P>
+</code></pre><BR></P>
             <P>Produces the following output. </P>
             <P><SAMP>Rect = 20 20 220 120<BR>Pos. = 20 40 70 190</SAMP> 
             <P>&nbsp;</P><p>Also see example code in: <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../6-abcpdf.objects/page/2-properties/rotation.htm">Page Rotation Property</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>.</p>

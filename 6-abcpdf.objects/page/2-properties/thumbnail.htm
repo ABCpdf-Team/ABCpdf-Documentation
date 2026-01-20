@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Page Thumbnail Property. The Thumbnail for the page. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,9 +35,6 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code><a href="../../pixmap/default.htm">PixMap</a></code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code><a href="../../pixmap/default.htm">PixMap</a></code></td>
                 <td>n/a</td>
                 <td>No</td>
@@ -89,20 +86,7 @@ foreach (var page in pages) {
 }
 doc.Save(Server.MapPath("embedthumbnails.pdf"));
 </code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc(), srcDoc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("spaceshuttle.pdf"))
-&nbsp;&nbsp;doc.Rendering.DotsPerInch = 18
-&nbsp;&nbsp;Dim pages As Page() = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()
-&nbsp;&nbsp;For Each page As Page In pages
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = page.ID
-&nbsp;&nbsp;&nbsp;&nbsp;Using xi As XImage = XImage.FromData(doc.Rendering.GetData(".jpg"), Nothing)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.Thumbnail = PixMap.FromXImage(doc.ObjectSoup, xi)
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;doc.Save(Server.MapPath("embedthumbnails.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

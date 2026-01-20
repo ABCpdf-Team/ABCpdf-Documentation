@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements FullFileSpecificationElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,8 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">FullFileSpecificationElement</a>()<br> <a href="../default.htm">FullFileSpecificationElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">FullFileSpecificationElement</a>(IndirectObject obj)<br> <a href="../default.htm">FullFileSpecificationElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE><a href="../default.htm">FullFileSpecificationElement</a>()<br><a href="../default.htm">FullFileSpecificationElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">FullFileSpecificationElement</a>(obj As IndirectObject)<br><a href="../default.htm">FullFileSpecificationElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -180,59 +178,7 @@ annot.EntryAA = new <a href="../../../12-interactive/1423-annotationadditionalac
 annot.EntryAA.EntryPV = pageVisibleAction;
 <a href="../../../12-interactive/1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim isUrl As Boolean = filePathOrUrl.StartsWith(&quot;http://&quot;, StringComparison.OrdinalIgnoreCase) OrElse filePathOrUrl.StartsWith(&quot;https://&quot;, StringComparison.OrdinalIgnoreCase) OrElse filePathOrUrl.StartsWith(&quot;rtmp://&quot;, StringComparison.OrdinalIgnoreCase)
-If contentType Is Nothing Then
-&nbsp;&nbsp;Dim [end] As Integer = -1
-&nbsp;&nbsp;If isUrl Then
-&nbsp;&nbsp;&nbsp;&nbsp;[end] = filePathOrUrl.IndexOfAny(New Char() { &quot;?&quot;c, &quot;#&quot;c })
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;If [end] &lt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;[end] = filePathOrUrl.Length
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;contentType = GetContentType(filePathOrUrl, [end])
-&nbsp;&nbsp;If contentType Is Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;Throw New NotSupportedException(&quot;Movie content type is not supported.&quot;)
-&nbsp;&nbsp;End If
-End If
 
-Dim annot As New <a href="../../../12-interactive/1415-screenannotationelement/default.htm">ScreenAnnotationElement</a>(AnnotationElement.Object)
-annot.EntrySubtype = &quot;Screen&quot;
-annot.EntryRect = New <a href="../../0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect)), annot.Host)
-
-Dim fileSpec As New <a href="../default.htm">FullFileSpecificationElement</a>(annot)
-fileSpec.EntryType = &quot;Filespec&quot;
-If isUrl Then
-&nbsp;&nbsp;fileSpec.EntryFS = &quot;URL&quot;
-&nbsp;&nbsp;fileSpec.EntryF = filePathOrUrl
-Else
-&nbsp;&nbsp;Dim fileInfo As New FileInfo(filePathOrUrl)
-&nbsp;&nbsp;fileSpec.EntryF = fileInfo.Name
-&nbsp;&nbsp;fileSpec.EntryUF = fileInfo.Name
-&nbsp;&nbsp;fileSpec.EntryEF = New <a href="../../1111-embeddedfilesetelement/default.htm">EmbeddedFileSetElement</a>(annot)
-&nbsp;&nbsp;fileSpec.EntryEF.EntryF = EmbedFileStream(fileInfo)
-End If
-
-Dim mediaClip As New <a href="../../../13-multimedia/1500-mediaclipdataelement/default.htm">MediaClipDataElement</a>(annot, CreationOptions.Indirect)
-mediaClip.EntryS = &quot;MCD&quot;
-mediaClip.EntryP = New <a href="../../../13-multimedia/1502-mediapermissionselement/default.htm">MediaPermissionsElement</a>(annot)
-mediaClip.EntryP.EntryTF = &quot;TEMPACCESS&quot;
-mediaClip.EntryCT = contentType
-mediaClip.EntryD = fileSpec
-
-Dim rendition As New <a href="../../../13-multimedia/1499-mediarenditionelement/default.htm">MediaRenditionElement</a>(annot, CreationOptions.Indirect)
-rendition.EntryS = &quot;MR&quot;
-rendition.EntryC = mediaClip
-
-Dim pageVisibleAction As New <a href="../../../12-interactive/1436-renditionactionelement/default.htm">RenditionActionElement</a>(annot, CreationOptions.Indirect)
-pageVisibleAction.EntryS = &quot;Rendition&quot;
-pageVisibleAction.EntryOP = 4
-pageVisibleAction.EntryAN = annot
-pageVisibleAction.EntryR = rendition
-
-annot.EntryAA = New <a href="../../../12-interactive/1423-annotationadditionalactionselement/default.htm">AnnotationAdditionalActionsElement</a>(annot)
-annot.EntryAA.EntryPV = pageVisibleAction
-<a href="../../../12-interactive/1391-annotationelement/default.htm">AnnotationElement</a> = annot
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

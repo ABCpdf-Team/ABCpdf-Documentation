@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Landscape Example</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -65,25 +65,7 @@ doc.Rect.Inset(50, 50);
 doc.FontSize = 96;
 doc.AddText("Landscape Orientation");
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;' apply a rotation transform
-&nbsp;&nbsp;Dim w As Double = doc.MediaBox.Width
-&nbsp;&nbsp;Dim h As Double = doc.MediaBox.Height
-&nbsp;&nbsp;Dim l As Double = doc.MediaBox.Left
-&nbsp;&nbsp;Dim b As Double = doc.MediaBox.Bottom
-&nbsp;&nbsp;doc.Transform.Rotate(90, l, b)
-&nbsp;&nbsp;doc.Transform.Translate(w, 0)
-
-&nbsp;&nbsp;' rotate our rectangle
-&nbsp;&nbsp;doc.Rect.Width = h
-&nbsp;&nbsp;doc.Rect.Height = w
-
-&nbsp;&nbsp;' add some text
-&nbsp;&nbsp;doc.Rect.Inset(50, 50)
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;doc.AddText("Landscape Orientation")
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -109,13 +91,7 @@ int id = doc.GetInfoInt(doc.Root, "Pages");
 doc.SetInfo(id, "/Rotate", "90");
 doc.Save(Server.MapPath("landscape.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;' adjust the default rotation and save
-&nbsp;&nbsp;Dim theID As Integer = doc.GetInfoInt(doc.Root, "Pages")
-&nbsp;&nbsp;doc.SetInfo(theID, "/Rotate", "90")
-&nbsp;&nbsp;doc.Save(Server.MapPath("landscape.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

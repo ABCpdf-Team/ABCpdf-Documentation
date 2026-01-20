@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XRendering AntiAliasPolygons Property. Whether to anti-alias polygons. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,10 +35,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Boolean</code></td>
+                  <code>bool</code></td>
                 <td>true</td>
                 <td>No</td>
                 <td>Whether to anti-alias polygons.</td>
@@ -114,40 +111,7 @@ doc.Rendering.DotsPerInch = 36;
 doc.Rect.String = doc.MediaBox.String;
 doc.Rendering.Save(Server.MapPath("RenderingAntiAliasPolygonsTrue.png"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;' Add a polygon
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;doc.AddPoly("32 650 50 704 68 650 22 683 79 683 32 650", True)
-&nbsp;&nbsp;doc.Rect.String = "20 650 80 704"
-&nbsp;&nbsp;' Render the drawn area with AntiAliasPolygons (default)
-&nbsp;&nbsp;Dim antiAliasedBitmap As Bitmap = doc.Rendering.GetBitmap()
-&nbsp;&nbsp;' Render the drawn area without AntiAliasPolygons
-&nbsp;&nbsp;doc.Rendering.AntiAliasPolygons = False
-&nbsp;&nbsp;Dim aliasedBitmap As Bitmap = doc.Rendering.GetBitmap()
-&nbsp;&nbsp;' Add magnified aliased image
-&nbsp;&nbsp;doc.Rect.String = "5 20 605 560"
-&nbsp;&nbsp;doc.AddImageBitmap(aliasedBitmap, False)
-&nbsp;&nbsp;' Anotate
-&nbsp;&nbsp;doc.Color.String = "black"
-&nbsp;&nbsp;doc.FontSize = 30
-&nbsp;&nbsp;doc.Pos.String = "20 750"
-&nbsp;&nbsp;doc.AddText("Original path:")
-&nbsp;&nbsp;doc.Pos.String = "20 620"
-&nbsp;&nbsp;doc.AddText("Magnified rendered image:")
-&nbsp;&nbsp;' Render the document with aliased image
-&nbsp;&nbsp;doc.Rendering.DotsPerInch = 36
-&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.[String]
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingAntiAliasPolygonsFalse.png"))
-&nbsp;&nbsp;' Add magnified antialiased image
-&nbsp;&nbsp;doc.Rect.String = "5 20 605 560"
-&nbsp;&nbsp;doc.AddImageBitmap(antiAliasedBitmap, False)
-&nbsp;&nbsp;' Render the document with antialiased image
-&nbsp;&nbsp;doc.Rendering.DotsPerInch = 36
-&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.[String]
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingAntiAliasPolygonsTrue.png"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/RenderingAntiAliasPolygonsTrue.png" class="example"><br>
               RenderingAntiAliasPolygonsTrue.png</p>
             <p><img src="../../../images/pdf/RenderingAntiAliasPolygonsFalse.png" class="example"><br>

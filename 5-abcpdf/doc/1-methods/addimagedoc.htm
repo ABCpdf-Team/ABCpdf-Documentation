@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddImageDoc Function. Draw a page from one PDF document onto the current page of this document. ABCpdf .NET PDF Library.</TITLE>
 <META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -47,13 +47,7 @@
             int 
             AddImageDoc(Doc doc, int page, XRect rect, bool copyAnnotations, double alpha)
               <br>
-              int AddImageDoc(Doc doc, int page, XRect rect, bool copyAnnotations, bool copyTags, double alpha) </CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Function AddImageDoc(doc As Doc, page As Integer, rect As XRect) As 
-            Integer<br>
-            Function AddImageDoc(doc As Doc, page As Integer, rect As XRect, copyAnnotations As Boolean) As Integer<br />
-            Function AddImageDoc(doc As Doc, page As Integer, rect As XRect, copyAnnotations As Boolean, alpha As Double) As Integer<br>
-            Function AddImageDoc(doc As Doc, page As Integer, rect As XRect, copyAnnotations As Boolean, copyTags As Boolean, alpha As Double) As Integer<BR>
-              </CODE></P>
+              int AddImageDoc(Doc doc, int page, XRect rect, bool copyAnnotations, bool copyTags, double alpha) </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -181,11 +175,7 @@ href="../../xtransform/default.htm">Transform</A>.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var src = new Doc();
 src.Read(Server.MapPath("../Rez/spaceshuttle.pdf"));
 int count = src.PageCount;
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theSrc As New Doc()
-theSrc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
-Dim theCount As Integer = theSrc.PageCount
-</code></pre></P>
+</code></pre><BR></P>
             <P>Next we create a destination Doc object and set the <A 
             href="../2-properties/mediabox.htm">MediaBox</A> so that the page 
             size will match that of the source document. We change the rect so 
@@ -198,16 +188,7 @@ dst.Rect.Magnify(0.5, 0.5);
 dst.Rect.Inset(10, 10);
 double x = dst.MediaBox.Width / 2;
 double y = dst.MediaBox.Height / 2;
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theDst As New Doc()
-theDst.MediaBox.String = theSrc.MediaBox.[String]
-theDst.Rect.String = theDst.MediaBox.[String]
-theDst.Rect.Magnify(0.5, 0.5)
-theDst.Rect.Inset(10, 10)
-Dim theX As Double, theY As Double
-theX = theDst.MediaBox.Width / 2
-theY = theDst.MediaBox.Height / 2
-</code></pre></P>
+</code></pre><BR></P>
             <P>We go through every page in the source document drawing a framed 
             copy of each page at a different position on our four-up document. 
             Every fourth page we add a new page into our destination 
@@ -231,37 +212,12 @@ theY = theDst.MediaBox.Height / 2
 &nbsp;&nbsp;dst.AddImageDoc(src, i, null);
 &nbsp;&nbsp;dst.FrameRect();
 }
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim i As Integer = 1
-While i &lt;= theCount
-&nbsp;&nbsp;Select Case i Mod 4
-&nbsp;&nbsp;&nbsp;&nbsp;Case 1
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDst.Page = theDst.AddPage()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDst.Rect.Position(10, theY + 10)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
-&nbsp;&nbsp;&nbsp;&nbsp;Case 2
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDst.Rect.Position(theX + 10, theY + 10)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
-&nbsp;&nbsp;&nbsp;&nbsp;Case 3
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDst.Rect.Position(10, 10)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
-&nbsp;&nbsp;&nbsp;&nbsp;Case 0
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDst.Rect.Position(theX + 10, 10)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
-&nbsp;&nbsp;End Select
-&nbsp;&nbsp;theDst.AddImageDoc(theSrc, i, Nothing)
-&nbsp;&nbsp;theDst.FrameRect()
-&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-End While
-</code></pre></P>
+</code></pre><BR></P>
             <P>Finally we save. </P>
             <P><SPAN 
             class=language>[C#]</SPAN><BR><pre><code class="language-csharp">dst.Save(Server.MapPath("fourup.pdf"));
 // finished
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">theDst.Save(Server.MapPath("fourup.pdf"))
-' finished
-</code></pre></P>
+</code></pre><BR></P>
             <P>We get the following output.</P>
             <TABLE border=0 cellSpacing=3 cellPadding=3 width="100%">
               <TBODY>

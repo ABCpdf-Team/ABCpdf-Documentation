@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Levels Effect</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -155,36 +155,7 @@
 &nbsp;&nbsp;}
 }
 </code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Sub ...
-&nbsp;&nbsp;Using doc As New Doc()
-&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img6)
-&nbsp;&nbsp;&nbsp;&nbsp;' original image
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLevels.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img6)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Levels")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("White Input").Value = 80
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLevelsWI80.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img6)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Levels")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Black Input").Value = 20
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLevelsBI20.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img6)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Levels")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("White Output").Value = 80
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectLevelsWO80.jpg")
-&nbsp;&nbsp;End Using
-End Sub
-</code></pre><br>
+              
             </p>
             <table border="0" cellpadding="5" cellspacing="0" bordercolor="#999999">
               <tr>

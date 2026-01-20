@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XHtmlOptions HttpAdditionalHeaders Property. Additional HTTP headers to send in the request. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -36,8 +36,7 @@
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
                 <TD align=left><SPAN 
-                  class=language>[C#]</SPAN><BR><CODE>string</CODE><BR><BR><SPAN 
-                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>String</CODE></TD>
+                  class=language>[C#]</SPAN><BR><CODE>string</CODE></TD>
                 <TD>""</TD>
                 <TD>No</TD>
                 <TD>Additional HTTP headers to send in the request.</TD></TR></TBODY></TABLE>
@@ -107,48 +106,7 @@ doc.HtmlOptions.NoCookie = true;
 doc.HtmlOptions.PageLoadMethod = PageLoadMethodType.MonikerForHtml;
 int id = doc.AddImageUrl(url);
 doc.Save(Server.MapPath("HttpHeaders.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR>
-<pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim url As String = "https://www.websupergoo.com/"
-&nbsp;&nbsp;' assign appropriate URL
-&nbsp;&nbsp;Dim request As HttpWebRequest = DirectCast(WebRequest.Create(url), HttpWebRequest)
-&nbsp;&nbsp;request.CookieContainer = New CookieContainer()
-&nbsp;&nbsp;' required for HttpWebResponse.Cookies
-&nbsp;&nbsp;request.Credentials = Nothing
-&nbsp;&nbsp;' assign appropriate credentials
-&nbsp;&nbsp;Using resp As WebResponse = request.GetResponse()
-&nbsp;&nbsp;&nbsp;&nbsp;' cookieless Forms Authentication adds authentication ticket to the URL
-&nbsp;&nbsp;&nbsp;&nbsp;url = resp.ResponseUri.AbsoluteUri
-&nbsp;&nbsp;&nbsp;&nbsp;Dim response As HttpWebResponse = DirectCast(resp, HttpWebResponse)
-&nbsp;&nbsp;&nbsp;&nbsp;If response.Cookies.Count &gt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' includes ASP.NET_SessionId
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim needsCookie2 As Boolean = False
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim builder As New StringBuilder("Cookie: ")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; response.Cookies.Count
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim cookie As Cookie = response.Cookies(i)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Not needsCookie2 AndAlso cookie.Version &lt;&gt; 1 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;needsCookie2 = True
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If i &gt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;builder.Append("; ")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;builder.Append(cookie.ToString())
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;builder.Append(If(Not needsCookie2, vbCr &amp; vbLf, vbCr &amp; vbLf &amp; "Cookie2: $Version=1" &amp; vbCr &amp; vbLf))
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.HtmlOptions.HttpAdditionalHeaders = builder.ToString()
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;End Using
-&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.MSHtml
-&nbsp;&nbsp;doc.HtmlOptions.NoCookie = True
-&nbsp;&nbsp;doc.HtmlOptions.PageLoadMethod = PageLoadMethodType.MonikerForHtml
-&nbsp;&nbsp;Dim id As Integer = doc.AddImageUrl(url)
-&nbsp;&nbsp;doc.Save(Server.MapPath("HttpHeaders.pdf"))
-End Using
-</code></pre>
-</P>
+</code></pre><BR></P>
             <TABLE class=backgrounder cellPadding=10 border=0>
               <TBODY>
               <TR>

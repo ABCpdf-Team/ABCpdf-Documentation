@@ -260,10 +260,6 @@ property. Write access to the registry is required for a trial to be inserted.</
 <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">using WebSupergoo.ABCpdf13;
 MessageBox.Show("New License: " + XSettings.LicenseDescription);
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">Imports WebSupergoo.ABCpdf13
-MessageBox.Show("New License: " + XSettings.LicenseDescription)
 </code></pre></p>
 <p>You can use a full license key as provided to you
 when you purchase, or you can use a trial license key copied from the
@@ -280,16 +276,6 @@ if (XSettings.InstallLicense("cd9b5c07db69df2bf57c0a04d9bca58b10c44889c9fb197984
 &nbsp;&nbsp;MessageBox.Show($"License Installed Successfully: {XSettings.LicenseDescription} Version {XSettings.Version}");
 else
 &nbsp;&nbsp;MessageBox.Show($"License Installation Failed: {XSettings.LicenseDescription} Version {XSettings.Version}");
-</code></pre>
-<br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">Imports WebSupergoo.ABCpdf13
-' here we use a trial license key as copied from the PDFSettings application
-If XSettings.InstallLicense("cd9b5c07db69df2bf57c0a04d9bca58b10c44889c9fb197984e592f49addfce5ec5fe85d7b9205bc") Then
-&nbsp;&nbsp;MessageBox.Show($&quot;License Installed Successfully: {XSettings.LicenseDescription} Version {XSettings.Version}&quot;)
-Else
-&nbsp; MessageBox.Show($&quot;License Installation Failed: {XSettings.LicenseDescription} Version {XSettings.Version}&quot;)
-End If
 </code></pre>
 </p>
 <table class="backgrounder" border="0" cellpadding="10">

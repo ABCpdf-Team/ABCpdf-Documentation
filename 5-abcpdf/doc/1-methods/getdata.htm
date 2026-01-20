@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc GetData Function. Saves a document to memory. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -177,22 +177,7 @@ Response.AddHeader("content-length", theData.Length.ToString());
 Response.BinaryWrite(theData);
 Response.End();
 %&gt;
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">&lt;% @Page Language="Visual Basic" %&gt;
-&lt;% @Import Namespace=" WebSupergoo.ABCpdf13" %&gt;
-&lt;%
-Dim theDoc As Doc = New Doc()
-theDoc.FontSize = 96
-theDoc.AddText("Hello World")
-Dim theData() As Byte = theDoc.GetData()
-Response.Clear()
-Response.ContentType = "application/pdf"
-Response.AddHeader("content-disposition", "inline; filename=MyPDF.PDF")
-Response.AddHeader("content-length", theData.Length.ToString())
-Response.BinaryWrite(theData)
-Response.End()
-%&gt;
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/docsave.pdf.png" 
             class="example"><BR>hello.asp<BR></P>
             <P>&nbsp;</P></TD>

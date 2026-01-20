@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XSaveTemplateData SetMeasureResolution Function. Sets the measurement resolutions. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -40,10 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
             SetMeasureResolution(double dpi)<BR>void
-            SetMeasureResolution(double dpiX, double dpiY)<BR></CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Sub 
-            SetMeasureResolution(dpi As Double)<BR>Sub 
-            SetMeasureResolution(dpiX As Double, dpiY As Double)<BR></CODE></P>
+            SetMeasureResolution(double dpiX, double dpiY)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -113,15 +110,7 @@ doc.Read(Server.MapPath("../mypics/sample.pdf"));
 doc.SaveOptions.TemplateData = new XSaveTemplateData();
 doc.SaveOptions.TemplateData.SetMeasureResolution(72);
 doc.Save(Server.MapPath("swfsave_mr.swf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR>
-<pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
-&nbsp;&nbsp;doc.SaveOptions.TemplateData = New XSaveTemplateData()
-&nbsp;&nbsp;doc.SaveOptions.TemplateData.SetMeasureResolution(72)
-&nbsp;&nbsp;doc.Save(Server.MapPath("swfsave_mr.swf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

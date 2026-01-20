@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XImage SetData Function. Load an image from data. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -115,23 +115,7 @@ img.SetData(theData);
 doc.Rect.Inset(20, 20);
 doc.AddImageObject(img, false);
 doc.Save(Server.MapPath("imagesetdata.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theImg As New XImage()
-Dim doc As New Doc()
-' read the data from a file
-Dim thePath As String = Server.MapPath("../mypics/mypic.jpg")
-Dim theStream As FileStream = File.OpenRead(thePath)
-Dim theData As Byte() = New Byte(theStream.Length - 1) {}
-theStream.Read(theData, 0, DirectCast(theStream.Length, Integer))
-theStream.Close()
-' place the data into the image
-theImg.SetData(theData)
-doc.Rect.Inset(20, 20)
-doc.AddImageObject(theImg, False)
-theImg.Clear()
-doc.Save(Server.MapPath("imagesetdata.pdf"))
-doc.Clear()
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/imagesetdata.pdf.png" 
             class="example"><BR>imagesetdata.pdf</P>
             <P>&nbsp;</P></TD>

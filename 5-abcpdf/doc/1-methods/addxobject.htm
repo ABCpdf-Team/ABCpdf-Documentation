@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddXObject Function. Add a Form or Image XObject to the current page. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -114,19 +114,7 @@ pm.SetBitmap(img, true);
 doc.AddXObject(pm);
 doc.Save(Server.MapPath("examplePixMapBitmap.pdf"));
 </code></pre><br>
-                <span class=language>[Visual Basic]</span><br>
-                <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(50, 50)
-&nbsp;&nbsp;doc.Transform.Rotate(20, 200, 200)
-&nbsp;&nbsp;doc.Color.SetRgb(200, 200, 255)
-&nbsp;&nbsp;doc.FillRect()
-&nbsp;&nbsp;Dim pm As New PixMap(doc.ObjectSoup)
-&nbsp;&nbsp;Dim img As Bitmap = DirectCast(Bitmap.FromFile(Server.MapPath("mypics/mypic.png")), Bitmap)
-&nbsp;&nbsp;pm.SetBitmap(img, True)
-&nbsp;&nbsp;doc.AddXObject(pm)
-&nbsp;&nbsp;doc.Save(Server.MapPath("examplePixMapBitmap.pdf"))
-End Using
-</code></pre></P>
+                </P>
             <p><img src="../../../images/pdf/examplePixMapBitmap.pdf.png" class="example"><BR>
               examplePixMapBitmap.pdf</p>
             <p>&nbsp;</p>

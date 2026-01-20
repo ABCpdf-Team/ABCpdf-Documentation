@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements AppearanceElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,8 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">AppearanceElement</a>()<br> <a href="../default.htm">AppearanceElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">AppearanceElement</a>(IndirectObject obj)<br> <a href="../default.htm">AppearanceElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE><a href="../default.htm">AppearanceElement</a>()<br><a href="../default.htm">AppearanceElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">AppearanceElement</a>(obj As IndirectObject)<br><a href="../default.htm">AppearanceElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -194,73 +192,7 @@ if (inAppearanceText != null) {
 
 return formField;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim cat As New <a href="../../../07-syntax/1081-catalogelement/default.htm">CatalogElement</a>(Doc.ObjectSoup.Catalog)
-cat.EntryAcroForm.EntrySigFlags = 3
 
-&#39; NB If you don&#39;t want your signature to print then set the /F flag to 0
-Dim fieldID As Integer = Doc.AddObject(&quot;&lt;&lt;/Type /Annot /Subtype /Widget /F 4 /FT /Sig /DA (/TimesRoman 0 Tf 0 g)&gt;&gt;&quot;)
-Dim widget As New <a href="../../1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a>(Doc.ObjectSoup(fieldID))
-Dim field As <a href="../../1454-signaturefieldelement/default.htm">SignatureFieldElement</a> = CType(widget.FieldElement, <a href="../../1454-signaturefieldelement/default.htm">SignatureFieldElement</a>)
-
-Dim formField As New FormField(Me, inName, field.Object.ID)
-formField.Widget.Rect = New XRect(inRect)
-
-If mSig Is Nothing Then
-&nbsp;&nbsp;Doc.Form.Refresh()
-Else
-&nbsp;&nbsp;Dim sigName As String = mSig.Name
-&nbsp;&nbsp;Doc.Form.Refresh()
-&nbsp;&nbsp;mSig = CType(Doc.Form(sigName), Signature)
-End If
-
-If inAppearanceText IsNot Nothing Then
-&nbsp;&nbsp;Dim rect As XRect = widget.EntryRect.GetRect()
-&nbsp;&nbsp;rect.Pin = XRect.Corner.TopLeft
-&nbsp;&nbsp;rect.Width = 200 &#39; Change this to fit the Text
-&nbsp;&nbsp;rect.Height = 60 &#39; Change this to fit the Text
-&nbsp;&nbsp;widget.EntryRect.SetRect(rect)
-&nbsp;&nbsp;rect.Pin = XRect.Corner.BottomLeft
-&nbsp;&nbsp;rect.Position(0, 0)
-
-&nbsp;&nbsp;Dim fontSize As Integer = 12
-&nbsp;&nbsp;Dim theRect As String = Doc.Rect.String
-&nbsp;&nbsp;Dim theFont As Integer = Doc.Font
-&nbsp;&nbsp;Dim theFontSize As Integer = Doc.FontSize
-&nbsp;&nbsp;Dim charSpacing As Double = Doc.TextStyle.CharSpacing
-&nbsp;&nbsp;Dim lineSpacing As Double = Doc.TextStyle.LineSpacing
-&nbsp;&nbsp;Dim pageID As Integer = Doc.Page
-
-&nbsp;&nbsp;&#39; Use a detached page to avoid changes to the current page
-&nbsp;&nbsp;&#39; or to the page tree for a new page
-&nbsp;&nbsp;Doc.Page = Doc.AddObject(&quot;&lt;&lt;/Type /Page /MediaBox [&quot; &amp; rect.String &amp; &quot;] &gt;&gt;&quot;)
-&nbsp;&nbsp;Doc.Rect.String = rect.String
-
-&nbsp;&nbsp;Dim fontID As Integer = Doc.AddFont(&quot;Times-Roman&quot;)
-&nbsp;&nbsp;Doc.Font = fontID
-&nbsp;&nbsp;Doc.FontSize = fontSize
-&nbsp;&nbsp;Doc.TextStyle.CharSpacing = 0
-&nbsp;&nbsp;Doc.TextStyle.LineSpacing = 2
-&nbsp;&nbsp;Dim textID As Integer = Doc.AddText(inAppearanceText)
-&nbsp;&nbsp;Dim textStream As String = Doc.GetInfo(textID, &quot;Stream&quot;)
-&nbsp;&nbsp;Doc.Delete(textID)
-&nbsp;&nbsp;Dim l1 As Integer = textStream.IndexOf(&quot;/Fabc&quot;, 0, textStream.Length)
-&nbsp;&nbsp;Dim l2 As Integer = textStream.IndexOf(&quot; &quot;, l1, textStream.Length - l1)
-&nbsp;&nbsp;Dim fontResName As String = textStream.Substring(l1 + 1, l2 - l1 - 1)
-
-&nbsp;&nbsp;Doc.Delete(Doc.Page)
-&nbsp;&nbsp;Doc.Page = pageID
-&nbsp;&nbsp;Doc.Rect.String = theRect
-&nbsp;&nbsp;Doc.Font = theFont
-&nbsp;&nbsp;Doc.FontSize = theFontSize
-&nbsp;&nbsp;Doc.TextStyle.CharSpacing = charSpacing
-&nbsp;&nbsp;Doc.TextStyle.LineSpacing = lineSpacing
-
-&nbsp;&nbsp;widget.EntryAP = New <a href="../default.htm">AppearanceElement</a>(widget)
-&nbsp;&nbsp;widget.EntryAP.EntryN = MakeAppearance(rect, Nothing, 0, fontResName, fontID, textStream)
-End If
-
-Return formField
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

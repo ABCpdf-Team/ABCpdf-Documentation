@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Signature CustomSigner Property. A delegate called to perform custom signing of the PDF. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,9 +35,6 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>SigningDelegate</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code>SigningDelegate</code></td>
                 <td>null</td>
                 <td>No</td>
@@ -64,10 +61,7 @@
             <P><SPAN class=language>[C#]</SPAN><BR>
                 <pre><code class="language-csharp">delegate byte[] SigningDelegate(byte[] data);
 </code></pre><BR>
-              <SPAN 
-            class=language>[Visual&nbsp;Basic]</SPAN><BR>
-              <pre><code class="language-vbnet">Delegate Function SigningDelegate(data As Byte()) As Byte();
-</code></pre></P>
+              </P>
             <P>The type of data passed to your delegate is determined by the data type you specify when you call the <a href="../1-methods/sign.htm">Sign</a> method. The default type is DataType.Pkcs9Digest which is what will be used if you do not specify a type.</P>
             <P>For DataType.Pkcs9Digest  the data is an ASN.1 encoded PKCS9 digest of the PDF content which includes the digest of the document data with additional attributes required according to any desired <a href="compliancepades.htm">CompliancePades</a> level that you have specified. For DataType.RawDigest the data is the raw digest of the document data.</P>
             <p>In either case ABCpdf will create the digest using the algorithm specified by the Oid passed to the <a href="../1-methods/sign.htm">Signature.Sign</a> method. Where the Sign method overload does not take an Oid the default algorithm of SHA256 will be used.</p>
@@ -115,31 +109,7 @@ if (!sig.Validate())
 doc.Save(Server.MapPath("SignedDoc.pdf"));
 </code></pre>
         <BR>
-                    <SPAN class=language>[Visual Basic]</SPAN><BR>
-                    <pre><code class="language-vbnet">Dim cert As X509Certificate2 = FindCertificate()
-If cert = Nothing Then
-&nbsp;&nbsp;Return
-End If
-' no certificate found
-Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("mypics/BlankSignature.pdf"))
-&nbsp;&nbsp;Dim sig As Signature = DirectCast(doc.Form.Fields("Signature1"), Signature)
-&nbsp;&nbsp;sig.CustomSigner = ExternalSigner
-&nbsp;&nbsp;sig.Reason = "Test External Signing"
-&nbsp;&nbsp;' Just use public certificate from file - i.e. do not obtain from registry
-&nbsp;&nbsp;Dim gs = New X509Certificate2(Server.MapPath("GlobalSign.cer"))
-&nbsp;&nbsp;sig.Sign(gs, True, New Oid(CryptoConfig.MapNameToOID("SHA512")), X509IncludeOption.EndCertOnly)
-&nbsp;&nbsp;cert = FindCertificate()
-&nbsp;&nbsp;' here we commit and validate to ensure the data is correct
-&nbsp;&nbsp;sig = DirectCast(doc.Form.Fields("Signature1"), Signature)
-&nbsp;&nbsp;' signature must be re-retrieved after a Commit/Save
-&nbsp;&nbsp;If Not sig.Validate() Then
-&nbsp;&nbsp;&nbsp;&nbsp;Throw New Exception("Signing failed!")
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;doc.Save(Server.MapPath("SignedDoc.pdf"))
-End Using
-</code></pre>
-            </P>
+                    </P>
                 <p>The code above uses the following External Signer.</p>
                 <P>
                     <SPAN class=language>[C#]</SPAN><BR>
@@ -173,39 +143,7 @@ X509Certificate2 FindCertificate() {
 &nbsp;&nbsp;return cert;
 }
 </code></pre><BR>
-                    <SPAN class=language>[Visual Basic]</SPAN><BR>
-                    <pre><code class="language-vbnet">Private Function ExternalSigner(data As Byte()) As Byte()
-&nbsp;&nbsp;Dim password = New SecureString()
-&nbsp;&nbsp;' needs value
-&nbsp;&nbsp;Dim rsa = DirectCast(cert.PrivateKey, RSACryptoServiceProvider)
-&nbsp;&nbsp;Dim cspParams = New CspParameters(1, rsa.CspKeyContainerInfo.ProviderName, rsa.CspKeyContainerInfo.UniqueKeyContainerName) With { _
-&nbsp;&nbsp;&nbsp;&nbsp;Key .KeyPassword = password, _
-&nbsp;&nbsp;&nbsp;&nbsp;Key .Flags = CspProviderFlags.NoPrompt _
-&nbsp;&nbsp;}
-&nbsp;&nbsp;Dim service = New RSACryptoServiceProvider(cspParams)
-&nbsp;&nbsp;Return service.SignData(data, CryptoConfig.MapNameToOID("SHA512"))
-End Function
-Private Function FindCertificate() As X509Certificate2
-&nbsp;&nbsp;Dim serial As String = "10 20 30 10 40 10 40 50 60 10 20 30"
-&nbsp;&nbsp;' needs value
-&nbsp;&nbsp;Dim cert As X509Certificate2 = Nothing
-&nbsp;&nbsp;Dim store = New X509Store(StoreName.My, StoreLocation.CurrentUser)
-&nbsp;&nbsp;Try
-&nbsp;&nbsp;&nbsp;&nbsp;store.Open(OpenFlags.[ReadOnly] Or OpenFlags.OpenExistingOnly Or OpenFlags.MaxAllowed)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim certs = store.Certificates.Find(X509FindType.FindBySerialNumber, serial, False)
-&nbsp;&nbsp;&nbsp;&nbsp;If certs.Count = 1 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cert = store.Certificates.Find(X509FindType.FindBySerialNumber, serial, False)(0)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If TypeOf cert.PrivateKey Is RSACryptoServiceProvider = False Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cert = Nothing
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;Finally
-&nbsp;&nbsp;&nbsp;&nbsp;store.Close()
-&nbsp;&nbsp;End Try
-&nbsp;&nbsp;Return cert
-End Function
-</code></pre>
-              </P>
+                    </P>
             </td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td>

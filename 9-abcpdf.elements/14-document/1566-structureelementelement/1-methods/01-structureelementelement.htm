@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements StructureElementElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,8 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">StructureElementElement</a>()<br> <a href="../default.htm">StructureElementElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">StructureElementElement</a>(IndirectObject obj)<br> <a href="../default.htm">StructureElementElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE><a href="../default.htm">StructureElementElement</a>()<br><a href="../default.htm">StructureElementElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">StructureElementElement</a>(obj As IndirectObject)<br><a href="../default.htm">StructureElementElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -155,36 +153,7 @@ foreach (Row row in table.Items) {
 }
 tb.SetParent(parent, index);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">If table.Items.Count &lt;= 1 Then
-&nbsp;&nbsp;continue &#39; too small
-End If
-Dim index As Integer = 0
-Dim parent As <a href="../default.htm">StructureElementElement</a> = Nothing
-Dim tb As New <a href="../default.htm">StructureElementElement</a>(document)
-tb.EntryType = &quot;StructElem&quot;
-tb.EntryS = &quot;Table&quot;
-For Each row As Row In table.Items
-&nbsp;&nbsp;Dim tr As New <a href="../default.htm">StructureElementElement</a>(document)
-&nbsp;&nbsp;tr.EntryType = &quot;StructElem&quot;
-&nbsp;&nbsp;tr.EntryS = &quot;TR&quot;
-&nbsp;&nbsp;tr.SetParent(tb)
-&nbsp;&nbsp;For Each item As <a href="../default.htm">StructureElementElement</a> In row.Items
-&nbsp;&nbsp;&nbsp;&nbsp;If (parent Is Nothing) AndAlso (item IsNot Nothing) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(TypeOf item.EntryP Is <a href="../../1565-structuretreerootelement/default.htm">StructureTreeRootElement</a> = False)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent = TryCast(item.EntryP, <a href="../default.htm">StructureElementElement</a>)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index = parent.EntryK.IndexOf(item)
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;Dim td As New <a href="../default.htm">StructureElementElement</a>(document)
-&nbsp;&nbsp;&nbsp;&nbsp;td.EntryType = &quot;StructElem&quot;
-&nbsp;&nbsp;&nbsp;&nbsp;td.EntryS = &quot;TD&quot;
-&nbsp;&nbsp;&nbsp;&nbsp;td.SetParent(tr)
-&nbsp;&nbsp;&nbsp;&nbsp;If item IsNot Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.SetParent(td)
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;Next item
-Next row
-tb.SetParent(parent, index)
-</code></pre></P>
+
 <P>This code snippet is taken from Form1.cs line 335 in the AccessiblePDF example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">theDoc.Read(src);
 AccessibilityOperation op = new AccessibilityOperation(theDoc);
@@ -230,55 +199,7 @@ for (int i = 0; i &lt; headers.Count; i++) {
 }
 theDoc.Save(dst);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">theDoc.Read(src)
-Dim op As New AccessibilityOperation(theDoc)
-op.PageContents.AddPages()
-op.MakeAccessible()
-theDoc.Save(dst)
-Dim tags As [Structure] = New [Structure]()
-tags.Load(theDoc)
-&#39; reorder elements so that they go from top to bottom
-Dim document As <a href="../default.htm">StructureElementElement</a> = CType(tags.Root.EntryK(0), <a href="../default.htm">StructureElementElement</a>)
-KidArranger.SortTopToBottom(tags, document)
-&#39; determine what styles are used for headers and change tag type appropriately
-Dim elements As List(Of <a href="../default.htm">StructureElementElement</a>) = tags.FindElementsByType(&quot;P&quot;)
-Dim styles As New Dictionary(Of String, List(Of <a href="../default.htm">StructureElementElement</a>))()
-For Each element As <a href="../default.htm">StructureElementElement</a> In elements
-&nbsp;&nbsp;Dim weight As String = Nothing
-&nbsp;&nbsp;If Not element.GetStyle().TryGetValue(&quot;font-weight&quot;, weight) Then
-&nbsp;&nbsp;&nbsp;&nbsp;Continue For &#39; we are only interested in bold fonts
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;Dim value As Integer = 0
-&nbsp;&nbsp;If (Not Integer.TryParse(weight, value)) OrElse (value &lt; 700) Then
-&nbsp;&nbsp;&nbsp;&nbsp;Continue For
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;Dim size As String = Nothing
-&nbsp;&nbsp;If Not element.GetStyle().TryGetValue(&quot;font-size&quot;, size) Then
-&nbsp;&nbsp;&nbsp;&nbsp;Continue For
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;Dim matches As List(Of <a href="../default.htm">StructureElementElement</a>) = Nothing
-&nbsp;&nbsp;If Not styles.TryGetValue(size, matches) Then
-&nbsp;&nbsp;&nbsp;&nbsp;matches = New List(Of <a href="../default.htm">StructureElementElement</a>)()
-&nbsp;&nbsp;&nbsp;&nbsp;styles(size) = matches
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;matches.Add(element)
-Next element
-Dim headers As New List(Of Style)()
-For Each pair As KeyValuePair(Of String, List(Of <a href="../default.htm">StructureElementElement</a>)) In styles
-&nbsp;&nbsp;headers.Add(New Style(pair.Key, pair.Value))
-Next pair
-headers.Sort(Function(i1, i2) i1.Elements.Count.CompareTo(i2.Elements.Count))
-For i As Integer = 0 To headers.Count - 1
-&nbsp;&nbsp;If i &gt; 4 Then
-&nbsp;&nbsp;&nbsp;&nbsp;Exit For &#39; limit the number of header levels
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;Dim tag As String = &quot;H&quot; &amp; (i + 1).ToString()
-&nbsp;&nbsp;For Each element As <a href="../default.htm">StructureElementElement</a> In headers(i).Elements
-&nbsp;&nbsp;&nbsp;&nbsp;element.EntryS = tag
-&nbsp;&nbsp;Next element
-Next i
-theDoc.Save(dst)
-</code></pre></P>
+
 <P>This code snippet is taken from Form1.cs line 406 in the AccessiblePDF example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">list = new <a href="../default.htm">StructureElementElement</a>(document);
 list.EntryType = &quot;StructElem&quot;;
@@ -289,15 +210,7 @@ Debug.Assert(parent != null);
 int index = parent.EntryK.IndexOf(element);
 list.SetParent(parent, index);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">list = New <a href="../default.htm">StructureElementElement</a>(document)
-list.EntryType = &quot;StructElem&quot;
-list.EntryS = &quot;L&quot;
-Debug.Assert(TypeOf element.EntryP Is <a href="../../1565-structuretreerootelement/default.htm">StructureTreeRootElement</a> = False)
-Dim parent As <a href="../default.htm">StructureElementElement</a> = TryCast(element.EntryP, <a href="../default.htm">StructureElementElement</a>)
-Debug.Assert(parent IsNot Nothing)
-Dim index As Integer = parent.EntryK.IndexOf(element)
-list.SetParent(parent, index)
-</code></pre></P>
+
 <P>This code snippet is taken from Form1.cs line 435 in the AccessiblePDF example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">theDoc.Read(src);
 AccessibilityOperation op = new AccessibilityOperation(theDoc);
@@ -339,73 +252,24 @@ foreach (<a href="../default.htm">StructureElementElement</a> element in element
 }
 theDoc.Save(dst);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">theDoc.Read(src)
-Dim op As New AccessibilityOperation(theDoc)
-op.PageContents.AddPages()
-op.MakeAccessible()
-theDoc.Save(dst)
-Dim tags As [Structure] = New [Structure]()
-tags.Load(theDoc)
-&#39; reorder elements so that they go from top to bottom
-Dim document As <a href="../default.htm">StructureElementElement</a> = CType(tags.Root.EntryK(0), <a href="../default.htm">StructureElementElement</a>)
-KidArranger.SortTopToBottom(tags, document)
-&#39; define structure hierarchy template
-Dim template As New List(Of Heading)()
-template.Add(New Heading(&quot;Title &quot;, &quot;Part&quot;, 1))
-template.Add(New Heading(&quot;Subheader &quot;, &quot;Sect&quot;, 2))
-&#39; detect and insert section item structure
-Dim elements As List(Of <a href="../default.htm">StructureElementElement</a>) = tags.FindElementsByType(&quot;P&quot;)
-Dim hierarchy As New Stack(Of <a href="../default.htm">StructureElementElement</a>)()
-For Each element As <a href="../default.htm">StructureElementElement</a> In elements
-&nbsp;&nbsp;Dim text As String = element.EntryActualText.TrimStart()
-&nbsp;&nbsp;For Each item As Heading In template
-&nbsp;&nbsp;&nbsp;&nbsp;If text.StartsWith(item.Match) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Do While hierarchy.Count &gt;= item.Level
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy.Pop()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loop
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If hierarchy.Count = item.Level - 1 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim heading As New <a href="../default.htm">StructureElementElement</a>(document)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heading.EntryType = &quot;StructElem&quot;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heading.EntryS = item.Type
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim parent As <a href="../default.htm">StructureElementElement</a> = CType(element.EntryP, <a href="../default.htm">StructureElementElement</a>)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim index As Integer = parent.EntryK.IndexOf(element)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heading.SetParent(If(hierarchy.Count &gt; 0, hierarchy.Peek(), parent), index)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy.Push(heading)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit For
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;Next item
-&nbsp;&nbsp;If hierarchy.Count &gt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;element.SetParent(hierarchy.Peek(), Int32.MaxValue)
-&nbsp;&nbsp;End If
-Next element
-theDoc.Save(dst)
-</code></pre></P>
+
 <P>This code snippet is taken from TableDetection.cs line 171 in the AccessiblePDF example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">_tags = tags;
 _items = new List&lt;<a href="../default.htm">StructureElementElement</a>&gt;();
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">_tags = tags
-_items = New List(Of <a href="../default.htm">StructureElementElement</a>)()
-</code></pre></P>
+
 <P>This code snippet is taken from TaggedPDF.cs line 61 in the AccessiblePDF example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">_root = new <a href="../default.htm">StructureElementElement</a>(root, _catalog);
 DictAtom tree = _catalog.Resolve(Atom.GetItem(_root.Atom, &quot;ParentTree&quot;)) as DictAtom;
 _parentTree = new ParentTree(this, tree);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">_root = New <a href="../default.htm">StructureElementElement</a>(root, _catalog)
-Dim tree As DictAtom = TryCast(_catalog.Resolve(Atom.GetItem(_root.Atom, &quot;ParentTree&quot;)), DictAtom)
-_parentTree = New ParentTree(Me, tree)
-</code></pre></P>
+
 <P>This code snippet is taken from TaggedPDF.cs line 69 in the AccessiblePDF example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">List&lt;<a href="../default.htm">StructureElementElement</a>&gt; items = new List&lt;<a href="../default.htm">StructureElementElement</a>&gt;();
 FindElementsByType(_root, items, type);
 return items;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim items As New List(Of <a href="../default.htm">StructureElementElement</a>)()
-FindElementsByType(_root, items, type)
-Return items
-</code></pre></P>
+
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

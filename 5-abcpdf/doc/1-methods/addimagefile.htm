@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddImageFile Function. Extract an image from a file and add it to the current page. ABCpdf .NET PDF Library.</TITLE>
 <META content="text/html; charset=iso-8859-1" http-equiv=Content-Type><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -42,10 +42,7 @@
 <pre><code class="language">int AddImageFile(string path)<BR>
 int AddImageFile(string path, int frame)
 </code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language">Function AddImageFile(path As String) As Integer <BR>
-Function AddImageFile(path As String, frame As Integer) As Integer
-</code></pre></p>
+</p>
             <P><CODE><IMG border=0 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 height=10> may 
             throw Exception()</CODE></P>
@@ -116,18 +113,14 @@ href="../../xtransform/default.htm">Transform</A>.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.SetInfo(theDoc.GetInfoInt(theID, "XObject"), "/SMask*/Decode", "[1 0]");
 </code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.SetInfo(theDoc.GetInfoInt(theID, "XObject"), "/SMask*/Decode", "[1 0]")
-</code></pre></p>
+</p>
                   <P>A similar technique can be used for inverting or altering 
                   color levels on the image itself. </P>
                   <P>To invert an RGB image:</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.SetInfo(theDoc.GetInfoInt(theID, "XObject"), "/Decode", "[1 0 1 0 1 0]");
 </code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.SetInfo(theDoc.GetInfoInt(theID, "XObject"), "/Decode", "[1 0 1 0 1 0]")
-</code></pre></p></TD></TR></TBODY></TABLE>
+</p></TD></TR></TBODY></TABLE>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -147,14 +140,7 @@ doc.Rect.String = "0 0 510 638";
 string path = Server.MapPath("../mypics/pic.jpg");
 doc.AddImageFile(path, 1);
 doc.Save(Server.MapPath("docaddimage.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.String = "0 0 510 638"
-&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/pic.jpg")
-&nbsp;&nbsp;doc.AddImageFile(thePath, 1)
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddimage.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/docaddimage.pdf.png"
             class="example"><BR>docaddimage.pdf </P>
             <p>Also see example code in: <a href="../../../6-abcpdf.objects/pixmap/1-methods/setalpha.htm">PixMap SetAlpha Function</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/tograyscale.htm">PixMap ToGrayscale Function</a>.</p>

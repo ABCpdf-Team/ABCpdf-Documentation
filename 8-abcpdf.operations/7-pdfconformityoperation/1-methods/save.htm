@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>PdfConformityOperation Save Function. Write the conforming PDF document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -117,26 +117,7 @@ using (var theOperation = new PdfConformityOperation()) {
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Errors[i]);
 &nbsp;&nbsp;}
 }
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR>
-            <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("mypics/Acrobat.pdf"))
-&nbsp;&nbsp;Dim thePath As String = Server.MapPath("pdfa_save.pdf")
-&nbsp;&nbsp;Using theOperation As New PdfConformityOperation()
-&nbsp;&nbsp;&nbsp;&nbsp;theOperation.Conformance = PdfConformance.PdfA1b
-&nbsp;&nbsp;&nbsp;&nbsp;theOperation.Save(doc, thePath)
-
-&nbsp;&nbsp;&nbsp;&nbsp;If theOperation.Errors.Count &gt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Errors:")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; theOperation.Errors.Count
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Errors(i))
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;End Using
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P>&nbsp;</P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

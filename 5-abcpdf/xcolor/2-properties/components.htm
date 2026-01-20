@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XColor Components Property. The components of the color in native PDF format. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,9 +35,6 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>IList&lt;double&gt;</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code>IList&lt;double&gt;</code></td>
                 <td>n/a</td>
                 <td>No</td>
@@ -91,24 +88,7 @@ doc.Color.Components[2] = +50; // B range is -100 to +100
 doc.AddOval(true);
 doc.Save(Server.MapPath("examplelabcolorspace.pdf"));
 </code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Width = 80
-&nbsp;&nbsp;doc.Rect.Inset(50, 50)
-&nbsp;&nbsp;Dim cs As New ColorSpace(doc.ObjectSoup, ColorSpaceType.Lab)
-&nbsp;&nbsp;doc.ColorSpace = cs.ID
-&nbsp;&nbsp;' This Lab color is a deep green
-&nbsp;&nbsp;doc.Color.ColorSpace = ColorOperatorType.ColorSpace
-&nbsp;&nbsp;doc.Color.Components(0) = 50
-&nbsp;&nbsp;' L range is 0 to +100
-&nbsp;&nbsp;doc.Color.Components(1) = -50
-&nbsp;&nbsp;' a range is -100 to +100
-&nbsp;&nbsp;doc.Color.Components(2) = +50
-&nbsp;&nbsp;' B range is -100 to +100
-&nbsp;&nbsp;doc.AddOval(True)
-&nbsp;&nbsp;doc.Save(Server.MapPath("examplelabcolorspace.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/examplelabcolorspace.pdf.png" class="example"><BR>
               examplelabcolorspace.pdf</p>
             <p>&nbsp;</p>

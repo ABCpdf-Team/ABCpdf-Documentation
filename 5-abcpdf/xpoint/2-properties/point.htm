@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XPoint Point Property. The System.Drawing.Point. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,9 +35,6 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>Point</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code>Point</code></td>
                 <td>n/a</td>
                 <td>No</td>
@@ -104,22 +101,7 @@ doc.Pos.Point = pt;
 doc.AddText("Three");
 doc.Save(Server.MapPath("xptpt.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;Dim pt As Point = doc.Pos.Point
-&nbsp;&nbsp;pt.Offset(100, 150)
-&nbsp;&nbsp;doc.Pos.Point = pt
-&nbsp;&nbsp;doc.AddText("One")
-&nbsp;&nbsp;pt.Offset(100, 150)
-&nbsp;&nbsp;doc.Pos.Point = pt
-&nbsp;&nbsp;doc.AddText("Two")
-&nbsp;&nbsp;pt.Offset(100, 150)
-&nbsp;&nbsp;doc.Pos.Point = pt
-&nbsp;&nbsp;doc.AddText("Three")
-&nbsp;&nbsp;doc.Save(Server.MapPath("xptpt.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/xptpt.pdf.png" class="example"><br>
               xptpt.pdf </p>
           <p>&nbsp;</p>

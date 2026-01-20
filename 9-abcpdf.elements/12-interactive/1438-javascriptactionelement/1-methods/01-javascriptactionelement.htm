@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements JavaScriptActionElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,8 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">JavaScriptActionElement</a>()<br> <a href="../default.htm">JavaScriptActionElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">JavaScriptActionElement</a>(IndirectObject obj)<br> <a href="../default.htm">JavaScriptActionElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE><a href="../default.htm">JavaScriptActionElement</a>()<br><a href="../default.htm">JavaScriptActionElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">JavaScriptActionElement</a>(obj As IndirectObject)<br><a href="../default.htm">JavaScriptActionElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -136,16 +134,7 @@ if (cat.EntryNames.EntryJavaScript == null) {
 }
 Root = cat.EntryNames.EntryJavaScript;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim cat As New <a href="../../../07-syntax/1081-catalogelement/default.htm">CatalogElement</a>(doc.ObjectSoup.Catalog)
-If cat.EntryNames Is Nothing Then
-&nbsp;&nbsp;cat.EntryNames = New <a href="../../../07-syntax/1088-namedictionaryelement/default.htm">NameDictionaryElement</a>(cat)
-End If
-If cat.EntryNames.EntryJavaScript Is Nothing Then
-&nbsp;&nbsp;cat.EntryNames.EntryJavaScript = New <a href="../../../07-syntax/1097-nametreenodeelement_t_/default.htm">NameTreeNodeElement</a>(Of <a href="../default.htm">JavaScriptActionElement</a>)(cat)
-&nbsp;&nbsp;cat.EntryNames.EntryJavaScript.EntryNames = New <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>(Of <a href="../../../01-base/1086-element/default.htm">Element</a>)(cat)
-End If
-Root = cat.EntryNames.EntryJavaScript
-</code></pre></P>
+
 <P>This code snippet is taken from NameTree.cs line 137 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../default.htm">JavaScriptActionElement</a> action = new <a href="../default.htm">JavaScriptActionElement</a>(Root);
 action.EntryType = &quot;Action&quot;;
@@ -161,21 +150,7 @@ else {
 }
 Add(key, action);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim action As New <a href="../default.htm">JavaScriptActionElement</a>(Root)
-action.EntryType = &quot;Action&quot;
-action.EntryS = &quot;JavaScript&quot;
-If Not useStream Then
-&nbsp;&nbsp;action.EntryJS = New <a href="../../../01-base/1086-element/default.htm">Element</a>(New StringAtom(script), action.Host)
-Else
-&nbsp;&nbsp;Dim stream As New StreamObject(action.Host.Soup)
-&nbsp;&nbsp;stream.SetText(script)
-&nbsp;&nbsp;If stream.Length &gt; 64 Then
-&nbsp;&nbsp;&nbsp;&nbsp;stream.CompressFlate()
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;action.EntryJS = New <a href="../../../01-base/1086-element/default.htm">Element</a>(stream)
-End If
-Add(key, action)
-</code></pre></P>
+
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

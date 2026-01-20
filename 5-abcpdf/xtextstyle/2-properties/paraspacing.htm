@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XTextStyle ParaSpacing Property. The inter-paragraph spacing. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,10 +35,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>double</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Double</code></td>
+                  <code>double</code></td>
                 <td>0.0</td>
                 <td>No</td>
                 <td>The inter-paragraph spacing.</td>
@@ -94,19 +91,7 @@ doc.TextStyle.ParaSpacing = 20;
 doc.AddText(text);
 doc.Save(Server.MapPath("stylepspace.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes lingua, institutis, legibus inter se differunt."
-&nbsp;&nbsp;theText = theText + vbCr &amp; vbLf + theText + vbCr &amp; vbLf + theText + vbCr &amp; vbLf + theText
-&nbsp;&nbsp;doc.Rect.Inset(20, 40)
-&nbsp;&nbsp;doc.TextStyle.Size = 16
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Rect.Move(0, -350)
-&nbsp;&nbsp;doc.TextStyle.ParaSpacing = 20
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Save(Server.MapPath("stylepspace.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/stylepspace.pdf.png" class="example"><br>
               stylepspace.pdf </p>
             <p>Also see example code in: <a href="../../doc/2-properties/textstyle.htm">Doc TextStyle Property</a>, <a href="indent.htm">XTextStyle Indent Property</a>.</p>

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements CatalogElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,8 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">CatalogElement</a>()<br> <a href="../default.htm">CatalogElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">CatalogElement</a>(IndirectObject obj)<br> <a href="../default.htm">CatalogElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE><a href="../default.htm">CatalogElement</a>()<br><a href="../default.htm">CatalogElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">CatalogElement</a>(obj As IndirectObject)<br><a href="../default.htm">CatalogElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -131,10 +129,7 @@
 <a href="../default.htm">CatalogElement</a> cat = new <a href="../default.htm">CatalogElement</a>(Form.Doc.ObjectSoup[Form.Doc.Root]);
 cat.EntryAcroForm.EntryFields.Add(<a href="../../../12-interactive/1440-fieldelement/default.htm">FieldElement</a>);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet"><a href="../../../12-interactive/1440-fieldelement/2-properties/05-entryt.htm">FieldElement.EntryT</a> = fieldName
-Dim cat As New <a href="../default.htm">CatalogElement</a>(Form.Doc.ObjectSoup(Form.Doc.Root))
-cat.EntryAcroForm.EntryFields.Add(<a href="../../../12-interactive/1440-fieldelement/default.htm">FieldElement</a>)
-</code></pre></P>
+
 <P>This code snippet is taken from Annotations.cs line 987 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">bool duplicatesFound = false;
 <a href="../default.htm">CatalogElement</a> cat = new <a href="../default.htm">CatalogElement</a>(Doc.ObjectSoup[Doc.Root]);
@@ -198,70 +193,7 @@ if ((refreshForm) &amp;&amp; (duplicatesFound))
 &nbsp;&nbsp;Doc.Form.Refresh();
 return duplicatesFound;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim duplicatesFound As Boolean = False
-Dim cat As New <a href="../default.htm">CatalogElement</a>(Doc.ObjectSoup(Doc.Root))
-Dim parent As <a href="../../../12-interactive/1440-fieldelement/default.htm">FieldElement</a> = field.FieldElement.EntryParent
-Dim acroForm As <a href="../../../12-interactive/1439-interactiveformelement/default.htm">InteractiveFormElement</a> = cat.EntryAcroForm
-Dim kids As <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>(Of <a href="../../../12-interactive/1440-fieldelement/default.htm">FieldElement</a>) = If(parent IsNot Nothing, parent.EntryKids, acroForm.EntryFields)
-Dim items As New Dictionary(Of String, List(Of <a href="../../../12-interactive/1440-fieldelement/default.htm">FieldElement</a>))()
-For Each kid In kids
-&nbsp;&nbsp;If kid Is Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;Continue For &#39; shouldn&#39;t really happen
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;Dim name As String = kid.EntryT
-&nbsp;&nbsp;If Not items.ContainsKey(name) Then
-&nbsp;&nbsp;&nbsp;&nbsp;items(name) = New List(Of <a href="../../../12-interactive/1440-fieldelement/default.htm">FieldElement</a>)()
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;items(name).Add(kid)
-Next kid
-For Each pair As KeyValuePair(Of String, List(Of <a href="../../../12-interactive/1440-fieldelement/default.htm">FieldElement</a>)) In items
-&nbsp;&nbsp;If pair.Value.Count &gt; 1 Then
-&nbsp;&nbsp;&nbsp;&nbsp;duplicatesFound = True
-&nbsp;&nbsp;&nbsp;&nbsp;&#39; shift field down to be a child of a new field node
-&nbsp;&nbsp;&nbsp;&nbsp;Dim newField As New <a href="../../../12-interactive/1440-fieldelement/default.htm">FieldElement</a>(cat)
-&nbsp;&nbsp;&nbsp;&nbsp;newField.EntryKids = New <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>(Of <a href="../../../12-interactive/1440-fieldelement/default.htm">FieldElement</a>)(acroForm)
-&nbsp;&nbsp;&nbsp;&nbsp;If parent IsNot Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent.EntryKids.Add(newField)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newField.EntryParent = parent
-&nbsp;&nbsp;&nbsp;&nbsp;Else
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;acroForm.EntryFields.Add(newField)
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;For Each twin As <a href="../../../12-interactive/1440-fieldelement/default.htm">FieldElement</a> In pair.Value
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Not String.IsNullOrEmpty(twin.EntryFT) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newField.EntryFT = twin.EntryFT
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;twin.EntryFT = Nothing
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Not String.IsNullOrEmpty(twin.EntryT) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newField.EntryT = twin.EntryT
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;twin.EntryT = Nothing
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Not String.IsNullOrEmpty(twin.EntryTU) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newField.EntryTU = twin.EntryTU
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;twin.EntryTU = Nothing
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If twin.EntryFf.HasValue Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newField.EntryFf = twin.EntryFf
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;twin.EntryFf = Nothing
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If twin.EntryV IsNot Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newField.EntryV = twin.EntryV
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;twin.EntryV = Nothing
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If twin.EntryDV IsNot Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newField.EntryDV = twin.EntryDV
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;twin.EntryDV = Nothing
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kids.Remove(twin)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newField.EntryKids.Add(twin)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;twin.EntryParent = newField
-&nbsp;&nbsp;&nbsp;&nbsp;Next twin
-&nbsp;&nbsp;End If
-Next pair
-If (refreshForm) AndAlso (duplicatesFound) Then
-&nbsp;&nbsp;Doc.Form.Refresh()
-End If
-Return duplicatesFound
-</code></pre></P>
+
 <P>This code snippet is taken from ValidationUtilities.cs line 83 in the ValidatePDF example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">ValidationLog validation = new ValidationLog();
 validation.Coverage = coverage;
@@ -332,82 +264,7 @@ if (validation.Version.HasFlag(PDFVersion.PDF20Deprecated)) {
 header += &quot;\r\n&quot;;
 return header + sb.ToString();
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim validation As New ValidationLog()
-validation.Coverage = coverage
-validation.Stack = New Stack(Of <a href="../../../01-base/0008-validationstacknode/default.htm">ValidationStackNode</a>)()
-Dim cat As New <a href="../default.htm">CatalogElement</a>(doc.ObjectSoup.Catalog)
-cat.Validate(validation)
-Dim trail As StreamObject = doc.ObjectSoup.Trailer
-Dim isCrossRef As Boolean = Atom.GetItem(trail.Atom, &quot;W&quot;) IsNot Nothing
-Dim crossRef As <a href="../../1058-crossreferencestreamelement/default.htm">CrossReferenceStreamElement</a> = If(isCrossRef, New <a href="../../1058-crossreferencestreamelement/default.htm">CrossReferenceStreamElement</a>(trail), Nothing)
-Dim fileTrailer As <a href="../../1051-filetrailerelement/default.htm">FileTrailerElement</a> = If(Not isCrossRef, New <a href="../../1051-filetrailerelement/default.htm">FileTrailerElement</a>(trail), Nothing)
-Dim trailer As <a href="../../../01-base/1086-element/default.htm">Element</a> = If(isCrossRef, CType(crossRef, <a href="../../../01-base/1086-element/default.htm">Element</a>), CType(fileTrailer, <a href="../../../01-base/1086-element/default.htm">Element</a>))
-trailer.Validate(validation)
-If doc.Encryption.Type &lt;&gt; 0 Then
-&nbsp;&nbsp;validation.Start(trailer)
-&nbsp;&nbsp;Dim encryption As <a href="../../1064-encryptionelement/default.htm">EncryptionElement</a> = If(crossRef IsNot Nothing, crossRef.EntryEncrypt, fileTrailer.EntryEncrypt)
-&nbsp;&nbsp;validation.ReportEntryVersion(&quot;Encryption.V&quot;, encryption.GetEntryVersion(&quot;V&quot;))
-End If
 
-Dim sb As StringBuilder = validation.Log
-Dim done As HashSet(Of Integer) = validation.Done
-Dim missed As New List(Of IndirectObject)()
-For Each io As IndirectObject In doc.ObjectSoup
-&nbsp;&nbsp;If (io IsNot Nothing) AndAlso (io.ID &lt;&gt; 0) AndAlso (Not done.Contains(io.ID)) Then
-&nbsp;&nbsp;&nbsp;&nbsp;Dim e As <a href="../../../01-base/1086-element/default.htm">Element</a> = <a href="../../../01-base/0005-elementfactories/1-methods/01-autodetectfactory.htm">ElementFactories.AutodetectFactory</a>(New RefAtom(io), io, Nothing)
-&nbsp;&nbsp;&nbsp;&nbsp;If (TypeOf e Is <a href="../../1054-objectstreamelement/default.htm">ObjectStreamElement</a>) OrElse (TypeOf e Is <a href="../../1058-crossreferencestreamelement/default.htm">CrossReferenceStreamElement</a>) OrElse (TypeOf e Is <a href="../../../14-document/1688-linearizationparameterelement/default.htm">LinearizationParameterElement</a>) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Validate(validation)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;done = validation.Done
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;End If
-Next io
-If reportOrphans Then
-&nbsp;&nbsp;For Each io As IndirectObject In doc.ObjectSoup
-&nbsp;&nbsp;&nbsp;&nbsp;If (io IsNot Nothing) AndAlso (io.ID &lt;&gt; 0) AndAlso (Not done.Contains(io.ID)) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;missed.Add(io)
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;Next io
-&nbsp;&nbsp;If missed.Count &gt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;Dim refOnlyObjects As New HashSet(Of Integer)()
-&nbsp;&nbsp;&nbsp;&nbsp;Dim references As New Dictionary(Of Integer, HashSet(Of Integer))()
-&nbsp;&nbsp;&nbsp;&nbsp;For Each io As IndirectObject In doc.ObjectSoup
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If io IsNot Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim hasContent As Boolean = False
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FindAllReferences(io.ID, io.Atom, references, hasContent)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Not hasContent Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;refOnlyObjects.Add(io.ID)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;Next io
-&nbsp;&nbsp;&nbsp;&nbsp;For Each io As IndirectObject In missed
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim set As HashSet(Of Integer) = Nothing
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;references.TryGetValue(io.ID, set)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If set Is Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Continue For &#39; object not referenced by anything - ignore
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If refOnlyObjects.Contains(io.ID) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Continue For &#39; only reference atoms - simply a stop en route to other items
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine(&quot;Missed ID: &quot; &amp; io.ID.ToString() &amp; &quot;: &quot; &amp; IndirectObjectDescription(io))
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For Each id In set
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine(&quot; Referenced by ID: &quot; &amp; id.ToString() &amp; &quot;: &quot; &amp; IndirectObjectDescription(doc.ObjectSoup(id)))
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next id
-&nbsp;&nbsp;&nbsp;&nbsp;Next io
-&nbsp;&nbsp;End If
-End If
-Dim header As String = &quot;PDF Version: &quot; &amp; GetVersion(validation.Version) &amp; vbCrLf
-If validation.Version.HasFlag(PDFVersion.AdobeUndocumented) Then
-&nbsp;&nbsp;header &amp;= &quot;PDF Uses Undocumented Extensions&quot; &amp; vbCrLf
-End If
-If validation.Version.HasFlag(PDFVersion.PDF20Deprecated) Then
-&nbsp;&nbsp;header &amp;= &quot;PDF Uses PDF 2.0 Deprecated Features&quot; &amp; vbCrLf
-&nbsp;&nbsp;For Each feature As String In validation.Deprecated
-&nbsp;&nbsp;&nbsp;&nbsp;header &amp;= &quot; - &quot; &amp; feature &amp; vbCrLf
-&nbsp;&nbsp;Next feature
-End If
-header &amp;= vbCrLf
-Return header + sb.ToString()
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

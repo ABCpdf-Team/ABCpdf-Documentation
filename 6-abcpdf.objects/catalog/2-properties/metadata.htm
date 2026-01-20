@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Catalog Metadata Property. Any document level Metadata. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,9 +35,6 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code><a href="../../metadata/default.htm">Metadata</a></code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code><a href="../../metadata/default.htm">Metadata</a></code></td>
                 <td>&nbsp;n/a</td>
                 <td>No</td>
@@ -103,19 +100,7 @@ md.InfoSubject = "Finn Family Moomintroll";
 md.InfoAuthor = "Tove Jansson";
 doc.Save(Server.MapPath("metadata.pdf"));
 </code></pre><br>
-                <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/book.pdf"))
-&nbsp;&nbsp;Dim md As Metadata = doc.ObjectSoup.Catalog.Metadata
-&nbsp;&nbsp;If md = Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;md = New Metadata(doc.ObjectSoup)
-&nbsp;&nbsp;&nbsp;&nbsp;doc.ObjectSoup.Catalog.Metadata = md
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;md.InfoSubject = "Finn Family Moomintroll"
-&nbsp;&nbsp;md.InfoAuthor = "Tove Jansson"
-&nbsp;&nbsp;doc.Save(Server.MapPath("metadata.pdf"))
-End Using
-</code></pre></p>
+                </p>
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>

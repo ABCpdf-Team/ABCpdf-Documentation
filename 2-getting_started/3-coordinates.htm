@@ -94,17 +94,6 @@ theDoc.Rect.Width = 400;
 theDoc.Rect.Height = 500;
 theDoc.FrameRect();
 theDoc.Save(Server.MapPath(&quot;coordinates.pdf&quot;));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim theDoc As Doc = New Doc()
-theDoc.AddGrid()
-theDoc.Color.String = &quot;255 0 0&quot;
-theDoc.Width = 10
-theDoc.Rect.Position(100, 200)
-theDoc.Rect.Width = 400
-theDoc.Rect.Height = 500
-theDoc.FrameRect()
-theDoc.Save(Server.MapPath(&quot;coordinates.pdf&quot;))
 </code></pre></p>
             <p>&nbsp;</p>
             <p><img src="../images/pdf/coordinates.pdf.gif" class="example"><br>

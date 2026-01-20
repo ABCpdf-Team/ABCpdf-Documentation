@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>PDF Rendering Example</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -50,10 +50,7 @@
               <pre><code class="language-csharp">using Doc doc = new Doc();
 doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim doc As New Doc()
-doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -74,9 +71,7 @@ doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">doc.Rendering.DotsPerInch = 36;
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">doc.Rendering.DotsPerInch = 36
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -101,15 +96,7 @@ doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
 &nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("shuttle_p" + i.ToString() + ".png"));
 }
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim i As Integer = 1
-While i &lt;= 4
-&nbsp;&nbsp;doc.PageNumber = i
-&nbsp;&nbsp;doc.Rect.String = doc.CropBox.[String]
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("shuttle_p" + i.ToString() + ".png"))
-&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-End While
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

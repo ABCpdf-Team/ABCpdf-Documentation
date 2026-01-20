@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddOval Function. Adds an oval to the current page. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -111,16 +111,7 @@ doc.AddOval(true);
 doc.Color.String = "0 255 0 128";
 doc.AddOval(false);
 doc.Save(Server.MapPath("docaddoval.pdf"));
-</code></pre><BR><SPAN class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Width = 80
-&nbsp;&nbsp;doc.Rect.Inset(50, 50)
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;doc.AddOval(True)
-&nbsp;&nbsp;doc.Color.String = "0 255 0 128"
-&nbsp;&nbsp;doc.AddOval(False)
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddoval.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/docaddoval.pdf.png" 
             class="example"><BR>docaddoval.pdf</P>
             <p>Also see example code in: <a href="../../xcolor/2-properties/components.htm">XColor Components Property</a>, <a href="../../../6-abcpdf.objects/colorspace/2-properties/gamma.htm">ColorSpace Gamma Property</a>, <a href="../../../6-abcpdf.objects/colorspace/2-properties/whitepoint.htm">ColorSpace WhitePoint Property</a>, <a href="../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>.</p>

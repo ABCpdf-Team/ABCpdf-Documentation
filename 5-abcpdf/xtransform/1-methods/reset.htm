@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XTransform Reset Function. Reset to the identity. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -106,21 +106,7 @@ doc.Pos.String = "302 396";
 doc.AddText("Reset");
 doc.FrameRect();
 doc.Save(Server.MapPath("transformreset.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(10, 10)
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;doc.Transform.Rotate(60, 302, 396)
-&nbsp;&nbsp;doc.Pos.String = "302 396"
-&nbsp;&nbsp;doc.AddText("Angled")
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;doc.Transform.Reset()
-&nbsp;&nbsp;doc.Pos.String = "302 396"
-&nbsp;&nbsp;doc.AddText("Reset")
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;doc.Save(Server.MapPath("transformreset.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/transformreset.pdf.png" 
             class="example"><BR>transformreset.pdf</P>
             <p>Also see example code in: <a href="rotate.htm">XTransform Rotate Function</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/getbitmap.htm">Page GetBitmap Function</a>.</p>

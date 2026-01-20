@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XTextStyle Justification Property. The horizontal justification factor. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,10 +35,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>double</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Double</code></td>
+                  <code>double</code></td>
                 <td>0.0</td>
                 <td>No</td>
                 <td>The horizontal justification factor.</td>
@@ -104,18 +101,7 @@ doc.TextStyle.Justification = 1.0;
 doc.AddText(text);
 doc.Save(Server.MapPath("stylejustification.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur."
-&nbsp;&nbsp;doc.Rect.Inset(20, 40)
-&nbsp;&nbsp;doc.TextStyle.Size = 48
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Rect.Move(0, -350)
-&nbsp;&nbsp;doc.TextStyle.Justification = 1.0
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Save(Server.MapPath("stylejustification.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/stylejustification.pdf.png" class="example"><br>
               stylejustification.pdf </p>
             <p>&nbsp;</p>

@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XImage Frame Property. The currently selected frame. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,10 +35,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Integer</code></td>
+                  <code>int</code></td>
                 <td>1</td>
                 <td>No</td>
                 <td>The currently selected frame.</td>
@@ -99,21 +96,7 @@ for (int i = 1; i &lt;= img.FrameCount; i++) {
 }
 doc.Save(Server.MapPath("imageframe.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim theImg As New XImage()
-Dim doc As New Doc()
-theImg.SetFile(Server.MapPath("../mypics/multipage.tif"))
-Dim i As Integer = 1
-While i &lt;= theImg.FrameCount
-&nbsp;&nbsp;theImg.Frame = i
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.AddImageObject(theImg, False)
-&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-End While
-theImg.Clear()
-doc.Save(Server.MapPath("imageframe.pdf"))
-doc.Clear()
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/imageframe.pdf2.png" class="example"><br>
               imageframe.pdf - [Page 1]</p>
             <p><img src="../../../images/pdf/imageframe.pdf3.png" class="example"><br>

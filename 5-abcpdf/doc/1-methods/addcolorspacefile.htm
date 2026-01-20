@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddColorSpaceFile Function. Adds an ICC based color space to the document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -39,8 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
-            AddColorSpaceFile(string path)<BR></CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Function AddColorSpaceFile(path As String) As Integer</CODE></P>
+            AddColorSpaceFile(string path)<BR></CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -124,18 +123,7 @@ doc.ColorSpace = doc.AddColorSpaceFile(path);
 doc.Color.String = "200 20 20 20";
 doc.AddText(text);
 doc.Save(Server.MapPath("docaddcolorspacefile.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur."
-&nbsp;&nbsp;doc.Rect.Inset(20, 40)
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/cmyk.icc")
-&nbsp;&nbsp;doc.ColorSpace = doc.AddColorSpaceFile(thePath)
-&nbsp;&nbsp;doc.Color.String = "200 20 20 20"
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddcolorspacefile.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG
             src="../../../images/pdf/docaddcolorspacefile.pdf.png" 
             class="example"><BR>docaddcolorspacefile.pdf </P>

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XTransform Skew Function. Skew horizontally and vertically about a locked anchor point. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
-            Skew(double skewX, double skewY, double anchorX, double anchorY)<BR></CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Sub Skew(skewX As Double, skewY As Double, anchorX As Double, anchorY As 
-            Double)<BR></CODE></P>
+            Skew(double skewX, double skewY, double anchorX, double anchorY)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -119,20 +117,7 @@ doc.Transform.Skew(1.5, 1.5, 20, 20);
 doc.Color.String = "255 0 0"; // red
 doc.FrameRect();
 doc.Save(Server.MapPath("transformskew.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Width = 200
-&nbsp;&nbsp;doc.Rect.Height = 250
-&nbsp;&nbsp;doc.Rect.Position(20, 20)
-&nbsp;&nbsp;doc.Width = 20
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;doc.Transform.Skew(1.5, 1.5, 20, 20)
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;' red
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;doc.Save(Server.MapPath("transformskew.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/transformskew.pdf.png" 
             class="example"><BR>transformskew.pdf</P>
             <P>&nbsp;</P></TD>

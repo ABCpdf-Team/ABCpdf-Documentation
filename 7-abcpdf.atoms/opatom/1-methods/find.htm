@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>OpAtom Find Function. Finds specified types of OpAtom entries in an array. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -151,56 +151,7 @@ doc.SetInfo(page.ID, "/Contents:Del", "");
 page.AddLayer(so);
 doc.Save(Server.MapPath("ReplaceColors.pdf"));
 </code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("spaceshuttle.pdf"))
-&nbsp;&nbsp;doc.RemapPages(New Integer() {1, 1})
-&nbsp;&nbsp;doc.PageNumber = 2
-&nbsp;&nbsp;Dim page As Page = TryCast(doc.ObjectSoup(doc.Page), Page)
-&nbsp;&nbsp;Dim layers As StreamObject() = page.GetLayers()
-&nbsp;&nbsp;Dim st As New MemoryStream()
-&nbsp;&nbsp;For Each layer As StreamObject In layers
-&nbsp;&nbsp;&nbsp;&nbsp;If Not layer.Decompress() Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Throw New Exception("Unable to decompress stream.")
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;Dim data As Byte() = layer.GetData()
-&nbsp;&nbsp;&nbsp;&nbsp;st.Write(data, 0, data.Length)
-&nbsp;&nbsp;&nbsp;&nbsp;layer.CompressFlate()
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;Dim array As ArrayAtom = ArrayAtom.FromContentStream(st.ToArray())
-&nbsp;&nbsp;If True Then
-&nbsp;&nbsp;&nbsp;&nbsp;Dim items = OpAtom.Find(array, New String() {"k"})
-&nbsp;&nbsp;&nbsp;&nbsp;For Each pair As var In items
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' make red
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim args As Atom() = OpAtom.GetParameters(array, pair.Item2)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If args &lt;&gt; Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(0), NumAtom).Real = 0
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(1), NumAtom).Real = 1
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(2), NumAtom).Real = 1
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(3), NumAtom).Real = 0
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;Next
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;If True Then
-&nbsp;&nbsp;&nbsp;&nbsp;Dim items = OpAtom.Find(array, New String() {"rg"})
-&nbsp;&nbsp;&nbsp;&nbsp;For Each pair As var In items
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' make green
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim args As Atom() = OpAtom.GetParameters(array, pair.Item2)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If args &lt;&gt; Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(0), NumAtom).Real = 0
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(1), NumAtom).Real = 1
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectCast(args(2), NumAtom).Real = 0
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;Next
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;Dim arrayData As Byte() = array.GetData()
-&nbsp;&nbsp;Dim so As New StreamObject(doc.ObjectSoup)
-&nbsp;&nbsp;so.SetData(arrayData, 1, arrayData.Length - 2)
-&nbsp;&nbsp;doc.SetInfo(page.ID, "/Contents:Del", "")
-&nbsp;&nbsp;page.AddLayer(so)
-&nbsp;&nbsp;doc.Save(Server.MapPath("ReplaceColors.pdf"))
-End Using
-</code></pre></P>
+              </P>
             <p><img src="../../../images/pdf/ReplaceColors.pdf.png" class="example"><BR>
               ReplaceColors.pdf [Page 1]</p>
             <p><img src="../../../images/pdf/ReplaceColors.pdf2.png" class="example"><BR>

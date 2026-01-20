@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XRendering SaveCompression Property. The preferred compression method. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,9 +35,6 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>Compression</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code>Compression</code></td>
                 <td>None</td>
                 <td>No</td>
@@ -112,27 +109,7 @@ for (int i = 1; i &lt;= n; i++) {
 &nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("fax.tif"));
 }
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
-&nbsp;&nbsp;' set up the rendering parameters
-&nbsp;&nbsp;doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Gray
-&nbsp;&nbsp;doc.Rendering.BitsPerChannel = 1
-&nbsp;&nbsp;doc.Rendering.DotsPerInchX = 200
-&nbsp;&nbsp;doc.Rendering.DotsPerInchY = 400
-&nbsp;&nbsp;' loop through the pages
-&nbsp;&nbsp;Dim n As Integer = doc.PageCount
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= n
-&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = doc.CropBox.[String]
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.SaveAppend = (i &lt;&gt; 1)
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.SaveCompression = XRendering.Compression.G4
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("fax.tif"))
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-End Using
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddPage Function. Adds a page to the current document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -41,9 +41,7 @@
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">int AddPage(); <BR>int AddPage(int page);
 </code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">Function AddPage() As Integer <BR>Function AddPage(page As Integer) As Integer
-</code></pre></p>
+</p>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -91,18 +89,14 @@
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.Page = theDoc.AddPage();
 </code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.Page = theDoc.AddPage()
-</code></pre></p>
+</p>
             <P>Pages are added at the end of the document. However, you can use 
             the <em>page</em> parameter to insert pages at other locations. The 
             following code inserts a page at the start of a document.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.Page = theDoc.AddPage(1);
 </code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.Page = theDoc.AddPage(1)
-</code></pre></p>
+</p>
             <P>Any existing page and all subsequent pages will be shifted 
             towards the end of the document to make room for the insertion.</P>
             <P>&nbsp;</P></TD>
@@ -129,26 +123,7 @@ for (int i = 1; i &lt;= 3; i++) {
 &nbsp;&nbsp;doc.AddText(txt);
 }
 doc.Save(Server.MapPath("docaddpage.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;' big text
-&nbsp;&nbsp;doc.TextStyle.HPos = 0.5
-&nbsp;&nbsp;' centered
-&nbsp;&nbsp;doc.TextStyle.VPos = 0.5
-&nbsp;&nbsp;' ...
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= 3
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;&nbsp;&nbsp;Dim txt As String
-&nbsp;&nbsp;&nbsp;&nbsp;txt = $"Page {i}, ID="
-&nbsp;&nbsp;&nbsp;&nbsp;txt = txt + doc.Page.ToString()
-&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(txt)
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddpage.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/docaddpage.pdf.png" 
             class="example"></P>
             <P><IMG src="../../../images/pdf/docaddpage.pdf2.png" 

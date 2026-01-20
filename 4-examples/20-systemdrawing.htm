@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>System.Drawing Example</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../mystyles.css">
 <link rel="stylesheet" href="../prism.css">
@@ -122,13 +122,7 @@ gr.DrawString("My Picture", fn, solidBlack, (int)(pg.Width * 0.1), (int)(pg.Heig
 // save the output
 pg.Save("../../abcpdf.drawing.gif", System.Drawing.Imaging.ImageFormat.Gif);<!--notcode-->
 </code></pre>
-            <BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR>
-            <pre><code class="language-vbnet">Imports WebSupergoo.ABCpdf13.Drawing;
-Imports WebSupergoo.ABCpdf13.Drawing.Drawing2D;
-Imports WebSupergoo.ABCpdf13.Drawing.Text;
-</code></pre>
-            </P>
+            <BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -157,21 +151,7 @@ using Rectangle = System.Drawing.Rectangle;
 using RectangleF = System.Drawing.RectangleF;
 using Point = System.Drawing.Point;
 using PointF = System.Drawing.PointF;
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR>
-            <pre><code class="language-vbnet">Imports System;
-Imports System.IO;
-Imports System.Reflection;
-
-Imports WebSupergoo.ABCpdf13.Drawing;
-Imports WebSupergoo.ABCpdf13.Drawing.Drawing2D;
-Imports WebSupergoo.ABCpdf13.Drawing.Text;
-Imports Rectangle = System.Drawing.Rectangle;
-Imports RectangleF = System.Drawing.RectangleF;
-Imports Point = System.Drawing.Point;
-Imports PointF = System.Drawing.PointF;
-</code></pre>
-            </P>
+</code></pre><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -191,12 +171,7 @@ Imports PointF = System.Drawing.PointF;
 var doc = new PDFDocument();
 var pg = doc.AddPage((int)(8.5 * 300), (int)(11 * 300));
 var gr = pg.Graphics;
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">' create a canvas for painting on
-Dim doc As New PDFDocument()
-Dim pg = doc.AddPage(DirectCast(8.5 * 300, Integer), DirectCast(11 * 300, Integer))
-Dim gr = pg.Graphics
-</code></pre></P>
+</code></pre><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -227,27 +202,7 @@ gr.DrawRectangle(new Pen(Color.Black, 4), rc);
 Font fn = new Font("Comic Sans MS", 300);
 var solidBlack = new SolidBrush(Color.Black);
 gr.DrawString("My Picture", fn, solidBlack, (int)(pg.Width * 0.1), (int)(pg.Height * 0.1));
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">' clear the canvas to white
-Dim pgRect As New Rectangle(0, 0, pg.Width, pg.Height)
-Dim solidWhite As New SolidBrush(Color.White)
-gr.FillRectangle(solidWhite, pgRect)
-' load a new image and draw it centered on our canvas
-Dim stm As Stream = File.OpenRead(Server.MapPath("mypics/pic1.jpg"))
-Dim img As Image = Image.FromStream(stm)
-Dim w As Integer = img.Width
-Dim h As Integer = img.Height
-Dim rc As New Rectangle((pg.Width - w) / 2, (pg.Height - h) / 2, w, h)
-gr.DrawImage(img, rc)
-img.Dispose()
-stm.Close()
-' frame the image with a black border
-gr.DrawRectangle(New Pen(Color.Black, 4), rc)
-' add some text at the top left of the canvas
-Dim fn As New Font("Comic Sans MS", 300)
-Dim solidBlack As New SolidBrush(Color.Black)
-gr.DrawString("My Picture", fn, solidBlack, DirectCast(pg.Width * 0.1, Integer), DirectCast(pg.Height * 0.1, Integer))
-</code></pre></P>
+</code></pre><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -264,10 +219,7 @@ gr.DrawString("My Picture", fn, solidBlack, DirectCast(pg.Width * 0.1, Integer),
             modifications to the last lines of code.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">// save the output
 doc.Save(Server.MapPath("abcpdf.drawing.pdf"));
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">' save the output
-doc.Save(Server.MapPath("abcpdf.drawing.pdf"))
-</code></pre></P>
+</code></pre><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>

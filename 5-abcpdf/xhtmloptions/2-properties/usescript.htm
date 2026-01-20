@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><title>XHtmlOptions UseScript Property. Whether to enable JavaScript and VBScript. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="../../../mystyles.css">
@@ -32,10 +32,7 @@
               </tr>
               <tr valign="top">
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Boolean</code></td>
+                  <code>bool</code></td>
                 <td>true</td>
                 <td>No</td>
                 <td>Whether to enable JavaScript and VBScript.</td>
@@ -84,9 +81,7 @@
                     <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">bool ABCpdf_RenderWait();
 </code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">Private Function ABCpdf_RenderWait() As Boolean
-</code></pre></p>
+                    </p>
                     </tr>
                     <tr>
                       <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Params</td>
@@ -126,10 +121,7 @@
                     <pre><code class="language-csharp">bool ABCpdf_RenderComplete();
 bool ABCpdf_RenderComplete(bool force);
 </code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">Private Function ABCpdf_RenderComplete() As Boolean
-Private Function ABCpdf_RenderComplete(ByVal force As Boolean) As Boolean
-</code></pre></p>
+                    </p>
                     </tr>
                     <tr>
                       <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Params</td>
@@ -180,20 +172,7 @@ doc.HtmlOptions.OnLoadScript = "(function(){"
 
 doc.AddImageUrl("http://www.websupergoo.com");
 doc.Save(Server.MapPath("wsg.pdf"));
-</code></pre><br><span
-                        class="language">[Visual Basic]</span><br><pre><code class="language-vbnet">Dim theDoc As Doc = New Doc()
-theDoc.HtmlOptions.Engine = EngineType.MSHtml
-theDoc.HtmlOptions.UseScript = True
-
-' Render after 3 seconds
-theDoc.HtmlOptions.OnLoadScript = "(function(){" _
-&nbsp;&nbsp;&amp; " window.external.ABCpdf_RenderWait();" _
-&nbsp;&nbsp;&amp; " setTimeout(function(){ window.external.ABCpdf_RenderComplete(); }, 3000);" _
-&nbsp;&nbsp;&amp; "})();"
-
-theDoc.AddImageUrl("http://www.websupergoo.com")
-theDoc.Save(Server.MapPath("wsg.pdf"))
-</code></pre></p></td>
+</code></pre><br></p></td>
                     </tr>
                   </tbody></table>
                   <p>&nbsp;</p>
@@ -209,9 +188,7 @@ theDoc.Save(Server.MapPath("wsg.pdf"))
                     <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">bool ABCpdf_go;
 </code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">Dim ABCpdf_go As Boolean
-</code></pre></p>
+                    </p>
                     </tr>
                     <tr>
                       <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Params</td>
@@ -263,20 +240,7 @@ doc.HtmlOptions.OnLoadScript = "(function(){"
 
 doc.AddImageUrl("http://www.websupergoo.com");
 doc.Save(Server.MapPath("wsg.pdf"));
-</code></pre><br><span
-                        class="language">[Visual Basic]</span><br><pre><code class="language-vbnet">Dim theDoc As Doc = New Doc()
-theDoc.HtmlOptions.Engine = EngineType.Gecko
-theDoc.HtmlOptions.UseScript = True
-
-' Render after 3 seconds
-theDoc.HtmlOptions.OnLoadScript = "(function(){" _
-&nbsp;&nbsp;&amp; " window.ABCpdf_go = false;" _
-&nbsp;&nbsp;&amp; " setTimeout(function(){ window.ABCpdf_go = true; }, 3000);" _
-&nbsp;&nbsp;&amp; "})();"
-
-theDoc.AddImageUrl("http://www.websupergoo.com")
-theDoc.Save(Server.MapPath("wsg.pdf"))
-</code></pre></p></td>
+</code></pre><br></p></td>
                     </tr>
                   </tbody></table>
  <p>&nbsp;</p>
@@ -293,9 +257,7 @@ theDoc.Save(Server.MapPath("wsg.pdf"))
                     <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">void ABCChromeExt.Render();
 </code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">Private Sub Render()
-</code></pre></p>
+                    </p>
                     </tr>
                     <tr>
                       <td class="sectheader" valign="top"><img src="../../../images/steel-pin.gif" height="10" width="64"><br>Params</td>
@@ -398,66 +360,7 @@ for (int i = 1; i &lt;= doc.PageCount; i++) {
 // Save the document
 doc.Save(Server.MapPath("HtmlOptionsJavaScript.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theURL As String = "https://photojournal.jpl.nasa.gov/gallery/snt"
-&nbsp;&nbsp;' Set HTML options
-&nbsp;&nbsp;doc.HtmlOptions.AddLinks = True
-&nbsp;&nbsp;doc.HtmlOptions.UseScript = True
-&nbsp;&nbsp;doc.HtmlOptions.PageCacheEnabled = False
-&nbsp;&nbsp;' JavaScript is used to extract all links from the page
-&nbsp;&nbsp;doc.HtmlOptions.OnLoadScript = "var hrefCollection = document.all ? document.all.tags(""a"") : document.getElementsByTagName(""a"");" + "var allLinks = """";" + "for(i = 0; i &lt; hrefCollection.length; ++i) {" + "if (i &gt; 0)" + vbTab &amp; "allLinks += "","";" + "allLinks += hrefCollection.item(i).href;" + "};" + "document.documentElement.abcpdf = allLinks;"
-&nbsp;&nbsp;' Array of links - start with base URL
-&nbsp;&nbsp;Dim links As New ArrayList()
-&nbsp;&nbsp;links.Add(theURL)
-&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;While i &lt; links.Count
-&nbsp;&nbsp;&nbsp;&nbsp;' Stop if we render more than 20 pages
-&nbsp;&nbsp;&nbsp;&nbsp;If doc.PageCount &gt; 20 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;' Add page
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;&nbsp;&nbsp;Dim theID As Integer = doc.AddImageUrl(TryCast(links(i), String))
-&nbsp;&nbsp;&nbsp;&nbsp;' Links from the rendered page
-&nbsp;&nbsp;&nbsp;&nbsp;Dim allLinks As String = doc.HtmlOptions.GetScriptReturn(theID)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim newLinks As String() = allLinks.Split(New Char() {","C})
-&nbsp;&nbsp;&nbsp;&nbsp;For Each link As String In newLinks
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Check to see if we allready rendered this page
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If links.BinarySearch(link) &lt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Skip links inside the page
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pos As Integer = link.IndexOf("#")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Not (pos &gt; 0 AndAlso links.BinarySearch(link.Substring(0, pos)) &gt;= 0) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If link.StartsWith(theURL) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;links.Add(link)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;Next
-&nbsp;&nbsp;&nbsp;&nbsp;' Add other pages
-&nbsp;&nbsp;&nbsp;&nbsp;While True
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If Not doc.Chainable(theID) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddImageToChain(theID)
-&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;' Link pages together
-&nbsp;&nbsp;doc.HtmlOptions.LinkPages()
-&nbsp;&nbsp;' Flatten all pages
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= doc.PageCount
-&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten()
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;' Save the document
-&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsJavaScript.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <table border="0" cellpadding="3" cellspacing="3" width="100%">
               <tbody><tr>
                 <td><img src="../../../images/pdf/HtmlOptionsJavaScript.pdf.png" class="example"><br>

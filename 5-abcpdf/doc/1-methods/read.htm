@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc Read Function. Reads an existing document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -233,23 +233,7 @@ for (int i = 1; i &lt;= count; i++) {
 &nbsp;&nbsp;doc.AddText(i.ToString());
 }
 doc.Save(Server.MapPath("docread.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
-&nbsp;&nbsp;doc.FontSize = 500
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;doc.TextStyle.HPos = 0.5
-&nbsp;&nbsp;doc.TextStyle.VPos = 0.3
-&nbsp;&nbsp;Dim theCount As Integer = doc.PageCount
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= theCount
-&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
-&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(i.ToString())
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;doc.Save(Server.MapPath("docread.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
               <TBODY>
               <TR>

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddLine Function. Adds a line to the current page. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -161,16 +161,7 @@ doc.AddLine(-50, 100, 999, 100);
 doc.Color.String = "0 255 0";
 doc.AddLine(-50, 400, 999, 400);
 doc.Save(Server.MapPath("docaddline.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Width = 24
-&nbsp;&nbsp;doc.Color.String = "0 0 255"
-&nbsp;&nbsp;doc.AddLine(-50, 100, 999, 100)
-&nbsp;&nbsp;doc.Color.String = "0 255 0"
-&nbsp;&nbsp;doc.AddLine(-50, 400, 999, 400)
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddline.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/docaddline.pdf.png" 
             class="example"><BR>docaddline.pdf</P>
             <p>Also see example code in: <a href="../../../4-examples/17-advancedgraphics.htm">ABCpdf Advanced Graphics Example</a>, <a href="../2-properties/topdown.htm">Doc TopDown Property</a>, <a href="../2-properties/width.htm">Doc Width Property</a>.</p>

@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Headers and Footers Example</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -48,11 +48,7 @@
               <pre><code class="language-csharp">using var doc = new Doc();
 string text = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes lingua, institutis, legibus inter se differunt. Gallos ab Aquitanis Garumna flumen, a Belgis Matrona et Sequana dividit. Horum omnium fortissimi sunt Belgae, propterea quod a cultu atque humanitate provinciae longissime absunt, minimeque ad eos mercatores saepe commeant atque ea quae ad effeminandos animos pertinent important, proximique sunt Germanis, qui trans Rhenum incolunt, quibuscum continenter bellum gerunt. Qua de causa Helvetii quoque reliquos Gallos virtute praecedunt, quod fere cotidianis proeliis cum Germanis contendunt, cum aut suis finibus eos prohibent aut ipsi in eorum finibus bellum gerunt. [Eorum una, pars, quam Gallos obtinere dictum est, initium capit a flumine Rhodano, continetur Garumna flumine, Oceano, finibus Belgarum, attingit etiam ab Sequanis et Helvetiis flumen Rhenum, vergit ad septentriones. Belgae ab extremis Galliae finibus oriuntur, pertinent ad inferiorem partem fluminis Rheni, spectant in septentrionem et orientem solem. Aquitania a Garumna flumine ad Pyrenaeos montes et eam partem Oceani quae est ad Hispaniam pertinet; spectat inter occasum solis et septentriones.] Apud Helvetios longe nobilissimus fuit et ditissimus Orgetorix. Is M. Messala, [et P.] M. Pisone consulibus regni cupiditate inductus coniurationem nobilitatis fecit et civitati persuasit ut de finibus suis cum omnibus copiis exirent: perfacile esse, cum virtute omnibus praestarent, totius Galliae imperio potiri. Id hoc facilius iis persuasit, quod undique loci natura Helvetii continentur: una ex parte flumine Rheno latissimo atque altissimo, qui agrum Helvetium a Germanis dividit; altera ex parte monte Iura altissimo, qui est inter Sequanos et Helvetios; tertia lacu Lemanno et flumine Rhodano, qui provinciam nostram ab Helvetiis dividit. His rebus fiebat ut et minus late vagarentur et minus facile finitimis bellum inferre possent; qua ex parte homines bellandi cupidi magno dolore adficiebantur. Pro multitudine autem hominum et pro gloria belli atque fortitudinis angustos se fines habere arbitrabantur, qui in longitudinem milia passuum CCXL, in latitudinem CLXXX patebant.";
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theID As Integer, theCount As Integer
-&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes lingua, institutis, legibus inter se differunt. Gallos ab Aquitanis Garumna flumen, a Belgis Matrona et Sequana dividit. Horum omnium fortissimi sunt Belgae, propterea quod a cultu atque humanitate provinciae longissime absunt, minimeque ad eos mercatores saepe commeant atque ea quae ad effeminandos animos pertinent important, proximique sunt Germanis, qui trans Rhenum incolunt, quibuscum continenter bellum gerunt. Qua de causa Helvetii quoque reliquos Gallos virtute praecedunt, quod fere cotidianis proeliis cum Germanis contendunt, cum aut suis finibus eos prohibent aut ipsi in eorum finibus bellum gerunt. [Eorum una, pars, quam Gallos obtinere dictum est, initium capit a flumine Rhodano, continetur Garumna flumine, Oceano, finibus Belgarum, attingit etiam ab Sequanis et Helvetiis flumen Rhenum, vergit ad septentriones. Belgae ab extremis Galliae finibus oriuntur, pertinent ad inferiorem partem fluminis Rheni, spectant in septentrionem et orientem solem. Aquitania a Garumna flumine ad Pyrenaeos montes et eam partem Oceani quae est ad Hispaniam pertinet; spectat inter occasum solis et septentriones.] Apud Helvetios longe nobilissimus fuit et ditissimus Orgetorix. Is M. Messala, [et P.] M. Pisone consulibus regni cupiditate inductus coniurationem nobilitatis fecit et civitati persuasit ut de finibus suis cum omnibus copiis exirent: perfacile esse, cum virtute omnibus praestarent, totius Galliae imperio potiri. Id hoc facilius iis persuasit, quod undique loci natura Helvetii continentur: una ex parte flumine Rheno latissimo atque altissimo, qui agrum Helvetium a Germanis dividit; altera ex parte monte Iura altissimo, qui est inter Sequanos et Helvetios; tertia lacu Lemanno et flumine Rhodano, qui provinciam nostram ab Helvetiis dividit. His rebus fiebat ut et minus late vagarentur et minus facile finitimis bellum inferre possent; qua ex parte homines bellandi cupidi magno dolore adficiebantur. Pro multitudine autem hominum et pro gloria belli atque fortitudinis angustos se fines habere arbitrabantur, qui in longitudinem milia passuum CCXL, in latitudinem CLXXX patebant."
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -88,19 +84,7 @@ while (doc.Chainable(id)) {
 }
 int count = doc.PageCount;
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Rect.String = "100 200 500 600"
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;doc.FontSize = 24
-&nbsp;&nbsp;theID = doc.AddTextStyled(theText)
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;While doc.Chainable(theID)
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddTextStyled("", theID)
-&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;theCount = doc.PageCount
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -135,20 +119,7 @@ for (int i = 1; i &lt;= count; i++) {
 &nbsp;&nbsp;doc.FrameRect();
 }
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Rect.String = "100 650 500 750"
-&nbsp;&nbsp;doc.TextStyle.HPos = 0.5
-&nbsp;&nbsp;doc.TextStyle.VPos = 0.5
-&nbsp;&nbsp;doc.Color.String = "0 255 0"
-&nbsp;&nbsp;doc.FontSize = 36
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= theCount
-&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
-&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("De Bello Gallico")
-&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -184,20 +155,7 @@ for (int i = 1; i &lt;= count; i++) {
 &nbsp;&nbsp;doc.FrameRect();
 }
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Rect.String = "100 50 500 150"
-&nbsp;&nbsp;doc.TextStyle.HPos = 1.0
-&nbsp;&nbsp;doc.TextStyle.VPos = 0.5
-&nbsp;&nbsp;doc.Color.String = "0 0 255"
-&nbsp;&nbsp;doc.FontSize = 36
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= theCount
-&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
-&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("Page " + i.ToString() + " of " + theCount.ToString())
-&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -218,10 +176,7 @@ for (int i = 1; i &lt;= count; i++) {
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">doc.Save(Server.MapPath("headerfooter.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("headerfooter.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

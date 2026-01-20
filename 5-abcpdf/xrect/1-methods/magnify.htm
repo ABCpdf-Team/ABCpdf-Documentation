@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XRect Magnify Function. Magnifies the rectangle. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -39,8 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
-            Magnify(double x, double y)<BR></CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Sub Magnify(x As Double, y As Double)<BR></CODE></P>
+            Magnify(double x, double y)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -104,14 +103,7 @@ Response.Write($"Rect = {rc}");
 Response.Write("&amp;lt;br&amp;gt;");
 rc.Magnify(0.5, 0.5);
 Response.Write($"Scale = {rc}");
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim rc As New XRect()
-rc.String = "20 20 220 120"
-Response.Write($"Rect = {rc}")
-Response.Write("&amp;lt;br&amp;gt;")
-rc.Magnify(0.5, 0.5)
-Response.Write($"Scale = {rc}")
-</code></pre></P>
+</code></pre><BR></P>
             <P>Produces the following output. </P>
             <P><SAMP>Rect = 20 20 220 120<BR>Scale = 20 20 120 70</SAMP> 
             <P>&nbsp;</P><p>Also see example code in: <a href="../../doc/1-methods/addimagedoc.htm">Doc AddImageDoc Function</a>, <a href="../../doc/2-properties/transform.htm">Doc Transform Property</a>, <a href="../../ximage/2-properties/selection.htm">XImage Selection Property</a>, <a href="../../xrendering/2-properties/antialiastext.htm">XRendering AntiAliasText Property</a>, <a href="../../xtextstyle/2-properties/hpos.htm">XTextStyle HPos Property</a>, <a href="../../xtextstyle/2-properties/vpos.htm">XTextStyle VPos Property</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/setalpha.htm">PixMap SetAlpha Function</a>, <a href="../../../6-abcpdf.objects/pixmap/1-methods/tograyscale.htm">PixMap ToGrayscale Function</a>.</p>

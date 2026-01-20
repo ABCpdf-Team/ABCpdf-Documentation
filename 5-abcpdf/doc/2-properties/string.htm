@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Doc String Property. A string representation of the graphic style of the document. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,10 +35,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>string</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>String</code></td>
+                  <code>string</code></td>
                 <td>Variable</td>
                 <td>No</td>
                 <td>A string representation of the graphic style of the document</td>
@@ -93,22 +90,7 @@ doc.String = state.Pop();
 doc.AddText("Black Helvetica again\r\n\r\n");
 doc.Save(Server.MapPath("savestate.pdf"));
 </code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 64
-&nbsp;&nbsp;doc.Rect.Inset(20, 20)
-&nbsp;&nbsp;doc.Font = doc.AddFont("Helvetica")
-&nbsp;&nbsp;Dim state As New Stack(Of String)()
-&nbsp;&nbsp;state.Push(doc.String)
-&nbsp;&nbsp;doc.AddText("Black Helvetica" &amp; vbCr &amp; vbLf &amp; vbCr &amp; vbLf)
-&nbsp;&nbsp;doc.Color.SetRgb(255, 0, 0)
-&nbsp;&nbsp;doc.Font = doc.AddFont("Helvetica-Oblique")
-&nbsp;&nbsp;doc.AddText("Red Helvetica-Oblique" &amp; vbCr &amp; vbLf &amp; vbCr &amp; vbLf)
-&nbsp;&nbsp;doc.String = state.Pop()
-&nbsp;&nbsp;doc.AddText("Black Helvetica again" &amp; vbCr &amp; vbLf &amp; vbCr &amp; vbLf)
-&nbsp;&nbsp;doc.Save(Server.MapPath("savestate.pdf"))
-End Using
-</code></pre></P>
+              </P>
             <p><img src="../../../images/pdf/savestate.pdf.png" class="example"><BR>
               savestate.pdf</p>
             <p>&nbsp;</p>

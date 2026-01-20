@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddImageBitmap Function. Adds a System.Drawing.Bitmap to the current page. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -120,18 +120,7 @@ doc.FillRect();
 doc.AddImageBitmap(bm, true);
 bm.Dispose();
 doc.Save(Server.MapPath("docaddimagebitmap.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/mypic.png")
-&nbsp;&nbsp;Dim bm As New Bitmap(thePath)
-&nbsp;&nbsp;doc.Rect.Inset(20, 20)
-&nbsp;&nbsp;doc.Color.String = "0 0 200"
-&nbsp;&nbsp;doc.FillRect()
-&nbsp;&nbsp;doc.AddImageBitmap(bm, True)
-&nbsp;&nbsp;bm.Dispose()
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddimagebitmap.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG
             src="../../../images/pdf/docaddimagebitmap.pdf.png" 
             class="example"><BR>docaddimagebitmap.pdf</P>

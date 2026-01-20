@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>WebPageOperation Doc Property</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,9 +35,6 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>Doc</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code>Doc</code></td>
                 <td>n/a</td>
                 <td>No</td>
@@ -103,31 +100,6 @@ using (op.Doc) {
 }
 </code></pre>
             <br>
-            <span class="language">[Visual Basic]</span><br>
-            <pre><code class="language-vbnet">Dim op = New WebPageOperation()
-Using op.Doc
-&nbsp;&nbsp;op.Doc.Rect.Inset(72, 72)
-&nbsp;&nbsp;op.Doc.HtmlOptions.AddTags = True
-&nbsp;&nbsp;op.Doc.HtmlOptions.RetryCount = 0
-&nbsp;&nbsp;op.Tagged = True
-&nbsp;&nbsp;op.Outline = True
-&nbsp;&nbsp;Dim template As String = "&lt;html&gt;&lt;body&gt;&lt;div style=""width:100%;font-size:14pt;text-align:center;""&gt;*&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;"
-&nbsp;&nbsp;op.HeaderHtml = template.Replace("*", "Commentarii de Bello Gallico")
-&nbsp;&nbsp;op.FooterHtml = template.Replace("*", "&lt;span class=pageNumber&gt;&lt;/span&gt; of &lt;span class=totalPages&gt;&lt;/span&gt;")
-&nbsp;&nbsp;op.ReadUrl(GetUrl("commentarii.htm"))
-&nbsp;&nbsp;Dim tagIDs = op.Doc.HtmlOptions.GetTagIDs(op.Doc.Page)
-&nbsp;&nbsp;Dim tagRects = op.Doc.HtmlOptions.GetTagRects(op.Doc.Page)
-&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;While i &lt; tagIDs.Length
-&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.Rect.String = tagRects(i).[String]
-&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.FrameRect()
-&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.FontSize = DirectCast(0.9 * op.Doc.Rect.Height, Integer)
-&nbsp;&nbsp;&nbsp;&nbsp;op.Doc.AddText(tagIDs(i))
-&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;op.Doc.Save(Server.MapPath("webpageop.pdf"))
-End Using
-</code></pre>
             </p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>

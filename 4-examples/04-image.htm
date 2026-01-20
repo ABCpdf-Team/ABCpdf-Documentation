@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Image Example</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -48,10 +48,7 @@
               <pre><code class="language-csharp">using var img = new XImage();
 img.SetFile(Server.MapPath("../mypics/pic.jpg"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim theImg As New XImage()
-theImg.SetFile(Server.MapPath("../mypics/pic.jpg"))
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -82,16 +79,7 @@ doc.Rect.Height = img.Height;
 doc.AddImageObject(img, false);
 doc.Save(Server.MapPath("image.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Left = 50
-&nbsp;&nbsp;doc.Rect.Bottom = 25
-&nbsp;&nbsp;doc.Rect.Width = theImg.Width
-&nbsp;&nbsp;doc.Rect.Height = theImg.Height
-&nbsp;&nbsp;doc.AddImageObject(theImg, False)
-&nbsp;&nbsp;doc.Save(Server.MapPath("image.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

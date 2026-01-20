@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XTextStyle Italic Property. Whether to apply a synthetic italic effect. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,10 +35,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Boolean</code></td>
+                  <code>bool</code></td>
                 <td>false</td>
                 <td>No</td>
                 <td>Whether to apply a synthetic italic effect.</td>
@@ -91,17 +88,7 @@ doc.TextStyle.Italic = true;
 doc.AddText(text);
 doc.Save(Server.MapPath("styleitalic.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theText As String
-&nbsp;&nbsp;theText = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur."
-&nbsp;&nbsp;doc.Rect.Inset(20, 40)
-&nbsp;&nbsp;doc.TextStyle.Size = 96
-&nbsp;&nbsp;doc.TextStyle.Italic = True
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Save(Server.MapPath("styleitalic.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/styleitalic.pdf.png" class="example"><br>
               styleitalic.pdf </p>
             <p>&nbsp;</p>

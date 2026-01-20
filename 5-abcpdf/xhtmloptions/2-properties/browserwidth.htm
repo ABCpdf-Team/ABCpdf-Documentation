@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><title>XHtmlOptions BrowserWidth Property. The width of the virtual browser in pixels. ABCpdf .NET PDF Library.</title>
 
 
@@ -36,10 +36,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Integer</code></td>
+                  <code>int</code></td>
                 <td>0</td>
                 <td>No</td>
                 <td>The width of the virtual browser in pixels.</td>
@@ -122,21 +119,7 @@ doc.AddImageUrl(url);
 // Save the document
 doc.Save(Server.MapPath("HtmlOptionsBrowserWidth300.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theURL As String = "https://photojournal.jpl.nasa.gov/catalog/PIA24312"
-&nbsp;&nbsp;' Render html page with default browser width
-&nbsp;&nbsp;doc.AddImageUrl(theURL)
-&nbsp;&nbsp;' Save the document
-&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsBrowserWidth0.pdf"))
-&nbsp;&nbsp;doc.Clear()
-&nbsp;&nbsp;' Render html page with browser width = 300
-&nbsp;&nbsp;doc.HtmlOptions.BrowserWidth = 300
-&nbsp;&nbsp;doc.AddImageUrl(theURL)
-&nbsp;&nbsp;' Save the document
-&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsBrowserWidth300.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/HtmlOptionsBrowserWidth0.pdf.png" class="example"><br>
               HtmlOptionsBrowserWidth0.pdf</p>
             <p><img src="../../../images/pdf/HtmlOptionsBrowserWidth300.pdf.png" class="example"><br>

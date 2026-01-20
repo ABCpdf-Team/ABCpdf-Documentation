@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XTextStyle Indent Property. The first line of paragraph indent. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,10 +35,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>double</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Double</code></td>
+                  <code>double</code></td>
                 <td>0</td>
                 <td>No</td>
                 <td>The first line of paragraph indent.</td>
@@ -96,20 +93,7 @@ doc.TextStyle.Indent = 48;
 doc.AddText(text);
 doc.Save(Server.MapPath("styleindent.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes lingua, institutis, legibus inter se differunt."
-&nbsp;&nbsp;theText = theText + theText
-&nbsp;&nbsp;theText = theText + vbCr &amp; vbLf + theText + vbCr &amp; vbLf
-&nbsp;&nbsp;theText = theText + theText + theText + theText
-&nbsp;&nbsp;doc.Rect.Inset(20, 40)
-&nbsp;&nbsp;doc.TextStyle.Size = 16
-&nbsp;&nbsp;doc.TextStyle.ParaSpacing = 16
-&nbsp;&nbsp;doc.TextStyle.Indent = 48
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Save(Server.MapPath("styleindent.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/styleindent.pdf.png" class="example"><br>
               styleindent.pdf </p>
             <p>Also see example code in: <a href="../../doc/2-properties/textstyle.htm">Doc TextStyle Property</a>, <a href="../../xtransform/1-methods/rotate.htm">XTransform Rotate Function</a>.</p>

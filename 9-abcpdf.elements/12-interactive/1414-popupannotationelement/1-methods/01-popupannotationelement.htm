@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements PopUpAnnotationElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,8 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">PopUpAnnotationElement</a>()<br> <a href="../default.htm">PopUpAnnotationElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">PopUpAnnotationElement</a>(IndirectObject obj)<br> <a href="../default.htm">PopUpAnnotationElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE><a href="../default.htm">PopUpAnnotationElement</a>()<br><a href="../default.htm">PopUpAnnotationElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">PopUpAnnotationElement</a>(obj As IndirectObject)<br><a href="../default.htm">PopUpAnnotationElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -134,13 +132,7 @@ annot.EntryParent = parentID != 0 ? new <a href="../../1391-annotationelement/de
 annot.EntryOpen = true;
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">PopUpAnnotationElement</a>(AnnotationElement.Object)
-annot.EntrySubtype = &quot;Popup&quot;
-annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect)), annot.Host)
-annot.EntryParent = If(parentID &lt;&gt; 0, New <a href="../../1391-annotationelement/default.htm">AnnotationElement</a>(form.Doc.ObjectSoup(parentID)), Nothing)
-annot.EntryOpen = True
-<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
-</code></pre></P>
+
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XRendering DefaultHalftone Property. Halftone type and options. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,10 +35,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>string</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>String</code></td>
+                  <code>string</code></td>
                 <td>&quot;Spot,30,100,CosineDot&quot;</td>
                 <td>No</td>
                 <td>Halftone type and options.</td>
@@ -137,24 +134,7 @@ doc.Rendering.Save(Server.MapPath("RenderingHalftoneLine.png"));
 doc.Rendering.DefaultHalftone = "Spot,0,100,Diamond";
 doc.Rendering.Save(Server.MapPath("RenderingHalftoneDiamond.png"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim image As New XImage()
-&nbsp;&nbsp;image.SetFile(Server.MapPath("../mypics/Shuttle.jpg"))
-&nbsp;&nbsp;doc.Rect.String = image.Selection.[String]
-&nbsp;&nbsp;doc.AddImage(image)
-&nbsp;&nbsp;' Save rendered image as black and white picture using Line spot function
-&nbsp;&nbsp;doc.Rendering.UseEmbeddedHalftone = False
-&nbsp;&nbsp;doc.Rendering.DotsPerInch = 50
-&nbsp;&nbsp;doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Gray
-&nbsp;&nbsp;doc.Rendering.BitsPerChannel = 1
-&nbsp;&nbsp;doc.Rendering.DefaultHalftone = "Spot,30,100,Line"
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingHalftoneLine.png"))
-&nbsp;&nbsp;' Save rendered image as black and white picture using Diamond spot function
-&nbsp;&nbsp;doc.Rendering.DefaultHalftone = "Spot,0,100,Diamond"
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingHalftoneDiamond.png"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/RenderingHalftoneLine.png" class="example"><br>
               RenderingHalftoneLine.png</p>
             <p><img src="../../../images/pdf/RenderingHalftoneDiamond.png" class="example"><br>

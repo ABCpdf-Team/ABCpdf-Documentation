@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>PixMap SetChromakey Function. Sets a chromakey transparent color for this image. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -43,9 +43,6 @@
           <td valign="top"> 
             <p><span class="language">[C#]</span><br>
               <code>void SetChromakey(string chromakey)<br>
-              </code><br>
-              <span class="language">[Visual Basic]</span><br>
-              <code>Sub SetChromakey(chromakey As String)<br>
               </code></p>
             <p>&nbsp;</p>
           </td>
@@ -97,17 +94,13 @@
                       <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">doc.SetChromakey(&quot;255 255 255 255 255 255&quot;);
 </code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">doc.SetChromakey(&quot;255 255 255 255 255 255&quot;)
-</code></pre></p>
+                    </p>
             <p>If you wanted to include colors which were off-white you might 
               use,</p>
                       <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">doc.SetChromakey(&quot;250 255 250 255 250 255&quot;);
 </code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">doc.SetChromakey(&quot;250 255 250 255 250 255&quot;)
-</code></pre></p>
+                    </p>
                 
             <p>This function is equivalent to setting the PixMap &quot;/Mask&quot; 
               entry to an array of color values.</p>
@@ -139,18 +132,7 @@ var im = (ImageLayer)doc.ObjectSoup[i];
 im.PixMap.SetChromakey("0 50 0 50 0 50");
 doc.Save(Server.MapPath("pixmapsetchromakey.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(20, 20)
-&nbsp;&nbsp;doc.Color.String = "0 255 0"
-&nbsp;&nbsp;doc.FillRect()
-&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/mypic.jpg")
-&nbsp;&nbsp;Dim i As Integer = doc.AddImageFile(thePath, 1)
-&nbsp;&nbsp;Dim im As ImageLayer = DirectCast(doc.ObjectSoup(i), ImageLayer)
-&nbsp;&nbsp;im.PixMap.SetChromakey("0 50 0 50 0 50")
-&nbsp;&nbsp;doc.Save(Server.MapPath("pixmapsetchromakey.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/pixmapsetchromakey.pdf.png" class="example"><br>
               pixmapsetchromakey.pdf</p>
             <p>&nbsp;</p>

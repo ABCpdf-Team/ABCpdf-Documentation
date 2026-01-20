@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>PixMap Resize Function. Resizes the image. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -45,11 +45,7 @@
               <code>void Resize(int width, int height)<br>
               void Resize(int width, int height, Interpolation interpolation) 
               <br>
-              </code><br>
-              <span class="language">[Visual Basic]</span><br>
-              <code>Sub Resize(width As Integer, height As Integer)<br>
-              Sub Resize(width As Integer, height As Integer, interpolation As 
-              Interpolation) </code></p>
+              </code></p>
             <p><code><img src="../../../images/steel-blob-10.gif" width="10" height="10" border="0" alt="Throws Exceptions"> may throw Exception()</code></p>
             <p>&nbsp;</p>
           </td>
@@ -168,20 +164,7 @@ foreach (IndirectObject io in doc.ObjectSoup) {
 }
 doc.Save(Server.MapPath("pixmapresize.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
-&nbsp;&nbsp;For Each io As IndirectObject In doc.ObjectSoup
-&nbsp;&nbsp;&nbsp;&nbsp;If TypeOf io Is PixMap Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pm As PixMap = DirectCast(io, PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.Realize()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' eliminate indexed color images
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.Resize(pm.Width / 4, pm.Height / 4)
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;doc.Save(Server.MapPath("pixmapresize.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/shuttle_p1.png" class="example"><br>
               spaceshuttle.pdf [page 1]</p>
             <p><img src="../../../images/pdf/pixmapresize.pdf.png" class="example"><br>

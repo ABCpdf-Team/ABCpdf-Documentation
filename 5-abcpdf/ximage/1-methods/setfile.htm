@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XImage SetFile Function. Load an image from a file. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -108,16 +108,7 @@ img.SetFile(Server.MapPath("../mypics/mypic.jpg"));
 doc.Rect.Inset(20, 20);
 doc.AddImageObject(img, false);
 doc.Save(Server.MapPath("imagesetfile.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theImg As New XImage()
-Dim doc As New Doc()
-theImg.SetFile(Server.MapPath("../mypics/mypic.jpg"))
-doc.Rect.Inset(20, 20)
-doc.AddImageObject(theImg, False)
-theImg.Clear()
-doc.Save(Server.MapPath("imagesetfile.pdf"))
-doc.Clear()
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/imagesetfile.pdf.png" 
             class="example"><BR>imagesetfile.pdf</P>
             <p>Also see example code in: <a href="../../../4-examples/04-image.htm">ABCpdf Image Example</a>, <a href="../../doc/1-methods/addimageobject.htm">Doc AddImageObject 

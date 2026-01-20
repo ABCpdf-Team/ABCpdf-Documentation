@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
 <html>
 <head>
@@ -335,18 +335,7 @@ using (var doc = new Doc()) {
 &nbsp;&nbsp;doc.Save(Server.MapPath("SignedAndValidated1.pdf"));
 }
 </code></pre></p>
-<span class="language">[Visual Basic]</span><br>
-                  <pre><code class="language-vbnet">' Validate using certificate files
-Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/Signed.pdf"))
-&nbsp;&nbsp;Dim theCerts As String() = Server.MapPath("../Rez/JohnSmith.cer").Split(New Char() {";"C})
-&nbsp;&nbsp;Dim theSig As Signature = DirectCast(doc.Form("Signature"), Signature)
-&nbsp;&nbsp;If (theSig.Validate(theCerts)) AndAlso (Not theSig.IsModified) Then
-&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText($"Signature valid at {DateTime.Now}")
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;doc.Save(Server.MapPath("SignedAndValidated1.pdf"))
-End Using
-</code></pre></p>
+</p>
                   <p><span class="language">[C#]</span><br>
                   <pre><code class="language-csharp">// Validate using the Windows Certificate Store
 using (var doc = new Doc()) {
@@ -360,20 +349,7 @@ using (var doc = new Doc()) {
 &nbsp;&nbsp;doc.Save(Server.MapPath("SignedAndValidated2.pdf"));
 }
 </code></pre></p>
-                  <p><span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">' Validate using the Windows Certificate Store
-Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/Signed.pdf"))
-&nbsp;&nbsp;Dim theStore As New X509Store(StoreName.Root, StoreLocation.LocalMachine)
-&nbsp;&nbsp;theStore.Open(OpenFlags.[ReadOnly])
-&nbsp;&nbsp;Dim theSig As Signature = DirectCast(doc.Form("Signature"), Signature)
-&nbsp;&nbsp;If (theSig.Validate(theStore.Certificates)) AndAlso (Not theSig.IsModified) Then
-&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText($"Signature valid at {DateTime.Now}")
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;theStore.Close()
-&nbsp;&nbsp;doc.Save(Server.MapPath("SignedAndValidated2.pdf"))
-End Using
-</code></pre></p>
+                  <p></p>
 
                   <p>&nbsp;</p>
                 </td>

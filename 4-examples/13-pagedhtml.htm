@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Paged HTML Example</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../mystyles.css">
 <link rel="stylesheet" href="../prism.css">
@@ -108,11 +108,7 @@
                     <pre><code class="language-csharp">using var doc = new Doc();
 doc.Rect.Inset(72, 144);
 </code></pre><BR>
-                  <SPAN 
-            class=language>[Visual Basic]</SPAN><BR>
-                  <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(72, 144)
-</code></pre></P>
+                  </P>
               <P>&nbsp;</P></TD>
             <TD width=60>&nbsp;</TD>
             <TD width=11>&nbsp;</TD>
@@ -139,19 +135,7 @@ doc.HtmlOptions.InitialWidth = 800; // In case we have a responsive site which i
 //doc.HtmlOptions.IgnoreCertificateErrors = false; // Disabled for ease of debugging
 //doc.HtmlOptions.FireShield.Policy = XHtmlFireShield.Enforcement.Deny; // Disabled for ease of debugging
 </code></pre><BR>
-                  <SPAN 
-            class=language>[Visual Basic]</SPAN><BR>
-                  <pre><code class="language-vbnet">&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.Chrome123
-&nbsp;&nbsp;doc.HtmlOptions.UseScript = True
-&nbsp;&nbsp;' enable JavaScript
-&nbsp;&nbsp;doc.HtmlOptions.Media = MediaType.Print
-&nbsp;&nbsp;' Or Screen for a more screen oriented output
-&nbsp;&nbsp;doc.HtmlOptions.InitialWidth = 800
-&nbsp;&nbsp;' In case we have a responsive site which is non-specific on good widths
-&nbsp;&nbsp;'doc.HtmlOptions.RepaintDelay = 500; // Only required if you have AJAX or animated content such as graphs
-&nbsp;&nbsp;'doc.HtmlOptions.IgnoreCertificateErrors = false; // Disabled for ease of debugging
-&nbsp;&nbsp;'doc.HtmlOptions.FireShield.Policy = XHtmlFireShield.Enforcement.Deny; // Disabled for ease of debugging
-</code></pre></P>
+                  </P>
               <P>&nbsp;</P></TD>
             <TD width=60>&nbsp;</TD>
             <TD width=11>&nbsp;</TD>
@@ -172,11 +156,7 @@ doc.HtmlOptions.InitialWidth = 800; // In case we have a responsive site which i
             will be used to add subsequent pages.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">doc.Page = doc.AddPage();
 int id = doc.AddImageUrl("http://www.yahoo.com/");
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;Dim theID As Integer
-&nbsp;&nbsp;theID = doc.AddImageUrl("http://www.yahoo.com/")
-</code></pre></P>
+</code></pre><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -198,17 +178,7 @@ int id = doc.AddImageUrl("http://www.yahoo.com/");
 &nbsp;&nbsp;doc.Page = doc.AddPage();
 &nbsp;&nbsp;id = doc.AddImageToChain(id);
 }
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;While True
-&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;&nbsp;&nbsp;' add a black border
-&nbsp;&nbsp;&nbsp;&nbsp;If Not doc.Chainable(theID) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddImageToChain(theID)
-&nbsp;&nbsp;End While
-</code></pre></P>
+</code></pre><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -228,14 +198,7 @@ int id = doc.AddImageUrl("http://www.yahoo.com/");
 &nbsp;&nbsp;doc.PageNumber = i;
 &nbsp;&nbsp;doc.Flatten();
 }
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= doc.PageCount
-&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten()
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-</code></pre></P>
+</code></pre><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -251,10 +214,7 @@ int id = doc.AddImageUrl("http://www.yahoo.com/");
             <P>Finally we save. </P>
             <P><SPAN 
             class=language>[C#]</SPAN><pre><code class="language-csharp">doc.Save(Server.MapPath("pagedhtml.pdf"));
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("pagedhtml.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>

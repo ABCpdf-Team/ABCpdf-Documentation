@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XRect Position Function. Position the bottom left of the rectangle. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -41,9 +41,6 @@
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
             Position(double x, double y)<br>
             void Position(double x, double y, Corner corner)<BR>
-            </CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Sub Position(x As Double, y As Double)<br>
-            Sub Position(x As Double, y As Double, corner As Corner)<BR>
             </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -110,14 +107,7 @@ Response.Write($"Rect = {rc}");
 Response.Write("&amp;lt;br&amp;gt;");
 rc.Position(50, 50);
 Response.Write($"Pos. = {rc}");
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim rc As New XRect()
-rc.String = "20 20 220 120"
-Response.Write($"Rect = {rc}")
-Response.Write("&amp;lt;br&amp;gt;")
-rc.Position(50, 50)
-Response.Write($"Pos. = {rc}")
-</code></pre></P>
+</code></pre><BR></P>
             <P>Produces the following output. </P>
             <P><SAMP>Rect = 20 20 220 120<BR>Pos. = 50 50 250 150</SAMP> 
             <P>&nbsp;</P><p>Also see example code in: <a href="../../doc/1-methods/addimagedoc.htm">Doc AddImageDoc Function</a>, <a href="../../doc/2-properties/topdown.htm">Doc TopDown Property</a>, <a href="../../doc/2-properties/transform.htm">Doc Transform Property</a>, <a href="../../ximage/2-properties/selection.htm">XImage Selection Property</a>, <a href="../../xtransform/1-methods/skew.htm">XTransform Skew Function</a>, <a href="../../xtransform/1-methods/translate.htm">XTransform Translate Function</a>.</p>

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>PixMap Recolor Function. Converts the image from one color space to another. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -146,31 +146,7 @@ for (int i = 0; i &lt; theList.Count; i++) {
 &nbsp;&nbsp;p.CompressJpeg(75);
 }
 doc.Save(Server.MapPath("pixmaprecolor.pdf"));
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
-&nbsp;&nbsp;Dim theList As New List(Of PixMap)()
-&nbsp;&nbsp;' find all the PixMap objects in the soup
-&nbsp;&nbsp;For Each obj As IndirectObject In doc.ObjectSoup
-&nbsp;&nbsp;&nbsp;&nbsp;Dim p As PixMap = TryCast(obj, PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;If p &lt;&gt; Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theList.Add(p)
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;' add our destination color space
-&nbsp;&nbsp;Dim cs As New ColorSpace(doc.ObjectSoup)
-&nbsp;&nbsp;cs.IccProfile = New IccProfile(doc.ObjectSoup, Server.MapPath("../Rez/abccmyk.icc"))
-&nbsp;&nbsp;' convert images to our color space
-&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;While i &lt; theList.Count
-&nbsp;&nbsp;&nbsp;&nbsp;Dim p As PixMap = theList(i)
-&nbsp;&nbsp;&nbsp;&nbsp;p.Recolor(cs, RenderingIntent.Perceptual)
-&nbsp;&nbsp;&nbsp;&nbsp;p.CompressJpeg(75)
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;doc.Save(Server.MapPath("pixmaprecolor.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/shuttle_p1.png" 
             class="example"><BR>spaceshuttle.pdf [page 1]</P>
             <P><IMG src="../../../images/pdf/pixmaprecolor.pdf.png" 

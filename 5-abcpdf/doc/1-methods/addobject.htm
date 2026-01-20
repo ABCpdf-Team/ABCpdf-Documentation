@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc AddObject Function. Adds a native PDF object to the document. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -129,19 +129,7 @@ doc.SetInfo(-1, "/Info*/Title:Text", "Musings on Life");
 doc.SetInfo(-1, "/Info*/Subject:Text", "Philosophy");
 doc.SetInfo(doc.Root, "/Metadata:Del", "");
 doc.Save(Server.MapPath("docaddobject.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
-&nbsp;&nbsp;If doc.GetInfo(-1, "/Info") = "" Then
-&nbsp;&nbsp;&nbsp;&nbsp;doc.SetInfo(-1, "/Info:Ref", doc.AddObject("&lt;&lt; &gt;&gt;").ToString())
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;doc.SetInfo(-1, "/Info*/Author:Text", "Arthur Dent")
-&nbsp;&nbsp;doc.SetInfo(-1, "/Info*/Title:Text", "Musings on Life")
-&nbsp;&nbsp;doc.SetInfo(-1, "/Info*/Subject:Text", "Philosophy")
-&nbsp;&nbsp;doc.SetInfo(doc.Root, "/Metadata:Del", "")
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddobject.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

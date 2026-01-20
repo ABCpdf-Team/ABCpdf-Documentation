@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Unicode Example</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -48,10 +48,7 @@
               <pre><code class="language-csharp">using var doc = new Doc();
 doc.FontSize = 32;
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 32
-</code></pre></p>
+              </p>
             <p>&nbsp;</p></td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td>
@@ -71,10 +68,7 @@ doc.FontSize = 32;
               <pre><code class="language-csharp">string path = Server.MapPath("../Rez/Japanese2.txt");
 string text = File.ReadAllText(path);
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../Rez/Japanese2.txt")
-&nbsp;&nbsp;Dim theText As String = File.ReadAllText(thePath)
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -101,11 +95,7 @@ string text = File.ReadAllText(path);
 doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, false, true);
 doc.AddText("Japanese" + text);
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, False, True)
-&nbsp;&nbsp;doc.AddText("Japanese" + theText)
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -128,11 +118,7 @@ doc.AddText("Japanese" + text);
 doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, true, true);
 doc.AddText("Japanese" + text);
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, True, True)
-&nbsp;&nbsp;doc.AddText("Japanese" + theText)
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -153,11 +139,7 @@ doc.AddText("Japanese" + text);
               <pre><code class="language-csharp">doc.Save(Server.MapPath("unicode.pdf"));
 // finished
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("unicode.pdf"))
-End Using
-' finished
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

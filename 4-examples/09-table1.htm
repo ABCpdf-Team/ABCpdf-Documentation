@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Small Table Example</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -57,13 +57,7 @@ using var doc = new Doc();
 doc.FontSize = 16;
 doc.Rect.Inset(20, 20);
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim theText As String = File.ReadAllText(Server.MapPath("text6.txt"))
-Using doc As New Doc()
-&nbsp;&nbsp;' set up document
-&nbsp;&nbsp;doc.FontSize = 16
-&nbsp;&nbsp;doc.Rect.Inset(20, 20)
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -91,11 +85,7 @@ Using doc As New Doc()
 table.CellPadding = 5;
 table.HorizontalAlignment = 1;
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;Dim theTable As New PDFTable(doc, 5)
-&nbsp;&nbsp;theTable.CellPadding = 5
-&nbsp;&nbsp;theTable.HorizontalAlignment = 1
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -133,28 +123,7 @@ table.Frame();
 doc.Flatten();
 doc.Save(Server.MapPath("table1.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;theText = theText.Trim()
-&nbsp;&nbsp;theText = theText.Replace(vbCr &amp; vbLf, vbCr)
-&nbsp;&nbsp;Dim theRows As String() = theText.Split(New Char() {ControlChars.Cr})
-
-&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;While i &lt; theRows.Length
-&nbsp;&nbsp;&nbsp;&nbsp;theTable.NextRow()
-&nbsp;&nbsp;&nbsp;&nbsp;Dim theCols As String() = theRows(i).Split(New Char() {ControlChars.Tab})
-&nbsp;&nbsp;&nbsp;&nbsp;theCols(0) = "&lt;stylerun hpos=0&gt;" + theCols(0) + "&lt;/stylerun&gt;"
-&nbsp;&nbsp;&nbsp;&nbsp;theTable.AddTextStyled(theCols)
-&nbsp;&nbsp;&nbsp;&nbsp;If (i Mod 2) = 1 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.FillRow("220 220 220", i)
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;theTable.Frame()
-
-&nbsp;&nbsp;doc.Flatten()
-&nbsp;&nbsp;doc.Save(Server.MapPath("table1.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

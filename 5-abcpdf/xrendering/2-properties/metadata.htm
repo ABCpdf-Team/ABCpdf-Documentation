@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XRendering Metadata Property. A collection of TIFF tags that should be written to the output file. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,10 +35,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                <code>IDictionary&lt;string, string&gt;</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>IDictionary&lt;String, String&gt;</code></td>
+                <code>IDictionary&lt;string, string&gt;</code></td>
                 <td>null</td>
                 <td>No</td>
                 <td>A collection of TIFF tags that should be written to the output file.</td>
@@ -66,10 +63,7 @@
               <pre><code class="language-csharp">theDoc.Rendering.Metadata.Add(&quot;PageNumber&quot;, &quot;2 9&quot;);
 theDoc.Rendering.Metadata.Add(&quot;PageName&quot;, &quot;Page Two&quot;);
 </code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.Rendering.Metadata.Add(&quot;PageNumber&quot;, &quot;2 9&quot;)
-theDoc.Rendering.Metadata.Add(&quot;PageName&quot;, &quot;Page Two&quot;)
-</code></pre></p>
+</p>
             <p>To indicate that a value should be cleared you can assign an entry with a value of null. This can be useful if you want to, for example, disable the automatic insertion of page name and number tags.</p>
             <p>Custom TIFF tags can be indicated using a hash followed by the number of the tag. For example the EXIF standard describes a UserComment tag with ID 37510. To insert such a tag you would use the name &quot;#37510&quot;. All custom tags are assumed to be string based.</p>
           <p>&nbsp;</p></td>

@@ -59,9 +59,6 @@
             <p>You can do this to the current page using the following code.            </p>
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">((Page)doc.ObjectSoup[doc.Page]).VectorizeText();
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">DirectCast(doc.ObjectSoup(doc.Page), Page).VectorizeText()
 </code></pre></p>
             <p>&nbsp;</p>          </td>
           <td width="60">&nbsp;</td>
@@ -101,30 +98,6 @@
 &nbsp;&nbsp;&nbsp;&nbsp;}
 &nbsp;&nbsp;}
 }
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Private Shared Sub SaveAsSvg(pdf As Doc, file As String)
-&nbsp;&nbsp;pdf.Rendering.Save(file)
-&nbsp;&nbsp;Dim svg As String = File.ReadAllText(file)
-&nbsp;&nbsp;Dim hrefs As New HashSet(Of String)()
-&nbsp;&nbsp;Dim pattern As String = &quot;&lt;image xlink:href\s*=\s*(?:[&quot;&quot;'](?&lt;1&gt;[^&quot;&quot;']*)[&quot;&quot;']|(?&lt;1&gt;\S+))&quot;
-&nbsp;&nbsp;Dim matches As MatchCollection = Regex.Matches(svg, pattern)
-&nbsp;&nbsp;For Each match As Match In matches
-&nbsp;&nbsp;&nbsp;&nbsp;hrefs.Add(match.Groups(1).Value)
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;Dim folder As String = Path.GetDirectoryName(file)
-&nbsp;&nbsp;For Each href As String In hrefs
-&nbsp;&nbsp;&nbsp;&nbsp;Dim image As String = Path.Combine(folder, href)
-&nbsp;&nbsp;&nbsp;&nbsp;If Not File.Exists(image) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' href is of form &quot;imageXX.png&quot; where XX is the PixMap ID
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim id As Integer = Integer.Parse(href.Substring(5, href.Length - 9))
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pm As PixMap = TryCast(pdf.ObjectSoup(id), PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using bm As Bitmap = pm.GetBitmap()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bm.Save(image)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;Next
-End Sub
 </code></pre></p>
             <p>Note that in the above code the images are all exported as PNG. This is a good general purpose lossless export format. However for continuous tone images such as photographs you may wish to export as JPG as this will produce a smaller file size.</p>
             <p>It is worth nothing that  one of the internal compression formats within PDF streams is JPEG. So in cases where the <a href="../6-abcpdf.objects/streamobject/2-properties/compressions.htm">Stream.Compressions</a> has length one and the <a href="../6-abcpdf.objects/streamobject/2-properties/compression.htm">Stream.Compression</a> is CompressionType.Jpeg, it is often possible to use <a href="../6-abcpdf.objects/streamobject/1-methods/getdata.htm">Stream.GetData</a> save the raw data directly to a JPEG file. </p>

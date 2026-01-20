@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XTransform Invert Function. Invert the transform. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -112,19 +112,7 @@ doc.Pos.String = "302 396";
 doc.Transform.Invert();
 doc.AddText("Inverted");
 doc.Save(Server.MapPath("transforminvert.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 72
-&nbsp;&nbsp;doc.Rect.String = "0 0 999 999"
-&nbsp;&nbsp;doc.Pos.String = "302 396"
-&nbsp;&nbsp;doc.Transform.Rotate(45, 302, 396)
-&nbsp;&nbsp;doc.AddText("45 Degrees")
-&nbsp;&nbsp;doc.Pos.String = "302 396"
-&nbsp;&nbsp;doc.Transform.Invert()
-&nbsp;&nbsp;doc.AddText("Inverted")
-&nbsp;&nbsp;doc.Save(Server.MapPath("transforminvert.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/transforminvert.pdf.png" 
             class="example"><BR>transforminvert.pdf</P>
             <P>&nbsp;</P></TD>

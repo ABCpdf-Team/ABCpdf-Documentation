@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><title>ZZ Elements PermissionsElement Constructor Function</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../../mystyles.css">
 <link rel="stylesheet" href="../../../../prism.css">
@@ -40,8 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE> <a href="../default.htm">PermissionsElement</a>()<br> <a href="../default.htm">PermissionsElement</a>(Atom atom, IndirectObject host)<br> <a href="../default.htm">PermissionsElement</a>(IndirectObject obj)<br> <a href="../default.htm">PermissionsElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE><a href="../default.htm">PermissionsElement</a>()<br><a href="../default.htm">PermissionsElement</a>(atom As Atom, host As IndirectObject)<br><a href="../default.htm">PermissionsElement</a>(obj As IndirectObject)<br><a href="../default.htm">PermissionsElement</a>(relation As <a href="../../../01-base/1086-element/default.htm">Element</a>, options As CreationOptions)<BR>
             </CODE>
 			</P>
 			
@@ -289,168 +287,7 @@ if ((inAppearanceTextFormat != null) || (inImage != null)) {
 
 return formField;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">CommitSignature()
 
-Dim cat As New <a href="../../../07-syntax/1081-catalogelement/default.htm">CatalogElement</a>(Doc.ObjectSoup.Catalog)
-cat.EntryAcroForm.EntrySigFlags = 3
-
-&#39; NB If you don&#39;t want your signature to print then set the /F flag to 0
-Dim fieldID As Integer = Doc.AddObject(&quot;&lt;&lt;/Type /Annot /Subtype /Widget /F 4 /FT /Sig /DA (/TimesRoman 0 Tf 0 g)&gt;&gt;&quot;)
-Dim widget As New <a href="../../1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a>(Doc.ObjectSoup(fieldID))
-Dim field As <a href="../../1454-signaturefieldelement/default.htm">SignatureFieldElement</a> = CType(widget.FieldElement, <a href="../../1454-signaturefieldelement/default.htm">SignatureFieldElement</a>)
-Dim sigDictID As Integer = Doc.AddObject(&quot;&lt;&lt;/Type /Sig /Filter /Adobe.PPKLite /SubFilter /adbe.pkcs7.detached&gt;&gt;&quot;)
-Dim signature As New <a href="../../1475-signatureelement/default.htm">SignatureElement</a>(Doc.ObjectSoup(sigDictID))
-If inLocked Then
-&nbsp;&nbsp;Dim io As IndirectObject = IndirectObject.FromString(&quot;&lt;&lt; /Type /SigFieldLock /Action /All /P 1 &gt;&gt;&quot;)
-&nbsp;&nbsp;field.Host.Soup.Add(io)
-&nbsp;&nbsp;Dim sigFieldLock As New <a href="../../1455-signaturefieldlockelement/default.htm">SignatureFieldLockElement</a>(io)
-&nbsp;&nbsp;field.EntryLock = sigFieldLock
-&nbsp;&nbsp;field.Object.Version = 5 &#39; PDF 1.5
-End If
-field.EntryV = signature
-Dim formField As New FormField(Me, inName, field.Object.ID)
-formField.Widget.Rect = New XRect(inRect)
-
-Doc.Form.Refresh()
-mSig = CType(Doc.Form(inName), Signature)
-sign(mSig)
-If inReason IsNot Nothing Then
-&nbsp;&nbsp;signature.EntryReason = inReason
-End If
-If inLocation IsNot Nothing Then
-&nbsp;&nbsp;signature.EntryLocation = inLocation
-End If
-If mSig.Signer IsNot Nothing Then
-&nbsp;&nbsp;signature.EntryName = mSig.Signer
-End If
-
-If mCertify Then
-&nbsp;&nbsp;&#39; make it PDF 1.6, see the second point under &quot;Validating MDP signatures&quot; in the PDF reference
-&nbsp;&nbsp;signature.Object.Version = 6
-&nbsp;&nbsp;&#39; make signature MDP
-&nbsp;&nbsp;Dim id As Integer = Doc.AddObject(&quot;&lt;&lt;/Type /SigRef /TransformMethod /DocMDP /TransformParams &lt;&lt;/Type /TransformParams /P 2 /V /1.2&gt;&gt;&gt;&gt;&quot;)
-&nbsp;&nbsp;Dim sigRef As New <a href="../../1477-signaturereferenceelement/default.htm">SignatureReferenceElement</a>(Doc.ObjectSoup(id))
-&nbsp;&nbsp;signature.EntryReference = New <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>(Of <a href="../../1477-signaturereferenceelement/default.htm">SignatureReferenceElement</a>)(signature)
-&nbsp;&nbsp;signature.EntryReference.Add(sigRef)
-&nbsp;&nbsp;If cat.EntryPerms Is Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;cat.EntryPerms = New <a href="../default.htm">PermissionsElement</a>(cat)
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;cat.EntryPerms.EntryDocMDP = signature
-End If
-
-If (inAppearanceTextFormat IsNot Nothing) OrElse (inImage IsNot Nothing) Then
-&nbsp;&nbsp;Dim rect As XRect = widget.EntryRect.GetRect()
-&nbsp;&nbsp;rect.Pin = XRect.Corner.TopLeft
-&nbsp;&nbsp;If inAppearanceTextFormat IsNot Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;rect.Width = 200 &#39; Change this to fit the Text
-&nbsp;&nbsp;&nbsp;&nbsp;rect.Height = 60 &#39; Change this to fit the Text
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;widget.EntryRect.SetRect(rect)
-&nbsp;&nbsp;rect = rect.Clone()
-&nbsp;&nbsp;rect.Pin = XRect.Corner.BottomLeft
-&nbsp;&nbsp;rect.Position(0, 0)
-&nbsp;&nbsp;If inImage IsNot Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;Dim imgRect As XRect = XRect.FromSides(0, 0, inImage.Width, inImage.Height)
-&nbsp;&nbsp;&nbsp;&nbsp;imgRect.FitIn(rect, ContentAlign.Center, ContentScaleMode.ExactFit)
-&nbsp;&nbsp;&nbsp;&nbsp;rect.String = imgRect.String
-&nbsp;&nbsp;End If
-
-&nbsp;&nbsp;Dim validityMessageHeight As Double = 0
-&nbsp;&nbsp;Dim fontSize As Integer = 12
-&nbsp;&nbsp;If mShowSignatureValidity Then
-&nbsp;&nbsp;&nbsp;&nbsp;validityMessageHeight = Math.Min(0.3 * rect.Height, 0.1 * rect.Width)
-&nbsp;&nbsp;&nbsp;&nbsp;fontSize = 8
-&nbsp;&nbsp;End If
-
-&nbsp;&nbsp;Dim theRect As String = Doc.Rect.String
-&nbsp;&nbsp;Dim theFont As Integer = Doc.Font
-&nbsp;&nbsp;Dim theFontSize As Integer = Doc.FontSize
-&nbsp;&nbsp;Dim charSpacing As Double = Doc.TextStyle.CharSpacing
-&nbsp;&nbsp;Dim lineSpacing As Double = Doc.TextStyle.LineSpacing
-&nbsp;&nbsp;Dim pageID As Integer = Doc.Page
-
-&nbsp;&nbsp;&#39; Use a detached page to avoid changes to the current page
-&nbsp;&nbsp;&#39; or to the page tree for a new page
-&nbsp;&nbsp;Doc.Page = Doc.AddObject(&quot;&lt;&lt;/Type /Page /MediaBox [&quot; &amp; rect.String &amp; &quot;] &gt;&gt;&quot;)
-&nbsp;&nbsp;Doc.Rect.String = rect.String
-
-&nbsp;&nbsp;Dim apStream As New StringBuilder()
-
-&nbsp;&nbsp;Dim imageResName As String = Nothing
-&nbsp;&nbsp;Dim imageID As Integer = 0
-&nbsp;&nbsp;If inImage IsNot Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;Dim imageLayerID As Integer = Doc.AddImage(inImage)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim imageStream As String = Doc.GetInfo(imageLayerID, &quot;Stream&quot;)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim il As ImageLayer = CType(Doc.ObjectSoup(imageLayerID), ImageLayer)
-&nbsp;&nbsp;&nbsp;&nbsp;imageID = il.PixMap.ID
-&nbsp;&nbsp;&nbsp;&nbsp;Doc.Delete(imageLayerID)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim l1 As Integer = imageStream.IndexOf(&quot;/Iabc&quot;, 0, imageStream.Length)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim l2 As Integer = imageStream.IndexOf(&quot; &quot;, l1, imageStream.Length - l1)
-&nbsp;&nbsp;&nbsp;&nbsp;imageResName = imageStream.Substring(l1 + 1, l2 - l1 - 1)
-&nbsp;&nbsp;&nbsp;&nbsp;apStream.Append(imageStream)
-&nbsp;&nbsp;&nbsp;&nbsp;apStream.AppendLine()
-&nbsp;&nbsp;End If
-
-&nbsp;&nbsp;Dim fontResName As String = Nothing
-&nbsp;&nbsp;Dim fontID As Integer = 0
-&nbsp;&nbsp;If inAppearanceTextFormat IsNot Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;If validityMessageHeight &lt;&gt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc.Rect.Top -= validityMessageHeight
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;fontID = Doc.AddFont(&quot;Times-Roman&quot;)
-&nbsp;&nbsp;&nbsp;&nbsp;Doc.Font = fontID
-&nbsp;&nbsp;&nbsp;&nbsp;Doc.FontSize = fontSize
-&nbsp;&nbsp;&nbsp;&nbsp;Doc.TextStyle.CharSpacing = 0
-&nbsp;&nbsp;&nbsp;&nbsp;Doc.TextStyle.LineSpacing = 2
-&nbsp;&nbsp;&nbsp;&nbsp;Dim text As String = String.Format(inAppearanceTextFormat, mSig.Signer, mSig.SigningUtcTime, inReason, inLocation)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim textID As Integer = Doc.AddText(text)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim textStream As String = Doc.GetInfo(textID, &quot;Stream&quot;)
-&nbsp;&nbsp;&nbsp;&nbsp;Doc.Delete(textID)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim l1 As Integer = textStream.IndexOf(&quot;/Fabc&quot;, 0, textStream.Length)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim l2 As Integer = textStream.IndexOf(&quot; &quot;, l1, textStream.Length - l1)
-&nbsp;&nbsp;&nbsp;&nbsp;fontResName = textStream.Substring(l1 + 1, l2 - l1 - 1)
-&nbsp;&nbsp;&nbsp;&nbsp;apStream.Append(textStream)
-&nbsp;&nbsp;&nbsp;&nbsp;apStream.AppendLine()
-&nbsp;&nbsp;End If
-
-&nbsp;&nbsp;Doc.Delete(Doc.Page)
-&nbsp;&nbsp;Doc.Page = pageID
-&nbsp;&nbsp;Doc.Rect.String = theRect
-&nbsp;&nbsp;Doc.Font = theFont
-&nbsp;&nbsp;Doc.FontSize = theFontSize
-&nbsp;&nbsp;Doc.TextStyle.CharSpacing = charSpacing
-&nbsp;&nbsp;Doc.TextStyle.LineSpacing = lineSpacing
-
-&nbsp;&nbsp;Dim appearance As <a href="../../../08-graphics/1226-formxobjectelement/default.htm">FormXObjectElement</a> = MakeAppearance(rect, imageResName, imageID, fontResName, fontID, apStream.ToString())
-
-&nbsp;&nbsp;If mShowSignatureValidity Then
-&nbsp;&nbsp;&nbsp;&nbsp;If mBlankAppearance Is Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBlankAppearance = MakeAppearance(XRect.FromSides(0, 0, 100, 100), Nothing, 0, Nothing, 0, &quot;&quot;)
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-
-&nbsp;&nbsp;&nbsp;&nbsp;Dim clone As XRect = rect.Clone()
-&nbsp;&nbsp;&nbsp;&nbsp;clone.Bottom = rect.Top - validityMessageHeight
-&nbsp;&nbsp;&nbsp;&nbsp;Dim validityAppearance As <a href="../../../08-graphics/1226-formxobjectelement/default.htm">FormXObjectElement</a> = MakeAppearance(clone, Nothing, 0, fontResName, fontID, &quot;&quot;)
-
-&nbsp;&nbsp;&nbsp;&nbsp;Dim side As Double = 0.9 * Math.Min(rect.Width, rect.Height)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim contents As String = String.Format(NumberFormatInfo.InvariantInfo, &quot;q 1 0 0 1 0 0 cm /n0 Do Q&quot; &amp; vbCrLf &amp; &quot;q {0:0.#####} 0 0 {0:0.#####} {1:0.#####} {2:0.#####} cm /n1 Do Q&quot; &amp; vbCrLf &amp; &quot;q 1 0 0 1 0 0 cm /n2 Do Q&quot; &amp; vbCrLf &amp; &quot;q {0:0.#####} 0 0 {0:0.#####} {1:0.#####} {2:0.#####} cm /n3 Do Q&quot; &amp; vbCrLf &amp; &quot;q 1 0 0 1 0 0 cm /n4 Do Q&quot; &amp; vbCrLf, side / 100, (rect.Width - side) / 2, (rect.Height - side) / 2)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim frmElement As <a href="../../../08-graphics/1226-formxobjectelement/default.htm">FormXObjectElement</a> = MakeAppearance(rect, &quot;&quot;, 0, Nothing, 0, contents)
-&nbsp;&nbsp;&nbsp;&nbsp;frmElement.EntryResources.EntryXObject.Add(&quot;n0&quot;, mBlankAppearance)
-&nbsp;&nbsp;&nbsp;&nbsp;frmElement.EntryResources.EntryXObject.Add(&quot;n1&quot;, mBlankAppearance)
-&nbsp;&nbsp;&nbsp;&nbsp;frmElement.EntryResources.EntryXObject.Add(&quot;n2&quot;, appearance)
-&nbsp;&nbsp;&nbsp;&nbsp;frmElement.EntryResources.EntryXObject.Add(&quot;n3&quot;, mBlankAppearance)
-&nbsp;&nbsp;&nbsp;&nbsp;frmElement.EntryResources.EntryXObject.Add(&quot;n4&quot;, validityAppearance)
-
-&nbsp;&nbsp;&nbsp;&nbsp;appearance = MakeAppearance(rect, &quot;&quot;, 0, Nothing, 0, &quot;q 1 0 0 1 0 0 cm /FRM Do Q&quot; &amp; vbCrLf)
-&nbsp;&nbsp;&nbsp;&nbsp;appearance.EntryResources.EntryXObject.Add(&quot;FRM&quot;, frmElement)
-&nbsp;&nbsp;End If
-
-&nbsp;&nbsp;widget.EntryAP = New <a href="../../1397-appearanceelement/default.htm">AppearanceElement</a>(widget)
-&nbsp;&nbsp;widget.EntryAP.EntryN = appearance
-End If
-
-Return formField
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XTransform Magnify Function. Scale about a locked anchor point. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -123,20 +123,7 @@ doc.Transform.Magnify(2, 1.5, 302, 396);
 doc.AddText("Magnified");
 doc.FrameRect();
 doc.Save(Server.MapPath("transformmagnify.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(200, 200)
-&nbsp;&nbsp;doc.FontSize = 48
-&nbsp;&nbsp;doc.AddText("Normal")
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;doc.Rect.Move(0, -100)
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;doc.Transform.Magnify(2, 1.5, 302, 396)
-&nbsp;&nbsp;doc.AddText("Magnified")
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;doc.Save(Server.MapPath("transformmagnify.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG
             src="../../../images/pdf/transformmagnify.pdf.png" 
             class="example"><BR>transformmagnify.pdf</P>

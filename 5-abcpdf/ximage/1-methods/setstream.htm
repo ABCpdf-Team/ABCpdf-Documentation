@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XImage SetStream Function. Load an image from stream. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -110,21 +110,7 @@ using var doc = new Doc();
 doc.Rect.Inset(20, 20);
 doc.AddImageObject(img, false);
 doc.Save(Server.MapPath("imagesetstream.pdf"));
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theImg As New XImage()
-Dim thePath As String
-thePath = Server.MapPath("../mypics/mypic.jpg")
-Dim theStream As Stream
-theStream = File.OpenRead(thePath)
-theImg.SetStream(theStream)
-theStream.Close()
-Dim doc As New Doc()
-doc.Rect.Inset(20, 20)
-doc.AddImageObject(theImg, False)
-theImg.Clear()
-doc.Save(Server.MapPath("imagesetstream.pdf"))
-doc.Clear()
-</code></pre></P>
+</code></pre><BR></P>
             <P><IMG src="../../../images/pdf/imagesetfile.pdf.png" 
             class="example"><BR>imagesetstream.pdf</P>
             <P>&nbsp;</P></TD>

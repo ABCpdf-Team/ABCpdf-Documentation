@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>Doc GetInfo Function. Gets string information about an object. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -39,8 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>string 
-            GetInfo(int id, string type)<BR></CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Function GetInfo(id As Integer, type As String) As String<BR></CODE></P>
+            GetInfo(int id, string type)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -122,17 +121,7 @@ string theWidth = doc.GetInfo(id2, "Width");
 string theHeight = doc.GetInfo(id2, "Height");
 Response.Write($"Width {theWidth}&lt; br&gt;");
 Response.Write($"Height {theHeight}&lt; br&gt;");
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/mypic.jpg")
-&nbsp;&nbsp;Dim theID1 As Integer = doc.AddImageFile(thePath, 1)
-&nbsp;&nbsp;Dim theID2 As Integer = doc.GetInfoInt(theID1, "XObject")
-&nbsp;&nbsp;Dim theWidth As String = doc.GetInfo(theID2, "Width")
-&nbsp;&nbsp;Dim theHeight As String = doc.GetInfo(theID2, "Height")
-&nbsp;&nbsp;Response.Write($"Width {theWidth}&lt; br&gt;")
-&nbsp;&nbsp;Response.Write($"Height {theHeight}&lt; br&gt;")
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P>This is the kind of output you might expect.</P>
             <P><SAMP>Width 480<BR>Height 640</SAMP><BR></P>
             <P>&nbsp;</P></TD>

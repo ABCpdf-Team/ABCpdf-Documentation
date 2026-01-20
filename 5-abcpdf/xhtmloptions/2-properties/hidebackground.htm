@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XHtmlOptions HideBackground Property. Whether to hide the background color of a page. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,10 +35,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Boolean</code></td>
+                  <code>bool</code></td>
                 <td>false</td>
                 <td>No</td>
                 <td>Whether to hide the background color of a page.</td>
@@ -96,23 +93,7 @@ doc.AddImageUrl(url);
 // Save the document
 doc.Save(Server.MapPath("HtmlOptionsHideBackground.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;' Please note that the URL below is included for demonstration purposes only.
-&nbsp;&nbsp;' In your code you should use your own URL. The site at the URL below
-&nbsp;&nbsp;' may include other opaque elements which may obscure our blue rectangle.
-&nbsp;&nbsp;Dim theURL As String = "https://www.websupergoo.com/"
-&nbsp;&nbsp;' Add some content
-&nbsp;&nbsp;doc.Color.String = "0 255 255"
-&nbsp;&nbsp;' light blue
-&nbsp;&nbsp;doc.FillRect(200, 200)
-&nbsp;&nbsp;' Hide the background of the HTML page so content shows through
-&nbsp;&nbsp;doc.HtmlOptions.HideBackground = True
-&nbsp;&nbsp;doc.AddImageUrl(theURL)
-&nbsp;&nbsp;' Save the document
-&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsHideBackground.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/HtmlOptionsHideBackground.pdf.png" class="example"><br>
               HtmlOptionsHideBackground.pdf</p>
             <p>&nbsp;</p>

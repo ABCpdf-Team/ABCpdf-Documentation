@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XImage SetMask Function. Assign a soft mask to the image. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -40,8 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
             SetMask(<a href="../default.htm">XImage</a> mask, bool invert)<BR>
-            </CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Sub SetMask(mask As <a href="../default.htm">XImage</a>, invert As Boolean)<BR>
             </CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
@@ -124,22 +122,7 @@ doc.FillRect();
 doc.Rect.Inset(20, 20);
 doc.AddImageObject(img, true);
 doc.Save(Server.MapPath("imagesetmask.pdf"));
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theImg As New XImage()
-&nbsp;&nbsp;Dim theMsk As New XImage()
-&nbsp;&nbsp;theImg.SetFile(Server.MapPath("../mypics/mypic.jpg"))
-&nbsp;&nbsp;theMsk.SetFile(Server.MapPath("../mypics/mymask.jpg"))
-&nbsp;&nbsp;theImg.SetMask(theMsk, True)
-&nbsp;&nbsp;theMsk.Clear()
-&nbsp;&nbsp;doc.Color.String = "0 0 0"
-&nbsp;&nbsp;doc.FillRect()
-&nbsp;&nbsp;doc.Rect.Inset(20, 20)
-&nbsp;&nbsp;doc.AddImageObject(theImg, True)
-&nbsp;&nbsp;theImg.Clear()
-&nbsp;&nbsp;doc.Save(Server.MapPath("imagesetmask.pdf"))
-End Using
-</code></pre></P>
+</code></pre><BR></P>
             <P>Given the following input images.</P>
             <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
               <TBODY>

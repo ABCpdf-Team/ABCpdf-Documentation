@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XColor ColorSpace Property. The color space for the color. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,9 +35,6 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>ColorOperatorType</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code>ColorOperatorType</code></td>
                 <td>ColorOperatorType.Rgb</td>
                 <td>No</td>
@@ -88,44 +85,32 @@
                     <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theColor.ColorSpace = 3;
 </code></pre><br>
-    <span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theColor.ColorSpace = 3
-</code></pre></p>
+    </p>
                       <p>In Version 10 the ColorSpace property was changed to a true enumeration. This is a safer way of coding as it allows the compiler to ensure that the values you   are using are valid. Your new code should look like this.</p>
     <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theColor.ColorSpace = ColorOperatorType.DeviceRGB;
 </code></pre><br>
-    <span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theColor.ColorSpace = ColorOperatorType.DeviceRGB
-</code></pre></p>
+    </p>
                       <P>The old values of the integers match up with the new enumeration values. So if you find code of this form:</P>
                       <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theColor.ColorSpace = anInteger;
 </code></pre><br>
-                          <span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theColor.ColorSpace = anInteger
-</code></pre></p>
+                          </p>
                       <P>You can just cast it to the correct type.</P>
                       <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theColor.ColorSpace = (ColorOperatorType)anInteger;
 </code></pre><br>
-                          <span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theColor.ColorSpace = CType(anInteger, ColorOperatorType)
-</code></pre></p>
+                          </p>
                     <P>Or similarly:</P>
                     <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">int n = theColor.ColorSpace;
 </code></pre><br>
-                          <span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">Dim n As Integer = theColor.ColorSpace
-</code></pre></p>
+                          </p>
                       <P>You can again cast it to the correct type.</P>
                       <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">int n = (int)theColor.ColorSpace;
 </code></pre><br>
-                          <span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">Dim n As Integer = CInt(theColor.ColorSpace)
-</code></pre></p>
+                          </p>
                   </TD>
                 </TR>
               </TBODY>

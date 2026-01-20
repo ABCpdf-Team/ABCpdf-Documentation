@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>TextOperation Group Function. Group a range of text fragments into a set of lines. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -121,33 +121,7 @@ while (true) {
 }
 doc.Save(dst);
 </code></pre><BR>
-              <SPAN class=language>[Visual 
-                Basic]</SPAN><BR>
-              <pre><code class="language-vbnet">Dim theSrc As String = Server.MapPath("mypics/Acrobat.pdf")
-Dim theDst As String = Server.MapPath("HighlightedText.pdf")
-Dim searchString As String = "Acrobat"
-Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(theSrc)
-&nbsp;&nbsp;Dim op As New TextOperation(doc)
-&nbsp;&nbsp;op.PageContents.AddPages()
-&nbsp;&nbsp;Dim text As String = op.GetText()
-&nbsp;&nbsp;Dim pos As Integer = 0
-&nbsp;&nbsp;While True
-&nbsp;&nbsp;&nbsp;&nbsp;pos = text.IndexOf(searchString, pos, StringComparison.CurrentCultureIgnoreCase)
-&nbsp;&nbsp;&nbsp;&nbsp;If pos &lt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;Dim theSelection As IList(Of TextFragment) = op.[Select](pos, searchString.Length)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim theGroups As IList(Of TextGroup) = op.Group(theSelection)
-&nbsp;&nbsp;&nbsp;&nbsp;For Each theGroup As TextGroup In theGroups
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = theGroup.Rect.[String]
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;&nbsp;&nbsp;Next
-&nbsp;&nbsp;&nbsp;&nbsp;pos += searchString.Length
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;doc.Save(theDst)
-End Using
-</code></pre></P>
+              </P>
             <P></P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

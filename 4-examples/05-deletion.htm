@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>Deletion Example</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -49,11 +49,7 @@
 doc.Read(Server.MapPath("../mypics/sample.pdf"));
 int count = doc.PageCount - 1;
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
-&nbsp;&nbsp;Dim theCount As Integer = doc.PageCount - 1
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -77,14 +73,7 @@ int count = doc.PageCount - 1;
 &nbsp;&nbsp;doc.Delete(doc.Page);
 }
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;While i &lt; theCount
-&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = 2
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Delete(doc.Page)
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>
@@ -111,15 +100,7 @@ doc.TextStyle.VPos = 0.3;
 doc.AddText(count.ToString());
 doc.Save(Server.MapPath("deletion.pdf"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.FontSize = 500
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;doc.TextStyle.HPos = 0.5
-&nbsp;&nbsp;doc.TextStyle.VPos = 0.3
-&nbsp;&nbsp;doc.AddText(theCount.ToString())
-&nbsp;&nbsp;doc.Save(Server.MapPath("deletion.pdf"))
-End Using
-</code></pre></p>
+              </p>
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

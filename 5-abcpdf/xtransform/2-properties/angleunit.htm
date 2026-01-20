@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD><TITLE>XTransform AngleUnit Property. The angle unit, degrees or radians. ABCpdf .NET PDF Library.</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -36,21 +36,7 @@ doc.Transform.AngleUnit = WebSupergoo.ABCpdf13.XTransform.AngleUnitType.Radians;
 doc.Transform.Rotate(-1 * Math.PI / 2, doc.Rect.Width / 2, doc.Rect.Height / 2);
 doc.AddText("Hello World rotated back by PI/2 radians");
 doc.Save(Server.MapPath("transformrotate.pdf"));
-</code></pre> <P><SPAN class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;doc.TextStyle.HPos = 0.5
-&nbsp;&nbsp;doc.TextStyle.VPos = 0.5
-&nbsp;&nbsp;doc.Transform.Rotate(90, doc.Rect.Width / 2, doc.Rect.Height / 2)
-&nbsp;&nbsp;doc.TextStyle.Underline = True
-&nbsp;&nbsp;doc.AddText("Hello World rotated by 90 degrees")
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.Transform.AngleUnit = WebSupergoo.ABCpdf13.XTransform.AngleUnitType.Radians
-&nbsp;&nbsp;doc.Transform.Rotate(-1 * Math.PI / 2, doc.Rect.Width / 2, doc.Rect.Height / 2)
-&nbsp;&nbsp;doc.AddText("Hello World rotated back by PI/2 radians")
-&nbsp;&nbsp;doc.Save(Server.MapPath("transformrotate.pdf"))
-End Using
-</code></pre> 
-<P><IMG src="../../../images/pdf/transformrotate.pdf.png" 
+</code></pre> <P><P><IMG src="../../../images/pdf/transformrotate.pdf.png" 
             class="example"><BR>transforrotate.pdf, page 1</P><P><IMG src="../../../images/pdf/transformrotate.pdf2.png" 
             class="example"><BR>transforrotate.pdf, page 2</P><P></P></TD><TD width=60>&nbsp;</TD><TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><P>&nbsp;</P>
 </BODY></HTML>

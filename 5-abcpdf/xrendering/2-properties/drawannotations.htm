@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>XRendering DrawAnnotations Property. Whether to render fields and annotations. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,10 +35,7 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Boolean</code></td>
+                  <code>bool</code></td>
                 <td>true</td>
                 <td>No</td>
                 <td>Whether to render fields and annotations.</td>
@@ -92,18 +89,7 @@ doc.Rendering.Save(Server.MapPath("RenderingDrawAnnotationsTrue.png"));
 doc.Rendering.DrawAnnotations = false;
 doc.Rendering.Save(Server.MapPath("RenderingDrawAnnotationsFalse.png"));
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/Annotations.pdf"))
-&nbsp;&nbsp;doc.Rect.Pin = XRect.Corner.TopLeft
-&nbsp;&nbsp;doc.Rect.Height = 300
-&nbsp;&nbsp;' Render document with DrawAnnotations (default)
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingDrawAnnotationsTrue.png"))
-&nbsp;&nbsp;' Render document without DrawAnnotations
-&nbsp;&nbsp;doc.Rendering.DrawAnnotations = False
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingDrawAnnotationsFalse.png"))
-End Using
-</code></pre></p>
+              </p>
             <p><img src="../../../images/pdf/RenderingDrawAnnotationsTrue.png" class="example-landscape"><br>
               RenderingDrawAnnotationsTrue.png</p>
             <p><img src="../../../images/pdf/RenderingDrawAnnotationsFalse.png" class="example-landscape"><br>

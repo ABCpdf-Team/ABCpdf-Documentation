@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <title>ColorSpace Gamma Property. The gamma correction for the color space. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -35,9 +35,6 @@
               </tr>
               <tr valign="top"> 
                 <td align="left"><span class="language">[C#]</span><br>
-                  <code>ArrayAtom</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
                   <code>ArrayAtom</code></td>
                 <td>n/a</td>
                 <td>No</td>
@@ -93,19 +90,7 @@ doc.Color.SetComponents(0.9); // gray
 doc.AddOval(true);
 doc.Save(Server.MapPath("examplecalgraycolorspace.pdf"));
 </code></pre><br>
-                <span class=language>[Visual Basic]</span><br>
-                <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Width = 80
-&nbsp;&nbsp;doc.Rect.Inset(50, 50)
-&nbsp;&nbsp;Dim cs As New ColorSpace(doc.ObjectSoup, ColorSpaceType.CalGray)
-&nbsp;&nbsp;DirectCast(cs.Gamma, NumAtom).Real = 1.2
-&nbsp;&nbsp;doc.ColorSpace = cs.ID
-&nbsp;&nbsp;doc.Color.SetComponents(0.9)
-&nbsp;&nbsp;' gray
-&nbsp;&nbsp;doc.AddOval(True)
-&nbsp;&nbsp;doc.Save(Server.MapPath("examplecalgraycolorspace.pdf"))
-End Using
-</code></pre></p>
+                </p>
             <p><img src="../../../images/pdf/examplecalgraycolorspace.pdf.png" class="example"><br>
             examplecalgraycolorspace.pdf</p>
             <p>&nbsp;</p>
