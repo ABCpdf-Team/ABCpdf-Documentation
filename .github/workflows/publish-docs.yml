@@ -21,6 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ABCpdf-Team/ABCpdf-Documentation-Utils
+          branch: main
           ssh-key: ${{ secrets.UTILS_DEPLOY_RO_PK }}
           path: wsg-help-util
 
@@ -51,6 +52,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ABCpdf-Team/ABCpdf-Documentation-md
+          branch: main
           ssh-key: ${{ secrets.DOCS_MD_DEPLOY_PK }}
           path: docs-target
 
