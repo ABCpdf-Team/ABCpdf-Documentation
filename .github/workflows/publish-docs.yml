@@ -31,10 +31,10 @@ jobs:
           dotnet-quality: 'preview'
 
       - name: Build WSGHelpUtil
-        run: dotnet build wsg-help-util/WSGHelpUtils/WSGHelpUtils.csproj -c Release
+        run: dotnet build wsg-help-util/WSGHelpUtils.csproj -c Release
 
       - name: Convert HTML to Markdown
-        run: dotnet run --project wsg-help-util/WSGHelpUtils/WSGHelpUtils.csproj -c Release -- docs-source _site --clean
+        run: dotnet run --project wsg-help-util/WSGHelpUtils.csproj -c Release -- docs-source _site --clean
 
       - name: Create index page
         run: |
