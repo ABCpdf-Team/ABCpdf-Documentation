@@ -42,11 +42,6 @@ jobs:
             cp _site/default.md _site/index.md
           fi
 
-      - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.DOCS_MD_DEPLOY_PK }}
-
       - name: Checkout target documentation repository
         uses: actions/checkout@v6
         with:
