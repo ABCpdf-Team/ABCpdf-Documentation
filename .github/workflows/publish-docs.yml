@@ -20,6 +20,7 @@ jobs:
       - name: Checkout WSGHelpUtil
         uses: actions/checkout@v6
         with:
+          ref: main
           repository: ABCpdf-Team/ABCpdf-Documentation-Utils
           ssh-key: ${{ secrets.UTILS_DEPLOY_RO_PK }}
           path: wsg-help-util
