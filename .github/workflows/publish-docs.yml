@@ -18,7 +18,7 @@ jobs:
           path: docs-source
 
       - name: Checkout WSGHelpUtil
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           repository: ABCpdf-Team/ABCpdf-Documentation-Utils
           ssh-key: ${{ secrets.UTILS_DEPLOY_RO_PK }}
@@ -32,6 +32,13 @@ jobs:
           cd wsg-help-util
           git log -1 --oneline
 
+      - name: Checkout target documentation repository
+        uses: actions/checkout@v4
+        with:
+          repository: ABCpdf-Team/ABCpdf-Documentation-md
+          path: _site
+          ssh-key: ${{ secrets.DOCS_MD_DEPLOY_PK }}
+
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
         with:
@@ -42,7 +49,7 @@ jobs:
         run: dotnet build wsg-help-util/WSGHelpUtils.csproj -c Release
 
       - name: Convert HTML to Markdown
-        run: dotnet run --project wsg-help-util/WSGHelpUtils.csproj -c Release -- docs-source _site --clean
+        run: dotnet run --project wsg-help-util/WSGHelpUtils.csproj -c Release -- docs-source _site
 
       - name: Create index page
         run: |
@@ -51,25 +58,11 @@ jobs:
           fi
 
       - name: List generated files
-        run: ls -la _site/ || echo "_site folder is empty or missing"
+        run: ls -la _site/
 
-      - name: Checkout target documentation repository
-        uses: actions/checkout@v6
-        with:
-          repository: ABCpdf-Team/ABCpdf-Documentation-md
-          path: docs-target
-          ssh-key: ${{ secrets.DOCS_MD_DEPLOY_PK }}
-
-      - name: Copy generated markdown files
-        run: |
-          # Remove old documentation files but preserve config files
-          find docs-target -name "*.md" -type f -delete
-          # Copy new documentation files
-          cp -r _site/* docs-target/
-          
       - name: Commit and push changes
         run: |
-          cd docs-target
+          cd _site
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add .
