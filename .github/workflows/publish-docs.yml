@@ -7,19 +7,22 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout documentation source
         uses: actions/checkout@v4
+        with:
+          path: docs-source
+
+      - name: Checkout WSGHelpUtil
+        uses: actions/checkout@v4
+        with:
+          repository: ABCpdf-Team/ABCpdf-Documentation-Utils
+          ssh-key: ${{ secrets.UTILS_DEPLOY_RO_PK }}
+          path: wsg-help-util
 
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
@@ -27,11 +30,11 @@ jobs:
           dotnet-version: '10.0.x'
           dotnet-quality: 'preview'
 
-      - name: Build WSGHelpUtils
-        run: dotnet build WSGHelpUtils/WSGHelpUtils.csproj -c Release
+      - name: Build WSGHelpUtil
+        run: dotnet build wsg-help-util/WSGHelpUtils/WSGHelpUtils.csproj -c Release
 
       - name: Convert HTML to Markdown
-        run: dotnet run --project WSGHelpUtils/WSGHelpUtils.csproj -c Release -- . _site --clean
+        run: dotnet run --project wsg-help-util/WSGHelpUtils/WSGHelpUtils.csproj -c Release -- docs-source _site --clean
 
       - name: Create index page
         run: |
@@ -39,21 +42,34 @@ jobs:
             cp _site/default.md _site/index.md
           fi
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.0
         with:
-          path: '_site'
+          ssh-private-key: ${{ secrets.DOCS_MD_DEPLOY_PK }}
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Checkout target documentation repository
+        uses: actions/checkout@v4
+        with:
+          repository: ABCpdf-Team/ABCpdf-Documentation-md
+          ssh-key: ${{ secrets.DOCS_MD_DEPLOY_PK }}
+          path: docs-target
+
+      - name: Copy generated markdown files
+        run: |
+          # Remove old documentation files but preserve config files
+          find docs-target -name "*.md" -type f -delete
+          # Copy new documentation files
+          cp -r _site/* docs-target/
+          
+      - name: Commit and push changes
+        run: |
+          cd docs-target
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update documentation from ${{ github.repository }} - ${{ github.sha }}"
+            git push
+          fi
