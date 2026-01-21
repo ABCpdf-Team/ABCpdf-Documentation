@@ -13,15 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout documentation source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: docs-source
 
       - name: Checkout WSGHelpUtil
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ABCpdf-Team/ABCpdf-Documentation-Utils
-          branch: main
           ssh-key: ${{ secrets.UTILS_DEPLOY_RO_PK }}
           path: wsg-help-util
 
@@ -49,12 +48,11 @@ jobs:
           ssh-private-key: ${{ secrets.DOCS_MD_DEPLOY_PK }}
 
       - name: Checkout target documentation repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ABCpdf-Team/ABCpdf-Documentation-md
-          branch: main
-          ssh-key: ${{ secrets.DOCS_MD_DEPLOY_PK }}
           path: docs-target
+          ssh-key: ${{ secrets.DOCS_MD_DEPLOY_PK }}
 
       - name: Copy generated markdown files
         run: |
