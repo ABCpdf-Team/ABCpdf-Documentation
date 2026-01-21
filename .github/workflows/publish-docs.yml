@@ -39,7 +39,7 @@ jobs:
       - name: Create index page
         run: |
           if [ -f "_site/default.md" ]; then
-            cp _site/README.md _site/index.md
+            cp _site/default.md _site/README.md
           fi
 
       - name: Checkout target documentation repository
