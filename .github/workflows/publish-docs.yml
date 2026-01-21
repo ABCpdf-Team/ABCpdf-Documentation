@@ -20,10 +20,17 @@ jobs:
       - name: Checkout WSGHelpUtil
         uses: actions/checkout@v6
         with:
-          ref: main
           repository: ABCpdf-Team/ABCpdf-Documentation-Utils
           ssh-key: ${{ secrets.UTILS_DEPLOY_RO_PK }}
           path: wsg-help-util
+          ref: main
+          fetch-depth: 1
+          clean: true
+
+      - name: Verify WSGHelpUtil commit
+        run: |
+          cd wsg-help-util
+          git log -1 --oneline
 
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
