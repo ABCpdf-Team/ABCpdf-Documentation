@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top">
-                <td align="left"><span class="language">[C#]</span><br>
-                    <code>IHtmlChromeOptions</code><br>
-                    <br>
-                    <span class="language">[Visual&nbsp;Basic]</span><br>
-                    <code>IHtmlChromeOptions</code></td>
+                <td align="left"><code>IHtmlChromeOptions</code></td>
                 <td>n/a</td>
                 <td>Yes</td>
                 <td>An object that provides access to only the HTML options supported by the ABCChrome engine.</td>
@@ -117,22 +113,7 @@ options.UseScript = false;
 options.AddTags = true;
 
 doc.AddImageUrl("http://www.websupergoo.com");
-doc.Save(Server.MapPath("wsg1.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR>
-<pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.Chrome123
-&nbsp;&nbsp;doc.HtmlOptions.ForChrome.AddLinks = True
-
-&nbsp;&nbsp;' You can store a reference to the filter to reduce code repetition
-&nbsp;&nbsp;Dim options As IHtmlChromeOptions = doc.HtmlOptions.ForChrome
-
-&nbsp;&nbsp;options.UseScript = False
-&nbsp;&nbsp;options.AddTags = True
-
-&nbsp;&nbsp;doc.AddImageUrl("http://www.websupergoo.com")
-&nbsp;&nbsp;doc.Save(Server.MapPath("wsg1.pdf"))
-End Using
+doc.Save("wsg1.pdf");
 </code></pre></P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

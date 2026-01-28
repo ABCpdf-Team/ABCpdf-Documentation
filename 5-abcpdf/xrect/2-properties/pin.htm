@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>Corner</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Corner</code></td>
+                <td align="left"><code>Corner</code></td>
                 <td>Corner.BottomLeft</td>
                 <td>No</td>
                 <td>The corner of the rectangle to pin.</td>
@@ -83,23 +79,14 @@
                       <p>In older versions of ABCpdf the Pin property was a number. To assign a Corner to the Pin property you needed to cast the value. So you might find code of this form.</p>
                       <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">theRect.Pin = (int)XRect.Corner.TopRight;
-</code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">theRect.Pin = CInt(XRect.Corner.TopRight)
 </code></pre></p>
                       <p>In Version 8 the Pin property has been changed to a true enumeration. This means you can assign the Corner directly. </p>
                       <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">theRect.Pin = XRect.Corner.TopRight;
-</code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">theRect.Pin = XRect.Corner.TopRight
 </code></pre></p>
                       <p>If your code is bound to integers rather than enumerations then it is safe to cast the number to a Corner.</p>
                       <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">theRect.Pin = (XRect.Corner)myIntegerValue;
-</code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">theRect.Pin = CType(myIntegerValue, XRect.Corner)
 </code></pre></p>
                     </td>
                 </tr>

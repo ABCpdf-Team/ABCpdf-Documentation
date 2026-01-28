@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Integer</code></td>
+                <td align="left"><code>int</code></td>
                 <td>0</td>
                 <td>No</td>
                 <td>The current Page ID.</td>
@@ -99,18 +95,7 @@ doc.Page = doc.AddPage();
 doc.AddText("Page One");
 doc.Page = doc.AddPage();
 doc.AddText("Page Two");
-doc.Save(Server.MapPath("docpage.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;' big text
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.AddText("Page One")
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.AddText("Page Two")
-&nbsp;&nbsp;doc.Save(Server.MapPath("docpage.pdf"))
-End Using
+doc.Save("docpage.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/docpage.pdf.png" class="example"></p>
             <p><img src="../../../images/pdf/docpage.pdf2.png" class="example"><br>

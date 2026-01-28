@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Integer</code></td>
+                <td align="left"><code>int</code></td>
                 <td>&nbsp;n/a&nbsp;</td>
                 <td>No</td>
                 <td>The number of degrees to rotate the page before display.</td>
@@ -83,7 +79,7 @@
             <p><span class=language>[C#]</span><br>
               <pre><code class="language-csharp">using var doc = new Doc();
 using var src = new Doc();
-src.Read(Server.MapPath("landscape.pdf"));
+src.Read("landscape.pdf");
 int rotation = ((Page)src.ObjectSoup[src.Page]).Rotation;
 bool landscape = src.MediaBox.Width &gt; src.MediaBox.Height;
 doc.Page = doc.AddPage();   // output is always in portrait
@@ -113,40 +109,7 @@ else {
 &nbsp;&nbsp;}
 }
 doc.AddImageDoc(src, 1, null);
-doc.Save(Server.MapPath("addtoportrait.pdf"));
-</code></pre>
-  <br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc(), src As New Doc()
-&nbsp;&nbsp;src.Read(Server.MapPath("landscape.pdf"))
-&nbsp;&nbsp;Dim rotation As Integer = DirectCast(src.ObjectSoup(src.Page), Page).Rotation
-&nbsp;&nbsp;Dim landscape As Boolean = src.MediaBox.Width &gt; src.MediaBox.Height
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;' output is always in portrait
-&nbsp;&nbsp;If landscape Then
-&nbsp;&nbsp;&nbsp;&nbsp;Select Case rotation
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case 0, 90
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Rotate(270, 0, 0)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Translate(0, doc.MediaBox.Height)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case 180, 270
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Rotate(90, 0, 0)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Translate(doc.MediaBox.Width, 0)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
-&nbsp;&nbsp;&nbsp;&nbsp;End Select
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.SetRect(0, 0, doc.MediaBox.Height, doc.MediaBox.Width)
-&nbsp;&nbsp;Else
-&nbsp;&nbsp;&nbsp;&nbsp;Select Case rotation
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Case 90, 180
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Rotate(180, 0, 0)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Translate(doc.MediaBox.Width, doc.MediaBox.Height)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit Select
-&nbsp;&nbsp;&nbsp;&nbsp;End Select
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;doc.AddImageDoc(src, 1, Nothing)
-&nbsp;&nbsp;doc.Save(Server.MapPath("addtoportrait.pdf"))
-End Using
+doc.Save("addtoportrait.pdf");
 </code></pre>
             </p>
             <p><img src="../../../images/pdf/landscape.pdf.png" class="example"><BR>

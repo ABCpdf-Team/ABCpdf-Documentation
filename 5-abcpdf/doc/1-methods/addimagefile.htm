@@ -41,10 +41,6 @@
             <p><span class="language">[C#]</span><br>
 <pre><code class="language">int AddImageFile(string path)<BR>
 int AddImageFile(string path, int frame)
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language">Function AddImageFile(path As String) As Integer <BR>
-Function AddImageFile(path As String, frame As Integer) As Integer
 </code></pre></p>
             <P><CODE><IMG border=0 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 height=10> may 
@@ -115,18 +111,12 @@ href="../../xtransform/default.htm">Transform</A>.</P>
                   <P>To invert the transparency:</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.SetInfo(theDoc.GetInfoInt(theID, "XObject"), "/SMask*/Decode", "[1 0]");
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.SetInfo(theDoc.GetInfoInt(theID, "XObject"), "/SMask*/Decode", "[1 0]")
 </code></pre></p>
                   <P>A similar technique can be used for inverting or altering 
                   color levels on the image itself. </P>
                   <P>To invert an RGB image:</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.SetInfo(theDoc.GetInfoInt(theID, "XObject"), "/Decode", "[1 0 1 0 1 0]");
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.SetInfo(theDoc.GetInfoInt(theID, "XObject"), "/Decode", "[1 0 1 0 1 0]")
 </code></pre></p></TD></TR></TBODY></TABLE>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -144,16 +134,9 @@ href="../../xtransform/default.htm">Transform</A>.</P>
             at the bottom left.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
 doc.Rect.String = "0 0 510 638";
-string path = Server.MapPath("../mypics/pic.jpg");
+string path = "../mypics/pic.jpg";
 doc.AddImageFile(path, 1);
-doc.Save(Server.MapPath("docaddimage.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.String = "0 0 510 638"
-&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/pic.jpg")
-&nbsp;&nbsp;doc.AddImageFile(thePath, 1)
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddimage.pdf"))
-End Using
+doc.Save("docaddimage.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docaddimage.pdf.png"
             class="example"><BR>docaddimage.pdf </P>

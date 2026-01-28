@@ -46,15 +46,7 @@
             password)<BR>void Read(string path, XReadOptions 
             options)<BR>void Read(byte[] data, XReadOptions 
             options)<BR>void Read(Stream stream, XReadOptions 
-            options)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Sub Read(path As 
-            String)<BR>Sub Read(data() As Byte)<BR>Sub Read(stream As Stream)<BR>Sub Read(path As String, 
-            password As String)<BR>Sub Read(data() As Byte, password 
-            As String)<BR>Sub Read(stream As Stream, password As 
-            String)<BR>Sub Read(path As String, options As 
-            XReadOptions)<BR>Sub Read(data() As Byte, options As 
-            XReadOptions)<BR>Sub Read(stream As Stream, options As 
-            XReadOptions)</CODE><BR></P>
+            options)<BR></CODE><BR></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -222,7 +214,7 @@
             <P>The following illustrates how one might add a large red number to 
             every page of a PDF document.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/sample.pdf"));
+doc.Read("../mypics/sample.pdf");
 doc.FontSize = 500;
 doc.Color.String = "255 0 0";
 doc.TextStyle.HPos = 0.5;
@@ -232,23 +224,7 @@ for (int i = 1; i &lt;= count; i++) {
 &nbsp;&nbsp;doc.PageNumber = i;
 &nbsp;&nbsp;doc.AddText(i.ToString());
 }
-doc.Save(Server.MapPath("docread.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
-&nbsp;&nbsp;doc.FontSize = 500
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;doc.TextStyle.HPos = 0.5
-&nbsp;&nbsp;doc.TextStyle.VPos = 0.3
-&nbsp;&nbsp;Dim theCount As Integer = doc.PageCount
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= theCount
-&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
-&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(i.ToString())
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;doc.Save(Server.MapPath("docread.pdf"))
-End Using
+doc.Save("docread.pdf");
 </code></pre></P>
             <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
               <TBODY>

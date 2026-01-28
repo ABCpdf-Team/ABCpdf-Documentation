@@ -41,11 +41,7 @@
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
             AddArc(double as, double ae, double cx, double cy, double rx, double 
             ry)<BR>int AddArc(double as, double ae, double cx, double 
-            cy, double rx, double ry, bool filled)<BR></CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Function AddArc(as As Double, ae As Double, cx As Double, cy As Double, rx As 
-            Double, ry As Double) As Integer<BR>Function AddArc(as 
-            As Double, ae As Double, cx As Double, cy As Double, rx As Double, 
-            ry As Double, filled As Boolean) As Integer<BR></CODE></P>
+            cy, double rx, double ry, bool filled)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -134,14 +130,7 @@
 doc.Width = 24;
 doc.Color.String = "120 0 0";
 doc.AddArc(0, 270, 300, 400, 200, 300);
-doc.Save(Server.MapPath("docaddarc.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Width = 24
-&nbsp;&nbsp;doc.Color.String = "120 0 0"
-&nbsp;&nbsp;doc.AddArc(0, 270, 300, 400, 200, 300)
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddarc.pdf"))
-End Using
+doc.Save("docaddarc.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docaddarc.pdf.png" class="example"><BR>docaddarc.pdf </P>
             <p>Also see example code in: <a href="../2-properties/options.htm">Doc Options Property</a>.</p>

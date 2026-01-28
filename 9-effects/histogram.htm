@@ -143,43 +143,6 @@ private void DrawGraph(Doc doc, double[] values) {
 &nbsp;&nbsp;doc.AddPoly(points, false);
 }
 </code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Sub ...
-&nbsp;&nbsp;Using doc As New Doc()
-&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img1)
-&nbsp;&nbsp;&nbsp;&nbsp;' original image
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectHistogram.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img1)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Histogram")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pars = effect.Parameters
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(255, 0, 0)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawGraph(doc, pars("Red").Values)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(0, 255, 0)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawGraph(doc, pars("Green").Values)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(0, 0, 255)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawGraph(doc, pars("Blue").Values)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectHistogramGraph.jpg")
-&nbsp;&nbsp;End Using
-End Sub
-
-Private Sub DrawGraph(doc As Doc, values As Double())
-&nbsp;&nbsp;Dim max As Double = 0
-&nbsp;&nbsp;For i As Integer = 0 To values.Length - 1
-&nbsp;&nbsp;&nbsp;&nbsp;max = Math.Max(max, values(i))
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;Dim points As Double() = New Double(values.Length * 2 - 1) {}
-&nbsp;&nbsp;For i As Integer = 0 To values.Length - 1
-&nbsp;&nbsp;&nbsp;&nbsp;Dim x As Double = i * (doc.Rect.Width / values.Length)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim y As Double = values(i) * (doc.Rect.Height / max)
-&nbsp;&nbsp;&nbsp;&nbsp;points((i * 2) + 0) = x
-&nbsp;&nbsp;&nbsp;&nbsp;points((i * 2) + 1) = y
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;doc.AddPoly(points, False)
-End Sub
-</code></pre><br>
             </p>
             <table border="0" cellpadding="5" cellspacing="0" bordercolor="#999999">
               <tr>

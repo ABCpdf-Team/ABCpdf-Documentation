@@ -40,9 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
             AddImageUrl(string url)<BR>int AddImageUrl(string url, bool 
-            paged, int width, bool disableCache)<BR></CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Function AddImageUrl(url As String) As Integer<BR>Function AddImageUrl(url As String, paged As Boolean, width As Integer, 
-            disableCache As Boolean) As Integer<BR></CODE></P>
+            paged, int width, bool disableCache)<BR></CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -168,12 +166,7 @@ href="../../xtransform/default.htm">Transform</A>.</P>
             it!</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
 doc.AddImageUrl("http://www.google.com/");
-doc.Save(Server.MapPath("htmlimport.pdf"));
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.AddImageUrl("http://www.google.com/")
-&nbsp;&nbsp;doc.Save(Server.MapPath("htmlimport.pdf"))
-End Using
+doc.Save("htmlimport.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/htmlimport.pdf.png" 
             class="example"><BR>htmlimport.pdf</P>

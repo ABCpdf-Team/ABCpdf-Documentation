@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Integer</code></td>
+                <td align="left"><code>int</code></td>
                 <td>10</td>
                 <td>No</td>
                 <td>The current text size.</td>
@@ -66,9 +62,6 @@
             <p>You should prefer use of the <a href="../../xtextstyle/2-properties/size.htm">XTextStyle.Size</a> property, to which the FontSize property is simply an integer accessor. Assigning a value to the FontSize is exactly equivalent to assigning it to the <a href="../../xtextstyle/2-properties/size.htm">XTextStyle.Size</a>. Getting a value from this property is exactly equivalent to the following.</p>
             <p><span class="language">[C#]</span><br>
             <pre><code class="language-csharp">int n = (int)(doc.TextStyle.Size + 0.5);
-</code></pre><br>
-            <span class="language">[Visual Basic]</span><br>
-            <pre><code class="language-vbnet">Dim n As Integer = CInt((doc.TextStyle.Size + 0.5))
 </code></pre></p>
             <p>&nbsp;</p></td>
           <td width="60">&nbsp;</td>
@@ -93,16 +86,7 @@ doc.FontSize = 96;
 doc.AddText("Small ");
 doc.FontSize = 192;
 doc.AddText("Big");
-doc.Save(Server.MapPath("docfontsize.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;doc.AddText("Small ")
-&nbsp;&nbsp;doc.FontSize = 192
-&nbsp;&nbsp;doc.AddText("Big")
-&nbsp;&nbsp;doc.Save(Server.MapPath("docfontsize.pdf"))
-End Using
+doc.Save("docfontsize.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/docfontsize.pdf.png" class="example"><br>
               docfontsize.pdf </p><p>Also see example code in: <a href="../../../4-examples/02-textflow.htm">ABCpdf Text Flow Example</a>, <a href="../../../4-examples/02-textflow2.htm">ABCpdf Text Flow Round Image Example</a>, <a href="../../../4-examples/03-multistyled.htm">ABCpdf Multistyle Example</a>, <a href="../../../4-examples/05-deletion.htm">ABCpdf Deletion Example</a>, <a href="../../../4-examples/06-headers.htm">ABCpdf Headers and Footers Example</a>, <a href="../../../4-examples/08-landscape.htm">ABCpdf Landscape Example</a>, <a href="../../../4-examples/09-table1.htm">ABCpdf Small Table Example</a>, <a href="../../../4-examples/10-table2.htm">ABCpdf Large Table Example</a>, <a href="../../../4-examples/12-unicode.htm">ABCpdf Unicode Example</a>, <a href="../../../4-examples/15-eform2.htm">ABCpdf eForm Placeholder Example</a>, <a href="../../../4-examples/16-eformfdf.htm">ABCpdf eForm FDF Example</a>, <a href="../../../4-examples/17-advancedgraphics.htm">ABCpdf Advanced Graphics Example</a>, <a href="../../../4-examples/18-annotations.htm">ABCpdf Fields, Markup and Movies Example</a>, <a href="../1-methods/addbookmark.htm">Doc AddBookmark Function</a>, <a href="../1-methods/addcolorspacefile.htm">Doc AddColorSpaceFile Function</a>, <a href="../1-methods/addcolorspacespot.htm">Doc AddColorSpaceSpot Function</a>, <a href="../1-methods/addfont.htm">Doc AddFont Function</a>, <a href="../1-methods/addpage.htm">Doc AddPage Function</a>, <a href="../1-methods/addtext.htm">Doc AddText Function</a>, <a href="../1-methods/addtextstyled.htm">Doc AddTextStyled Function</a>, <a href="../1-methods/append.htm">Doc Append Function</a>, <a href="../1-methods/embedfont.htm">Doc EmbedFont Function</a>, <a href="../1-methods/read.htm">Doc Read Function</a>, <a href="../1-methods/remappages.htm">Doc RemapPages Method</a>, <a href="../1-methods/save.htm">Doc Save Function</a>, <a href="encryption.htm">Doc Encryption Property</a>, <a href="font.htm">Doc Font Property</a>, <a href="page.htm">Doc Page Property</a>, <a href="pos.htm">Doc Pos Property</a>, <a href="string.htm">Doc String Property</a>, <a href="topdown.htm">Doc TopDown Property</a>, <a href="transform.htm">Doc Transform Property</a>, <a href="../../xcolor/2-properties/alpha.htm">XColor Alpha Property</a>, <a href="../../xencryption/1-methods/setcryptmethods.htm">XEncryption SetCryptMethods Function</a>, <a href="../../xhtmloptions/1-methods/gettagrects.htm">XHtmlOptions GetTagRects Function</a>, <a href="../../xhtmloptions/2-properties/htmlcallback.htm">XHtmlOptions HtmlCallback Property</a>, <a href="../../xpoint/2-properties/point.htm">XPoint Point Property</a>, <a href="../../xrect/2-properties/rectangle.htm">XRect Rectangle Property</a>, <a href="../../xrendering/2-properties/antialiaspolygons.htm">XRendering AntiAliasPolygons Property</a>, <a href="../../xrendering/2-properties/antialiastext.htm">XRendering AntiAliasText Property</a>, <a href="../../xrendering/2-properties/icccmyk.htm">XRendering IccCmyk Property</a>, <a href="../../xrendering/2-properties/savealpha.htm">XRendering SaveAlpha Property</a>, <a href="../../xtextstyle/2-properties/hpos.htm">XTextStyle HPos Property</a>, <a href="../../xtextstyle/2-properties/vpos.htm">XTextStyle VPos Property</a>, <a href="../../xtransform/1-methods/invert.htm">XTransform Invert Function</a>, <a href="../../xtransform/1-methods/magnify.htm">XTransform Magnify Function</a>, <a href="../../xtransform/1-methods/reset.htm">XTransform Reset Function</a>, <a href="../../xtransform/1-methods/rotate.htm">XTransform Rotate Function</a>, <a href="../../xtransform/2-properties/angleunit.htm">XTransform AngleUnit Property</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/vectorizetext.htm">Page VectorizeText Function</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/Q-webpageoperation/2-properties/01-doc.htm">WebPageOperation Doc Property</a>.</p>

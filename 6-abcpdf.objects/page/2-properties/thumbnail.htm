@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code><a href="../../pixmap/default.htm">PixMap</a></code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code><a href="../../pixmap/default.htm">PixMap</a></code></td>
+                <td align="left"><code><a href="../../pixmap/default.htm">PixMap</a></code></td>
                 <td>n/a</td>
                 <td>No</td>
                 <td>The Thumbnail for the page</td>
@@ -79,7 +75,7 @@
             <p><span class=language>[C#]</span><br>
               <pre><code class="language-csharp">using var doc = new Doc();
 using var src = new Doc();
-doc.Read(Server.MapPath("spaceshuttle.pdf"));
+doc.Read("../Rez/spaceshuttle.pdf");
 doc.Rendering.DotsPerInch = 18;
 var pages = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll();
 foreach (var page in pages) {
@@ -87,21 +83,7 @@ foreach (var page in pages) {
 &nbsp;&nbsp;using (var xi = XImage.FromData(doc.Rendering.GetData(".jpg"), null))
 &nbsp;&nbsp;&nbsp;&nbsp;page.Thumbnail = PixMap.FromXImage(doc.ObjectSoup, xi);
 }
-doc.Save(Server.MapPath("embedthumbnails.pdf"));
-</code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc(), srcDoc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("spaceshuttle.pdf"))
-&nbsp;&nbsp;doc.Rendering.DotsPerInch = 18
-&nbsp;&nbsp;Dim pages As Page() = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()
-&nbsp;&nbsp;For Each page As Page In pages
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = page.ID
-&nbsp;&nbsp;&nbsp;&nbsp;Using xi As XImage = XImage.FromData(doc.Rendering.GetData(".jpg"), Nothing)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.Thumbnail = PixMap.FromXImage(doc.ObjectSoup, xi)
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;doc.Save(Server.MapPath("embedthumbnails.pdf"))
-End Using
+doc.Save("embedthumbnails.pdf");
 </code></pre></p>
             <p>&nbsp;</p>
           </td>

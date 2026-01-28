@@ -35,9 +35,7 @@
                 <TD><B>Read Only</B></TD>
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
-                <TD align=left><SPAN 
-                  class=language>[C#]</SPAN><BR><CODE>int</CODE><BR><BR><SPAN 
-                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>Integer</CODE></TD>
+                <TD align=left><CODE>int</CODE></TD>
                 <TD>101</TD>
                 <TD>No</TD>
                 <TD>The quality of compression acceptable for continuous tone 
@@ -91,28 +89,13 @@ string uri = "http://www.nasa.gov/multimedia/imagegallery/image_feature_313.html
 doc.HtmlOptions.ImageQuality = 5;
 doc.AddImageUrl(uri);
 // Save the document
-doc.Save(Server.MapPath("HtmlOptionsImageQuality5.pdf"));
+doc.Save("HtmlOptionsImageQuality5.pdf");
 doc.Clear();
 // Set lossless image quality for HTML rendering
 doc.HtmlOptions.ImageQuality = 101;
 doc.AddImageUrl(uri);
 // Save the document
-doc.Save(Server.MapPath("HtmlOptionsImageQuality101.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theURL As String = "http://www.nasa.gov/multimedia/imagegallery/image_feature_313.html"
-&nbsp;&nbsp;' Set low image quality for HTML rendering
-&nbsp;&nbsp;doc.HtmlOptions.ImageQuality = 5
-&nbsp;&nbsp;doc.AddImageUrl(theURL)
-&nbsp;&nbsp;' Save the document
-&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsImageQuality5.pdf"))
-&nbsp;&nbsp;doc.Clear()
-&nbsp;&nbsp;' Set lossless image quality for HTML rendering
-&nbsp;&nbsp;doc.HtmlOptions.ImageQuality = 101
-&nbsp;&nbsp;doc.AddImageUrl(theURL)
-&nbsp;&nbsp;' Save the document
-&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsImageQuality101.pdf"))
-End Using
+doc.Save("HtmlOptionsImageQuality101.pdf");
 </code></pre></P>
             <P><IMG
             src="../../../images/pdf/HtmlOptionsImageQuality5.pdf.png" class="example"

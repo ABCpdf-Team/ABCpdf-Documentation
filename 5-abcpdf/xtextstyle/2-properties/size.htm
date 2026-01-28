@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>double</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Double</code></td>
+                <td align="left"><code>double</code></td>
                 <td>10.0</td>
                 <td>No</td>
                 <td>The current text size.</td>
@@ -89,16 +85,7 @@ doc.TextStyle.Size = 96.5;
 doc.AddText("Small ");
 doc.TextStyle.Size = 192.5;
 doc.AddText("Big");
-doc.Save(Server.MapPath("stylesize.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.TextStyle.Size = 96.5
-&nbsp;&nbsp;doc.AddText("Small ")
-&nbsp;&nbsp;doc.TextStyle.Size = 192.5
-&nbsp;&nbsp;doc.AddText("Big")
-&nbsp;&nbsp;doc.Save(Server.MapPath("stylesize.pdf"))
-End Using
+doc.Save("stylesize.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/stylesize.pdf.png" class="example"><br>
               stylesize.pdf </p>

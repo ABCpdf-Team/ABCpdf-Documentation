@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Boolean</code></td>
+                <td align="left"><code>bool</code></td>
                 <td>false</td>
                 <td>No</td>
                 <td>Whether to apply overprint.</td>
@@ -80,9 +76,6 @@
 </P>
                     <pre><code class="language-csharp">bool IsPdfX(Doc doc) {<br>&nbsp;&nbsp;var cat = doc.ObjectSoup.Catalog;<br>&nbsp;&nbsp;var xmp = cat.Metadata != null ? cat.Metadata.GetText() : &quot;&quot;;<br>&nbsp;&nbsp;if (xmp.Contains(&quot;GTS_PDFXVersion&quot;))<br>&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>&nbsp;&nbsp;var trailer = doc.ObjectSoup.Trailer;<br>&nbsp;&nbsp;var info = cat.Resolve(Atom.GetItem(trailer.Atom, &quot;Info&quot;)) as DictAtom;<br>&nbsp;&nbsp;return info != null &amp;&amp; info.Contains(&quot;GTS_PDFXVersion&quot;);<br>}
 </code></pre>
-                    <br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">Function IsPdfX(ByVal doc As Doc) As Boolean<br>    Dim cat = doc.ObjectSoup.Catalog<br>    Dim xmp = If(cat.Metadata IsNot Nothing, cat.Metadata.GetText(), &quot;&quot;)<br>    If xmp.Contains(&quot;GTS_PDFXVersion&quot;) Then Return True<br>    Dim trailer = doc.ObjectSoup.Trailer<br>    Dim info = TryCast(cat.Resolve(Atom.GetItem(trailer.Atom, &quot;Info&quot;)), DictAtom)<br>    Return info IsNot Nothing AndAlso info.Contains(&quot;GTS_PDFXVersion&quot;)<br>End Function</code></pre>
                     <P><BR>
                     </P></TD>
                 </TR>
@@ -110,7 +103,7 @@
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">using var doc = new Doc();
 // Open document with overprint
-doc.Read(Server.MapPath("../mypics/Overprint.pdf"));
+doc.Read("../mypics/Overprint.pdf");
 // Render the document (we need to go to CMYK for overprint)
 doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Cmyk;
 doc.Rendering.Overprint = true;
@@ -124,29 +117,7 @@ using var theRgb = new Doc();
 theRgb.AddImageData(doc.Rendering.GetData(".tif"), 1);
 theRgb.Rendering.DotsPerInch = 36;
 theRgb.Rendering.ColorSpace = XRendering.ColorSpaceType.Rgb;
-theRgb.Rendering.Save(Server.MapPath("RenderingOverprint.png"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;' Open document with overprint
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/Overprint.pdf"))
-&nbsp;&nbsp;' Render the document (we need to go to CMYK for overprint)
-&nbsp;&nbsp;doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Cmyk
-&nbsp;&nbsp;doc.Rendering.Overprint = True
-&nbsp;&nbsp;doc.Rendering.IccRgb = "device"
-&nbsp;&nbsp;doc.Rendering.IccGray = "device"
-&nbsp;&nbsp;doc.Rendering.IccCmyk = "device"
-&nbsp;&nbsp;doc.Rendering.IccOutput = "device"
-&nbsp;&nbsp;' Put image back into another PDF and render the document as RGB
-&nbsp;&nbsp;' (so that we can see the effect of the overprint in RGB)
-&nbsp;&nbsp;Dim theRgb As New Doc()
-&nbsp;&nbsp;theRgb.AddImageData(doc.Rendering.GetData(".tif"), 1)
-&nbsp;&nbsp;doc.Clear()
-&nbsp;&nbsp;theRgb.Rendering.DotsPerInch = 36
-&nbsp;&nbsp;theRgb.Rendering.ColorSpace = XRendering.ColorSpaceType.Rgb
-&nbsp;&nbsp;theRgb.Rendering.Save(Server.MapPath("RenderingOverprint.png"))
-&nbsp;&nbsp;theRgb.Clear()
-End Using
+theRgb.Rendering.Save("RenderingOverprint.png");
 </code></pre></p>
             <p><img src="../../../images/pdf/RenderingOverprint.png" class="example"><br>
               RenderingOverprint.png</p>

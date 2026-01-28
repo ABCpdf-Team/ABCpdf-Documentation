@@ -35,10 +35,7 @@
                 <TD><B>Read Only</B></TD>
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
-                <TD align=left><SPAN 
-                  class=language>[C#]</SPAN><BR><CODE><a href="../../xhtmlfireshield/default.htm">XHtmlFireShield</a></CODE><BR>
-                <BR><SPAN 
-                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE><a href="../../xhtmlfireshield/default.htm">XHtmlFireShield</a></CODE></TD>
+                <TD align=left><CODE><a href="../../xhtmlfireshield/default.htm">XHtmlFireShield</a></CODE></TD>
                 <TD>null</TD>
                 <TD>No</TD>
                 <TD>The FireShield&trade; security settings to be applied to the ABCChrome engine.</TD>
@@ -78,16 +75,7 @@ doc.HtmlOptions.FireShield.Rules.Add(new XHtmlFireShield.PathRule(@"C:\Windows\*
 int id = doc.AddImageUrl("https://www.google.com/");
 // ...
 </code></pre></P>
-            <P><BR>
-              <SPAN 
-            class=language>[Visual Basic]</SPAN><BR>
-            <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.Chrome123
-&nbsp;&nbsp;doc.HtmlOptions.FireShield.Rules.Add(New XHtmlFireShield.PathRule("C:\Windows\*.drv", XHtmlFireShield.PathRule.AccessType.Allow))
-&nbsp;&nbsp;&nbsp;&nbsp;' ...
-&nbsp;&nbsp;Dim id As Integer = doc.AddImageUrl("https://www.google.com/")
-End Using
-</code></pre></P>
+            <P></P>
             <P>&nbsp;</P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

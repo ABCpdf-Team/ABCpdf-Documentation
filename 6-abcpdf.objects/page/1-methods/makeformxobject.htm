@@ -40,9 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE><a href="../../formxobject/default.htm">FormXObject</a> MakeFormXObject()<BR>
-            </CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR>
-            <CODE>Function MakeFormXObject() As <a href="../../formxobject/default.htm">FormXObject</a><BR>
             </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -99,7 +96,7 @@
             <P>This example shows how to take a page, convert it into a separate drawing object and then draw it, scaled, onto the page it came from.</P>
             <P><span class=language>[C#]</span><br>
               <pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/HyperX.pdf"));
+doc.Read("../mypics/HyperX.pdf");
 var page1 = doc.ObjectSoup[doc.Page] as Page;
 var form = page1.MakeFormXObject();
 doc.Transform.Magnify(0.5, 0.5, 0, 0);
@@ -111,24 +108,7 @@ string name = page2.AddResource(form, "XObject", "Iabc");
 var layer = new StreamObject(doc.ObjectSoup);
 layer.SetText(String.Format("q {0} cm /{1} Do Q ", doc.Transform.ToString(), name));
 page2.AddLayer(layer);
-doc.Save(Server.MapPath("exampleformxobject.pdf"));
-</code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/HyperX.pdf"))
-&nbsp;&nbsp;Dim page1 As Page = TryCast(doc.ObjectSoup(doc.Page), Page)
-&nbsp;&nbsp;Dim form As FormXObject = page1.MakeFormXObject()
-&nbsp;&nbsp;doc.Transform.Magnify(0.5, 0.5, 0, 0)
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;Dim page2 As Page = TryCast(doc.ObjectSoup(doc.Page), Page)
-&nbsp;&nbsp;Dim name As String = page2.AddResource(form, "XObject", "Iabc")
-&nbsp;&nbsp;' Here we create our own layer for the purposes of the demonstration.
-&nbsp;&nbsp;' However a simpler approach would be to use Doc.AddXObject.
-&nbsp;&nbsp;Dim layer As New StreamObject(doc.ObjectSoup)
-&nbsp;&nbsp;layer.SetText([String].Format("q {0} cm /{1} Do Q ", doc.Transform.ToString(), name))
-&nbsp;&nbsp;page2.AddLayer(layer)
-&nbsp;&nbsp;doc.Save(Server.MapPath("exampleformxobject.pdf"))
-End Using
+doc.Save("exampleformxobject.pdf");
 </code></pre></P>
             <p><img src="../../../images/pdf/exampleformxobject.pdf.png" class="example-landscape"><BR>
               exampleformxobject.pdf [Page 1]</p>

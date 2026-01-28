@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>string</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>String</code></td>
+                <td align="left"><code>string</code></td>
                 <td>&quot;Spot,30,100,CosineDot&quot;</td>
                 <td>No</td>
                 <td>Halftone type and options.</td>
@@ -123,7 +119,7 @@
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">using var doc = new Doc();
 using var image = new XImage();
-image.SetFile(Server.MapPath("../mypics/Shuttle.jpg"));
+image.SetFile("../mypics/Shuttle.jpg");
 doc.Rect.String = image.Selection.String;
 doc.AddImage(image);
 // Save rendered image as black and white picture using Line spot function
@@ -132,28 +128,10 @@ doc.Rendering.DotsPerInch = 50;
 doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Gray;
 doc.Rendering.BitsPerChannel = 1;
 doc.Rendering.DefaultHalftone = "Spot,30,100,Line";
-doc.Rendering.Save(Server.MapPath("RenderingHalftoneLine.png"));
+doc.Rendering.Save("RenderingHalftoneLine.png");
 // Save rendered image as black and white picture using Diamond spot function
 doc.Rendering.DefaultHalftone = "Spot,0,100,Diamond";
-doc.Rendering.Save(Server.MapPath("RenderingHalftoneDiamond.png"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim image As New XImage()
-&nbsp;&nbsp;image.SetFile(Server.MapPath("../mypics/Shuttle.jpg"))
-&nbsp;&nbsp;doc.Rect.String = image.Selection.[String]
-&nbsp;&nbsp;doc.AddImage(image)
-&nbsp;&nbsp;' Save rendered image as black and white picture using Line spot function
-&nbsp;&nbsp;doc.Rendering.UseEmbeddedHalftone = False
-&nbsp;&nbsp;doc.Rendering.DotsPerInch = 50
-&nbsp;&nbsp;doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Gray
-&nbsp;&nbsp;doc.Rendering.BitsPerChannel = 1
-&nbsp;&nbsp;doc.Rendering.DefaultHalftone = "Spot,30,100,Line"
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingHalftoneLine.png"))
-&nbsp;&nbsp;' Save rendered image as black and white picture using Diamond spot function
-&nbsp;&nbsp;doc.Rendering.DefaultHalftone = "Spot,0,100,Diamond"
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingHalftoneDiamond.png"))
-End Using
+doc.Rendering.Save("RenderingHalftoneDiamond.png");
 </code></pre></p>
             <p><img src="../../../images/pdf/RenderingHalftoneLine.png" class="example"><br>
               RenderingHalftoneLine.png</p>

@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>double</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Double</code></td>
+                <td align="left"><code>double</code></td>
                 <td>0</td>
                 <td>No</td>
                 <td>The first line of paragraph indent.</td>
@@ -94,21 +90,7 @@ doc.TextStyle.Size = 16;
 doc.TextStyle.ParaSpacing = 16;
 doc.TextStyle.Indent = 48;
 doc.AddText(text);
-doc.Save(Server.MapPath("styleindent.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur. Hi omnes lingua, institutis, legibus inter se differunt."
-&nbsp;&nbsp;theText = theText + theText
-&nbsp;&nbsp;theText = theText + vbCr &amp; vbLf + theText + vbCr &amp; vbLf
-&nbsp;&nbsp;theText = theText + theText + theText + theText
-&nbsp;&nbsp;doc.Rect.Inset(20, 40)
-&nbsp;&nbsp;doc.TextStyle.Size = 16
-&nbsp;&nbsp;doc.TextStyle.ParaSpacing = 16
-&nbsp;&nbsp;doc.TextStyle.Indent = 48
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Save(Server.MapPath("styleindent.pdf"))
-End Using
+doc.Save("styleindent.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/styleindent.pdf.png" class="example"><br>
               styleindent.pdf </p>

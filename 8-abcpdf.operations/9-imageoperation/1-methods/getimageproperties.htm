@@ -39,10 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
-            <CODE>IList&lt;<a href="../../9-imageproperties/default.htm">ImageProperties</a>&gt; GetImageProperties()</CODE><BR>
-            <SPAN class=language>[Visual
-            Basic]</SPAN><BR>
-            <CODE>Function GetImageProperties() As IList&lt;<a href="../../9-imageproperties/default.htm">ImageProperties</a>&gt;</CODE></P>
+            <CODE>IList&lt;<a href="../../9-imageproperties/default.htm">ImageProperties</a>&gt; GetImageProperties()</CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions"
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw
             Exception()</CODE></P>
@@ -96,8 +93,8 @@
           <TD>
             <P>Here we highlight a set of images in a source document by drawing a red rectangle around each one.</P>
             <P><SPAN class=language>[C#]</SPAN><BR>
-                <pre><code class="language-csharp">string src = Server.MapPath("mypics/Acrobat.pdf");
-string dst = Server.MapPath("HighlightedImages.pdf");
+                <pre><code class="language-csharp">string src = "../mypics/Acrobat.pdf";
+string dst = "HighlightedImages.pdf";
 using var doc = new Doc();
 doc.Read(src);
 doc.Color.SetRgb(255, 0, 0);
@@ -112,26 +109,6 @@ foreach (var img in images) {
 &nbsp;&nbsp;}
 }
 doc.Save(dst);
-</code></pre><BR>
-  <SPAN class=language>[Visual 
-    Basic]</SPAN><BR>
-                  <pre><code class="language-vbnet">Dim theSrc As String = Server.MapPath("mypics/Acrobat.pdf")
-Dim theDst As String = Server.MapPath("HighlightedImages.pdf")
-Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(theSrc)
-&nbsp;&nbsp;doc.Color.SetRgb(255, 0, 0)
-&nbsp;&nbsp;doc.Width = 0.1
-&nbsp;&nbsp;Dim op As New ImageOperation(doc)
-&nbsp;&nbsp;op.PageContents.AddPages()
-&nbsp;&nbsp;Dim images As IList(Of ImageProperties) = op.GetImageProperties()
-&nbsp;&nbsp;For Each pl As ImageProperties In images
-&nbsp;&nbsp;&nbsp;&nbsp;For Each plc As ImageRendition In pl.Renditions
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plc.Focus()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;&nbsp;&nbsp;Next
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;doc.Save(theDst)
-End Using
 </code></pre></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

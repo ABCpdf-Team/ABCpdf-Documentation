@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
-            SetData(byte[] data)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Sub SetData(data() As 
-            Byte)<BR></CODE></P>
+            SetData(byte[] data)<BR></CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -106,7 +104,7 @@
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var img = new XImage();
 using var doc = new Doc();
 // read the data from a file
-string path = Server.MapPath("../mypics/mypic.jpg");
+string path = "../mypics/mypic.jpg";
 using var stream = File.OpenRead(path);
 byte[] theData = new byte[stream.Length];
 stream.Read(theData, 0, (int)stream.Length);
@@ -114,23 +112,7 @@ stream.Read(theData, 0, (int)stream.Length);
 img.SetData(theData);
 doc.Rect.Inset(20, 20);
 doc.AddImageObject(img, false);
-doc.Save(Server.MapPath("imagesetdata.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theImg As New XImage()
-Dim doc As New Doc()
-' read the data from a file
-Dim thePath As String = Server.MapPath("../mypics/mypic.jpg")
-Dim theStream As FileStream = File.OpenRead(thePath)
-Dim theData As Byte() = New Byte(theStream.Length - 1) {}
-theStream.Read(theData, 0, DirectCast(theStream.Length, Integer))
-theStream.Close()
-' place the data into the image
-theImg.SetData(theData)
-doc.Rect.Inset(20, 20)
-doc.AddImageObject(theImg, False)
-theImg.Clear()
-doc.Save(Server.MapPath("imagesetdata.pdf"))
-doc.Clear()
+doc.Save("imagesetdata.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/imagesetdata.pdf.png" 
             class="example"><BR>imagesetdata.pdf</P>

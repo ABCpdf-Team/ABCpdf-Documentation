@@ -12,10 +12,8 @@
             width=11></TD></TR> <TR> <TD> <P>&nbsp;</P><TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
             cellPadding=3 border=5> <TBODY> <TR> <TD align=middle><B>Type</B></TD><TD><B>Default</B></TD><TD><B>Read 
 Only</B></TD><TD><B>Description</B></TD></TR> <TR vAlign=top> <TD align=left> 
-<DIV><SPAN class=language>[C#]</SPAN><BR><FONT 
-                  face="Courier New"><CODE>AngleUnitType</CODE><BR></FONT><BR><SPAN CLASS=language>[Visual 
-Basic]</SPAN><BR><FONT 
-                  FACE="Courier New"><CODE>AngleUnitType</CODE></FONT></DIV></TD><TD>Degrees</TD><TD>No</TD><TD>The 
+<DIV><FONT 
+                  face="Courier New"><CODE>AngleUnitType</CODE><BR></FONT></FONT></DIV></TD><TD>Degrees</TD><TD>No</TD><TD>The 
 angle unit, degrees or radians.</TD></TR></TBODY></TABLE><P>&nbsp;</P></TD><TD width=60>&nbsp;</TD><TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR> 
 <TR> <TD class=sectheader vAlign=top><IMG height=10 
       src="../../../images/steel-pin.gif" width=64><BR>Notes</TD><TD width=14>&nbsp;</TD><TD vAlign=top> 
@@ -35,21 +33,8 @@ doc.Page = doc.AddPage();
 doc.Transform.AngleUnit = WebSupergoo.ABCpdf13.XTransform.AngleUnitType.Radians;
 doc.Transform.Rotate(-1 * Math.PI / 2, doc.Rect.Width / 2, doc.Rect.Height / 2);
 doc.AddText("Hello World rotated back by PI/2 radians");
-doc.Save(Server.MapPath("transformrotate.pdf"));
-</code></pre> <P><SPAN class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;doc.TextStyle.HPos = 0.5
-&nbsp;&nbsp;doc.TextStyle.VPos = 0.5
-&nbsp;&nbsp;doc.Transform.Rotate(90, doc.Rect.Width / 2, doc.Rect.Height / 2)
-&nbsp;&nbsp;doc.TextStyle.Underline = True
-&nbsp;&nbsp;doc.AddText("Hello World rotated by 90 degrees")
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.Transform.AngleUnit = WebSupergoo.ABCpdf13.XTransform.AngleUnitType.Radians
-&nbsp;&nbsp;doc.Transform.Rotate(-1 * Math.PI / 2, doc.Rect.Width / 2, doc.Rect.Height / 2)
-&nbsp;&nbsp;doc.AddText("Hello World rotated back by PI/2 radians")
-&nbsp;&nbsp;doc.Save(Server.MapPath("transformrotate.pdf"))
-End Using
-</code></pre> 
+doc.Save("transformrotate.pdf");
+</code></pre> <P> 
 <P><IMG src="../../../images/pdf/transformrotate.pdf.png" 
             class="example"><BR>transforrotate.pdf, page 1</P><P><IMG src="../../../images/pdf/transformrotate.pdf2.png" 
             class="example"><BR>transforrotate.pdf, page 2</P><P></P></TD><TD width=60>&nbsp;</TD><TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><P>&nbsp;</P>

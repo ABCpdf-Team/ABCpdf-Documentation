@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Integer</code></td>
+                <td align="left"><code>int</code></td>
                 <td>0</td>
                 <td>No</td>
                 <td>The current ColorSpace ID.</td>
@@ -95,7 +91,7 @@
 doc.Rect.Inset(20, 20);
 
 using var img = new XImage();
-img.SetFile(Server.MapPath("../mypics/mypic.jpg"));
+img.SetFile("../mypics/mypic.jpg");
 int id = doc.AddImageObject(img, false);
 
 id = doc.GetInfoInt(id, "XObject");
@@ -105,25 +101,7 @@ int theCS = doc.AddColorSpaceSpot("MAGENTA", "0 100 0 0");
 doc.SetInfo(id, "/ColorSpace:Ref", theCS.ToString());
 doc.SetInfo(id, "/Decode", "[1 0]");
 
-doc.Save(Server.MapPath("doccolorspace.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(20, 20)
-
-&nbsp;&nbsp;Dim theImg As New XImage()
-&nbsp;&nbsp;theImg.SetFile(Server.MapPath("../mypics/mypic.jpg"))
-&nbsp;&nbsp;Dim theID As Integer = doc.AddImageObject(theImg, False)
-
-&nbsp;&nbsp;theID = doc.GetInfoInt(theID, "XObject")
-&nbsp;&nbsp;doc.SetInfo(theID, "Grayscale", "")
-
-&nbsp;&nbsp;Dim theCS As Integer = doc.AddColorSpaceSpot("MAGENTA", "0 100 0 0")
-&nbsp;&nbsp;doc.SetInfo(theID, "/ColorSpace:Ref", theCS.ToString())
-&nbsp;&nbsp;doc.SetInfo(theID, "/Decode", "[1 0]")
-
-&nbsp;&nbsp;doc.Save(Server.MapPath("doccolorspace.pdf"))
-End Using
+doc.Save("doccolorspace.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/doccolorspace.pdf.png" class="example"><br>
               doccolorspace.pdf</p><p>Also see example code in: <a href="../1-methods/addcolorspacefile.htm">Doc AddColorSpaceFile Function</a>, <a href="../1-methods/addcolorspacespot.htm">Doc AddColorSpaceSpot Function</a>, <a href="../../xcolor/2-properties/components.htm">XColor Components Property</a>, <a href="../../../6-abcpdf.objects/colorspace/2-properties/gamma.htm">ColorSpace Gamma Property</a>, <a href="../../../6-abcpdf.objects/colorspace/2-properties/whitepoint.htm">ColorSpace WhitePoint Property</a>.</p>

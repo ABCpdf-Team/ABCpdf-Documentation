@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
-            SetFile(string path)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Sub SetFile(path As 
-            String)<BR></CODE></P>
+            SetFile(string path)<BR></CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -104,19 +102,10 @@
             PDF.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var img = new XImage();
 using var doc = new Doc();
-img.SetFile(Server.MapPath("../mypics/mypic.jpg"));
+img.SetFile("../mypics/mypic.jpg");
 doc.Rect.Inset(20, 20);
 doc.AddImageObject(img, false);
-doc.Save(Server.MapPath("imagesetfile.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theImg As New XImage()
-Dim doc As New Doc()
-theImg.SetFile(Server.MapPath("../mypics/mypic.jpg"))
-doc.Rect.Inset(20, 20)
-doc.AddImageObject(theImg, False)
-theImg.Clear()
-doc.Save(Server.MapPath("imagesetfile.pdf"))
-doc.Clear()
+doc.Save("imagesetfile.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/imagesetfile.pdf.png" 
             class="example"><BR>imagesetfile.pdf</P>

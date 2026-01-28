@@ -32,8 +32,7 @@
                 <td><b>Read Only</b></td>
                 <td><b>Description</b></td></tr>
               <tr valign="top">
-                <td align="left"><span class="language">[C#]</span><br><code>PadesLevel</code><br>
-                <br><span class="language">[Visual&nbsp;Basic]</span><br><code>PadesLevel</code></td>
+                <td align="left"><code>PadesLevel</code></td>
                 <td>PadesLevel.None</td>
                 <td>No</td>
                 <td>The signature compliance level.</td></tr></tbody></table>
@@ -88,7 +87,7 @@
               interface. </p>
             <p>To silently sign using a certificate on an HSM you will need to provide the password as a SecureString. </p>
             <p><span class="language">[C#]</span><br><pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("mypics/BlankSignature.pdf"));
+doc.Read("../mypics/BlankSignature.pdf");
 var sig = (Signature)doc.Form.Fields["Signature1"];
 sig.Reason = "Final Version";
 sig.Location = "New York";
@@ -101,24 +100,7 @@ var pwd = new SecureString();
 foreach (char c in "password".ToCharArray())
 &nbsp;&nbsp;pwd.AppendChar(c);
 sig.Sign(cert, pwd, new Oid(CryptoConfig.MapNameToOID("SHA256")));
-doc.Save(Server.MapPath("SignedDoc.pdf"));
-</code></pre><br><span class="language">[Visual Basic]</span><br>
-                <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("mypics/BlankSignature.pdf"))
-&nbsp;&nbsp;Dim sig As Signature = DirectCast(doc.Form.Fields("Signature1"), Signature)
-&nbsp;&nbsp;sig.Reason = "Final Version"
-&nbsp;&nbsp;sig.Location = "New York"
-&nbsp;&nbsp;sig.TimestampServiceUrl = New Uri("http://timestamp.digicert.com")
-&nbsp;&nbsp;sig.CompliancePades = Signature.PadesLevel.PAdES_B_LTA
-&nbsp;&nbsp;Dim cert As X509Certificate2 = Certificates.GetFromStore()
-&nbsp;&nbsp;' User-defined function
-&nbsp;&nbsp;Dim pwd As New SecureString()
-&nbsp;&nbsp;For Each c As Char In "password".ToCharArray()
-&nbsp;&nbsp;&nbsp;&nbsp;pwd.AppendChar(c)
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;sig.Sign(cert, pwd, New Oid(CryptoConfig.MapNameToOID("SHA256")))
-&nbsp;&nbsp;doc.Save(Server.MapPath("SignedDoc.pdf"))
-End Using
+doc.Save("SignedDoc.pdf");
 </code></pre>
             <p>&nbsp;</p>
           </td>

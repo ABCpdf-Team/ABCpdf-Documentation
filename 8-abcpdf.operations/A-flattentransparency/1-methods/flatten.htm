@@ -40,9 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Flatten(Doc 
             doc)<BR>void Flatten(Pages pages)<BR>void Flatten(Page 
-            page)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Sub Flatten(doc As Doc)<BR>Sub Flatten(pages 
-            As Pages)<BR>Sub Flatten(page As Page)<BR></CODE></P>
+            page)<BR></CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -119,20 +117,11 @@ op.DotsPerInch = 144;
 op.ColorSpace = XRendering.ColorSpaceType.Rgb;
 
 using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/sample.pdf"));
+doc.Read("../mypics/sample.pdf");
 op.Flatten(doc);
-doc.Save(Server.MapPath("Flattened.pdf"));
+doc.Save("Flattened.pdf");
 </code></pre></P>
-<P><SPAN class=language>[Visual Basic]</SPAN>
-<pre><code class="language-vbnet">Dim transOp As New FlattenTransparencyOperation()
-transOp.DotsPerInch = 144
-transOp.ColorSpace = XRendering.ColorSpaceType.Rgb
-
-Dim doc As New Doc()
-doc.Read(Server.MapPath("../mypics/sample.pdf"))
-transOp.Flatten(doc)
-doc.Save(Server.MapPath("Flattened.pdf"))
-</code></pre>
+<P>
 </P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

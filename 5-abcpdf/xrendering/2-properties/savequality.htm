@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Integer</code></td>
+                <td align="left"><code>int</code></td>
                 <td>75</td>
                 <td>No</td>
                 <td>The output file quality for lossy compression.</td>
@@ -82,26 +78,14 @@
               on PDF rendering.</p>
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/SpaceShuttlePage6.pdf"));
+doc.Read("../mypics/SpaceShuttlePage6.pdf");
 doc.Rendering.DotsPerInch = 36;
 // Save at low quality
 doc.Rendering.SaveQuality = 5;
-doc.Rendering.Save(Server.MapPath("RenderingQuality5.jpg"));
+doc.Rendering.Save("RenderingQuality5.jpg");
 // Save at high quality
 doc.Rendering.SaveQuality = 75;
-doc.Rendering.Save(Server.MapPath("RenderingQuality75.jpg"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/SpaceShuttlePage6.pdf"))
-&nbsp;&nbsp;doc.Rendering.DotsPerInch = 36
-&nbsp;&nbsp;' Save at low quality
-&nbsp;&nbsp;doc.Rendering.SaveQuality = 5
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingQuality5.jpg"))
-&nbsp;&nbsp;' Save at high quality
-&nbsp;&nbsp;doc.Rendering.SaveQuality = 75
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingQuality75.jpg"))
-End Using
+doc.Rendering.Save("RenderingQuality75.jpg");
 </code></pre></p>
             <p><img src="../../../images/pdf/RenderingQuality5.jpg" class="example"><br>
               RenderingQuality5.jpg [file size 9.26 KB]</p>

@@ -124,36 +124,6 @@
 &nbsp;&nbsp;}
 }
 </code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Sub ...
-&nbsp;&nbsp;Using doc As New Doc()
-&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img3)
-&nbsp;&nbsp;&nbsp;&nbsp;' original image
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectGaussianBlur.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Gaussian Blur")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Radius").Value = 1.2
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectGaussianBlur12.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Gaussian Blur")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Radius").Value = 2.5
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectGaussianBlur25.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img3)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Gaussian Blur")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Radius").Value = 5.0
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectGaussianBlur50.jpg")
-&nbsp;&nbsp;End Using
-End Sub
-</code></pre><br>
             </p>
             <p><img src="images/astroflag.jpg" width="259" height="243"><br>
               Original Image before Gaussian Blur</p>

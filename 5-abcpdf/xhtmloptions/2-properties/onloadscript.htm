@@ -37,11 +37,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>string</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>String</code></td>
+                <td align="left"><code>string</code></td>
                 <td>""</td>
                 <td>No</td>
                 <td>A script to be run after the page is loaded.</td>
@@ -71,9 +67,6 @@
               property in the documentElement. For example:</p>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">document.documentElement.abcpdf = "my return value";
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">document.documentElement.abcpdf = "my return value"
 </code></pre></p>
             <p>The return value can be accessed using the <a href="../1-methods/getscriptreturn.htm">GetScriptReturn</a> 
               method with the ID returned from <a href="../../doc/1-methods/addimageurl.htm">Doc.AddImageUrl</a> 
@@ -93,9 +86,6 @@
               before setting it to false in OnLoadScript.</p>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">doc.HtmlOptions.OnLoadScript = "if(!window.ABCpdf_go) window.ABCpdf_go = false;";
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">doc.HtmlOptions.OnLoadScript = "if(!window.ABCpdf_go) window.ABCpdf_go = false;"
 </code></pre></p>
             <p>For the ABCChrome engine, the script is run at the point that the page and all resources that are referred to by the page, are loaded.</p>
             <p>&nbsp;</p></td>

@@ -40,9 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
             Magnify(double scaleX, double scaleY, double anchorX, double 
-            anchorY)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Sub Magnify(scaleX As Double, scaleY As 
-            Double, anchorX As Double, anchorY As Double)<BR></CODE></P>
+            anchorY)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -122,20 +120,7 @@ doc.Color.String = "255 0 0";
 doc.Transform.Magnify(2, 1.5, 302, 396);
 doc.AddText("Magnified");
 doc.FrameRect();
-doc.Save(Server.MapPath("transformmagnify.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(200, 200)
-&nbsp;&nbsp;doc.FontSize = 48
-&nbsp;&nbsp;doc.AddText("Normal")
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;doc.Rect.Move(0, -100)
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;doc.Transform.Magnify(2, 1.5, 302, 396)
-&nbsp;&nbsp;doc.AddText("Magnified")
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;doc.Save(Server.MapPath("transformmagnify.pdf"))
-End Using
+doc.Save("transformmagnify.pdf");
 </code></pre></P>
             <P><IMG
             src="../../../images/pdf/transformmagnify.pdf.png" 

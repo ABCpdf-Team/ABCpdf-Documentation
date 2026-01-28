@@ -31,11 +31,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top">
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>IHtmlGeckoOptions</code><br>
-                    <br>
-                    <span class="language">[Visual&nbsp;Basic]</span><br>
-                    <code>IHtmlGeckoOptions</code></td>
+                <td align="left"><code>IHtmlGeckoOptions</code></td>
                 <td>n/a</td>
                 <td>Yes</td>
                 <td>An object that provides access to only the HTML options supported by the Gecko HTML engine.</td>
@@ -118,21 +114,7 @@ var options = doc.HtmlOptions.ForGecko;
 options.AddLinks = true;
 
 doc.AddImageUrl("http://www.websupergoo.com");
-doc.Save(Server.MapPath("wsg2.pdf"));
-</code></pre><br><span
-            class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.Gecko
-&nbsp;&nbsp;doc.HtmlOptions.ForGecko.AddLinks = True
-
-&nbsp;&nbsp;' You can store a reference to the filter to reduce code repetition
-&nbsp;&nbsp;Dim options As IHtmlGeckoOptions = doc.HtmlOptions.ForGecko
-
-&nbsp;&nbsp;options.AddLinks = True
-
-&nbsp;&nbsp;doc.AddImageUrl("http://www.websupergoo.com")
-&nbsp;&nbsp;doc.Save(Server.MapPath("wsg2.pdf"))
-End Using
+doc.Save("wsg2.pdf");
 </code></pre></p></td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td></tr></tbody></table></td></tr></tbody></table>

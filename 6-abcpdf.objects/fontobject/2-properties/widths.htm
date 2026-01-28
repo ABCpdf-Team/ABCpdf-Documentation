@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>IDictionary&lt;char, int&gt;</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>IDictionary&lt;char, int&gt;</code></td>
+                <td align="left"><code>IDictionary&lt;char, int&gt;</code></td>
                 <td>n/a</td>
                 <td>Yes</td>
                 <td>The widths of the characters in the font.</td>
@@ -97,31 +93,7 @@ doc.Rect.SetRect(100, 100, width, doc.FontSize * 1.5);
 doc.FrameRect();
 CurvedText.AddCurved(doc, theTitle);
 // save
-doc.Save(Server.MapPath("ExampleCurvedText.pdf"));
-</code></pre>
-              <br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim theFont As String = "Comic Sans MS"
-Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae..."
-Dim theTitle As String = "Commentarii de Bello Gallico"
-Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 36
-&nbsp;&nbsp;doc.TextStyle.Kerning = XTextStyle.KerningType.None
-&nbsp;&nbsp;doc.Font = doc.EmbedFont(theFont, LanguageType.Latin, False, True, False)
-&nbsp;&nbsp;' add some radial text in the top middle of the page
-&nbsp;&nbsp;Dim cx As Double = doc.MediaBox.Width * 0.5
-&nbsp;&nbsp;Dim cy As Double = doc.MediaBox.Height * 0.6
-&nbsp;&nbsp;Dim r As Double = doc.MediaBox.Width * 0.3
-&nbsp;&nbsp;CurvedText.AddRadial(doc, theText, cx, cy, r, 225, _
-&nbsp;&nbsp;&nbsp;&nbsp;True, False)
-&nbsp;&nbsp;' add some curved text to a rectangle
-&nbsp;&nbsp;Dim width As Double = doc.MeasureText(theTitle)
-&nbsp;&nbsp;doc.Rect.SetRect(100, 100, width, doc.FontSize * 1.5)
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;CurvedText.AddCurved(doc, theTitle)
-&nbsp;&nbsp;' save
-&nbsp;&nbsp;doc.Save(Server.MapPath("ExampleCurvedText.pdf"))
-End Using
+doc.Save("ExampleCurvedText.pdf");
 </code></pre>
               <p><span class=language>[C#]</span><br>
             <pre><code class="language-csharp">class CurvedText {
@@ -168,57 +140,6 @@ End Using
 &nbsp;&nbsp;&nbsp;&nbsp;return radians * 180 / Math.PI;
 &nbsp;&nbsp;}
 }
-</code></pre>
-            <br>
-            <span class=language>[Visual Basic]</span><br>
-            <pre><code class="language-vbnet">Private Class CurvedText
-&nbsp;&nbsp;Public Shared Sub AddCurved(doc As Doc, text As String)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim halfWidth As Double = doc.Rect.Width / 2
-&nbsp;&nbsp;&nbsp;&nbsp;Dim height As Double = doc.Rect.Height - doc.TextStyle.Size
-&nbsp;&nbsp;&nbsp;&nbsp;Dim radius As Double = ((halfWidth * halfWidth) + (height * height)) / (2 * height)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim centerX As Double = doc.Rect.Left + halfWidth
-&nbsp;&nbsp;&nbsp;&nbsp;Dim centerY As Double = doc.Rect.Bottom + radius + doc.TextStyle.Size
-&nbsp;&nbsp;&nbsp;&nbsp;Dim alpha As Double = Math.Asin(halfWidth / radius) - Math.PI
-&nbsp;&nbsp;&nbsp;&nbsp;AddRadial(doc, text, centerX, centerY, radius, RadiansToDegrees(alpha), _
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True, False)
-&nbsp;&nbsp;End Sub
-
-&nbsp;&nbsp;Public Shared Sub AddRadial(doc As Doc, text As String, centerX As Double, centerY As Double, radius As Double, startAngleDegrees As Double, _
-&nbsp;&nbsp;&nbsp;&nbsp;inside As Boolean, clockwise As Boolean)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim font As FontObject = TryCast(doc.ObjectSoup(doc.Font), FontObject)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim widths As IDictionary(Of Char, Integer) = font.Widths
-&nbsp;&nbsp;&nbsp;&nbsp;Dim n As Integer = text.Length
-&nbsp;&nbsp;&nbsp;&nbsp;Dim a As Double = DegreesToRadians(startAngleDegrees)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim fontWidthToRadians As Double = doc.TextStyle.Size / (radius * 1000)
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.[String]
-&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; n
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' work out position
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim x As Double = centerX + (Math.Sin(a) * radius)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim y As Double = centerY + (Math.Cos(a) * radius)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' add a character
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Pos.X = x
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Pos.Y = y
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Reset()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim charRotation As Double = If(inside, RadiansToDegrees(-a) + 180, RadiansToDegrees(-a))
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Rotate(charRotation, x, y)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(text(i).ToString())
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' increment angle
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim da As Double = Convert.ToDouble(widths(text(i))) * fontWidthToRadians
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a += If(clockwise, da, -da)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Transform.Reset()
-&nbsp;&nbsp;End Sub
-
-&nbsp;&nbsp;Private Shared Function DegreesToRadians(degrees As Double) As Double
-&nbsp;&nbsp;&nbsp;&nbsp;Return degrees * Math.PI / 180
-&nbsp;&nbsp;End Function
-
-&nbsp;&nbsp;Private Shared Function RadiansToDegrees(radians As Double) As Double
-&nbsp;&nbsp;&nbsp;&nbsp;Return radians * 180 / Math.PI
-&nbsp;&nbsp;End Function
-End Class
 </code></pre>
             </p>
 <p><img src="../../../images/pdf/ExampleCurvedText.pdf.png" class="example"><BR>

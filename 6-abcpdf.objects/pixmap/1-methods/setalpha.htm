@@ -43,9 +43,6 @@
           <td valign="top"> 
             <p><span class="language">[C#]</span><br>
               <code>void SetAlpha(double alpha)<br>
-              </code><br>
-              <span class="language">[Visual Basic]</span><br>
-              <code>Sub SetAlpha(alpha As Double)<br>
               </code></p>
             <p>&nbsp;</p>
           </td>
@@ -112,26 +109,13 @@
               <pre><code class="language-csharp">using var doc = new Doc();
 doc.Rect.Pin = XRect.Corner.TopLeft;
 doc.Rect.Magnify(0.5, 0.5);
-string path = Server.MapPath("../mypics/mypic.jpg");
+string path = "../mypics/mypic.jpg";
 doc.AddImageFile(path, 1);
 doc.Rect.Move(doc.Rect.Width, -doc.Rect.Height);
 int i = doc.AddImageFile(path, 1);
 var im = (ImageLayer)doc.ObjectSoup[i];
 im.PixMap.SetAlpha(128);
-doc.Save(Server.MapPath("pixmapsetalpha.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Pin = XRect.Corner.TopLeft
-&nbsp;&nbsp;doc.Rect.Magnify(0.5, 0.5)
-&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/mypic.jpg")
-&nbsp;&nbsp;doc.AddImageFile(thePath, 1)
-&nbsp;&nbsp;doc.Rect.Move(doc.Rect.Width, -doc.Rect.Height)
-&nbsp;&nbsp;Dim i As Integer = doc.AddImageFile(thePath, 1)
-&nbsp;&nbsp;Dim im As ImageLayer = DirectCast(doc.ObjectSoup(i), ImageLayer)
-&nbsp;&nbsp;im.PixMap.SetAlpha(128)
-&nbsp;&nbsp;doc.Save(Server.MapPath("pixmapsetalpha.pdf"))
-End Using
+doc.Save("pixmapsetalpha.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/pixmapsetalpha.pdf.png" class="example"><br>
               pixmapsetalpha.pdf</p>

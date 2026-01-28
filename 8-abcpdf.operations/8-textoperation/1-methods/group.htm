@@ -39,10 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
-            <CODE>IList&lt;<a href="../../8-textgroup/default.htm">TextGroup</a>&gt; Group(List&lt;<a href="../../8-textfragment/default.htm">TextFragment</a>&gt; fragments)</CODE><BR>
-            <SPAN class=language>[Visual
-            Basic]</SPAN><BR>
-            <CODE>Function Group(fragments As List&lt;<a href="../../8-textfragment/default.htm">TextFragment</a>&gt;) As IList&lt;<a href="../../8-textgroup/default.htm">TextGroup</a>&gt;</CODE></P>
+            <CODE>IList&lt;<a href="../../8-textgroup/default.htm">TextGroup</a>&gt; Group(List&lt;<a href="../../8-textfragment/default.htm">TextFragment</a>&gt; fragments)</CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -98,8 +95,8 @@
           <TD>
             <P>Here we highlight a set of words in a source document by drawing a rectangle around each one.</P>
             <P><SPAN class=language>[C#]</SPAN><BR>
-                <pre><code class="language-csharp">string src = Server.MapPath("mypics/Acrobat.pdf");
-string dst = Server.MapPath("HighlightedText.pdf");
+                <pre><code class="language-csharp">string src = "../mypics/Acrobat.pdf";
+string dst = "HighlightedText.pdf";
 string searchString = "Acrobat";
 using var doc = new Doc();
 doc.Read(src);
@@ -120,33 +117,6 @@ while (true) {
 &nbsp;&nbsp;pos += searchString.Length;
 }
 doc.Save(dst);
-</code></pre><BR>
-              <SPAN class=language>[Visual 
-                Basic]</SPAN><BR>
-              <pre><code class="language-vbnet">Dim theSrc As String = Server.MapPath("mypics/Acrobat.pdf")
-Dim theDst As String = Server.MapPath("HighlightedText.pdf")
-Dim searchString As String = "Acrobat"
-Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(theSrc)
-&nbsp;&nbsp;Dim op As New TextOperation(doc)
-&nbsp;&nbsp;op.PageContents.AddPages()
-&nbsp;&nbsp;Dim text As String = op.GetText()
-&nbsp;&nbsp;Dim pos As Integer = 0
-&nbsp;&nbsp;While True
-&nbsp;&nbsp;&nbsp;&nbsp;pos = text.IndexOf(searchString, pos, StringComparison.CurrentCultureIgnoreCase)
-&nbsp;&nbsp;&nbsp;&nbsp;If pos &lt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;Dim theSelection As IList(Of TextFragment) = op.[Select](pos, searchString.Length)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim theGroups As IList(Of TextGroup) = op.Group(theSelection)
-&nbsp;&nbsp;&nbsp;&nbsp;For Each theGroup As TextGroup In theGroups
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = theGroup.Rect.[String]
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;&nbsp;&nbsp;Next
-&nbsp;&nbsp;&nbsp;&nbsp;pos += searchString.Length
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;doc.Save(theDst)
-End Using
 </code></pre></P>
             <P></P></TD>
           <TD width=60>&nbsp;</TD>

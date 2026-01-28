@@ -48,11 +48,7 @@
             <p>We create an ABCpdf Doc object and read our source PDF.</p>
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">using Doc doc = new Doc();
-doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim doc As New Doc()
-doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
+doc.Read("../Rez/spaceshuttle.pdf");
 </code></pre></p>
             <p>&nbsp;</p>
           </td>
@@ -73,9 +69,6 @@ doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
             <p>We specify our base rendering settings.</p>
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">doc.Rendering.DotsPerInch = 36;
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">doc.Rendering.DotsPerInch = 36
 </code></pre></p>
             <p>&nbsp;</p>
           </td>
@@ -98,17 +91,8 @@ doc.Read(Server.MapPath("../Rez/spaceshuttle.pdf"))
               <pre><code class="language-csharp">for (int i = 1; i &lt;= 4; i++) {
 &nbsp;&nbsp;doc.PageNumber = i;
 &nbsp;&nbsp;doc.Rect.String = doc.CropBox.String;
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("shuttle_p" + i.ToString() + ".png"));
+&nbsp;&nbsp;doc.Rendering.Save("shuttle_p" + i.ToString() + ".png");
 }
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim i As Integer = 1
-While i &lt;= 4
-&nbsp;&nbsp;doc.PageNumber = i
-&nbsp;&nbsp;doc.Rect.String = doc.CropBox.[String]
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("shuttle_p" + i.ToString() + ".png"))
-&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-End While
 </code></pre></p>
             <p>&nbsp;</p>
           </td>

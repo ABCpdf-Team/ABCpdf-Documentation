@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>byte[] 
-            GetData()</CODE><BR><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Function GetData() As 
-            Byte()</CODE><BR></P>
+            GetData()</CODE><BR><BR></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -176,21 +174,6 @@ Response.AddHeader("content-disposition", "inline; filename=MyPDF.PDF");
 Response.AddHeader("content-length", theData.Length.ToString());
 Response.BinaryWrite(theData);
 Response.End();
-%&gt;
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">&lt;% @Page Language="Visual Basic" %&gt;
-&lt;% @Import Namespace=" WebSupergoo.ABCpdf13" %&gt;
-&lt;%
-Dim theDoc As Doc = New Doc()
-theDoc.FontSize = 96
-theDoc.AddText("Hello World")
-Dim theData() As Byte = theDoc.GetData()
-Response.Clear()
-Response.ContentType = "application/pdf"
-Response.AddHeader("content-disposition", "inline; filename=MyPDF.PDF")
-Response.AddHeader("content-length", theData.Length.ToString())
-Response.BinaryWrite(theData)
-Response.End()
 %&gt;
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docsave.pdf.png" 

@@ -392,26 +392,8 @@
 &nbsp;&nbsp;theContent.Stroke();
 &nbsp;&nbsp;theContent.RestoreState();
 &nbsp;&nbsp;theContent.AddToDoc();
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_draw.pdf"));
+&nbsp;&nbsp;doc.Save("adv_star_draw.pdf");
 }
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
-&nbsp;&nbsp;theContent.SaveState()
-&nbsp;&nbsp;theContent.SetLineWidth(30)
-&nbsp;&nbsp;theContent.SetLineJoin(2)
-&nbsp;&nbsp;theContent.Move(124, 158)
-&nbsp;&nbsp;theContent.Line(300, 700)
-&nbsp;&nbsp;theContent.Line(476, 158)
-&nbsp;&nbsp;theContent.Line(15, 493)
-&nbsp;&nbsp;theContent.Line(585, 493)
-&nbsp;&nbsp;theContent.Close()
-&nbsp;&nbsp;theContent.Stroke()
-&nbsp;&nbsp;theContent.RestoreState()
-&nbsp;&nbsp;theContent.AddToDoc()
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_draw.pdf"))
-End Using
 </code></pre></p>
             <p><img src="../images/pdf/adv_star_draw.pdf.png" class="example"><br>
             </p>
@@ -449,26 +431,8 @@ End Using
 &nbsp;&nbsp;theContent.Fill();
 &nbsp;&nbsp;theContent.RestoreState();
 &nbsp;&nbsp;theContent.AddToDoc();
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_fill.pdf"));
+&nbsp;&nbsp;doc.Save("adv_star_fill.pdf");
 }
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
-&nbsp;&nbsp;theContent.SaveState()
-&nbsp;&nbsp;theContent.SetLineWidth(30)
-&nbsp;&nbsp;theContent.SetLineJoin(2)
-&nbsp;&nbsp;theContent.Move(124, 158)
-&nbsp;&nbsp;theContent.Line(300, 700)
-&nbsp;&nbsp;theContent.Line(476, 158)
-&nbsp;&nbsp;theContent.Line(15, 493)
-&nbsp;&nbsp;theContent.Line(585, 493)
-&nbsp;&nbsp;theContent.Close()
-&nbsp;&nbsp;theContent.Fill()
-&nbsp;&nbsp;theContent.RestoreState()
-&nbsp;&nbsp;theContent.AddToDoc()
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_fill.pdf"))
-End Using
 </code></pre></p>
             <p><img src="../images/pdf/adv_star_fill.pdf.png" class="example"><br>
             </p>
@@ -529,39 +493,8 @@ End Using
 &nbsp;&nbsp;doc.AddLine(100, 50, 200, 650);
 &nbsp;&nbsp;doc.AddLine(400, 550, 500, 250);
 &nbsp;&nbsp;theContent.AddToDoc();
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_bezier.pdf"));
+&nbsp;&nbsp;doc.Save("adv_bezier.pdf");
 }
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
-&nbsp;&nbsp;theContent.SaveState()
-&nbsp;&nbsp;theContent.SetLineWidth(30)
-&nbsp;&nbsp;theContent.Move(100, 50)
-&nbsp;&nbsp;theContent.Bezier(200, 650, 400, 550, 500, 250)
-&nbsp;&nbsp;theContent.Stroke()
-&nbsp;&nbsp;theContent.RestoreState()
-
-&nbsp;&nbsp;' annotate Bezier curve in red
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;doc.Width = 20
-&nbsp;&nbsp;doc.FontSize = 30
-&nbsp;&nbsp;doc.Pos.String = "100 50"
-&nbsp;&nbsp;doc.AddText("p0 (current point)")
-&nbsp;&nbsp;doc.Pos.String = "200 650"
-&nbsp;&nbsp;doc.Pos.Y = doc.Pos.Y + doc.FontSize
-&nbsp;&nbsp;doc.AddText("p1 (x1, y1)")
-&nbsp;&nbsp;doc.Pos.String = "400 550"
-&nbsp;&nbsp;doc.Pos.Y = doc.Pos.Y + doc.FontSize
-&nbsp;&nbsp;doc.AddText("p2 (x2, y2)")
-&nbsp;&nbsp;doc.Pos.String = "500 250"
-&nbsp;&nbsp;doc.Pos.X = doc.Pos.X - doc.FontSize
-&nbsp;&nbsp;doc.AddText("p3 (x3, y3)")
-&nbsp;&nbsp;doc.AddLine(100, 50, 200, 650)
-&nbsp;&nbsp;doc.AddLine(400, 550, 500, 250)
-&nbsp;&nbsp;theContent.AddToDoc()
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_bezier.pdf"))
-End Using
 </code></pre></p>
             <p><img src="../images/pdf/adv_bezier.pdf.png" class="example"><br>
             </p>
@@ -609,27 +542,8 @@ End Using
 &nbsp;&nbsp;theContent.Fill();
 &nbsp;&nbsp;theContent.RestoreState();
 &nbsp;&nbsp;theContent.AddToDoc();
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_clip.pdf"));
+&nbsp;&nbsp;doc.Save("adv_star_clip.pdf");
 }
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
-&nbsp;&nbsp;theContent.SaveState()
-&nbsp;&nbsp;theContent.SetLineWidth(30)
-&nbsp;&nbsp;theContent.SetLineJoin(2)
-&nbsp;&nbsp;theContent.Move(124, 158)
-&nbsp;&nbsp;theContent.Line(300, 700)
-&nbsp;&nbsp;theContent.Line(476, 158)
-&nbsp;&nbsp;theContent.Line(15, 493)
-&nbsp;&nbsp;theContent.Line(585, 493)
-&nbsp;&nbsp;theContent.Clip()
-&nbsp;&nbsp;theContent.Rect(100, 200, 400, 400)
-&nbsp;&nbsp;theContent.Fill()
-&nbsp;&nbsp;theContent.RestoreState()
-&nbsp;&nbsp;theContent.AddToDoc()
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_clip.pdf"))
-End Using
 </code></pre></p>
             <p><img src="../images/pdf/adv_star_clip.pdf.png" class="example"><br>
             </p>
@@ -712,63 +626,8 @@ End Using
 &nbsp;&nbsp;doc.Rect.String = "480 580 520 620";
 &nbsp;&nbsp;doc.FillRect(20, 20);
 &nbsp;&nbsp;doc.Color.String = "0 0 0";
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_linecap.pdf"));
+&nbsp;&nbsp;doc.Save("adv_linecap.pdf");
 }
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
-&nbsp;&nbsp;theContent.SaveState()
-&nbsp;&nbsp;theContent.SetLineWidth(100)
-&nbsp;&nbsp;theContent.SetLineCap(0)
-&nbsp;&nbsp;theContent.Move(100, 600)
-&nbsp;&nbsp;theContent.Line(500, 600)
-&nbsp;&nbsp;' line
-&nbsp;&nbsp;theContent.Stroke()
-
-&nbsp;&nbsp;theContent.SetLineCap(1)
-&nbsp;&nbsp;' round cap
-&nbsp;&nbsp;theContent.Move(100, 400)
-&nbsp;&nbsp;theContent.Line(500, 400)
-&nbsp;&nbsp;theContent.Stroke()
-
-&nbsp;&nbsp;theContent.SetLineCap(2)
-&nbsp;&nbsp;theContent.Move(100, 200)
-&nbsp;&nbsp;theContent.Line(500, 200)
-&nbsp;&nbsp;theContent.Stroke()
-
-&nbsp;&nbsp;' add capped lines
-&nbsp;&nbsp;theContent.AddToDoc()
-
-&nbsp;&nbsp;' annotate capped lines
-&nbsp;&nbsp;doc.FontSize = 48
-&nbsp;&nbsp;doc.Pos.String = "50 720"
-&nbsp;&nbsp;doc.AddText("0 - Butt Cap")
-&nbsp;&nbsp;doc.Pos.String = "50 520"
-&nbsp;&nbsp;doc.AddText("1 - Round Cap")
-&nbsp;&nbsp;doc.Pos.String = "50 320"
-&nbsp;&nbsp;Dim id As Integer = doc.AddText("2 - Projecting Square Cap")
-&nbsp;&nbsp;doc.Width = 20
-
-&nbsp;&nbsp;doc.Color.String = "255 255 255"
-&nbsp;&nbsp;doc.AddLine(100, 200, 500, 200)
-&nbsp;&nbsp;doc.Rect.String = "80 180 120 220"
-&nbsp;&nbsp;doc.FillRect(20, 20)
-&nbsp;&nbsp;doc.Rect.String = "480 180 520 220"
-&nbsp;&nbsp;doc.FillRect(20, 20)
-&nbsp;&nbsp;doc.AddLine(100, 400, 500, 400)
-&nbsp;&nbsp;doc.Rect.String = "80 380 120 420"
-&nbsp;&nbsp;doc.FillRect(20, 20)
-&nbsp;&nbsp;doc.Rect.String = "480 380 520 420"
-&nbsp;&nbsp;doc.FillRect(20, 20)
-&nbsp;&nbsp;doc.AddLine(100, 600, 500, 600)
-&nbsp;&nbsp;doc.Rect.String = "80 580 120 620"
-&nbsp;&nbsp;doc.FillRect(20, 20)
-&nbsp;&nbsp;doc.Rect.String = "480 580 520 620"
-&nbsp;&nbsp;doc.FillRect(20, 20)
-&nbsp;&nbsp;doc.Color.String = "0 0 0"
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_linecap.pdf"))
-End Using
 </code></pre></p>
             <p><img src="../images/pdf/adv_linecap.pdf.png" class="example"><br>
             </p>
@@ -848,56 +707,8 @@ End Using
 &nbsp;&nbsp;doc.Rect.String = "390 290 410 310";
 &nbsp;&nbsp;doc.FillRect(10, 10);
 &nbsp;&nbsp;doc.Color.String = "0 0 0";
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_linejoin.pdf"));
+&nbsp;&nbsp;doc.Save("adv_linejoin.pdf");
 }
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
-&nbsp;&nbsp;theContent.SetLineWidth(50)
-&nbsp;&nbsp;theContent.SetLineJoin(0)
-&nbsp;&nbsp;theContent.Move(300, 500)
-&nbsp;&nbsp;theContent.Line(400, 700)
-&nbsp;&nbsp;theContent.Line(500, 500)
-&nbsp;&nbsp;theContent.Stroke()
-
-&nbsp;&nbsp;theContent.SetLineJoin(1)
-&nbsp;&nbsp;theContent.Move(300, 300)
-&nbsp;&nbsp;theContent.Line(400, 500)
-&nbsp;&nbsp;theContent.Line(500, 300)
-&nbsp;&nbsp;theContent.Stroke()
-
-&nbsp;&nbsp;theContent.SetLineJoin(2)
-&nbsp;&nbsp;theContent.Move(300, 100)
-&nbsp;&nbsp;theContent.Line(400, 300)
-&nbsp;&nbsp;theContent.Line(500, 100)
-&nbsp;&nbsp;theContent.Stroke()
-&nbsp;&nbsp;theContent.AddToDoc()
-
-&nbsp;&nbsp;doc.FontSize = 48
-&nbsp;&nbsp;doc.Pos.String = "50 700"
-&nbsp;&nbsp;doc.AddText("0 - Miter")
-&nbsp;&nbsp;doc.Pos.String = "50 500"
-&nbsp;&nbsp;doc.AddText("1 - Round ")
-&nbsp;&nbsp;doc.Pos.String = "50 300"
-&nbsp;&nbsp;doc.AddText("2 - Bevel")
-&nbsp;&nbsp;doc.Width = 10
-&nbsp;&nbsp;doc.Color.String = "255 255 255"
-&nbsp;&nbsp;doc.AddLine(300, 500, 400, 700)
-&nbsp;&nbsp;doc.AddLine(400, 700, 500, 500)
-&nbsp;&nbsp;doc.Rect.String = "390 690 410 710"
-&nbsp;&nbsp;doc.FillRect(10, 10)
-&nbsp;&nbsp;doc.AddLine(300, 300, 400, 500)
-&nbsp;&nbsp;doc.AddLine(400, 500, 500, 300)
-&nbsp;&nbsp;doc.Rect.String = "390 490 410 510"
-&nbsp;&nbsp;doc.FillRect(10, 10)
-&nbsp;&nbsp;doc.AddLine(300, 100, 400, 300)
-&nbsp;&nbsp;doc.AddLine(400, 300, 500, 100)
-&nbsp;&nbsp;doc.Rect.String = "390 290 410 310"
-&nbsp;&nbsp;doc.FillRect(10, 10)
-&nbsp;&nbsp;doc.Color.String = "0 0 0"
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_linejoin.pdf"))
-End Using
 </code></pre></p>
             <p><img src="../images/pdf/adv_linejoin.pdf.png" class="example"><br>
             </p>
@@ -970,51 +781,8 @@ End Using
 
 &nbsp;&nbsp;// add dashed lines
 &nbsp;&nbsp;theContent.AddToDoc();
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_dashes.pdf"));
+&nbsp;&nbsp;doc.Save("adv_dashes.pdf");
 }
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
-&nbsp;&nbsp;theContent.SaveState()
-&nbsp;&nbsp;theContent.SetLineWidth(20)
-&nbsp;&nbsp;theContent.LineDash("[ ] 0")
-&nbsp;&nbsp;theContent.Move(100, 650)
-&nbsp;&nbsp;theContent.Line(500, 650)
-&nbsp;&nbsp;theContent.Stroke()
-
-&nbsp;&nbsp;theContent.LineDash("[ 90 ] 0")
-&nbsp;&nbsp;theContent.Move(100, 500)
-&nbsp;&nbsp;theContent.Line(500, 500)
-&nbsp;&nbsp;theContent.Stroke()
-
-&nbsp;&nbsp;theContent.LineDash("[ 60 ] 30")
-&nbsp;&nbsp;theContent.Move(100, 350)
-&nbsp;&nbsp;theContent.Line(500, 350)
-&nbsp;&nbsp;theContent.Stroke()
-
-&nbsp;&nbsp;theContent.LineDash("[ 60 30 ] 0")
-&nbsp;&nbsp;theContent.Move(100, 200)
-&nbsp;&nbsp;theContent.Line(500, 200)
-&nbsp;&nbsp;theContent.Stroke()
-&nbsp;&nbsp;theContent.RestoreState()
-
-&nbsp;&nbsp;' annotate dashed lines
-&nbsp;&nbsp;doc.Color.String = "0 0 0"
-&nbsp;&nbsp;doc.FontSize = 36
-&nbsp;&nbsp;doc.Pos.String = "50 710"
-&nbsp;&nbsp;doc.AddText("[ ] 0 - no dashes")
-&nbsp;&nbsp;doc.Pos.String = "50 560"
-&nbsp;&nbsp;doc.AddText("[ 90 ] 0 - 90 on, 90 off...")
-&nbsp;&nbsp;doc.Pos.String = "50 410"
-&nbsp;&nbsp;doc.AddText("[ 60 ] 30 - 30 on, 60 off, 60 on...")
-&nbsp;&nbsp;doc.Pos.String = "50 260"
-&nbsp;&nbsp;doc.AddText("[ 60 30 ] 0 - 60 on, 30 off, 60 on...")
-
-&nbsp;&nbsp;' add dashed lines
-&nbsp;&nbsp;theContent.AddToDoc()
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_dashes.pdf"))
-End Using
 </code></pre></p>
             <p><img src="../images/pdf/adv_dashes.pdf.png" class="example"><br>
             </p>
@@ -1073,32 +841,8 @@ End Using
 &nbsp;&nbsp;theContent.AddContent(star);
 &nbsp;&nbsp;theContent.RestoreState();
 &nbsp;&nbsp;theContent.AddToDoc();
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_rotate.pdf"));
+&nbsp;&nbsp;doc.Save("adv_star_rotate.pdf");
 }
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim star As New PDFContent(doc)
-&nbsp;&nbsp;star.Move(124, 108)
-&nbsp;&nbsp;star.Line(300, 650)
-&nbsp;&nbsp;star.Line(476, 108)
-&nbsp;&nbsp;star.Line(15, 443)
-&nbsp;&nbsp;star.Line(585, 443)
-&nbsp;&nbsp;star.Close()
-&nbsp;&nbsp;star.Stroke()
-
-&nbsp;&nbsp;Dim theContent As New PDFContent(doc)
-&nbsp;&nbsp;theContent.SaveState()
-&nbsp;&nbsp;theContent.SetLineWidth(30)
-&nbsp;&nbsp;theContent.SetLineJoin(2)
-&nbsp;&nbsp;theContent.AddContent(star)
-&nbsp;&nbsp;theContent.SetRGBStrokeColor(1, 0, 0)
-&nbsp;&nbsp;theContent.Transform(0.7, 0.7, -0.7, 0.7, 0, 0)
-&nbsp;&nbsp;theContent.AddContent(star)
-&nbsp;&nbsp;theContent.RestoreState()
-&nbsp;&nbsp;theContent.AddToDoc()
-&nbsp;&nbsp;doc.Save(Server.MapPath("adv_star_rotate.pdf"))
-End Using
 </code></pre></p>
             <p><img src="../images/pdf/adv_star_rotate.pdf.png" class="example"><br>
             </p>

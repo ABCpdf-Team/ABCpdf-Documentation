@@ -40,8 +40,6 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE>void StartOcr()<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE>Function StartOcr()<BR>
             </CODE>
 			</P>
 			
@@ -97,8 +95,8 @@
             <P>The text in this document is indivisible which means you can select and copy it, but it does not obscure the image in the background.</P>
             <P>To run this code you will need to replace the Google API key with one of your own.</P>
             <P><SPAN class=language>[C#]</SPAN><BR>
-            <pre><code class="language-csharp">string theSrc = Server.MapPath("mypics/multipage.tif");
-string theDst = Server.MapPath("CloudOCR.pdf");
+            <pre><code class="language-csharp">string theSrc = "../mypics/multipage.tif";
+string theDst = "CloudOCR.pdf";
 using (Doc doc = new Doc()) {
 &nbsp;&nbsp;doc.Read(theSrc);
 
@@ -109,21 +107,6 @@ using (Doc doc = new Doc()) {
 &nbsp;&nbsp;op.WaitAll();
 &nbsp;&nbsp;doc.Save(theDst);
 }
-</code></pre>
-            <BR>
-            <SPAN class=language>[Visual 
-    Basic]</SPAN><BR>
-    <pre><code class="language-vbnet">Dim theSrc As String = Server.MapPath("mypics/multipage.tif")
-Dim theDst As String = Server.MapPath("CloudOCR.pdf")
-Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(theSrc)
-
-&nbsp;&nbsp;Dim op As New CloudVisionOperation(doc)
-&nbsp;&nbsp;op.AddPages()
-&nbsp;&nbsp;op.ApiKey = &quot;AIzAUlBcTPDwxUNn5uQvSHONpsTpAqVJHbfOa&quot;<br>&nbsp;&nbsp;op.StartOcr()<br>&nbsp;&nbsp;op.WaitAll()
-
-&nbsp;&nbsp;doc.Save(theDst)
-End Using
 </code></pre>
     </P>
 <P>&nbsp;</P></TD>

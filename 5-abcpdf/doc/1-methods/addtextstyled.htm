@@ -40,10 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
             AddTextStyled(string text)<BR>int AddTextStyled(string dummy, int 
-            chainid)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Function AddTextStyled(text As String) 
-            As Integer<BR>Function AddTextStyled(dummy As String, chainid 
-            As Integer) As Integer<BR></CODE></P>
+            chainid)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -141,13 +138,7 @@ Example</A>.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
 doc.FontSize = 72;
 doc.AddTextStyled("&lt;b&gt;Gallia&lt;/b&gt; est omnis divisa in partes tres, quarum unam incolunt &lt;b&gt;Belgae&lt;/b&gt;, aliam &lt;b&gt;Aquitani&lt;/b&gt;, tertiam qui ipsorum lingua &lt;b&gt;Celtae&lt;/b&gt;, nostra &lt;b&gt;Galli&lt;/b&gt; appellantur.");
-doc.Save(Server.MapPath("docaddhtml.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 72
-&nbsp;&nbsp;doc.AddTextStyled("&lt;b&gt;Gallia&lt;/b&gt; est omnis divisa in partes tres, quarum unam incolunt &lt;b&gt;Belgae&lt;/b&gt;, aliam &lt;b&gt;Aquitani&lt;/b&gt;, tertiam qui ipsorum lingua &lt;b&gt;Celtae&lt;/b&gt;, nostra &lt;b&gt;Galli&lt;/b&gt; appellantur.")
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddhtml.pdf"))
-End Using
+doc.Save("docaddhtml.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docaddhtml.pdf.png" 
             class="example"><BR>docaddhtml.pdf </P><p>Also see example code in: <a href="../../../4-examples/03-multistyled.htm">ABCpdf Multistyle Example</a>, <a href="../../xtextstyle/2-properties/kerning.htm">XTextStyle Kerning Property</a>.</p>

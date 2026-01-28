@@ -35,11 +35,8 @@
                 <TD><B>Read Only</B></TD>
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
-                <TD align=left><SPAN 
-                  class=language>[C#]</SPAN><BR><CODE>IEnumerable&lt;KeyValuePair&lt;string,
-                  object&gt;&gt;</CODE><BR><BR><SPAN 
-                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>IEnumerable(Of&nbsp;KeyValuePair(Of&nbsp;String,
-                  Object))</CODE></TD>
+                <TD align=left><CODE>IEnumerable&lt;KeyValuePair&lt;string,
+                  object&gt;&gt;</CODE></TD>
                 <TD>null</TD>
                 <TD>No</TD>
                 <TD>The Flash variables.</TD></TR></TBODY></TABLE>
@@ -122,41 +119,7 @@
             /&gt;"<BR>&nbsp;&nbsp;&nbsp;&nbsp;+"&lt;/chart&gt;");<BR>&nbsp;&nbsp;parameters.FlashVars
             = flashVars;<BR>&nbsp;&nbsp;operation.Parameters =
             parameters;<BR>&nbsp;&nbsp;operation.Import(Server.MapPath("Column3D.swf"));
-            <BR>}<BR>doc.Save(Server.MapPath("chart.pdf"));<BR>doc.Clear();</CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Dim theDoc As Doc = New
-            Doc()<BR>Using theOperation As New
-            SwfImportOperation<BR>&nbsp;&nbsp;theOperation.Doc =
-            theDoc<BR>&nbsp;&nbsp;theOperation.ContentAlign =
-            ContentAlign.Top<BR>&nbsp;&nbsp;theOperation.ContentScaleMode =
-            ContentScaleMode.ShowAll<BR>&nbsp;&nbsp;AddHandler theOperation.ProcessingObject,
-            AddressOf Processing<BR><BR>&nbsp;&nbsp;Const theChartWidth As
-            Integer = 400<BR>&nbsp;&nbsp;Const theChartHeight As Integer =
-            300<BR>&nbsp;&nbsp;Dim theParameters As SwfParameters = New
-            SwfParameters()<BR>&nbsp;&nbsp;theParameters.StageWidth =
-            theChartWidth * 20<BR>&nbsp;&nbsp;theParameters.StageHeight =
-            theChartHeight * 20<BR><BR>&nbsp;&nbsp;Dim theFlashVars As Dictionary(Of
-            String, Object) = New Dictionary(Of String,
-            Object)()<BR>&nbsp;&nbsp;theFlashVars.Add("chartWidth",
-            theChartWidth)<BR>&nbsp;&nbsp;theFlashVars.Add("chartHeight",
-            theChartHeight)<BR>&nbsp;&nbsp;theFlashVars.Add("dataXML", _
-            <BR>&nbsp;&nbsp;&nbsp;&nbsp;"&lt;chart caption='Weekly Sales Summary'
-            xAxisName='Week'" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp;
-            " yAxisName='Amount' numberPrefix='$'&gt;" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp; "&lt;set
-            label='Week 1' value='14400' /&gt;" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp; "&lt;set
-            label='Week 2' value='19600' /&gt;" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp; "&lt;set
-            label='Week 3' value='24000' /&gt;" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp; "&lt;set
-            label='Week 4' value='15700' /&gt;" _<BR>&nbsp;&nbsp;&nbsp;&nbsp;&amp;
-            "&lt;/chart&gt;")<BR>&nbsp;&nbsp;theParameters.FlashVars
-            = theFlashVars<BR>&nbsp;&nbsp;theOperation.Parameters =
-            theParameters<BR>&nbsp;&nbsp;theOperation.Import(Server.MapPath("Column3D.swf"))<BR>End
-            Using<BR>theDoc.Save(Server.MapPath("chart.pdf"))<BR>theDoc.Clear()<BR><BR>Private
-            Shared Sub Processing(sender As Object, e As
-            ProcessingObjectEventArgs)<BR>&nbsp;&nbsp;If
-            e.Info.SourceType = ProcessingSourceType.MultiFrameImage
-            _<BR>&nbsp;&nbsp;&nbsp;&nbsp;AndAlso
-            e.Info.FrameNumber.HasValue Then<BR>&nbsp;&nbsp;&nbsp;&nbsp;e.Info.FrameNumber
-            = 1 + CLng(e.Info.FrameRate.Value * 2)</BR>&nbsp;&nbsp;End If<BR>End
-            Sub</CODE></P>
+            <BR>}<BR>doc.Save(Server.MapPath("chart.pdf"));<BR>doc.Clear();</CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top">
-                <td align="left"><span class="language">[C#]</span><br>
-                    <code>IHtmlWebKitOptions</code><br>
-                    <br>
-                    <span class="language">[Visual&nbsp;Basic]</span><br>
-                    <code>IHtmlWebKitOptions</code></td>
+                <td align="left"><code>IHtmlWebKitOptions</code></td>
                 <td>n/a</td>
                 <td>Yes</td>
                 <td>An object that provides access to only the HTML options supported by the ABCWebKit engine.</td>
@@ -98,21 +94,7 @@ var options = doc.HtmlOptions.ForWebKit;
 options.UseScript = false;
 
 doc.AddImageUrl("http://www.websupergoo.com");
-doc.Save(Server.MapPath("wsg4.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR>
-<pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.WebKit
-&nbsp;&nbsp;doc.HtmlOptions.ForWebKit.AddLinks = True
-
-&nbsp;&nbsp;' You can store a reference to the filter to reduce code repetition
-&nbsp;&nbsp;Dim options As IHtmlWebKitOptions = doc.HtmlOptions.ForWebKit
-
-&nbsp;&nbsp;options.UseScript = False
-
-&nbsp;&nbsp;doc.AddImageUrl("http://www.websupergoo.com")
-&nbsp;&nbsp;doc.Save(Server.MapPath("wsg4.pdf"))
-End Using
+doc.Save("wsg4.pdf");
 </code></pre></P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

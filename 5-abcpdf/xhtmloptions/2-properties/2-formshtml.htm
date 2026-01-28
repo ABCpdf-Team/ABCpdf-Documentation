@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top">
-                <td align="left"><span class="language">[C#]</span><br>
-                    <code>IHtmlMSHtmlOptions</code><br>
-                    <br>
-                    <span class="language">[Visual&nbsp;Basic]</span><br>
-                    <code>IHtmlMSHtmlOptions</code></td>
+                <td align="left"><code>IHtmlMSHtmlOptions</code></td>
                 <td>n/a</td>
                 <td>Yes</td>
                 <td>An object that provides access to only the HTML options supported by the MSHTML engine.</td>
@@ -151,22 +147,7 @@ options.UseActiveX = true;
 options.AutoTruncate = true;
 
 doc.AddImageUrl("http://www.websupergoo.com");
-doc.Save(Server.MapPath("wsg3.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR>
-<pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.MSHtml
-&nbsp;&nbsp;doc.HtmlOptions.ForMSHtml.AddLinks = True
-
-&nbsp;&nbsp;' You can store a reference to the filter to reduce code repetition
-&nbsp;&nbsp;Dim options As IHtmlMSHtmlOptions = doc.HtmlOptions.ForMSHtml
-
-&nbsp;&nbsp;options.UseActiveX = True
-&nbsp;&nbsp;options.AutoTruncate = True
-
-&nbsp;&nbsp;doc.AddImageUrl("http://www.websupergoo.com")
-&nbsp;&nbsp;doc.Save(Server.MapPath("wsg3.pdf"))
-End Using
+doc.Save("wsg3.pdf");
 </code></pre></P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

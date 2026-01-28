@@ -16,10 +16,6 @@ Function</TD><TD width=60>&nbsp;</TD><TD>&nbsp;</TD></TR> <TR> <TD background=..
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">int AddImageObject(XImage image) <BR>
 int AddImageObject(XImage image, bool transparent)
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">Function AddImageObject(image As XImage) As Integer <BR>
-Function AddImageObject(image As XImage, transparent As Boolean) As Integer
 </code></pre></p>
     <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
@@ -92,15 +88,6 @@ href="../../xtransform/default.htm">Transform</A>.</P>
 &nbsp;&nbsp;doc.SetInfo(id, &quot;/A/URI:Text&quot;, uri);
 &nbsp;&nbsp;return id;
 }
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">Private Shared Function AddLinkToUri(ByVal doc As Doc, ByVal rect As XRect, ByVal uri As String) As Integer
-&nbsp;&nbsp;Dim id As Integer = doc.AddObject(&quot;&lt;&lt; /Type /Annot /Subtype /Link /A &lt;&lt; /Type /Action /S /URI /URI () &gt;&gt; /Border [0 0 0] &gt;&gt;&quot;)
-&nbsp;&nbsp;doc.SetInfo(doc.Page, &quot;/Annots*[]:Ref&quot;, id)
-&nbsp;&nbsp;doc.SetInfo(id, &quot;/Rect:Rect&quot;, doc.Rect.String)
-&nbsp;&nbsp;doc.SetInfo(id, &quot;/A/URI:Text&quot;, uri)
-&nbsp;&nbsp;Return id
-End Function
 </code></pre></p>
           <P>If you wish to link to a particular page specified by page ID you can use code of the following form.</P>
             <p><span class="language">[C#]</span><br>
@@ -111,15 +98,6 @@ End Function
 &nbsp;&nbsp;doc.SetInfo(id, &quot;/A/D[0]:Ref&quot;, pageID.ToString());
 &nbsp;&nbsp;return id;
 }
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">Private Shared Function AddLinkToPage(ByVal doc As Doc, ByVal rect As XRect, ByVal pageID As Integer) As Integer
-&nbsp;&nbsp;Dim id As Integer = doc.AddObject(&quot;&lt;&lt; /Type /Annot /Subtype /Link /Border [0 0 0] /A &lt;&lt; /Type /Action /S /GoTo /D [ /XYZ null null 0] &gt;&gt; &gt;&gt;&quot;)
-&nbsp;&nbsp;doc.SetInfo(doc.Page, &quot;/Annots*[]:Ref&quot;, id)
-&nbsp;&nbsp;doc.SetInfo(id, &quot;/Rect:Rect&quot;, doc.Rect.String)
-&nbsp;&nbsp;doc.SetInfo(id, &quot;/A/D[0]:Ref&quot;, pageID.ToString())
-&nbsp;&nbsp;Return id
-End Function
 </code></pre></p>
         </TD>
     </TR>
@@ -130,24 +108,13 @@ End Function
       src="../../../images/steel-pin.gif" width=64><BR>Example</TD><TD width=14>&nbsp;</TD><TD vAlign=top> 
 <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD> <P>The 
 following code adds a transparent GIF against a gray background.</P><P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var img = new XImage();
-img.SetFile(Server.MapPath("../mypics/mypic.gif"));
+img.SetFile("../mypics/mypic.gif");
 using Doc doc = new Doc();
 doc.Color.String = "200 200 200";
 doc.FillRect();
 doc.Rect.String = "0 0 480 640";
 doc.AddImageObject(img, true);
-doc.Save(Server.MapPath("docaddimageobject.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theImg As New XImage()
-theImg.SetFile(Server.MapPath("../mypics/mypic.gif"))
-Dim doc As New Doc()
-doc.Color.String = "200 200 200"
-doc.FillRect()
-doc.Rect.String = "0 0 480 640"
-doc.AddImageObject(theImg, True)
-theImg.Clear()
-doc.Save(Server.MapPath("docaddimageobject.pdf"))
-doc.Clear()
+doc.Save("docaddimageobject.pdf");
 </code></pre></P><P><IMG
             src="../../../images/pdf/docaddimageobject.pdf.png" 
             class="example"><BR>docaddimageobject.pdf</P><p>Also see example code in: <a href="../../../4-examples/04-image.htm">ABCpdf Image Example</a>, <a href="../../ximage/1-methods/setdata.htm">XImage SetData Function</a>, <a href="../../ximage/1-methods/setfile.htm">XImage SetFile Function</a>, <a href="../../ximage/1-methods/setmask.htm">XImage SetMask Function</a>, <a href="../../ximage/1-methods/setstream.htm">XImage SetStream Function</a>, <a href="../../ximage/2-properties/frame.htm">XImage Frame Property</a>, <a href="../../ximage/2-properties/selection.htm">XImage Selection Property</a>.</p>

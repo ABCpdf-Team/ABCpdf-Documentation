@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
-            SetStream(Stream stream)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Sub SetStream(stream As 
-            Stream)<BR></CODE></P>
+            SetStream(Stream stream)<BR></CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -103,27 +101,13 @@
             object. We then add the image to our document and then save the 
             PDF.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var img = new XImage();
-string path = Server.MapPath("../mypics/mypic.jpg");
+string path = "../mypics/mypic.jpg";
 using var stream = File.OpenRead(path);
 img.SetStream(stream);
 using var doc = new Doc();
 doc.Rect.Inset(20, 20);
 doc.AddImageObject(img, false);
-doc.Save(Server.MapPath("imagesetstream.pdf"));
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">Dim theImg As New XImage()
-Dim thePath As String
-thePath = Server.MapPath("../mypics/mypic.jpg")
-Dim theStream As Stream
-theStream = File.OpenRead(thePath)
-theImg.SetStream(theStream)
-theStream.Close()
-Dim doc As New Doc()
-doc.Rect.Inset(20, 20)
-doc.AddImageObject(theImg, False)
-theImg.Clear()
-doc.Save(Server.MapPath("imagesetstream.pdf"))
-doc.Clear()
+doc.Save("imagesetstream.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/imagesetfile.pdf.png" 
             class="example"><BR>imagesetstream.pdf</P>

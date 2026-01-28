@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Boolean</code></td>
+                <td align="left"><code>bool</code></td>
                 <td>false</td>
                 <td>No</td>
                 <td>Whether to save the alpha channel into the output.</td>
@@ -111,27 +107,7 @@ doc.FillRect();
 // so that the underlying blue can show through
 doc.AddImageBitmap(alphaBitmap, true);
 // Save render of pdf
-doc.Rendering.Save(Server.MapPath("RenderingSaveAlpha.png"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">' Add some text
-Dim doc As New Doc()
-doc.FontSize = 196
-doc.TextStyle.HPos = 0.5
-doc.TextStyle.VPos = 0.3
-doc.AddText("Hello World")
-' Render the PDF with alpha
-doc.Rendering.SaveAlpha = True
-Dim alphaBitmap As Bitmap = doc.Rendering.GetBitmap()
-' Create a blue PDF
-doc = New Doc()
-doc.Color.String = "0 0 255"
-doc.FillRect()
-' Add the transparent Bitmap into the PDF
-' so that the underlying blue can show through
-doc.AddImageBitmap(alphaBitmap, True)
-' Save render of pdf
-doc.Rendering.Save(Server.MapPath("RenderingSaveAlpha.png"))
+doc.Rendering.Save("RenderingSaveAlpha.png");
 </code></pre></p>
             <p><img src="../../../images/pdf/RenderingSaveAlpha.png" class="example"><br>
               RenderingSaveAlpha.png</p>

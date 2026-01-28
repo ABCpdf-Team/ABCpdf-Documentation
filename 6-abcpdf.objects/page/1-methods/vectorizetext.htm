@@ -46,9 +46,7 @@
 							<TBODY>
 								<TR>
 									<TD vAlign="top">
-										<P><SPAN class="language">[C#]</SPAN><BR><CODE>void VectorizeText()</CODE><BR><SPAN
-											class="language">[Visual Basic]</SPAN><BR><CODE>Sub
-											VectorizeText()</CODE>
+										<P><SPAN class="language">[C#]</SPAN><BR><CODE>void VectorizeText()</CODE>
 										</P>
 										<P><CODE><IMG border="0" alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" width="10"
 													height="10"> may throw Exception()</CODE></P>
@@ -120,18 +118,7 @@ doc.FontSize = 96;
 doc.AddText("Hello World");
 foreach (var page in doc.ObjectSoup.Catalog.Pages.GetPageArrayAll())
 &nbsp;&nbsp;page.VectorizeText();
-doc.Save(Server.MapPath("VectorizedText.pdf"));
-</code></pre>
-											<BR>
-											<SPAN class="language">[Visual Basic]</SPAN><BR>
-											<pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;doc.AddText("Hello World")
-&nbsp;&nbsp;For Each page As Page In doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()
-&nbsp;&nbsp;&nbsp;&nbsp;page.VectorizeText()
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;doc.Save(Server.MapPath("VectorizedText.pdf"))
-End Using
+doc.Save("VectorizedText.pdf");
 </code></pre>										</P>
 									  <P>&nbsp;</P>
 									</TD>

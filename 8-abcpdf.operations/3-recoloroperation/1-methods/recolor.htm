@@ -40,9 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Recolor(Doc 
             doc)<BR>void Recolor(Pages pages)<BR>void Recolor(Page 
-            page)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Sub Recolor(doc As Doc)<BR>Sub Recolor(pages 
-            As Pages)<BR>Sub Recolor(page As Page)<BR></CODE></P>
+            page)<BR></CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -154,17 +152,9 @@
             older code. However anonymous delegates will provide a 
             more compact solution.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/sample.pdf"));
+doc.Read("../mypics/sample.pdf");
 MyOp.Recolor(doc, (Page)doc.ObjectSoup[doc.Page]);
-doc.Save(Server.MapPath("RecolorOperation.pdf"));
-</code></pre>
-            <BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR>
-            <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
-&nbsp;&nbsp;MyOp.Recolor(doc, DirectCast(doc.ObjectSoup(doc.Page), Page))
-&nbsp;&nbsp;doc.Save(Server.MapPath("RecolorOperation.pdf"))
-End Using
+doc.Save("RecolorOperation.pdf");
 </code></pre>
             <P><SPAN class=language>[C#]</SPAN><BR>
             </P>
@@ -203,48 +193,6 @@ End Using
 &nbsp;&nbsp;&nbsp;&nbsp;}
 &nbsp;&nbsp;}
 }
-</code></pre>
-            <BR>
-            <SPAN class=language>[Visual 
-            Basic]</SPAN><BR>
-            <pre><code class="language-vbnet">Private Class MyOp
-&nbsp;&nbsp;Public Shared Sub Recolor(doc As Doc, page As Page)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim op As New RecolorOperation()
-&nbsp;&nbsp;&nbsp;&nbsp;op.DestinationColorSpace = New ColorSpace(doc.ObjectSoup, ColorSpaceType.DeviceGray)
-&nbsp;&nbsp;&nbsp;&nbsp;op.ConvertAnnotations = False
-&nbsp;&nbsp;&nbsp;&nbsp;op.ProcessingObject += Recoloring
-&nbsp;&nbsp;&nbsp;&nbsp;op.ProcessedObject += Recolored
-&nbsp;&nbsp;&nbsp;&nbsp;op.Recolor(page)
-&nbsp;&nbsp;End Sub
-
-&nbsp;&nbsp;Public Shared Sub Recoloring(sender As Object, e As ProcessingObjectEventArgs)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim pm As PixMap = TryCast(e.[Object], PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;If pm &lt;&gt; Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim cs As ColorSpaceType = pm.ColorSpaceType
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If cs = ColorSpaceType.DeviceCMYK Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Cancel = True
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Tag = cs
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;End Sub
-
-&nbsp;&nbsp;Public Shared Sub Recolored(sender As Object, e As ProcessedObjectEventArgs)
-&nbsp;&nbsp;&nbsp;&nbsp;If e.Successful Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim pm As PixMap = TryCast(e.[Object], PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If pm &lt;&gt; Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim cs As ColorSpaceType = DirectCast(e.Tag, ColorSpaceType)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If pm.Width &gt; 1000 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.CompressJpx(30)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ElseIf cs = ColorSpaceType.DeviceRGB Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.CompressJpeg(30)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.Compress()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' Flate
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;End Sub
-End Class
 </code></pre>
             <P>&nbsp;</P>
             <P></P>

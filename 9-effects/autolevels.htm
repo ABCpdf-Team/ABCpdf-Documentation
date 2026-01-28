@@ -122,29 +122,6 @@
 &nbsp;&nbsp;}
 }
 </code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Sub ...
-&nbsp;&nbsp;Using doc As New Doc()
-&nbsp;&nbsp;&nbsp;&nbsp;AddImagePage(doc, img1)
-&nbsp;&nbsp;&nbsp;&nbsp;' original image
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectAutoLevels5.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img1)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Auto Levels")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Clip").Value = 0.5
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectAutoLevels50.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;Using layer As ImageLayer = AddImagePage(doc, img1)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using effect As New EffectOperation("Auto Levels")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Parameters("Clip").Value = 5.0
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;effect.Apply(layer.PixMap)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.Save("EffectAutoLevels.jpg")
-&nbsp;&nbsp;End Using
-End Sub
-</code></pre><br>
             </p>
             <table border="0" cellpadding="5" cellspacing="0" bordercolor="#999999">
               <tr>

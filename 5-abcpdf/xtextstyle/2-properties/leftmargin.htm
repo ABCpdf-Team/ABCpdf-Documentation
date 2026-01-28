@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>double</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Double</code></td>
+                <td align="left"><code>double</code></td>
                 <td>0</td>
                 <td>No</td>
                 <td>The paragraph indent.</td>
@@ -96,21 +92,7 @@ doc.AddText(text);
 doc.Rect.Move(0, -250);
 doc.TextStyle.LeftMargin = 200;
 doc.AddText(text);
-doc.Save(Server.MapPath("stylemargin.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani..."
-&nbsp;&nbsp;doc.TextStyle.Size = 48
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Rect.Move(0, -250)
-&nbsp;&nbsp;doc.TextStyle.LeftMargin = 100
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Rect.Move(0, -250)
-&nbsp;&nbsp;doc.TextStyle.LeftMargin = 200
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Save(Server.MapPath("stylemargin.pdf"))
-End Using
+doc.Save("stylemargin.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/stylemargin.pdf.png" class="example"><br>
               stylelmargin.pdf </p>

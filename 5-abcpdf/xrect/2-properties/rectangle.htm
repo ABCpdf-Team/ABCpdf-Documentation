@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>Rectangle</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Rectangle</code></td>
+                <td align="left"><code>Rectangle</code></td>
                 <td>n/a</td>
                 <td>No</td>
                 <td>The System.Drawing.Rectangle.</td>
@@ -103,23 +99,7 @@ rc.Offset(0, 300);
 doc.Rect.Rectangle = rc;
 doc.FrameRect();
 doc.AddText("Second Rectangle...");
-doc.Save(Server.MapPath("xrectrectangle.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;Dim rc As Rectangle = doc.MediaBox.Rectangle
-&nbsp;&nbsp;rc.Inflate(-50, -50)
-&nbsp;&nbsp;rc.Height = 250
-&nbsp;&nbsp;doc.Rect.Rectangle = rc
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;doc.AddText("First Rectangle...")
-&nbsp;&nbsp;rc.Offset(0, 300)
-&nbsp;&nbsp;doc.Rect.Rectangle = rc
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;doc.AddText("Second Rectangle...")
-&nbsp;&nbsp;doc.Save(Server.MapPath("xrectrectangle.pdf"))
-End Using
+doc.Save("xrectrectangle.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/xrectrectangle.pdf.png" class="example"><br>
               xrectrectangle.pdf </p>

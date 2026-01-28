@@ -91,23 +91,6 @@ doc.SetInfo(theID, &quot;/CreationDate:Text&quot;, theDate);
 doc.SetInfo(theID, &quot;/ModDate:Text&quot;, theDate);
 doc.SetInfo(theID, &quot;/Trapped:Name&quot;, &quot;False&quot;);
 doc.Save(Server.MapPath(&quot;docprops.pdf&quot;));
-</code></pre><br>
-                <span class="language">[Visual Basic]</span><br>
-                <pre><code class="language-vbnet">Dim doc As Doc = New Doc()
-doc.Page = doc.AddPage()
-doc.AddText(&quot;My first document...&quot;);
-Dim theID As Integer = doc.AddObject("&lt;&lt; &gt;&gt;")
-doc.SetInfo(-1, "/Info:Ref", theID.ToString())
-doc.SetInfo(theID, "/Title:Text", "ABCpdf")
-doc.SetInfo(theID, "/Author:Text", "WebSupergoo")
-doc.SetInfo(theID, "/Subject:Text", "ABCpdf Documentation")
-doc.SetInfo(theID, "/Keywords:Text", "ABCpdf,PDF,Docs")
-doc.SetInfo(theID, "/Creator:Text", "WebSupergoo")
-Dim theDate As DateTime = DateTime.Now
-doc.SetInfo(theID, "/CreationDate:Text", theDate)
-doc.SetInfo(theID, "/ModDate:Text", theDate)
-doc.SetInfo(theID, "/Trapped:Name", "False")
-doc.Save(Server.MapPath("docprops.pdf"))
 </code></pre></p>
           <p>&nbsp;</p>            </td>
           <td width="60">&nbsp;</td>
@@ -179,49 +162,6 @@ if (info != null) {
 &nbsp;&nbsp;if (copyTrapped)
 &nbsp;&nbsp;&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Trapped&quot;);
 }
-</code></pre><br>
-                <span class="language">[Visual Basic]</span><br>
-                <pre><code class="language-vbnet">Dim copyCreationDate As Boolean = False, copyModDate As Boolean = False, copyTrapped As Boolean = False
-Dim trailer As IndirectObject = doc.ObjectSoup.Trailer
-Dim info As DictAtom = TryCast(trailer.Resolve(Atom.GetItem(trailer.Atom, &quot;Info&quot;)), DictAtom)
-If info IsNot Nothing Then
-&nbsp;&nbsp;Dim title As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Title&quot;)))
-&nbsp;&nbsp;Dim author As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Author&quot;)))
-&nbsp;&nbsp;Dim subject As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Subject&quot;)))
-&nbsp;&nbsp;Dim keywords As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Keywords&quot;)))
-&nbsp;&nbsp;Dim creator As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Creator&quot;)))
-&nbsp;&nbsp;Dim producer As String = Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Producer&quot;)))
-&nbsp;&nbsp;Dim creationDate As String = If(copyCreationDate, Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;CreationDate&quot;))), Nothing)
-&nbsp;&nbsp;Dim modDate As String = If(copyModDate, Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;ModDate&quot;))), Nothing)
-&nbsp;&nbsp;Dim trapped As String = If(copyTrapped, Atom.GetText(trailer.Resolve(Atom.GetItem(info, &quot;Trapped&quot;))), Nothing)
-&nbsp;&nbsp;Dim hasValues As Boolean = (Not String.IsNullOrEmpty(title)) OrElse (Not String.IsNullOrEmpty(author)) OrElse (Not String.IsNullOrEmpty(subject)) OrElse _
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Not String.IsNullOrEmpty(keywords)) OrElse (Not String.IsNullOrEmpty(creator)) OrElse (Not String.IsNullOrEmpty(producer)) OrElse _
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Not String.IsNullOrEmpty(creationDate)) OrElse (Not String.IsNullOrEmpty(modDate)) OrElse (Not String.IsNullOrEmpty(trapped))
-&nbsp;&nbsp;If hasValues Then
-&nbsp;&nbsp;&nbsp;&nbsp;Dim md As Metadata = doc.ObjectSoup.Catalog.Metadata
-&nbsp;&nbsp;&nbsp;&nbsp;If md Is Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;md = New Metadata(doc.ObjectSoup)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.ObjectSoup.Catalog.Metadata = md
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(title)) AndAlso (String.IsNullOrEmpty(md.InfoTitle)) Then md.InfoTitle = title
-&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(author)) AndAlso (String.IsNullOrEmpty(md.InfoAuthor)) Then md.InfoAuthor = author
-&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(subject)) AndAlso (String.IsNullOrEmpty(md.InfoSubject)) Then md.InfoSubject = subject
-&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(keywords)) AndAlso (String.IsNullOrEmpty(md.InfoKeywords)) Then md.InfoKeywords = keywords
-&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(creator)) AndAlso (String.IsNullOrEmpty(md.InfoCreator)) Then md.InfoCreator = creator
-&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(producer)) AndAlso (String.IsNullOrEmpty(md.InfoProducer)) Then md.InfoProducer = producer
-&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(creationDate)) AndAlso (String.IsNullOrEmpty(md.InfoCreationDate)) Then md.InfoCreationDate = StringAtom.StringToDate(creationDate).ToString(&quot;o&quot;)
-&nbsp;&nbsp;&nbsp;&nbsp;If (Not String.IsNullOrEmpty(modDate)) AndAlso (String.IsNullOrEmpty(md.InfoModDate)) Then md.InfoModDate = StringAtom.StringToDate(modDate).ToString(&quot;o&quot;)
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Title&quot;)
-&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Author&quot;)
-&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Subject&quot;)
-&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Keywords&quot;)
-&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Creator&quot;)
-&nbsp;&nbsp;Atom.RemoveItem(info, &quot;Producer&quot;)
-&nbsp;&nbsp;If copyCreationDate Then Atom.RemoveItem(info, &quot;CreationDate&quot;)
-&nbsp;&nbsp;If copyModDate Then Atom.RemoveItem(info, &quot;ModDate&quot;)
-&nbsp;&nbsp;If copyTrapped Then Atom.RemoveItem(info, &quot;Trapped&quot;)
-End If
 </code></pre></p>
           <p>&nbsp;</p></td>
           <td width="60">&nbsp;</td>

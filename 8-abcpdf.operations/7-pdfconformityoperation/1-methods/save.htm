@@ -40,9 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Save(Doc
             doc, string path)<BR>void Save(Doc doc, Stream
-            stream)</CODE><BR><SPAN class=language>[Visual
-            Basic]</SPAN><BR><CODE>Sub Save(doc As Doc, path As
-            String)<BR>Sub Save(doc As Doc, stream As Stream)</CODE></P>
+            stream)</CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions"
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw
             Exception()</CODE></P>
@@ -105,8 +103,8 @@
             <P>Here we save a document in PDF/A-1b format.</P>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("mypics/Acrobat.pdf"));
-string path = Server.MapPath("pdfa_save.pdf");
+doc.Read("../mypics/Acrobat.pdf");
+string path = "pdfa_save.pdf";
 using (var theOperation = new PdfConformityOperation()) {
 &nbsp;&nbsp;theOperation.Conformance = PdfConformance.PdfA1b;
 &nbsp;&nbsp;theOperation.Save(doc, path);
@@ -117,25 +115,6 @@ using (var theOperation = new PdfConformityOperation()) {
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Errors[i]);
 &nbsp;&nbsp;}
 }
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR>
-            <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("mypics/Acrobat.pdf"))
-&nbsp;&nbsp;Dim thePath As String = Server.MapPath("pdfa_save.pdf")
-&nbsp;&nbsp;Using theOperation As New PdfConformityOperation()
-&nbsp;&nbsp;&nbsp;&nbsp;theOperation.Conformance = PdfConformance.PdfA1b
-&nbsp;&nbsp;&nbsp;&nbsp;theOperation.Save(doc, thePath)
-
-&nbsp;&nbsp;&nbsp;&nbsp;If theOperation.Errors.Count &gt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Errors:")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; theOperation.Errors.Count
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Errors(i))
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;End Using
-End Using
 </code></pre></P>
             <P>&nbsp;</P>
             <P>&nbsp;</P></TD>

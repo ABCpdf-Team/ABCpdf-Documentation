@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
-            AddGrid()<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Function AddGrid() As 
-            Integer<BR></CODE></P>
+            AddGrid()<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -98,14 +96,7 @@
 doc.Page = doc.AddPage();
 doc.Transform.Rotate(20, 100, 100);
 doc.AddGrid();
-doc.Save(Server.MapPath("docaddgrid.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.Transform.Rotate(20, 100, 100)
-&nbsp;&nbsp;doc.AddGrid()
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddgrid.pdf"))
-End Using
+doc.Save("docaddgrid.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docaddgrid.pdf.png" 
             class="example"><BR>docaddgrid.pdf </P>

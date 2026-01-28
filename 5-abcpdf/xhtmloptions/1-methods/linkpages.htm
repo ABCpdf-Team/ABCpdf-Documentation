@@ -42,10 +42,7 @@
             LinkPages()<br>
             void 
             LinkPages(bool inPageNavigation)<BR>
-            </CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR>
-            <CODE>Sub LinkPages()<br>
-            Sub LinkPages(inPageNavigation as Boolean)</CODE></P>
+            </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -123,10 +120,6 @@
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
 doc.Rect.Inset(18, 18);
 doc.HtmlOptions.AddLinks = true;
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(18, 18)
-&nbsp;&nbsp;doc.HtmlOptions.AddLinks = True
 </code></pre></P>
             <P>We add the pages to the document.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">int id = doc.AddImageUrl("http://www.websupergoo.com/support.htm");
@@ -136,15 +129,6 @@ while (true) {
 &nbsp;&nbsp;doc.Page = doc.AddPage();
 &nbsp;&nbsp;id = doc.AddImageToChain(id);
 }
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;Dim theID As Integer = doc.AddImageUrl("http://www.websupergoo.com/support.htm")
-&nbsp;&nbsp;While True
-&nbsp;&nbsp;&nbsp;&nbsp;If Not doc.Chainable(theID) Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit While
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddImageToChain(theID)
-&nbsp;&nbsp;End While
 </code></pre></P>
             <P>The URL we've referenced makes extensive use of named 
             destinations. We want these named destination links to take us 
@@ -159,22 +143,10 @@ for (int i = 1; i &lt;= doc.PageCount; i++) {
 &nbsp;&nbsp;doc.PageNumber = i;
 &nbsp;&nbsp;doc.Flatten();
 }
-</code></pre><BR><SPAN 
-            class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;doc.HtmlOptions.LinkPages()
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= doc.PageCount
-&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten()
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
 </code></pre></P>
             <P>Finally, we save.</P>
             <P><SPAN 
-            class=language>[C#]</SPAN><pre><code class="language-csharp">doc.Save(Server.MapPath("linkpages.pdf"));
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("linkpages.pdf"))
-End Using
+            class=language>[C#]</SPAN><pre><code class="language-csharp">doc.Save("linkpages.pdf");
 </code></pre></P>
             <P>We get the following output. The links work &ndash; where possible &ndash; 
             within the PDF.</P>

@@ -33,11 +33,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top">
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Boolean</code></td>
+                <td align="left"><code>bool</code></td>
                 <td>true<br></td>
                 <td>No</td>
                 <td>Whether field names should be changed to make them unique.</td>
@@ -81,26 +77,6 @@ foreach (Field field in fields) {
 &nbsp;&nbsp;names.Add(field.Name);
 }
 theDoc.Form.Refresh();
-</code></pre><BR>
-              <SPAN 
-            class=language>[Visual Basic]</SPAN><BR>
-              <pre><code class="language-vbnet">Dim names As HashSet(Of String) = New HashSet(Of String)
-Dim fields As List(Of Field) = New List(Of Field)
-For Each field As Field In theDoc.Form.Fields
-&nbsp;&nbsp;fields.Add(field)
-&nbsp;&nbsp;For Each kid As Field In field.GetKids(1000)
-&nbsp;&nbsp;&nbsp;&nbsp;fields.Add(kid)
-&nbsp;&nbsp;Next
-Next
-For Each field As Field In fields
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;Do While names.Contains(field.Name)
-&nbsp;&nbsp;&nbsp;&nbsp;Atom.SetItem(field.Atom, &quot;T&quot;, New StringAtom((field.PartialName + (&quot;_&quot; + i.ToString))))
-&nbsp;&nbsp;&nbsp;&nbsp;i = (i + 1)
-&nbsp;&nbsp;Loop
-&nbsp;&nbsp;names.Add(field.Name)
-Next
-theDoc.Form.Refresh
 </code></pre></p>
             <p>&nbsp;</p>
           </td>

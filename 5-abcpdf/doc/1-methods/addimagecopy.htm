@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
-            AddImageCopy(int id)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Function AddImageCopy(id As 
-            Integer) As Integer<BR></CODE></P>
+            AddImageCopy(int id)<BR></CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -116,12 +114,8 @@ href="../../xtransform/default.htm">Transform</A>.</P>
             <P>We start by reading our template PDF document and finding out 
             core information we will need to reference each page.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/sample.pdf"));
+doc.Read("../mypics/sample.pdf");
 int count = doc.PageCount;
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
-&nbsp;&nbsp;Dim theCount As Integer = doc.PageCount
 </code></pre></P>
             <P>We cycle through the pages inserting images as we go.</P>
             <P>We set the layer property to ensure that the image gets added in 
@@ -135,29 +129,13 @@ for (int i = 1; i &lt;= count; i++) {
 &nbsp;&nbsp;doc.PageNumber = i;
 &nbsp;&nbsp;doc.Layer = doc.LayerCount + 1;
 &nbsp;&nbsp;if (i == 1) {
-&nbsp;&nbsp;&nbsp;&nbsp;string path = Server.MapPath("../mypics/light.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;string path = "../mypics/light.jpg";
 &nbsp;&nbsp;&nbsp;&nbsp;id = doc.AddImageFile(path, 1);
 &nbsp;&nbsp;}
 &nbsp;&nbsp;else
 &nbsp;&nbsp;&nbsp;&nbsp;doc.AddImageCopy(id);
 }
-doc.Save(Server.MapPath("watermark.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">&nbsp;&nbsp;Dim theID As Integer = 0
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= theCount
-&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Layer = doc.LayerCount + 1
-&nbsp;&nbsp;&nbsp;&nbsp;If i = 1 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../mypics/light.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theID = doc.AddImageFile(thePath, 1)
-&nbsp;&nbsp;&nbsp;&nbsp;Else
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddImageCopy(theID)
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;doc.Save(Server.MapPath("watermark.pdf"))
-End Using
+doc.Save("watermark.pdf");
 </code></pre></P>
             <P>Given the following document.</P>
             <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>

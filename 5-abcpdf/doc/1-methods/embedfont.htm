@@ -48,19 +48,7 @@
             language, bool vertical, bool subset)<BR>
             int 
             EmbedFont(string name, LanguageType language, bool vertical, bool subset, 
-            bool force)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Function EmbedFont(name As 
-            String) As Integer<BR>
-            Function EmbedFont(name As String, 
-            language As LanguageType) As Integer<BR>
-            Function EmbedFont(name As String, language As LanguageType, vertical As Boolean) 
-            As Integer<BR>
-            Function EmbedFont(name As String, 
-            language As LanguageType, vertical As Boolean, subset As Boolean) As 
-            Integer<BR>
-            Function EmbedFont(name As String, language 
-            As LanguageType, vertical As Boolean, subset As Boolean, force As Boolean) 
-            As Integer</CODE><BR></P>
+            bool force)<BR></CODE><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -157,9 +145,6 @@ this.</P>
             the document Font property using code of the form.</P>
             <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">theDoc.Font = theDoc.AddFont("Courier");
-</code></pre><br>
-    <span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">theDoc.Font = theDoc.AddFont("Courier")
 </code></pre></p>
             <P>If the specified font could not be found then you will get an 
             Object ID of zero returned. You may wish to check for this 
@@ -189,15 +174,7 @@ doc.FontSize = 216;
 string font = "Comic Sans MS";
 doc.Font = doc.EmbedFont(font);
 doc.AddText(font);
-doc.Save(Server.MapPath("docembedfont.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 216
-&nbsp;&nbsp;Dim theFont As String = "Comic Sans MS"
-&nbsp;&nbsp;doc.Font = doc.EmbedFont(theFont)
-&nbsp;&nbsp;doc.AddText(theFont)
-&nbsp;&nbsp;doc.Save(Server.MapPath("docembedfont.pdf"))
-End Using
+doc.Save("docembedfont.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docembedfont.pdf.png" 
             class="example"><BR>docembedfont.pdf </P></TD>

@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Boolean</code></td>
+                <td align="left"><code>bool</code></td>
                 <td>false</td>
                 <td>No</td>
                 <td>Whether to apply a synthetic bold effect.</td>
@@ -88,18 +84,7 @@ doc.Rect.Inset(20, 40);
 doc.TextStyle.Size = 96;
 doc.TextStyle.Bold = true;
 doc.AddText(text);
-doc.Save(Server.MapPath("stylebold.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theText As String
-&nbsp;&nbsp;theText = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur."
-&nbsp;&nbsp;doc.Rect.Inset(20, 40)
-&nbsp;&nbsp;doc.TextStyle.Size = 96
-&nbsp;&nbsp;doc.TextStyle.Bold = True
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Save(Server.MapPath("stylebold.pdf"))
-End Using
+doc.Save("stylebold.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/stylebold.pdf.png" class="example"><br>
               stylebold.pdf </p>

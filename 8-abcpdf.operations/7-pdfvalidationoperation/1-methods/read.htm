@@ -41,11 +41,7 @@
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>Doc Read(string
             path, XReadOptions options)<BR>Doc Read(byte[] data,
             XReadOptions options)<BR>Doc Read(Stream stream, XReadOptions
-            options)</CODE><BR><SPAN class=language>[Visual
-            Basic]</SPAN><BR><CODE>Function Read(path As String, options
-            As XReadOptions) As Doc<BR>Function Read(data() As Byte,
-            options As XReadOptions) As Doc<BR>Function Read(stream As
-            Stream, options As XReadOptions) As Doc</CODE></P>
+            options)</CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions"
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw
             Exception()</CODE></P>
@@ -116,7 +112,7 @@
         <TR>
           <TD>
             <P>Here we validate a document against PDF/A-1b format.</P>
-            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">string path = Server.MapPath("pdfa.pdf");
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">string path = "../Rez/pdfa.pdf";
 using (var op = new PdfValidationOperation()) {
 &nbsp;&nbsp;op.Conformance = PdfConformance.PdfA1b;
 &nbsp;&nbsp;using var doc = op.Read(path, null);
@@ -134,33 +130,6 @@ using (var op = new PdfValidationOperation()) {
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(op.Warnings[i]);
 &nbsp;&nbsp;}
 }
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">Dim thePath As String = Server.MapPath("pdfa.pdf")
-Using theOperation As New PdfValidationOperation()
-&nbsp;&nbsp;theOperation.Conformance = PdfConformance.PdfA1b
-&nbsp;&nbsp;Dim doc As Doc = theOperation.Read(thePath, Nothing)
-&nbsp;&nbsp;doc.Dispose()
-
-&nbsp;&nbsp;If theOperation.Errors.Count &gt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Errors:")
-&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; theOperation.Errors.Count
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Errors(i))
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
-&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;If theOperation.Warnings.Count &gt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;If theOperation.Errors.Count &gt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine()
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine("Warnings:")
-&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; theOperation.Warnings.Count
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(theOperation.Warnings(i))
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
-&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;End If
-End Using
 </code></pre></P>
             <P>&nbsp;</P>
             <P>&nbsp;</P></TD>

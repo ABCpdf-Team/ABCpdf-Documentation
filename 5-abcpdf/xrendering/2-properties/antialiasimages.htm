@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Boolean</code></td>
+                <td align="left"><code>bool</code></td>
                 <td>true</td>
                 <td>No</td>
                 <td>Whether to anti-alias images.</td>
@@ -85,26 +81,14 @@
               on PDF rendering.</p>
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/HyperX.pdf"));
+doc.Read("../mypics/HyperX.pdf");
 doc.Rect.Inset(200, 200);
 // Render document with AntiAliasImages = true (default)
-doc.Rendering.Save(Server.MapPath("RenderingAntiAliasImagesTrue.png"));
+doc.Rendering.Save("RenderingAntiAliasImagesTrue.png");
 // Render document with AntiAliasImages = false
 doc.Rendering.AntiAliasImages = false;
 // Save the image
-doc.Rendering.Save(Server.MapPath("RenderingAntiAliasImagesFalse.png"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/HyperX.pdf"))
-&nbsp;&nbsp;doc.Rect.Inset(200, 200)
-&nbsp;&nbsp;' Render document with AntiAliasImages = true (default)
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingAntiAliasImagesTrue.png"))
-&nbsp;&nbsp;' Render document with AntiAliasImages = false
-&nbsp;&nbsp;doc.Rendering.AntiAliasImages = False
-&nbsp;&nbsp;' Save the image
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingAntiAliasImagesFalse.png"))
-End Using
+doc.Rendering.Save("RenderingAntiAliasImagesFalse.png");
 </code></pre></p>
             <p><img src="../../../images/pdf/RenderingAntiAliasImagesTrue.png" class="example-landscape"><br>
               RenderingAntiAliasImagesTrue.png</p>

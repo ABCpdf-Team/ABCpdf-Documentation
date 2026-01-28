@@ -35,11 +35,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Integer</code></td>
+                <td align="left"><code>int</code></td>
                 <td>0</td>
                 <td>No</td>
                 <td>The width of the virtual browser in pixels.</td>
@@ -114,28 +110,13 @@ string url = "https://photojournal.jpl.nasa.gov/catalog/PIA24312";
 // Render html page with default browser width
 doc.AddImageUrl(url);
 // Save the document
-doc.Save(Server.MapPath("HtmlOptionsBrowserWidth0.pdf"));
+doc.Save("HtmlOptionsBrowserWidth0.pdf");
 doc.Clear();
 // Render html page with browser width = 300
 doc.HtmlOptions.BrowserWidth = 300;
 doc.AddImageUrl(url);
 // Save the document
-doc.Save(Server.MapPath("HtmlOptionsBrowserWidth300.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theURL As String = "https://photojournal.jpl.nasa.gov/catalog/PIA24312"
-&nbsp;&nbsp;' Render html page with default browser width
-&nbsp;&nbsp;doc.AddImageUrl(theURL)
-&nbsp;&nbsp;' Save the document
-&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsBrowserWidth0.pdf"))
-&nbsp;&nbsp;doc.Clear()
-&nbsp;&nbsp;' Render html page with browser width = 300
-&nbsp;&nbsp;doc.HtmlOptions.BrowserWidth = 300
-&nbsp;&nbsp;doc.AddImageUrl(theURL)
-&nbsp;&nbsp;' Save the document
-&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsBrowserWidth300.pdf"))
-End Using
+doc.Save("HtmlOptionsBrowserWidth300.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/HtmlOptionsBrowserWidth0.pdf.png" class="example"><br>
               HtmlOptionsBrowserWidth0.pdf</p>

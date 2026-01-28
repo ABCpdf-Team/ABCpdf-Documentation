@@ -35,9 +35,7 @@
                 <TD><B>Read Only</B></TD>
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
-                <TD align=left><SPAN 
-                  class=language>[C#]</SPAN><BR><CODE>string</CODE><BR><BR><SPAN 
-                  class=language>[Visual&nbsp;Basic]</SPAN><BR><CODE>String</CODE></TD>
+                <TD align=left><CODE>string</CODE></TD>
                 <TD>null</TD>
                 <TD>No</TD>
                 <TD>The path to the template file.</TD></TR></TBODY></TABLE>
@@ -81,9 +79,7 @@
                 <TD>FrameRate</TD>
                 <TD align=left><SPAN 
                   class=language>[C#]</SPAN><BR><pre><code class="language-csharp">ushort
-</code></pre><BR><BR><SPAN 
-                  class=language>[Visual&nbsp;Basic]</SPAN><BR><pre><code class="language-vbnet">UShort
-</code></pre></TD>
+</code></pre><BR></TD>
                 <TD>64 (&frac14; frame per second)</TD>
                 <TD>The frame rate in 1/256 frames per second.</TD></TR></TBODY></TABLE>
             <P></P></TD>
@@ -102,16 +98,9 @@
             <P>Here we specify one page per frame and 2 frames per second for SWF format.</P>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/sample.pdf"));
+doc.Read("../mypics/sample.pdf");
 doc.SaveOptions.Template = XSaveTemplateData.Template_OnePagePerFrame + "\0FrameRate:512";
-doc.Save(Server.MapPath("swfsave_fr.swf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR>
-<pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
-&nbsp;&nbsp;doc.SaveOptions.Template = XSaveTemplateData.Template_OnePagePerFrame + vbNullChar &amp; "FrameRate:512"
-&nbsp;&nbsp;doc.Save(Server.MapPath("swfsave_fr.swf"))
-End Using
+doc.Save("swfsave_fr.swf");
 </code></pre></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>KerningType</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>KerningType</code></td>
+                <td align="left"><code>KerningType</code></td>
                 <td>Default</td>
                 <td>No</td>
                 <td>The kerning method.</td>
@@ -84,7 +80,7 @@
           <td> 
             <p>The following shows how to insert a table of contents while disabling kerning.</p>
             <p><span class=language>[C#]</span><br>
-              <pre><code class="language-csharp">string text = File.ReadAllText(Server.MapPath("tableofcontents.txt"));
+              <pre><code class="language-csharp">string text = File.ReadAllText("../Rez/tableofcontents.txt");
 text = text.Replace("\r", "&lt;br&gt;"); // make our carriage returns into breaks
 text = text.Replace(" ", "&nbsp;&nbsp;&nbsp;&nbsp; "); // make our indent at start of line into nbsp
 using var doc = new Doc();
@@ -93,22 +89,7 @@ doc.TextStyle.Kerning = XTextStyle.KerningType.None;
 doc.Rect.Inset(10, 10);
 doc.Page = doc.AddPage();
 doc.AddTextStyled(text.Replace(" ~", "&lt;leader&gt;.&lt;/leader&gt;"));
-doc.Save(Server.MapPath("TableOfContentsWithLeaders.pdf"));
-</code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim text As String = File.ReadAllText(Server.MapPath("tableofcontents.txt"))
-text = text.Replace(vbCr, "&lt;br&gt;")
-' make our carriage returns into breaks
-text = text.Replace(" ", vbTab &amp; vbTab &amp; " ")
-' make our indent at start of line into nbsp
-Using doc As New Doc()
-&nbsp;&nbsp;doc.TextStyle.Size = 36
-&nbsp;&nbsp;doc.TextStyle.Kerning = XTextStyle.KerningType.None
-&nbsp;&nbsp;doc.Rect.Inset(10, 10)
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.AddTextStyled(text.Replace(" ~", "&lt;leader&gt;.&lt;/leader&gt;"))
-&nbsp;&nbsp;doc.Save(Server.MapPath("TableOfContentsWithLeaders.pdf"))
-End Using
+doc.Save("TableOfContentsWithLeaders.pdf");
 </code></pre>
         </p>
               <p>Using the following input text.</p>

@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Integer</code></td>
+                <td align="left"><code>int</code></td>
                 <td>0</td>
                 <td>No</td>
                 <td>The current Font ID.</td>
@@ -89,18 +85,7 @@ doc.Font = doc.AddFont("Helvetica");
 doc.AddText("Helvetica Text.");
 doc.Font = doc.AddFont("Courier");
 doc.AddText("Courier Text.");
-doc.Save(Server.MapPath("docfont.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;' big text
-&nbsp;&nbsp;doc.Font = doc.AddFont("Helvetica")
-&nbsp;&nbsp;doc.AddText("Helvetica Text.")
-&nbsp;&nbsp;doc.Font = doc.AddFont("Courier")
-&nbsp;&nbsp;doc.AddText("Courier Text.")
-&nbsp;&nbsp;doc.Save(Server.MapPath("docfont.pdf"))
-End Using
+doc.Save("docfont.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/docfont.pdf.png" class="example"><br>
               docfont.pdf </p><p>Also see example code in: <a href="../../../4-examples/12-unicode.htm">ABCpdf Unicode Example</a>, <a href="../../../4-examples/15-eform2.htm">ABCpdf eForm Placeholder Example</a>, <a href="../../../4-examples/15-eform3.htm">ABCpdf eForm Stamp Example</a>, <a href="../../../4-examples/16-eformfdf.htm">ABCpdf eForm FDF Example</a>, <a href="../../../4-examples/18-annotations.htm">ABCpdf Fields, Markup and Movies Example</a>, <a href="../1-methods/addfont.htm">Doc AddFont Function</a>, <a href="../1-methods/addtext.htm">Doc AddText Function</a>, <a href="../1-methods/embedfont.htm">Doc EmbedFont Function</a>, <a href="string.htm">Doc String Property</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../7-abcpdf.atoms/arrayatom/1-methods/fromcontentstream.htm">ArrayAtom FromContentStream Function</a>.</p>

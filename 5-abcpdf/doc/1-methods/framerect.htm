@@ -41,11 +41,7 @@
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
             FrameRect()<BR>int FrameRect(bool inside) <BR>int 
             FrameRect(double radiusX, double radiusY)<BR>int
-            FrameRect(double radiusX, double radiusY, bool inside)<BR></CODE><BR><SPAN
-            class=language>[Visual Basic]</SPAN><BR><CODE>Function FrameRect() As Integer<BR>Function FrameRect(inside As
-            Boolean) As Integer <BR>Function FrameRect(radiusX As
-            Double, radiusY As Double) As Integer<BR>Function FrameRect(radiusX As Double, radiusY As Double, inside As Boolean)
-            As Integer<BR></CODE></P>
+            FrameRect(double radiusX, double radiusY, bool inside)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -130,13 +126,7 @@
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
 doc.Rect.Inset(50, 100);
 doc.FrameRect();
-doc.Save(Server.MapPath("docframerect.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(50, 100)
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;doc.Save(Server.MapPath("docframerect.pdf"))
-End Using
+doc.Save("docframerect.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docframerect.pdf.png" 
             class="example"><BR>docframerect.pdf</P><p>Also see example code in: <a href="../../../4-examples/02-textflow.htm">ABCpdf Text Flow Example</a>, <a href="../../../4-examples/02-textflow2.htm">ABCpdf Text Flow Round Image Example</a>, <a href="../../../4-examples/03-multistyled.htm">ABCpdf Multistyle Example</a>, <a href="../../../4-examples/06-headers.htm">ABCpdf Headers and Footers Example</a>, <a href="../../../4-examples/13-pagedhtml.htm">ABCpdf Paged HTML Example</a>, <a href="addimagedoc.htm">Doc AddImageDoc Function</a>, <a href="addimagetochain.htm">Doc AddImageToChain Function</a>, <a href="../2-properties/rect.htm">Doc Rect Property</a>, <a href="../2-properties/transform.htm">Doc Transform Property</a>, <a href="../../xhtmloptions/1-methods/gettagrects.htm">XHtmlOptions GetTagRects Function</a>, <a href="../../xhtmloptions/2-properties/usescript.htm">XHtmlOptions UseScript Property</a>, <a href="../../xrect/2-properties/rectangle.htm">XRect Rectangle Property</a>, <a href="../../xtextstyle/2-properties/hpos.htm">XTextStyle HPos Property</a>, <a href="../../xtextstyle/2-properties/vpos.htm">XTextStyle VPos Property</a>, <a href="../../xtransform/1-methods/magnify.htm">XTransform Magnify Function</a>, <a href="../../xtransform/1-methods/reset.htm">XTransform Reset Function</a>, <a href="../../xtransform/1-methods/skew.htm">XTransform Skew Function</a>, <a href="../../xtransform/1-methods/translate.htm">XTransform Translate Function</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/8-textoperation/1-methods/group.htm">TextOperation Group  Function</a>, <a href="../../../8-abcpdf.operations/9-imageoperation/1-methods/getimageproperties.htm">ImageOperation GetImageProperties  Function</a>, <a href="../../../8-abcpdf.operations/Q-webpageoperation/2-properties/01-doc.htm">WebPageOperation Doc Property</a>.</p>

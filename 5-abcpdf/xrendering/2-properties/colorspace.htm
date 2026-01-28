@@ -57,10 +57,7 @@ body.c3 {background-color: #FFFFFF; }
 
                       <tr valign="top">
                         <td align="left"><span class="language">[C#]</span><br>
-                        <code>XRendering.ColorSpaceType</code><br>
-                        <br>
-                        <span class="language">[Visual&nbsp;Basic]</span><br>
-                        <code>XRendering.ColorSpaceType</code>&nbsp;</td>
+                        <code>XRendering.ColorSpaceType</code><br>&nbsp;</td>
 
                         <td>&nbsp;XRendering.ColorSpaceType.Rgb</td>
 
@@ -230,32 +227,20 @@ body.c3 {background-color: #FFFFFF; }
                             <p>In older versions of ABCpdf the ColorSpace property was a string. So you might find code of this form.</p>
                       <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">theDoc.Rendering.ColorSpace = &quot;CMYK&quot;;
-</code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">theDoc.Rendering.ColorSpace = &quot;CMYK&quot;
 </code></pre></p>
                             <p>In Version 8 the ColorSpace property was changed to a true enumeration. This is a safer way of coding as it allows the compiler to ensure that the values you are using are valid. Your new code should look like this.</p>
                       <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">theDoc.Rendering.ColorSpace = XRendering.ColorSpaceType.Cmyk;
-</code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">theDoc.Rendering.ColorSpace = XRendering.ColorSpaceType.Cmyk
 </code></pre></p>
                           <p>The names of the items in the XRendering.ColorSpaceType enumeration are the same as the values of the strings used in previous versions. So changing your code should be a simple search and replace operation. </p>
                           <p>Note that the enumeration is the XRendering.ColorSpace indicating the output color space for rendering. There is a different ColorSpace enumeration used for the content of objects inside a PDF document. The two are not the same.</p>
                           <p>Alternatively if you need to convert between enumerations and strings automatically you can do so. To convert from a string to an enumeration use the following code.</p>
                           <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">XRendering.ColorSpaceType csType = (XRendering.ColorSpaceType)Enum.Parse(typeof(XRendering.ColorSpaceType), csString, true);
-</code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">Dim csType As XRendering.ColorSpaceType = CType([Enum].Parse(GetType(XRendering.ColorSpaceType), csString, True), XRendering.ColorSpaceType)
 </code></pre></p>
                           <p>To convert from an enumeration to a string use the following code.</p>
                       <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">string csString = csType.ToString(&quot;G&quot;);
-</code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">Dim csString As String = csType.ToString(&quot;G&quot;)
 </code></pre></p>
                       </tr>
                     </tbody>
@@ -288,22 +273,12 @@ body.c3 {background-color: #FFFFFF; }
 
                   <p><span class="language">[C#]</span><br>
                   <pre><code class="language-csharp">using var doc = new Doc();
-doc.AddImage(Server.MapPath("../mypics/Shuttle.jpg"));
+doc.AddImage("../mypics/Shuttle.jpg");
 doc.Rect.String = doc.MediaBox.String;
 // Render document in Gray colorspace
 doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Gray;
 doc.Rendering.DotsPerInch = 36;
-doc.Rendering.Save(Server.MapPath("RenderingColorSpace.png"));
-</code></pre><br>
-                  <span class="language">[Visual Basic]</span><br>
-                  <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.AddImage(Server.MapPath("../mypics/Shuttle.jpg"))
-&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.[String]
-&nbsp;&nbsp;' Render document in Gray colorspace
-&nbsp;&nbsp;doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Gray
-&nbsp;&nbsp;doc.Rendering.DotsPerInch = 36
-&nbsp;&nbsp;doc.Rendering.Save(Server.MapPath("RenderingColorSpace.png"))
-End Using
+doc.Rendering.Save("RenderingColorSpace.png");
 </code></pre></p>
 
                   <p><img src="../../../images/pdf/Shuttle.jpg" class="example"><br>

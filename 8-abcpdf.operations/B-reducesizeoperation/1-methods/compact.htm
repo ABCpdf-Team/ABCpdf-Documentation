@@ -39,10 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
-            <CODE>void Compact(bool wholeDocument)</CODE><BR>
-            <SPAN class=language>[Visual
-            Basic]</SPAN><BR>
-            <CODE>Function Compact(wholeDocument As Boolean)</CODE></P>
+            <CODE>void Compact(bool wholeDocument)</CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -101,20 +98,10 @@
             <P>The following example shows how to compress a document.</P>
             <P><SPAN class=language>[C#]</SPAN><BR>
                 <pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/sample.pdf"));
+doc.Read("../mypics/sample.pdf");
 using (var op = new ReduceSizeOperation(doc))
 &nbsp;&nbsp;op.Compact(true);
-doc.Save(Server.MapPath("ReduceSizeOperation.pdf"));
-</code></pre><BR>
-              <SPAN class=language>[Visual 
-                Basic]</SPAN><BR>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/sample.pdf"))
-&nbsp;&nbsp;Using op As New ReduceSizeOperation(doc)
-&nbsp;&nbsp;&nbsp;&nbsp;op.Compact(True)
-&nbsp;&nbsp;End Using
-&nbsp;&nbsp;doc.Save(Server.MapPath("ReduceSizeOperation.pdf"))
-End Using
+doc.Save("ReduceSizeOperation.pdf");
 </code></pre></P>
             <P></P></TD>
           <TD width=60>&nbsp;</TD>

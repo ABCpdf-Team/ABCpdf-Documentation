@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>Stream
-            GetStream()</CODE><BR><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Function GetStream() As
-            Stream</CODE><BR></P>
+            GetStream()</CODE><BR><BR></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -189,31 +187,6 @@ using (Stream theStream = theDoc.GetStream()) {
 &nbsp;&nbsp;}
 }
 Response.End();
-%&gt;
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">&lt;% @Page Language="Visual Basic" %&gt;
-&lt;% @Import Namespace=" WebSupergoo.ABCpdf13" %&gt;
-&lt;%
-Dim theDoc As Doc = New Doc()
-theDoc.FontSize = 96
-theDoc.AddText("Hello World")
-Using theStream As Stream = theDoc.GetStream()
-&nbsp;&nbsp;Response.Clear()
-&nbsp;&nbsp;Response.ContentType = "application/pdf"
-&nbsp;&nbsp;Response.AddHeader("content-disposition", "inline; filename=MyPDF.PDF")
-&nbsp;&nbsp;Response.AddHeader("content-length", theStream.Length.ToString())
-&nbsp;&nbsp;Dim theLen As Long = theStream.Length;
-&nbsp;&nbsp;Dim theData() As Byte = New Byte(Math.Min(32768, theLen))
-&nbsp;&nbsp;Do While theLen &gt; 0
-&nbsp;&nbsp;&nbsp;&nbsp;theStream.Read(theData, 0, theData.Length)
-&nbsp;&nbsp;&nbsp;&nbsp;Response.BinaryWrite(theData)
-&nbsp;&nbsp;&nbsp;&nbsp;theLen -= theData.Length
-&nbsp;&nbsp;&nbsp;&nbsp;If theLen &lt; theData.Length AndAlso theLen &gt; 0 Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theData = New Byte(theLen)
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;Loop
-End Using
-Response.End()
 %&gt;
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docsave.pdf.png" 

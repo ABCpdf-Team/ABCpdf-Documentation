@@ -43,14 +43,6 @@
             y2)<br>
             int AddLine(double x1, double y1, double x2, double y2, LineEnding ending1, LineEnding ending2)<br>
             int AddLine(double x1, double y1, double x2, double y2, LineEnding ending1, LineEnding ending2, double scale1, double scale2)<BR>
-            </CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Function AddLine(x1 As Double, y1 
-            As Double, x2 As Double, y2 As Double) As Integer<br>
-            Function AddLine(x1 As Double, y1 
-            As Double, x2 As Double, y2 As Double, ending1 as LineEnding, ending2 as LineEnding) As Integer<br>
-            Function AddLine(x1 As Double, y1 
-            As Double, x2 As Double, y2 As Double, ending1 as LineEnding, ending2 as LineEnding, scale1 As Double, scale2 
-            As Double) As Integer<BR>
             </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -160,16 +152,7 @@ doc.Color.String = "0 0 255";
 doc.AddLine(-50, 100, 999, 100);
 doc.Color.String = "0 255 0";
 doc.AddLine(-50, 400, 999, 400);
-doc.Save(Server.MapPath("docaddline.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Width = 24
-&nbsp;&nbsp;doc.Color.String = "0 0 255"
-&nbsp;&nbsp;doc.AddLine(-50, 100, 999, 100)
-&nbsp;&nbsp;doc.Color.String = "0 255 0"
-&nbsp;&nbsp;doc.AddLine(-50, 400, 999, 400)
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddline.pdf"))
-End Using
+doc.Save("docaddline.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docaddline.pdf.png" 
             class="example"><BR>docaddline.pdf</P>

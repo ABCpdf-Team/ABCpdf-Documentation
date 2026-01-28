@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code><a href="../../xrect/default.htm">XRect</a></code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code><a href="../../xrect/default.htm">XRect</a></code></td>
+                <td align="left"><code><a href="../../xrect/default.htm">XRect</a></code></td>
                 <td>The dimensions of the current page.</td>
                 <td>No</td>
                 <td>The current rectangle used for drawing operations.</td>
@@ -111,19 +107,7 @@ for (int i = 1; i &lt;= 20; i++) {
 &nbsp;&nbsp;doc.FrameRect();
 &nbsp;&nbsp;doc.Rect.Inset(20, 20);
 }
-doc.Save(Server.MapPath("docrect.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.String = "50 50 550 550"
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= 20
-&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Inset(20, 20)
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;doc.Save(Server.MapPath("docrect.pdf"))
-End Using
+doc.Save("docrect.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/docrect.pdf.png" class="example"><br>
               docrect.pdf</p><p>Also see example code in: <a href="../../../4-examples/02-textflow.htm">ABCpdf Text Flow Example</a>, <a href="../../../4-examples/02-textflow2.htm">ABCpdf Text Flow Round Image Example</a>, <a href="../../../4-examples/03-multistyled.htm">ABCpdf Multistyle Example</a>, <a href="../../../4-examples/04-image.htm">ABCpdf Image Example</a>, <a href="../../../4-examples/06-headers.htm">ABCpdf Headers and Footers Example</a>, <a href="../../../4-examples/08-landscape.htm">ABCpdf Landscape Example</a>, <a href="../../../4-examples/09-table1.htm">ABCpdf Small Table Example</a>, <a href="../../../4-examples/10-table2.htm">ABCpdf Large Table Example</a>, <a href="../../../4-examples/13-pagedhtml.htm">ABCpdf Paged HTML Example</a>, <a href="../../../4-examples/15-eform2.htm">ABCpdf eForm Placeholder Example</a>, <a href="../../../4-examples/16-eformfdf.htm">ABCpdf eForm FDF Example</a>, <a href="../../../4-examples/17-advancedgraphics.htm">ABCpdf Advanced Graphics Example</a>, <a href="../../../4-examples/19-rendering.htm">ABCpdf PDF Rendering Example</a>, <a href="../1-methods/addcolorspacefile.htm">Doc AddColorSpaceFile Function</a>, <a href="../1-methods/addcolorspacespot.htm">Doc AddColorSpaceSpot Function</a>, <a href="../1-methods/addimagebitmap.htm">Doc AddImageBitmap Function</a>, <a href="../1-methods/addimagedoc.htm">Doc AddImageDoc Function</a>, <a href="../1-methods/addimagefile.htm">Doc AddImageFile Function</a>, <a href="../1-methods/addimageobject.htm">Doc AddImageObject 

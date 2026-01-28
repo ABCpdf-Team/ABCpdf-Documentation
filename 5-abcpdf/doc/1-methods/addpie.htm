@@ -40,9 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
             AddPie(double angleStart, double angleEnd, bool 
-            filled)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Function AddPie(angleStart As 
-            Double, angleEnd As Double, filled As Boolean) As Integer</CODE></P>
+            filled)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -120,17 +118,7 @@ doc.Color.String = "255 0 0";
 doc.AddPie(0, 90, true);
 doc.Color.String = "0 255 0";
 doc.AddPie(180, 270, false);
-doc.Save(Server.MapPath("docaddpie.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Width = 80
-&nbsp;&nbsp;doc.Rect.Inset(50, 50)
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;doc.AddPie(0, 90, True)
-&nbsp;&nbsp;doc.Color.String = "0 255 0"
-&nbsp;&nbsp;doc.AddPie(180, 270, False)
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddpie.pdf"))
-End Using
+doc.Save("docaddpie.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docaddpie.pdf.png" 
             class="example"><BR>docaddpie.pdf</P>

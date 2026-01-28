@@ -47,17 +47,9 @@
             </p>
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/form.pdf"));
+doc.Read("../mypics/form.pdf");
 doc.Form.NeedAppearances = false; // for PDF 2.0
 doc.Font = doc.AddFont("Helvetica-Bold");
-</code></pre>
-        <br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/form.pdf"))
-&nbsp;&nbsp;doc.Form.NeedAppearances = False
-&nbsp;&nbsp;' for PDF 2.0
-&nbsp;&nbsp;doc.Font = doc.AddFont("Helvetica-Bold")
 </code></pre>
             </p>
             <p>&nbsp;</p>
@@ -84,13 +76,6 @@ doc.Form["Month"].Value = "February";
 doc.Form["Year"].Value = "2005";
 doc.Form["State"].Value = "Arizona";
 doc.Form.Stamp();
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Form("Day").Value = "23"
-&nbsp;&nbsp;doc.Form("Month").Value = "February"
-&nbsp;&nbsp;doc.Form("Year").Value = "2005"
-&nbsp;&nbsp;doc.Form("State").Value = "Arizona"
-&nbsp;&nbsp;doc.Form.Stamp()
 </code></pre></p>
             <p>&nbsp;</p>
           </td>
@@ -110,11 +95,7 @@ doc.Form.Stamp();
           <td> 
             <p>Finally we save. </p>
             <p><span class="language">[C#]</span><br>
-              <pre><code class="language-csharp">doc.Save(Server.MapPath("eformstamp.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("eformstamp.pdf"))
-End Using
+              <pre><code class="language-csharp">doc.Save("eformstamp.pdf");
 </code></pre></p>
             <p>&nbsp;</p>
           </td>

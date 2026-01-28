@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Integer</code></td>
+                <td align="left"><code>int</code></td>
                 <td>255</td>
                 <td>No</td>
                 <td>The alpha opacity.</td>
@@ -88,21 +84,7 @@ for (int i = 1; i &lt;= 10; i++) {
 &nbsp;&nbsp;doc.AddText(doc.Color.Alpha.ToString());
 &nbsp;&nbsp;doc.Rect.Move(25, -50);
 }
-doc.Save(Server.MapPath("coloralpha.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(20, 20)
-&nbsp;&nbsp;doc.FontSize = 300
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt;= 10
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.Alpha = 255 / i
-&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(doc.Color.Alpha.ToString())
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Move(25, -50)
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;doc.Save(Server.MapPath("coloralpha.pdf"))
-End Using
+doc.Save("coloralpha.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/coloralpha.pdf.png" class="example"><br>
               coloralpha.pdf</p>

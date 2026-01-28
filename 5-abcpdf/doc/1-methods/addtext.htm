@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
-            AddText(string text)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Function AddText(text As String) 
-            As Integer<BR></CODE></P>
+            AddText(string text)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -165,27 +163,7 @@ doc.Font = font1;
 doc.AddText("Belgae, aliam Aquitani. ");
 doc.Font = font2;
 doc.AddText("tertiam Galli appellantur");
-doc.Save(Server.MapPath("docaddtext.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.FontSize = 48
-&nbsp;&nbsp;Dim theF1 As Integer = doc.AddFont("Times-Roman")
-&nbsp;&nbsp;Dim theF2 As Integer = doc.AddFont("Times-Bold")
-&nbsp;&nbsp;doc.Font = theF1
-&nbsp;&nbsp;doc.AddText("Gallia est omnis ")
-&nbsp;&nbsp;doc.Font = theF2
-&nbsp;&nbsp;doc.AddText("tertiam Galli appellantur ")
-&nbsp;&nbsp;doc.Font = theF1
-&nbsp;&nbsp;doc.AddText("divisa in partes tres, ")
-&nbsp;&nbsp;doc.Font = theF2
-&nbsp;&nbsp;doc.AddText("quarum unam incolunt ")
-&nbsp;&nbsp;doc.Font = theF1
-&nbsp;&nbsp;doc.AddText("Belgae, aliam Aquitani. ")
-&nbsp;&nbsp;doc.Font = theF2
-&nbsp;&nbsp;doc.AddText("tertiam Galli appellantur")
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddtext.pdf"))
-End Using
+doc.Save("docaddtext.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docaddtext.pdf.png" 
             class="example"><BR>docaddtext.pdf </P><p>Also see example code in: <a href="../../../4-examples/05-deletion.htm">ABCpdf Deletion Example</a>, <a href="../../../4-examples/06-headers.htm">ABCpdf Headers and Footers Example</a>, <a href="../../../4-examples/08-landscape.htm">ABCpdf Landscape Example</a>, <a href="../../../4-examples/12-unicode.htm">ABCpdf Unicode Example</a>, <a href="../../../4-examples/15-eform2.htm">ABCpdf eForm Placeholder Example</a>, <a href="../../../4-examples/16-eformfdf.htm">ABCpdf eForm FDF Example</a>, <a href="../../../4-examples/17-advancedgraphics.htm">ABCpdf Advanced Graphics Example</a>, <a href="../../../4-examples/18-annotations.htm">ABCpdf Fields, Markup and Movies Example</a>, <a href="addbookmark.htm">Doc AddBookmark Function</a>, <a href="addcolorspacefile.htm">Doc AddColorSpaceFile Function</a>, <a href="addcolorspacespot.htm">Doc AddColorSpaceSpot Function</a>, <a href="addfont.htm">Doc AddFont Function</a>, <a href="addpage.htm">Doc AddPage Function</a>, <a href="append.htm">Doc Append Function</a>, <a href="embedfont.htm">Doc EmbedFont Function</a>, <a href="read.htm">Doc Read Function</a>, <a href="remappages.htm">Doc RemapPages Method</a>, <a href="save.htm">Doc Save Function</a>, <a href="../2-properties/encryption.htm">Doc Encryption Property</a>, <a href="../2-properties/font.htm">Doc Font Property</a>, <a href="../2-properties/fontsize.htm">Doc FontSize Property</a>, <a href="../2-properties/page.htm">Doc Page Property</a>, <a href="../2-properties/pos.htm">Doc Pos Property</a>, <a href="../2-properties/string.htm">Doc String Property</a>, <a href="../2-properties/textstyle.htm">Doc TextStyle Property</a>, <a href="../2-properties/topdown.htm">Doc TopDown Property</a>, <a href="../2-properties/transform.htm">Doc Transform Property</a>, <a href="../../xcolor/2-properties/alpha.htm">XColor Alpha Property</a>, <a href="../../xencryption/1-methods/setcryptmethods.htm">XEncryption SetCryptMethods Function</a>, <a href="../../xhtmloptions/1-methods/gettagrects.htm">XHtmlOptions GetTagRects Function</a>, <a href="../../xhtmloptions/2-properties/htmlcallback.htm">XHtmlOptions HtmlCallback Property</a>, <a href="../../xpoint/2-properties/point.htm">XPoint Point Property</a>, <a href="../../xrect/2-properties/rectangle.htm">XRect Rectangle Property</a>, <a href="../../xrendering/2-properties/antialiaspolygons.htm">XRendering AntiAliasPolygons Property</a>, <a href="../../xrendering/2-properties/antialiastext.htm">XRendering AntiAliasText Property</a>, <a href="../../xrendering/2-properties/icccmyk.htm">XRendering IccCmyk Property</a>, <a href="../../xrendering/2-properties/savealpha.htm">XRendering SaveAlpha Property</a>, <a href="../../xtextstyle/2-properties/bold.htm">XTextStyle Bold Property</a>, <a href="../../xtextstyle/2-properties/charspacing.htm">XTextStyle CharSpacing Property</a>, <a href="../../xtextstyle/2-properties/hpos.htm">XTextStyle HPos Property</a>, <a href="../../xtextstyle/2-properties/indent.htm">XTextStyle Indent Property</a>, <a href="../../xtextstyle/2-properties/italic.htm">XTextStyle Italic Property</a>, <a href="../../xtextstyle/2-properties/justification.htm">XTextStyle Justification Property</a>, <a href="../../xtextstyle/2-properties/leftmargin.htm">XTextStyle LeftMargin Property</a>, <a href="../../xtextstyle/2-properties/linespacing.htm">XTextStyle LineSpacing Property</a>, <a href="../../xtextstyle/2-properties/outline.htm">XTextStyle Outline Property</a>, <a href="../../xtextstyle/2-properties/paraspacing.htm">XTextStyle ParaSpacing Property</a>, <a href="../../xtextstyle/2-properties/size.htm">XTextStyle Size Property</a>, <a href="../../xtextstyle/2-properties/strike.htm">XTextStyle Strike Property</a>, <a href="../../xtextstyle/2-properties/strike2.htm">XTextStyle Strike2 Property</a>, <a href="../../xtextstyle/2-properties/underline.htm">XTextStyle Underline Property</a>, <a href="../../xtextstyle/2-properties/vpos.htm">XTextStyle VPos Property</a>, <a href="../../xtextstyle/2-properties/wordspacing.htm">XTextStyle WordSpacing Property</a>, <a href="../../xtransform/1-methods/invert.htm">XTransform Invert Function</a>, <a href="../../xtransform/1-methods/magnify.htm">XTransform Magnify Function</a>, <a href="../../xtransform/1-methods/reset.htm">XTransform Reset Function</a>, <a href="../../xtransform/1-methods/rotate.htm">XTransform Rotate Function</a>, <a href="../../xtransform/2-properties/angleunit.htm">XTransform AngleUnit Property</a>, <a href="../../../6-abcpdf.objects/filespecification/1-methods/filespecification.htm">FileSpecification FileSpecification Function</a>, <a href="../../../6-abcpdf.objects/fontobject/2-properties/widths.htm">FontObject Widths Property</a>, <a href="../../../6-abcpdf.objects/page/1-methods/vectorizetext.htm">Page VectorizeText Function</a>, <a href="../../../6-abcpdf.objects/signature/1-methods/validate.htm">Signature Validate Function</a>, <a href="../../../7-abcpdf.atoms/arrayatom/1-methods/fromcontentstream.htm">ArrayAtom FromContentStream Function</a>, <a href="../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.htm">XpsImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.htm">SwfImportOperation Import Function</a>, <a href="../../../8-abcpdf.operations/Q-webpageoperation/2-properties/01-doc.htm">WebPageOperation Doc Property</a>.</p>

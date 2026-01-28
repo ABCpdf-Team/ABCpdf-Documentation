@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>FontFlags</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>FontFlags</code></td>
+                <td align="left"><code>FontFlags</code></td>
                 <td>n/a</td>
                 <td>No</td>
                 <td>The Font Descriptor Flags entry</td>
@@ -80,23 +76,14 @@
                       <P>To check a flag you can write code of the following form:</P>
                       <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">bool isSymbolic = font.Flags.HasFlag(FontObject.FontFlags.Symbolic);
-</code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">Dim isSymbolic As Boolean = font.Flags.HasFlag(FontObject.FontFlags.Symbolic)
 </code></pre></p>
                       <p>To set the flag:</p>
                       <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">font.Flags |= FontObject.FontFlags.Symbolic;
-</code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">font.Flags = font.Flags Or FontObject.FontFlags.Symbolic
 </code></pre></p>
                       <p>To clear the flag:</p>
                       <p><span class="language">[C#]</span><br>
                     <pre><code class="language-csharp">font.Flags &amp;= !FontObject.FontFlags.Symbolic;
-</code></pre><br>
-                    <span class="language">[Visual Basic]</span><br>
-                    <pre><code class="language-vbnet">font.Flags = font.Flags And Not FontObject.FontFlags.Symbolic
 </code></pre></p>
                       </p>
                   </TD>

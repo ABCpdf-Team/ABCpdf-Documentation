@@ -47,10 +47,6 @@
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">using var doc = new Doc();
 doc.FontSize = 32;
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 32
 </code></pre></p>
             <p>&nbsp;</p></td>
           <td width="60">&nbsp;</td>
@@ -68,12 +64,8 @@ doc.FontSize = 32;
           <td> 
             <p>We read in our Japanese text from a Unicode text file.</p>
             <p><span class="language">[C#]</span><br>
-              <pre><code class="language-csharp">string path = Server.MapPath("../Rez/Japanese2.txt");
+              <pre><code class="language-csharp">string path = "../Rez/Japanese2.txt";
 string text = File.ReadAllText(path);
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;Dim thePath As String = Server.MapPath("../Rez/Japanese2.txt")
-&nbsp;&nbsp;Dim theText As String = File.ReadAllText(thePath)
 </code></pre></p>
             <p>&nbsp;</p>
           </td>
@@ -100,11 +92,6 @@ string text = File.ReadAllText(path);
               <pre><code class="language-csharp">doc.Page = doc.AddPage();
 doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, false, true);
 doc.AddText("Japanese" + text);
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, False, True)
-&nbsp;&nbsp;doc.AddText("Japanese" + theText)
 </code></pre></p>
             <p>&nbsp;</p>
           </td>
@@ -127,11 +114,6 @@ doc.AddText("Japanese" + text);
               <pre><code class="language-csharp">doc.Page = doc.AddPage();
 doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, true, true);
 doc.AddText("Japanese" + text);
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.Font = doc.EmbedFont("MS PGothic", LanguageType.Unicode, True, True)
-&nbsp;&nbsp;doc.AddText("Japanese" + theText)
 </code></pre></p>
             <p>&nbsp;</p>
           </td>
@@ -150,13 +132,8 @@ doc.AddText("Japanese" + text);
           <td> 
             <p>Finally we save at a specified location. </p>
             <p><span class="language">[C#]</span><br>
-              <pre><code class="language-csharp">doc.Save(Server.MapPath("unicode.pdf"));
+              <pre><code class="language-csharp">doc.Save("unicode.pdf");
 // finished
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("unicode.pdf"))
-End Using
-' finished
 </code></pre></p>
             <p>&nbsp;</p>
           </td>

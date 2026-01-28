@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>double</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Double</code></td>
+                <td align="left"><code>double</code></td>
                 <td>0.0</td>
                 <td>No</td>
                 <td>The horizontal justification factor.</td>
@@ -102,19 +98,7 @@ doc.AddText(text);
 doc.Rect.Move(0, -350);
 doc.TextStyle.Justification = 1.0;
 doc.AddText(text);
-doc.Save(Server.MapPath("stylejustification.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim theText As String = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur."
-&nbsp;&nbsp;doc.Rect.Inset(20, 40)
-&nbsp;&nbsp;doc.TextStyle.Size = 48
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Rect.Move(0, -350)
-&nbsp;&nbsp;doc.TextStyle.Justification = 1.0
-&nbsp;&nbsp;doc.AddText(theText)
-&nbsp;&nbsp;doc.Save(Server.MapPath("stylejustification.pdf"))
-End Using
+doc.Save("stylejustification.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/stylejustification.pdf.png" class="example"><br>
               stylejustification.pdf </p>

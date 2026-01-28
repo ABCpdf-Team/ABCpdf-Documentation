@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code><a href="../../metadata/default.htm">Metadata</a></code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code><a href="../../metadata/default.htm">Metadata</a></code></td>
+                <td align="left"><code><a href="../../metadata/default.htm">Metadata</a></code></td>
                 <td>&nbsp;n/a</td>
                 <td>No</td>
                 <td>Any document level Metadata.</td>
@@ -93,7 +89,7 @@
             <p>Here we load an existing PDF and set the Title and Author.</p>
             <p><span class="language">[C#]</span><br>
                 <pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/book.pdf"));
+doc.Read("../mypics/book.pdf");
 var md = doc.ObjectSoup.Catalog.Metadata;
 if (md == null) {
 &nbsp;&nbsp;md = new Metadata(doc.ObjectSoup);
@@ -101,20 +97,7 @@ if (md == null) {
 }
 md.InfoSubject = "Finn Family Moomintroll";
 md.InfoAuthor = "Tove Jansson";
-doc.Save(Server.MapPath("metadata.pdf"));
-</code></pre><br>
-                <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/book.pdf"))
-&nbsp;&nbsp;Dim md As Metadata = doc.ObjectSoup.Catalog.Metadata
-&nbsp;&nbsp;If md = Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;md = New Metadata(doc.ObjectSoup)
-&nbsp;&nbsp;&nbsp;&nbsp;doc.ObjectSoup.Catalog.Metadata = md
-&nbsp;&nbsp;End If
-&nbsp;&nbsp;md.InfoSubject = "Finn Family Moomintroll"
-&nbsp;&nbsp;md.InfoAuthor = "Tove Jansson"
-&nbsp;&nbsp;doc.Save(Server.MapPath("metadata.pdf"))
-End Using
+doc.Save("metadata.pdf");
 </code></pre></p>
             <p>&nbsp;</p>
             </td>

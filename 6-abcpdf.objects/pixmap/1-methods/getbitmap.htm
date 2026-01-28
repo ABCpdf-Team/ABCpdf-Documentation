@@ -38,8 +38,7 @@
         <TBODY>
         <TR>
           <TD vAlign=top>
-            <P><SPAN class=language>[C#]</SPAN><BR><CODE>System.Drawing.Bitmap GetBitmap()<BR></CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Function GetBitmap() As System.Drawing.Bitmap</CODE></P>
+            <P><SPAN class=language>[C#]</SPAN><BR><CODE>System.Drawing.Bitmap GetBitmap()<BR></CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -100,7 +99,7 @@
             <P><span class=language>[C#]</span><br>
               <pre><code class="language-csharp">using var doc = new Doc();
 using var src = new Doc();
-doc.Read(Server.MapPath("embedthumbnails.pdf"));
+doc.Read("../Rez/embedthumbnails.pdf");
 doc.Rendering.DotsPerInch = 18;
 var pages = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll();
 foreach (var page in pages) {
@@ -109,21 +108,6 @@ foreach (var page in pages) {
 &nbsp;&nbsp;using var bm = page.Thumbnail.GetBitmap();
 &nbsp;&nbsp;bm.Save($"embedthumbnails{page.Thumbnail.ID}.jpg");
 }
-</code></pre><br>
-              <span class=language>[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc(), srcDoc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("embedthumbnails.pdf"))
-&nbsp;&nbsp;doc.Rendering.DotsPerInch = 18
-&nbsp;&nbsp;Dim pages As Page() = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()
-&nbsp;&nbsp;For Each page As Page In pages
-&nbsp;&nbsp;&nbsp;&nbsp;If page.Thumbnail = Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Continue For
-&nbsp;&nbsp;&nbsp;&nbsp;End If
-&nbsp;&nbsp;&nbsp;&nbsp;Using bm As Bitmap = page.Thumbnail.GetBitmap()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bm.Save($"embedthumbnails{page.Thumbnail.ID}.jpg")
-&nbsp;&nbsp;&nbsp;&nbsp;End Using
-&nbsp;&nbsp;Next
-End Using
 </code></pre></P>
             <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
               <TBODY>

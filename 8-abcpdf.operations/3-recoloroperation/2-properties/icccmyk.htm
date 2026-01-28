@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>string</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>String</code></td>
+                <td align="left"><code>string</code></td>
                 <td>&quot;standard&quot;</td>
                 <td>No</td>
                 <td>The path to the default CMYK ICC color profile.</td>
@@ -91,31 +87,16 @@
             <p>We assign 96 to the Type0SampleCount which means that continuous shading functions are converted to Type 0 (sample based) functions with 96 samples.</p>
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("../mypics/SpaceShuttlePage6.pdf"));
+doc.Read("../mypics/SpaceShuttlePage6.pdf");
 var cs = new ColorSpace(doc.ObjectSoup, ColorSpaceType.Lab);
 using (var op = new RecolorOperation()) {
 &nbsp;&nbsp;op.DestinationColorSpace = cs;
-&nbsp;&nbsp;op.IccCmyk = Server.MapPath("../Rez/EuroscaleCoated.icc");
+&nbsp;&nbsp;op.IccCmyk = "../Rez/EuroscaleCoated.icc";
 &nbsp;&nbsp;op.Type0SampleCount = 96;
 &nbsp;&nbsp;op.RenderingIntent = RenderingIntent.Perceptual;
 &nbsp;&nbsp;op.Recolor((Page)doc.ObjectSoup[doc.Page]);
 }
-doc.Save(Server.MapPath("RecolorToLab.pdf"));
-</code></pre>
-              <br>
-<span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("../mypics/SpaceShuttlePage6.pdf"))
-&nbsp;&nbsp;Dim cs As New ColorSpace(doc.ObjectSoup, ColorSpaceType.Lab)
-&nbsp;&nbsp;Using op = New RecolorOperation()
-&nbsp;&nbsp;&nbsp;&nbsp;op.DestinationColorSpace = cs
-&nbsp;&nbsp;&nbsp;&nbsp;op.IccCmyk = Server.MapPath("../Rez/EuroscaleCoated.icc")
-&nbsp;&nbsp;&nbsp;&nbsp;op.Type0SampleCount = 96
-&nbsp;&nbsp;&nbsp;&nbsp;op.RenderingIntent = RenderingIntent.Perceptual
-&nbsp;&nbsp;&nbsp;&nbsp;op.Recolor(DirectCast(doc.ObjectSoup(doc.Page), Page))
-&nbsp;&nbsp;End Using
-&nbsp;&nbsp;doc.Save(Server.MapPath("RecolorToLab.pdf"))
-End Using
+doc.Save("RecolorToLab.pdf");
 </code></pre>
               </p>
           <p>&nbsp;</p>

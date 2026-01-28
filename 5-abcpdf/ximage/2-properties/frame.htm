@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>int</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Integer</code></td>
+                <td align="left"><code>int</code></td>
                 <td>1</td>
                 <td>No</td>
                 <td>The currently selected frame.</td>
@@ -91,28 +87,13 @@
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">using var img = new XImage();
 using var doc = new Doc();
-img.SetFile(Server.MapPath("../mypics/multipage.tif"));
+img.SetFile("../mypics/multipage.tif");
 for (int i = 1; i &lt;= img.FrameCount; i++) {
 &nbsp;&nbsp;img.Frame = i;
 &nbsp;&nbsp;doc.Page = doc.AddPage();
 &nbsp;&nbsp;doc.AddImageObject(img, false);
 }
-doc.Save(Server.MapPath("imageframe.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim theImg As New XImage()
-Dim doc As New Doc()
-theImg.SetFile(Server.MapPath("../mypics/multipage.tif"))
-Dim i As Integer = 1
-While i &lt;= theImg.FrameCount
-&nbsp;&nbsp;theImg.Frame = i
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;doc.AddImageObject(theImg, False)
-&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-End While
-theImg.Clear()
-doc.Save(Server.MapPath("imageframe.pdf"))
-doc.Clear()
+doc.Save("imageframe.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/imageframe.pdf2.png" class="example"><br>
               imageframe.pdf - [Page 1]</p>

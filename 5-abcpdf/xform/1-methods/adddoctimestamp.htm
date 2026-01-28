@@ -41,9 +41,6 @@
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE>Signature AddDocTimestamp()<br>
             Signature AddDocTimestamp(string name)<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE>Function AddDocTimestamp() As Signature<br>
-            Function AddDocTimestamp(name As string) As Signature<BR>
             </CODE>
             </P>
 			
@@ -113,19 +110,6 @@ var uri = new Uri("http://timestamp.digicert.com");
 var oid = new Oid(CryptoConfig.MapNameToOID("SHA256"));
 sig.TimestampServiceUrl = uri;
 sig.Timestamp(oid, 0);
-</code></pre>
-            <br>
-            <span class="language">[Visual Basic]</span><br>
-            <pre><code class="language-vbnet">Dim doc = New Doc()
-' ... set up the doc perhaps by reading a PDF
-If doc.PageCount = 0 Then
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-End If
-Dim sig = doc.Form.AddDocTimestamp("Timestamp")
-Dim uri As New Uri("http://timestamp.digicert.com")
-Dim oid As New Oid(CryptoConfig.MapNameToOID("SHA256"))
-sig.TimestampServiceUrl = uri
-sig.Timestamp(oid, 0)
 </code></pre>
             </p>
 <P>&nbsp;</P></TD>

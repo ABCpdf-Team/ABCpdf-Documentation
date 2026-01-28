@@ -41,10 +41,6 @@
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE>double MeasureTextMultiline(string text, out int lines)<br>
             double MeasureTextMultiline(string text, double fontSize, double charSpacing, double wordSpacing, bool italic, bool bold, double outline, out int lines)<BR>
-            </CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR>
-            <CODE>Function MeasureTextMultiline(text As String, &lt;Out&gt; ByRef lines As Integer) As Double<br>
-            Function MeasureTextMultiline(text As String, fontSize As Double, charSpacing As Double, wordSpacing As Double, italic As Boolean, bold As Boolean, outline As Double, &lt;Out&gt; ByRef lines As Integer) As Double<BR>
             </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

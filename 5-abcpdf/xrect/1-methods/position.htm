@@ -41,9 +41,6 @@
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
             Position(double x, double y)<br>
             void Position(double x, double y, Corner corner)<BR>
-            </CODE><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><CODE>Sub Position(x As Double, y As Double)<br>
-            Sub Position(x As Double, y As Double, corner As Corner)<BR>
             </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -110,13 +107,6 @@ Response.Write($"Rect = {rc}");
 Response.Write("&amp;lt;br&amp;gt;");
 rc.Position(50, 50);
 Response.Write($"Pos. = {rc}");
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim rc As New XRect()
-rc.String = "20 20 220 120"
-Response.Write($"Rect = {rc}")
-Response.Write("&amp;lt;br&amp;gt;")
-rc.Position(50, 50)
-Response.Write($"Pos. = {rc}")
 </code></pre></P>
             <P>Produces the following output. </P>
             <P><SAMP>Rect = 20 20 220 120<BR>Pos. = 50 50 250 150</SAMP> 

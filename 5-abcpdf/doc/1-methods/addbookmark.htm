@@ -40,9 +40,6 @@
           <TD vAlign=top>
             <p><span class="language">[C#]</span><br>
             <pre><code class="language-csharp">int AddBookmark(string path, bool open);
-</code></pre><br>
-            <span class="language">[Visual Basic]</span><br>
-            <pre><code class="language-vbnet">Function AddBookmark(path As String, open As Boolean) As Integer
 </code></pre></p>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -110,15 +107,6 @@
 &nbsp;&nbsp;doc.SetInfo(id, &quot;/A/URI:Text&quot;, uri);
 &nbsp;&nbsp;return id;
 }
-</code></pre><br>
-            <span class="language">[Visual Basic]</span><br>
-            <pre><code class="language-vbnet">Private Shared Function AddBookmarkToUri(ByVal doc As Doc, ByVal bookmark As String, ByVal uri As String) As Integer
-&nbsp;&nbsp;Dim id As Integer = doc.AddBookmark(bookmark, True)
-&nbsp;&nbsp;doc.SetInfo(id, &quot;/Dest:Del&quot;, &quot;&quot;, &quot;&quot;) ' remove link to page and add link to url
-&nbsp;&nbsp;doc.SetInfo(id,  &quot;/A&quot;, &quot;&lt;&lt; /Type /Action /S /URI /URI () &gt;&gt;&quot;)
-&nbsp;&nbsp;doc.SetInfo(id, &quot;/A/URI:Text&quot;, uri)
-&nbsp;&nbsp;Return id
-End Function
 </code></pre></p>
                     </TD>
                 </TR>
@@ -160,36 +148,7 @@ for (int i = 1; i &lt; 4; i++) {
 &nbsp;&nbsp;&nbsp;&nbsp;}
 &nbsp;&nbsp;}
 }
-doc.Save(Server.MapPath("docaddbookmark.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 64
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt; 4
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;&nbsp;&nbsp;Dim theSection As String = $"{i} Section"
-&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(theSection)
-&nbsp;&nbsp;&nbsp;&nbsp;doc.AddBookmark(theSection, True)
-&nbsp;&nbsp;&nbsp;&nbsp;Dim j As Integer = 1
-&nbsp;&nbsp;&nbsp;&nbsp;While j &lt; 6
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim theChapter As String = $"{theSection}\{j} Chapter"
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(theChapter)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddBookmark(theChapter, False)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim k As Integer = 1
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While k &lt; 7
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim theSubject As String = $"{theChapter}\{k} Subject"
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(theSubject)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddBookmark(theSubject, True)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(k),k - 1)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(j),j - 1)
-&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-&nbsp;&nbsp;doc.Save(Server.MapPath("docaddbookmark.pdf"))
-End Using
+doc.Save("docaddbookmark.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docaddbookmark.gif" class="example"><BR>docaddbookmark.pdf </P>
             <P>&nbsp;</P></TD>

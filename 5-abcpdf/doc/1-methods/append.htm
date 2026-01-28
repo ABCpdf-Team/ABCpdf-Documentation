@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void Append(Doc 
-            doc)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Sub Append(doc As 
-            Doc)<BR></CODE></P>
+            doc)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -178,21 +176,7 @@ doc2.TextStyle.HPos = 0.5;
 doc2.TextStyle.VPos = 0.5;
 doc2.AddText("World");
 doc1.Append(doc2);
-doc1.Save(Server.MapPath("docjoin.pdf"));
-</code></pre>
-            <BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim doc1 As New Doc()
-doc1.FontSize = 192
-doc1.TextStyle.HPos = 0.5
-doc1.TextStyle.VPos = 0.5
-doc1.AddText("Hello")
-Dim doc2 As New Doc()
-doc2.FontSize = 192
-doc2.TextStyle.HPos = 0.5
-doc2.TextStyle.VPos = 0.5
-doc2.AddText("World")
-doc1.Append(doc2)
-doc1.Save(Server.MapPath("docjoin.pdf"))
+doc1.Save("docjoin.pdf");
 </code></pre>
             </P>
             <P></P>

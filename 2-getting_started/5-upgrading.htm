@@ -54,16 +54,10 @@ features, simply reference the new name.</p>
 <p>Simply replace...</p>
 <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">using WebSupergoo.ABCpdf12;<!--notcode-->
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">Imports WebSupergoo.ABCpdf12
 </code></pre></p>
 <p>with...</p>
 <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">using WebSupergoo.ABCpdf13;<!--notcode-->
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">Imports WebSupergoo.ABCpdf13
 </code></pre></p>
 <p></p>
 <p>&nbsp;</p>
@@ -92,9 +86,6 @@ versions.</p>
 <p>The new ABCChrome123 HTML conversion engine is our new default as it is faster, more compliant and more secure than the previous one.  If your HTML conversions rely on specific output styles created by  the previous default engines - eg ABCChrome86 - you will want to use the following line of code after creating any Doc object, after calling Doc.Read and after calling Doc.Clear.</p>
 <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">doc.HtmlOptions.Engine = EngineType.Chrome86;
-</code></pre><br>
-<span class="language">[Visual Basic]</span><br>
-<pre><code class="language-vbnet">doc.HtmlOptions.Engine = EngineType.Chrome86
 </code></pre>
 </p>
 <p>For this release we have vastly increased the capabilities of FireShield. It has much greater insight into what is happening in the current process and intercepts requests that previously might have gone unnoticed. This means that if you have custom rules for FireShield  it may pick up some events - for example file information queries - which previously it might not have done. Your rules may need to be adjusted to allow these types of events to be ignored as appropriate.</p>

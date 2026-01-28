@@ -40,8 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE>virtual void AddLTV(Oid oid)<BR>
-            </CODE><BR><SPAN class=language>[Visual Basic]</SPAN><BR>
-            <CODE>Overridable Sub AddLTV(oid As Oid)</CODE></P>
+            </CODE></P>
             <P><CODE><img alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" border="0" height="10" width="10"> may throw 
             Exception()<BR>
             </CODE> </P>
@@ -115,21 +114,7 @@ sig.Commit();
 sig = (Signature)doc.Form.Fields["Signature"];
 sig.TimestampServiceUrl = new Uri("http://timestamp.comodoca.com");
 sig.AddLTV(new Oid(CryptoConfig.MapNameToOID("SHA256")));
-doc.Save(Server.MapPath("SignedLTV.pdf"));
-</code></pre>
-            <br>
-            <span class="language">[Visual Basic]</span><br>
-            <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;Dim cert As New X509Certificate2(Server.MapPath("MyCertificate.p12"), "mypassword", X509KeyStorageFlags.Exportable)
-&nbsp;&nbsp;doc.Page = doc.AddPage()
-&nbsp;&nbsp;Dim sig As Signature = doc.Form.AddSignature(New XRect("340 160 540 220"), "Signature")
-&nbsp;&nbsp;sig.Sign(cert, False)
-&nbsp;&nbsp;sig.Commit()
-&nbsp;&nbsp;sig = DirectCast(doc.Form.Fields("Signature"), Signature)
-&nbsp;&nbsp;sig.TimestampServiceUrl = New Uri("http://timestamp.comodoca.com")
-&nbsp;&nbsp;sig.AddLTV(New Oid(CryptoConfig.MapNameToOID("SHA256")))
-&nbsp;&nbsp;doc.Save(Server.MapPath("SignedLTV.pdf"))
-End Using
+doc.Save("SignedLTV.pdf");
 </code></pre>
             </p>
 <P>&nbsp;</P></TD>

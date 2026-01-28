@@ -46,9 +46,6 @@
             <p><span class="language">[C#]</span><br>
               <pre><code class="language-csharp">string text = "&lt;b&gt;Gallia&lt;/b&gt; est omnis divisa in partes tres, quarum unam incolunt &lt;b&gt;Belgae&lt;/b&gt;, aliam &lt;b&gt;Aquitani&lt;/b&gt;, tertiam qui ipsorum lingua &lt;b&gt;Celtae&lt;/b&gt;, nostra &lt;b&gt;Galli&lt;/b&gt; appellantur.";
 </code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Dim theText As String = "&lt;b&gt;Gallia&lt;/b&gt; est omnis divisa in partes tres, quarum unam incolunt &lt;b&gt;Belgae&lt;/b&gt;, aliam &lt;b&gt;Aquitani&lt;/b&gt;, tertiam qui ipsorum lingua &lt;b&gt;Celtae&lt;/b&gt;, nostra &lt;b&gt;Galli&lt;/b&gt; appellantur."
-</code></pre><br>
               <br>
             </p>
           </td>
@@ -76,14 +73,6 @@ doc.Rect.Inset(10, 10);
 doc.FrameRect();
 int font1 = doc.EmbedFont("Verdana", LanguageType.Latin, false, true);
 int font2 = doc.EmbedFont("Verdana Bold", LanguageType.Latin, false, true);
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 72
-&nbsp;&nbsp;doc.Rect.Inset(10, 10)
-&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;Dim theFont1 As Integer = doc.EmbedFont("Verdana", LanguageType.Latin, False, True)
-&nbsp;&nbsp;Dim theFont2 As Integer = doc.EmbedFont("Verdana Bold", LanguageType.Latin, False, True)
 </code></pre></p>
             <p>&nbsp;</p>
           </td>
@@ -108,12 +97,6 @@ int font2 = doc.EmbedFont("Verdana Bold", LanguageType.Latin, false, true);
 text = text.Replace("&lt;b&gt;", "&lt;font pid=" + font2.ToString() + "&gt;");
 text = text.Replace("&lt;/b&gt;", "&lt;/font&gt;");
 doc.AddTextStyled(text);
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;theText = "&lt;font pid=" + theFont1.ToString() + "&gt;" + theText + "&lt;/font&gt;"
-&nbsp;&nbsp;theText = theText.Replace("&lt;b&gt;", "&lt;font pid=" + theFont2.ToString() + "&gt;")
-&nbsp;&nbsp;theText = theText.Replace("&lt;/b&gt;", "&lt;/font&gt;")
-&nbsp;&nbsp;doc.AddTextStyled(theText)
 </code></pre></p>
             <p>&nbsp;</p>
           </td>
@@ -132,11 +115,7 @@ doc.AddTextStyled(text);
           <td>
             <p>Finally we save and clear the document. </p>
             <p><span class="language">[C#]</span><br>
-              <pre><code class="language-csharp">doc.Save(Server.MapPath("styles.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">&nbsp;&nbsp;doc.Save(Server.MapPath("styles.pdf"))
-End Using
+              <pre><code class="language-csharp">doc.Save("styles.pdf");
 </code></pre></p>
             <p>&nbsp;</p>
           </td>

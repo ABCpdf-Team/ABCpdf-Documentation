@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code>bool</code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code>Boolean</code></td>
+                <td align="left"><code>bool</code></td>
                 <td>false</td>
                 <td>No</td>
                 <td>Whether form fields should be live.</td>
@@ -87,16 +83,7 @@
 doc.HtmlOptions.AddForms = true;
 int id = doc.AddImageUrl("https://www.nasa.gov/forms/submit-a-question-for-nasa/");
 // Save the document
-doc.Save(Server.MapPath("HtmlOptionsAddForms.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;' Covert html form fields to the pdf form fields in the output file
-&nbsp;&nbsp;doc.HtmlOptions.AddForms = True
-&nbsp;&nbsp;Dim id As Integer = doc.AddImageUrl("https://www.websupergoo.com/thank-you-for-downloading.aspx")
-&nbsp;&nbsp;' Save the document
-&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsAddForms.pdf"))
-End Using
+doc.Save("HtmlOptionsAddForms.pdf");
 </code></pre></p>
             <p><img src="../../../images/pdf/HtmlOptionsAddForms.pdf.png" class="example"><br>
               HtmlOptionsAddForms.pdf</p>

@@ -40,9 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE><a href="../../xrect/default.htm">XRect</a>[] 
             GetTagRects(int id)<BR>
-            </CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Function GetTagRects(id As 
-            Integer) As <a href="../../xrect/default.htm">XRect</a>()</CODE></P>
+            </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -149,36 +147,7 @@ doc.FontSize = 64;
 doc.Color.String = "255 0 0";
 doc.AddText($"Tag ID \"{tagIds[0]}\":");
 // Save the document
-doc.Save(Server.MapPath("HtmlOptionsGetTagRects.pdf"));
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR>
-<pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(100, 100)
-&nbsp;&nbsp;doc.Rect.Top = 700
-&nbsp;&nbsp;doc.HtmlOptions.Engine = EngineType.Chrome123
-&nbsp;&nbsp;doc.HtmlOptions.AddTags = True
-&nbsp;&nbsp;' The ABCGecko and MSHTML tagging format uses styles.
-&nbsp;&nbsp;Dim html1 As String = "&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;" + "&lt;style type='text/css'&gt;" + ".tag-visible { abcpdf-tag-visible:true; outline: 1px solid transparent; font-size: 72pt; }" + "&lt;/style&gt;" + "&lt;/head&gt;&lt;body&gt;" + "&lt;p id='p1' class='tag-visible'&gt;Gallia est omnis divisa in partes tres.&lt;/p&gt;" + "&lt;/body&gt;&lt;/html&gt;"
-&nbsp;&nbsp;' The ABCChrome tagging format uses attributes.
-&nbsp;&nbsp;Dim html2 As String = "&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;" + "&lt;style type='text/css'&gt;" + "p { font-size: 72pt; }" + "&lt;/style&gt;" + "&lt;/head&gt;&lt;body&gt;" + "&lt;p id='p1' abcpdf-tag-visible&gt;Gallia est omnis divisa in partes tres.&lt;/p&gt;" + "&lt;/body&gt;&lt;/html&gt;"
-&nbsp;&nbsp;Dim html As String = If(doc.HtmlOptions.Engine &lt;&gt; EngineType.Chrome123, html1, html2)
-&nbsp;&nbsp;Dim id As Integer = doc.AddImageHtml(html)
-&nbsp;&nbsp;' Frame location of the tagged element
-&nbsp;&nbsp;Dim tagRects As XRect() = doc.HtmlOptions.GetTagRects(id)
-&nbsp;&nbsp;For Each theRect As XRect In tagRects
-&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = theRect.ToString()
-&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect()
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;' Output tag ID
-&nbsp;&nbsp;Dim tagIds As String() = doc.HtmlOptions.GetTagIDs(id)
-&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.[String]
-&nbsp;&nbsp;doc.Rect.Inset(20, 20)
-&nbsp;&nbsp;doc.FontSize = 64
-&nbsp;&nbsp;doc.Color.String = "255 0 0"
-&nbsp;&nbsp;doc.AddText($"Tag ID ""{tagIds[0]}"":")
-&nbsp;&nbsp;' Save the document
-&nbsp;&nbsp;doc.Save(Server.MapPath("HtmlOptionsGetTagRects.pdf"))
-End Using
+doc.Save("HtmlOptionsGetTagRects.pdf");
 </code></pre></P>
             <P><IMG 
             src="../../../images/pdf/HtmlOptionsGetTagRects.pdf.png" class="example"><BR>HtmlOptionsGetTagRects.pdf</P>

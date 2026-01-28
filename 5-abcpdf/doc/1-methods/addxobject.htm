@@ -41,10 +41,6 @@
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE>int AddXObject(<a href="../../../6-abcpdf.objects/pixmap/default.htm">Objects.PixMap</a> pm)<br>
             int AddXObject(<a href="../../../6-abcpdf.objects/formxobject/default.htm">Objects.FormXObject</a> pm)<BR>
-            </CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR>
-            <CODE>Function AddXObject(pm As <a href="../../../6-abcpdf.objects/pixmap/default.htm">Objects.PixMap</a>) As Integer<br>
-            Function AddXObject(pm As <a href="../../../6-abcpdf.objects/formxobject/default.htm">Objects.FormXObject</a>) As Integer<BR>
             </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -109,23 +105,10 @@ doc.Transform.Rotate(20, 200, 200);
 doc.Color.SetRgb(200, 200, 255);
 doc.FillRect();
 var pm = new PixMap(doc.ObjectSoup);
-using var img = (Bitmap)Bitmap.FromFile(Server.MapPath("mypics/mypic.png"));
+using var img = (Bitmap)Bitmap.FromFile("../mypics/mypic.png");
 pm.SetBitmap(img, true);
 doc.AddXObject(pm);
-doc.Save(Server.MapPath("examplePixMapBitmap.pdf"));
-</code></pre><br>
-                <span class=language>[Visual Basic]</span><br>
-                <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(50, 50)
-&nbsp;&nbsp;doc.Transform.Rotate(20, 200, 200)
-&nbsp;&nbsp;doc.Color.SetRgb(200, 200, 255)
-&nbsp;&nbsp;doc.FillRect()
-&nbsp;&nbsp;Dim pm As New PixMap(doc.ObjectSoup)
-&nbsp;&nbsp;Dim img As Bitmap = DirectCast(Bitmap.FromFile(Server.MapPath("mypics/mypic.png")), Bitmap)
-&nbsp;&nbsp;pm.SetBitmap(img, True)
-&nbsp;&nbsp;doc.AddXObject(pm)
-&nbsp;&nbsp;doc.Save(Server.MapPath("examplePixMapBitmap.pdf"))
-End Using
+doc.Save("examplePixMapBitmap.pdf");
 </code></pre></P>
             <p><img src="../../../images/pdf/examplePixMapBitmap.pdf.png" class="example"><BR>
               examplePixMapBitmap.pdf</p>

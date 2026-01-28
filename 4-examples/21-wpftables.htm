@@ -184,7 +184,7 @@
               <pre><code class="language-csharp">MemoryStream ModifyXamlUsingTextProvider(string mDataProvider, string mXamlFile, string mTableXamlLocation, string mTableName) {
 &nbsp;&nbsp;var dataProvider = new TextDataProvider(mDataProvider);
 &nbsp;&nbsp;var xamlDoc = new XmlDocument();
-&nbsp;&nbsp;var xamlFile = new FileStream(mXamlFile, FileMode.Open);
+&nbsp;&nbsp;using var xamlFile = new FileStream(mXamlFile, FileMode.Open);
 &nbsp;&nbsp;xamlDoc.Load(xamlFile);
 
 &nbsp;&nbsp;var nsmgr = new XmlNamespaceManager(xamlDoc.NameTable);
@@ -204,40 +204,10 @@
 
 &nbsp;&nbsp;var memStream = new MemoryStream();
 &nbsp;&nbsp;xamlDoc.Save(memStream);
-&nbsp;&nbsp;xamlFile.Close();
 &nbsp;&nbsp;return memStream;
 }
 </code></pre> </p>
-            <p><span class="language">[Visual Basic]</span><br>
-            <pre><code class="language-vbnet">Private Function ModifyXamlUsingTextProvider(mDataProvider As String, mXamlFile As String, mTableXamlLocation As String, mTableName As String) As MemoryStream
-&nbsp;&nbsp;Dim dataProvider As New TextDataProvider(mDataProvider)
-&nbsp;&nbsp;Dim xamlDoc As New XmlDocument()
-&nbsp;&nbsp;Dim xamlFile As New FileStream(mXamlFile, FileMode.Open)
-&nbsp;&nbsp;xamlDoc.Load(xamlFile)
-
-&nbsp;&nbsp;Dim nsmgr As New XmlNamespaceManager(xamlDoc.NameTable)
-&nbsp;&nbsp;nsmgr.AddNamespace("x", "http://schemas.microsoft.com/winfx/2006/xaml/presentation")
-
-&nbsp;&nbsp;Dim itemsTable As XmlNode = xamlDoc.DocumentElement.SelectSingleNode(mTableXamlLocation + "[@Name='" + mTableName + "']", nsmgr)
-
-&nbsp;&nbsp;Dim i As Integer = 1
-&nbsp;&nbsp;While i &lt; dataProvider.Count
-&nbsp;&nbsp;&nbsp;&nbsp;Dim rowGroup As XmlNode = itemsTable.LastChild
-&nbsp;&nbsp;&nbsp;&nbsp;Dim newRowGroup As XmlNode = rowGroup.Clone()
-&nbsp;&nbsp;&nbsp;&nbsp;Dim bindingText As String = newRowGroup.Attributes("DataContext").Value
-&nbsp;&nbsp;&nbsp;&nbsp;bindingText = bindingText.Remove(bindingText.LastIndexOf("["C)) + "[" + i + "] }"
-&nbsp;&nbsp;&nbsp;&nbsp;newRowGroup.Attributes("DataContext").Value = bindingText
-&nbsp;&nbsp;&nbsp;&nbsp;newRowGroup.Attributes("Background").Value = If((i Mod 2) = 0, "White", "LightGray")
-&nbsp;&nbsp;&nbsp;&nbsp;itemsTable.InsertAfter(newRowGroup, rowGroup)
-&nbsp;&nbsp;&nbsp;&nbsp;System.Math.Max(System.Threading.Interlocked.Increment(i),i - 1)
-&nbsp;&nbsp;End While
-
-&nbsp;&nbsp;Dim memStream As New MemoryStream()
-&nbsp;&nbsp;xamlDoc.Save(memStream)
-&nbsp;&nbsp;xamlFile.Close()
-&nbsp;&nbsp;Return memStream
-End Function
-</code></pre>
+            <p>
             </p>
 <p>The data provider is loaded directly from code so we know how many 
               data items (text file lines) are available. The XAML design document 
@@ -256,13 +226,7 @@ End Function
 var page = XamlReader.Load(stm) as System.Windows.Controls.Page;
 var docViewer = LogicalTreeHelper.FindLogicalNode(page, "DocViewer") as FlowDocumentPageViewer;
 page.Content = null;
-</code></pre>             <p><span class="language">[Visual Basic]</span><br>
-            <pre><code class="language-vbnet">Dim stm As Stream = ModifyXamlUsingTextProvider(Nothing, Nothing, Nothing, Nothing)
-Dim page = TryCast(XamlReader.Load(stm), System.Windows.Controls.Page)
-Dim docViewer As FlowDocumentPageViewer = TryCast(LogicalTreeHelper.FindLogicalNode(page, "DocViewer"), FlowDocumentPageViewer)
-page.Content = Nothing
-stm.Close()
-</code></pre></p>
+</code></pre>             <p></p>
 <br>
               We use XamlReader.Load() to load the root object specified in the 
               XAML design file (stored in the memory stream). This is not the 
@@ -311,29 +275,7 @@ void SaveToPdf(string pdfFileName, FlowDocumentPageViewer viewer) {
 &nbsp;&nbsp;pdfDoc.Save(pdfFileName);
 }
 </code></pre></p>
-                        <p><span class="language">[Visual Basic]</span><br>
-            <pre><code class="language-vbnet">Private Sub SaveToXps(fileStream As Stream, viewer As FlowDocumentPageViewer)
-&nbsp;&nbsp;Dim package__1 = Package.Open(fileStream, FileMode.Create, FileAccess.ReadWrite)
-&nbsp;&nbsp;Dim doc = New XpsDocument(package__1)
-&nbsp;&nbsp;Dim writer = XpsDocument.CreateXpsDocumentWriter(doc)
-&nbsp;&nbsp;Dim document = viewer.Document
-&nbsp;&nbsp;writer.Write(document.DocumentPaginator)
-&nbsp;&nbsp;doc.Close()
-&nbsp;&nbsp;package__1.Close()
-End Sub
-
-Private Sub SaveToPdf(pdfFileName As String, viewer As FlowDocumentPageViewer)
-&nbsp;&nbsp;Dim memStream As New MemoryStream()
-&nbsp;&nbsp;SaveToXps(memStream, viewer)
-&nbsp;&nbsp;Dim pdfDoc = New Doc()
-&nbsp;&nbsp;pdfDoc.Read(memStream, New XReadOptions() With { _
-&nbsp;&nbsp;&nbsp;&nbsp;Key .FileExtension = ".xps" _
-&nbsp;&nbsp;})
-&nbsp;&nbsp;pdfDoc.Save(pdfFileName)
-&nbsp;&nbsp;pdfDoc.Clear()
-&nbsp;&nbsp;memStream.Close()
-End Sub
-</code></pre>
+                        <p>
             </p>
             <p>We create an XPS file in memory using MemoryStream. We then pass 
               the document paginator to the XPS writer. The document paginator 

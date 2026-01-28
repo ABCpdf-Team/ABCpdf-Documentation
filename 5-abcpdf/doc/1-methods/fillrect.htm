@@ -40,10 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>int 
             FillRect()<BR>int FillRect(double radiusX, double 
-            radiusY)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Function FillRect() As 
-            Integer<BR>Function FillRect(radiusX As Double,
-            radiusY As Double) As Integer<BR></CODE></P>
+            radiusY)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -118,14 +115,7 @@
 doc.Rect.Inset(200, 100);
 doc.Color.Blue = 255;
 doc.FillRect();
-doc.Save(Server.MapPath("docfillrect.pdf"));
-</code></pre><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Rect.Inset(200, 100)
-&nbsp;&nbsp;doc.Color.Blue = 255
-&nbsp;&nbsp;doc.FillRect()
-&nbsp;&nbsp;doc.Save(Server.MapPath("docfillrect.pdf"))
-End Using
+doc.Save("docfillrect.pdf");
 </code></pre></P>
             <P><IMG src="../../../images/pdf/docfillrect.pdf.png" 
             class="example"><BR>docfillrect.pdf </P><p>Also see example code in: <a href="../../../4-examples/15-eform2.htm">ABCpdf eForm Placeholder Example</a>, <a href="../../../4-examples/17-advancedgraphics.htm">ABCpdf Advanced Graphics Example</a>, <a href="addimagebitmap.htm">Doc AddImageBitmap Function</a>, <a href="addimageobject.htm">Doc AddImageObject 

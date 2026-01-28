@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
-            Save(string path)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Sub Save(path As 
-            String)<BR></CODE></P>
+            Save(string path)<BR></CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -184,7 +182,7 @@
             <P><SPAN class=language>[C#]</SPAN>
 
             <pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("spaceshuttle.pdf"));
+doc.Read("../Rez/spaceshuttle.pdf");
 string[] xts = { ".jpg", ".tif" };
 int[] dpis = { 150, 300 };
 var threads = new Thread[10];
@@ -194,7 +192,7 @@ while (pageNum &lt;= pageCount) {
 &nbsp;&nbsp;while (count &lt; threads.Length &amp;&amp; pageNum &lt;= pageCount) {
 &nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.DotsPerInch = dpis[(pageNum - 1) % 2];
 &nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = pageNum;
-&nbsp;&nbsp;&nbsp;&nbsp;string path = Server.MapPath($"ABCpdf{pageNum}{xts[(pageNum - 1) % 2]}");
+&nbsp;&nbsp;&nbsp;&nbsp;string path = $"ABCpdf{pageNum}{xts[(pageNum - 1) % 2]}";
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;threads[count] = new Thread(new RenderingWorker(doc, path).DoWork);
@@ -208,38 +206,7 @@ while (pageNum &lt;= pageCount) {
 }
 </code></pre>
             </P>
-            <P><SPAN class=language>[Visual Basic]</SPAN>
-            <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("spaceshuttle.pdf"))
-&nbsp;&nbsp;Dim theExts As String() = {".jpg", ".tif"}
-&nbsp;&nbsp;Dim theDpis As Integer() = {150, 300}
-&nbsp;&nbsp;Dim threadList As Thread() = New Thread(9) {}
-&nbsp;&nbsp;Dim pageNum As Integer = 1, pageCount As Integer = doc.PageCount
-&nbsp;&nbsp;While pageNum &lt;= pageCount
-&nbsp;&nbsp;&nbsp;&nbsp;Dim count As Integer = 0
-&nbsp;&nbsp;&nbsp;&nbsp;While count &lt; threadList.Length AndAlso pageNum &lt;= pageCount
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.DotsPerInch = theDpis((pageNum - 1) Mod 2)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = pageNum
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dim path As String = Server.MapPath($"ABCpdf{pageNum}{theExts[(pageNum - 1) % 2]}")
-
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threadList(count) = New Thread(New RenderingWorker(doc, path).DoWork)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(count)
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(pageNum)
-&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; count
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threadList(i).Start()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
-&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;&nbsp;&nbsp;Dim i As Integer = 0
-&nbsp;&nbsp;&nbsp;&nbsp;While i &lt; count
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;threadList(i).Join()
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Threading.Interlocked.Increment(i)
-&nbsp;&nbsp;&nbsp;&nbsp;End While
-&nbsp;&nbsp;End While
-End Using
-</code></pre>
+            <P>
             <P>            
             
             </P>
@@ -260,22 +227,7 @@ End Using
 }
 </code></pre>
             </P>
-            <P><SPAN class=language>[Visual Basic]</SPAN>
-            <pre><code class="language-vbnet">Private Class RenderingWorker
-&nbsp;&nbsp;Private mPath As String
-&nbsp;&nbsp;Private mOp As RenderOperation
-
-&nbsp;&nbsp;Public Sub New(inDoc As Doc, inPath As String)
-&nbsp;&nbsp;&nbsp;&nbsp;mPath = inPath
-&nbsp;&nbsp;&nbsp;&nbsp;mOp = New RenderOperation(inDoc)
-&nbsp;&nbsp;End Sub
-
-&nbsp;&nbsp;Public Sub DoWork()
-&nbsp;&nbsp;&nbsp;&nbsp;mOp.Save(mPath)
-&nbsp;&nbsp;&nbsp;&nbsp;mOp.Dispose()
-&nbsp;&nbsp;End Sub
-End Class
-</code></pre>
+            <P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

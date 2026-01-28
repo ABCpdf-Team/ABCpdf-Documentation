@@ -34,11 +34,7 @@
                 <td><b>Description</b></td>
               </tr>
               <tr valign="top"> 
-                <td align="left"><span class="language">[C#]</span><br>
-                  <code><a href="../../xencryption/default.htm">XEncryption</a></code><br>
-                  <br>
-                  <span class="language">[Visual&nbsp;Basic]</span><br>
-                  <code><a href="../../xencryption/default.htm">XEncryption</a></code></td>
+                <td align="left"><code><a href="../../xencryption/default.htm">XEncryption</a></code></td>
                 <td>No encryption.</td>
                 <td>No</td>
                 <td>The current encryption settings.</td>
@@ -107,18 +103,7 @@ doc.Encryption.Type = 5;
 doc.Encryption.SetCryptMethods(CryptMethodType.AESV3);
 doc.Encryption.CanCopy = false;
 doc.Encryption.OwnerPassword = "owner";
-doc.Save(Server.MapPath("docencrypt.pdf"));
-</code></pre><br>
-              <span class="language">[Visual Basic]</span><br>
-              <pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.FontSize = 96
-&nbsp;&nbsp;doc.AddText("Hello World!")
-&nbsp;&nbsp;doc.Encryption.Type = 5
-&nbsp;&nbsp;doc.Encryption.SetCryptMethods(CryptMethodType.AESV3)
-&nbsp;&nbsp;doc.Encryption.CanCopy = False
-&nbsp;&nbsp;doc.Encryption.OwnerPassword = "owner"
-&nbsp;&nbsp;doc.Save(Server.MapPath("docencrypt.pdf"))
-End Using
+doc.Save("docencrypt.pdf");
 </code></pre></p>
             <p>Also see example code in: <a href="../../xencryption/1-methods/setcryptmethods.htm">XEncryption SetCryptMethods Function</a>.</p>
             <p>&nbsp;</p>

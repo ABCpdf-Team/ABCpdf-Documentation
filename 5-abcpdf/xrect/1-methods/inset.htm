@@ -39,9 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>void 
-            Inset(double x, double y)<BR></CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Sub Inset(x As Double, y As 
-            Double)<BR></CODE></P>
+            Inset(double x, double y)<BR></CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -101,13 +99,6 @@ Response.Write($"Rect = {rc}");
 Response.Write("&amp;lt;br&amp;gt;");
 rc.Inset(10, 20);
 Response.Write("Inset = " + rc.String);
-</code></pre><BR><SPAN 
-            class=language>[Visual Basic]</SPAN><BR><pre><code class="language-vbnet">Dim rc As New XRect()
-rc.String = "0 0 200 100"
-Response.Write($"Rect = {rc}")
-Response.Write("&amp;lt;br&amp;gt;")
-rc.Inset(10, 20)
-Response.Write("Inset = " + rc.String)
 </code></pre></P>
             <P>Produces the following output. </P>
             <P><SAMP>Rect = 0 0 200 100<BR>Inset = 10 20 190 80</SAMP> 

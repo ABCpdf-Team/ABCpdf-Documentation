@@ -40,8 +40,7 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE><a href="../default.htm">AccessibilityOperation</a>(Doc 
             doc)<BR>
-            </CODE><BR><SPAN class=language>[Visual 
-            Basic]</SPAN><BR><CODE>Sub New(doc As Doc)<BR></CODE></P>
+            </CODE></P>
             <P><CODE><IMG height=10 alt="Throws Exceptions" 
             src="../../../images/steel-blob-10.gif" width=10 border=0> may throw 
             Exception()</CODE></P>
@@ -97,28 +96,16 @@
             <p>The code below calls Page.StampFormXObjects on all pages in the document to ensure that all form XObjects are removed before the document is made accessible.</p>
             <p>The process of stamping form XObjects will not normally make much difference. However in some cases you may find there is a level of expansion in size and very occasionally you may see subtle differences in transparency blending. Nevertheless if you want compatibility, there is no other choice.</p>
             <P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">using var doc = new Doc();
-doc.Read(Server.MapPath("spaceshuttle.pdf"));
+doc.Read("../Rez/spaceshuttle.pdf");
 var pages = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll();
 foreach (var page in pages)
 &nbsp;&nbsp;page.StampFormXObjects(true); // see notes on NVDA above
 var op = new AccessibilityOperation(doc);
 op.PageContents.AddPages();
 op.MakeAccessible();
-doc.Save(Server.MapPath("accessible.pdf"));
+doc.Save("accessible.pdf");
 </code></pre></P>
-            <P><SPAN class=language>[Visual Basic]</SPAN><pre><code class="language-vbnet">Using doc As New Doc()
-&nbsp;&nbsp;doc.Read(Server.MapPath("spaceshuttle.pdf"))
-&nbsp;&nbsp;Dim pages As Page() = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()
-&nbsp;&nbsp;For Each page As Page In pages
-&nbsp;&nbsp;&nbsp;&nbsp;page.StampFormXObjects(True)
-&nbsp;&nbsp;Next
-&nbsp;&nbsp;' see notes on NVDA above
-&nbsp;&nbsp;Dim op As New AccessibilityOperation(doc)
-&nbsp;&nbsp;op.PageContents.AddPages()
-&nbsp;&nbsp;op.MakeAccessible()
-&nbsp;&nbsp;doc.Save(Server.MapPath("accessible.pdf"))
-End Using
-</code></pre></P></TD>
+            <P></P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
 <P>&nbsp;</P></BODY></HTML>
