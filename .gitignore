@@ -1,3 +1,4 @@
+.hg
 bin
 obj
 .vs
@@ -12,3 +13,5 @@ contents.hhc
 ignore.txt
 project.hhp
 template.hhc
+.claude/*
+/.claude
