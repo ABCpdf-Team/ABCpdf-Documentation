@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><title>XTagging AddFocus Function. Assign a tag to a particular area of the current page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>AddFocus Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background="../../../images/steel-line-3.gif" height=11></TD>
+          <TD width=60 background="../../../images/steel-line-3.gif" 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Assign a tag to a particular area of the current page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE><a href="../../xtagging.focus/default.htm">Focus</a> AddFocus(<a href="../../../9-abcpdf.elements/14-document/1566-structureelementelement/default.htm">StructureElementElement</a> element, <a href="../../xrect/default.htm">XRect</a> area)<BR>
+            </CODE>			</P>
+			
+			
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>type</TD>
+                <TD>The type of tag to use.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>type</TD>
+                <TD>The area to take the tag.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>returns</TD>
+                <TD>The focus.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><p>Assign a tag to a particular area of the current page. </p>
+            <p>Tagging is generally performed most easily by using the <a href="04-open.htm">Open</a> and <a href="05-close.htm">Close</a> methods as content is added.</p>
+            <p>However for some purposes it can be simpler to assign tags to areas on a page. This is particularly the case when you are analyzing an existing document rather than adding content yourself.</p>
+            <p>This method allows you to specify areas of the document to which a particular tag should be applied. You can overlap areas and the page content will be broken up to fit the overlapped shapes. Text on a page will be tagged using the most recent area which intersects with that text.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><P>The following code adds sequence of tagged areas to a page. We first delete any existing structure so we have a clean slate. The first Artifact covers the entire page so that anything which is not tagged later will become an artifact. The next tags create a nested sequence of H1, H2 and P elements.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <pre><code class="language-csharp">using var doc = new Doc();<br>doc.Read(&quot;../Rez/spacex_nasa_dragon.pdf&quot;);<br>Atom.RemoveItem(doc.ObjectSoup.Catalog.Atom, &quot;StructTreeRoot&quot;);<br>var st = doc.Tag.GetStructure();<br>st.Detag();<br>st.Title = &quot;SpaceX NASA Dragon&quot;;<br>st.CreateAsRequired();<br>var div = st.Root.AddKid(&quot;Document&quot;).AddKid(&quot;Div&quot;);<br>var artifact = new StructureElementElement(div) { EntryS = &quot;Artifact&quot; };<br>doc.Tag.AddFocus(artifact, doc.Rect).AddMcids = false;<br>var h1 = doc.Tag.AddFocus(div.AddKid(&quot;H1&quot;), XRect.FromSides(0, 650, 600, 710)).Tag;<br>var h2 = doc.Tag.AddFocus(div.AddKid(&quot;H2&quot;), XRect.FromSides(0, 620, 600, 650)).Tag;<br>doc.Tag.AddFocus(h2.AddKid(&quot;P&quot;), XRect.FromSides(0, 580, 600, 620));<br>doc.Tag.AddFocus(h2.AddKid(&quot;P&quot;), XRect.FromSides(0, 500, 600, 580));<br>doc.Tag.AddFocus(h2.AddKid(&quot;P&quot;), XRect.FromSides(0, 440, 600, 500));<br>doc.Tag.AddFocus(h2.AddKid(&quot;P&quot;), XRect.FromSides(0, 360, 600, 440));<br>doc.Tag.AddFocus(h2.AddKid(&quot;P&quot;), XRect.FromSides(0, 270, 600, 360));<br>doc.Tag.AddFocus(h2.AddKid(&quot;P&quot;), XRect.FromSides(0, 200, 600, 270));<br>doc.Tag.AddFocus(h2.AddKid(&quot;P&quot;), XRect.FromSides(0, 100, 600, 200));<br>var focus = doc.Tag.AddFocus(div.AddKid(&quot;Figure&quot;), XRect.FromSides(360, 480, 600, 650));<br>focus.Tag.EntryAlt = &quot;Spacecraft in orbit over earth.&quot;;<br>focus.Tag.SetBBox(focus.Bounds);<br>doc.Tag.MakePdfUAConformant = true;<br>doc.Save(&quot;taggedarea.pdf&quot;);<br>st.UpdateActualText(true, true);<br>var txt = st.ExtractStructure();<br>File.WriteAllText(&quot;taggedarea.txt&quot;, txt.ToString());
+</code></pre>
+            </P>
+            <IMG src="../../../images/pdf/taggedarea.pdf.png" class="example"><BR>
+taggedarea.pdf
+<P>The output tag structure from the ExtractStructure call will be something like this,</P>
+            <pre><code class="language-html"><!--notcode-->&lt;Root ObjID=&quot;1&quot;&gt;<br>	&lt;Document ObjID=&quot;3&quot;&gt;<br>		&lt;Div ObjID=&quot;4&quot;&gt;<br>			&lt;Artifact PageNumber=&quot;1&quot; ObjID=&quot;5&quot;&gt;<br>				&lt;ActualText&gt;     18    &lt;/ActualText&gt;<br>				&lt;MCID ID=&quot;0&quot; /&gt;<br>				&lt;MCID ID=&quot;1&quot; /&gt;<br>				&lt;MCID ID=&quot;24&quot; /&gt;<br>				&lt;MCID ID=&quot;25&quot; /&gt;<br>			&lt;/Artifact&gt;<br>			&lt;H1 PageNumber=&quot;1&quot; ObjID=&quot;6&quot;&gt;<br>				&lt;ActualText&gt;Dragon Spacecraft Dragon is a free-flying, reusable spacecraft developed to carry cargo, and eventually astronauts, into space.   &lt;/ActualText&gt;<br>				&lt;MCID ID=&quot;2&quot; /&gt;<br>				&lt;MCID ID=&quot;3&quot; /&gt;<br>				&lt;MCID ID=&quot;4&quot; /&gt;<br>			&lt;/H1&gt;<br>			&lt;H2 PageNumber=&quot;1&quot; ObjID=&quot;7&quot;&gt;<br>				&lt;ActualText&gt; QUICK FACTS   &lt;/ActualText&gt;<br>				&lt;MCID ID=&quot;5&quot; /&gt;<br>				&lt;MCID ID=&quot;6&quot; /&gt;<br>				&lt;MCID ID=&quot;7&quot; /&gt;<br>				&lt;P PageNumber=&quot;1&quot; ObjID=&quot;8&quot;&gt;<br>					&lt;ActualText&gt;Built by SpaceX from the ground up. SpaceX developed Dragon from a blank sheet to its first mission in just over four years.  &lt;/ActualText&gt;<br>					&lt;MCID ID=&quot;8&quot; /&gt;<br>					&lt;MCID ID=&quot;9&quot; /&gt;<br>				&lt;/P&gt;<br>				&lt;P PageNumber=&quot;1&quot; ObjID=&quot;9&quot;&gt;<br>					&lt;ActualText&gt;First privately developed spacecraft to attach to the International Space Station (ISS). In May 2012, Dragon became the first commercial spacecraft to deliver cargo to the ISS and return safely to Earth, a feat previously achieved only by governments. In October 2012, Dragon completed its second mission to the ISS, its first of 12 official cargo resupply missions for NASA. &lt;/ActualText&gt;<br>					&lt;MCID ID=&quot;10&quot; /&gt;<br>				&lt;/P&gt;<br>				&lt;P PageNumber=&quot;1&quot; ObjID=&quot;10&quot;&gt;<br>					&lt;ActualText&gt; Payload capability. Dragon carries cargo in a pressurized capsule and an unpressurized trunk. It can carry 6,000 kilograms (13,228 pounds), split between pressurized cargo inside the capsule and unpressurized cargo in the trunk, which also houses Dragon&rsquo;s solar panels.  &lt;/ActualText&gt;<br>					&lt;MCID ID=&quot;11&quot; /&gt;<br>					&lt;MCID ID=&quot;12&quot; /&gt;<br>				&lt;/P&gt;<br>				&lt;P PageNumber=&quot;1&quot; ObjID=&quot;11&quot;&gt;<br>					&lt;ActualText&gt; Dimensions. Dragon is 4.4 meters (14.4 feet) tall and 3.66 meters (12 feet) in diameter. The trunk is 2.8 meters (9.2 feet) tall and 3.66 meters (12 feet) wide. With solar panels fully extended, the vehicle measures 16.5 meters (54 feet) wide.  &lt;/ActualText&gt;<br>					&lt;MCID ID=&quot;13&quot; /&gt;<br>					&lt;MCID ID=&quot;14&quot; /&gt;<br>					&lt;MCID ID=&quot;15&quot; /&gt;<br>				&lt;/P&gt;<br>				&lt;P PageNumber=&quot;1&quot; ObjID=&quot;12&quot;&gt;<br>					&lt;ActualText&gt;Advanced heat shield. Dragon has the most effective heat shield in the world. Designed with NASA and fabricated by SpaceX, it is made of PICA-X, a high-performance variant on NASA&rsquo;s original phenolic impregnated carbon ablator (PICA). PICA-X is designed to withstand heat rates from a lunar return mission, which far exceed the requirements for a low-Earth orbit mission. &lt;/ActualText&gt;<br>					&lt;MCID ID=&quot;16&quot; /&gt;<br>				&lt;/P&gt;<br>				&lt;P PageNumber=&quot;1&quot; ObjID=&quot;13&quot;&gt;<br>					&lt;ActualText&gt; Smooth, controlled reentry. Dragon&rsquo;s passively stable shape generates lift as it reenters the Earth&rsquo;s atmosphere. Its 18 Draco thrusters provide roll control during reentry to keep it precisely on course toward the landing site before its parachutes deploy.   &lt;/ActualText&gt;<br>					&lt;MCID ID=&quot;17&quot; /&gt;<br>					&lt;MCID ID=&quot;18&quot; /&gt;<br>					&lt;MCID ID=&quot;19&quot; /&gt;<br>				&lt;/P&gt;<br>				&lt;P PageNumber=&quot;1&quot; ObjID=&quot;14&quot;&gt;<br>					&lt;ActualText&gt;Designed for astronauts. Although this resupply mission carries only cargo, Dragon was designed from the outset to carry crew. Under a $2.6 billion contract with NASA, SpaceX is developing refinements for transporting crew, including seating for up to seven astronauts, the most advanced launch escape system ever developed, a propulsive landing system, environmental controls, and life-support systems. SpaceX expects to fly crew for NASA in 2017.  &lt;/ActualText&gt;<br>					&lt;MCID ID=&quot;20&quot; /&gt;<br>					&lt;MCID ID=&quot;21&quot; /&gt;<br>				&lt;/P&gt;<br>			&lt;/H2&gt;<br>		&lt;/Div&gt;<br>	&lt;/Document&gt;<br>&lt;/Root&gt;</code></pre>
+            <P></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD html 4.0 Transitional//EN">
+<html><head><title>FlattenTransparencyOperation Similarity Property. A measure of the visual change introduced by the flattening operation. ABCpdf .NET PDF Library.</title>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<meta content="MSHTML 6.00.6000.16640" name="GENERATOR"/></head>
+<body bgcolor="#ffffff">
+<table cellspacing="4" cellpadding="0" border="0">
+  <tbody>
+  <tr>
+    <td valign="top"><img height="60" src="../../../images/goo.gif" width="58"/></td>
+    <td width="14">&nbsp;</td>
+    <td>
+      <table cellspacing="0" cellpadding="0" width="100%" border="0">
+        <tbody>
+        <tr>
+          <td class="pageheader"><span lang="en-us">Similarity</span> Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr>
+        <tr>
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td width="60" background="../../../images/steel-line-3.gif" height="11"></td>
+          <td height="11"><img height="11" src="../../../images/steel-blob-11.gif" width="11" alt=""/></td></tr>
+        <tr>
+          <td>
+            <p>&nbsp;</p>
+            <table class="wsgtable" bordercolor="#ffffff" cellspacing="0" cellpadding="3" border="5">
+              <tbody>
+              <tr>
+                <td align="middle"><B>Type</B></td>
+                <td><B>Default</B></td>
+                <td><B>Read Only</B></td>
+                <td><B>Description</B></td></tr>
+              <tr valign=top>
+                <td align=left><CODE>Dictionary&lt;Page, float[]&gt;</CODE><BR>
+                  <br/></td>
+                <td>null<span lang="en-us"></span></td>
+                <td>No</td>
+                <td><span lang="en-us">A  measure of the visual change introduced by the flattening operation.</span></td>
+              </tr></tbody></table>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img height=10 
+      src="../../../images/steel-pin.gif" width="64"><br/>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table cellSpacing="0" cellPadding="0" width="100%" border=0>
+        <tbody>
+        <tr>
+          <td>
+            <p>This property provides a quantitative measure of the visual change introduced by the flattening operation.</p>
+            <p>You can control the metric used by setting the <a href="">SimilarityMetric</a> property before starting the flattening operation.</p>
+            <p> The idea of the transparency flattening operation is to take a document that has some transparent objects and produce a document that only has non-transparent objects. Visually, the two documents should look the same, however occasionally they may not. These confidence settings should enable one to automatically make decisions about how well the flattening operation worked. </p>
+            <p>The metric is per page and is provided as an array of floating-point values, one for each component of the destination color space (for example, cyan, magenta, yellow, and black in a CMYK document). To get a single similarity score, you typically combine these component values using an arithmetic mean or another aggregation method that suits your quality assessment workflow.</p>
+            <p>The specific meaning of these values depends on the selected similarity algorithm. For the Structural Similarity Index Measure (SSIM) , each component value ranges from -1 to 1, where 1 indicates perfect structural similarity between the original and flattened page, 0 indicates no similarity, and -1 indicates perfect anti-similarity or negative correlation. SSIM evaluates image quality based on three perceptual aspects: luminance (overall brightness), contrast (the range of intensity values), and structure (the correlation patterns within the image). Because SSIM takes structural information into account, it typically aligns more closely with how humans perceive visual quality. However, SSIM has limitations: it is not fast to compute, it is almost insensitive to changes in brightness, contrast, hue, and saturation, and it may not handle geometric distortions such as displacement, scaling, or rotation well.</p>
+            <p>For the Peak Signal to Noise Ratio (PSNR) algorithm, the property returns an eight-bit multi-component PSNR value measured in decibels (dB). Lower PSNR values indicate more similarity between the original and flattened page, with a value of about 40 dB commonly considered a sensible quality cutoff. PSNR measures the ratio between the maximum possible signal power and the power of noise or error introduced by processing. It is simple to compute and has a long history of usage, making it easy to benchmark new algorithms against established results. However, the primary criticism of PSNR is that it treats all pixel errors equally without considering the context in which they occur, which can lead to situations where its scores do not correlate well with human visual perception.</p>
+            <p>In practical terms, PSNR serves well for straightforward comparisons where computational speed is important, such as during rapid iterative development or when evaluating encoding optimization. SSIM is generally better suited for assessing final output quality, especially when preserving structural details such as text, edges, and textures is essential. For the highest-fidelity quality control, you may choose to use both metrics together: PSNR as a fast indicator of gross pixel differences, and SSIM as a more perceptually reliable check on structural integrity.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr>
+  <tr>
+    <td class="sectheader" valign="top"><img height="10" 
+      src="../../../images/steel-pin.gif" width="64"><br/>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top">
+      <table cellspacing="0" cellpadding="0" width="100%" border=0>
+        <tbody>
+        <tr>
+          <td>
+            <p>See the <A href="../1-methods/flatten.htm">Flatten</A> 
+method.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td></tr></tbody></table></td></tr></tbody></table>
+<p>&nbsp;</p></body></html>

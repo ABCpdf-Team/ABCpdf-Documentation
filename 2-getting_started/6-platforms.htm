@@ -56,7 +56,7 @@
   <td valign="top"><table border="0" cellpadding="0" cellspacing="0" width="100%">
     <tbody>
       <tr>
-        <td><p>You need Ubuntu 22.04 or 24.04.</p>
+        <td><p>You need Ubuntu 26.04, 24.04 or 22.04.</p>
               <p>If you are using WSL you need to use WSL 2. WSL version 1 is not supported</p>
               <p>By default, compared with Windows, Linux comes with a small number of fonts. You may wish to install new fonts at /usr/local/share/fonts, /usr/share/fonts or ~/.local/share/fonts.</p>
           <p>Config is held in the file system. You can select a different config file using <a href="../5-abcpdf/xsettings/1-methods/setconfigfile.htm">XSettings.SetConfigFile</a>. Temp files are held at /tmp/ABCpdf.</p>
@@ -124,13 +124,13 @@
             sudo apt install dotnet-runtime-8.0<br>
           </code></p>
           <p>If you are using ABCChrome then you may need to install a few extra packages. </p>
-          <p><code class="language-html"># for Ubuntu 22 &amp; 23<br>
+          <p><code class="language-html"># for Ubuntu 22 and 23<br>
           sudo apt install -y libasound2 libnss3 libcurl4<br>
           <br>
-          # for Ubuntu 24<br>
+          # for Ubuntu 24 to 26<br>
           sudo apt install -y libasound2t64 libnss3 libcurl4t64<br>
           <br>
-          # for Ubuntu 22 only - not needed on 23 and 24<br>
+          # for Ubuntu 22 only - not needed on 23 to 26<br>
           sudo apt install -y xserver-xorg-core --no-install-recommends --no-install-suggests<br>
           sudo apt install -y libcairo2 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxcomposite1 libxdamage1 libxrandr2 libxkbcommon0 libpango-1.0-0<br>
           <!-- <br>
@@ -142,7 +142,7 @@
           --></code></p>
           <p>While ABCpdf does not officially support Debian Linux, here are the additional  packages ABCChrome requires.</p>
           <p><code class="language-html"># for Debian Linux 12.7 - much the same as Ubuntu 22<br>
-            sudo apt install -y libasound2 libnss3 libcurl4<br>
+          sudo apt install -y libasound2 libnss3 libcurl4<br>
           sudo apt install -y xserver-xorg-core --no-install-recommends --no-install-suggests<br>
           sudo apt install -y libcairo2 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxcomposite1 libxdamage1 libxrandr2 libxkbcommon0 libpango-1.0-0<br>
           # and also...<br>
@@ -150,7 +150,7 @@
           <p>While ABCpdf does not officially support Fedora Linux, here are the additional  packages ABCChrome requires.</p>
           <p><code class="language-html"># for Fedora Linux 40<br>
             sudo dnf install -y alsa-lib mesa-libgbm cairo atk at-spi2-atk cups-libs libXcomposite libXdamage libXrandr pango</code></p>
-          <p>As always a judicious use of ldd will reveal any other missing packages you may require. Run against  files like libABCpdf13-64.so and libChakraCore64.so but also against the ABCChrome123/ABCChrome123 executable if you are using the ABCChrome HTML engine.</p>
+          <p>As always a judicious use of ldd will reveal any other missing packages you may require. Run against  files like libABCpdf14-64.so and libChakraCore64.so but also against the ABCChrome146/ABCChrome146 executable if you are using the ABCChrome HTML engine.</p>
           <p>&nbsp;</p></td>
         <td width="60">&nbsp;</td>
         <td width="11">&nbsp;</td>
@@ -185,8 +185,8 @@
       <tr>
         <td><p>The ABCpdf NuGet package contains  core libraries for Windows and Linux.</p>
           <p>The standard ABCpdf NuGet package includes ABCChrome for Windows but not for Linux because the package is quite large.</p>
-          <p>If you want to use ABCChrome on Linux you  need to reference the ABCpdf.ABCChrome123.Linux NuGet package as well as the ABCpdf one.</p>
-          <p>If you do not do this you will get an &quot;Unable to find ABCChrome123&quot; error when you run on Linux.</p>
+          <p>If you want to use ABCChrome on Linux you  need to reference the ABCpdf.ABCChrome146.Linux NuGet package as well as the ABCpdf one.</p>
+          <p>If you do not do this you will get an &quot;Unable to find ABCChrome146&quot; error when you run on Linux.</p>
           <p>&nbsp;</p></td>
         <td width="60">&nbsp;</td>
         <td width="11">&nbsp;</td>
@@ -212,7 +212,7 @@ dir # just a sanity check<br>
 sudo chmod +x helloworld
 </code></pre>
               <p>If you are deploying ABCChrome then you will need to flag that too.</p>
-              <pre><code class="language-html">sudo chmod +x ABCChrome123/ABCChrome123</code></pre>
+              <pre><code class="language-html">sudo chmod +x ABCChrome146/ABCChrome146</code></pre>
               <p>Then run your executable to produce an output.</p>
               <pre><code class="language-html">./helloworld</code></pre>
               <p>&nbsp;</p></td>
@@ -233,7 +233,7 @@ sudo chmod +x helloworld
               <p>In general these differences relate to legacy code support which is not required on Linux or to Windows specific features such as  MS Office interop.</p>
           <ul>
                 <li>.NET 6.0+ on x64 are the supported platforms.</li>
-            <li>ABCChrome123 &amp; ABCChrome117 are the only HTML conversion engines.</li>
+            <li>ABCChrome146, ABCChrome123 &amp; ABCChrome117 are the only HTML conversion engines.</li>
             <li>FireShield is not available.</li>
             <li>Some read modules are not available: XpsAny,  MSOffice, OpenOffice, RichTextFormat and EmfVector.</li>
             <li>Exports which depend on WIC codecs (eg .dds, .heic, .heif, .jxr, .wdp)  will not work.</li>

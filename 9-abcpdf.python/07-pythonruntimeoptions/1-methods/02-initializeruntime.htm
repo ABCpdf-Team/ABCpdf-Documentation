@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><title>Python PythonRuntimeOptions InitializeRuntime Function. Initializes the Python runtime. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>InitializeRuntime Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background="../../../images/steel-line-3.gif" height=11></TD>
+          <TD width=60 background="../../../images/steel-line-3.gif" 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Initializes the Python runtime.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>bool InitializeRuntime(<a href="../../06-pythonscope/default.htm">PythonScope</a> scope, bool updateNames = false, bool alwaysUseProvidedNames = false)<BR>
+            </CODE></P>
+			<P>&nbsp;</P>
+			<P><CODE><IMG width="10" height="10" border="0" alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" >&nbsp;ArgumentNullException: Thrown when scope is null.<br>
+			    <IMG width="10" height="10" border="0" alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" >&nbsp;ArgumentException: Thrown when a provided variable/class name is not a valid identifier
+or when alwaysUseProvidedNames is true and there is a name conflict in
+the provided variable/class names.</CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>scope</TD>
+                <TD>The scope for running the initialization code.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>updateNames</TD>
+                <TD>Specifies whether the actual, corresponding values used in the code are assigned back to
+<a href="../2-properties/04-varvenvpath.htm">VarVEnvPath</a>,
+<a href="../2-properties/05-varstdoutcallback.htm">VarStdOutCallback</a>,
+<a href="../2-properties/06-varstderrcallback.htm">VarStdErrCallback</a>, and
+<a href="../2-properties/07-consoleclassname.htm">ConsoleClassName</a>.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>alwaysUseProvidedNames</TD>
+                <TD>Specifies that an ArgumentException is thrown
+when provided variable/class names are identical where distinct values are required. If the value is false,
+some of the names in the name conflict will be set to a default distinct value.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>Whether initialization has been performed (i.e. is not no-op).</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>Initializes the Python runtime.</p>
+            <p>PythonEnvironment.RuntimeIsInitialized is set to UserInitialized on normal completion of this method call (when no exception is thrown), thus preventing PythonRuntime.AutoInitializeRuntime from performing initialization, and making this method ignore VEnvPath later.</p>
+            <p>The sys.stdout and sys.stderr are set to invoke StdOutCallback and StdErrCallback (if they are not null). The redirections will be iin effect even after PythonRuntime is disposed of. </p>
+            <p>In most use cases you will want to use PythonRuntime.AutoInitializeRuntime instead of this method as this  will cause the redirected sys.stdout and sys.stderr to be restored or to do nothing after PythonRuntime is disposed of.</p>
+            <p>&nbsp;</p>
+</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><p>To disable ANSI color in stdout output on Linux you might use code of the following form.</p>
+            <p><SPAN class=language>[C#]</SPAN><BR>
+            </p>
+            <pre><code class="language-csharp">string venvPath = null;
+var options = new PythonOptions { SetNoSiteFlag = !string.IsNullOrEmpty(venvPath) };
+var env = PythonEnvironment.Current;
+options.Initialize(env, null);
+using var rt = PythonEnvironment.Current.GetRuntime();
+using var scope = rt.CreateScope();
+var rtOptions = new PythonRuntimeOptions() {
+    VEnvPath = venvPath,
+    StdOutCallback = Console.Out.Write,
+    StdErrCallback = Console.Error.Write
+};
+rtOptions.InitializeRuntime(scope);
+env.RuntimeIsInitialized = RuntimeInitializationState.UserInitialized;
+// ... do work
+</code></pre>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

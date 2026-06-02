@@ -1,0 +1,171 @@
+<html>
+<head>
+<title>Tagged Text Example</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../mystyles.css">
+<link rel="stylesheet" href="../prism.css">
+<script src="../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> Tagged Text Example</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../images/steel-line-3.gif" height="11"></td>
+          <td background="../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>This example shows how to add  text to a PDF document tagged appropriately for PDF/UA.</p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Setup</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>First create an ABCpdf Doc object and add some parts for PDF/UA. You need to have a title so we will add one and we will set the language to British English. You can skip these things if you only need a tagged document rather than a PDF/UA compliant one.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">using var doc = new Doc();
+var st = doc.Tag.GetStructure();
+st.CreateAsRequired();
+st.Title = "Tagged Document";
+st.Root.AddKid("Document").EntryLang = "en-GB";
+</code></pre><br>
+              <br>
+            </p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Doc Obj</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Next we add a font and some styles and set the drawing area to be inset from the page edges.</p>
+            <p>We set the auto-tagging to true and add some text. For most purposes you will never need to do more than this.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Font = doc.EmbedFont("Arial");
+doc.TextStyle.Size = 36;
+doc.Page = doc.AddPage();
+doc.Rect.Inset(72, 72);
+doc.TextStyle.AutoTag = true;
+doc.AddTextStyled("&lt;h1 fontsize=48&gt;Animals&lt;h1&gt;&lt;p&gt;Koala&lt;p&gt;&lt;p&gt;Squirrel&lt;p&gt;");
+</code></pre></p>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Image</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>However if you have more complex requirements you may want finer grained control over the tagging process. Here we put our next items of text inside different Div and P (paragraph) tags.</p>
+        <p><span class="language">[C#]</span><br>
+                  <pre><code class="language-csharp">doc.Pos.Y -= 72;
+doc.Tag.Open("Sect", "Div", "P");
+doc.AddText("Div one paragraph one.\r\n");
+doc.Tag.CloseOpen("P");
+doc.AddText("Div one paragraph two.\r\n");
+doc.Tag.Close("P", "Div");
+doc.Tag.Open("Div", "P");
+doc.AddText("Div two paragraph one.\r\n");
+doc.Tag.CloseOpen("P");
+doc.AddText("Div two paragraph two.\r\n");
+doc.Tag.Close("P", "Div", "Sect");
+</code></pre></p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+    Text</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Sometimes you may need to link in a standalone object such as an Annotation. Here we create a new tag role called &quot;RubberStamp&quot; and assign it some style attributes. Then we create a tag using those settings, a stamp annotation, add it to the tag and then assign it to the document.</p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Tag.Roles["RubberStamp"] = "Annot";
+doc.Tag.Classes["RedBorder"] = Atom.FromString("&lt;&lt; /O /Layout /BorderColor [1 0 0] /BorderStyle /Solid &gt;&gt;");
+var graphic = doc.Tag.MakeTag("RubberStamp");
+graphic.Attributes = new DictAtom();
+graphic.Attributes["Alt"] = new StringAtom("Classification: Secret");
+graphic.Attributes["C"] = new NameAtom("RedBorder");
+graphic.Object = new StampAnnotation(doc, XRect.FromLbwh(200, 100, 200, 80), "SECRET", XColor.FromRgb(255, 0, 0));
+doc.Tag.OpenClose(graphic);
+</code></pre>
+            </p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Save</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Finally we save the document and export the document structure. </p>
+            <p><span class="language">[C#]</span><br>
+              <pre><code class="language-csharp">doc.Save("taggedtext.pdf");
+st.UpdateActualText(true, true);
+var txt = st.ExtractStructure();
+File.WriteAllText("taggedtext.txt", txt.ToString());
+</code></pre></p>
+          <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>Results</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p><img src="../images/pdf/taggedtext.pdf.png" class="example"><BR>
+            taggedtext.pdf</p>
+            <p>The output tag structure from the ExtractStructure call will be something like this,</p>
+          <pre><code class="language-html"><!--notcode-->&lt;Root ObjID=&quot;4&quot;&gt;<br>	&lt;Document ObjID=&quot;7&quot;&gt;<br>		&lt;H1 PageNumber=&quot;1&quot; ObjID=&quot;47&quot;&gt;<br>			&lt;ActualText&gt;Animals&lt;/ActualText&gt;<br>			&lt;MCID ID=&quot;0&quot; /&gt;<br>		&lt;/H1&gt;<br>		&lt;P PageNumber=&quot;1&quot; ObjID=&quot;48&quot;&gt;<br>			&lt;ActualText&gt;Koala&lt;/ActualText&gt;<br>			&lt;MCID ID=&quot;1&quot; /&gt;<br>		&lt;/P&gt;<br>		&lt;P PageNumber=&quot;1&quot; ObjID=&quot;49&quot;&gt;<br>			&lt;ActualText&gt;Squirrel&lt;/ActualText&gt;<br>			&lt;MCID ID=&quot;2&quot; /&gt;<br>		&lt;/P&gt;<br>		&lt;Sect PageNumber=&quot;1&quot; ObjID=&quot;50&quot;&gt;<br>			&lt;Div PageNumber=&quot;1&quot; ObjID=&quot;51&quot;&gt;<br>				&lt;P PageNumber=&quot;1&quot; ObjID=&quot;52&quot;&gt;<br>					&lt;ActualText&gt;Div one paragraph one.&lt;/ActualText&gt;<br>					&lt;MCID ID=&quot;3&quot; /&gt;<br>				&lt;/P&gt;<br>				&lt;P PageNumber=&quot;1&quot; ObjID=&quot;53&quot;&gt;<br>					&lt;ActualText&gt;Div one paragraph two.&lt;/ActualText&gt;<br>					&lt;MCID ID=&quot;4&quot; /&gt;<br>				&lt;/P&gt;<br>			&lt;/Div&gt;<br>			&lt;Div PageNumber=&quot;1&quot; ObjID=&quot;54&quot;&gt;<br>				&lt;P PageNumber=&quot;1&quot; ObjID=&quot;55&quot;&gt;<br>					&lt;ActualText&gt;Div two paragraph one.&lt;/ActualText&gt;<br>					&lt;MCID ID=&quot;5&quot; /&gt;<br>				&lt;/P&gt;<br>				&lt;P PageNumber=&quot;1&quot; ObjID=&quot;56&quot;&gt;<br>					&lt;ActualText&gt;Div two paragraph two.&lt;/ActualText&gt;<br>					&lt;MCID ID=&quot;6&quot; /&gt;<br>				&lt;/P&gt;<br>			&lt;/Div&gt;<br>		&lt;/Sect&gt;<br>		&lt;RubberStamp PageNumber=&quot;1&quot; ObjID=&quot;57&quot;&gt;<br>			&lt;ObjectReference ID=&quot;32&quot; Type=&quot;StampAnnotation&quot; /&gt;<br>		&lt;/RubberStamp&gt;<br>	&lt;/Document&gt;<br>&lt;/Root&gt;<br></code></pre></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

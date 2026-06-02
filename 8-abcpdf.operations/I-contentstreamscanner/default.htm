@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>ContentStreamScanner Class</title>
+<title>ZZ Operations ContentStreamScanner</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="../../mystyles.css">
 <link rel="stylesheet" href="../../prism.css">
@@ -25,14 +25,12 @@
         </tr>
         <tr> 
           <td> 
-            <p>
-<p>A class to scan through a content stream keeping track of state while it does so.</p>
-<p>Subclass to collect or extract content as it is being scanned.</p>
-</p>
+            <p><p>A class to scan through a content stream keeping track of state while it does so.</p>
+<p>Subclass to collect or extract content as it is being scanned.</p></p>
             <p><code>
               <!--notcode-->
               System.Object<BR>
-&nbsp;&nbsp;&nbsp;<B> WebSupergoo.ABCpdf13.Operations.ContentStreamScanner</B>
+&nbsp;&nbsp;&nbsp;<B>WebSupergoo.ABCpdf14.Operations.ContentStreamScanner</B>
 </code></p>
             
             
@@ -64,9 +62,8 @@
                 <TD>Create a new ContentStreamScanner.</TD></TR>
               <TR vAlign=top>
                 <TD align=left><A 
-                  href="1-methods/02-process.htm">Call</A></TD>
-                <TD>Call the scanner using an owner and a content stream array.</TD>
-              </TR>
+                  href="1-methods/02-call.htm">Call</A></TD>
+                <TD>Call the scanner using an owner and a content stream array.</TD></TR>
               <TR vAlign=top>
                 <TD align=left><A 
                   href="1-methods/02-process.htm">Process</A></TD>
@@ -110,11 +107,21 @@
               <TR vAlign=top>
                 <TD align=left><A 
                   href="2-properties/01-resources.htm">Resources</A></TD>
-                <TD>A class for accessing reseources in the document.</TD></TR>
+                <TD>A class for accessing resources in the document.</TD></TR>
               <TR vAlign=top>
                 <TD align=left><A 
                   href="2-properties/02-operators.htm">Operators</A></TD>
                 <TD>The set of operators which should be processed.</TD></TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/03-doshowtext.htm">DoFormXObjects</A></TD>
+                <TD>Whether to call into Form XObjects or not.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/03-doshowtext.htm">DoGraphicsStateSoftMasks</A></TD>
+                <TD>Whether to call into graphics state soft mask Form XObjects or not.</TD>
+              </TR>
               <TR vAlign=top>
                 <TD align=left><A 
                   href="2-properties/03-doshowtext.htm">DoShowText</A></TD>
@@ -129,8 +136,9 @@
                 <TD>Whether to calcuate text widths or not.</TD></TR>
               <TR vAlign=top>
                 <TD align=left><A 
-                  href="2-properties/06-warnings.htm">Warnings</A></TD>
-                <TD>Content streams contain operators and parameters.</TD></TR>
+                  href="2-properties/07-stack.htm">Owners</A></TD>
+                <TD>A stack of content stream owners.</TD>
+              </TR>
               <TR vAlign=top>
                 <TD align=left><A 
                   href="2-properties/07-stack.htm">Stack</A></TD>
@@ -142,7 +150,13 @@
               <TR vAlign=top>
                 <TD align=left><A 
                   href="2-properties/08-text.htm">Text</A></TD>
-                <TD>The current text state.</TD></TR>
+                <TD>The current text state.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=left><A 
+                  href="2-properties/06-warnings.htm">Warnings</A></TD>
+                <TD>Content streams contain operators and parameters.</TD>
+              </TR>
 <!-- autogen end -->
 </table>
           </td>

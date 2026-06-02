@@ -134,15 +134,8 @@ while (true) {
             destinations. We want these named destination links to take us 
             between pages on the PDF rather than taking us to the original 
             URL.</P>
-            <P>After adding the pages, we can flatten them. We can't do this 
-            until after the pages have been added because flattening will 
-            invalidate our previous ID and break the chain.</P>
             <P><SPAN 
             class=language>[C#]</SPAN><BR><pre><code class="language-csharp">doc.HtmlOptions.LinkPages();
-for (int i = 1; i &lt;= doc.PageCount; i++) {
-&nbsp;&nbsp;doc.PageNumber = i;
-&nbsp;&nbsp;doc.Flatten();
-}
 </code></pre></P>
             <P>Finally, we save.</P>
             <P><SPAN 

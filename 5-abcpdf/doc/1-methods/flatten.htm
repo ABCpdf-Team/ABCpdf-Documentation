@@ -38,8 +38,9 @@
         <TBODY>
         <TR>
           <TD vAlign=top>
-            <P><SPAN class=language>[C#]</SPAN><BR><CODE>int Flatten() 
-            </CODE><BR><BR></P>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+              <CODE>int Flatten()<br>
+              int Flatten(int compressionLevel)</CODE><BR><BR></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -59,8 +60,14 @@
                 <TD align=middle><B>Name</B></TD>
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
+                <TD align=middle>compressionLevel</TD>
+                <TD>The level of compression to apply as a percentage. Smaller numbers are faster but produce lower compresssion ratios. Pass -1 for a default choice.</TD>
+              </TR>
+              <TR vAlign=top>
                 <TD align=middle>return</TD>
-                <TD>n/a.</TD></TR></TBODY></TABLE>
+                <TD>n/a.</TD>
+              </TR>
+              </TBODY></TABLE>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -85,7 +92,7 @@
             Object IDs previously obtained from calls such as <A 
             href="addtext.htm">AddText</A> or <A 
             href="framerect.htm">FrameRect</A> will no longer be valid.</P>
-            <P></P>
+            <P>The compression level parameter controls the intensity of Flate compression applied to the current page content stream. Lower values execute faster but yield lower compression ratios, while higher values produce smaller output at the cost of speed. Passing -1 instructs the method to use a default compression level determined by the library.</P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
@@ -98,10 +105,7 @@
         <TBODY>
         <TR>
           <TD>
-            <P>See the <A href="../../../4-examples/09-table1.htm">Small Table 
-            Example</A> and <A href="../../../4-examples/10-table2.htm">Large 
-            Table Example</A>.</P>
-            <p>Also see example code in: <a href="../../../4-examples/09-table1.htm">ABCpdf Small Table Example</a>, <a href="../../../4-examples/10-table2.htm">ABCpdf Large Table Example</a>, <a href="../../../4-examples/13-pagedhtml.htm">ABCpdf Paged HTML Example</a>, <a href="addimagetochain.htm">Doc AddImageToChain Function</a>, <a href="../../xhtmloptions/1-methods/linkdestinations.htm">XHtmlOptions LinkDestinations Method</a>, <a href="../../xhtmloptions/1-methods/linkpages.htm">XHtmlOptions LinkPages Method</a>, <a href="../../xhtmloptions/2-properties/usescript.htm">XHtmlOptions UseScript Property</a>.</p>
+            <P>None.</P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

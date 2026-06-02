@@ -134,16 +134,6 @@ if (cat.EntryNames.EntryEmbeddedFiles == null) {
 }
 Root = cat.EntryNames.EntryEmbeddedFiles;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim cat As New <a href="../../1081-catalogelement/default.htm">CatalogElement</a>(doc.ObjectSoup.Catalog)
-If cat.EntryNames Is Nothing Then
-&nbsp;&nbsp;cat.EntryNames = New <a href="../default.htm">NameDictionaryElement</a>(cat)
-End If
-If cat.EntryNames.EntryEmbeddedFiles Is Nothing Then
-&nbsp;&nbsp;cat.EntryNames.EntryEmbeddedFiles = New <a href="../../1097-nametreenodeelement_t_/default.htm">NameTreeNodeElement</a>(Of <a href="../../0011-filespecificationelement/default.htm">FileSpecificationElement</a>)(cat)
-&nbsp;&nbsp;cat.EntryNames.EntryEmbeddedFiles.EntryNames = New <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>(Of <a href="../../../01-base/1086-element/default.htm">Element</a>)(cat)
-End If
-Root = cat.EntryNames.EntryEmbeddedFiles
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

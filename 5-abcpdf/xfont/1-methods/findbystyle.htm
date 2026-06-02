@@ -40,8 +40,11 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE>static <a href="../default.htm">XFont</a>            FindByStyle(string family, FontWeight weight, bool italic)<br>
-            static <a href="../default.htm">XFont</a> FindByStyle(string family, int weight, bool italic)<BR>
-            static <a href="../default.htm">XFont</a> FindByStyle(IEnumerable&lt;XFont&gt; fonts, int weight, int weightTolerance, bool italic)</CODE><BR>
+            static <a href="../default.htm">XFont</a> FindByStyle(string family, int weight, bool italic)<br>
+            static <a href="../default.htm">XFont</a> FindByStyle(string family, FontWeight weight, bool italic, <a href="../../xfont.store/default.htm">Store</a> store)<br>
+static <a href="../default.htm">XFont</a> FindByStyle(string family, int weight, bool italic, <a href="../../xfont.store/default.htm">Store</a> store)<BR>
+            static <a href="../default.htm">XFont</a> FindByStyle(IEnumerable&lt;XFont&gt; fonts, int weight, int weightTolerance, bool italic)<br>
+            </CODE><BR>
             </P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -81,6 +84,10 @@
               <TR vAlign=top>
                 <TD align=middle>italic</TD>
                 <TD>Whether an italic font is required.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>store</TD>
+                <TD>A font store to use in addition to the fonts installed on the system. Null values are ignored.</TD>
               </TR>
               <TR vAlign=top>
                 <TD align=middle>return</TD>

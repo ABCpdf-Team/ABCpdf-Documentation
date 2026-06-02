@@ -34,7 +34,7 @@
                         ABCpdf is not limited to a single renderer. It includes a suite of engines, allowing you to choose the best fit for your needs:</p>
                     <ul>
                         <li>
-                          <p><strong>ABCChrome (e.g., ABCChrome123):</strong>&nbsp;The current default, offering best-in-class support for modern HTML5, CSS3, and JavaScript, ensuring pixel-perfect results matching the Chrome browser.</p>
+                          <p><strong>ABCChrome (e.g., ABCChrome146):</strong>&nbsp;The current default, offering best-in-class support for modern HTML5, CSS3, and JavaScript, ensuring pixel-perfect results matching the Chrome browser.</p>
                         </li>
                       <li>
                           <p><strong>The WebKit Engine:</strong>&nbsp;A lightweight, high-performance option ideal for server environments with restricted permissions or stripped-down operating systems, where larger engines cannot be deployed.</p>
@@ -48,16 +48,16 @@
                       ABCpdf .NET excels at creating professional, accessible documents, not just image-like snapshots. Using the current HTML engine you get all of the following and more:</p>
                     <ul>
                         <li>
-                          <p><strong>Preservation of Structure:</strong>&nbsp;Using the&nbsp;<a href="/Manual/8-abcpdf.operations/Q-webpageoperation/default.htm">WebPageOperation</a>&nbsp;class you can  automatically maintain the logical tag structure and document outline from well-formed HTML, ensuring output is accessible (PDF/UA compliant) and retains selectable text and functional hyperlinks.</p>
+                          <p><strong>Preservation of Structure:</strong>&nbsp;Using the&nbsp;<a href="../8-abcpdf.operations/Q-webpageoperation/default.htm">WebPageOperation</a>&nbsp;class you can  automatically maintain the logical tag structure and document outline from well-formed HTML, ensuring output is accessible (PDF/UA compliant) and retains selectable text and functional hyperlinks.</p>
                         </li>
                       <li>
                           <p><strong>Advanced Pagination with Headers/Footers:</strong>&nbsp;Using the&nbsp;WebPageOperation&nbsp;class, you can seamlessly inject consistent headers, footers, page numbers, and page totals across every page of the generated PDF, after the main content is rendered. This allows for professional document assembly without altering the original HTML.</p>
                       </li>
                       <li>
-                          <p><strong>Intelligent Dynamic Content Handling:</strong>&nbsp;ABCpdf .NETcan monitor the HTML document for ongoing changes after the initial load. Using the <a href="/Manual/5-abcpdf/xhtmloptions/2-properties/repaintdelay.htm">RepaintDelay</a> it intelligently detects activity such as AJAX calls, DOM manipulations, and animations, and automatically waits for these processes to complete before rendering the PDF. This ensures all dynamically loaded content is fully present in the final output, eliminating issues with missing or partially rendered data.</p>
+                          <p><strong>Intelligent Dynamic Content Handling:</strong>&nbsp;ABCpdf .NETcan monitor the HTML document for ongoing changes after the initial load. Using the <a href="../5-abcpdf/xhtmloptions/2-properties/repaintdelay.htm">RepaintDelay</a> it intelligently detects activity such as AJAX calls, DOM manipulations, and animations, and automatically waits for these processes to complete before rendering the PDF. This ensures all dynamically loaded content is fully present in the final output, eliminating issues with missing or partially rendered data.</p>
                       </li>
                       <li>
-                          <p><strong>Custom JavaScript Injection:</strong>&nbsp;ABCpdf allows you to inject and execute custom JavaScript to be run in the web page before the conversion to PDF. This enables you to manipulate DOM content, click elements, hide unwanted sections, or wait for specific application state flags before triggering the conversion, giving you precise control over both the final content and the exact moment rendering occurs. You can also return values based from the script which can be useful for   validating the page or querying the web content. See the <a href="/Manual/5-abcpdf/xhtmloptions/2-properties/onloadscript.htm">OnLoadScript</a> property for details.</p>
+                          <p><strong>Custom JavaScript Injection:</strong>&nbsp;ABCpdf allows you to inject and execute custom JavaScript to be run in the web page before the conversion to PDF. This enables you to manipulate DOM content, click elements, hide unwanted sections, or wait for specific application state flags before triggering the conversion, giving you precise control over both the final content and the exact moment rendering occurs. You can also return values based from the script which can be useful for   validating the page or querying the web content. See the <a href="../5-abcpdf/xhtmloptions/2-properties/onloadscript.htm">OnLoadScript</a> property for details.</p>
                       </li>
                       <li>
                           <p><strong>Internal Link Remapping:</strong>&nbsp;ABCpdf can automatically parse the generated PDF structure and intelligently convert qualified external hyperlinks (e.g.,&nbsp;original-site.com/page.html#section) into internal document links that point to the corresponding content or destination within the final PDF itself. This ensures the link structure works entirely internally, creating a seamless, self-contained document experience without relying on external web pages.</p>
@@ -125,7 +125,7 @@ doc.Rect.Inset(72, 144);
           <TR>
             <TD><P>We set some HTML options to choose the HTML engine and features we are interested in. The defaults assigned here are set up for ease of development and you may wish to change some for release.</P>
                 <P><SPAN class=language>[C#]</SPAN><BR>
-                    <pre><code class="language-csharp">doc.HtmlOptions.Engine = EngineType.Chrome123;
+                    <pre><code class="language-csharp">doc.HtmlOptions.Engine = EngineType.Chrome146;
 doc.HtmlOptions.UseScript = true; // enable JavaScript
 doc.HtmlOptions.Media = MediaType.Print; // Or Screen for a more screen oriented output
 doc.HtmlOptions.InitialWidth = 800; // In case we have a responsive site which is non-specific on good widths
@@ -175,26 +175,6 @@ int id = doc.AddImageUrl("http://www.yahoo.com/");
 &nbsp;&nbsp;&nbsp;&nbsp;break;
 &nbsp;&nbsp;doc.Page = doc.AddPage();
 &nbsp;&nbsp;id = doc.AddImageToChain(id);
-}
-</code></pre></P>
-            <P>&nbsp;</P></TD>
-          <TD width=60>&nbsp;</TD>
-          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
-  <TR>
-    <TD class=sectheader vAlign=top><IMG height=10 
-      src="../images/steel-pin.gif" width=64><BR>Flatten</TD>
-    <TD width=14>&nbsp;</TD>
-    <TD vAlign=top>
-      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
-        <TBODY>
-        <TR>
-          <TD>
-            <P>After adding the pages we can flatten them. We can't do this 
-            until after the pages have been added because flattening will 
-            invalidate our previous ID and break the chain.</P>
-            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">for (int i = 1; i &lt;= doc.PageCount; i++) {
-&nbsp;&nbsp;doc.PageNumber = i;
-&nbsp;&nbsp;doc.Flatten();
 }
 </code></pre></P>
             <P>&nbsp;</P></TD>

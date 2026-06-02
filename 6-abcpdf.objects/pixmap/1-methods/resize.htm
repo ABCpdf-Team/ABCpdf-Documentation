@@ -43,8 +43,8 @@
           <td valign="top"> 
             <p><span class="language">[C#]</span><br>
               <code>void Resize(int width, int height)<br>
-              void Resize(int width, int height, Interpolation interpolation) 
-              <br>
+              void Resize(int width, int height, Interpolation interpolation)<br>
+              void Resize(int width, int height, Interpolation interpolation, bool allowDepthChange)<br>
               </code></p>
             <p><code><img src="../../../images/steel-blob-10.gif" width="10" height="10" border="0" alt="Throws Exceptions"> may throw Exception()</code></p>
             <p>&nbsp;</p>
@@ -75,10 +75,14 @@
                 <td align="center">height</td>
                 <td>The destination height for the image.</td>
               </tr>
-              <tr valign="top"> 
+              <tr valign="top">
                 <td align="center">interpolation</td>
                 <td>The type of interpolation to be used when resizing the image. 
                   The default value is Auto.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center">allowDepthChange</td>
+                <td>Whether to allow the depth of the image to be changed. This is often useful if you are resizing monotone images.</td>
               </tr>
             </table>
             <p>&nbsp;</p>
@@ -134,7 +138,7 @@
               image. It only works if an image is being reduced in both height 
               and width.</p>
             <p>This function is optimized for resizing one, three and four component 
-              images at precisions of eight or sixteen bits per component.</p>
+              images at precisions of eight or sixteen bits per component. If you allow depth changes then this will allow monotone images to change to a greater bit depth when being reduced in size.</p>
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>

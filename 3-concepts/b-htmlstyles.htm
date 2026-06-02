@@ -871,7 +871,22 @@ glyphs.</P>
               <TR>
                 <TD vAlign=top align=middle><div align="center">tag-end</div></TD>
                 <TD vAlign=top><p>This tag is used to insert raw content into the PDF content stream.</p>
-                  <p>See  the tag-start attribute  above for details.</p></TD>
+                    <p>See  the tag-start attribute  above for details.</p></TD>
+              </TR>
+              <TR>
+                <TD vAlign=top align=middle><div align="center">autotag</div></TD>
+                <TD vAlign=top><p>This tag is to automatically tag content using the HTML structures provided to AddText or AddTextStyled.</p>
+                    <p>The default is false.</p></TD>
+              </TR>
+              <TR>
+                <TD vAlign=top align=middle><div align="center">id</div></TD>
+                <TD vAlign=top><p>This tag is used to set an ID which can be later used to identify this piece of text. An ID can be any string or number.</p>
+                    <p>The default is blank.</p></TD>
+              </TR>
+              <TR>
+                <TD vAlign=top align=middle><div align="center">preferoutline</div></TD>
+                <TD vAlign=top><p>This tag is used to prefer an outline method for synthetic bolc. For more details see <a href="../5-abcpdf/xtextstyle/2-properties/boldmethod.htm">Doc.TextStyle.BoldMethod</a>.</p>
+                  <p>The default is true.</p>                  </TD>
               </TR>
               </TBODY></TABLE>
             <H2><A name=blockquote></A>&lt;BlockQuote&gt;</H2>

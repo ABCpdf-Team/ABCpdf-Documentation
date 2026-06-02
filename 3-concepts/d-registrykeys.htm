@@ -545,13 +545,22 @@
 											    <p>In this situation ABCpdf has to determine the most appropriate table using a heuristic method. To prefer the ToUnicode table over this heuristic you can set this property to 1 (true).</p></td>
 				    </tr>
 											<tr valign="middle">
-												<td align="center" height="23">ProgressiveJPEGRecompressionQuality</td>
+                                              <td align="center" height="23">ProgressiveJPEGRecompressionQuality</td>
+											  <td align="center" height="23">DWORD</td>
+											  <td align="center" height="23">0</td>
+											  <td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
+											  <td align="left" height="23"><p>Acrobat can sometimes find it difficult to decompress and display progressive JPEG images. So sometimes, if you add this type of data directly into a PDF the image may not display when viewed in Acrobat.</p>
+											      <p>In the long run we would expect that Adobe will resolve this issue within Acrobat. However in the shorter run it can be desirable to work around this issue.</p>
+											    <p>To mitigate the effect of this problem you can detect and recompress progressive JPEG images as they are added to. To do this you simply need to specify  a quality setting between 1 and 100.</p></td>
+				    </tr>
+											<tr valign="middle">
+												<td align="center" height="23">DisableMetafiles</td>
 												<td align="center" height="23">DWORD</td>
 												<td align="center" height="23">0</td>
-												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
-												<td align="left" height="23"><p>Acrobat can sometimes find it difficult to decompress and display progressive JPEG images. So sometimes, if you add this type of data directly into a PDF the image may not display when viewed in Acrobat.</p>
-												  <p>In the long run we would expect that Adobe will resolve this issue within Acrobat. However in the shorter run it can be desirable to work around this issue.</p>
-												  <p>To mitigate the effect of this problem you can detect and recompress progressive JPEG images as they are added to. To do this you simply need to specify  a quality setting between 1 and 100.</p>									            </td>
+												<td align="center" height="23">&nbsp;</td>
+												<td align="left" height="23"><p>ABCpdf .NET uses Microsoft's System.Drawing and GDI+ for the processing of EMF and WMF Windows Metafiles.</p>
+												  <p>EMF processing has a long history of critical vulnerabilities based around specially crafted EMF and WMF files. This is  a Microsoft issue not a flaw in the applications themselves. The recurring pattern implies there are probably more vulnerabilities to be found.</p>
+												  <p>If you accept untrusted image files and your application does not require EMF support, disabling the codec via this setting eliminates this attack surface entirely. </p>												  </td>
 											</tr>
 											<tr><td colspan="5" style="padding:0"><h2 style="display:inline; width:100%">Annotation and Field</h2></td></tr>
 											<tr>
@@ -1387,9 +1396,9 @@
 												<td align="center" height="23">&quot;&quot;</td>
 												<td align="center" height="23">&nbsp;</td>
 												<td align="left" height="23">
-													<p>For HTML rendering using the default ABCChrome rendering engine (currently ABCChrome123), access is required to the current default ABCChrome executable worker process.</p>
-													<p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting.</p>
-													<p>NB the more specific ABCChrome123Directory setting, the current default engine, will override any value set here. This setting maintains backward compatibility.</p>												</td>
+													<p>For HTML rendering using the default ABCChrome rendering engine (currently ABCChrome146), access is required to the current default ABCChrome executable worker process.</p>
+													<p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. The directory specified should be the one containing the ABCChrome folder rather than the ABCChrome folder itself.</p>
+													<p>NB the more specific ABCChrome146Directory setting, the current default engine, will override any value set here. This setting maintains backward compatibility.</p>												</td>
 											</tr>
 											<tr valign="middle">
 												<td align="center" height="23">ABCChrome65Directory</td>
@@ -1398,7 +1407,7 @@
 												<td align="center" height="23">&nbsp;</td>
 												<td align="left" height="23">
 													<p>For HTML rendering using the ABCChrome65 rendering engine, access is required to the ABCChrome65.exe worker process.</p>
-													<p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting.</p>												</td>
+													<p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. This value overrides the ABCChromeDirectory setting as it is version specific.</p>												</td>
 											</tr>
 											<tr valign="middle">
                                               <td align="center" height="23">ABCChrome86Directory</td>
@@ -1422,6 +1431,14 @@
 											  <td align="center" height="23">&quot;&quot;</td>
 											  <td align="center" height="23">&nbsp;</td>
 											  <td align="left" height="23"><p>For HTML rendering using the ABCChrome123 rendering engine, access is required to the ABCChrome123.exe worker process.</p>
+											      <p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. This value overrides the ABCChromeDirectory setting as it is version specific.</p></td>
+				    </tr>
+											<tr valign="middle">
+                                              <td align="center" height="23">ABCChrome146Directory</td>
+											  <td align="center" height="23">STRING</td>
+											  <td align="center" height="23">&quot;&quot;</td>
+											  <td align="center" height="23">&nbsp;</td>
+											  <td align="left" height="23"><p>For HTML rendering using the ABCChrome146 rendering engine, access is required to the ABCChrome146.exe worker process.</p>
 											      <p>By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. This value overrides the ABCChromeDirectory setting as it is version specific.</p></td>
 				    </tr>											
 											<tr valign="middle">

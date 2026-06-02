@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><title>XTagging Open Function. Opens a sequence of tags. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Open Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background="../../../images/steel-line-3.gif" height=11></TD>
+          <TD width=60 background="../../../images/steel-line-3.gif" 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Opens a sequence of tags.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE><a href="../default.htm">Tag</a> Open(<a href="../default.htm">Tag</a> tag)<br><a href="../default.htm">Tag</a> Open(params string[] types)<BR>
+            </CODE>			</P>
+			
+			
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>tag</TD>
+                <TD>The tag to be opened.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>types</TD>
+                <TD>The types of tags to be opened in sequence</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>The last tag opened.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>Opens a sequence of tags.            </p>
+            <p>Ensure the Doc.Page is set correctly when you open a tag. If you open a tag on a page and then move to another you will end up with a tag that includes the page even though there may not be any tagged content on it.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><P>The following code adds a list of animals. Normally this list would go directly into the Document root level tag. However here we first open a Section, Div and P (paragraph) so that the list will go inside those elements instead.</P>
+              <P><SPAN class=language>[C#]</SPAN><BR>
+              <pre><code class="language-csharp">using var doc = new Doc();
+doc.Font = doc.EmbedFont("Arial");
+doc.TextStyle.Size = 48;
+doc.Rect.Inset(50, 50);
+string[] animals = ["Panda", "Koala", "Red panda", "Otter", "Kitten",
+&nbsp;&nbsp;"Puppy", "Bunny", "Hedgehog", "Penguin", "Dolphin", "Seal", "Fox",
+&nbsp;&nbsp;"Squirrel", "Baby elephant", "Fawn", "Chick", "Hamster",
+&nbsp;&nbsp;"Guinea pig", "Ferret", "Quokka"];
+var sb = new StringBuilder();
+sb.AppendLine("&lt;ul&gt;");
+foreach (var animal in animals)
+&nbsp;&nbsp;sb.AppendLine($"&lt;li&gt;{animal}&lt;/li&gt;");
+sb.AppendLine("&lt;/ul&gt;");
+doc.TextStyle.AutoTag = true;
+doc.Tag.Open("Sect", "Div", "P");
+int id = doc.AddTextStyled(sb.ToString());
+doc.FrameRect();
+while (true) {
+&nbsp;&nbsp;var tl = (TextLayer)doc.ObjectSoup[id];
+&nbsp;&nbsp;if (!tl.Truncated)
+&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;id = doc.AddTextStyled("", id);
+&nbsp;&nbsp;doc.FrameRect();
+}
+doc.Tag.Close("P", "Div", "Sect");
+doc.Save("doctagopen.pdf");
+doc.Read("doctagopen.pdf");
+var ts = doc.Tag.GetStructure();
+var str = ts.ExtractStructure();
+File.WriteAllText("out.txt", str.ToString());
+</code></pre></P>
+              <table cellspacing="3" cellpadding="3">
+                <tr>
+                  <td><img src="../../../images/pdf/doctagopen.pdf.png" class="example"><br>
+                    doctagopen.pdf [Page 1]</td>
+                  <td><img src="../../../images/pdf/doctagopen.pdf2.png" class="example"><br>
+                    doctagopen.pdf [Page 2]</td>
+                </tr>
+              </table>
+              <P>The output tag structure from the ExtractStructure call will be something like this,</P>
+              <pre><code class="language-html"><!--notcode-->&lt;Root ObjID=&quot;7&quot;&gt;<br>	&lt;Document ObjID=&quot;9&quot;&gt;<br>		&lt;Sect ObjID=&quot;10&quot;&gt;<br>			&lt;Div ObjID=&quot;11&quot;&gt;<br>				&lt;P ObjID=&quot;12&quot;&gt;<br>					&lt;L ObjID=&quot;13&quot;&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;14&quot;&gt;<br>							&lt;ActualText&gt;&bull;Panda&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;0&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;15&quot;&gt;<br>							&lt;ActualText&gt;&bull;Koala&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;1&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;16&quot;&gt;<br>							&lt;ActualText&gt;&bull;Red panda&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;2&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;17&quot;&gt;<br>							&lt;ActualText&gt;&bull;Otter&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;3&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;18&quot;&gt;<br>							&lt;ActualText&gt;&bull;Kitten&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;4&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;19&quot;&gt;<br>							&lt;ActualText&gt;&bull;Puppy&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;5&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;20&quot;&gt;<br>							&lt;ActualText&gt;&bull;Bunny&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;6&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;21&quot;&gt;<br>							&lt;ActualText&gt;&bull;Hedgehog&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;7&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;22&quot;&gt;<br>							&lt;ActualText&gt;&bull;Penguin&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;8&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;23&quot;&gt;<br>							&lt;ActualText&gt;&bull;Dolphin&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;9&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;24&quot;&gt;<br>							&lt;ActualText&gt;&bull;Seal&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;10&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;25&quot;&gt;<br>							&lt;ActualText&gt;&bull;Fox&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;11&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;26&quot;&gt;<br>							&lt;ActualText&gt;&bull;Squirrel&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;12&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;1&quot; ObjID=&quot;27&quot;&gt;<br>							&lt;ActualText&gt;&bull;Baby elephant&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;13&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;2&quot; ObjID=&quot;28&quot;&gt;<br>							&lt;ActualText&gt;&bull;Fawn&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;0&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;2&quot; ObjID=&quot;29&quot;&gt;<br>							&lt;ActualText&gt;&bull;Chick&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;1&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;2&quot; ObjID=&quot;30&quot;&gt;<br>							&lt;ActualText&gt;&bull;Hamster&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;2&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;2&quot; ObjID=&quot;31&quot;&gt;<br>							&lt;ActualText&gt;&bull;Guinea pig&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;3&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;2&quot; ObjID=&quot;32&quot;&gt;<br>							&lt;ActualText&gt;&bull;Ferret&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;4&quot; /&gt;<br>						&lt;/LI&gt;<br>						&lt;LI PageNumber=&quot;2&quot; ObjID=&quot;33&quot;&gt;<br>							&lt;ActualText&gt;&bull;Quokka&lt;/ActualText&gt;<br>							&lt;MCID ID=&quot;5&quot; /&gt;<br>						&lt;/LI&gt;<br>					&lt;/L&gt;<br>					&lt;MCID ID=&quot;6&quot; StreamID=&quot;108&quot; PageNumber=&quot;2&quot; /&gt;<br>				&lt;/P&gt;<br>			&lt;/Div&gt;<br>		&lt;/Sect&gt;<br>	&lt;/Document&gt;<br>&lt;/Root&gt;</code></pre>
+              <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+      <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

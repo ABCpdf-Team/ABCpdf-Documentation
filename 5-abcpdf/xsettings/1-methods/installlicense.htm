@@ -40,7 +40,9 @@
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <CODE>bool 
-            InstallLicense(string license)<BR>
+            InstallLicense(string license)<br>
+            bool 
+            InstallLicense(string license, bool throwOnFailure)<BR>
             </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -62,7 +64,12 @@
                 <TD><B>Description</B></TD></TR>
               <TR vAlign=top>
                 <TD align=middle>license</TD>
-                <TD>The license to install.</TD></TR>
+                <TD>The license to install.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>throwOnFailure</TD>
+                <TD>Whether to throw an exception on failure, default true.</TD>
+              </TR>
               <TR vAlign=top>
                 <TD align=middle>return</TD>
                 <TD>True if a license is installed, otherwise false.</TD></TR></TBODY></TABLE>

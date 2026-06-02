@@ -138,19 +138,6 @@ fileSpec.EntryEF.EntryF = EmbedFileStream(fileInfo);
 annot.EntryFS = fileSpec;
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">FileAttachmentAnnotationElement</a>(AnnotationElement.Object)
-annot.EntrySubtype = &quot;FileAttachment&quot;
-annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect)), annot.Host)
-Dim fileSpec As New <a href="../../../07-syntax/1110-fullfilespecificationelement/default.htm">FullFileSpecificationElement</a>(annot)
-fileSpec.EntryType = &quot;Filespec&quot;
-Dim fileInfo As New FileInfo(filePath)
-fileSpec.EntryF = fileInfo.Name
-fileSpec.EntryUF = fileInfo.Name
-fileSpec.EntryEF = New <a href="../../../07-syntax/1111-embeddedfilesetelement/default.htm">EmbeddedFileSetElement</a>(annot)
-fileSpec.EntryEF.EntryF = EmbedFileStream(fileInfo)
-annot.EntryFS = fileSpec
-<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

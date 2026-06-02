@@ -133,16 +133,6 @@ if (page.EntryAnnots == null)
 &nbsp;&nbsp;page.EntryAnnots = new <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>&lt;<a href="../../../12-interactive/1391-annotationelement/default.htm">AnnotationElement</a>&gt;(<a href="../../../12-interactive/1391-annotationelement/default.htm">AnnotationElement</a>);
 page.EntryAnnots.Add(<a href="../../../12-interactive/1391-annotationelement/default.htm">AnnotationElement</a>);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">If Form.Doc.Page = 0 Then
-&nbsp;&nbsp;Throw New ArgumentException(&quot;No page available&quot;)
-End If
-Dim page = New <a href="../default.htm">PageObjectElement</a>(Form.Doc.ObjectSoup(Form.Doc.Page))
-<a href="../../../12-interactive/1391-annotationelement/2-properties/05-entryp.htm">AnnotationElement.EntryP</a> = page
-If page.EntryAnnots Is Nothing Then
-&nbsp;&nbsp;page.EntryAnnots = New <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>(Of <a href="../../../12-interactive/1391-annotationelement/default.htm">AnnotationElement</a>)(<a href="../../../12-interactive/1391-annotationelement/default.htm">AnnotationElement</a>)
-End If
-page.EntryAnnots.Add(<a href="../../../12-interactive/1391-annotationelement/default.htm">AnnotationElement</a>)
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

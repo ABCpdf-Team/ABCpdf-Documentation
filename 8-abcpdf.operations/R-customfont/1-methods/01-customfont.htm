@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><title>Operations CustomFont CustomFont Function. Create a CustomFont from a Doc containing one icon per page. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>CustomFont Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background="../../../images/steel-line-3.gif" height=11></TD>
+          <TD width=60 background="../../../images/steel-line-3.gif" 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Create a <a href="../default.htm">CustomFont</a> from a Doc containing one icon per page.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE> <a href="../default.htm">CustomFont</a>()<br> <a href="../default.htm">CustomFont</a>(Doc icons, char first)<BR>
+            </CODE></P>
+			<P><CODE><IMG width="10" height="10" border="0" alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" >&nbsp;Exception: </CODE></P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>icons</TD>
+                <TD>The doc containing the icons</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>first</TD>
+                <TD>The character to be used for the first page. The character is incremented for subsequent pages.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>Create a <a href="../default.htm">CustomFont</a>.</p>
+            <p>If you provide a Doc, each page will be turned into an icon. The icon sizes are taken from the Media Box for each page.</p>
+            <p>If there are bookmarks in the document these can be used to specify a Unicode value in hex format such as "0x2e00".</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><p>This example shows how to create a font Doc from a set of SVG files for use as the basis of a custom font. For an example showing how to use the emojifont.pdf document see  the <a href="02-embed.htm">Embed</a> method.</p>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <pre><code class="language-csharp">
+using var doc = new Doc();
+string icons = "../Rez/icons";
+CustomFontMaker.Append(doc, icons, "happy-svgrepo-com.svg", 0x1F600);
+CustomFontMaker.Append(doc, icons, "smiling-svgrepo-com.svg", 0x1F601);
+CustomFontMaker.Append(doc, icons, "in-love-svgrepo-com.svg", 0x1F60D);
+CustomFontMaker.Append(doc, icons, "sad-svgrepo-com.svg", 0x1F614);
+CustomFontMaker.Append(doc, icons, "angry-svgrepo-com.svg", 0x1F620);
+CustomFontMaker.Append(doc, icons, "crying-svgrepo-com.svg", 0x1F62F);
+CustomFontMaker.Baseline(doc, 0.2);
+doc.Save("emojifont.pdf");
+</code></pre>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+</P>
+            <pre><code class="language-csharp">class CustomFontMaker {
+&nbsp;&nbsp;public static void Append(Doc doc, string dir, string file, int unicode) {
+&nbsp;&nbsp;&nbsp;&nbsp;using var icon = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;icon.Read(Path.Combine(dir, file));
+&nbsp;&nbsp;&nbsp;&nbsp;doc.Append(icon);
+&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = doc.PageCount;
+&nbsp;&nbsp;&nbsp;&nbsp;doc.AddBookmark($"0x{unicode:X}", false);
+&nbsp;&nbsp;}
+&nbsp;&nbsp;public static void Baseline(Doc doc, double baseline) {
+&nbsp;&nbsp;&nbsp;&nbsp;var pages = doc.ObjectSoup.Catalog.Pages.GetPageArrayAll();
+&nbsp;&nbsp;&nbsp;&nbsp;var bbox = new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;foreach (var page in pages)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bbox.Union(page.MediaBox);
+&nbsp;&nbsp;&nbsp;&nbsp;var scale = new XTransform(1, 0, 0, 1, 0, -bbox.Top * baseline);
+&nbsp;&nbsp;&nbsp;&nbsp;foreach (var page in pages) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = page.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var layers = page.GetLayers();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (layers.Length &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// scale contents
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var contents = (ArrayAtom)page.Resolve(Atom.GetItem(page.Atom, "Contents"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var restore = new StreamObject(doc.ObjectSoup, Encoding.ASCII.GetBytes($" Q"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contents.Insert(layers.Length, new RefAtom(restore));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var save = new StreamObject(doc.ObjectSoup, Encoding.ASCII.GetBytes($"q {scale.String} cm "));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contents.Insert(0, new RefAtom(save));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// update page boundaries
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.MediaBox.Union(XRect.FromPoints(scale.TransformPoints(page.MediaBox.GetCorners())));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (page.CropBox != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.CropBox.Union(XRect.FromPoints(scale.TransformPoints(page.CropBox.GetCorners())));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (page.ArtBox != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.ArtBox.Union(XRect.FromPoints(scale.TransformPoints(page.ArtBox.GetCorners())));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (page.BleedBox != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.BleedBox.Union(XRect.FromPoints(scale.TransformPoints(page.BleedBox.GetCorners())));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre>
+            <P><IMG src="../../../images/pdf/emojis.pdf.png" class="example"><BR>
+              emojis.pdf </P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

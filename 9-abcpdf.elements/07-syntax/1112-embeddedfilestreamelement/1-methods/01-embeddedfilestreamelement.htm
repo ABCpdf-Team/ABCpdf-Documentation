@@ -134,23 +134,9 @@ fs.EntryType = &quot;EmbeddedFile&quot;;
 fs.EntrySubtype = GetContentType(filePath);
 fs.EntryParams = new <a href="../../1112-embeddedfileparameterelement/default.htm">EmbeddedFileParameterElement</a>(fs);
 fs.EntryParams.EntrySize = (int)info.Length;
-fs.EntryParams.EntryModDate = <a href="../../../../../../PDF10000/Manual/7-abcpdf.atoms/stringatom/1-methods/datetostring.htm">StringAtom.DateToString</a>(info.LastWriteTimeUtc);
-fs.EntryParams.EntryCreationDate = <a href="../../../../../../PDF10000/Manual/7-abcpdf.atoms/stringatom/1-methods/datetostring.htm">StringAtom.DateToString</a>(info.CreationTimeUtc);
+fs.EntryParams.EntryModDate = <a href="../../../../7-abcpdf.atoms/stringatom/1-methods/datetostring.htm">StringAtom.DateToString</a>(info.LastWriteTimeUtc);
+fs.EntryParams.EntryCreationDate = <a href="../../../../7-abcpdf.atoms/stringatom/1-methods/datetostring.htm">StringAtom.DateToString</a>(info.CreationTimeUtc);
 return fs;
-</code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim filePath As String = info.FullName
-Dim obj As New StreamObject(Form.Doc.ObjectSoup, filePath)
-If obj.Length &gt; 64 Then
-&nbsp;&nbsp;obj.CompressFlate()
-End If
-Dim fs As New <a href="../default.htm">EmbeddedFileStreamElement</a>(obj)
-fs.EntryType = &quot;EmbeddedFile&quot;
-fs.EntrySubtype = GetContentType(filePath)
-fs.EntryParams = New <a href="../../1112-embeddedfileparameterelement/default.htm">EmbeddedFileParameterElement</a>(fs)
-fs.EntryParams.EntrySize = CInt(info.Length)
-fs.EntryParams.EntryModDate = <a href="../../../../../../PDF10000/Manual/7-abcpdf.atoms/stringatom/1-methods/datetostring.htm">StringAtom.DateToString</a>(info.LastWriteTimeUtc)
-fs.EntryParams.EntryCreationDate = <a href="../../../../../../PDF10000/Manual/7-abcpdf.atoms/stringatom/1-methods/datetostring.htm">StringAtom.DateToString</a>(info.CreationTimeUtc)
-Return fs
 </code></pre></P>
 
             <P>&nbsp;</P></TD>

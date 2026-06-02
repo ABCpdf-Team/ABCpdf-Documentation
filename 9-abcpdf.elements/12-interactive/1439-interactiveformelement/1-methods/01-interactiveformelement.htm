@@ -144,27 +144,6 @@ if (cat.EntryAcroForm.EntryDR.EntryFont == null)
 cat.EntryAcroForm.EntryDR.EntryFont[&quot;TimesRoman&quot;] = new <a href="../../../09-text/1262-fontelement/default.htm">FontElement</a>(times);
 FormElement = cat.EntryAcroForm;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Doc = inDoc
-Dim cat As New <a href="../../../07-syntax/1081-catalogelement/default.htm">CatalogElement</a>(Doc.ObjectSoup.Catalog)
-If cat.EntryAcroForm Is Nothing Then
-&nbsp;&nbsp;cat.EntryAcroForm = New <a href="../default.htm">InteractiveFormElement</a>(cat, CreationOptions.Indirect)
-&nbsp;&nbsp;cat.EntryAcroForm.EntryFields = New <a href="../../../01-base/0001-arrayelement_t_/default.htm">ArrayElement</a>(Of <a href="../../1440-fieldelement/default.htm">FieldElement</a>)(cat)
-Else &#39; convert indirect reference to direct one
-&nbsp;&nbsp;If cat.EntryAcroForm.EntryFields.Ref IsNot Nothing Then
-&nbsp;&nbsp;&nbsp;&nbsp;cat.EntryAcroForm.EntryFields = cat.EntryAcroForm.EntryFields
-&nbsp;&nbsp;End If
-End If
-&#39; add font for text fields
-Dim times As IndirectObject = Doc.ObjectSoup(Doc.AddFont(&quot;Times-Roman&quot;))
-If cat.EntryAcroForm.EntryDR Is Nothing Then
-&nbsp;&nbsp;cat.EntryAcroForm.EntryDR = New <a href="../../../07-syntax/1091-resourceelement/default.htm">ResourceElement</a>(cat)
-End If
-If cat.EntryAcroForm.EntryDR.EntryFont Is Nothing Then
-&nbsp;&nbsp;cat.EntryAcroForm.EntryDR.EntryFont = New <a href="../../../01-base/0003-dictelement_t_/default.htm">DictElement</a>(Of <a href="../../../09-text/1262-fontelement/default.htm">FontElement</a>)(cat)
-End If
-cat.EntryAcroForm.EntryDR.EntryFont(&quot;TimesRoman&quot;) = New <a href="../../../09-text/1262-fontelement/default.htm">FontElement</a>(times)
-FormElement = cat.EntryAcroForm
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

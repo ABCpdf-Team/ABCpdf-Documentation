@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><title>Python PythonOptions Initialize Function. Initializes the Python engine. ABCpdf .NET PDF Library.</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+<META content="MSHTML 6.00.6000.16809" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<TABLE cellSpacing=4 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=60 src="../../../images/goo.gif" width=58></TD>
+    <TD width=14>&nbsp;</TD>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD class=pageheader>Initialize Function</TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR>
+        <TR>
+          <TD background="../../../images/steel-line-3.gif" height=11></TD>
+          <TD width=60 background="../../../images/steel-line-3.gif" 
+          height=11></TD>
+          <TD height=11><IMG height=11 src="../../../images/steel-blob-11.gif" 
+            width=11></TD></TR>
+        <TR>
+          <TD>
+            <P>Initializes the Python engine.</P>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Syntax</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <CODE>bool Initialize(<a href="../../01-pythonenvironment/default.htm">PythonEnvironment</a> env, string pythonDLL)<BR>
+            </CODE></P>
+			
+			
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Params</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top>
+            <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
+            cellPadding=3 border=5>
+              <TBODY>
+              <TR>
+                <TD align=middle><B>Name</B></TD>
+                <TD><B>Description</B></TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>env</TD>
+                <TD>The Python environment.</TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>pythonDLL</TD>
+                <TD>The file path to the Python DLL/shared library for setting up the Python environment.
+<list type="bullet"><item>Pass null for auto-detection.</item></list></TD>
+              </TR>
+<TR vAlign=top>
+                <TD align=middle>return</TD>
+                <TD>Whether the engine is newly set up. It returns false if the engine
+has already been set up.</TD>
+              </TR>
+</TBODY></TABLE>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Notes</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <p>Initializes the Python engine and sets up the Python environment.</p>
+            <p>This function does nothing if the Python environment has already been set up.</p>
+            <p>For the python DLL you would typically pass null to auto-locate the library. However if you want to specify the location yourself you might use values such as:</p>
+            <ul>
+              <li>@&quot;C:\Program Files\Python\Python313\python313.dll&quot;</li>
+              <li>&quot;/usr/lib/x86_64-linux-gnu/libpython3.10.so.1&quot;</li>
+            </ul>            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD class=sectheader vAlign=top><IMG height=10 
+      src="../../../images/steel-pin.gif" width=64><BR>Example</TD>
+    <TD width=14>&nbsp;</TD>
+    <TD vAlign=top>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            None.
+            <p>Also see example code in: <a href="../../../8-abcpdf.operations/C-accessibilityoperationai/1-methods/01-tag.htm">AccessibilityOperationAI Tag Function</a>, <a href="../../../8-abcpdf.operations/C-accessibilityoperationai/2-properties/01-conversionoptions.htm">AccessibilityOperationAI ConversionOptions Property</a>, <a href="../../03-pythonengine/2-properties/01-version.htm">PythonEngine Version Property</a>, <a href="../../04-pythonruntime/1-methods/02-autoinitializeruntime.htm">PythonRuntime AutoInitializeRuntime Function</a>, <a href="../../06-pythonscope/1-methods/10-setaftereval.htm">PythonScope SetAfterEval Function</a>, <a href="../../06-pythonscope/1-methods/11-evalstring.htm">PythonScope EvalString Function</a>, <a href="../../06-pythonscope/1-methods/18-exec.htm">PythonScope Exec Function</a>, <a href="../../07-pythonruntimeoptions/1-methods/02-initializeruntime.htm">PythonRuntimeOptions InitializeRuntime Function</a>.</p>
+            <P>&nbsp;</P></TD>
+          <TD width=60>&nbsp;</TD>
+          <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

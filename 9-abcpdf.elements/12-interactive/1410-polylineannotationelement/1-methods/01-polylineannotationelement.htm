@@ -133,14 +133,6 @@ annot.EntryRect = new <a href="../../../07-syntax/0017-rectangleelement/default.
 annot.EntryC = Array.ConvertAll(borderColor.Split(new char[] { &#39; &#39; }), s =&gt; double.Parse(s, NumberFormatInfo.InvariantInfo) / 255);
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">PolylineAnnotationElement</a>(AnnotationElement.Object)
-Dim vertices() As Double = Array.ConvertAll(polygon.Split(New Char() { &quot; &quot;c }), Function(s) Double.Parse(s, NumberFormatInfo.InvariantInfo))
-annot.EntrySubtype = &quot;PolyLine&quot;
-annot.EntryVertices = vertices
-annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(InteractiveForm.GetBoundingRect(vertices)), annot.Host)
-annot.EntryC = Array.ConvertAll(borderColor.Split(New Char() { &quot; &quot;c }), Function(s) Double.Parse(s, NumberFormatInfo.InvariantInfo) / 255)
-<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

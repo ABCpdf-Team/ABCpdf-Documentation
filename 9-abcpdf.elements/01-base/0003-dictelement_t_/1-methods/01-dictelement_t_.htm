@@ -129,20 +129,10 @@
 if (imageResName.Length &gt; 0)
 &nbsp;&nbsp;appearanceElement.EntryResources.EntryXObject[imageResName] = new <a href="../../../08-graphics/1209-xobjectelement/default.htm">XObjectElement</a>(Doc.ObjectSoup[imageID]);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">appearanceElement.EntryResources.EntryXObject = New <a href="../default.htm">DictElement</a>(Of <a href="../../../08-graphics/1209-xobjectelement/default.htm">XObjectElement</a>)(appearanceElement)
-If imageResName.Length &gt; 0 Then
-&nbsp;&nbsp;appearanceElement.EntryResources.EntryXObject(imageResName) = New <a href="../../../08-graphics/1209-xobjectelement/default.htm">XObjectElement</a>(Doc.ObjectSoup(imageID))
-End If
-</code></pre></P>
 <P>This code snippet is taken from Annotations.cs line 1106 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">appearanceElement.EntryResources.EntryFont = new <a href="../default.htm">DictElement</a>&lt;<a href="../../../09-text/1262-fontelement/default.htm">FontElement</a>&gt;(appearanceElement);
 if (fontResName.Length &gt; 0)
 &nbsp;&nbsp;appearanceElement.EntryResources.EntryFont[fontResName] = new <a href="../../../09-text/1262-fontelement/default.htm">FontElement</a>(Doc.ObjectSoup[fontID]);
-</code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">appearanceElement.EntryResources.EntryFont = New <a href="../default.htm">DictElement</a>(Of <a href="../../../09-text/1262-fontelement/default.htm">FontElement</a>)(appearanceElement)
-If fontResName.Length &gt; 0 Then
-&nbsp;&nbsp;appearanceElement.EntryResources.EntryFont(fontResName) = New <a href="../../../09-text/1262-fontelement/default.htm">FontElement</a>(Doc.ObjectSoup(fontID))
-End If
 </code></pre></P>
 
             <P>&nbsp;</P></TD>

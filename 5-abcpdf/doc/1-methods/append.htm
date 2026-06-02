@@ -125,7 +125,7 @@
                     <p>A key strength of ABCpdf is its sophisticated handling of the resources that define a PDF's look and feel.</p>
                     <ul>
                         <li>
-                          <p><strong>Fonts:</strong>&nbsp;ABCpdf automatically ensures all required fonts are embedded in the final document. It expertly manages duplicate fonts, including subsets, to avoid unnecessary file bloat while guaranteeing that text renders perfectly on every system. For the complete elimination of any duplicates, after the append you should use the <a href="/Manual/8-abcpdf.operations/B-reducesizeoperation/default.htm">ReduceSizeOperation</a> to combine and re-subset any similar fonts.</p>
+                          <p><strong>Fonts:</strong>&nbsp;ABCpdf automatically ensures all required fonts are embedded in the final document. It expertly manages duplicate fonts, including subsets, to avoid unnecessary file bloat while guaranteeing that text renders perfectly on every system. For the complete elimination of any duplicates, after the append you should use the <a href="../../../8-abcpdf.operations/B-reducesizeoperation/default.htm">ReduceSizeOperation</a> to combine and re-subset any similar fonts.</p>
                         </li>
                       <li>
                           <p><strong>Images, Color Spaces, and XObjects:</strong>&nbsp;The library diligently consolidates all resources like images, patterns, and color profiles, preventing duplicates and ensuring visual consistency across all appended pages.</p>
@@ -135,7 +135,7 @@
                     <p>ABCpdf is built for reliability and efficiency, even with large or complex documents.</p>
                     <ul>
                         <li>
-                          <p><strong>Handling Signed Documents:</strong>&nbsp;ABCpdf follows the PDF specification rigorously. Any modification, including appending pages, will invalidate existing digital signatures. The correct and expected behavior here is that the signatures should report their original information such as the signer and the trust level but that the document has been modified. However by using the <a href="/Manual/5-abcpdf/xsaveoptions/2-properties/incremental.htm">Incremental</a> save option you can allow the client to revert back to the original signed version.</p>
+                          <p><strong>Handling Signed Documents:</strong>&nbsp;ABCpdf follows the PDF specification rigorously. Any modification, including appending pages, will invalidate existing digital signatures. The correct and expected behavior here is that the signatures should report their original information such as the signer and the trust level but that the document has been modified. However by using the <a href="../../xsaveoptions/2-properties/incremental.htm">Incremental</a> save option you can allow the client to revert back to the original signed version.</p>
                         </li>
                       <li>
                           <p><strong>Performance and Scalability:</strong>&nbsp;The engine is optimized for low memory consumption and high speed. It processes documents in a streamlined manner, making it suitable for server-side applications where merging large documents or processing high volumes of files is a requirement.</p>
@@ -184,6 +184,7 @@ doc1.Save("docjoin.pdf");
             ><BR>docjoin.pdf [Page 1]</P>
             <P><IMG src="../../../images/pdf/docjoin.pdf2.png" class="example"
             ><BR>docjoin.pdf [Page 2]</P>
+            <p>Also see example code in: <a href="../../../8-abcpdf.operations/R-customfont/1-methods/01-customfont.htm">CustomFont CustomFont Function</a>.</p>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>

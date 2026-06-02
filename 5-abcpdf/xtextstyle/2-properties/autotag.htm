@@ -1,0 +1,121 @@
+<html>
+<head>
+<title>XTextStyle AutoTag Property. Whether to automatically add accessibility tags or not. ABCpdf .NET PDF Library.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../mystyles.css">
+<link rel="stylesheet" href="../../../prism.css">
+<script src="../../../prism.js"></script>
+</head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> AutoTag Property</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+            <table class="wsgtable" cellpadding="3" cellspacing="0" border="5" bordercolor="#FFFFFF"> 
+              <tr> 
+                <td align="center"><b>Type</b></td>
+                <td><b>Default Value</b></td>
+                <td><b>Read Only</b></td>
+                <td><b>Description</b></td>
+              </tr>
+              <tr valign="top"> 
+                <td align="left"><code>bool</code></td>
+                <td>false</td>
+                <td>No</td>
+                <td>Whether to automatically add accessibility tags or not.</td>
+              </tr>
+            </table>
+			
+            <p>&nbsp;</p>
+          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <p>Whether to automatically add accessibility tags or not. This is equivalent to the autotag stylerun attribute. </p>
+            <p>Autotagging will appropriately tag your documents based on the content you have added. </p>
+            <p>We use the Basic Layout Model as defined in the PDF specification. The root &lt;Document&gt; encloses the entire content, with &lt;Part&gt; and &lt;Sect&gt; defining major divisions and sections. Headings are represented by &lt;H1&gt; through &lt;H6&gt;, establishing a clear hierarchical outline, while &lt;P&gt; identifies individual paragraphs. Tables are constructed with &lt;Table&gt;, containing &lt;TR&gt; (table row) elements that hold &lt;TH&gt; for header cells and &lt;TD&gt; for data cells. Lists use &lt;L&gt;, where each &lt;LI&gt; (list item) is split into a &lt;Lbl&gt; label - such as a bullet or number - and &lt;LBody&gt; for the item&rsquo;s body text. Additional block-level containers like &lt;Art&gt; for self-contained articles and &lt;Div&gt; for generic groups further refine the structure, ensuring that every meaningful piece of content is mapped from the tag tree to its exact position on the page.<br>
+            </p>
+            <p>Methods such as AddTextStyled will drop appropriate metatags into the content stream as items are added. The AutoTag process then converts these to PDF/UA compatible PDF tags at the point that the document is saved.</p>
+            <p>The tags that are added are of the form,,</p>
+            <pre><code class="language-html"><!--notcode-->/ABCTag &lt;&lt; /T /P /ID 10 &gt;&gt; BDC</code></pre>
+            <p>The T entry specifies the PDF tag type - in this case a paragraph. The ID entry is a unique ID which can be used to track an item like a paragraph if it needs to be split across two pages. You can add an /Attr entry which is a DictAtom of items that will be added to the Structure Element. You can also add an /OBJR which is a reference to a singular object such as an annotation which has a defined meaning. This entry is the ID of the object rather than a RefAtom because there are no RefAtoms in a content stream.</p>
+            <p>However most normally you will allow AddTextStyled or methods such as Doc.Tag.Open to insert tags as appropriate. The standard autotagging process takes HTML styled text entries like &lt;p&gt; and &lt;ul&gt; and translates them into PDF analogues. If you wish you can add to these using the HTML styled text &lt;tag&gt; entry. For example,</p>
+            <pre><code class="language-html"><!--notcode-->&quot;&lt;ul&gt;&lt;Tag Type=&quot;Caption&quot;&gt;Caption&lt;/Tag&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;&quot;</code></pre>
+            <p>If you set Doc.Style.AutoTag to false then you can specify your own tags instead of our standard replacements.</p>
+            <pre><code class="language-html"><!--notcode-->&quot;&lt;h1&gt;&lt;Tag Type=&quot;H&quot;&gt;Generic Header&lt;/Tag&gt;&lt;/h1&gt;&quot;</code></pre>
+            <p>There is a next_id placeholder which returns a document specific unique ID starting at zero but be aware that this may clash with any MCIDs present so do not use it if for that purpose. If need an appropriate MCID you can use the next_mcid placeholder which will be replaced with the next available MCID for the page. IDs do not need to be numeric - they are simply a unique string, however MCIDs are always numeric.</p>
+            <p>You can specify start and end tags using the <a href="../../../3-concepts/b-htmlstyles.htm">&quot;tag-start&quot; and &quot;tag-end&quot;</a> styled text entries.</p>
+          <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Example</td>
+    <td width="14">&nbsp;</td>
+    <td valign="top"> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td> 
+            <P>The following code creates a simple tagged document containg text and an image.</P>
+            <P><SPAN class=language>[C#]</SPAN><BR>
+            <pre><code class="language-csharp">using var doc = new Doc();
+string text = &quot;From the attic window, snow-draped rooftops stretch into the distance, chimneys smoking softly. Icicles glitter in the pale sun. A quiet, frozen world.&quot;;
+doc.Rect.Inset(20, 40);
+doc.TextStyle.AutoTag = true;
+doc.TextStyle.Size = 36;
+doc.AddTextStyled($&quot;&lt;p&gt;{text}&lt;/p&gt;&quot;);
+using var img = XImage.FromFile(&quot;../mypics/mypic.jpg&quot;, null);
+doc.Rect.SetRect(100, 100, img.Width / 2, img.Height / 2);
+var figure = doc.Tag.MakeTag(&quot;Figure&quot;);
+figure.Attributes = new DictAtom();
+figure.Attributes[&quot;Alt&quot;] = new StringAtom(&quot;Snowy rooftops.&quot;);
+doc.Tag.Open(figure);
+doc.AddImageObject(img, true);
+doc.Tag.Close(figure.Type);
+doc.Save(&quot;simpletags.pdf&quot;);
+</code></pre>
+            </P>
+            <P><IMG src="../../../images/pdf/styleautotag.pdf.png" width="302" height="391" class="example"><BR>
+            styleautotag.pdf </P>
+            <p>Also see example code in: <a href="../../../4-examples/02-texttagged.htm">ABCpdf Tagged Text Example</a>, <a href="../../xtagging/1-methods/04-open.htm">XTagging Open Function</a>.</p>
+            <p>&nbsp;</p>
+            </td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

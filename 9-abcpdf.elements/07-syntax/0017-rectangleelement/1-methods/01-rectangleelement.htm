@@ -127,14 +127,9 @@
             <P>This code snippet is taken from Annotations.cs line 106 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../../../12-interactive/1391-annotationelement/2-properties/03-entryrect.htm">AnnotationElement.EntryRect</a> = new <a href="../default.htm">RectangleElement</a>(ArrayAtom.FromXRect(value), AnnotationElement.Host);
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet"><a href="../../../12-interactive/1391-annotationelement/2-properties/03-entryrect.htm">AnnotationElement.EntryRect</a> = New <a href="../default.htm">RectangleElement</a>(ArrayAtom.FromXRect(value), AnnotationElement.Host)
-</code></pre></P>
 <P>This code snippet is taken from Annotations.cs line 1209 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../../../12-interactive/1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a> annot = WidgetElement;
 annot.EntryRect = new <a href="../default.htm">RectangleElement</a>(ArrayAtom.FromXRect(new XRect(rect)), annot.Host);
-</code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As <a href="../../../12-interactive/1416-widgetannotationelement/default.htm">WidgetAnnotationElement</a> = WidgetElement
-annot.EntryRect = New <a href="../default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect)), annot.Host)
 </code></pre></P>
 <P>This code snippet is taken from Annotations.cs line 1546 in the Annotations example project.</P>
 <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp"><a href="../../../12-interactive/1409-circleannotationelement/default.htm">CircleAnnotationElement</a> annot = new <a href="../../../12-interactive/1409-circleannotationelement/default.htm">CircleAnnotationElement</a>(AnnotationElement.Object);
@@ -143,13 +138,6 @@ annot.EntryRect = new <a href="../default.htm">RectangleElement</a>(ArrayAtom.Fr
 annot.EntryC = Array.ConvertAll(borderColor.Split(new char[] { &#39; &#39; }), s =&gt; double.Parse(s, NumberFormatInfo.InvariantInfo) / 255.0);
 annot.EntryIC = Array.ConvertAll(fillColor.Split(new char[] { &#39; &#39; }), s =&gt; double.Parse(s, NumberFormatInfo.InvariantInfo) / 255.0);
 <a href="../../../12-interactive/1391-annotationelement/default.htm">AnnotationElement</a> = annot;
-</code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../../../12-interactive/1409-circleannotationelement/default.htm">CircleAnnotationElement</a>(AnnotationElement.Object)
-annot.EntrySubtype = &quot;Circle&quot;
-annot.EntryRect = New <a href="../default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect)), annot.Host)
-annot.EntryC = Array.ConvertAll(borderColor.Split(New Char() { &quot; &quot;c }), Function(s) Double.Parse(s, NumberFormatInfo.InvariantInfo) / 255.0)
-annot.EntryIC = Array.ConvertAll(fillColor.Split(New Char() { &quot; &quot;c }), Function(s) Double.Parse(s, NumberFormatInfo.InvariantInfo) / 255.0)
-<a href="../../../12-interactive/1391-annotationelement/default.htm">AnnotationElement</a> = annot
 </code></pre></P>
 
             <P>&nbsp;</P></TD>

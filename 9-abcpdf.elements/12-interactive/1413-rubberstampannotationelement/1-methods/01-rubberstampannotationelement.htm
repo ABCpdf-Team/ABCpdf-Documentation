@@ -137,18 +137,6 @@ annot.EntryAP = new <a href="../../1397-appearanceelement/default.htm">Appearanc
 annot.EntryAP.EntryN = new <a href="../../../08-graphics/1226-formxobjectelement/default.htm">FormXObjectElement</a>(formXObject);
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim aspectRatio As Double = Nothing
-Dim formXObject As FormXObject = GenerateAppearanceStream(form.Doc, caption, color, aspectRatio)
-Dim xrect As New XRect(rect)
-xrect.Width = xrect.Height * aspectRatio
-Dim annot As New <a href="../default.htm">RubberStampAnnotationElement</a>(AnnotationElement.Object)
-annot.EntrySubtype = &quot;Stamp&quot;
-annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(xrect), annot.Host)
-annot.EntryContents = caption
-annot.EntryAP = New <a href="../../1397-appearanceelement/default.htm">AppearanceElement</a>(annot)
-annot.EntryAP.EntryN = New <a href="../../../08-graphics/1226-formxobjectelement/default.htm">FormXObjectElement</a>(formXObject)
-<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

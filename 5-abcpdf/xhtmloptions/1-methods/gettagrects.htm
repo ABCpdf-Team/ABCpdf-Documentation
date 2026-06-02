@@ -113,7 +113,7 @@
             <pre><code class="language-csharp">using var doc = new Doc();
 doc.Rect.Inset(100, 100);
 doc.Rect.Top = 700;
-doc.HtmlOptions.Engine = EngineType.Chrome123;
+doc.HtmlOptions.Engine = EngineType.Chrome146;
 doc.HtmlOptions.AddTags = true;
 // The ABCGecko and MSHTML tagging format uses styles.
 string html1 = "&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;" +
@@ -131,7 +131,7 @@ string html2 = "&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;" +
 &nbsp;&nbsp;"&lt;/head&gt;&lt;body&gt;" +
 &nbsp;&nbsp;"&lt;p id='p1' abcpdf-tag-visible&gt;Gallia est omnis divisa in partes tres.&lt;/p&gt;" +
 &nbsp;&nbsp;"&lt;/body&gt;&lt;/html&gt;";
-string html = doc.HtmlOptions.Engine != EngineType.Chrome123 ? html1 : html2;
+string html = doc.HtmlOptions.Engine != EngineType.Chrome146 ? html1 : html2;
 int id = doc.AddImageHtml(html);
 // Frame location of the tagged element
 var tagRects = doc.HtmlOptions.GetTagRects(id);

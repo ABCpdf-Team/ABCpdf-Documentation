@@ -30,7 +30,7 @@ doc.Transform.Rotate(90, doc.Rect.Width / 2, doc.Rect.Height / 2);
 doc.TextStyle.Underline = true;
 doc.AddText("Hello World rotated by 90 degrees");
 doc.Page = doc.AddPage();
-doc.Transform.AngleUnit = WebSupergoo.ABCpdf13.XTransform.AngleUnitType.Radians;
+doc.Transform.AngleUnit = WebSupergoo.ABCpdf14.XTransform.AngleUnitType.Radians;
 doc.Transform.Rotate(-1 * Math.PI / 2, doc.Rect.Width / 2, doc.Rect.Height / 2);
 doc.AddText("Hello World rotated back by PI/2 radians");
 doc.Save("transformrotate.pdf");

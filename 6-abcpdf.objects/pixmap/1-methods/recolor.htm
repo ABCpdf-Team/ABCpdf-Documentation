@@ -105,8 +105,9 @@
             result in an exception being raised.</P>
             <P>The rendering intent determines how out of gamut colors are 
             handled. For full details see the <a href="../../../8-abcpdf.operations/3-recoloroperation/2-properties/renderingintent.htm">RecolorOperation.RenderingIntent</a> property.</P>
-            <P>After the PixMap has been Recolored it is no longer compressed 
-            and will have a <A 
+            <P>If the image is a palette based image, the palette will be rexcolored rather than the pixels themselves. This is a faster more accurate, way to work which preserves the structure of the image as far as possible.</P>
+            <P>After the PixMap has been Recolored it may no longer compressed 
+            and is likely to have a <A 
             href="../2-properties/bitspercomponent.htm">BitsPerComponent</A> of 
             eight or sixteen. You may wish to compress it using the <A 
             href="../../streamobject/1-methods/compress.htm">StreamObject.Compress</A> 

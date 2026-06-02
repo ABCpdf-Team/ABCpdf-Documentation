@@ -46,11 +46,11 @@
             Project. This tells Visual Studio to link the ABCpdf assembly into the 
             build.</P>
             <P>Typically you will do this by referencing the ABCpdf NuGet package. Right click on 'Dependencies' and then select the 'Manage NuGet Packages...' item, click on &quot;Browse&quot; and search for &quot;ABCpdf - you should see ABCpdf amongst the results from NuGet.org.</P>
-            <P><img src="../images/addnuget.png" alt="Add NuGet" width="800" height="544"></P>
+            <P><img src="../images/addnuget.png" alt="Add NuGet" width="800" height="514"></P>
             <P>If you have run the full MSI installer, ABCpdf is  placed in the GAC, so under .NET 4 you can  add a reference simply by looking in the 'Assemblies &gt; Extensions' section of the Reference Manager. Just right click on 'References' in your project and 'Add Reference' - you'll see &quot;ABCpdf .NET&quot; near the top of the extensions list. .NET 5 and later do not have a GAC, so while you can add the relevant reference by browsing to the DLL in the ABCpdf installation folder,  it is probably easier to add a NuGet reference.</P>
             <P><img src="../images/addreference.png" alt="Add Reference" width="800" height="552"></P>
-            <P>If you are using .NET 8.0 your project target is &quot;net8.0&quot; however since ABCpdf makes use of Windows specific features, more commonly you will target &quot;net8.0-windows&quot;. Indeed if you are using .NET 5 or later the format is the same - it is just a matter of adjusting the version number in the target. If you are using .NET Classic / Framework then your target will be slightly different - &quot;v4.0&quot; or later.</P>
-            <P>The ABCpdf NuGet package ships with the MSHTML and ABCChrome123 HTML conversion engines. If you want to use the ABCChrome117, ABCChrome86 or ABCChrome65 HTML conversion engine, you will need to reference the ABCChrome117, ABCChrome86 or ABCChrome65 NuGet packages in addition to the ABCpdf one. Similarly for ABCGecko you will need to reference the ABCGecko package. Similarly for ABCWebKit you will need the ABCWebKit package. All these engines are installed by default if you run the downloadable MSI installer.</P>
+            <P>If you are using .NET 10.0 your project target is &quot;net10.0&quot; however since ABCpdf makes use of Windows specific features, more commonly you will target &quot;net10.0-windows&quot;. Indeed if you are using .NET 5 or later the format is the same - it is just a matter of adjusting the version number in the target. If you are using .NET Classic / Framework then your target will be slightly different - &quot;v4.0&quot; or later.</P>
+            <P>The ABCpdf NuGet package ships with the MSHTML and ABCChrome146 HTML conversion engines. If you want to use the ABCChrome123, ABCChrome117, ABCChrome86 or ABCChrome65 HTML conversion engine, you will need to reference the ABCChrome123, ABCChrome117, ABCChrome86 or ABCChrome65 NuGet packages in addition to the ABCpdf one. Similarly for ABCGecko you will need to reference the ABCGecko package. Similarly for ABCWebKit you will need the ABCWebKit package. All these engines are installed by default if you run the downloadable MSI installer.</P>
             <P>You can mix and match the full MSI installer with the NuGet packages. If you reference a different NuGet version in your project then that version, rather than the MSI installed version, is the one that will be used. Be careful as it can be confusing if you have multiple different versions of ABCpdf in use.</P>
             <P>If  you are not using Visual Studio, you will need to consult the 
             documentation for your chosen development environment.</P>
@@ -108,12 +108,11 @@
           <TD>
             <P>There are four public namespaces in ABCpdf. You can reference 
             these using the following directives.</P>
-            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using WebSupergoo.ABCpdf13;
-using WebSupergoo.ABCpdf13.Objects;
-using WebSupergoo.ABCpdf13.Atoms;
-using WebSupergoo.ABCpdf13.Operations;<!--notcode-->
-</code></pre></P>
-            <P>The ABCpdf13 namespace contains the objects you will use for page 
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Operations;<!--notcode--></code></pre>
+            <P>The ABCpdf14 namespace contains the objects you will use for page 
             layout. Most of the time, it is the only namespace you will need.</P>
             <P>The Objects namespace allows you to access and manipulate content 
             you've already added. You may use this namespace for complex 

@@ -44,6 +44,7 @@
             <p><span class="language">[C#]</span><br>
               <code>bool CompressFlate()<br>
               bool CompressFlate(bool force)<br>
+              bool CompressFlate(bool force, int compressionLevel)<br>
               </code></p>
             <p>&nbsp;</p>
           </td>
@@ -65,9 +66,13 @@
                 <td align="center"><b>Name</b></td>
                 <td><b>Description</b></td>
               </tr>
-              <tr valign="top"> 
+              <tr valign="top">
                 <td align="center">force</td>
                 <td>Whether to force the stream to be compressed in this way.</td>
+              </tr>
+              <tr valign="top"> 
+                <td align="center">compressionLevel</td>
+                <td>The level of compression to apply as a percentage. Smaller numbers are faster but produce lower compresssion ratios. Pass -1 for a default choice.</td>
               </tr>
               <tr valign="top">
                 <td align="center">return</td>
@@ -95,6 +100,7 @@
             <p>This function does not decompress the stream. So if compression is already present, then this method will compress the already-encoded data and append a compression specification to the sequence.</p>
             <p>ABCpdf tries to avoid creating certain compression sequences. Some compression types on some objects are illegal. Some sequences are legal but not supported within  Acrobat (though they are in most other viewers). However these are unusual situations and you are unlikely to ever see them.</p>
             <p>You can override this behavior by forcing the compression to take place. However if you do this  you may end up creating a document which is invalid or unviewable in Acrobat. </p>
+            <p>The compression level parameter controls the intensity of Flate compression applied to the current page content stream. Lower values execute faster but yield lower compression ratios, while higher values produce smaller output at the cost of speed. Passing -1 instructs the method to use a default compression level determined by the library.</p>
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>

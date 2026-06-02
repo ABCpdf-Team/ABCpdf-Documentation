@@ -132,13 +132,6 @@ annot.EntryParent = parentID != 0 ? new <a href="../../1391-annotationelement/de
 annot.EntryOpen = true;
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">PopUpAnnotationElement</a>(AnnotationElement.Object)
-annot.EntrySubtype = &quot;Popup&quot;
-annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect)), annot.Host)
-annot.EntryParent = If(parentID &lt;&gt; 0, New <a href="../../1391-annotationelement/default.htm">AnnotationElement</a>(form.Doc.ObjectSoup(parentID)), Nothing)
-annot.EntryOpen = True
-<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

@@ -82,7 +82,7 @@
             <p>Set the application configuration file. </p>
             <p>This can be used in situations in which you have a custom config file for your application - most commonly on Linux.</p>
             <p>On Windows ABCpdf first looks for preferences  in the default config file. For an executable this will be app.config in the same directory as the executable. For a web site it will be a web.config at the root of the web app. Under Linux this does not happen.</p>
-            <p> If a preference is not found here then any config file specified using the SetConfigFile method will be scanned for an appropriate setting. If the method has not been called and you are on Linux then the default config file will be used - ~/.config/WebSupergoo/ABCpdf13.config.</p>
+            <p> If a preference is not found here then any config file specified using the SetConfigFile method will be scanned for an appropriate setting. If the method has not been called and you are on Linux then the default config file will be used - ~/.config/WebSupergoo/ABCpdf14.config.</p>
             <p>On Windows if the preference is still not found then the registry will be scanned for the value.</p>
             <p>Finally if no value has been found then a default will be used.</p>
             <p>Here is an example of a .config file that contains a 
@@ -93,14 +93,14 @@
             &lt;configuration&gt;<BR>
             &nbsp;&nbsp;&lt;configSections&gt;<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&lt;section 
-            name="ABCpdf13" type=" WebSupergoo.ABCpdf13.ConfigSection, 
+            name="ABCpdf14" type=" WebSupergoo.ABCpdf14.ConfigSection, 
             ABCpdf" allowLocation="true" <BR>
             allowDefinition="Everywhere" 
             allowExeDefinition="MachineToLocalUser" overrideModeDefault="Allow" <BR>
             restartOnExternalChanges="true" requirePermission="true" 
             /&gt;<BR>
             &nbsp;&nbsp;&lt;/configSections&gt;<BR>
-&nbsp;&nbsp;&lt;ABCpdf13&gt;<BR>
+&nbsp;&nbsp;&lt;ABCpdf14&gt;<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&lt;preferences&gt;<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;clear 
             /&gt;<BR>
@@ -111,7 +111,7 @@
             Key="MakeURLsUnique" Value="0"
             /&gt;<BR>
             &nbsp;&nbsp;&nbsp;&nbsp;&lt;/preferences&gt;<BR>
-&nbsp;&nbsp;&lt;/ABCpdf13&gt;<BR>
+&nbsp;&nbsp;&lt;/ABCpdf14&gt;<BR>
 &lt;/configuration&gt;</CODE>
             <p>&nbsp;</p>
             <TABLE class=backgrounder cellPadding=10 border=0>

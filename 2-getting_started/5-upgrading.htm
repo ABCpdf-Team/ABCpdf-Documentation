@@ -46,18 +46,18 @@ Basics</td>
 <tbody>
 <tr>
 <td>
-<p>ABCpdf 13 is a new version completely independent
+<p>ABCpdf 14 is a new version completely independent
 of the old. It incorporates the ABCpdf2, ABCpdf3, ABCpdf4, ABCpdf5,
-ABCpdf6, ABCpdf7, ABCpdf8, ABCpdf9, ABCpdf10, ABCpdf11 and ABCpdf12 namespaces so that you can upgrade with minimal
+ABCpdf6, ABCpdf7, ABCpdf8, ABCpdf9, ABCpdf10, ABCpdf11, ABCpdf12 and ABCpdf13 namespaces so that you can upgrade with minimal
 changes to your code. When you want to take advantage of the new
 features, simply reference the new name.</p>
 <p>Simply replace...</p>
 <p><span class="language">[C#]</span><br>
-<pre><code class="language-csharp">using WebSupergoo.ABCpdf12;<!--notcode-->
+<pre><code class="language-csharp">using WebSupergoo.ABCpdf13;<!--notcode-->
 </code></pre></p>
 <p>with...</p>
 <p><span class="language">[C#]</span><br>
-<pre><code class="language-csharp">using WebSupergoo.ABCpdf13;<!--notcode-->
+<pre><code class="language-csharp">using WebSupergoo.ABCpdf14;<!--notcode-->
 </code></pre></p>
 <p></p>
 <p>&nbsp;</p>
@@ -82,15 +82,19 @@ Changes</td>
 extensive changes have been made to the core engine, we check that
 these changes produce results that are compatible with previous
 versions.</p>
-<p>There are some minor differences in behavior between the ABCpdf12 and ABCpdf13 namespaces.</p>
-<p>The new ABCChrome123 HTML conversion engine is our new default as it is faster, more compliant and more secure than the previous one.  If your HTML conversions rely on specific output styles created by  the previous default engines - eg ABCChrome86 - you will want to use the following line of code after creating any Doc object, after calling Doc.Read and after calling Doc.Clear.</p>
+<p>There are some minor differences in behavior between the ABCpdf13 and ABCpdf14 namespaces.</p>
+<p>The new ABCChrome146 HTML conversion engine is our new default as it is faster, more compliant and more secure than the previous one.  If your HTML conversions rely on specific output styles created by  the previous default engines - eg ABCChrome86 - you will want to use the following line of code after creating any Doc object, after calling Doc.Read and after calling Doc.Clear.</p>
 <p><span class="language">[C#]</span><br>
 <pre><code class="language-csharp">doc.HtmlOptions.Engine = EngineType.Chrome86;
 </code></pre>
 </p>
-<p>For this release we have vastly increased the capabilities of FireShield. It has much greater insight into what is happening in the current process and intercepts requests that previously might have gone unnoticed. This means that if you have custom rules for FireShield  it may pick up some events - for example file information queries - which previously it might not have done. Your rules may need to be adjusted to allow these types of events to be ignored as appropriate.</p>
-<p>You should not use objects after disposal. However the debugger does not know if an object is disposed so if you are displaying disposed objects in the watch window you may see exceptions being thrown. We have changed  behavior here  to make disposed objects more tolerant of misuse. Properties such as the <a href="../5-abcpdf/xencryption/2-properties/streamcryptionmethod.htm">XEncryption.StreamCryptionMethod</a> and <a href="../5-abcpdf/xencryption/2-properties/stringcryptionmethod.htm">XEncryption.StringCryptionMethod</a> are likely to return default values rather than throw exceptions. </p>
-<p>The app.config ABCpdf preferences section has been changes slightly. In Version 12 we had an &lt;ABCpdf12.Section&gt; tag but in version 13 is is simply &lt;ABCpdf13&gt;. We handle the camel cased XML preferences for backwards compatibility but in the current release we prefer lower case entries. See the <a href="../5-abcpdf/xsettings/1-methods/setconfigfile.htm">XSettings.SetConfigFile</a> function for details.</p>
+<p>The <a href="../5-abcpdf/xsettings/1-methods/installlicense.htm">XSettings.InstallLicense</a>, <a href="../5-abcpdf/xsettings/1-methods/installredistributionlicense.htm">XSettings.InstallRedistributionLicense</a>, <a href="../5-abcpdf/xsettings/1-methods/installsystemlicense.htm">XSettings.InstallSystemLicense</a> and <a href="../5-abcpdf/xsettings/1-methods/installtriallicense.htm">XSettings.InstallTrialLicense</a> now throw an exception in the case of failure. We changed the behavior here, as many clients were not checking the return value and so any license installation failures would fail silently. If you are relying on the old behavior there are overloads which take a boolean throwOnFailure property which you can set to false.</p>
+<p>The <a href="../5-abcpdf/xsaveoptions/2-properties/compact.htm">Doc.SaveOptions.Compact</a> property automatically reduces PDF file size by flattening page contents. However if you save  IDs from content addition methods like <a href="../5-abcpdf/doc/1-methods/addtext.htm">Doc.AddText</a>, then call <a href="../5-abcpdf/doc/1-methods/save.htm">Doc.Save</a> then use those IDs to reference the content items, you will wish to disable it because flattening invalidates those IDs. This need is uncommon, so the default works perfectly in most cases.</p>
+<p>The <a href="../5-abcpdf/xreadoptions/2-properties/defaultrect.htm">XReadOptions.DefaultRect</a> property previously had nonstandard behavior: setting it to null would insert a default sized rectangle instead of remaining null. This has now been fixed to behave as developers expect, so setting it to null actually makes it null.</p>
+<p>When using ABCpdf to import Flash or SWF files we now prefer our custom SwfVector <a href="../5-abcpdf/xreadoptions/2-properties/1-readmodule.htm">ReadModule</a>. If you want to use the old native Flash module instead you can select it by specifying the FlashNative ReadModule which reverts to the legacy Adobe dependent parser.</p>
+<p>Object stream compression was previously disabled by default. It is now enabled, delivering leaner PDFs by grouping many small objects into a single compressed stream. However if you must comply with legacy standards like PDF/A-1 (which predates object streams) or rely on older or homegrown tools that cannot parse compressed object structures, you may wish to set the <a href="../5-abcpdf/xsaveoptions/2-properties/compressobjects.htm">Doc.SaveOptions.CompressObjects</a> property to false.</p>
+<p>Most developers will be unaware of the PDFException class since it has always been carefully hidden from view. However if you have uncovered it then you should be aware of some changes. PDFException now inherits from Exception rather than from AppException so if your code catches AppException you may need to update your exception handlers.  We also now throw standard .NET exceptions (e.g. ArgumentNullException) in many cases instead of PDFException. Do not rely on PDFException being thrown for specific errors &ndash; check your exception handling logic. To ease migration you can set PDFException.Prefer to true to revert to the legacy behavior.</p>
+<p>&nbsp;</p>
 <p></p></td>
 <td width="60">&nbsp;</td>
 <td width="11">&nbsp;</td>

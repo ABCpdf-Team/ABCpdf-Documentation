@@ -136,17 +136,6 @@ if (!string.IsNullOrEmpty(rect2)) {
 }
 <a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot;
 </code></pre></P>
-<P><SPAN class=language>[VB]</SPAN><BR><pre><code class="language-vbnet">Dim annot As New <a href="../default.htm">TextAnnotationElement</a>(AnnotationElement.Object)
-annot.EntrySubtype = &quot;Text&quot;
-annot.EntryRect = New <a href="../../../07-syntax/0017-rectangleelement/default.htm">RectangleElement</a>(ArrayAtom.FromXRect(New XRect(rect1)), annot.Host)
-annot.EntryName = &quot;Comment&quot;
-annot.EntryContents = contents
-If Not String.IsNullOrEmpty(rect2) Then
-&nbsp;&nbsp;Dim popup As New PopupAnnotation(form, rect2, AnnotationElement.Object.ID)
-&nbsp;&nbsp;annot.EntryPopup = CType(popup.AnnotationElement, <a href="../../1414-popupannotationelement/default.htm">PopUpAnnotationElement</a>)
-End If
-<a href="../../1391-annotationelement/default.htm">AnnotationElement</a> = annot
-</code></pre></P>
 
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

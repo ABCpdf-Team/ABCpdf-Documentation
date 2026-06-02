@@ -57,28 +57,29 @@
         <TR>
           <TD>
             <P>The wrapper contains the following namespaces:</P>
-            <pre><code class="language-csharp">using WebSupergoo.ABCpdf13.Drawing;
-using WebSupergoo.ABCpdf13.Drawing.Drawing2D;
-using WebSupergoo.ABCpdf13.Drawing.Text;
+            <span class="language">[C#]</span><br>
+            <pre><code class="language-csharp">using WebSupergoo.ABCpdf14.Drawing;
+using WebSupergoo.ABCpdf14.Drawing.Drawing2D;
+using WebSupergoo.ABCpdf14.Drawing.Text;
 </code></pre>
             <P>These contain classes which are direct analogues for the classes 
             contained in the System.Drawing namespaces. For example, a 
-            System.Drawing.Pen maps to a WebSupergoo.ABCpdf13.Drawing.Pen and a 
-            System.Drawing.Bitmap maps to a WebSupergoo.ABCpdf13.Drawing.Bitmap.</P>
+            System.Drawing.Pen maps to a WebSupergoo.ABCpdf14.Drawing.Pen and a 
+            System.Drawing.Bitmap maps to a WebSupergoo.ABCpdf14.Drawing.Bitmap.</P>
             <P>The procedure for porting your System.Drawing code is simple:</P>
             <OL>
               <LI>Change namespaces from those in System.Drawing to the 
-              corresponding ones in ABCpdf13.Drawing (Drawing, Drawing.Text, 
+              corresponding ones in ABCpdf14.Drawing (Drawing, Drawing.Text, 
               Drawing.Drawing2D etc.) 
               <LI>Change all types from those in System.Drawing to the 
-              corresponding types in ABCpdf13.Drawing (Pen, Brush, Color etc.) 
+              corresponding types in ABCpdf14.Drawing (Pen, Brush, Color etc.) 
               <LI>Remove any code which does not have an analogues in 
               ABCpdf.Drawing </LI></OL>
             <P>In general, the number of calls which do not have analogues in 
             ABCpdf.Drawing should be small. However, we provide the full source 
             code for System.Drawing so extending the assembly is simple.</P>
             <P>As well as the standard functions analogous to those in 
-            System.Drawing, the ABCpdf13.Drawing namespace also contains similar 
+            System.Drawing, the ABCpdf14.Drawing namespace also contains similar 
             functions aimed at greater control over the PDF production process. 
             For example, the ABCpdf Color class contains a FromCmyk function to 
             allow the construction of CMYK colors as well as RGB ones.</P>
@@ -144,9 +145,9 @@ pg.Save("../../abcpdf.drawing.gif", System.Drawing.Imaging.ImageFormat.Gif);<!--
 using System.IO;
 using System.Reflection;
 
-using WebSupergoo.ABCpdf13.Drawing;
-using WebSupergoo.ABCpdf13.Drawing.Drawing2D;
-using WebSupergoo.ABCpdf13.Drawing.Text;
+using WebSupergoo.ABCpdf14.Drawing;
+using WebSupergoo.ABCpdf14.Drawing.Drawing2D;
+using WebSupergoo.ABCpdf14.Drawing.Text;
 using Rectangle = System.Drawing.Rectangle;
 using RectangleF = System.Drawing.RectangleF;
 using Point = System.Drawing.Point;

@@ -347,14 +347,10 @@ for (int i = 0; i &lt; links.Count; i++) {
 }
 // Link pages together
 doc.HtmlOptions.LinkPages();
-// Flatten all pages
-for (int i = 1; i &lt;= doc.PageCount; i++) {
-&nbsp;&nbsp;doc.PageNumber = i;
-&nbsp;&nbsp;doc.Flatten();
-}
 // Save the document
 doc.Save("HtmlOptionsJavaScript.pdf");
-</code></pre></p>
+</code></pre>
+              </p>
             <table border="0" cellpadding="3" cellspacing="3" width="100%">
               <tbody><tr>
                 <td><img src="../../../images/pdf/HtmlOptionsJavaScript.pdf.png" class="example"><br>

@@ -39,7 +39,9 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR><CODE>static <a href="../default.htm">XFont</a>[] 
-            FindFamily(string family)<BR>
+            FindFamily(string family)<br>
+            static <a href="../default.htm">XFont</a>[] 
+            FindFamily(string family,<a href="../../xfont.store/default.htm"> Store</a> store)<BR>
             </CODE><BR>
             </P>
             <P>&nbsp;</P></TD>
@@ -63,6 +65,10 @@
               <TR vAlign=top>
                 <TD align=middle>family</TD>
                 <TD>The name of the font family.</TD></TR>
+              <TR vAlign=top>
+                <TD align=middle>store</TD>
+                <TD>A font store to use in addition to the fonts installed on the system. Null values are ignored.</TD>
+              </TR>
               <TR vAlign=top>
                 <TD align=middle>return</TD>
                 <TD>The set of matching fonts.</TD></TR></TBODY></TABLE>
