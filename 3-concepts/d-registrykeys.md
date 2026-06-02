@@ -198,6 +198,12 @@ In the long run we would expect that Adobe will resolve this issue within Acroba
 
 To mitigate the effect of this problem you can detect and recompress progressive JPEG images as they are added to. To do this you simply need to specify a quality setting between 1 and 100.
 
+ABCpdf .NET uses Microsoft's System.Drawing and GDI+ for the processing of EMF and WMF Windows Metafiles.
+
+EMF processing has a long history of critical vulnerabilities based around specially crafted EMF and WMF files. This is a Microsoft issue not a flaw in the applications themselves. The recurring pattern implies there are probably more vulnerabilities to be found.
+
+If you accept untrusted image files and your application does not require EMF support, disabling the codec via this setting eliminates this attack surface entirely.
+
 The default width of borders on Annotations added to PDF documents.
 
 This property is only accessible using the Doc.SetInfo method. The default cannot be overridden using a registry key.
@@ -448,15 +454,15 @@ This value is in 1000ths of the font size. When the Gecko engine is used, this s
 
 This value is in 1000ths of a point. (A point is 1/72 of an inch.) When the Gecko engine is used, this specifies the maximum absolute horizontal shift between adjacent glyphs to consider the glyphs to be in a continuous flow of text. Because of font hinting, character widths and positions reported by Gecko may be different from those in the fonts. Glyphs in a continuous flow are evenly spaced in the text area.
 
-For HTML rendering using the default ABCChrome rendering engine (currently ABCChrome123), access is required to the current default ABCChrome executable worker process.
+For HTML rendering using the default ABCChrome rendering engine (currently ABCChrome146), access is required to the current default ABCChrome executable worker process.
 
-By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting.
+By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. The directory specified should be the one containing the ABCChrome folder rather than the ABCChrome folder itself.
 
-NB the more specific ABCChrome123Directory setting, the current default engine, will override any value set here. This setting maintains backward compatibility.
+NB the more specific ABCChrome146Directory setting, the current default engine, will override any value set here. This setting maintains backward compatibility.
 
 For HTML rendering using the ABCChrome65 rendering engine, access is required to the ABCChrome65.exe worker process.
 
-By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting.
+By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. This value overrides the ABCChromeDirectory setting as it is version specific.
 
 For HTML rendering using the ABCChrome86 rendering engine, access is required to the ABCChrome86.exe worker process.
 
@@ -467,6 +473,10 @@ For HTML rendering using the ABCChrome117 rendering engine, access is required t
 By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. This value overrides the ABCChromeDirectory setting as it is version specific.
 
 For HTML rendering using the ABCChrome123 rendering engine, access is required to the ABCChrome123.exe worker process.
+
+By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. This value overrides the ABCChromeDirectory setting as it is version specific.
+
+For HTML rendering using the ABCChrome146 rendering engine, access is required to the ABCChrome146.exe worker process.
 
 By default a set of paths is searched to allow the worker to be found. You can specify a directory which should be checked, using this setting. This value overrides the ABCChromeDirectory setting as it is version specific.
 

@@ -18,6 +18,8 @@ When you change the Page property the Pos property is reset to the top left of t
 
 If no page is specified the current page is taken to be the first page in the document.
 
+You cannot set the Page property to an ID which is not a Page object. If you do so the value will not change.
+
 ## Example
 
 The following example creates a document with two pages and adds text to each of the pages in turn.
@@ -26,5 +28,5 @@ The following example creates a document with two pages and adds text to each of
 
 docpage.pdf
 
-Also see example code in: ABCpdf Text Flow Example, ABCpdf Headers and Footers Example, ABCpdf Unicode Example, ABCpdf Paged HTML Example, ABCpdf Fields, Markup and Movies Example, Doc AddBookmark Function, Doc AddGrid Function, Doc AddImageDoc Function, Doc AddImageToChain Function, Doc AddPage Function, Doc AddText Function, Doc MediaBox Property, XForm AddDocTimestamp Function, XHtmlOptions LinkDestinations Method, XHtmlOptions LinkPages Method, XHtmlOptions UseScript Property, XImage Frame Property, XTextStyle Kerning Property, XTransform AngleUnit�Property, Page MakeFormXObject Function, Page Rotation Property, Page Thumbnail Property, Signature AddLTV Function, XpsImportOperation Import Function, SwfImportOperation Import Function.
+Also see example code in: ABCpdf Text Flow Example, ABCpdf Tagged Text Example, ABCpdf Headers and Footers Example, ABCpdf Unicode Example, ABCpdf Paged HTML Example, ABCpdf Fields, Markup and Movies Example, Doc AddBookmark Function, Doc AddGrid Function, Doc AddImageDoc Function, Doc AddImageToChain Function, Doc AddPage Function, Doc AddText Function, Doc MediaBox Property, XForm AddDocTimestamp Function, XHtmlOptions LinkDestinations Method, XHtmlOptions LinkPages Method, XHtmlOptions UseScript Property, XImage Frame Property, XTagging Open Function, XTextStyle Kerning Property, XTransform AngleUnit�Property, Page MakeFormXObject Function, Page Rotation Property, Page Thumbnail Property, Signature AddLTV Function, XpsImportOperation Import Function, SwfImportOperation Import Function, CustomFont CustomFont Function, CustomFont Embed Function.
 

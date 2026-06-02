@@ -29,4 +29,4 @@ If the noAreaIsEmpty parameter is set to false then rectangles with no area will
 
 ## Example
 
-None
+Also see example code in: [CustomFont CustomFont Function](8-abcpdf.operations/R-customfont/1-methods/01-customfont.md).

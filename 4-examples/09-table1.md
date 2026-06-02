@@ -20,7 +20,7 @@ Most of our columns will be right aligned so we set the default horizontal align
 
 We iterate through the table data adding rows as we go. We override the right alignment for the first column and we shade alternating rows using a light gray color. Finally we frame the table and save the document.
 
-[C#] text = text.Trim(); text = text.Replace("\r\n", "\r"); string[] theRows = text.Split([ '\r' ]); for (int i = 0; i < theRows.Length; i++) { table.NextRow(); string[] theCols = theRows[i].Split([ '\t' ]); theCols[0] = "<stylerun hpos=0>" + theCols[0] + "</stylerun>"; table.AddTextStyled(theCols); if ((i % 2) == 1) table.FillRow("220 220 220", i); } table.Frame(); doc.Flatten(); doc.Save("table1.pdf");
+[C#] text = text.Trim(); text = text.Replace("\r\n", "\r"); string[] theRows = text.Split([ '\r' ]); for (int i = 0; i < theRows.Length; i++) { table.NextRow(); string[] theCols = theRows[i].Split([ '\t' ]); theCols[0] = "<stylerun hpos=0>" + theCols[0] + "</stylerun>"; table.AddTextStyled(theCols); if ((i % 2) == 1) table.FillRow("220 220 220", i); } table.Frame(); doc.Save("table1.pdf");
 
 ## Results
 

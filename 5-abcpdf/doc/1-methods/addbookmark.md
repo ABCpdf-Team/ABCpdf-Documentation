@@ -4,6 +4,12 @@ Adds a bookmark pointing to the current page.
 
 ## Syntax
 
+[C#]
+
+```csharp
+int AddBookmark(string path, bool open);
+```
+
 ## Params
 
 | **Name** | **Description** |
@@ -77,3 +83,4 @@ doc.Save("docaddbookmark.pdf");
 ![](../../../images/pdf/docaddbookmark.gif)
 docaddbookmark.pdf
 
+Also see example code in: [CustomFont CustomFont Function](8-abcpdf.operations/R-customfont/1-methods/01-customfont.md).

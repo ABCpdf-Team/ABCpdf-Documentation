@@ -24,5 +24,5 @@ In general getting the PageNumber is not too expensive. But if you write code wh
 
 ## Example
 
-Also see example code in: ABCpdf Deletion Example, ABCpdf Headers and Footers Example, ABCpdf Paged HTML Example, ABCpdf PDF Rendering Example, Doc AddImageCopy Function, Doc AddImageToChain Function, Doc Read Function, Doc RemapPages Method, XHtmlOptions LinkDestinations Method, XHtmlOptions LinkPages Method, XHtmlOptions UseScript Property, XRendering SaveCompression Property, OpAtom Find Function, RenderOperation Save Function.
+Also see example code in: ABCpdf Deletion Example, ABCpdf Headers and Footers Example, ABCpdf PDF Rendering Example, Doc AddImageCopy Function, Doc Read Function, Doc RemapPages Method, XRendering SaveCompression Property, OpAtom Find Function, RenderOperation Save Function, CustomFont CustomFont Function.
 

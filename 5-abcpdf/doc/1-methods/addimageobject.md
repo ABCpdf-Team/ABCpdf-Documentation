@@ -8,7 +8,7 @@ Adds an XImage based image to the current page.
 [C#]
 
 ```csharp
-<IMG height=10 alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" width=10 border=0> may throw Exception()
+int AddImageObject(XImage image) int AddImageObject(XImage image, bool transparent)
 ```
 
 ## Params

@@ -7,7 +7,7 @@ The logical structure can contain a copy of text which is drawn on the page.
 [C#]
 
 ```csharp
-void UpdateActualText(bool erase, bool regenerate)
+void UpdateActualText(bool erase, bool regenerate)void UpdateActualText(bool erase, bool regenerate, string separator)
 ```
 
 ## Params
@@ -16,6 +16,7 @@ void UpdateActualText(bool erase, bool regenerate)
 | --- | --- |
 | erase | Whether existing actual text should be removed. |
 | regenerate | Whether actual text should be regenerated where possible. |
+| separator | The separator to use between different items of text. The default is String.Empty. |
 
 ## Notes
 
@@ -37,4 +38,4 @@ This function updates the actual text in the structure.
 
 ## Example
 
-None
+Also see example code in: [ABCpdf Tagged Text Example](4-examples/02-texttagged.md).

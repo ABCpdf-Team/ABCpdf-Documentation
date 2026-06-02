@@ -2,7 +2,7 @@
 
 ## Notes
 
-Represents the "BBox" entry of the type 1 form dictionary object.
+Represents the "BBox" entry of the form XObject dictionary object.
 
 It is a required entry defined as part of the PDF 1.0 specification.
 

@@ -1,6 +1,6 @@
 # GetResourceMap Function
 
-Get a dictionary mapping the names of a particular type of resource to Atoms
+Get a dictionary mapping the names of a particular type of resource to Atoms.
 
 ## Syntax
 

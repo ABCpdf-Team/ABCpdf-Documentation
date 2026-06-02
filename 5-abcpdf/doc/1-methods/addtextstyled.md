@@ -57,5 +57,8 @@ docaddhtml.pdf
 
 Also see example code in:
 
+* [ABCpdf Tagged Text Example](4-examples/02-texttagged.md)
 * [ABCpdf Multistyle Example](4-examples/03-multistyled.md)
-* [XTextStyle Kerning Property](xtextstyle/2-properties/kerning.md).
+* [XTextStyle AutoTag Property](xtextstyle/2-properties/autotag.md)
+* [XTextStyle Kerning Property](xtextstyle/2-properties/kerning.md)
+* [CustomFont Embed Function](8-abcpdf.operations/R-customfont/1-methods/02-embed.md).

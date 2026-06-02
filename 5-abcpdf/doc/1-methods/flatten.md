@@ -7,13 +7,14 @@ Flattens and compresses the current page.
 [C#]
 
 ```csharp
-int Flatten()
+int Flatten()int Flatten(int compressionLevel)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
+| compressionLevel | The level of compression to apply as a percentage. Smaller numbers are faster but produce lower compresssion ratios. Pass -1 for a default choice. |
 | return | n/a. |
 
 ## Notes
@@ -24,14 +25,8 @@ For pages that contain only a few layers the reduction in size will be minimal. 
 
 Note that flattening will delete all the items currently on the page and replace them with a new compressed item. This means that Object IDs previously obtained from calls such as [AddText](addtext.md) or [FrameRect](framerect.md) will no longer be valid.
 
+The compression level parameter controls the intensity of Flate compression applied to the current page content stream. Lower values execute faster but yield lower compression ratios, while higher values produce smaller output at the cost of speed. Passing -1 instructs the method to use a default compression level determined by the library.
+
 ## Example
 
-Also see example code in:
-
-* [ABCpdf Small Table Example](4-examples/09-table1.md)
-* [ABCpdf Large Table Example](4-examples/10-table2.md)
-* [ABCpdf Paged HTML Example](4-examples/13-pagedhtml.md)
-* [Doc AddImageToChain Function](addimagetochain.md)
-* [XHtmlOptions LinkDestinations Method](xhtmloptions/1-methods/linkdestinations.md)
-* [XHtmlOptions LinkPages Method](xhtmloptions/1-methods/linkpages.md)
-* [XHtmlOptions UseScript Property](xhtmloptions/2-properties/usescript.md).
+None

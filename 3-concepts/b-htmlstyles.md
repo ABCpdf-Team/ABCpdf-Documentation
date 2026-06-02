@@ -464,6 +464,18 @@ This tag is used to insert raw content into the PDF content stream.
 
 See the tag-start attribute above for details.
 
+This tag is to automatically tag content using the HTML structures provided to AddText or AddTextStyled.
+
+The default is false.
+
+This tag is used to set an ID which can be later used to identify this piece of text. An ID can be any string or number.
+
+The default is blank.
+
+This tag is used to prefer an outline method for synthetic bolc. For more details see Doc.TextStyle.BoldMethod.
+
+The default is true.
+
 This tag is used to indicate quotations. Block quotes are indented on the left and right relative to the surrounding text. The tag accepts the following attributes.
 
 The left indent for the block of text.

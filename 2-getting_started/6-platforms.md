@@ -6,7 +6,7 @@ The general ethos of ABCpdf is of design and development on Windows followed by 
 
 ## Basics
 
-You need Ubuntu 22.04 or 24.04.
+You need Ubuntu 26.04, 24.04 or 22.04.
 
 If you are using WSL you need to use WSL 2. WSL version 1 is not supported
 
@@ -48,7 +48,7 @@ sudo apt update sudo apt install dotnet-runtime-8.0
 
 If you are using ABCChrome then you may need to install a few extra packages.
 
-# for Ubuntu 22 & 23 sudo apt install -y libasound2 libnss3 libcurl4 # for Ubuntu 24 sudo apt install -y libasound2t64 libnss3 libcurl4t64 # for Ubuntu 22 only - not needed on 23 and 24 sudo apt install -y xserver-xorg-core --no-install-recommends --no-install-suggests sudo apt install -y libcairo2 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxcomposite1 libxdamage1 libxrandr2 libxkbcommon0 libpango-1.0-0 # for Ubuntu 23 only # https://packages.ubuntu.com/jammy/amd64/libicu70/download wget http://de.archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu70_70.1-2_amd64.deb -O libicu70_70.1-2_amd64.deb sudo dpkg -i libicu70_70.1-2_amd64.deb rm libicu70_70.1-2_amd64.deb -->
+# for Ubuntu 22 and 23 sudo apt install -y libasound2 libnss3 libcurl4 # for Ubuntu 24 to 26 sudo apt install -y libasound2t64 libnss3 libcurl4t64 # for Ubuntu 22 only - not needed on 23 to 26 sudo apt install -y xserver-xorg-core --no-install-recommends --no-install-suggests sudo apt install -y libcairo2 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxcomposite1 libxdamage1 libxrandr2 libxkbcommon0 libpango-1.0-0 # for Ubuntu 23 only # https://packages.ubuntu.com/jammy/amd64/libicu70/download wget http://de.archive.ubuntu.com/ubuntu/pool/main/i/icu/libicu70_70.1-2_amd64.deb -O libicu70_70.1-2_amd64.deb sudo dpkg -i libicu70_70.1-2_amd64.deb rm libicu70_70.1-2_amd64.deb -->
 
 While ABCpdf does not officially support Debian Linux, here are the additional packages ABCChrome requires.
 
@@ -58,7 +58,7 @@ While ABCpdf does not officially support Fedora Linux, here are the additional p
 
 # for Fedora Linux 40 sudo dnf install -y alsa-lib mesa-libgbm cairo atk at-spi2-atk cups-libs libXcomposite libXdamage libXrandr pango
 
-As always a judicious use of ldd will reveal any other missing packages you may require. Run against files like libABCpdf13-64.so and libChakraCore64.so but also against the ABCChrome123/ABCChrome123 executable if you are using the ABCChrome HTML engine.
+As always a judicious use of ldd will reveal any other missing packages you may require. Run against files like libABCpdf14-64.so and libChakraCore64.so but also against the ABCChrome146/ABCChrome146 executable if you are using the ABCChrome HTML engine.
 
 ## WSL
 
@@ -76,9 +76,9 @@ The ABCpdf NuGet package contains core libraries for Windows and Linux.
 
 The standard ABCpdf NuGet package includes ABCChrome for Windows but not for Linux because the package is quite large.
 
-If you want to use ABCChrome on Linux you need to reference the ABCpdf.ABCChrome123.Linux NuGet package as well as the ABCpdf one.
+If you want to use ABCChrome on Linux you need to reference the ABCpdf.ABCChrome146.Linux NuGet package as well as the ABCpdf one.
 
-If you do not do this you will get an "Unable to find ABCChrome123" error when you run on Linux.
+If you do not do this you will get an "Unable to find ABCChrome146" error when you run on Linux.
 
 ## Deployment
 

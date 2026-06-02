@@ -7,7 +7,7 @@ Extract an image from a file and add it to the current page.
 [C#]
 
 ```csharp
-<IMG border=0 alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" width=10 height=10> may throw Exception()
+int AddImageFile(string path)int AddImageFile(string path, int frame)
 ```
 
 ## Params

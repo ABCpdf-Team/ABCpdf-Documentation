@@ -2,7 +2,7 @@
 
 ## Notes
 
-Represents the "Measure" entry of the type 1 form dictionary object.
+Represents the "Measure" entry of the form XObject dictionary object.
 
 It is an optional entry defined as part of the PDF 1.7 Extension Level 3 specification.
 

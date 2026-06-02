@@ -2,7 +2,7 @@
 
 ## Notes
 
-Represents the "Subtype" entry of the type 1 form dictionary object.
+Represents the "Subtype" entry of the form XObject dictionary object.
 
 It is a required entry defined as part of the PDF 1.0 specification.
 

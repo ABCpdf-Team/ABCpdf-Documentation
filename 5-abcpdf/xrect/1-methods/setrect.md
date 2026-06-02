@@ -49,6 +49,9 @@ Response.Write("Pos. = {rc}");
 
 Also see example code in:
 
+* [XTagging Close Function](xtagging/1-methods/05-close.md)
+* [XTextStyle AutoTag Property](xtextstyle/2-properties/autotag.md)
+* [FontObject RuneWidths Property](6-abcpdf.objects/fontobject/2-properties/runewidths.md)
 * [FontObject Widths Property](6-abcpdf.objects/fontobject/2-properties/widths.md)
 * [Page Rotation Property](6-abcpdf.objects/page/2-properties/rotation.md)
 * [XpsImportOperation Import Function](8-abcpdf.operations/4-xpsimportoperation/1-methods/import.md)

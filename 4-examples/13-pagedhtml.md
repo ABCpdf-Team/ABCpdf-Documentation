@@ -10,7 +10,7 @@ We first create a Doc object and inset the edges a little so that the HTML will 
 
 We set some HTML options to choose the HTML engine and features we are interested in. The defaults assigned here are set up for ease of development and you may wish to change some for release.
 
-[C#] doc.HtmlOptions.Engine = EngineType.Chrome123; doc.HtmlOptions.UseScript = true; // enable JavaScript doc.HtmlOptions.Media = MediaType.Print; // Or Screen for a more screen oriented output doc.HtmlOptions.InitialWidth = 800; // In case we have a responsive site which is non-specific on good widths //doc.HtmlOptions.RepaintDelay = 500; // Only required if you have AJAX or animated content such as graphs //doc.HtmlOptions.IgnoreCertificateErrors = false; // Disabled for ease of debugging //doc.HtmlOptions.FireShield.Policy = XHtmlFireShield.Enforcement.Deny; // Disabled for ease of debugging
+[C#] doc.HtmlOptions.Engine = EngineType.Chrome146; doc.HtmlOptions.UseScript = true; // enable JavaScript doc.HtmlOptions.Media = MediaType.Print; // Or Screen for a more screen oriented output doc.HtmlOptions.InitialWidth = 800; // In case we have a responsive site which is non-specific on good widths //doc.HtmlOptions.RepaintDelay = 500; // Only required if you have AJAX or animated content such as graphs //doc.HtmlOptions.IgnoreCertificateErrors = false; // Disabled for ease of debugging //doc.HtmlOptions.FireShield.Policy = XHtmlFireShield.Enforcement.Deny; // Disabled for ease of debugging
 
 ## Page
 
@@ -23,12 +23,6 @@ We add the first page of HTML. We save the returned ID as this will be used to a
 We now chain subsequent pages together. We stop when we reach a page which wasn't truncated.
 
 [C#]while (true) { doc.FrameRect(); // add a black border if (!doc.Chainable(id)) break; doc.Page = doc.AddPage(); id = doc.AddImageToChain(id); }
-
-## Flatten
-
-After adding the pages we can flatten them. We can't do this until after the pages have been added because flattening will invalidate our previous ID and break the chain.
-
-[C#]for (int i = 1; i <= doc.PageCount; i++) { doc.PageNumber = i; doc.Flatten(); }
 
 ## Save
 

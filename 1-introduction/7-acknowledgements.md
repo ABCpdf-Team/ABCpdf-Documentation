@@ -288,3 +288,7 @@ Courier Prime Copyright 2015 The Courier Prime Project Authors (https://github.c
 
 Liberation Digitized data copyright (c) 2010 Google Corporation with Reserved Font Arimo, Tinos and Cousine. Copyright (c) 2012 Red Hat, Inc. with Reserved Font Name Liberation.
 
+Python for .NET is a package that gives Python programmers nearly seamless integration with the .NET Common Language Runtime (CLR) and provides a powerful application scripting tool for .NET developers. It is available under the MIT License.
+
+Docling converts messy documents into structured data and simplifies downstream document and AI processing by detecting tables, formulas, reading order, OCR, and much more.. It is available under the MIT License.
+

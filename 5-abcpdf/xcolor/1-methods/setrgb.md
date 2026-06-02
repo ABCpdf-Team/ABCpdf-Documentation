@@ -31,5 +31,6 @@ Also see example code in:
 
 * [Doc AddXObject Function](doc/1-methods/addxobject.md)
 * [Doc String Property](doc/2-properties/string.md)
+* [XTagging Close Function](xtagging/1-methods/05-close.md)
 * [Page GetBitmap Function](6-abcpdf.objects/page/1-methods/getbitmap.md)
 * [ImageOperation GetImageProperties  Function](8-abcpdf.operations/9-imageoperation/1-methods/getimageproperties.md).

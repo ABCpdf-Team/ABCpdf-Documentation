@@ -119,6 +119,8 @@ Also see example code in:
 * [XSaveOptions Template Property](xsaveoptions/2-properties/template.md)
 * [XSaveOptions WritePageSeparator Property](xsaveoptions/2-properties/writepageseparator.md)
 * [XSaveTemplateData SetMeasureResolution Function](xsavetemplatedata/1-methods/setmeasureresolution.md)
+* [XTagging Open Function](xtagging/1-methods/04-open.md)
+* [XTagging Close Function](xtagging/1-methods/05-close.md)
 * [Eof Load Function](6-abcpdf.objects/2-objectsoup.eof/1-methods/01-load.md)
 * [Catalog GetEmbeddedFiles Function](6-abcpdf.objects/catalog/1-methods/getembeddedfiles.md)
 * [Catalog Metadata Property](6-abcpdf.objects/catalog/2-properties/metadata.md)
@@ -146,4 +148,6 @@ Also see example code in:
 * [ReduceSizeOperation Compact  Function](8-abcpdf.operations/B-reducesizeoperation/1-methods/compact.md)
 * [AccessibilityOperation AccessibilityOperation  Constructor](8-abcpdf.operations/C-accessibilityoperation/1-methods/1-accessibilityoperation.md)
 * [VectorizeTextOperation Vectorize Method](8-abcpdf.operations/L-vectorizetextoperation/1-methods/vectorize.md)
-* [CloudVisionOperation StartOcr Function](8-abcpdf.operations/M-cloudvisionoperation/1-methods/04-startocr.md).
+* [CloudVisionOperation StartOcr Function](8-abcpdf.operations/M-cloudvisionoperation/1-methods/04-startocr.md)
+* [CustomFont CustomFont Function](8-abcpdf.operations/R-customfont/1-methods/01-customfont.md)
+* [CustomFont Embed Function](8-abcpdf.operations/R-customfont/1-methods/02-embed.md).

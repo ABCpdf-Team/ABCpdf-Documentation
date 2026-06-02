@@ -16,5 +16,5 @@ The following example adds two blocks of styled text to a document. The first bl
 
 stylesize.pdf
 
-Also see example code in: Doc TextStyle Property, XTextStyle Bold Property, XTextStyle CharSpacing Property, XTextStyle Indent Property, XTextStyle Italic Property, XTextStyle Justification Property, XTextStyle Kerning Property, XTextStyle LeftMargin Property, XTextStyle LineSpacing Property, XTextStyle Outline Property, XTextStyle ParaSpacing Property, XTextStyle Strike Property, XTextStyle Strike2 Property, XTextStyle Underline Property, XTextStyle WordSpacing Property, Page GetBitmap Function.
+Also see example code in: ABCpdf Tagged Text Example, Doc TextStyle Property, XTagging Open Function, XTagging Close Function, XTextStyle AutoTag Property, XTextStyle Bold Property, XTextStyle CharSpacing Property, XTextStyle Indent Property, XTextStyle Italic Property, XTextStyle Justification Property, XTextStyle Kerning Property, XTextStyle LeftMargin Property, XTextStyle LineSpacing Property, XTextStyle Outline Property, XTextStyle ParaSpacing Property, XTextStyle Strike Property, XTextStyle Strike2 Property, XTextStyle Underline Property, XTextStyle WordSpacing Property, Page GetBitmap Function.
 

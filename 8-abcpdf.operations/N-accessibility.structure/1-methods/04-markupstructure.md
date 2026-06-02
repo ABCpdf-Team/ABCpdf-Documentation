@@ -18,6 +18,10 @@ void MarkupStructure()
 
 ## Notes
 
+Mark up the structure on the PDF pages so that it can be seen in a PDF reader.
+
+The markup depends on the presence of Actual Text and Bounding Boxes in the structure tree. As such you may need to regenerate these using [UpdateActualText](05-updateactualtext.md) before calling this method.
+
 ## Example
 
 None

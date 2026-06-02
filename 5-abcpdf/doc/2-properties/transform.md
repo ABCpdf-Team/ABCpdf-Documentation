@@ -18,5 +18,5 @@ The following code creates a PDF document and adds some text and a rectangle rot
 
 doctransform.pdf
 
-Also see example code in: ABCpdf Landscape Example, Doc AddGrid Function, Doc AddXObject Function, XTransform Invert Function, XTransform Magnify Function, XTransform Reset Function, XTransform Rotate Function, XTransform Skew Function, XTransform Translate Function, XTransform AngleUnit�Property, FontObject Widths Property, Page GetBitmap Function, Page MakeFormXObject Function, Page Rotation Property, XpsImportOperation Import Function.
+Also see example code in: ABCpdf Landscape Example, Doc AddGrid Function, Doc AddXObject Function, XTransform Invert Function, XTransform Magnify Function, XTransform Reset Function, XTransform Rotate Function, XTransform Skew Function, XTransform Translate Function, XTransform AngleUnit�Property, FontObject RuneWidths Property, FontObject Widths Property, Page GetBitmap Function, Page MakeFormXObject Function, Page Rotation Property, XpsImportOperation Import Function.
 

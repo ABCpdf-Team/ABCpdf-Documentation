@@ -40,6 +40,7 @@ Also see example code in:
 
 * [ABCpdf Text Flow Example](4-examples/02-textflow.md)
 * [ABCpdf Text Flow Round Image Example](4-examples/02-textflow2.md)
+* [ABCpdf Tagged Text Example](4-examples/02-texttagged.md)
 * [ABCpdf Multistyle Example](4-examples/03-multistyled.md)
 * [ABCpdf Landscape Example](4-examples/08-landscape.md)
 * [ABCpdf Small Table Example](4-examples/09-table1.md)
@@ -74,6 +75,8 @@ Also see example code in:
 * [XRendering AntiAliasImages Property](xrendering/2-properties/antialiasimages.md)
 * [XRendering AntiAliasText Property](xrendering/2-properties/antialiastext.md)
 * [XRendering IccCmyk Property](xrendering/2-properties/icccmyk.md)
+* [XTagging Open Function](xtagging/1-methods/04-open.md)
+* [XTextStyle AutoTag Property](xtextstyle/2-properties/autotag.md)
 * [XTextStyle Bold Property](xtextstyle/2-properties/bold.md)
 * [XTextStyle HPos Property](xtextstyle/2-properties/hpos.md)
 * [XTextStyle Indent Property](xtextstyle/2-properties/indent.md)
@@ -92,4 +95,5 @@ Also see example code in:
 * [Page GetBitmap Function](6-abcpdf.objects/page/1-methods/getbitmap.md)
 * [PixMap SetChromakey Function](6-abcpdf.objects/pixmap/1-methods/setchromakey.md)
 * [ArrayAtom FromContentStream Function](7-abcpdf.atoms/arrayatom/1-methods/fromcontentstream.md)
-* [WebPageOperation Doc Property](8-abcpdf.operations/Q-webpageoperation/2-properties/01-doc.md).
+* [WebPageOperation Doc Property](8-abcpdf.operations/Q-webpageoperation/2-properties/01-doc.md)
+* [CustomFont Embed Function](8-abcpdf.operations/R-customfont/1-methods/02-embed.md).

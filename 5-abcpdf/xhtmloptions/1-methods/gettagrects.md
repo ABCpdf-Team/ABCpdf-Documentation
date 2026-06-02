@@ -37,7 +37,7 @@ The following example shows the effect that this parameter has on HTML rendering
 using var doc = new Doc();
 doc.Rect.Inset(100, 100);
 doc.Rect.Top = 700;
-doc.HtmlOptions.Engine = EngineType.Chrome123;
+doc.HtmlOptions.Engine = EngineType.Chrome146;
 doc.HtmlOptions.AddTags = true;
 // The ABCGecko and MSHTML tagging format uses styles.
 string html1 = "<!DOCTYPE html><html><head>" +
@@ -55,7 +55,7 @@ string html2 = "<!DOCTYPE html><html><head>" +
   "</head><body>" +
   "<p id='p1' abcpdf-tag-visible>Gallia est omnis divisa in partes tres.</p>" +
   "</body></html>";
-string html = doc.HtmlOptions.Engine != EngineType.Chrome123 ? html1 : html2;
+string html = doc.HtmlOptions.Engine != EngineType.Chrome146 ? html1 : html2;
 int id = doc.AddImageHtml(html);
 // Frame location of the tagged element
 var tagRects = doc.HtmlOptions.GetTagRects(id);

@@ -67,6 +67,7 @@ docaddtext.pdf
 
 Also see example code in:
 
+* [ABCpdf Tagged Text Example](4-examples/02-texttagged.md)
 * [ABCpdf Deletion Example](4-examples/05-deletion.md)
 * [ABCpdf Headers and Footers Example](4-examples/06-headers.md)
 * [ABCpdf Landscape Example](4-examples/08-landscape.md)
@@ -104,6 +105,7 @@ Also see example code in:
 * [XRendering AntiAliasText Property](xrendering/2-properties/antialiastext.md)
 * [XRendering IccCmyk Property](xrendering/2-properties/icccmyk.md)
 * [XRendering SaveAlpha Property](xrendering/2-properties/savealpha.md)
+* [XTagging Close Function](xtagging/1-methods/05-close.md)
 * [XTextStyle Bold Property](xtextstyle/2-properties/bold.md)
 * [XTextStyle CharSpacing Property](xtextstyle/2-properties/charspacing.md)
 * [XTextStyle HPos Property](xtextstyle/2-properties/hpos.md)
@@ -126,6 +128,7 @@ Also see example code in:
 * [XTransform Rotate Function](xtransform/1-methods/rotate.md)
 * [XTransform AngleUnit Property](xtransform/2-properties/angleunit.md)
 * [FileSpecification FileSpecification Function](6-abcpdf.objects/filespecification/1-methods/filespecification.md)
+* [FontObject RuneWidths Property](6-abcpdf.objects/fontobject/2-properties/runewidths.md)
 * [FontObject Widths Property](6-abcpdf.objects/fontobject/2-properties/widths.md)
 * [Page VectorizeText Function](6-abcpdf.objects/page/1-methods/vectorizetext.md)
 * [Signature Validate Function](6-abcpdf.objects/signature/1-methods/validate.md)

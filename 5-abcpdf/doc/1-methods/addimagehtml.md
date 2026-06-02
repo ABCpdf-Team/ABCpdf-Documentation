@@ -34,7 +34,7 @@ HTML does not exist within a file and so it does not have a location.
 
 External stylesheets and images are often referenced via relative URLs. Because the HTML has no location it is impossible to resolve these relative reference.
 
-This means you need to provide your stylesheet and image links as absolute references or provide a [BaseURI](xhtmloptions/2-properties/baseuri.md) property to allow them to be resolved. The BaseURI property is only available when you are using the ABCChrome [Chrome123, Chrome117 or Chrome86](xhtmloptions/2-properties/1-engine.md) HTML rendering engine.
+This means you need to provide your stylesheet and image links as absolute references or provide a [BaseURI](xhtmloptions/2-properties/baseuri.md) property to allow them to be resolved. The BaseURI property is only available when you are using the ABCChrome [Chrome146, Chrome123, Chrome117 or Chrome86](xhtmloptions/2-properties/1-engine.md) HTML rendering engine.
 
 As an alternative you can insert an HTML BASE element into your HTML to specify an appropriate base location, or you can save your HTML to file in an appropriate location and then use AddImageUrl. Note that any HTML BASE tag must appear in the HEAD and it must appear before other references.
 

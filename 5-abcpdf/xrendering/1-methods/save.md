@@ -22,7 +22,7 @@ void Save(string path)void Save(string name, Stream stream)
 
 Use this method to render the PDF.
 
-The output is a render of the current [Doc.Rect](doc/2-properties/rect.md) of the current [Doc.Page](doc/2-properties/page.md). Typically you want to align the Doc.Rect with the [Doc.CropBox](/Manual/5-abcpdf/doc/2-properties/cropbox.md) as this is the part of page that most tools use as the visible area.
+The output is a render of the current [Doc.Rect](doc/2-properties/rect.md) of the current [Doc.Page](doc/2-properties/page.md). Typically you want to align the Doc.Rect with the [Doc.CropBox](doc/2-properties/cropbox.md) as this is the part of page that most tools use as the visible area.
 
 Any page rotation specified in the PDF page is applied so that the output render is the correct orientation. This may mean that the output width and height are transposed copies of the width and height as specified in the Doc.Rect.
 

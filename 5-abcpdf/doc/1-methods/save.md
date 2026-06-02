@@ -63,6 +63,7 @@ Also see example code in:
 
 * [ABCpdf Text Flow Example](4-examples/02-textflow.md)
 * [ABCpdf Text Flow Round Image Example](4-examples/02-textflow2.md)
+* [ABCpdf Tagged Text Example](4-examples/02-texttagged.md)
 * [ABCpdf Multistyle Example](4-examples/03-multistyled.md)
 * [ABCpdf Image Example](4-examples/04-image.md)
 * [ABCpdf Deletion Example](4-examples/05-deletion.md)
@@ -155,6 +156,9 @@ Also see example code in:
 * [XSaveOptions Template Property](xsaveoptions/2-properties/template.md)
 * [XSaveOptions WritePageSeparator Property](xsaveoptions/2-properties/writepageseparator.md)
 * [XSaveTemplateData SetMeasureResolution Function](xsavetemplatedata/1-methods/setmeasureresolution.md)
+* [XTagging Open Function](xtagging/1-methods/04-open.md)
+* [XTagging Close Function](xtagging/1-methods/05-close.md)
+* [XTextStyle AutoTag Property](xtextstyle/2-properties/autotag.md)
 * [XTextStyle Bold Property](xtextstyle/2-properties/bold.md)
 * [XTextStyle CharSpacing Property](xtextstyle/2-properties/charspacing.md)
 * [XTextStyle HPos Property](xtextstyle/2-properties/hpos.md)
@@ -183,6 +187,7 @@ Also see example code in:
 * [ColorSpace Gamma Property](6-abcpdf.objects/colorspace/2-properties/gamma.md)
 * [ColorSpace WhitePoint Property](6-abcpdf.objects/colorspace/2-properties/whitepoint.md)
 * [FileSpecification FileSpecification Function](6-abcpdf.objects/filespecification/1-methods/filespecification.md)
+* [FontObject RuneWidths Property](6-abcpdf.objects/fontobject/2-properties/runewidths.md)
 * [FontObject Widths Property](6-abcpdf.objects/fontobject/2-properties/widths.md)
 * [Page GetBitmap Function](6-abcpdf.objects/page/1-methods/getbitmap.md)
 * [Page MakeFormXObject Function](6-abcpdf.objects/page/1-methods/makeformxobject.md)
@@ -212,6 +217,10 @@ Also see example code in:
 * [FlattenTransparencyOperation Flatten Function](8-abcpdf.operations/A-flattentransparency/1-methods/flatten.md)
 * [ReduceSizeOperation Compact  Function](8-abcpdf.operations/B-reducesizeoperation/1-methods/compact.md)
 * [AccessibilityOperation AccessibilityOperation  Constructor](8-abcpdf.operations/C-accessibilityoperation/1-methods/1-accessibilityoperation.md)
+* [AccessibilityOperationAI Tag Function](8-abcpdf.operations/C-accessibilityoperationai/1-methods/01-tag.md)
+* [AccessibilityOperationAI ConversionOptions Property](8-abcpdf.operations/C-accessibilityoperationai/2-properties/01-conversionoptions.md)
 * [VectorizeTextOperation Vectorize Method](8-abcpdf.operations/L-vectorizetextoperation/1-methods/vectorize.md)
 * [CloudVisionOperation StartOcr Function](8-abcpdf.operations/M-cloudvisionoperation/1-methods/04-startocr.md)
-* [WebPageOperation Doc Property](8-abcpdf.operations/Q-webpageoperation/2-properties/01-doc.md).
+* [WebPageOperation Doc Property](8-abcpdf.operations/Q-webpageoperation/2-properties/01-doc.md)
+* [CustomFont CustomFont Function](8-abcpdf.operations/R-customfont/1-methods/01-customfont.md)
+* [CustomFont Embed Function](8-abcpdf.operations/R-customfont/1-methods/02-embed.md).

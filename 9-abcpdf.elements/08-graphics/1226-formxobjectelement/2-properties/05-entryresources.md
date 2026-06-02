@@ -2,7 +2,7 @@
 
 ## Notes
 
-Represents the "Resources" entry of the type 1 form dictionary object.
+Represents the "Resources" entry of the form XObject dictionary object.
 
 It is defined as part of the PDF 1.2 specification.
 

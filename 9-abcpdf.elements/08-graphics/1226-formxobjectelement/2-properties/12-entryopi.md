@@ -2,7 +2,7 @@
 
 ## Notes
 
-Represents the "OPI" entry of the type 1 form dictionary object.
+Represents the "OPI" entry of the form XObject dictionary object.
 
 It is an optional entry defined as part of the PDF 1.2 specification. It was deprecated in PDF 2.0.
 

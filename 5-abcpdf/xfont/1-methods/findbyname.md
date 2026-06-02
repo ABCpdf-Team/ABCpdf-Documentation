@@ -8,7 +8,7 @@ Find all the fonts with a given name.
 [C#]
 
 ```csharp
-static <a href="../default.htm">XFont</a>[] FindByName(string name)
+static <a href="../default.htm">XFont</a>[] FindByName(string name)static <a href="../default.htm">XFont</a>[] FindByName(string name, <a href="../../xfont.store/default.htm">Store</a> store)
 ```
 
 ## Params
@@ -16,6 +16,7 @@ static <a href="../default.htm">XFont</a>[] FindByName(string name)
 | **Name** | **Description** |
 | --- | --- |
 | name | The name of the font. |
+| store | A font store to use in addition to the fonts installed on the system. Null values are ignored. |
 | return | The set of matching fonts. |
 
 ## Notes

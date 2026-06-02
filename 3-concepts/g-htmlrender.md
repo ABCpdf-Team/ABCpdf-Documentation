@@ -124,7 +124,7 @@ ABCpdf is a mature product and we support multiple HTML engines.
 
 We have to support all these engines because many of our clients rely on them in their older systems. However that does not mean it is a good idea for you to use older engines. In your newer developments you should favor the current engines, not the ones that were current ten years ago.
 
-Engines that are not undergoing regular updates are going to be less secure, less performant and less compatible than newer ones. We recommend the use of the ABCChrome123 engine as this is current and up to date.
+Engines that are not undergoing regular updates are going to be less secure, less performant and less compatible than newer ones. We recommend the use of the ABCChrome146 engine as this is current and up to date.
 
 The other older engines are not part of our main NuGet package. Instead you need the full MSI installer or you need to reference subsidiary NuGet packages. This is for good reasons, related to security, performance and compatibility.
 

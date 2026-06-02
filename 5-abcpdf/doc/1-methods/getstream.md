@@ -56,7 +56,7 @@ The following code illustrates how one might add text to a PDF and then write it
 
 ```csharp
 <% @Page Language="C#" %>
-<% @Import Namespace=" WebSupergoo.ABCpdf13" %>
+<% @Import Namespace=" WebSupergoo.ABCpdf14" %>
 <%
 Doc theDoc = new Doc();
 theDoc.FontSize = 96;

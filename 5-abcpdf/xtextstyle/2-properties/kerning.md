@@ -24,5 +24,5 @@ We get the following output.
 
 TableOfContentsWithLeaders.pdf
 
-Also see example code in: FontObject Widths Property.
+Also see example code in: FontObject RuneWidths Property, FontObject Widths Property.
 

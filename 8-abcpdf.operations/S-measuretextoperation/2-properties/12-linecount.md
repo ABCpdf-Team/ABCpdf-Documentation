@@ -1,0 +1,3 @@
+# LineCount Property
+
+## Notes

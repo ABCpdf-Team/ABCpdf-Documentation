@@ -8,7 +8,7 @@ The Default module allows ABCpdf to delegate the read operation to what it consi
 
 The Pdf module is the standard PDF import module. It takes advantage of the Password property.
 
-The SwfVector module is a native Flash / SWF vector import module. It takes advantage of the Operation and Frame properties. The Operation must be either null or a SwfImportOperation.
+The SwfVector module is our own Flash / SWF vector import module. It takes advantage of the Operation and Frame properties. The Operation must be either null or a SwfImportOperation.
 
 The Xps module is a native XPS and OXPS (Open XPS) import module. It takes advantage of the Operation property, which must be either null or an XpsImportOperation.
 
@@ -49,6 +49,8 @@ The WebP module allows import of the WebP file format. WebP is a google format t
 The Png module is a native import module designed to run cross platform. It supports all PNG bit depths (1, 8, 16) and color spaces (grayscale and RGB) in the PNG specification and allows import preserving those native depths and color spaces.
 
 The Gif, Jpeg and Bmp modules are native import module designed to run cross platform. They support all bit depths and color spaces in the respective color spaces and and allow import preserving those native depths and color spaces.
+
+The FlashNative module is a legacy parser that depends on Adobe components. For importing Flash or SWF files, ABCpdf now defaults to using the custom SwfVector ReadModule. To revert to the older native Flash module, select FlashNative as the ReadModule.
 
 The BasicImage module is based around the native import abilities provided by Windows. It allows you to read common formats such as JPEG (grayscale, RGB or CMYK) and multi-page TIFF. It uses supports, at minimum, JPEG,TIFF, BMP, PNG, GIF, WMP (Windows Media Photo) and ICO. It also allows the import of EMF and WMF though these will be rasterized on import. In general, color spaces and bit depth will be preserved, though not always and in particular not in the case of TIFF. The specialist cross platform modules detailed above are superior for formats like JPEG, TIFF, BMP and GIF.
 

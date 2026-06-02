@@ -44,6 +44,7 @@ docpos.pdf
 
 Also see example code in:
 
+* [ABCpdf Tagged Text Example](4-examples/02-texttagged.md)
 * [ABCpdf Advanced Graphics Example](4-examples/17-advancedgraphics.md)
 * [ABCpdf Fields, Markup and Movies Example](4-examples/18-annotations.md)
 * [XPoint Point Property](xpoint/2-properties/point.md)
@@ -52,4 +53,5 @@ Also see example code in:
 * [XTransform Invert Function](xtransform/1-methods/invert.md)
 * [XTransform Reset Function](xtransform/1-methods/reset.md)
 * [XTransform Rotate Function](xtransform/1-methods/rotate.md)
+* [FontObject RuneWidths Property](6-abcpdf.objects/fontobject/2-properties/runewidths.md)
 * [FontObject Widths Property](6-abcpdf.objects/fontobject/2-properties/widths.md).

@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] bool CompressFlate() bool CompressFlate(bool force)
+[C#] bool CompressFlate() bool CompressFlate(bool force) bool CompressFlate(bool force, int compressionLevel)
 
 ## Params
 
@@ -19,6 +19,8 @@ This function does not decompress the stream. So if compression is already prese
 ABCpdf tries to avoid creating certain compression sequences. Some compression types on some objects are illegal. Some sequences are legal but not supported within Acrobat (though they are in most other viewers). However these are unusual situations and you are unlikely to ever see them.
 
 You can override this behavior by forcing the compression to take place. However if you do this you may end up creating a document which is invalid or unviewable in Acrobat.
+
+The compression level parameter controls the intensity of Flate compression applied to the current page content stream. Lower values execute faster but yield lower compression ratios, while higher values produce smaller output at the cost of speed. Passing -1 instructs the method to use a default compression level determined by the library.
 
 ## Example
 

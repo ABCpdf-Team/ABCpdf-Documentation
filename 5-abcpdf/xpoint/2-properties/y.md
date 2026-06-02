@@ -8,5 +8,5 @@ Distances are measured from the bottom of the document.
 
 ## Example
 
-Also see example code in: ABCpdf Advanced Graphics Example, ABCpdf Fields, Markup and Movies Example, Doc Pos Property, FontObject Widths Property.
+Also see example code in: ABCpdf Tagged Text Example, ABCpdf Advanced Graphics Example, ABCpdf Fields, Markup and Movies Example, Doc Pos Property, FontObject RuneWidths Property, FontObject Widths Property.
 

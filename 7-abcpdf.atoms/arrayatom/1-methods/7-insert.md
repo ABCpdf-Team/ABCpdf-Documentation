@@ -22,5 +22,5 @@ If the index is not a valid index this method throws an ArgumentOutOfRangeExcept
 
 ## Example
 
-None.
+Also see example code in: CustomFont CustomFont Function.
 

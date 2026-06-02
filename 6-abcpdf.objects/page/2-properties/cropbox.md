@@ -16,5 +16,5 @@ Note that, as with all objects in this namespace, this property is measured in p
 
 ## Example
 
-None.
+Also see example code in: CustomFont CustomFont Function.
 

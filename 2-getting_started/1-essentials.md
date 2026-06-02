@@ -8,9 +8,9 @@ Typically you will do this by referencing the ABCpdf NuGet package. Right click 
 
 If you have run the full MSI installer, ABCpdf is placed in the GAC, so under .NET 4 you can add a reference simply by looking in the 'Assemblies > Extensions' section of the Reference Manager. Just right click on 'References' in your project and 'Add Reference' - you'll see "ABCpdf .NET" near the top of the extensions list. .NET 5 and later do not have a GAC, so while you can add the relevant reference by browsing to the DLL in the ABCpdf installation folder, it is probably easier to add a NuGet reference.
 
-If you are using .NET 8.0 your project target is "net8.0" however since ABCpdf makes use of Windows specific features, more commonly you will target "net8.0-windows". Indeed if you are using .NET 5 or later the format is the same - it is just a matter of adjusting the version number in the target. If you are using .NET Classic / Framework then your target will be slightly different - "v4.0" or later.
+If you are using .NET 10.0 your project target is "net10.0" however since ABCpdf makes use of Windows specific features, more commonly you will target "net10.0-windows". Indeed if you are using .NET 5 or later the format is the same - it is just a matter of adjusting the version number in the target. If you are using .NET Classic / Framework then your target will be slightly different - "v4.0" or later.
 
-The ABCpdf NuGet package ships with the MSHTML and ABCChrome123 HTML conversion engines. If you want to use the ABCChrome117, ABCChrome86 or ABCChrome65 HTML conversion engine, you will need to reference the ABCChrome117, ABCChrome86 or ABCChrome65 NuGet packages in addition to the ABCpdf one. Similarly for ABCGecko you will need to reference the ABCGecko package. Similarly for ABCWebKit you will need the ABCWebKit package. All these engines are installed by default if you run the downloadable MSI installer.
+The ABCpdf NuGet package ships with the MSHTML and ABCChrome146 HTML conversion engines. If you want to use the ABCChrome123, ABCChrome117, ABCChrome86 or ABCChrome65 HTML conversion engine, you will need to reference the ABCChrome123, ABCChrome117, ABCChrome86 or ABCChrome65 NuGet packages in addition to the ABCpdf one. Similarly for ABCGecko you will need to reference the ABCGecko package. Similarly for ABCWebKit you will need the ABCWebKit package. All these engines are installed by default if you run the downloadable MSI installer.
 
 You can mix and match the full MSI installer with the NuGet packages. If you reference a different NuGet version in your project then that version, rather than the MSI installed version, is the one that will be used. Be careful as it can be confusing if you have multiple different versions of ABCpdf in use.
 
@@ -36,9 +36,7 @@ For PresentationCore and System.Drawing you just need to open the project proper
 
 There are four public namespaces in ABCpdf. You can reference these using the following directives.
 
-[C#]using WebSupergoo.ABCpdf13; using WebSupergoo.ABCpdf13.Objects; using WebSupergoo.ABCpdf13.Atoms; using WebSupergoo.ABCpdf13.Operations;
-
-The ABCpdf13 namespace contains the objects you will use for page layout. Most of the time, it is the only namespace you will need.
+[C#]using WebSupergoo.ABCpdf14; using WebSupergoo.ABCpdf14.Objects; using WebSupergoo.ABCpdf14.Atoms; using WebSupergoo.ABCpdf14.Operations; The ABCpdf14 namespace contains the objects you will use for page layout. Most of the time, it is the only namespace you will need.
 
 The Objects namespace allows you to access and manipulate content you've already added. You may use this namespace for complex operations in which the standard page layout functionality requires some modification.
 

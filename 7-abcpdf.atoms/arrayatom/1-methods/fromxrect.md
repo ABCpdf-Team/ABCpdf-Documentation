@@ -7,7 +7,7 @@ Create an ArrayAtom from a XRect representation
 [C#]
 
 ```csharp
-static <a href="../default.htm">ArrayAtom</a> FromXRect( WebSupergoo.ABCpdf13.XRect value)
+static <a href="../default.htm">ArrayAtom</a> FromXRect( WebSupergoo.ABCpdf14.XRect value)
 ```
 
 ## Params

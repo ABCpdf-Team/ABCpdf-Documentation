@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] void Resize(int width, int height) void Resize(int width, int height, Interpolation interpolation)
+[C#] void Resize(int width, int height) void Resize(int width, int height, Interpolation interpolation) void Resize(int width, int height, Interpolation interpolation, bool allowDepthChange)
 
 may throw Exception()
 
@@ -26,7 +26,7 @@ The Linear, Cubic and Lanzcos methods are progressively higher quality methods b
 
 The Linear, Cubic and Lanzcos methods use weighted averages from a limited number of pixels in the source image. For large size reductions this may result in information from some pixels in the source image being completely discarded. The super method aims to work around this issue by increasing coverage to all the pixels in the source image. It only works if an image is being reduced in both height and width.
 
-This function is optimized for resizing one, three and four component images at precisions of eight or sixteen bits per component.
+This function is optimized for resizing one, three and four component images at precisions of eight or sixteen bits per component. If you allow depth changes then this will allow monotone images to change to a greater bit depth when being reduced in size.
 
 ## Example
 

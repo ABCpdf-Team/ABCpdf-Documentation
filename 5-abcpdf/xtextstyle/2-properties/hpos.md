@@ -16,5 +16,5 @@ The following code adds two blocks of text to a document. The first block is lef
 
 dochpos.pdf
 
-Also see example code in: ABCpdf Deletion Example, ABCpdf Headers and Footers Example, Doc AddPage Function, Doc Append Function, Doc Read Function, Doc RemapPages Method, XRendering SaveAlpha Property, XTransform AngleUnit�Property, XpsImportOperation Import Function, SwfImportOperation Import Function.
+Also see example code in: ABCpdf Deletion Example, ABCpdf Headers and Footers Example, Doc AddPage Function, Doc Append Function, Doc Read Function, Doc RemapPages Method, XRendering SaveAlpha Property, XTagging Close Function, XTransform AngleUnit�Property, XpsImportOperation Import Function, SwfImportOperation Import Function.
 

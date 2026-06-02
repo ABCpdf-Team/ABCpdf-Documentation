@@ -1,6 +1,6 @@
 # Purge Function
 
-The tagged structure of the document references items displayed on the page.
+Removes any tags which no longer relate to a visible element on the page.
 
 ## Syntax
 

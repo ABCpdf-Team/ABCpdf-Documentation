@@ -14,3 +14,5 @@ In this example we add some bold text to a document.
 
 stylebold.pdf
 
+Also see example code in: XTagging Close Function.
+

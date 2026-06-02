@@ -20,7 +20,7 @@ The following code snippet illustrates how one might add a rule to allow access 
 
 ```csharp
 using var doc = new Doc();
-doc.HtmlOptions.Engine = EngineType.Chrome123;
+doc.HtmlOptions.Engine = EngineType.Chrome146;
 doc.HtmlOptions.FireShield.Rules.Add(new XHtmlFireShield.PathRule(@"C:\Windows\*.drv", XHtmlFireShield.PathRule.AccessType.Allow));
 int id = doc.AddImageUrl("https://www.google.com/");
 // ...

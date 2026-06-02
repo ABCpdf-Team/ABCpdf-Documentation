@@ -4,6 +4,12 @@ Adds a page to the current document.
 
 ## Syntax
 
+[C#]
+
+```csharp
+int AddPage(); int AddPage(int page);
+```
+
 ## Params
 
 | **Name** | **Description** |

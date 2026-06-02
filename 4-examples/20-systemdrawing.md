@@ -12,13 +12,13 @@ You can find a full example project including the wrapper classes under the ABCp
 
 The wrapper contains the following namespaces:
 
-These contain classes which are direct analogues for the classes contained in the System.Drawing namespaces. For example, a System.Drawing.Pen maps to a WebSupergoo.ABCpdf13.Drawing.Pen and a System.Drawing.Bitmap maps to a WebSupergoo.ABCpdf13.Drawing.Bitmap.
+These contain classes which are direct analogues for the classes contained in the System.Drawing namespaces. For example, a System.Drawing.Pen maps to a WebSupergoo.ABCpdf14.Drawing.Pen and a System.Drawing.Bitmap maps to a WebSupergoo.ABCpdf14.Drawing.Bitmap.
 
 The procedure for porting your System.Drawing code is simple:
 
 In general, the number of calls which do not have analogues in ABCpdf.Drawing should be small. However, we provide the full source code for System.Drawing so extending the assembly is simple.
 
-As well as the standard functions analogous to those in System.Drawing, the ABCpdf13.Drawing namespace also contains similar functions aimed at greater control over the PDF production process. For example, the ABCpdf Color class contains a FromCmyk function to allow the construction of CMYK colors as well as RGB ones.
+As well as the standard functions analogous to those in System.Drawing, the ABCpdf14.Drawing namespace also contains similar functions aimed at greater control over the PDF production process. For example, the ABCpdf Color class contains a FromCmyk function to allow the construction of CMYK colors as well as RGB ones.
 
 ## Original
 
@@ -30,7 +30,7 @@ We start with our source System.Drawing code.
 
 First, we swap out the old System.Drawing namespaces and insert our own ABCpdf.Drawing ones. Note that ABCpdf.Drawing uses structures like rectangles and points which are defined in System.Drawing. So, we create aliases to make it easy to reference them.
 
-[C#]using System; using System.IO; using System.Reflection; using WebSupergoo.ABCpdf13.Drawing; using WebSupergoo.ABCpdf13.Drawing.Drawing2D; using WebSupergoo.ABCpdf13.Drawing.Text; using Rectangle = System.Drawing.Rectangle; using RectangleF = System.Drawing.RectangleF; using Point = System.Drawing.Point; using PointF = System.Drawing.PointF;
+[C#]using System; using System.IO; using System.Reflection; using WebSupergoo.ABCpdf14.Drawing; using WebSupergoo.ABCpdf14.Drawing.Drawing2D; using WebSupergoo.ABCpdf14.Drawing.Text; using Rectangle = System.Drawing.Rectangle; using RectangleF = System.Drawing.RectangleF; using Point = System.Drawing.Point; using PointF = System.Drawing.PointF;
 
 ## Create
 

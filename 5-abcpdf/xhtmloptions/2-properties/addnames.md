@@ -10,7 +10,7 @@ The disadvantage of tracking is that there may be many such attributes and this 
 
 The default value of null allows the effective value to be determined by the HTML engine.
 
-Currently only the ABCChrome85 engine supports this property.
+Support for this property requires the ABCChrome engine - ABCChrome86 or later.
 
 ## Example
 

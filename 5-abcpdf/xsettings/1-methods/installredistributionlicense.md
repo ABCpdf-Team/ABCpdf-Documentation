@@ -7,7 +7,7 @@ Install a redistribution license.
 [C#]
 
 ```csharp
-bool InstallRedistributionLicense(string license)
+bool InstallRedistributionLicense(string license)bool InstallRedistributionLicense(string license, bool throwOnFailure)
 ```
 
 ## Params
@@ -15,6 +15,7 @@ bool InstallRedistributionLicense(string license)
 | **Name** | **Description** |
 | --- | --- |
 | license | The license to install. |
+| throwOnFailure | Whether to throw an exception on failure, default true. |
 | return | True if a license is installed, otherwise false. |
 
 ## Notes

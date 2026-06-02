@@ -2,7 +2,7 @@
 
 ## Notes
 
-Represents the "Name" entry of the type 1 form dictionary object.
+Represents the "Name" entry of the form XObject dictionary object.
 
 It is defined as part of the PDF 1.0 specification. It was marked obsolescent in PDF 1.7 and deprecated in PDF 2.0.
 

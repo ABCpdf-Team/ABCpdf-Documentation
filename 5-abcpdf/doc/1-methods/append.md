@@ -49,13 +49,13 @@ Tag Structure: ABCpdf .NET expertly handles the document tag structure essential
 
 A key strength of ABCpdf is its sophisticated handling of the resources that define a PDF's look and feel.
 
-Fonts: ABCpdf automatically ensures all required fonts are embedded in the final document. It expertly manages duplicate fonts, including subsets, to avoid unnecessary file bloat while guaranteeing that text renders perfectly on every system. For the complete elimination of any duplicates, after the append you should use the [ReduceSizeOperation](/Manual/8-abcpdf.operations/B-reducesizeoperation/default.md) to combine and re-subset any similar fonts.
+Fonts: ABCpdf automatically ensures all required fonts are embedded in the final document. It expertly manages duplicate fonts, including subsets, to avoid unnecessary file bloat while guaranteeing that text renders perfectly on every system. For the complete elimination of any duplicates, after the append you should use the [ReduceSizeOperation](8-abcpdf.operations/B-reducesizeoperation/default.md) to combine and re-subset any similar fonts.
 
 Images, Color Spaces, and XObjects: The library diligently consolidates all resources like images, patterns, and color profiles, preventing duplicates and ensuring visual consistency across all appended pages.
 
 ABCpdf is built for reliability and efficiency, even with large or complex documents.
 
-Handling Signed Documents: ABCpdf follows the PDF specification rigorously. Any modification, including appending pages, will invalidate existing digital signatures. The correct and expected behavior here is that the signatures should report their original information such as the signer and the trust level but that the document has been modified. However by using the [Incremental](/Manual/5-abcpdf/xsaveoptions/2-properties/incremental.md) save option you can allow the client to revert back to the original signed version.
+Handling Signed Documents: ABCpdf follows the PDF specification rigorously. Any modification, including appending pages, will invalidate existing digital signatures. The correct and expected behavior here is that the signatures should report their original information such as the signer and the trust level but that the document has been modified. However by using the [Incremental](xsaveoptions/2-properties/incremental.md) save option you can allow the client to revert back to the original signed version.
 
 Performance and Scalability: The engine is optimized for low memory consumption and high speed. It processes documents in a streamlined manner, making it suitable for server-side applications where merging large documents or processing high volumes of files is a requirement.
 
@@ -91,3 +91,4 @@ doc1.Save("docjoin.pdf");
 ![](../../../images/pdf/docjoin.pdf.png)
 docjoin.pdf [Page 1]
 
+Also see example code in: [CustomFont CustomFont Function](8-abcpdf.operations/R-customfont/1-methods/01-customfont.md).

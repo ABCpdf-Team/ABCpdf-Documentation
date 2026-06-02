@@ -47,5 +47,6 @@ transformreset.pdf
 Also see example code in:
 
 * [XTransform Rotate Function](rotate.md)
+* [FontObject RuneWidths Property](6-abcpdf.objects/fontobject/2-properties/runewidths.md)
 * [FontObject Widths Property](6-abcpdf.objects/fontobject/2-properties/widths.md)
 * [Page GetBitmap Function](6-abcpdf.objects/page/1-methods/getbitmap.md).

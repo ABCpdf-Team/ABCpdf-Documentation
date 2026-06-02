@@ -18,7 +18,7 @@ Columns are assigned relative widths and expand horizontally to fit the table re
 
 We iterate through the table data adding rows and columns as we go. Every time we add a row we check to see if the page number has changed and restart the shading if it has. This ensures the header is always unshaded. Finally we save the document.
 
-[C#] text = text.Replace("\r\n", "\r"); string[] theRows = text.Split([ '\r' ]); int thePage = 1; bool theShade = false; for (int i = 0; i < theRows.Length; i++) { theTable.NextRow(); string[] theCols = theRows[i].Split([ '\t' ]); theTable.AddTextStyled(theCols); if (doc.PageNumber > thePage) { thePage = doc.PageNumber; theShade = true; } if (theShade) theTable.FillRow("200 200 200", theTable.Row); theShade = !theShade; } doc.Flatten(); doc.Save("table2.pdf");
+[C#] text = text.Replace("\r\n", "\r"); string[] theRows = text.Split([ '\r' ]); int thePage = 1; bool theShade = false; for (int i = 0; i < theRows.Length; i++) { theTable.NextRow(); string[] theCols = theRows[i].Split([ '\t' ]); theTable.AddTextStyled(theCols); if (doc.PageNumber > thePage) { thePage = doc.PageNumber; theShade = true; } if (theShade) theTable.FillRow("200 200 200", theTable.Row); theShade = !theShade; } doc.Save("table2.pdf");
 
 ## Results
 

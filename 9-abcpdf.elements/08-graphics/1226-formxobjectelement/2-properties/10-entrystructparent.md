@@ -2,7 +2,7 @@
 
 ## Notes
 
-Represents the "StructParent" entry of the type 1 form dictionary object.
+Represents the "StructParent" entry of the form XObject dictionary object.
 
 It is defined as part of the PDF 1.3 specification.
 

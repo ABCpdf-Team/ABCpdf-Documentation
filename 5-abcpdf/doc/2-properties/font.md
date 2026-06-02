@@ -18,5 +18,5 @@ The following example adds two blocks of styled text to a document. The first bl
 
 docfont.pdf
 
-Also see example code in: ABCpdf Unicode Example, ABCpdf eForm Placeholder Example, ABCpdf eForm Stamp Example, ABCpdf eForm FDF Example, ABCpdf Fields, Markup and Movies Example, Doc AddFont Function, Doc AddText Function, Doc EmbedFont Function, Doc String Property, FontObject Widths Property, ArrayAtom FromContentStream Function.
+Also see example code in: ABCpdf Tagged Text Example, ABCpdf Unicode Example, ABCpdf eForm Placeholder Example, ABCpdf eForm Stamp Example, ABCpdf eForm FDF Example, ABCpdf Fields, Markup and Movies Example, Doc AddFont Function, Doc AddText Function, Doc EmbedFont Function, Doc String Property, XTagging Open Function, XTagging Close Function, FontObject RuneWidths Property, FontObject Widths Property, ArrayAtom FromContentStream Function.
 

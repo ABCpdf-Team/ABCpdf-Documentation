@@ -54,8 +54,8 @@ fs.EntryType = "EmbeddedFile";
 fs.EntrySubtype = GetContentType(filePath);
 fs.EntryParams = new <a href="../../1112-embeddedfileparameterelement/default.htm">EmbeddedFileParameterElement</a>(fs);
 fs.EntryParams.EntrySize = (int)info.Length;
-fs.EntryParams.EntryModDate = <a href="../../../../../../PDF10000/Manual/7-abcpdf.atoms/stringatom/1-methods/datetostring.htm">StringAtom.DateToString</a>(info.LastWriteTimeUtc);
-fs.EntryParams.EntryCreationDate = <a href="../../../../../../PDF10000/Manual/7-abcpdf.atoms/stringatom/1-methods/datetostring.htm">StringAtom.DateToString</a>(info.CreationTimeUtc);
+fs.EntryParams.EntryModDate = <a href="../../../../7-abcpdf.atoms/stringatom/1-methods/datetostring.htm">StringAtom.DateToString</a>(info.LastWriteTimeUtc);
+fs.EntryParams.EntryCreationDate = <a href="../../../../7-abcpdf.atoms/stringatom/1-methods/datetostring.htm">StringAtom.DateToString</a>(info.CreationTimeUtc);
 return fs;
 ```
 

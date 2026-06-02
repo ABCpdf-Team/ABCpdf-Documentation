@@ -22,7 +22,7 @@ For in-situ ASP.NET examples you may wish to look at the example web site that c
 
 This is a project designed to parallel the System.Drawing namespace.
 
-For example, a System.Drawing.Pen will map to a WebSupergoo.ABCpdf13.Drawing.Pen and a System.Drawing.Bitmap will map to a WebSupergoo.ABCpdf13.Drawing.Bitmap.
+For example, a System.Drawing.Pen will map to a WebSupergoo.ABCpdf14.Drawing.Pen and a System.Drawing.Bitmap will map to a WebSupergoo.ABCpdf14.Drawing.Bitmap.
 
 Because the APIs and class structure are very similar, it is easy to port System.Drawing code over to produce ABCpdf documents rather than System.Drawing images.
 

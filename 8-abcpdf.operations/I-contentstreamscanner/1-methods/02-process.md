@@ -7,7 +7,7 @@ Process a content stream keeping track of state.
 [C#]
 
 ```csharp
-virtual void Process(IndirectObject owner, ArrayAtom contents)Process(IndirectObject owner, ArrayAtom contents, IList&lt;Tuple&lt;string, int&gt;&gt; ops)
+void Process(IndirectObject owner, ArrayAtom contents)void Process(IndirectObject owner, ArrayAtom contents, IList&lt;Tuple&lt;string, int&gt;&gt; ops)
 ```
 
 ## Params

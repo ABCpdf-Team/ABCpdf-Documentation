@@ -7,7 +7,7 @@ Find a font from a specific family, with a given style.
 [C#]
 
 ```csharp
-static <a href="../default.htm">XFont</a> FindByStyle(string family, FontWeight weight, bool italic)static <a href="../default.htm">XFont</a> FindByStyle(string family, int weight, bool italic)static <a href="../default.htm">XFont</a> FindByStyle(IEnumerable&lt;XFont&gt; fonts, int weight, int weightTolerance, bool italic)
+static <a href="../default.htm">XFont</a> FindByStyle(string family, FontWeight weight, bool italic)static <a href="../default.htm">XFont</a> FindByStyle(string family, int weight, bool italic)static <a href="../default.htm">XFont</a> FindByStyle(string family, FontWeight weight, bool italic, <a href="../../xfont.store/default.htm">Store</a> store)static <a href="../default.htm">XFont</a> FindByStyle(string family, int weight, bool italic, <a href="../../xfont.store/default.htm">Store</a> store)static <a href="../default.htm">XFont</a> FindByStyle(IEnumerable&lt;XFont&gt; fonts, int weight, int weightTolerance, bool italic)
 ```
 
 ## Params
@@ -19,6 +19,7 @@ static <a href="../default.htm">XFont</a> FindByStyle(string family, FontWeight 
 | weight | The weight (or the midpoint of the permitted weight range) of the required font. |
 | weightTolerance | The maximum permitted difference between the weight parameter and the weight of the required font. The default value is 0. |
 | italic | Whether an italic font is required. |
+| store | A font store to use in addition to the fonts installed on the system. Null values are ignored. |
 | return | A matching font. Null if no matching font could be found. |
 
 ## Notes

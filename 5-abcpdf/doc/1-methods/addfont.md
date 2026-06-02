@@ -4,6 +4,12 @@ Adds a font reference to the document.
 
 ## Syntax
 
+[C#]
+
+```csharp
+int AddFont(string name)int AddFont(string name, LanguageType language)int AddFont(string name, LanguageType language, bool vertical)
+```
+
 ## Params
 
 | **Name** | **Description** |
