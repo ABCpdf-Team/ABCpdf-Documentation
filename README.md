@@ -1,5 +1,13 @@
 <h1>ABCpdf .NET Official Documentation</h1>
 <p><img src="images/banner.jpg" /></p>
+<p>This project contains the source materials for generating the:
+<ul>
+<li><a href="https://www.websupergoo.com/helppdfnet/default.htm">Online documentation</a></li>
+<li><a href="https://www.websupergoo.com/abcpdf-download.aspx">Compiled help (CHM) standalone help file</a></li>
+</ul>
+While the online version is convenient for quick reference, the CHM version is faster and has better search capabilities. If you are doing lots of work with ABCpdf .NET it is worth downloading the CHM.
+</p>
+<hr />
 <p>The ABCpdf .NET documentation is the comprehensive, canonical resource for the ABCpdf .NET library, an industry-leading component for the programmatic generation and manipulation of PDF documents. This official guide provides the essential foundation for integrating robust, world class PDF functionality into .NET applications.</p>
 <p>This comprehensive documentation is structured to support the entire development lifecycle, providing tailored resources for every need:
 <ul>
@@ -16,4 +24,3 @@
 </ul>
 </p>
 <p>This tiered structure ensures that both newcomers and experienced developers can efficiently find the precise information required for their specific task.</p>
-<p>This project contains the source materials for generating the <a href="https://www.websupergoo.com/abcpdf-download.aspx">compiled help (CHM) standalone help file</a> download and the <a href="https://www.websupergoo.com/helppdfnet/default.htm">online documentation</a>. For ease of use we recommend the CHM over the online version.</p>
