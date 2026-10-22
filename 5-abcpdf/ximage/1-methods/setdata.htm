@@ -105,11 +105,9 @@
 using var doc = new Doc();
 // read the data from a file
 string path = "../mypics/mypic.jpg";
-using var stream = File.OpenRead(path);
-byte[] theData = new byte[stream.Length];
-stream.Read(theData, 0, (int)stream.Length);
+byte[] data = File.ReadAllBytes(path);
 // place the data into the image
-img.SetData(theData);
+img.SetData(data);
 doc.Rect.Inset(20, 20);
 doc.AddImageObject(img, false);
 doc.Save("imagesetdata.pdf");

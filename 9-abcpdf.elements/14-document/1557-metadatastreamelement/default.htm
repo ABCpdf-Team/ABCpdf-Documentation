@@ -34,6 +34,13 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A metadata stream carries XMP metadata as a UTF-8 encoded XML document. XMP provides a standard, extensible way to describe properties of a PDF document or individual objects within it.</p>
+<p>The stream must not be encrypted or compressed with a non-identity filter. This ensures metadata is accessible to tools that lack the document password or do not implement PDF decompression.</p>
+<p>Metadata streams may be attached to the document catalog, individual pages, form XObjects, and other objects. The metadata at each level describes that specific object.</p>
+<p>In PDF 2.0, XMP metadata is the preferred mechanism for recording document-level properties. The older document information dictionary is deprecated in favour of XMP.</p>
+<p>A conforming reader that modifies a document must update any XMP metadata streams to reflect the changes, keeping metadata accurate after editing.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

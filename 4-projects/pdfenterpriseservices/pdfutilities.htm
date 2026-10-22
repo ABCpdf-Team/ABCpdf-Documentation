@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>PdfUtilities.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">PdfUtilities.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.EnterpriseServices;
+using WebSupergoo.ABCpdf14;
+
+
+// *** IMPORTANT ***
+// The library will automatically be registered when it is first used.
+// However if changes are made to the package settings then these will
+// not be picked up.
+//
+// The easiest way to ensure your changes are picked up is to delete 
+// the package from the Component Services Administrative Tool.
+//
+// Alternatiely you can re-register it manually from the command line:
+//   regsvcs.exe PdfEnterpriseServices.dll
+
+// The assembly must have a strong name.
+// Create the key file with: sn -k PdfEnterpriseServices.snk
+// This attribute should be specified on the Signing tab of
+// the project properties for Visual Studio 2005.
+// For the purpose of demonstration, it is placed here.
+[assembly: System.Reflection.AssemblyKeyFile("PdfEnterpriseServices.snk")]
+
+// The Application Name is the COM+ Application name displayed
+// in the Component Services management tool MMC.
+// This attribute should be placed in AssemblyInfo.cs
+[assembly: ApplicationName("PDF Enterprise Services")]
+
+// ApplicationActivation specifies the process in which the serviced components are activated.
+// For activating in the creator's process (in-process), use ActivationOption.Library
+// For activating in a system-provided process (out-of-process / out-of-machine),
+// use ActivationOption.Server
+// This attribute should be placed in AssemblyInfo.cs
+[assembly: ApplicationActivation(ActivationOption.Server)]
+
+// Enable Access Control
+// If omitted, default true
+// It is the same as the check box "Enforce access checks for this application"
+// under Authorization of the Security tab of the Properties dialog box
+// of the Component Services management tool MMC.
+// This attribute should be placed in AssemblyInfo.cs
+[assembly: ApplicationAccessControl(true)]
+
+// Create a role so that everyone, including the internet guest user IUSR_&lt;MachineName&gt;,
+// can use the serviced components
+// This attribute should be placed in AssemblyInfo.cs
+[assembly: SecurityRole("Internet Guest", true)]
+
+namespace PdfEnterpriseServices {
+
+&nbsp;&nbsp;&nbsp;&nbsp;// Classes derived from ServicedComponent must be COM-visible.
+&nbsp;&nbsp;&nbsp;&nbsp;// The JustInTimeActivation attribute may be added to stateless classes.
+&nbsp;&nbsp;&nbsp;&nbsp;[System.Runtime.InteropServices.ComVisible(true)]
+&nbsp;&nbsp;&nbsp;&nbsp;public class PdfUtilities: ServicedComponent {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public byte[] UrlToPdf(string url) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc theDoc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.Inset(72, 144);
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Page = theDoc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int theID = theDoc.AddImageUrl(url);
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FrameRect(); // add a black border
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!theDoc.Chainable(theID))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Page = theDoc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theID = theDoc.AddImageToChain(theID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt;= theDoc.PageCount; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.PageNumber = i;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theDoc.GetData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public byte[] DocToPdf(string path) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc theDoc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Read(path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theDoc.GetData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=169">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 71, page 161.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 70, page 203.</a></p>
 </p>
+<!-- addition start -->
+<p>The DeviceN attributes dictionary carries metadata that helps a conforming reader simulate or process the colorants in a DeviceN color space.</p>
+<p>The Colorants entry maps each colorant name to its corresponding Separation color space. This allows a reader to know the individual characteristics of each component colorant even when they are used together.</p>
+<p>The Process entry identifies which of the DeviceN components correspond to standard process colorants and which process color space those components belong to. This distinction matters when converting to or from a process color model.</p>
+<p>The MixingHints entry provides additional guidance for soft-proofing and ink limiting, including solidities and printing order. These values are advisory rather than normative.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

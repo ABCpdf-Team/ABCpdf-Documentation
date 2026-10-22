@@ -1,0 +1,877 @@
+<html>
+<head>
+<title>Glue3DUtilities\Dll_Glue3D.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Glue3DUtilities\Dll_Glue3D.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Runtime.InteropServices;
+
+namespace Glue3DUtilities {
+&nbsp;&nbsp;using Static = WebSupergoo.Static;
+
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// The interface to the Glue3D dlls (which contain the 3D rendering functionality)
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;[System.Security.SuppressUnmanagedCodeSecurity]
+&nbsp;&nbsp;internal static class Dll_Glue3D {
+&nbsp;&nbsp;&nbsp;&nbsp;#region StaticMembers
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;This flag decides whether to call into 32 or 64 bit versions of the Glue3D dll&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private static bool Is64Bit;
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region StaticConstructor
+
+&nbsp;&nbsp;&nbsp;&nbsp;static Dll_Glue3D() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// check if 32 or 64 bit by getting the size of the IntPtr
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is64Bit = IntPtr.Size != 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// verify minimum needed version
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Version minVersion = new Version(14, 0, 0); // ABCpdf14
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Version glue3DVersion;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.GetLibraryVersion((int)WebSupergoo.ELibrary.Lib_Glue3D, out glue3DVersion);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!Utilities.IsVersionOk(minVersion, glue3DVersion, false, false)) // it might be a good idea to compare for exact versions to avoid interface problems
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string message = "Minimum version of Glue3D expected: " + minVersion.ToString() + ", version found: " + glue3DVersion.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Exception(message);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Public Interface
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static string StringFromDll(IntPtr list, int len) {
+#if NETCOREAPP
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Marshal.PtrToStringUTF8(p, len);
+#else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsafe {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list==IntPtr.Zero ? null :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Text.Encoding.UTF8.GetString((byte*)list.ToPointer(), len);&nbsp;&nbsp;// this overload requires .NET Framework 4.6
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;public static string[] StringArrayFromDll(IntPtr list, IntPtr lenList, uint count) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(list==IntPtr.Zero)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] arr = new string[count];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int int32Size = Marshal.SizeOf&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i = 0; i &lt; count; ++i) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IntPtr p = Marshal.ReadIntPtr(list, IntPtr.Size * i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int len = Marshal.ReadInt32(lenList, int32Size * i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = StringFromDll(p, len);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return arr;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region VersionInfo
+
+&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;// Version info for the various subcomponents of the Glue3D library
+&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the version info of the various library components inside the Glue3D dlls (see ELibrary enum)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;seealso cref="ELibrary"/&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void GetLibraryVersion(int libraryID, out Version version) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;version = new Version();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.GetLibraryVersion_64(libraryID, ref version.major, ref version.minor, ref version.build);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.GetLibraryVersion_32(libraryID, ref version.major, ref version.minor, ref version.build);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+#endregion
+
+#region Utilities
+&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;// Utilities
+&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set company name (can be queried by other libraries, and used for example to create an APPDATA path)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void SetCompanyName(string companyName) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetCompanyName_64(false, companyName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetCompanyName_32(false, companyName);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get company name&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string GetCompanyName() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetCompanyName_64();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetCompanyName_32();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set application name (can be queried by other libraries, and used for example to create an APPDATA path)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void SetApplicationName(string companyName) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetApplicationName_64(false, companyName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetApplicationName_32(false, companyName);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get application name&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string GetApplicationName() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetApplicationName_64();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetApplicationName_32();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+#endregion
+
+#region Logging
+&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;// Logging (to a specified file)
+&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Start the library internal logger&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static bool StartLogging(string logFile, bool append, int logLevel) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.StartLogging_64(false, logFile, append, logLevel);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.StartLogging_32(false, logFile, append, logLevel);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Stop the library internal logger&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void StopLogging() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.StopLogging_64();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.StopLogging_32();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Check if logging is enabled&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static bool IsLogging() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.IsLogging_64();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.IsLogging_32();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Change the log level&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void SetLogLevel(int logLevel) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetLogLevel_64(logLevel);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetLogLevel_32(logLevel);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the current log level&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static int GetLogLevel() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetLogLevel_64();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetLogLevel_32();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Write a log message&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void LogMessage(int logLevel, string logMsg) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.Log_64(false, logLevel, logMsg);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.Log_32(false, logLevel, logMsg);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add a logging hook, for a delegate to also receive the log messages&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static WebSupergoo.DelegateLogging SetLoggingHook(IntPtr userData, WebSupergoo.DelegateLogging hook) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.SetLoggingHook_64(userData, hook);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.SetLoggingHook_32(userData, hook);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the current logging hook&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static WebSupergoo.DelegateLogging GetLoggingHook(out IntPtr userData) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetLoggingHook_64(out userData);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetLoggingHook_32(out userData);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+#endregion
+
+#region Renderer
+
+&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;// Renderer - if rendering is supposed to use special parameters (for exanple OpenGL version, AA settings, vsync), 
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  then renderer should be initialized before use, otherwise it will fall back to using defaults
+&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set up the renderer with the provided parameters&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static bool SetupRenderer(WebSupergoo.RendererParams rendererParams) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.SetupRenderer_64(rendererParams);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.SetupRenderer_32(rendererParams);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Shut down the renderer&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;internal static void ShutdownRenderer() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.ShutdownRenderer_64();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.ShutdownRenderer_32();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+#endregion
+
+#region Capture
+
+&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;// Capture functionality allows capturing 3D scenes to images (either to a file or to memory)
+&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Load a scene for capturing (just loads, but does not capture, or render the scene)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void LoadCaptureScene(WebSupergoo.LoadSceneParams loadParams, WebSupergoo.DelegateLoadComplete cb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.LoadCaptureScene_64(false, loadParams, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.LoadCaptureScene_32(false, loadParams, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Unload a currently open scene&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void UnloadCaptureScene(uint sceneHandle, WebSupergoo.DelegateUnloadComplete cb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.UnloadCaptureScene_64(sceneHandle, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.UnloadCaptureScene_32(sceneHandle, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Unload all currently open capture scenes&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void UnloadAllCaptureScenes(WebSupergoo.DelegateUnloadAllComplete cb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.UnloadAllCaptureScenes_64(cb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.UnloadAllCaptureScenes_32(cb);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Do a capture, if the scene was already loaded just pass in the SceneHandle, otherwise pass in a filename to load the scene for capturing (and unload it afterwards if Capture_UnloadAfterCapture was set)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void CaptureScene(WebSupergoo.CaptureParams parms, WebSupergoo.DelegateCaptureComplete cb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.CaptureScene_64(false, parms, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.CaptureScene_32(false, parms, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+#endregion
+
+#region RenderProxy
+
+&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;// A Render proxy object is an object responsible for rendering scenes, and which has a window (on a different thread) associated with it
+&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Create a render proxy instance using the provided parameters, returns the IntPtr for the instance and fills the RenderProxyInfo&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static IntPtr CreateRenderProxy(WebSupergoo.RenderProxyParams proxyParams, ref WebSupergoo.RenderProxyInfo outInfo) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//MessageBox.Show("CreateRenderProxy");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IntPtr proxy = IntPtr.Zero;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy = Impl.CreateRenderProxy_64(proxyParams, ref outInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy = Impl.CreateRenderProxy_32(proxyParams, ref outInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return proxy;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Destroy a render proxy instance&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void DestroyRenderProxy(IntPtr renderProxyInst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//MessageBox.Show("DestroyRenderProxy");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (renderProxyInst != IntPtr.Zero) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.DestroyRenderProxy_64(renderProxyInst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.DestroyRenderProxy_32(renderProxyInst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get a HWND for this render proxy&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static IntPtr GetRenderProxyHwnd(IntPtr renderProxyInst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetRenderProxyHwnd_64(renderProxyInst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetRenderProxyHwnd_32(renderProxyInst);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+#endregion
+
+#region Scene
+
+&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;// Scene related functions
+&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Load a scene into the provided render proxy for display&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void LoadScene(IntPtr renderProxyInst, WebSupergoo.LoadSceneParams loadParams, WebSupergoo.ViewParams viewParams, WebSupergoo.DelegateLoadComplete cb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.LoadScene_64(false, renderProxyInst, loadParams, viewParams, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.LoadScene_32(false, renderProxyInst, loadParams, viewParams, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Close a loaded scene&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void CloseScene(IntPtr renderProxyInst, WebSupergoo.DelegateUnloadComplete cb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.CloseScene_64(renderProxyInst, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.CloseScene_32(renderProxyInst, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Check if any scene is loaded&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static bool IsSceneLoaded(IntPtr renderProxyInst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.IsSceneLoaded_64(renderProxyInst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.IsSceneLoaded_32(renderProxyInst);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Stop the current import (interrupts at the current point, without completing the loading process)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void InterruptCurrentImport(IntPtr renderProxyInst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.InterruptCurrentImport_64();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.InterruptCurrentImport_32();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Allow exporting a scene to file&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void ExportScene(IntPtr renderProxyInst, WebSupergoo.ExportSceneParams exportParams, WebSupergoo.DelegateExportComplete cb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.ExportScene_64(false, renderProxyInst, exportParams, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.ExportScene_32(false, renderProxyInst, exportParams, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+#endregion
+
+#region Camera
+
+&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;// Camera related functionality (only active when a scene has been loaded)
+&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Activate the specified camera&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void ActivateCamera(IntPtr renderProxyInst, WebSupergoo.ECameraActivationType activationType, string cameraName, WebSupergoo.DelegateOnActiveCameraChanged cb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.ActivateCamera_64(false, renderProxyInst, (uint)activationType, cameraName, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.ActivateCamera_32(false, renderProxyInst, (uint)activationType, cameraName, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get a list of available cameras&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void GetAvailableCameras(IntPtr renderProxyInst, WebSupergoo.DelegateStrList cb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.GetAvailableCameras_64(renderProxyInst, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.GetAvailableCameras_32(renderProxyInst, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Write a screenshot to file&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void Screenshot(IntPtr renderProxyInst, string filename) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.Screenshot_64(false, renderProxyInst, filename);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.Screenshot_32(false, renderProxyInst, filename);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Load view info from a text file containing PDF-conformat view infos (annotation of type 3DView)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void LoadViewInfoFromFile(IntPtr renderProxyInst, string filename, bool replaceExisting, WebSupergoo.DelegateOnActiveCameraChanged cb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.LoadViewInfoFromFile_64(false, renderProxyInst, filename, replaceExisting, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.LoadViewInfoFromFile_32(false, renderProxyInst, filename, replaceExisting, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Load view info from a string containing PDF-conformat view infos (annotation of type 3DView)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void LoadViewInfoFromString(IntPtr renderProxyInst, string viewInfo, bool replaceExisting, WebSupergoo.DelegateOnActiveCameraChanged cb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.LoadViewInfoFromString_64(false, renderProxyInst, viewInfo, replaceExisting, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.LoadViewInfoFromString_32(false, renderProxyInst, viewInfo, replaceExisting, cb);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+#endregion
+
+#region Properties
+
+&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;// Properties - allows to directly access various render-related properties
+&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get a property of boolean type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static bool GetProperty_Bool(IntPtr renderProxyInst, WebSupergoo.EProperty propType) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetProperty_Bool_64(renderProxyInst, (uint)propType);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetProperty_Bool_32(renderProxyInst, (uint)propType);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set a property of boolean type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void SetProperty_Bool(IntPtr renderProxyInst, WebSupergoo.EProperty propType, bool newValue, bool async = true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetProperty_Bool_64(renderProxyInst, (uint)propType, newValue, async);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetProperty_Bool_32(renderProxyInst, (uint)propType, newValue, async);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get a property of int32 type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static int GetProperty_Int32(IntPtr renderProxyInst, WebSupergoo.EProperty propType) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetProperty_Int32_64(renderProxyInst, (uint)propType);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetProperty_Int32_32(renderProxyInst, (uint)propType);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set a property of int32 type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void SetProperty_Int32(IntPtr renderProxyInst, WebSupergoo.EProperty propType, int newValue, bool async = true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetProperty_Int32_64(renderProxyInst, (uint)propType, newValue, async);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetProperty_Int32_32(renderProxyInst, (uint)propType, newValue, async);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get a property of int64 type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Int64 GetProperty_Int64(IntPtr renderProxyInst, WebSupergoo.EProperty propType) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetProperty_Int64_64(renderProxyInst, (uint)propType);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetProperty_Int64_32(renderProxyInst, (uint)propType);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set a property of int64 type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void SetProperty_Int64(IntPtr renderProxyInst, WebSupergoo.EProperty propType, long newValue, bool async = true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetProperty_Int64_64(renderProxyInst, (uint)propType, newValue, async);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetProperty_Int64_32(renderProxyInst, (uint)propType, newValue, async);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get a property of double type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static double GetProperty_Double(IntPtr renderProxyInst, WebSupergoo.EProperty propType) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetProperty_Double_64(renderProxyInst, (uint)propType);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetProperty_Double_32(renderProxyInst, (uint)propType);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set a property of boolean type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void SetProperty_Double(IntPtr renderProxyInst, WebSupergoo.EProperty propType, double newValue, bool async = true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetProperty_Double_64(renderProxyInst, (uint)propType, newValue, async);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetProperty_Double_32(renderProxyInst, (uint)propType, newValue, async);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get a property of string type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string GetProperty_String(IntPtr renderProxyInst, WebSupergoo.EProperty propType) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetProperty_String_64(renderProxyInst, (uint)propType);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Impl.GetProperty_String_32(renderProxyInst, (uint)propType);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set a property of string type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void SetProperty_String(IntPtr renderProxyInst, WebSupergoo.EProperty propType, string newValue, bool async = true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Is64Bit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetProperty_String_64(false, renderProxyInst, (uint)propType, newValue, async);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impl.SetProperty_String_32(false, renderProxyInst, (uint)propType, newValue, async);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+#endregion
+
+#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;// -----------------
+
+#region Impl
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Implementation for the actual dll interface, to call either into the 32 or 64 bit version of the dlls
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private static class Impl {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private const CallingConvention DllApi = Static.DllApi;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private const string Dll32Name = "3DGlue14-32.dll"; // ABCpdf14
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private const string Dll64Name = "3DGlue14-64.dll"; // ABCpdf14
+
+#region VersionInfo
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// version info
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetLibraryVersion", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void GetLibraryVersion_32(int libID, ref int major, ref int minor, ref int build);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetLibraryVersion", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void GetLibraryVersion_64(int libID, ref int major, ref int minor, ref int build);
+
+#endregion
+
+#region Utilities
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Utilities
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "SetCompanyName", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetCompanyName_32(bool nativeStr, string companyName);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "SetCompanyName", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetCompanyName_64(bool nativeStr, string companyName);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetCompanyName", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[return: MarshalAs(Static.MarshalStr)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern string GetCompanyName_32();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetCompanyName", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[return: MarshalAs(Static.MarshalStr)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern string GetCompanyName_64();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "SetApplicationName", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetApplicationName_32(bool nativeStr, string applicationName);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "SetApplicationName", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetApplicationName_64(bool nativeStr, string applicationName);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetApplicationName", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[return: MarshalAs(Static.MarshalStr)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern string GetApplicationName_32();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetApplicationName", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[return: MarshalAs(Static.MarshalStr)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern string GetApplicationName_64();
+
+#endregion
+
+#region Logging
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Logging
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "StartLoggingToDefault", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern bool StartLogging_32(bool nativeStr, string logFile, bool append, int logLevel);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "StartLoggingToDefault", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern bool StartLogging_64(bool nativeStr, string logFile, bool append, int logLevel);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "StopLoggingToDefault", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void StopLogging_32();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "StopLoggingToDefault", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void StopLogging_64();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "IsLoggingToDefault", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern bool IsLogging_32();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "IsLoggingToDefault", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern bool IsLogging_64();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "SetLogLevel", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetLogLevel_32(int logLevel);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "SetLogLevel", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetLogLevel_64(int logLevel);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetLogLevel", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern int GetLogLevel_32();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetLogLevel", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern int GetLogLevel_64();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "Log", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void Log_32(bool nativeStr, int logLevel, string logMsg);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "Log", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void Log_64(bool nativeStr, int logLevel, string logMsg);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "SetLoggingHook", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern WebSupergoo.DelegateLogging SetLoggingHook_32(IntPtr userData, WebSupergoo.DelegateLogging hook);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "SetLoggingHook", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern WebSupergoo.DelegateLogging SetLoggingHook_64(IntPtr userData, WebSupergoo.DelegateLogging hook);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetLoggingHook", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern WebSupergoo.DelegateLogging GetLoggingHook_32(out IntPtr userData);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetLoggingHook", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern WebSupergoo.DelegateLogging GetLoggingHook_64(out IntPtr userData);
+
+
+#endregion
+
+#region Renderer
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Renderer
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "SetupRenderer", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern bool SetupRenderer_32([MarshalAs(UnmanagedType.Struct)] WebSupergoo.RendererParams rendererParams);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "SetupRenderer", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern bool SetupRenderer_64([MarshalAs(UnmanagedType.Struct)] WebSupergoo.RendererParams rendererParams);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "ShutdownRenderer", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void ShutdownRenderer_32();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "ShutdownRenderer", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void ShutdownRenderer_64();
+
+#endregion
+
+#region Capture
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "LoadCaptureScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void LoadCaptureScene_32(bool nativeStr, [MarshalAs(UnmanagedType.Struct)] WebSupergoo.LoadSceneParams loadParams, WebSupergoo.DelegateLoadComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "LoadCaptureScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void LoadCaptureScene_64(bool nativeStr, [MarshalAs(UnmanagedType.Struct)] WebSupergoo.LoadSceneParams loadParams, WebSupergoo.DelegateLoadComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "UnloadCaptureScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void UnloadCaptureScene_32(uint sceneHandle, WebSupergoo.DelegateUnloadComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "UnloadCaptureScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void UnloadCaptureScene_64(uint sceneHandle, WebSupergoo.DelegateUnloadComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "UnloadAllCaptureScenes", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void UnloadAllCaptureScenes_32(WebSupergoo.DelegateUnloadAllComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "UnloadAllCaptureScenes", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void UnloadAllCaptureScenes_64(WebSupergoo.DelegateUnloadAllComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "CaptureScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void CaptureScene_32(bool nativeStr, [MarshalAs(UnmanagedType.Struct)] WebSupergoo.CaptureParams parms, WebSupergoo.DelegateCaptureComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "CaptureScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void CaptureScene_64(bool nativeStr, [MarshalAs(UnmanagedType.Struct)] WebSupergoo.CaptureParams parms, WebSupergoo.DelegateCaptureComplete cb);
+
+#endregion
+
+#region RenderProxy
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// render proxy object, which has a window (on a different thread) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "CreateRenderProxy", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern IntPtr CreateRenderProxy_32([MarshalAs(UnmanagedType.Struct)] WebSupergoo.RenderProxyParams proxyParams, ref WebSupergoo.RenderProxyInfo outInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "CreateRenderProxy", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern IntPtr CreateRenderProxy_64([MarshalAs(UnmanagedType.Struct)] WebSupergoo.RenderProxyParams proxyParams, ref WebSupergoo.RenderProxyInfo outInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "DestroyRenderProxy", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void DestroyRenderProxy_32(IntPtr renderProxyInst);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "DestroyRenderProxy", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void DestroyRenderProxy_64(IntPtr renderProxyInst);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetRenderProxyHwnd", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern IntPtr GetRenderProxyHwnd_32(IntPtr renderProxyInst);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetRenderProxyHwnd", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern IntPtr GetRenderProxyHwnd_64(IntPtr renderProxyInst);
+
+#endregion
+
+#region Scene
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Scene
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "LoadScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void LoadScene_32(bool nativeStr, IntPtr renderProxyInst,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[MarshalAs(UnmanagedType.Struct)] WebSupergoo.LoadSceneParams loadParams,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[MarshalAs(UnmanagedType.Struct)] WebSupergoo.ViewParams viewParams, WebSupergoo.DelegateLoadComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "LoadScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void LoadScene_64(bool nativeStr, IntPtr renderProxyInst,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[MarshalAs(UnmanagedType.Struct)] WebSupergoo.LoadSceneParams loadParams,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[MarshalAs(UnmanagedType.Struct)] WebSupergoo.ViewParams viewParams, WebSupergoo.DelegateLoadComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "CloseScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void CloseScene_32(IntPtr renderProxyInst, WebSupergoo.DelegateUnloadComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "CloseScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void CloseScene_64(IntPtr renderProxyInst, WebSupergoo.DelegateUnloadComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "IsSceneLoaded", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern bool IsSceneLoaded_32(IntPtr renderProxyInst);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "IsSceneLoaded", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern bool IsSceneLoaded_64(IntPtr renderProxyInst);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "InterruptCurrentImport", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void InterruptCurrentImport_32();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "InterruptCurrentImport", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void InterruptCurrentImport_64();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "ExportScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void ExportScene_32(bool nativeStr, IntPtr renderProxyInst, [MarshalAs(UnmanagedType.Struct)] WebSupergoo.ExportSceneParams parms, WebSupergoo.DelegateExportComplete cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "ExportScene", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void ExportScene_64(bool nativeStr, IntPtr renderProxyInst, [MarshalAs(UnmanagedType.Struct)] WebSupergoo.ExportSceneParams parms, WebSupergoo.DelegateExportComplete cb);
+
+#endregion
+
+#region Camera
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Camera
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "ActivateCamera", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void ActivateCamera_32(bool nativeStr, IntPtr renderProxyInst, uint actType, string cameraName, WebSupergoo.DelegateOnActiveCameraChanged cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "ActivateCamera", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void ActivateCamera_64(bool nativeStr, IntPtr renderProxyInst, uint actType, string cameraName, WebSupergoo.DelegateOnActiveCameraChanged cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetAvailableCameras", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void GetAvailableCameras_32(IntPtr renderProxyInst, WebSupergoo.DelegateStrList cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetAvailableCameras", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void GetAvailableCameras_64(IntPtr renderProxyInst, WebSupergoo.DelegateStrList cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "Screenshot", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void Screenshot_32(bool nativeStr, IntPtr renderProxyInst, string filename);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "Screenshot", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void Screenshot_64(bool nativeStr, IntPtr renderProxyInst, string filename);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "LoadViewInfoFromFile", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void LoadViewInfoFromFile_32(bool nativeStr, IntPtr renderProxyInst, string filename, bool replaceExisting, WebSupergoo.DelegateOnActiveCameraChanged cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "LoadViewInfoFromFile", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void LoadViewInfoFromFile_64(bool nativeStr, IntPtr renderProxyInst, string filename, bool replaceExisting, WebSupergoo.DelegateOnActiveCameraChanged cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "LoadViewInfoFromString", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void LoadViewInfoFromString_32(bool nativeStr, IntPtr renderProxyInst, string viewInfo, bool replaceExisting, WebSupergoo.DelegateOnActiveCameraChanged cb);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "LoadViewInfoFromString", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void LoadViewInfoFromString_64(bool nativeStr, IntPtr renderProxyInst, string viewInfo, bool replaceExisting, WebSupergoo.DelegateOnActiveCameraChanged cb);
+
+#endregion
+
+#region Properties
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Properties
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "SetProperty_Bool", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetProperty_Bool_32(IntPtr renderProxyInst, uint propID, bool newValue, bool async);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "SetProperty_Bool", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetProperty_Bool_64(IntPtr renderProxyInst, uint propID, bool newValue, bool async);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetProperty_Bool", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern bool GetProperty_Bool_32(IntPtr renderProxyInst, uint propID);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetProperty_Bool", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern bool GetProperty_Bool_64(IntPtr renderProxyInst, uint propID);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "SetProperty_Int32", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetProperty_Int32_32(IntPtr renderProxyInst, uint propID, int newValue, bool async);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "SetProperty_Int32", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetProperty_Int32_64(IntPtr renderProxyInst, uint propID, int newValue, bool async);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetProperty_Int32", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern int GetProperty_Int32_32(IntPtr renderProxyInst, uint propID);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetProperty_Int32", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern int GetProperty_Int32_64(IntPtr renderProxyInst, uint propID);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "SetProperty_Int64", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetProperty_Int64_32(IntPtr renderProxyInst, uint propID, long newValue, bool async);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "SetProperty_Int64", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetProperty_Int64_64(IntPtr renderProxyInst, uint propID, long newValue, bool async);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetProperty_Int64", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern long GetProperty_Int64_32(IntPtr renderProxyInst, uint propID);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetProperty_Int64", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern long GetProperty_Int64_64(IntPtr renderProxyInst, uint propID);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "SetProperty_Double", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetProperty_Double_32(IntPtr renderProxyInst, uint propID, double newValue, bool async);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "SetProperty_Double", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetProperty_Double_64(IntPtr renderProxyInst, uint propID, double newValue, bool async);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetProperty_Double", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern double GetProperty_Double_32(IntPtr renderProxyInst, uint propID);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetProperty_Double", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern double GetProperty_Double_64(IntPtr renderProxyInst, uint propID);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "SetProperty_String", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetProperty_String_32(bool nativeStr, IntPtr renderProxyInst, uint propID, string newValue, bool async);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "SetProperty_String", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern void SetProperty_String_64(bool nativeStr, IntPtr renderProxyInst, uint propID, string newValue, bool async);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll32Name, EntryPoint = "GetProperty_String", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[return: MarshalAs(Static.MarshalStr)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern string GetProperty_String_32(IntPtr renderProxyInst, uint propID);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DllImport(Dll64Name, EntryPoint = "GetProperty_String", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = DllApi)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[return: MarshalAs(Static.MarshalStr)]
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static extern string GetProperty_String_64(IntPtr renderProxyInst, uint propID);
+
+#endregion
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+#endregion
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

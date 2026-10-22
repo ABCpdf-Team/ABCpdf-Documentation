@@ -37,7 +37,7 @@
                 <td align="left"><code><a href="../../../5-abcpdf/xrect/default.htm">XRect</a></code></td>
                 <td>n/a</td>
                 <td>No</td>
-                <td>The MediaBox for the page</td>
+                <td>The MediaBox for the page - the page size (width and height).</td>
               </tr>
             </table>
             <p><code><img src="../../../images/steel-blob-10.gif" width="10" height="10" border="0" alt="Throws Exceptions"> may throw NullReferenceException()</code></p>
@@ -57,7 +57,7 @@
           <td> 
             <p>The MediaBox defines the boundaries of the physical medium on which the page may be displayed or printed.
             This may include bleed areas or printing marks and also parts of the medium on which printing cannot take place
-            because of physicsal limitations of the output technology. Any PDF drawing outside the MediaBox can be safely ignored.</p><p>These boundaries may be defined directly on the Page object or they may be inherited from a parent Pages object.</p><p>A MediaBox is mandatory for all pages so this property should never be null.</p><p>Assigning a new value to this property will change the property for the current Page rather than any Pages object 
+            because of physical limitations of the output technology. Any PDF drawing outside the MediaBox can be safely ignored.</p><p>These boundaries may be defined directly on the Page object or they may be inherited from a parent Pages object.</p><p>A MediaBox is mandatory for all pages so this property should never be null.</p><p>Assigning a new value to this property will change the property for the current Page rather than any Pages object 
             from which the value may have been inherited. In this way the property exhibits a copy-on-write behavior.</p><p>Attempting to assign a null value to this property will result in a NullReferenceException being thrown.</p>
             <p>Note that, as with all objects in this namespace, this property is measured in points in the native PDF coordinate space. It is unaffected by the <a href="../../../5-abcpdf/doc/2-properties/units.htm">Doc.Units</a> or <a href="../../../5-abcpdf/doc/2-properties/topdown.htm">Doc.TopDown</a> properties.</p>
             <p>&nbsp;</p>

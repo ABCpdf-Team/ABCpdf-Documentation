@@ -53,7 +53,8 @@
     <td valign="top"> 
       <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tbody><tr> 
-          <td><p>The MediaType enumeration can take any of the following 
+          <td><p>This property applies to the <a href="2-forchrome.htm">ABCChrome</a>, <a href="2-forgecko.htm">ABCGecko</a> and <a href="2-forwebkit.htm">ABCWebKit</a> engines.</p>
+            <p>The MediaType enumeration can take any of the following 
             values:</p>
             <ul><li>Print</li><li>Screen</li></ul>
             <p>For the Gecko engine, the Screen media must be used with
@@ -64,6 +65,7 @@
               when rendered on different media by specifying several sets of CSS
               styles for each medium type. The Gecko engine supports the rendering
               of Web pages using the print stylesheets and the screen stylesheets.</p>
+            <p>Because the default is Print, a page is rendered using its print styles. If the PDF looks different from the page in a browser, for example background colors or images are missing, the page's print stylesheet may be hiding them. Set Media to Screen to render the page using its screen styles.</p>
             <p>When the Screen media is used in conjunction with the Gecko engine, ABCpdf obtains and stores the web page locally before invoking the engine. Since ABCpdf does not obtain additional headers from the Gecko engine, they are not sent in the request. The kind of headers that may not be sent include Accept, Accept-Language, Accept-Encoding, Keep-Alive, and Accept-Charset. The User-Agent may be different. In most situations, this is unimportant, but if you are relying on these headers, you can use the <a href="httpadditionalheaders.htm">HtmlOptions.HttpAdditionalHeaders</a> property to add your own headers to the request.</p>
             <p>&nbsp;</p></td>
           <td width="60">&nbsp;</td>

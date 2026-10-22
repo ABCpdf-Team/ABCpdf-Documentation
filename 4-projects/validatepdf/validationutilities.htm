@@ -1,0 +1,800 @@
+<html>
+<head>
+<title>ValidationUtilities.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">ValidationUtilities.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.ComponentModel;
+using System.IO;
+using System.Text;
+
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Operations;
+using WebSupergoo.ABCpdf14.Elements;
+
+
+namespace ValidatePDF {
+&nbsp;&nbsp;public class ValidationUtilities {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Validate a folder of PDF files.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="folder"&gt;The folder to process.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="checkObjects"&gt;Whether to check the document objects.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="reportOrphans"&gt;Whether to report orphaned Elements which were not fully validated.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="reportCoverage"&gt;Whether to report the types of PDF classes which were covered, and those missed.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="checkContentStreams"&gt;Whether to check the content streams.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="checkCompression"&gt;Whether to check stream compression. The checkSyntax option does this as well so typically you do not need both.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="checkSyntax"&gt;Whether to check syntax using the PDF/A validator.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void Validate(string folder, bool checkObjects, bool reportOrphans, bool reportCoverage, bool checkContentStreams, bool checkCompression, bool checkSyntax) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;string&gt; coverage = new HashSet&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string file in Directory.GetFiles(folder, "*.pdf"))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate(file, file.Substring(0, file.Length - 4) + ".txt", checkObjects, checkContentStreams, checkCompression, checkSyntax, coverage, reportOrphans);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (reportCoverage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;string&gt; missed = ValidationLog.AllTypes;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string cls in coverage)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;missed.Remove(cls);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("Covered:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string cls in coverage)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine(cls);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("Missed:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string cls in missed)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine(cls);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.WriteAllText(Path.Combine(folder, "coverage.txt"), sb.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Validate a PDF file, reporting to a log file.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pdfFile"&gt;The PDF to be validated&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="logFile"&gt;The log file to which results should be written&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="coverage"&gt;A HashSet to be populated with the types of PDF classes which are seen during validation&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="reportOrphans"&gt;Whether to report orphaned Elements which were not fully validated&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void Validate(string pdfFile, string logFile, bool checkObjects, bool checkContentStreams, bool checkCompression, bool checkSyntax, HashSet&lt;string&gt; coverage, bool reportOrphans) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;string&gt; logs = new List&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc theDoc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Read(pdfFile);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception ex) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logs.Add("Unable to read file. " + ex.Message);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;checkObjects = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;checkContentStreams = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (checkObjects)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logs.Add(ValidateDocument(theDoc, coverage, reportOrphans));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (checkContentStreams)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logs.Add(ValidateContents(theDoc));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (checkCompression)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logs.Add(ValidateCompression(theDoc));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (checkSyntax)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logs.Add(ValidateSyntax(pdfFile));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.WriteAllText(logFile, string.Join("\r\n\r\n", logs));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Validate the objects in a PDF file, returning the results.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="doc"&gt;The Doc to be validated&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="coverage"&gt;A HashSet to be populated with the types of PDF classes which are seen during validation&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="reportOrphans"&gt;Whether to report orphaned Elements which were not fully validated&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The results of validation&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string ValidateDocument(Doc doc, HashSet&lt;string&gt; coverage, bool reportOrphans) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ValidationLog validation = new ValidationLog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;validation.Coverage = coverage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;validation.Stack = new Stack&lt;ValidationStackNode&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CatalogElement cat = new CatalogElement(doc.ObjectSoup.Catalog);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cat.Validate(validation);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject trail = doc.ObjectSoup.Trailer;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool isCrossRef = Atom.GetItem(trail.Atom, "W") != null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CrossReferenceStreamElement crossRef = isCrossRef ? new CrossReferenceStreamElement(trail) : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileTrailerElement fileTrailer = !isCrossRef ? new FileTrailerElement(trail) : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Element trailer = isCrossRef ? (Element)crossRef : (Element)fileTrailer;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;trailer.Validate(validation);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (doc.Encryption.Type != 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;validation.Start(trailer);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EncryptionElement encryption = crossRef != null ? crossRef.EntryEncrypt : fileTrailer.EntryEncrypt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;validation.ReportEntryVersion("Encryption.V", encryption != null ? encryption.GetEntryVersion("V") : GetEncryptionVEntryVersion(doc.Encryption.Type));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = validation.Log;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;int&gt; done = validation.Done;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;IndirectObject&gt; missed = new List&lt;IndirectObject&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (IndirectObject io in doc.ObjectSoup) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((io != null) &amp;&amp; (io.ID != 0) &amp;&amp; (!done.Contains(io.ID))) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Element e = ElementFactories.AutodetectFactory(new RefAtom(io), io, null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((e is ObjectStreamElement) || (e is CrossReferenceStreamElement) || (e is LinearizationParameterElement)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Validate(validation);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;done = validation.Done;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception ex) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;validation.ReportException(io, ex);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (reportOrphans) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (IndirectObject io in doc.ObjectSoup) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((io != null) &amp;&amp; (io.ID != 0) &amp;&amp; (!done.Contains(io.ID)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;missed.Add(io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (missed.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;int&gt; refOnlyObjects = new HashSet&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, HashSet&lt;int&gt;&gt; references = new Dictionary&lt;int, HashSet&lt;int&gt;&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (IndirectObject io in doc.ObjectSoup) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool hasContent = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FindAllReferences(io.ID, io.Atom, references, ref hasContent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!hasContent)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;refOnlyObjects.Add(io.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (IndirectObject io in missed) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;int&gt; set = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;references.TryGetValue(io.ID, out set);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (set == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue; // object not referenced by anything - ignore
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (refOnlyObjects.Contains(io.ID))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue; // only reference atoms - simply a stop en route to other items
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("Missed ID: " + io.ID.ToString() + ": " + IndirectObjectDescription(io));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var id in set)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("  Referenced by ID: " + id.ToString() + ": " + IndirectObjectDescription(doc.ObjectSoup[id]));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string header = "PDF Version: " + GetVersion(validation.Version) + "\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (validation.Version.HasFlag(PDFVersion.AdobeUndocumented))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;header += "PDF Uses Undocumented Extensions\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (validation.Version.HasFlag(PDFVersion.PDF20Deprecated)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;header += "PDF Uses PDF 2.0 Deprecated Features\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string feature in validation.Deprecated)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;header += " - " + feature + "\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;header += "\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return header + sb.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Validate the content streams in a PDF file, returning the results.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="doc"&gt;The Doc to be validated&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The results of validation&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string ValidateContents(Doc doc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;IndirectObject&gt; items = new List&lt;IndirectObject&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// gather items
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;int&gt; skip = new HashSet&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Page page in doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items.Add(page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom atom in page.GetResourcesByType("XObject", true, true, true, true, skip)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject rez = page.ResolveObj(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (rez != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;skip.Add(rez.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (rez is FormXObject)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items.Add(rez);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception ex) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "Unable to validate document contents because document is badly formed.\r\n" + ex.Message;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// scan for errors
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pageCount = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page lastPage = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (IndirectObject item in items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// get content stream
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte[] data = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = item as Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FormXObject form = item as FormXObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (page != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lastPage = page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageCount++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = page.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.DotsPerInch = 18; // small value for speed
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.GetData("dummy.jpg");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string log = VetLog(doc.Rendering.Log);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!string.IsNullOrWhiteSpace(log))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(log);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception ex) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine($"Unable to validate rendering of Page ID {page.ID} because of error {ex.Message}");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = page.GetContentData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine($"Unable to validate Page ID {page.ID} as content stream would not decompress");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!form.Decompress()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine($"Unable to validate Form XObject {form.ID} as it would not decompress");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data = form.GetData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(data != null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// find errors in content stream
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = ArrayAtom.FromContentStream(data);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, string&gt; errors = FindContentStreamErrors(lastPage, item, array);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (errors.Count == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// report errors in content stream
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom selection = new ArrayAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var pair in errors) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int start = Math.Max(0, pair.Key - 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int end = Math.Min(pair.Key + 10, array.Count - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (selection.Count != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selection.Add(new OpAtom("...\r\n\r\n"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = start; i &lt;= end; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selection.Add(array[i].Clone());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (i == pair.Key)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selection.Add(new OpAtom(pair.Value));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("Content Stream Errors Detected:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (page != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine($"Page ID {page.ID} page number {pageCount}");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine($"Form XObject ID {form.ID} first encountered on page {pageCount}");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine(ASCIIEncoding.ASCII.GetString(selection.GetData()));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return sb.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Validate the stream compression in a PDF file, returning the results.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="doc"&gt;The Doc to be validated&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The results of validation&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string ValidateCompression(Doc doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StreamObject&gt; items = new List&lt;StreamObject&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// gather items
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (IndirectObject io in doc.ObjectSoup) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io is StreamObject)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items.Add((StreamObject)io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception ex) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "Unable to validate stream compression because document is badly formed.\r\n" + ex.Message;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// scan for errors
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StreamObject so in items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so.CopyDecompressedData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so.ClearCachedDecompressed();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception ex) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine($"Error in StreamObject ID {so.ID}: {ex.Message}");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return sb.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static Dictionary&lt;int, string&gt; FindContentStreamErrors(Page lastPage, IndirectObject item, ArrayAtom array)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Validation of content streams is a bit open ended.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// This illustrates some basic sanity checks and can easily be extended.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IDictionary&lt;string, Atom&gt; fonts = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IDictionary&lt;string, Atom&gt; xobjects = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IDictionary&lt;string, Atom&gt; colorspaces = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OperatorState operatorState = new OperatorState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int graphicsStateDepth = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, string&gt; errors = new Dictionary&lt;int, string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var pair in OpAtom.Find(array)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!operatorState.IsOK(pair.Item1))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddError(errors, pair.Item2, "Operator \'" + pair.Item1 + "\' not valid inside " + operatorState.ObjectState.ToString() + " graphics object.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom[] args = OpAtom.GetParameters(array, pair.Item2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pair.Item1 == "q") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;graphicsStateDepth++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (graphicsStateDepth &gt; 26)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddError(errors, pair.Item2, "Graphics state nesting too deep.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (pair.Item1 == "Q") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (graphicsStateDepth &lt;= 1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddError(errors, pair.Item2, "No graphics states left to pop.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;graphicsStateDepth--;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (args == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddError(errors, pair.Item2, "Bad Parameters.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (pair.Item1 == "Tf") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fonts == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fonts = lastPage.GetResourceMap(item.ID, "Font");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = ((NameAtom)args[0]).Text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!fonts.ContainsKey(name))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddError(errors, pair.Item2, "Named Font does not exist.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (pair.Item1 == "TJ") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom arg in ((ArrayAtom)args[0])) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((arg is NumAtom == false) &amp;&amp; (arg is StringAtom == false)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddError(errors, pair.Item2, "Bad String Arguments.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (pair.Item1 == "Do") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (xobjects == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xobjects = lastPage.GetResourceMap(item.ID, "XObject");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = ((NameAtom)args[0]).Text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!xobjects.ContainsKey(name))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddError(errors, pair.Item2, "Named XObject does not exist.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if ((pair.Item1 == "CS") || (pair.Item1 == "cs")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = ((NameAtom)args[0]).Text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "DeviceGray":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "DeviceRGB":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "DeviceCMYK":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "Pattern":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (colorspaces == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;colorspaces = lastPage.GetResourceMap(item.ID, "ColorSpace");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!colorspaces.ContainsKey(name))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddError(errors, pair.Item2, "Named XObject does not exist.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return errors;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Validate the low level syntax of a PDF file, returning the results.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="file"&gt;The PDF to be validated&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The results of validation&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string ValidateSyntax(string file) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (PdfValidationOperation op = new PdfValidationOperation()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Conformance = PdfConformance.Pdf;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = op.Read(file, null)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op.Errors != null &amp;&amp; op.Errors.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("PDF Syntax Errors:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; op.Errors.Count; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine(op.Errors[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op.Warnings != null &amp;&amp; op.Warnings.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("PDF Syntax Warnings:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; op.Warnings.Count; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine(op.Warnings[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return sb.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void AddError(Dictionary&lt;int, string&gt; errors, int item, string error) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string str = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errors.TryGetValue(item, out str);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (str == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errors[item] = "%% " + error + "\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (str.Contains(error))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errors[item] = str.Trim() + " " + error + "\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static string IndirectObjectDescription(IndirectObject io) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const int length = 300;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string desc = io.ToString().Replace("\r\n", "\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (desc.Length &gt; length) desc = desc.Substring(0, length - 3) + "...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return desc;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void FindAllReferences(int id, Atom atom, Dictionary&lt;int, HashSet&lt;int&gt;&gt; references, ref bool hasContent) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (atom is RefAtom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int refid = ((RefAtom)atom).ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;int&gt; set = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;references.TryGetValue(refid, out set);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (set == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set = new HashSet&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;references[refid] = set;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set.Add(id);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (atom is ArrayAtom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var entry in (ArrayAtom)atom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FindAllReferences(id, entry, references, ref hasContent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (atom is DictAtom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var entry in (DictAtom)atom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FindAllReferences(id, entry.Value, references, ref hasContent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hasContent = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static string GetVersion(PDFVersion version) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (version.HasFlag(PDFVersion.PDF20))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "200";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (version.HasFlag(PDFVersion.PDF17Extension5))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "175";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (version.HasFlag(PDFVersion.PDF17Extension3))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "173";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (version.HasFlag(PDFVersion.PDF17))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "170";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (version.HasFlag(PDFVersion.PDF16))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "160";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (version.HasFlag(PDFVersion.PDF15))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "150";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (version.HasFlag(PDFVersion.PDF14))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "140";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (version.HasFlag(PDFVersion.PDF13))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "130";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (version.HasFlag(PDFVersion.PDF12))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "120";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (version.HasFlag(PDFVersion.PDF11))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "110";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "100";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static PDFVersion GetEncryptionVEntryVersion(int? v) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (v.HasValue ? v.Value : 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 0:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return PDFVersion.PDF10 | PDFVersion.PDF20Deprecated | PDFVersion.PDF17Obsolescent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 1:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return PDFVersion.PDF10 | PDFVersion.PDF20Deprecated;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 2:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return PDFVersion.PDF14 | PDFVersion.PDF20Deprecated;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 3:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return PDFVersion.PDF14 | PDFVersion.PDF20Deprecated | PDFVersion.PDF17Obsolescent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 4:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return PDFVersion.PDF15 | PDFVersion.PDF20Deprecated;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 5:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return PDFVersion.PDF17Extension3 | PDFVersion.PDF20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return PDFVersion.None;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static string VetLog(string log) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string line in log.Split(new char[] { '\r' })) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string trimmed = line.TrimEnd();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (line.Contains("Substituting"))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue; // not interested in font substitution
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (line.Contains("No Content Read"))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue; // if it's blank that's fine by us
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine(trimmed);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return sb.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// A simple class to demonstrate how a PDF file may be validated.
+&nbsp;&nbsp;/// The Report overrides in this class are called during validation to allow errors or warnings to be flagged.
+&nbsp;&nbsp;/// It is simply a matter of loggging appropriate information each time one of these is called.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class ValidationLog : ValidationBase {
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFVersion Version { get; private set; }
+&nbsp;&nbsp;&nbsp;&nbsp;public StringBuilder Log { get; private set; }
+&nbsp;&nbsp;&nbsp;&nbsp;public HashSet&lt;string&gt; Deprecated { get; private set; }
+&nbsp;&nbsp;&nbsp;&nbsp;public bool ReportStack { get; set; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ValidationLog() : base() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Version = PDFVersion.PDF10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deprecated = new HashSet&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ReportEntryVersion(string entry, PDFVersion version) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Version = Version | version;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (version.HasFlag(PDFVersion.PDF20Deprecated))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deprecated.Add($"Deprecated Feature: \"{Target(entry)}\".");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ReportUnknownEntryName(string entry) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Element element = Stack.Peek().Element;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = element.GetType().Name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((name == "FileTrailerElement") || (name == "CrossReferenceStreamElement")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (entry == "ABCpdf") return; // ABCpdf adds this
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (entry == "Source") return; // and this
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (name == "ResourceElement") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (entry == "Encoding") return; // not in spec but used in documents
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (name == "StandardLayoutAttributesElement") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (entry == "ColumnSpan") return; // not in spec but used in documents
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (name == "RichMediaAnnotationElement") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (entry == "AA") return; // not in spec but used in documents and these features work when displayed in Acrobat
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (entry == "BS") return; // spec says it has same entries as an Annotation but seems to share more in common with Widget
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($"Unknown Entry: \"{Target(entry)}\".");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ReportStack)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($" Stack: {GetStackTrace()}");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ReportIncorrectEntryValue(string value) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($"Wrong Value: \"{Target()}\" = \"{value}\".");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ReportStack)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($" Stack: {GetStackTrace()}");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ReportMissingRequiredEntry() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($"Missing Required Entry: \"{Target()}\".");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ReportStack)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($" Stack: {GetStackTrace()}");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ReportNotIndirectObject() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($"Entry Not Indirect: \"{Target()}\".");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ReportStack)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($" Stack: {GetStackTrace()}");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ReportIncorrectItemType(string expectedType, string actualType, Atom atom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.ReportIncorrectItemType(expectedType, actualType, atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Element element = Stack.Peek().Element;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string entry = Stack.Peek().Entry;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string key = Stack.Peek().Index &gt;= 0 ? Stack.Peek().Index.ToString() : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((actualType == null) &amp;&amp; (atom != null)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Element e = ElementFactories.AutodetectFactory(atom, element.Host, null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;actualType = e.GetType().Name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (key == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Append($"Wrong Type: \"{Target(key)}\". ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (expectedType != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Append("Expected \"" + expectedType + "\". ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (actualType != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Append("Found \"" + actualType + "\". ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ReportStack)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($"Stack: {GetStackTrace()}");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ReportIncorrectNumberOfEntries(int expected, int found) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($"Wrong Number of Entries: \"{Target()}\". Expected {expected} found {found}.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ReportStack)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($" Stack: {GetStackTrace()}");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ReportRecursiveStructure() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($"Document contains recursive Atom structure: \"{Target()}\".");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ReportStack)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($" Stack: {GetStackTrace()}");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ReportException(Element element, Exception ex) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($"Exception processing {element.GetType().Name} caused validation of this object to be aborted. Message \"{GetMessage(ex)}\".");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ReportStack)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($" Stack: {GetStackTrace()}");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void ReportException(IndirectObject io, Exception ex) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.AppendLine($"Exception processing IndirectObject {io.ID} caused validation of this object to be aborted. Message \"{GetMessage(ex)}\".");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static string GetMessage(Exception e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder msg = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 20; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e == null) break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.Message.Length &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (i != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg.Append(" ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg.Append(e.Message.Replace("\r\n", ""));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e = e.InnerException;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return msg.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private string Target() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Target(null);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private string Target(string entry) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var item = Stack.Peek();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string type = item.Element.GetType().Name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (entry == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entry = item.Entry;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ValidationStackNode[] stack = Stack.ToArray();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0;i &lt; stack.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var io = stack[i].Element.Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = io.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $"{type}({id}).{entry}";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// A simple class to hold content stream state and determine if the operators that are provided
+&nbsp;&nbsp;/// are compatible with the current state. In most situations incorrect operators can just be ignored
+&nbsp;&nbsp;/// but sometimes it is ambigious as to the best action to take.
+&nbsp;&nbsp;/// This information is derived from the graphics objects state chart in the PDF Specification.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;class OperatorState {
+&nbsp;&nbsp;&nbsp;&nbsp;static HashSet&lt;string&gt; sGeneralGraphicsState = new HashSet&lt;string&gt;(ContentStreamScanner.OperatorCategories.GeneralGraphicsState);
+&nbsp;&nbsp;&nbsp;&nbsp;static HashSet&lt;string&gt; sSpecialGraphicsState = new HashSet&lt;string&gt;(ContentStreamScanner.OperatorCategories.SpecialGraphicsState);
+&nbsp;&nbsp;&nbsp;&nbsp;static HashSet&lt;string&gt; sPathConstruction = new HashSet&lt;string&gt;(ContentStreamScanner.OperatorCategories.PathConstruction);
+&nbsp;&nbsp;&nbsp;&nbsp;static HashSet&lt;string&gt; sPathPainting = new HashSet&lt;string&gt;(ContentStreamScanner.OperatorCategories.PathPainting);
+&nbsp;&nbsp;&nbsp;&nbsp;static HashSet&lt;string&gt; sClippingPaths = new HashSet&lt;string&gt;(ContentStreamScanner.OperatorCategories.ClippingPaths);
+&nbsp;&nbsp;&nbsp;&nbsp;static HashSet&lt;string&gt; sTextState = new HashSet&lt;string&gt;(ContentStreamScanner.OperatorCategories.TextState);
+&nbsp;&nbsp;&nbsp;&nbsp;static HashSet&lt;string&gt; sTextPositioning = new HashSet&lt;string&gt;(ContentStreamScanner.OperatorCategories.TextPositioning);
+&nbsp;&nbsp;&nbsp;&nbsp;static HashSet&lt;string&gt; sTextShowing = new HashSet&lt;string&gt;(ContentStreamScanner.OperatorCategories.TextShowing);
+&nbsp;&nbsp;&nbsp;&nbsp;static HashSet&lt;string&gt; sColor = new HashSet&lt;string&gt;(ContentStreamScanner.OperatorCategories.Color);
+&nbsp;&nbsp;&nbsp;&nbsp;static HashSet&lt;string&gt; sMarkedContent = new HashSet&lt;string&gt;(ContentStreamScanner.OperatorCategories.MarkedContent);
+
+&nbsp;&nbsp;&nbsp;&nbsp;public enum State { Page, Path, Text, ClippingPath, Shading, InlineImage, External }
+&nbsp;&nbsp;&nbsp;&nbsp;private static Dictionary&lt;State, HashSet&lt;string&gt;&gt; sValidOps = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public State ObjectState { get; set; }
+&nbsp;&nbsp;&nbsp;&nbsp;public bool IgnoreErrorsInCompatibilitySections { get; set; }
+&nbsp;&nbsp;&nbsp;&nbsp;private int CompatibilitySectionDepth { get; set; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public OperatorState() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (sValidOps == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;State, HashSet&lt;string&gt;&gt; valid = new Dictionary&lt;State, HashSet&lt;string&gt;&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Page] = new HashSet&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Page].UnionWith(sGeneralGraphicsState);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Page].UnionWith(sSpecialGraphicsState);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Page].UnionWith(sColor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Page].UnionWith(sTextState);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Page].UnionWith(sMarkedContent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Path] = new HashSet&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Path].UnionWith(sPathConstruction);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Text] = new HashSet&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Text].UnionWith(sGeneralGraphicsState);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Text].UnionWith(sColor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Text].UnionWith(sTextState);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Text].UnionWith(sTextShowing);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Text].UnionWith(sTextPositioning);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Text].UnionWith(sMarkedContent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.ClippingPath] = new HashSet&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.Shading] = new HashSet&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.InlineImage] = new HashSet&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.InlineImage].Add("ID");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid[State.External] = new HashSet&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sValidOps = valid;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IgnoreErrorsInCompatibilitySections = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectState = State.Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CompatibilitySectionDepth = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public bool IsOK(string op) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op == "BX") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CompatibilitySectionDepth++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op == "EX") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CompatibilitySectionDepth--;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((CompatibilitySectionDepth &gt; 0) &amp;&amp; (IgnoreErrorsInCompatibilitySections))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (ObjectState) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case State.Page:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((op == "m") || (op == "re")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectState = State.Path;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op == "BT") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectState = State.Text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op == "sh") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op == "Do") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op == "BI") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectState = State.InlineImage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case State.Path:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (sPathPainting.Contains(op)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectState = State.Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (sClippingPaths.Contains(op)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectState = State.ClippingPath;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case State.Text:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op == "ET") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectState = State.Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case State.ClippingPath:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (sPathPainting.Contains(op)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectState = State.Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case State.Shading:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(false, "Should never hit this state because there is an immediate return from shading objects.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case State.InlineImage:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op == "EI") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectState = State.Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case State.External:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(false, "Should never hit this state because there is an immediate return from external objects.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return sValidOps[ObjectState].Contains(op);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -38,6 +38,11 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A signature validation-related information dictionary groups the certificate, OCSP, and CRL data directly relevant to verifying one specific signature. It is referenced from the document security store by a key that is the uppercase hexadecimal encoding of the SHA-1 hash of the signature's DER-encoded bytes.</p>
+<p>Embedding this data in the PDF makes it possible to verify the signature at a later date when the OCSP responder or CRL distribution point may no longer be accessible and when the signing certificate may itself have expired.</p>
+<p>The certificate array holds the full chain needed to establish trust from the signing certificate up to a trusted root. OCSP and CRL arrays hold the responses confirming those certificates were not revoked at the time of signing.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

@@ -31,6 +31,17 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=240">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 102, page 232.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 100, page 284.</a></p>
 </p>
+<!-- addition start -->
+<p>The optional content usage dictionary holds a set of sub-dictionaries that each describe a real-world condition under which the associated OCG should be on or off. Conforming readers may use these entries to set group states automatically.</p>
+<p>The CreatorInfo entry records which application defined the usage metadata and what kind of content the group represents.</p>
+<p>The Language entry specifies a preferred language for the group's content. Viewers that apply language-based automatic state setting use this entry to match the viewer's locale.</p>
+<p>The Export entry controls whether the group is visible when the document is exported to another format. This affects batch processing and format conversion workflows.</p>
+<p>The Zoom entry defines a magnification range within which the group should be visible. Groups outside the zoom range are hidden, allowing content to adapt to the viewer's zoom level.</p>
+<p>The Print entry controls visibility during printing. It can restrict a group to a specific printing condition or mark it as never printable.</p>
+<p>The View entry determines whether the group is visible in an interactive viewer. This allows groups to be used only for printing with no screen representation.</p>
+<p>The User entry restricts visibility based on user type or identity. This is an advisory entry that applications may honour to show role-appropriate content.</p>
+<p>The PageElement entry marks the group as representing a specific page element type, such as a header or footer. Layout applications use this to manage repeating structural elements.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

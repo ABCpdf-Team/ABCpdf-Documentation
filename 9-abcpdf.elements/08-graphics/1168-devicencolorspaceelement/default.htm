@@ -38,6 +38,13 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=167">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Section: 8.6.6.5, page 159.</a></p>
 </p>
+<!-- addition start -->
+<p>DeviceN extends the Separation concept to multiple colorants, allowing a single color space to address several named channels simultaneously. Each component in a DeviceN color corresponds to one named colorant.</p>
+<p>The names array lists the colorant names in the same order as the component values. As with Separation, the special names All and None have defined behaviours.</p>
+<p>The alternate color space and tint transform function provide a fallback for devices that cannot render one or more of the named colorants. The tint transform maps all DeviceN component values to the alternate space.</p>
+<p>The optional attributes dictionary adds metadata about the colorants, including solidities, printing order, and mixing hints. These values assist rendering and soft-proofing software in producing accurate simulations.</p>
+<p>DeviceN is commonly used in prepress workflows to describe multi-ink combinations, including HiFi color systems that use more than four process inks.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

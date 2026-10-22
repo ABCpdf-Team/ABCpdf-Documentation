@@ -40,6 +40,13 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A type 6 halftone uses a pre-computed threshold table rather than a spot function. Each cell in the table holds a byte value from 0 to 255. To decide whether a given device pixel is on or off, the viewer compares the current tint level against the threshold at that pixel position: the pixel is on if the tint exceeds the threshold.</p>
+<p>The table is stored as the body of the stream. Width and Height define its dimensions. The stream must contain exactly Width times Height bytes. The table tiles repeatedly across the output area to cover the full page.</p>
+<p>Because each sample is one byte, this type offers 256 distinct threshold levels. That is enough for smooth gradients in most workflows, but the table can become large if high screen rulings are needed, since a finer ruling means more samples per inch.</p>
+<p>Unlike type 1, there is no spot function or angle entry. The shape and orientation of the screen are embedded implicitly in the layout of the threshold values. Changing the apparent screen angle requires a different table.</p>
+<p>TransferFunction adjusts tint values before they are compared against the table. A function object maps input levels to corrected output levels. The name Identity leaves the tint unchanged. The purpose is the same as in type 1: compensating for device characteristics such as dot gain.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

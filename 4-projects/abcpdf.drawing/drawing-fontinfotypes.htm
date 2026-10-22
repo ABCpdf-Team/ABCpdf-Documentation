@@ -1,0 +1,307 @@
+<html>
+<head>
+<title>Drawing\FontInfoTypes.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Drawing\FontInfoTypes.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+
+namespace WebSupergoo.ABCpdf14.Drawing
+{
+&nbsp;&nbsp;#region FontStyle
+&nbsp;&nbsp;[FlagsAttribute]
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Specifies style information applied to text.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public enum FontStyle
+&nbsp;&nbsp;{ 
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Normal text.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;Regular = 0,
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Bold text.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;Bold = 1,
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Italic text.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;Italic = 2,
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Underlined text.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;Underline = 4,
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Text with a line through the middle.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;Strikeout = 8
+&nbsp;&nbsp;};
+&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;namespace Text{
+&nbsp;&nbsp;&nbsp;&nbsp;#region GenericFontFamilies
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Specifies a generic FontFamily object.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum GenericFontFamilies {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// A generic Serif FontFamily object.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serif,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// A generic Sans Serif FontFamily object.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SansSerif,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// A generic Monospace FontFamily object.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Monospace
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;#region TextRenderingMode
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Determines whether showing text causes glyph outlines to be stroked, filled, used as a clipping boundary, 
+&nbsp;&nbsp;/// or some combination of the three.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public enum TextRenderingMode {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Fill text.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;FillText,
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Stroke text.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;StrokeText,
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Fill, then stroke text.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;FillThenStrokeText,
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Neither fill nor stroke text (invisible).
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;Invisible,
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Fill text and add to path for clipping (see above).
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;FillTextAndAddForClipping,
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Stroke text and add to path for clipping.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;StrokeTextAndAddForClipping,
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Fill, then stroke text and add to path for clipping.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;FillThenStrokeTextAndAddForClipping,
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Add text to path for clipping.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;AddForClipping
+&nbsp;&nbsp;}
+&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;#region TextState
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Comprises graphics state parameters that only affect text.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public sealed class TextState {
+&nbsp;&nbsp;&nbsp;&nbsp;#region Declare variables
+&nbsp;&nbsp;&nbsp;&nbsp;private double _characterSpacing = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;private double _wordSpacing = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;private double _horizontalScaling = 100;
+&nbsp;&nbsp;&nbsp;&nbsp;private double _leading = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextRenderingMode _renderingMode;
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Specified in unscaled text space units.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double CharacterSpacing {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _characterSpacing; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _characterSpacing = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Specified in unscaled word space units.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double WordSpacing {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _wordSpacing; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _wordSpacing = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Adjusts the width of glyphs by stretching or compressing them in the horizontal direction.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double HorizontalScaling {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _horizontalScaling; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _horizontalScaling = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Measured in unscaled text space units.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double Leading {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _leading; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _leading = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Determines whether showing text causes glyph outlines to be stroked, filled, used as a clipping boundary, 
+&nbsp;&nbsp;&nbsp;&nbsp;/// or some combination of the three.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public TextRenderingMode  RenderingMode {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _renderingMode; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _renderingMode = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Constructors
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new TextState object using a specified character spacing, 
+&nbsp;&nbsp;&nbsp;&nbsp;/// word spacing, horizontal scaling, leading, rendering mode.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="characterSpacing"&gt;Specified in unscaled word space units.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="wordSpacing"&gt;Specified in unscaled word space units.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="horizontalScaling"&gt;Adjusts the width of glyphs by stretching or compressing them in the horizontal direction.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="leading"&gt;Measured in unscaled text space units.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="renderingMode"&gt;Determines whether showing text causes glyph outlines to be stroked, filled, used as a clipping boundary, or some combination of the three.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/*/// &lt;param name="rise"&gt;Specifies the distance, in unscaled text space units.&lt;/param&gt;*/
+&nbsp;&nbsp;&nbsp;&nbsp;public TextState(double characterSpacing, double wordSpacing, double horizontalScaling, double leading, TextRenderingMode renderingMode/*, double rise*/) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_characterSpacing = characterSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_wordSpacing = wordSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_horizontalScaling = horizontalScaling;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_leading =  leading;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_renderingMode = renderingMode;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//_rise =  rise;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new TextState object using a specified rendering mode.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="renderingMode"&gt;Determines whether showing text causes glyph outlines to be stroked, filled, used as a clipping boundary, or some combination of the three.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public TextState(TextRenderingMode renderingMode) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_renderingMode = renderingMode;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public TextState() : this(TextRenderingMode.FillText) {
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;};
+&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;internal sealed class FontInfoConvert
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;internal static bool TestFlag(FontStyle value, FontStyle testValue)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (value &amp; testValue) == testValue;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal static bool TestFlag(System.Drawing.FontStyle value,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.FontStyle testValue)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (value &amp; testValue) == testValue;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static System.Drawing.FontStyle ToGdiplusFontStyle(FontStyle style)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (TestFlag(style, FontStyle.Bold)?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.FontStyle.Bold: System.Drawing.FontStyle.Regular)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| (TestFlag(style, FontStyle.Italic)?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.FontStyle.Italic: System.Drawing.FontStyle.Regular)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| (TestFlag(style, FontStyle.Strikeout)?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.FontStyle.Strikeout: System.Drawing.FontStyle.Regular)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| (TestFlag(style, FontStyle.Underline)?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.FontStyle.Underline: System.Drawing.FontStyle.Regular);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static FontStyle ToFontStyle(System.Drawing.FontStyle style)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (TestFlag(style, System.Drawing.FontStyle.Bold)?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontStyle.Bold: FontStyle.Regular)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| (TestFlag(style, System.Drawing.FontStyle.Italic)?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontStyle.Italic: FontStyle.Regular)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| (TestFlag(style, System.Drawing.FontStyle.Strikeout)?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontStyle.Strikeout: FontStyle.Regular)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| (TestFlag(style, System.Drawing.FontStyle.Underline)?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontStyle.Underline: FontStyle.Regular);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static System.Drawing.Text.GenericFontFamilies ToGdiplusGenericFontFamilies(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text.GenericFontFamilies genericFamily)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch(genericFamily)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Text.GenericFontFamilies.Monospace:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return System.Drawing.Text.GenericFontFamilies.Monospace;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Text.GenericFontFamilies.SansSerif:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return System.Drawing.Text.GenericFontFamilies.SansSerif;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Text.GenericFontFamilies.Serif:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return System.Drawing.Text.GenericFontFamilies.Serif;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static Text.GenericFontFamilies ToGenericFontFamilies(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.Text.GenericFontFamilies genericFamily)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch(genericFamily)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case System.Drawing.Text.GenericFontFamilies.Monospace:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Text.GenericFontFamilies.Monospace;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case System.Drawing.Text.GenericFontFamilies.SansSerif:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Text.GenericFontFamilies.SansSerif;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case System.Drawing.Text.GenericFontFamilies.Serif:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Text.GenericFontFamilies.Serif;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

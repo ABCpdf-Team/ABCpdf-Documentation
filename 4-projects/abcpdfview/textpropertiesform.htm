@@ -1,0 +1,295 @@
+<html>
+<head>
+<title>TextPropertiesForm.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">TextPropertiesForm.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace ABCpdfControls {
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for TextPropertiesForm.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class TextPropertiesForm : System.Windows.Forms.Form {
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label1;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.TextBox selectedBlockTextBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.GroupBox textStyleGroupBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ComboBox fontNameComboBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label6;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button fontColorButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label5;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button okButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button cancelButton;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required designer variable.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.ComponentModel.Container components = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBlock mBlock;
+&nbsp;&nbsp;&nbsp;&nbsp;private Color mTextColor;
+&nbsp;&nbsp;&nbsp;&nbsp;private AnnotatedContent mAnnotatedContent;
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal TextPropertiesForm(TextBlock block, AnnotatedContent annotatedContent) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Required for Windows Form Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBlock = block;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectedBlockTextBox.Text = block.Text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextColor = block.TextColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAnnotatedContent = annotatedContent;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string fontFamily = block.FontFamily;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!fontNameComboBox.Items.Contains(fontFamily))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontNameComboBox.SelectedIndex = fontNameComboBox.Items.Add(fontFamily);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontNameComboBox.SelectedIndex = fontNameComboBox.Items.IndexOf(fontFamily);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal bool CanChange {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;okButton.Enabled = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectedBlockTextBox.ReadOnly = !value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal bool CanCopy {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectedBlockTextBox.Enabled = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose( bool disposing ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( disposing ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(components != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose( disposing );
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Windows Form Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox = new System.Windows.Forms.GroupBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox = new System.Windows.Forms.ComboBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Location = new System.Drawing.Point(8, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Name = "label1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Size = new System.Drawing.Size(32, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.TabIndex = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Text = "Text:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// selectedBlockTextBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Location = new System.Drawing.Point(56, 8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Multiline = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Name = "selectedBlockTextBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Size = new System.Drawing.Size(240, 48);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.TabIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Text = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textStyleGroupBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Controls.Add(this.fontNameComboBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Controls.Add(this.label6);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Controls.Add(this.fontColorButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Controls.Add(this.label5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Location = new System.Drawing.Point(8, 72);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Name = "textStyleGroupBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Size = new System.Drawing.Size(288, 88);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.TabIndex = 7;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Text = "Text Style";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// fontNameComboBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Items.AddRange(new object[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Arial",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Arial Black",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Arial Black Italic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-Roman",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-Bold",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-Italic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-BoldItalic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica-Bold",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica-Oblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica-BoldOblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier-Bold",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier-Oblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier-BoldOblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Symbol",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ZapfDingbats"});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Location = new System.Drawing.Point(72, 56);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Name = "fontNameComboBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Size = new System.Drawing.Size(208, 21);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.TabIndex = 11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label6
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Location = new System.Drawing.Point(8, 55);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Name = "label6";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Size = new System.Drawing.Size(32, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.TabIndex = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Text = "Font:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// fontColorButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Location = new System.Drawing.Point(72, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Name = "fontColorButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Size = new System.Drawing.Size(24, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.TabIndex = 9;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Click += new System.EventHandler(this.fontColorButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Paint += new System.Windows.Forms.PaintEventHandler(this.fontColorButton_Paint);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label5
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Location = new System.Drawing.Point(8, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Name = "label5";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Size = new System.Drawing.Size(64, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Text = "Text color:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// okButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Location = new System.Drawing.Point(136, 168);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Name = "okButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.TabIndex = 9;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Text = "OK";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Click += new System.EventHandler(this.okButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// cancelButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Location = new System.Drawing.Point(221, 168);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Name = "cancelButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.TabIndex = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Text = "Cancel";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// TextPropertiesForm
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AcceptButton = this.okButton;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.CancelButton = this.cancelButton;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ClientSize = new System.Drawing.Size(304, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ControlBox = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.okButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.cancelButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.label1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.selectedBlockTextBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.textStyleGroupBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MinimizeBox = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Name = "TextPropertiesForm";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ShowInTaskbar = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Text = "Text Properties";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ResumeLayout(false);
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void fontColorButton_Paint(object sender, System.Windows.Forms.PaintEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.OnPaint(e);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Graphics g = e.Graphics;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.FillRectangle(new SolidBrush(mTextColor), new Rectangle(4, 4, fontColorButton.Size.Width - 8, fontColorButton.Size.Height - 8));
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void fontColorButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ColorDialog theDialog = new ColorDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDialog.Color = mTextColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DialogResult res = theDialog.ShowDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( res == DialogResult.OK ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextColor = theDialog.Color;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontColorButton.Refresh();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void okButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string fontName = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontNameComboBox.Text != mBlock.FontFamily)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontName = fontNameComboBox.Text;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAnnotatedContent.UpdateTextBlock(mBlock, selectedBlockTextBox.Text, mTextColor, fontName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DialogResult = DialogResult.OK;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

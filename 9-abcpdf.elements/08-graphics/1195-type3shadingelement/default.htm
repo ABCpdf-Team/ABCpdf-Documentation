@@ -31,6 +31,13 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=195">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 81, page 187.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 80, page 233.</a></p>
 </p>
+<!-- addition start -->
+<p>A Type 3 shading, also called a radial shading, paints a color gradient between two circles. The transition follows concentric circles that interpolate between the two defining circles.</p>
+<p>The Coords entry specifies both circles as a six-element array: the centre and radius of the first circle, then the centre and radius of the second. Colours transition from the first circle toward the second.</p>
+<p>The Domain entry maps the interpolation parameter to the function. At parameter 0 the first circle applies; at parameter 1 the second circle applies. Intermediate values produce intermediate circles.</p>
+<p>The Function maps the scalar parameter to color component values in the shading's color space, determining the color at each concentric ring.</p>
+<p>The Extend array works the same way as for Type 2 shadings: it controls whether the terminal color extends beyond the first or second circle.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

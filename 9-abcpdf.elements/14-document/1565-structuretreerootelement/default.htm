@@ -34,6 +34,16 @@
 <p>This class is always an indirect object because OutlineItemElement.EntrySE and StructureElementElement.EntryP require it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>The structure tree root is the top-level object of a PDF document logical structure tree, referenced from the document catalog StructTreeRoot entry. All structure elements in the document are descendants of this root.</p>
+<p>The IDTree entry references a name tree mapping element identifiers to structure element objects, allowing any element with an ID to be located directly without traversing the tree.</p>
+<p>The ParentTree entry references a number tree mapping integer keys to structure elements. Every page with tagged content has an entry here, enabling a reader to find the structure elements whose content appears on that page.</p>
+<p>The RoleMap entry maps non-standard structure type names to standard ones, allowing documents using custom element types to declare their intended semantics in terms of the standard type set.</p>
+<p>The ClassMap entry maps class names to attribute objects. Structure elements reference class names in their C entry to inherit a set of attributes.</p>
+<p>The Namespaces entry lists all namespace objects used by structure elements in the document. Every namespace referenced by a structure element NS entry must appear here.</p>
+<p>The PronunciationLexicon entry holds an array of file specifications for pronunciation lexicon files used to support text-to-speech rendering of the document content.</p>
+<p>The AF entry holds associated files attached to the structure tree as a whole, supporting workflows that link supplementary data to the logical structure rather than to individual pages or objects.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

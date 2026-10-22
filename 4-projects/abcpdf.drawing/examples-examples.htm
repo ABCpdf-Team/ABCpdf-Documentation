@@ -1,0 +1,603 @@
+<html>
+<head>
+<title>Examples\Examples.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Examples\Examples.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Drawing;
+using WebSupergoo.ABCpdf14.Drawing.Text;
+using WebSupergoo.ABCpdf14.Drawing.Drawing2D;
+
+
+namespace Drawing.Examples {
+&nbsp;&nbsp;class Drawing {
+&nbsp;&nbsp;&nbsp;&nbsp;[STAThread]
+&nbsp;&nbsp;&nbsp;&nbsp;static void Main(string[] args) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// examples to demonstrate functionality
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (PDFDocument doc = new PDFDocument()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BaseSample bs = new BaseSample();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bs.Run(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save("../../examples.pdf", true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//OpenDoc("../../examples.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void OpenDoc(string file) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (File.Exists(file)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Process process = new Process();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;process.StartInfo.FileName = file;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;process.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;process.Start();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;internal class BaseSample {
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Drawing.PointF[] _starPoints;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Drawing.PointF[] StarPoints {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_starPoints == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const double angle = Math.PI * 2 / 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const double radius = 250;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const double centerX = 300, centerY = 420;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_starPoints = new System.Drawing.PointF[5];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int j = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; _starPoints.Length; ++i) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_starPoints[i] = new System.Drawing.PointF(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(float)(centerX + radius * Math.Sin(j * angle)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(float)(centerY - radius * Math.Cos(j * angle)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j = (j + 2) % 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _starPoints;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Run(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StrokeExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AlternateFillModeExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HexagonExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RotateExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BezierCurveExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LineJoinExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LineCapExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ClipExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DashExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TransparencyExamples(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextExample2(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ImageExample(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ImageExample2(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void TextExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Text examples (built-in fonts)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pen pen = new Pen(Color.Red, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Brush brush = new SolidBrush(Color.Black);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.SizeF size = pg.Graphics.MeasureString("Helvetica", new BuiltInFont("Helvetica", 30));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(System.Drawing.KnownColor.LightGray)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20, 100, size.Width, size.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Helvetica", new BuiltInFont("Helvetica", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 100);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size = pg.Graphics.MeasureString("Helvetica-BoldOblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new BuiltInFont("Helvetica", 30, FontStyle.Italic | FontStyle.Bold));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillRectangle(new SolidBrush(Color.LightGray), 20, 150, size.Width, size.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Helvetica-BoldOblique", new BuiltInFont("Helvetica", 30,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontStyle.Italic | FontStyle.Bold),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 150, new TextState(TextRenderingMode.StrokeText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Courier", new BuiltInFont("Courier", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 200, new TextState(TextRenderingMode.FillThenStrokeText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Times-Roman", new BuiltInFont("Times Roman", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 250, new TextState(TextRenderingMode.FillThenStrokeText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Times-BoldItalic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new BuiltInFont("Times Roman", 30, FontStyle.Italic | FontStyle.Bold),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 300, new TextState(TextRenderingMode.FillThenStrokeText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Symbol", new BuiltInFont("Symbol", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 350);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("ZapfDingbats", new BuiltInFont("Zapf Dingbats", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 400, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Font transformFont = new BuiltInFont("Helvetica", 21, FontStyle.Italic | FontStyle.Bold);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Horizontal scaling = 50", transformFont,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 450, new TextState(0, 0, 50, 0, TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Word space = 15", transformFont,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 500, new TextState(0, 15, 100, 0, TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Character spacing = 5", transformFont,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 550, new TextState(5, 0, 100, 0, TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Underline",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new BuiltInFont("Helvetica", 30, FontStyle.Italic | FontStyle.Underline),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 600);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Strikeout",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new BuiltInFont("Helvetica", 30, FontStyle.Italic | FontStyle.Strikeout),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 250, 600);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Underline Strikeout",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new BuiltInFont("Helvetica", 30, FontStyle.Italic | FontStyle.Underline | FontStyle.Strikeout),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 650);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void TextExample2(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Text examples (embedded fonts)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pen pen = new Pen(Color.Red, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Brush brush = new SolidBrush(Color.Black);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.SizeF size = pg.Graphics.MeasureString("Arial", new Font("Arial", 30));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(System.Drawing.KnownColor.LightGray)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20, 100, size.Width, size.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Arial", new Font("Arial", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 100);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size = pg.Graphics.MeasureString("Arial Bold Italic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Font("Arial", 30, FontStyle.Italic | FontStyle.Bold));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillRectangle(new SolidBrush(Color.LightGray), 20, 150, size.Width, size.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Arial Bold Italic", new Font("Arial", 30, FontStyle.Italic | FontStyle.Bold),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 150, new TextState(TextRenderingMode.StrokeText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Impact", new Font("Impact", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 200, new TextState(TextRenderingMode.FillThenStrokeText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Comic Sans MS", new Font("Comic Sans MS", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 250, new TextState(TextRenderingMode.FillThenStrokeText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Comic Sans MS Bold Italic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Font("Comic Sans MS", 30, FontStyle.Italic | FontStyle.Bold),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 300, new TextState(TextRenderingMode.FillThenStrokeText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Symbol", new Font("Symbol", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 350, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Wingdings", new Font("Wingdings", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen, brush, 20, 400, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pen pen2 = new Pen(Color.Orange, 0.5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("PMingLiU \u65b0\u7d30\u660e\u9ad4",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Font("PMingLiU", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen2, brush, 20, 450, new TextState(TextRenderingMode.FillThenStrokeText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("MS PGothic \u30b4\u30b7\u30c3\u30b0 \u306f\u3058\u3081\u307e\u3057\u3066",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Font("MS PGothic", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen2, brush, 20, 500, new TextState(TextRenderingMode.FillThenStrokeText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("MS PMincho \u660e\u671d \u306f\u3058\u3081\u307e\u3057\u3066",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Font("MS PMincho", 30),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen2, brush, 20, 550, new TextState(TextRenderingMode.FillThenStrokeText));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void BezierCurveExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Bezier curve example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color[] colors = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.Red, Color.Black, Color.Blue, Color.Red, Color.Black
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float[,] xy = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 508, 486, 67, 504, 0, 782, 509, 508 },
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 283, 683, 231, 260, 493, 281, 434, 208 },
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 197, 261, 133, 14, 533, 598, 466, 704 },
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 50, 100, 50, 316, 376, 36, 311, 166 },
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ 340, 486, 402, 409, 413, 483, 559, 225 }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Random rnd = new Random();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 5; ++i) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pen pen = new Pen(colors[i], 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//pen.LineCap = LineCap.Round;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw the Bezier spline
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawBezier(pen,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xy[i, 0], xy[i, 1], xy[i, 2], xy[i, 3],
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xy[i, 4], xy[i, 5], xy[i, 6], xy[i, 7]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void AlternateFillModeExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Alternate fill mode example");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double size = 150;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double centerX = (double)pg.Graphics.Rect.Width / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double centerY = (double)pg.Graphics.Rect.Height / 3;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath path = new GraphicsPath(pg.Graphics, FillMode.Alternate);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 4; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double radius = size / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path.AddArc(0, 360, centerX - radius, centerY, radius, radius, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path.AddArc(0, 360, centerX + radius, centerY, radius, radius, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path.AddArc(0, 360, centerX, centerY + radius, radius, radius, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path.AddArc(0, 360, centerX, centerY - radius, radius, radius, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size /= 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillPath(new SolidBrush(Color.Black), path);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void HexagonExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Coordinate transformation example (part I)");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const double side = 125, halfSide = side / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double offset = side * Math.Sqrt(3) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const double centerX = 0, centerY = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.PointF[] points = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF((float)(centerX - halfSide), (float)(centerY - offset)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF((float)(centerX + halfSide), (float)(centerY - offset)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF((float)(centerX + side), (float)centerY),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF((float)(centerX + halfSide), (float)(centerY + offset)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF((float)(centerX - halfSide), (float)(centerY + offset)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF((float)(centerX - side), (float)centerY)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte[] types = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(byte)PathPointType.Start,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(byte)PathPointType.Line,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(byte)PathPointType.Line,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(byte)PathPointType.Line,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(byte)PathPointType.Line,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(byte)(PathPointType.Line | PathPointType.CloseSubPath)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath path = new GraphicsPath(pg.Graphics, points, types);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double scale = 2.5 * Math.Sqrt(3) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const double angle = Math.PI * 15 / 180;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 8; i++) {&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Rotate and scale hexahedron
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double cos = scale * Math.Cos(angle * i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sin = scale * Math.Sin(angle * i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.Transform = new Matrix((float)cos, (float)sin,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(float)-sin, (float)cos, 300F, 400F);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillPath(new SolidBrush(Color.FromArgb(30 * i, 30 * i, 30 * i)), path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scale *= Math.Sqrt(3) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void RotateExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Coordinate transformation example (part II)");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte[] types = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(byte)PathPointType.Start,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(byte)PathPointType.Line,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(byte)PathPointType.Line,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(byte)PathPointType.Line,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(byte)(PathPointType.Line | PathPointType.CloseSubPath)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath path = new GraphicsPath(pg.Graphics, StarPoints, types);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double entry = Math.Cos(Math.PI / 4);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawPath(new Pen(Color.Black, 30), path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.Transform = new Matrix(entry, entry, -entry, entry, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawPath(new Pen(Color.Red, 30), path);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void TransparencyExamples(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Transparency example");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255, 255, 255)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.RectangleF(130, 200, 350, 350));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.FromArgb(100, 0, 255, 0)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;205, 200, 200, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.FromArgb(100, 255, 0, 0)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;130, 350, 200, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.FromArgb(100, 0, 0, 255)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;280, 350, 200, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void StrokeExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Stroke path example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pen pen = new Pen(Color.Black, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.DashStyle = DashStyle.Solid;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawPolygon(pen, StarPoints);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void FillExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Fill path example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillPolygon(new SolidBrush(Color.Red), StarPoints, FillMode.Winding);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillRectangle(new SolidBrush(Color.Black), 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.RectangleF(300, pg.Graphics.Rect.Height - 250, 300, 200));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void LineJoinExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Line join example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pen pen = new Pen(Color.Black, 50);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.PointF[] pointsBevel = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(300, pg.Graphics.Rect.Height - 500),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(400, pg.Graphics.Rect.Height - 700),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(500, pg.Graphics.Rect.Height - 500)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.LineJoin = LineJoin.Bevel;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLines(pen, pointsBevel);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Bevel join - ", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 150, pg.Graphics.Rect.Height - 600, new TextState(TextRenderingMode.FillText));
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.PointF[] pointsMiter = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(300, pg.Graphics.Rect.Height - 300),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(400, pg.Graphics.Rect.Height - 500),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(500, pg.Graphics.Rect.Height - 300)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.LineJoin = LineJoin.Miter;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLines(pen, pointsMiter);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Miter join - ", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 150, pg.Graphics.Rect.Height - 400, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.PointF[] pointsRound = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(300, pg.Graphics.Rect.Height - 100),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(400, pg.Graphics.Rect.Height - 300),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(500, pg.Graphics.Rect.Height - 100)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.LineJoin = LineJoin.Round;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLines(pen, pointsRound);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Round join - ", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 150, pg.Graphics.Rect.Height - 200, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen = new Pen(Color.White, 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.LineJoin = LineJoin.Bevel;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.PointF[] pointsBevelInline = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(300, pg.Graphics.Rect.Height - 500),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(400, pg.Graphics.Rect.Height - 700),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(400, pg.Graphics.Rect.Height - 700),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(500, pg.Graphics.Rect.Height - 500)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLines(pen, pointsBevelInline);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.White), 390, pg.Graphics.Rect.Height - 710, 20, 20);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.PointF[] pointsMiterInline = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(300, pg.Graphics.Rect.Height - 300),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(400, pg.Graphics.Rect.Height - 500),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(400, pg.Graphics.Rect.Height - 500),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(500, pg.Graphics.Rect.Height - 300)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLines(pen, pointsMiterInline);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.White), 390, pg.Graphics.Rect.Height - 510, 20, 20);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.PointF[] pointsRoundInline = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(300, pg.Graphics.Rect.Height - 100),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(400, pg.Graphics.Rect.Height - 300),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(400, pg.Graphics.Rect.Height - 300),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new System.Drawing.PointF(500, pg.Graphics.Rect.Height - 100)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLines(pen, pointsRoundInline);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.White), 390, pg.Graphics.Rect.Height - 310, 20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void LineCapExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Line cap example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pen pen = new Pen(Color.Black, 100);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.LineCap = LineCap.Flat;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 200, 500, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Flat line cap", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 220, 270, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.LineCap = LineCap.Round;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 400, 500, 400);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Round line cap", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 220, 470, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.LineCap = LineCap.Square;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 600, 500, 600);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Square line cap", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 220, 670, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen = new Pen(Color.White, 30);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 200, 500, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.White), 75, 175, 50, 50);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.White), 475, 175, 50, 50);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 400, 500, 400);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.White), 75, 375, 50, 50);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.White), 475, 375, 50, 50);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 600, 500, 600);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.White), 75, 575, 50, 50);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillEllipse(new SolidBrush(Color.White), 475, 575, 50, 50);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void DashExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Dash pattern example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pen pen = new Pen(Color.Black, 5);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.DashStyle = DashStyle.Dash;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 150, 500, 150);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Dash style", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 100, 170, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.DashStyle = DashStyle.DashDot;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 250, 500, 250);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("DashDot style", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 100, 270, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.DashStyle = DashStyle.DashDotDot;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 350, 500, 350);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("DashDotDot style", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 100, 370, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.DashStyle = DashStyle.Dot;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 450, 500, 450);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Dot style", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 100, 470, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.DashStyle = DashStyle.Solid;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 550, 500, 550);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Solid style ", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 100, 570, new TextState(TextRenderingMode.FillText));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.DashStyle = DashStyle.Custom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pen.DashPattern = new double[] { 10, 5, 8 };
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawLine(pen, 100, 650, 500, 650);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("Custom", new BuiltInFont("Helvetica", 21), new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 100, 670, new TextState(TextRenderingMode.FillText));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void ClipExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Clipping path example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.Clip = new System.Drawing.Rectangle(100, 200, 400, 400);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(System.Drawing.KnownColor.LightGray)), pg.Graphics.Clip);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillPolygon(new SolidBrush(Color.Black), StarPoints, FillMode.Winding);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.Transform.Rotate(-25);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.Clip = new System.Drawing.Rectangle(150, 250, 300, 400);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(System.Drawing.KnownColor.LightGray)), pg.Graphics.Clip);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.FillPolygon(new SolidBrush(Color.Red), StarPoints, FillMode.Winding);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void ImageExample(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Image transforms example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Image image = Image.FromStream(GetType().Assembly.GetManifestResourceStream("Examples.pic2.png"))) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, 200, 100, 200, double.NaN);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sqrtHalf = Math.Sqrt(2) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.Transform.Rotate(45);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, (100 + 230) * sqrtHalf, (-100 + 230) * sqrtHalf, double.NaN, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, (100 + 430) * sqrtHalf, (-100 + 430) * sqrtHalf, double.NaN, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, (520 + 230) * sqrtHalf, (-520 + 230) * sqrtHalf, double.NaN, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, (520 + 430) * sqrtHalf, (-520 + 430) * sqrtHalf, double.NaN, 100);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.Transform.Rotate(-45);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, (pg.Graphics.Rect.Width / 2) - (200 / 2), 600, 200, double.NaN);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.Transform.Rotate(-45);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, (30 - 630) * sqrtHalf, (30 + 630) * sqrtHalf, double.NaN, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x = pg.Graphics.Rect.Width - 170;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, (x - 630) * sqrtHalf, (x + 630) * sqrtHalf, double.NaN, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void ImageExample2(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page pg = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(pg, "Image types example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BuiltInFont font = new BuiltInFont("Helvetica", 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double textHeight = pg.Graphics.MeasureString("pic1.jpg", font).Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Image image = Image.FromStream(GetType().Assembly.GetManifestResourceStream("Examples.pic1.jpg"))) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("pic1.jpg", font, new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 50, 200 + textHeight);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, 50, 100, double.NaN, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Image image = Image.FromStream(GetType().Assembly.GetManifestResourceStream("Examples.pic2.png"))) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("pic2.png", font, new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 300, 200 + textHeight);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, 300, 100, double.NaN, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Image image = Image.FromStream(GetType().Assembly.GetManifestResourceStream("Examples.pic3.jpg"))) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("pic3.jpg", font, new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 50, 400 + textHeight);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, 50, 300, double.NaN, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Image image = Image.FromStream(GetType().Assembly.GetManifestResourceStream("Examples.pic1.jpg"))) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("pic1.jpg", font, new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 300, 400 + textHeight);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, 300, 300, double.NaN, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Image image = Image.FromStream(GetType().Assembly.GetManifestResourceStream("Examples.pic2.png"))) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString("pic2.png", font, new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 50, 600 + textHeight);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawImage(image, 50, 500, double.NaN, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddDescription(Page pg, string description) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pg.Graphics.DrawString(description,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new BuiltInFont("Times Roman", 21, FontStyle.Italic),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Pen(Color.Black),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new SolidBrush(Color.Black), 10, 30, new TextState(TextRenderingMode.FillText));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

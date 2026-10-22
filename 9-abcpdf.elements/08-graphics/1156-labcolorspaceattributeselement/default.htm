@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=156">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 65, page 148.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 64, page 186.</a></p>
 </p>
+<!-- addition start -->
+<p>The Lab color space attributes dictionary supplies the white point and optional black point and range that parameterise the CIE L*a*b* encoding.</p>
+<p>The white point defines the reference illuminant in CIE XYZ. It must have a Y component of 1.0 and is used to normalise the XYZ values during conversion from Lab to the profile connection space.</p>
+<p>The optional black point gives the XYZ of the darkest colour. When absent, (0, 0, 0) is used, meaning an L* of zero maps to zero XYZ output.</p>
+<p>The range array limits the valid extent of the a* and b* opponent-colour channels. Default values of -128 to 127 for each axis are used when the entry is absent. Clipping to these bounds is applied before conversion.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

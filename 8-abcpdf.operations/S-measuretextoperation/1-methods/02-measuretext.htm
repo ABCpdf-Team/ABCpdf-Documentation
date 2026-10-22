@@ -39,9 +39,9 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
-            <CODE>double MeasureText(string text)<BR>
-            </CODE>
-			</P>
+            <CODE>double MeasureText(string text)<br>
+            double MeasureText(string text, bool html)<BR>
+            </CODE>			</P>
 			
 			
             <P>&nbsp;</P></TD>
@@ -65,6 +65,10 @@
               <TR vAlign=top>
                 <TD align=middle>text</TD>
                 <TD>The text to be measured.</TD>
+              </TR>
+              <TR vAlign=top>
+                <TD align=middle>html</TD>
+                <TD>Whether the text is HTML styled text. Default false.</TD>
               </TR>
 <TR vAlign=top>
                 <TD align=middle>return</TD>

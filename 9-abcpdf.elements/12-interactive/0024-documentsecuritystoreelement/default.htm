@@ -41,6 +41,12 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A document security store holds the revocation and certificate data needed to verify digital signatures without requiring a network connection at the time of verification. Embedding this data in the PDF makes long-term validation possible after the original certificates or OCSP responders have expired.</p>
+<p>The dictionary acts as a container for three kinds of embedded data: certificate chains, OCSP responses, and certificate revocation lists, each stored as an array of stream objects.</p>
+<p>Signature validation-related information dictionaries referenced from the VRI entry group the data specific to a single signature, while the top-level arrays hold data that may be shared across multiple signatures.</p>
+<p>This structure follows PAdES long-term validation requirements and enables a verifier to reconstruct the complete trust chain from data embedded in the file alone.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

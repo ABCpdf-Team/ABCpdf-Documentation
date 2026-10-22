@@ -97,8 +97,7 @@
         <TR>
           <TD><p>This example shows how to create a font Doc from a set of SVG files for use as the basis of a custom font. For an example showing how to use the emojifont.pdf document see  the <a href="02-embed.htm">Embed</a> method.</p>
             <P><SPAN class=language>[C#]</SPAN><BR>
-            <pre><code class="language-csharp">
-using var doc = new Doc();
+            <pre><code class="language-csharp">using var doc = new Doc();
 string icons = "../Rez/icons";
 CustomFontMaker.Append(doc, icons, "happy-svgrepo-com.svg", 0x1F600);
 CustomFontMaker.Append(doc, icons, "smiling-svgrepo-com.svg", 0x1F601);

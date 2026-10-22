@@ -31,6 +31,13 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=38">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 11, page 30.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 11, page 43.</a></p>
 </p>
+<!-- addition start -->
+<p>The CCITT decode parameters dictionary configures the CCITTFaxDecode filter, which implements the CCITT facsimile compression algorithms used for bi-level (black and white) image data.</p>
+<p>The K entry selects the encoding scheme: a negative value uses Group 4 (two-dimensional), zero uses Group 3 one-dimensional, and a positive value uses mixed Group 3 encoding where the value limits the number of consecutive two-dimensional rows.</p>
+<p>Group 4 encoding is generally more compact than Group 3 and is the most common choice for scanned document images. Group 3 encoding with K of 0 is compatible with older fax equipment.</p>
+<p>The Columns and Rows entries define the image dimensions. The EndOfBlock entry controls whether an end-of-facsimile-block code terminates the data. The BlackIs1 entry controls the polarity of the image.</p>
+<p>The DamagedRowsBeforeError entry allows a decoder to tolerate a limited number of corrupted scan lines before treating the stream as an error. This supports recovery from transmission errors in legacy fax data.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

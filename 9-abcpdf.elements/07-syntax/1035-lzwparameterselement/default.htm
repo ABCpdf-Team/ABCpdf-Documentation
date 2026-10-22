@@ -31,6 +31,11 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=35">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 8, page 27.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 8, page 40.</a></p>
 </p>
+<!-- addition start -->
+<p>The LZW decode parameters dictionary configures the LZWDecode filter. LZW compression is a dictionary-based algorithm that replaces repeated byte sequences with shorter codes.</p>
+<p>The EarlyChange entry controls when the encoder switches to the next code length. A value of 1 means the switch occurs one code earlier than the standard LZW algorithm. A value of 0 follows the standard. The decoder must match the encoder's setting.</p>
+<p>LZWDecode supports the same Predictor, Colors, BitsPerComponent, and Columns entries as FlateDecode, with the same semantics. PDF 2.0 deprecates LZWDecode for new content in favour of FlateDecode.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

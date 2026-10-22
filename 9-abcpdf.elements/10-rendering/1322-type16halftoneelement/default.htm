@@ -40,6 +40,13 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A type 16 halftone works on the same principle as type 6 but stores two-byte samples instead of one-byte samples. Each 16-bit value gives 65536 possible threshold levels, which allows finer tonal control and is better suited to high-bit-depth colour workflows where eight-bit thresholds would introduce visible banding.</p>
+<p>The first array is always present. Width and Height give its dimensions in samples, and its data occupies Width times Height times two bytes in the stream body.</p>
+<p>A second array is optional. When Width2 and Height2 are both present, the halftone uses a two-array layout that gives the same non-rectangular cell geometry as type 10, allowing more accurate screen angles. The second array follows the first in the stream with no gap.</p>
+<p>When only the first array is used, the cell is rectangular. When both arrays are present, the cell is a parallelogram formed by combining the two square regions, analogous to the Xsquare and Ysquare approach in type 10.</p>
+<p>TransferFunction works as in other threshold types. The name Identity leaves tint values unchanged; a function object maps each input level to a corrected output before the threshold comparison. The extra tonal resolution of 16-bit samples means the transfer function can make finer adjustments than it could with an 8-bit table.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

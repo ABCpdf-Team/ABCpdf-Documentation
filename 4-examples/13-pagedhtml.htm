@@ -40,7 +40,7 @@
                           <p><strong>The WebKit Engine:</strong>&nbsp;A lightweight, high-performance option ideal for server environments with restricted permissions or stripped-down operating systems, where larger engines cannot be deployed.</p>
                       </li>
                       <li>
-                          <p><strong>Legacy Engines (Gecko/FireFos &amp; IE/MSHTML):</strong>&nbsp;Provide robust fallback options for specialized compatibility requirements.</p>
+                          <p><strong>Legacy Engines (Gecko/Firefox &amp; IE/MSHTML):</strong>&nbsp;Provide robust fallback options for specialized compatibility requirements.</p>
                       </li>
                     </ul>
                     <p>This multi-engine approach guarantees that complex, modern web content&mdash;including Flexbox, Grid, and web fonts&mdash;is rendered with absolute accuracy.</p>
@@ -54,7 +54,7 @@
                           <p><strong>Advanced Pagination with Headers/Footers:</strong>&nbsp;Using the&nbsp;WebPageOperation&nbsp;class, you can seamlessly inject consistent headers, footers, page numbers, and page totals across every page of the generated PDF, after the main content is rendered. This allows for professional document assembly without altering the original HTML.</p>
                       </li>
                       <li>
-                          <p><strong>Intelligent Dynamic Content Handling:</strong>&nbsp;ABCpdf .NETcan monitor the HTML document for ongoing changes after the initial load. Using the <a href="../5-abcpdf/xhtmloptions/2-properties/repaintdelay.htm">RepaintDelay</a> it intelligently detects activity such as AJAX calls, DOM manipulations, and animations, and automatically waits for these processes to complete before rendering the PDF. This ensures all dynamically loaded content is fully present in the final output, eliminating issues with missing or partially rendered data.</p>
+                          <p><strong>Intelligent Dynamic Content Handling:</strong>&nbsp;ABCpdf .NET can monitor the HTML document for ongoing changes after the initial load. Using the <a href="../5-abcpdf/xhtmloptions/2-properties/repaintdelay.htm">RepaintDelay</a> it intelligently detects activity such as AJAX calls, DOM manipulations, and animations, and automatically waits for these processes to complete before rendering the PDF. This ensures all dynamically loaded content is fully present in the final output, eliminating issues with missing or partially rendered data.</p>
                       </li>
                       <li>
                           <p><strong>Custom JavaScript Injection:</strong>&nbsp;ABCpdf allows you to inject and execute custom JavaScript to be run in the web page before the conversion to PDF. This enables you to manipulate DOM content, click elements, hide unwanted sections, or wait for specific application state flags before triggering the conversion, giving you precise control over both the final content and the exact moment rendering occurs. You can also return values based from the script which can be useful for   validating the page or querying the web content. See the <a href="../5-abcpdf/xhtmloptions/2-properties/onloadscript.htm">OnLoadScript</a> property for details.</p>
@@ -153,7 +153,7 @@ doc.HtmlOptions.InitialWidth = 800; // In case we have a responsive site which i
             <P>We add the first page of HTML. We save the returned ID as this 
             will be used to add subsequent pages.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">doc.Page = doc.AddPage();
-int id = doc.AddImageUrl("http://www.yahoo.com/");
+int id = doc.AddImageUrl("https://www.yahoo.com/");
 </code></pre></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -175,6 +175,8 @@ int id = doc.AddImageUrl("http://www.yahoo.com/");
 &nbsp;&nbsp;&nbsp;&nbsp;break;
 &nbsp;&nbsp;doc.Page = doc.AddPage();
 &nbsp;&nbsp;id = doc.AddImageToChain(id);
+&nbsp;&nbsp;if (doc.PageCount &gt; 5)
+&nbsp;&nbsp;&nbsp;&nbsp;break;
 }
 </code></pre></P>
             <P>&nbsp;</P></TD>

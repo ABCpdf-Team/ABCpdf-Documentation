@@ -71,6 +71,11 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=263">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 111, page 255.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 109, page 311.</a></p>
+<!-- addition start -->
+<p>The stream body holds a CMap program that maps character codes to Unicode values. This allows text extraction tools and accessibility software to recover the Unicode text from the PDF without relying on font encoding alone.</p>
+<p>The stream uses a restricted subset of the CMap syntax. It lists beginbfchar and beginbfrange sections that map source character codes to destination Unicode values, represented as UTF-16BE hex strings.</p>
+<p>Without this entry, text extraction must rely on the font encoding and glyph name heuristics, which are not always reliable, especially for custom or remapped encodings.</p>
+<!-- addition end -->
 
             <p>&nbsp;</p>
             </td>

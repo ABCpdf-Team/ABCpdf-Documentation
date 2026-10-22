@@ -1,0 +1,89 @@
+<html>
+<head>
+<title>Glue3DUtilities\LibVersionInfo.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Glue3DUtilities\LibVersionInfo.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+namespace Glue3DUtilities
+{
+&nbsp;&nbsp;/// &lt;summary&gt;Convenience class to access version info of various libs contained inside the Glue3d dlls&lt;/summary&gt;
+&nbsp;&nbsp;public static class LibVersionInfo
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the version of the Glue3d dlls&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void Glue3D(out Version version)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.GetLibraryVersion((int)WebSupergoo.ELibrary.Lib_Glue3D, out version);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the version of the render library inside the Glue3D dll&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void RenderLib(out Version version)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.GetLibraryVersion((int)WebSupergoo.ELibrary.Lib_Rendering, out version);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the version of the U3D library inside the Glue3D dll&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void U3DLib(out Version version)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.GetLibraryVersion((int)WebSupergoo.ELibrary.Lib_U3D, out version);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the version of the PRC library inside the Glue3D dll&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void PRCLib(out Version version)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.GetLibraryVersion((int)WebSupergoo.ELibrary.Lib_PRC, out version);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the version of the OBJ library inside the Glue3D dll&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void OBJLib(out Version version)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.GetLibraryVersion((int)WebSupergoo.ELibrary.Lib_OBJ, out version);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

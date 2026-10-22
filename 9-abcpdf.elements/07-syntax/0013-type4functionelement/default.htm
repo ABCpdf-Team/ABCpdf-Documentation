@@ -33,6 +33,12 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A Type 4 function is a PostScript calculator function encoded as a stream. The stream contains a sequence of PostScript operators that compute output values from input values using stack-based arithmetic.</p>
+<p>The function operates on a stack of real numbers. Input values are pushed onto the stack before execution begins. After execution, the output values remain on the stack and are consumed as the function result.</p>
+<p>Type 4 functions support a subset of PostScript operators covering arithmetic, relational, logical, and stack manipulation. The subset is defined precisely in the specification and does not include operators that access external state.</p>
+<p>The domain and range entries bound the valid input and output values. Input values are clipped to the domain before the function executes, and output values are clipped to the range after execution.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

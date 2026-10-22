@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>TextBlock.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">TextBlock.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Xml;
+
+namespace ABCpdfControls
+{
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Text block
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;internal class TextBlock
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Constructor
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inText"&gt;Text string&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;Vertices of the bounding box&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inNode"&gt;Xml node from the text content description&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public TextBlock(string inText, GraphicsPath path, XmlNode inNode)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text = inText;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Path = path;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Node = inNode;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Determines if point is inside the bounding box of a text block
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="p"&gt;&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool ContainsPoint(PointF p)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Path.PointCount &lt; 4)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (ClassifyPoint(Path.PathPoints[0], Path.PathPoints[1], p) &lt;= 0) &amp;&amp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ClassifyPoint(Path.PathPoints[1], Path.PathPoints[2], p) &lt;= 0) &amp;&amp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ClassifyPoint(Path.PathPoints[2], Path.PathPoints[3], p) &lt;= 0) &amp;&amp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(ClassifyPoint(Path.PathPoints[3], Path.PathPoints[0], p) &lt;= 0);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Check the position of the point relative to the line p0 - p1
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="p0"&gt;Point of the line&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="p1"&gt;Point of the line&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="p"&gt;Point&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt; 1 if point is on the right side from the line
+&nbsp;&nbsp;&nbsp;&nbsp;/// 0 if point is on the line itself
+&nbsp;&nbsp;&nbsp;&nbsp;/// -1 if point is on the left side from the line&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private int ClassifyPoint(PointF p0, PointF p1, PointF p)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF a = new PointF(p1.X - p0.X, p1.Y - p0.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF b = new PointF(p.X - p0.X, p.Y - p0.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sa = a. X * b.Y - b.X * a.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (sa &gt; 0.0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (sa &lt; 0.0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public GraphicsPath GetGraphics(Matrix viewTransform)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath thePath = (GraphicsPath)Path.Clone();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePath.Transform(viewTransform);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return thePath;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public GraphicsPath Path;
+&nbsp;&nbsp;&nbsp;&nbsp;public XmlNode Node;
+&nbsp;&nbsp;&nbsp;&nbsp;public int StreamId = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;public int StreamOffset = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;public int Length = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool Selected;
+&nbsp;&nbsp;&nbsp;&nbsp;public Matrix TextRenderingMatrix;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public string Text;
+&nbsp;&nbsp;&nbsp;&nbsp;public Color TextColor;
+&nbsp;&nbsp;&nbsp;&nbsp;public string TextColorOperator;
+&nbsp;&nbsp;&nbsp;&nbsp;public float FontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;public string FontFamily;
+&nbsp;&nbsp;&nbsp;&nbsp;public string FontOperator;
+&nbsp;&nbsp;&nbsp;&nbsp;public string PDFOperator;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public float TextRise = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;public float WordSpacing = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;public float CharacterSpacing = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;public float TextLeading = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;public float HorizontalScaling = 100;
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

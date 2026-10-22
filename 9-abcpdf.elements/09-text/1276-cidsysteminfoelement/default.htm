@@ -39,6 +39,12 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A CIDSystemInfo dictionary identifies the character collection that a CIDFont or CMap is designed for. It ties the font or CMap to a specific registry, ordering, and supplement level, which together define the set of character identifiers the font or CMap can handle.</p>
+<p>Registry names the organisation that defined the collection, such as Adobe. Ordering names the specific character set within that registry, such as Japan1 or GB1. Supplement gives the revision number of the collection; higher supplement values add characters to lower ones.</p>
+<p>When a CIDFont and a CMap are used together in a type 0 font, their CIDSystemInfo values must be compatible. The Registry and Ordering strings must match exactly; the CMap supplement may be less than or equal to the CIDFont supplement.</p>
+<p>CIDSystemInfo is a direct dictionary object, not an indirect one. It appears both in CIDFont dictionaries and in CMap stream dictionaries.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

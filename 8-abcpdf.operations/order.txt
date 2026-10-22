@@ -20,3 +20,7 @@
 A-flattentransparency
 B-reducesizeoperation
 C-accessibilityoperation
+C-accessibilityoperationai
+N-accessibility.structure
+O-accessibility.parenttree
+P-accessibility.kidarranger

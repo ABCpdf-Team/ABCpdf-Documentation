@@ -1,0 +1,461 @@
+<html>
+<head>
+<title>Drawing\BuiltInFont.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Drawing\BuiltInFont.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Globalization;
+
+namespace WebSupergoo.ABCpdf14.Drawing {
+
+&nbsp;&nbsp;public class BuiltInFont: Font {
+&nbsp;&nbsp;&nbsp;&nbsp;private FontStyle _style;
+&nbsp;&nbsp;&nbsp;&nbsp;private float _emSize;
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets style information.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;An enumeration that contains style information for this font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override FontStyle Style {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return _style; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a value that indicates whether this font is bold.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;true if this font is bold; otherwise, false.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override bool Bold{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return FontInfoConvert.TestFlag(_style, FontStyle.Bold); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a value that indicates whether this font is italic.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;true if this font is italic; otherwise, false.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override bool Italic{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return FontInfoConvert.TestFlag(_style, FontStyle.Italic); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a value that indicates whether this font is underlined.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;true if this font is underlined; otherwise, false.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override bool Underline{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return FontInfoConvert.TestFlag(_style, FontStyle.Underline); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a value that indicates whether this font specifies a horizontal line through the font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;true if this font has a horizontal line through it; otherwise, false.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override bool Strikeout{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return FontInfoConvert.TestFlag(_style, FontStyle.Strikeout); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the face name of this font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A string representation of the face name of this font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override string Name{ get{ return FontFamily.Name; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the em-size, in points, of this font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;The em-size, in points, of this font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override float SizeInPoints{ get{ return _emSize; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the em-size, in points, of this font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;The em-size, in points, of this font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override float Size{ get{ return _emSize; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the font family associated with this font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;The font family associated with this font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public new BuiltInFontFamily FontFamily{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return (BuiltInFontFamily)base.FontFamily; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal string BuiltInName {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return FontFamily.GetBuiltInName(_style); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;internal Text.BuiltInFontMetrics FontMetrics {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return FontFamily.GetFontMetrics(_style); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Constructors
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font using a specified size.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="familyName"&gt;A string representation of the font family for the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="emSize"&gt;The em-size, in points, of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public BuiltInFont(string familyName, float emSize):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this(familyName, emSize, FontStyle.Regular){}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font using a specified size and style.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="familyName"&gt;A string representation of the font family for the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="emSize"&gt;The em-size, in points, of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;The style of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public BuiltInFont(string familyName, float emSize, FontStyle style):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this(BuiltInFontFamily.FromName(familyName), emSize, style){}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font using a specified size.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="family"&gt;The font family of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="emSize"&gt;The em-size, in points, of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public BuiltInFont(BuiltInFontFamily family, float emSize):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this(family, emSize, FontStyle.Regular){}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font using a specified size and style.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="family"&gt;The font family of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="emSize"&gt;The em-size, in points, of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;The style of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public BuiltInFont(BuiltInFontFamily family, float emSize, FontStyle style):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base(family) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_style = style;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_emSize = emSize;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font that uses the specified existing font and style enumeration.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="prototype"&gt;The existing font from which to create the new font&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="newStyle"&gt;The style to apply to the new font. Multiple values of the style enumeration can be combined with the OR operator.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public BuiltInFont(BuiltInFont font, FontStyle style):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this(font.FontFamily, font.SizeInPoints, style){}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal override string GetEmbeddedFontName(out FontStyle leftoutStyle){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leftoutStyle = _style;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return FontFamily.GetEmbeddedFontName(ref leftoutStyle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new BuiltInFont Clone() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (BuiltInFont)base.Clone();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override Font Clone(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new BuiltInFont(this, style);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;public abstract class BuiltInFontFamily: FontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;#region Static Properties
+&nbsp;&nbsp;&nbsp;&nbsp;internal static BuiltInFontFamily TimesRomanFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return TimesRomanBuiltInFontFamily.Instance; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;internal static BuiltInFontFamily HelveticaFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return HelveticaBuiltInFontFamily.Instance; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;internal static BuiltInFontFamily CourierFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return CourierBuiltInFontFamily.Instance; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;internal static BuiltInFontFamily SymbolFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return SymbolBuiltInFontFamily.Instance; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;internal static BuiltInFontFamily ZapfDingbatsFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return ZapfDingbatsBuiltInFontFamily.Instance; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a generic monospace font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A font family that represents a generic monospace font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static new BuiltInFontFamily GenericMonospace {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return CourierFontFamily; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a generic sans serif font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A font family that represents a generic sans serif font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static new BuiltInFontFamily GenericSansSerif {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return HelveticaFontFamily; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a generic serif font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A font family that represents a generic serif font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static new BuiltInFontFamily GenericSerif {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return TimesRomanFontFamily; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Static Methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the font family for the specified generic font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="genericFamily"&gt;The generic font family for which to get the font family.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The font family for the specified generic font family.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static BuiltInFontFamily FromGenericFontFamilies(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text.GenericFontFamilies genericFamily) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch(genericFamily) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Text.GenericFontFamilies.Monospace:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return GenericMonospace;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Text.GenericFontFamilies.SansSerif:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return GenericSansSerif;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Text.GenericFontFamilies.Serif:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return GenericSerif;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the font family with the specified name.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="name"&gt;The name of the font family to get.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The font family with the specified name.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static BuiltInFontFamily FromName(string name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BuiltInFontFamily family
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= name == TimesRomanFontFamily.Name? TimesRomanFontFamily:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name == HelveticaFontFamily.Name? HelveticaFontFamily:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name == CourierFontFamily.Name? CourierFontFamily:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name == SymbolFontFamily.Name? SymbolFontFamily:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name == ZapfDingbatsFontFamily.Name? ZapfDingbatsFontFamily:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(family == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentException("Unknown BuiltInFontFamily "+name+".", "name");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return family;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;private string _name;
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties and Simple Info Methods
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal override System.Drawing.FontFamily GdiplusFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new NotSupportedException(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"BuiltInFontFamily does not support property GdiplusFontFamily.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the name of this font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A String that represents the name of this font family.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override string Name{ get{ return _name; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns the name, in the specified language, of this font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="language"&gt;The language in which the name is returned.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;A String that represents the name, in the specified language, of this font family.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override string GetName(int language){ return _name; }
+&nbsp;&nbsp;&nbsp;&nbsp;internal abstract string GetBuiltInName(FontStyle style);
+&nbsp;&nbsp;&nbsp;&nbsp;internal Text.BuiltInFontMetrics GetFontMetrics(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = string.Format("WebSupergoo.ABCpdf14.Drawing.Core14_AFMs.{0}.afm", GetBuiltInName(style));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stream stream = GetType().Assembly.GetManifestResourceStream(name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(stream != null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Text.BuiltInFontMetrics(stream);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns the cell ascent, in design units, of the font family of the specified style.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;A style that contains style information for the font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The cell ascent for this font family that uses the specified style.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override int GetCellAscent(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double v = GetFontMetrics(style).Ascender;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return double.IsNaN(v)? 0: (int)v + 150;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns the cell descent, in design units, of the font family of the specified style.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;A style that contains style information for the font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The cell descent for this font family that uses the specified style.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override int GetCellDescent(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double v = GetFontMetrics(style).Descender;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return double.IsNaN(v)? 0: -(int)v;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the height, in design units, of the em square for the specified style.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;The style for which to get the em height.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The height of the em square.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override int GetEmHeight(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double v = GetFontMetrics(style).CapHeight;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return double.IsNaN(v)? 0: 1000;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns the line spacing, in design units, of the font family of the specified style. The line spacing is the vertical distance between the base lines of two consecutive lines of text.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;The style to apply.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The distance between two consecutive lines of text.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override int GetLineSpacing(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return  GetCellAscent(style) + GetCellDescent(style);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Indicates whether the specified style enumeration is available.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;The style to test.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;true if the specified style is available; otherwise, false.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override bool IsStyleAvailable(FontStyle style) { return true; }
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override string ToString() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return string.Format("[BuiltInFontFamily: Name={0}]", Name);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal BuiltInFontFamily(string name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_name = name;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal abstract string GetEmbeddedFontName(ref FontStyle style);
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;#region Intermediate Built-in Font Family Classes
+&nbsp;&nbsp;internal abstract class RegularBuiltInFontFamily: BuiltInFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;private string _regularBuiltInName;
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal override string GetBuiltInName(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _regularBuiltInName;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;public RegularBuiltInFontFamily(string name, string regularBuiltInName):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base(name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_regularBuiltInName = regularBuiltInName;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal override string GetEmbeddedFontName(ref FontStyle style){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return GetBuiltInName(style);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;internal abstract class BoldItalicBuiltInFontFamily: RegularBuiltInFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;private string _boldBuiltInName;
+&nbsp;&nbsp;&nbsp;&nbsp;private string _italicBuiltInName;
+&nbsp;&nbsp;&nbsp;&nbsp;private string _boldItalicBuiltInName;
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal override string GetBuiltInName(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontInfoConvert.TestFlag(style, FontStyle.Bold | FontStyle.Italic)?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_boldItalicBuiltInName:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontInfoConvert.TestFlag(style, FontStyle.Bold)? _boldBuiltInName:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontInfoConvert.TestFlag(style, FontStyle.Italic)? _italicBuiltInName:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetBuiltInName(style);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;public BoldItalicBuiltInFontFamily(string name, string regularBuiltInName,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string boldBuiltInName, string italicBuiltInName, string boldItalicBuiltInName):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base(name, regularBuiltInName) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_boldBuiltInName = boldBuiltInName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_italicBuiltInName = italicBuiltInName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_boldItalicBuiltInName = boldItalicBuiltInName;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal override string GetEmbeddedFontName(ref FontStyle style){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = GetBuiltInName(style);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style &amp;= ~(FontStyle.Bold | FontStyle.Italic);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return name;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;#region Concrete Font Family Classes
+&nbsp;&nbsp;internal sealed class TimesRomanBuiltInFontFamily: BoldItalicBuiltInFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;public static readonly TimesRomanBuiltInFontFamily Instance
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new TimesRomanBuiltInFontFamily();
+
+&nbsp;&nbsp;&nbsp;&nbsp;private TimesRomanBuiltInFontFamily(): base("Times Roman", "Times-Roman",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-Bold", "Times-Italic", "Times-BoldItalic"){}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;internal sealed class HelveticaBuiltInFontFamily: BoldItalicBuiltInFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;public static readonly HelveticaBuiltInFontFamily Instance
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new HelveticaBuiltInFontFamily();
+
+&nbsp;&nbsp;&nbsp;&nbsp;private HelveticaBuiltInFontFamily(): base("Helvetica", "Helvetica",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica-Bold", "Helvetica-Oblique", "Helvetica-BoldOblique"){}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;internal sealed class CourierBuiltInFontFamily: BoldItalicBuiltInFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;public static readonly CourierBuiltInFontFamily Instance
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new CourierBuiltInFontFamily();
+
+&nbsp;&nbsp;&nbsp;&nbsp;private CourierBuiltInFontFamily(): base("Courier", "Courier",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier-Bold", "Courier-Oblique", "Courier-BoldOblique"){}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;internal sealed class SymbolBuiltInFontFamily: RegularBuiltInFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;public static readonly SymbolBuiltInFontFamily Instance
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new SymbolBuiltInFontFamily();
+
+&nbsp;&nbsp;&nbsp;&nbsp;private SymbolBuiltInFontFamily(): base("Symbol", "Symbol"){}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;internal sealed class ZapfDingbatsBuiltInFontFamily: RegularBuiltInFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;public static readonly ZapfDingbatsBuiltInFontFamily Instance
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new ZapfDingbatsBuiltInFontFamily();
+
+&nbsp;&nbsp;&nbsp;&nbsp;private ZapfDingbatsBuiltInFontFamily():
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base("Zapf Dingbats", "ZapfDingbats"){}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;#endregion
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

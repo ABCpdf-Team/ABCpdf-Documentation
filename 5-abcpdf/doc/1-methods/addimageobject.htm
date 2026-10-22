@@ -84,7 +84,7 @@ href="../../xtransform/default.htm">Transform</A>.</P>
 <pre><code class="language-csharp">static int AddLinkToUri(Doc doc, XRect rect, string uri) {
 &nbsp;&nbsp;int id = doc.AddObject(&quot;&lt;&lt; /Type /Annot /Subtype /Link /A &lt;&lt; /Type /Action /S /URI /URI () &gt;&gt; /Border [0 0 0] &gt;&gt;&quot;);
 &nbsp;&nbsp;doc.SetInfo(doc.Page, &quot;/Annots*[]:Ref&quot;, id);
-&nbsp;&nbsp;doc.SetInfo(id, &quot;/Rect:Rect&quot;, doc.Rect.String);
+&nbsp;&nbsp;doc.SetInfo(id, &quot;/Rect:Rect&quot;, rect.String);
 &nbsp;&nbsp;doc.SetInfo(id, &quot;/A/URI:Text&quot;, uri);
 &nbsp;&nbsp;return id;
 }
@@ -94,7 +94,7 @@ href="../../xtransform/default.htm">Transform</A>.</P>
 <pre><code class="language-csharp">static int AddLinkToPage(Doc doc, XRect rect, int pageID) {
 &nbsp;&nbsp;int id = doc.AddObject(&quot;&lt;&lt; /Type /Annot /Subtype /Link /Border [0 0 0] /A &lt;&lt; /Type /Action /S /GoTo /D [ /XYZ null null 0] &gt;&gt; &gt;&gt;&quot;);
 &nbsp;&nbsp;doc.SetInfo(doc.Page, &quot;/Annots*[]:Ref&quot;, id);
-&nbsp;&nbsp;doc.SetInfo(id, &quot;/Rect:Rect&quot;, doc.Rect.String);
+&nbsp;&nbsp;doc.SetInfo(id, &quot;/Rect:Rect&quot;, rect.String);
 &nbsp;&nbsp;doc.SetInfo(id, &quot;/A/D[0]:Ref&quot;, pageID.ToString());
 &nbsp;&nbsp;return id;
 }

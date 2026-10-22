@@ -34,6 +34,15 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A PDF stream consists of a stream dictionary followed by the keyword stream, the stream data bytes, and the keyword endstream. The stream dictionary must include a Length entry giving the exact number of bytes in the data.</p>
+<p>Streams are used for any data that benefits from compression or that is too large to store as a string object. Content streams, image data, font data, ICC profiles, and many other PDF constructs are stored as streams.</p>
+<p>The Filter entry names one or more filters applied to the stream data. When multiple filters are listed, they are applied in order during decoding: the first filter listed decodes the outermost encoding. The DecodeParms entry provides parameters for filters that require them.</p>
+<p>The F, FFilter, and FDecodeParms entries support external streams where the data resides in a separate file rather than inline in the PDF. The F entry holds a file specification identifying the external file.</p>
+<p>The DL entry gives the length of the decoded stream data. This is useful when an application needs to allocate a buffer before decoding but does not want to fully decode the stream just to determine its size.</p>
+<p>A conforming writer must not write any bytes between the stream keyword and the data, except for a single end-of-line marker. Similarly, the endstream keyword must appear on a new line immediately after the last byte of data.</p>
+<p>Stream filters defined in PDF include FlateDecode (zlib/deflate compression), LZWDecode, ASCIIHexDecode, ASCII85Decode, RunLengthDecode, CCITTFaxDecode, JBIG2Decode, DCTDecode, and JPXDecode. PDF 2.0 adds no new filters but deprecates LZWDecode for new content.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

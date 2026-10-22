@@ -37,6 +37,18 @@
 <p>This class is always an indirect object because CrossReferenceStreamElement.EntryRoot and FileTrailerElement.EntryRoot require it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>The document catalog is the root object of a PDF document's logical structure. Every object in the document is reachable from the catalog, either directly through its entries or indirectly through the objects they reference.</p>
+<p>The Pages entry references the root of the page tree, which organises all pages in the document into a balanced tree of page tree nodes. A reader traverses this tree to locate individual pages.</p>
+<p>The Names entry references the name dictionary, which holds named trees mapping string keys to various object types. Named destinations, embedded files, JavaScript actions, and other named resources are stored here.</p>
+<p>The Dests entry provides a direct dictionary of named destinations for compatibility with PDF 1.0 and 1.1 documents. PDF 1.2 and later use the Names dictionary for named destinations instead.</p>
+<p>The ViewerPreferences entry references a dictionary that controls how a conforming viewer presents the document: initial page layout, full-screen mode, toolbar visibility, and similar display settings.</p>
+<p>The PageLayout and PageMode entries control the initial layout and display mode when the document is opened. These are advisory; a viewer may ignore them or allow the user to override them.</p>
+<p>The OpenAction entry specifies an action or destination to execute when the document is opened. This is commonly used to navigate to a specific page or to run a JavaScript action.</p>
+<p>The AcroForm entry references the document's interactive form dictionary, which lists all form fields and their shared properties. The OCProperties entry references the optional content properties dictionary.</p>
+<p>The Perms entry holds cryptographic permissions that can restrict document-level operations independently of the encryption dictionary. The DSS entry references the document security store used in PDF digital signatures.</p>
+<p>The AF entry holds associated files attached to the document as a whole, used in PDF/A-3 and PDF 2.0 workflows. The Extensions entry lists developer extensions that the document relies on beyond the base PDF specification.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

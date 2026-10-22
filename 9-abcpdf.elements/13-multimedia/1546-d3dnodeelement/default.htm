@@ -32,6 +32,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=66">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 9.47, page 58.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 323, page 670.</a></p>
 </p>
+<!-- addition start -->
+<p>A 3D node dictionary modifies the appearance or visibility of a named node within the 3D model hierarchy. Node dictionaries are used in 3D views to override the default appearance of specific model components.</p>
+<p>The N entry holds the node name as a byte string, identifying the node within the model hierarchy. The Instance entry holds the instance name if the same named node appears multiple times.</p>
+<p>The Data entry references a 3D stream providing replacement geometry data for the node. The RM entry references a render mode dictionary overriding the node render mode. The O entry specifies the node opacity.</p>
+<p>The V entry, when false, hides the node. The M entry holds a 12-element array defining a transformation matrix for the node.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

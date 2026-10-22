@@ -37,6 +37,18 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=616">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 346, page 608.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 381, page 782.</a></p>
 </p>
+<!-- addition start -->
+<p>The standard layout attributes dictionary carries visual formatting properties defined by the PDF specification. These are owned by the Layout attribute owner and describe how content is positioned and rendered.</p>
+<p>The Placement attribute controls whether an element flows as a block, inline, or float. The WritingMode attribute specifies text flow direction: LrTb for Western scripts, RlTb for Arabic and Hebrew, and TbRl for vertical East Asian scripts.</p>
+<p>Spacing attributes SpaceBefore, SpaceAfter, StartIndent, EndIndent, and TextIndent control margins and indentation of block-level elements, corresponding to the CSS box model.</p>
+<p>Border attributes BorderColor, BorderStyle, and BorderThickness control the visual border. Table-specific equivalents TBorderStyle and TPadding apply to table cells independently.</p>
+<p>Text attributes Color, TextAlign, BaselineShift, LineHeight, TextDecorationColor, TextDecorationThickness, TextDecorationType, and TextPosition control text appearance.</p>
+<p>Ruby layout attributes RubyAlign and RubyPosition control positioning of ruby annotations relative to base text in East Asian typography.</p>
+<p>The GlyphOrientationVertical attribute controls glyph rotation in vertical writing mode.</p>
+<p>Column layout attributes ColumnCount, ColumnGap, and ColumnWidths describe multi-column layout for reflow and accessibility tools.</p>
+<p>The BBox attribute gives the bounding box of the element in default user space, useful for absolutely positioned elements.</p>
+<p>The Width and Height attributes declare fixed dimensions. BlockAlign and InlineAlign control content alignment within a block.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

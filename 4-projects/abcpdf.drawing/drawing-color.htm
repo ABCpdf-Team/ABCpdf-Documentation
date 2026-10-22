@@ -1,0 +1,1091 @@
+<html>
+<head>
+<title>Drawing\Color.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Drawing\Color.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+
+namespace WebSupergoo.ABCpdf14.Drawing {
+&nbsp;&nbsp;#region Color
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// A color in RGB, CMYK or Grayscale.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class Color {
+&nbsp;&nbsp;&nbsp;&nbsp;#region Declare variables
+&nbsp;&nbsp;&nbsp;&nbsp;internal double a = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;internal double r = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;internal double g = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;internal double b = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;internal double c = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;internal double m = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;internal double y = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;internal double k = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;internal double gray = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the alpha component.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double A {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return a; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { a = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;} 
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the red component.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double R {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return r; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { r = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;} 
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the green component.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double G {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return g; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { g = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;} 
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the blue component.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double B {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return b; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { b = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;} 
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the cyan component.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double C {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return c; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { c = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;} 
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the magenta component.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double M {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return m; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { m = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;} 
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the yellow component.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double Y {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return y; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { y = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;} 
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the black component.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double K {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return k; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { k = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;} 
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the gray level.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double GrayScale {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return gray; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { gray = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;} 
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override bool Equals(object obj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color c = obj as Color;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (c != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (A == c.A) &amp;&amp; (R == c.R) &amp;&amp; (G == c.G) &amp;&amp; (B == c.B);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override int GetHashCode() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return base.GetHashCode ();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Static methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Creates a Color from the specified 8-bit color values 
+&nbsp;&nbsp;&nbsp;&nbsp;/// (red, green, and blue). The alpha value is implicitly 255 (fully opaque). 
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="red"&gt;The red component value. Valid values are 0 through 255.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="green"&gt;The green component value. Valid values are 0 through 255.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="blue"&gt;The blue component value. Valid values are 0 through 255.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Color that this method creates.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color FromArgb(int red, int green, int blue) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return FromArgb(255, red, green, blue);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Creates a Color from a 32-bit ARGB value.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="argb"&gt;A value specifying the 32-bit ARGB value.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Color that this method creates.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color FromArgb(int argb) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.Color clr = System.Drawing.Color.FromArgb(argb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return FromArgb(clr.A, clr.R, clr.G, clr.B);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Creates a Color from the specified pre-defined color.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="color"&gt;An element of the System.Drawing.KnownColor enumeration.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Color that this method creates.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color FromKnownColor(System.Drawing.KnownColor color) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.Color sysColor = System.Drawing.Color.FromKnownColor(color);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return FromArgb(sysColor.A, sysColor.R, sysColor.G, sysColor.B);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Creates a Color from the specified System.Drawing.Color structure, 
+&nbsp;&nbsp;&nbsp;&nbsp;/// but with the new specified alpha value. 
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="alpha"&gt;The alpha value for the new System.Drawing.Color structure. Valid values are 0 through 255.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="baseColor"&gt;The System.Drawing.Color structure from which to create the new System.Drawing.Color structure.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Color that this method creates.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color FromArgb(int alpha, System.Drawing.Color baseColor) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return FromArgb(alpha, baseColor.R, baseColor.G, baseColor.B);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Creates a Color from the specified 8-bit RGB color values 
+&nbsp;&nbsp;&nbsp;&nbsp;/// (alpha, red, green, and blue). 
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="alpha"&gt;The alpha component value. Valid values are 0 through 255.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="red"&gt;The red component value. Valid values are 0 through 255.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="green"&gt;The green component value. Valid values are 0 through 255.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="blue"&gt;The blue component value. Valid values are 0 through 255.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Color that this method creates.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color FromArgb(int alpha, int red, int green, int blue) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color clr = new Color();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.a = alpha / 255F;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.r = red / 255F;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.g = green / 255F;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.b = blue / 255F;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return clr;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Creates a Color from the specified ARGB color values 
+&nbsp;&nbsp;&nbsp;&nbsp;/// (alpha, red, green, and blue). 
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="cyan"&gt;The alpha component. Valid values are 0 through 1.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="magenta"&gt;The red component. Valid values are 0 through 1.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="yellow"&gt;The green component. Valid values are 0 through 1.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="black"&gt;The blue component. Valid values are 0 through 1.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Color that this method creates.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color FromArgb(double alpha, double red, double green, double blue) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color clr = new Color();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.a = alpha;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.r = red;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.g = green;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.b = blue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return clr;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Creates a Color from the specified CMYK color values 
+&nbsp;&nbsp;&nbsp;&nbsp;/// (cyan, magenta, yellow, and black). 
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="cyan"&gt;The cyan component. Valid values are 0 through 1.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="magenta"&gt;The magenta component. Valid values are 0 through 1.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="yellow"&gt;The yellow component. Valid values are 0 through 1.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="black"&gt;The black component. Valid values are 0 through 1.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Color that this method creates.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color FromCmyk(double cyan, double magenta, double yellow, double black) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color clr = new Color();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.c = cyan;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.m = magenta;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.y = yellow;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.k = black;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return clr;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Creates a Color from the specified gray level.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="gray"&gt;The gray component. Valid values are 0 through 1.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Color that this method creates.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color FromCmyk(double gray) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color clr = new Color();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clr.gray = gray;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return clr;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color AliceBlue { get { return FromKnownColor(System.Drawing.KnownColor.AliceBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color AntiqueWhite { get { return FromKnownColor(System.Drawing.KnownColor.AntiqueWhite); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color AppWorkspace { get { return FromKnownColor(System.Drawing.KnownColor.AppWorkspace); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Aqua { get { return FromKnownColor(System.Drawing.KnownColor.Aqua); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Aquamarine { get { return FromKnownColor(System.Drawing.KnownColor.Aquamarine); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Azure { get { return FromKnownColor(System.Drawing.KnownColor.Azure); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Beige { get { return FromKnownColor(System.Drawing.KnownColor.Beige); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Bisque { get { return FromKnownColor(System.Drawing.KnownColor.Bisque); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Black { get { return FromKnownColor(System.Drawing.KnownColor.Black); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color BlanchedAlmond { get { return FromKnownColor(System.Drawing.KnownColor.BlanchedAlmond); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Blue { get { return FromKnownColor(System.Drawing.KnownColor.Blue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color BlueViolet { get { return FromKnownColor(System.Drawing.KnownColor.BlueViolet); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Brown { get { return FromKnownColor(System.Drawing.KnownColor.Brown); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color BurlyWood { get { return FromKnownColor(System.Drawing.KnownColor.BurlyWood); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color CadetBlue { get { return FromKnownColor(System.Drawing.KnownColor.CadetBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Chartreuse { get { return FromKnownColor(System.Drawing.KnownColor.Chartreuse); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Chocolate { get { return FromKnownColor(System.Drawing.KnownColor.Chocolate); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Control { get { return FromKnownColor(System.Drawing.KnownColor.Control); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color ControlDark { get { return FromKnownColor(System.Drawing.KnownColor.ControlDark); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color ControlDarkDark { get { return FromKnownColor(System.Drawing.KnownColor.ControlDarkDark); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color ControlLight { get { return FromKnownColor(System.Drawing.KnownColor.ControlLight); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color ControlLightLight { get { return FromKnownColor(System.Drawing.KnownColor.ControlLightLight); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color ControlText { get { return FromKnownColor(System.Drawing.KnownColor.ControlText); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Coral { get { return FromKnownColor(System.Drawing.KnownColor.Coral); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color CornflowerBlue  { get { return FromKnownColor(System.Drawing.KnownColor.CornflowerBlue ); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Cornsilk { get { return FromKnownColor(System.Drawing.KnownColor.Cornsilk); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Crimson { get { return FromKnownColor(System.Drawing.KnownColor.Crimson); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Cyan { get { return FromKnownColor(System.Drawing.KnownColor.Cyan); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkBlue { get { return FromKnownColor(System.Drawing.KnownColor.DarkBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkCyan { get { return FromKnownColor(System.Drawing.KnownColor.DarkCyan); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkGoldenrod { get { return FromKnownColor(System.Drawing.KnownColor.DarkGoldenrod); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkGray { get { return FromKnownColor(System.Drawing.KnownColor.DarkGray); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkGreen { get { return FromKnownColor(System.Drawing.KnownColor.DarkGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkKhaki { get { return FromKnownColor(System.Drawing.KnownColor.DarkKhaki); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkMagenta { get { return FromKnownColor(System.Drawing.KnownColor.DarkMagenta); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkOliveGreen { get { return FromKnownColor(System.Drawing.KnownColor.DarkOliveGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkOrange { get { return FromKnownColor(System.Drawing.KnownColor.DarkOrange); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkOrchid { get { return FromKnownColor(System.Drawing.KnownColor.DarkOrchid); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkRed { get { return FromKnownColor(System.Drawing.KnownColor.DarkRed); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkSalmon { get { return FromKnownColor(System.Drawing.KnownColor.DarkSalmon); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkSeaGreen { get { return FromKnownColor(System.Drawing.KnownColor.DarkSeaGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkSlateBlue { get { return FromKnownColor(System.Drawing.KnownColor.DarkSlateBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkSlateGray { get { return FromKnownColor(System.Drawing.KnownColor.DarkSlateGray); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkTurquoise { get { return FromKnownColor(System.Drawing.KnownColor.DarkTurquoise); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DarkViolet { get { return FromKnownColor(System.Drawing.KnownColor.DarkViolet); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DeepPink { get { return FromKnownColor(System.Drawing.KnownColor.DeepPink); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DeepSkyBlue { get { return FromKnownColor(System.Drawing.KnownColor.DeepSkyBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Desktop { get { return FromKnownColor(System.Drawing.KnownColor.Desktop); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DimGray { get { return FromKnownColor(System.Drawing.KnownColor.DimGray); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color DodgerBlue { get { return FromKnownColor(System.Drawing.KnownColor.DodgerBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Firebrick { get { return FromKnownColor(System.Drawing.KnownColor.Firebrick); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color FloralWhite { get { return FromKnownColor(System.Drawing.KnownColor.FloralWhite); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color ForestGreen { get { return FromKnownColor(System.Drawing.KnownColor.ForestGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Fuchsia { get { return FromKnownColor(System.Drawing.KnownColor.Fuchsia); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Gainsboro { get { return FromKnownColor(System.Drawing.KnownColor.Gainsboro); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color GhostWhite { get { return FromKnownColor(System.Drawing.KnownColor.GhostWhite); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Gold { get { return FromKnownColor(System.Drawing.KnownColor.Gold); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Goldenrod { get { return FromKnownColor(System.Drawing.KnownColor.Goldenrod); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Gray { get { return FromKnownColor(System.Drawing.KnownColor.Gray); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color GrayText { get { return FromKnownColor(System.Drawing.KnownColor.GrayText); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Green { get { return FromKnownColor(System.Drawing.KnownColor.Green); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color GreenYellow { get { return FromKnownColor(System.Drawing.KnownColor.GreenYellow); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Highlight { get { return FromKnownColor(System.Drawing.KnownColor.Highlight); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color HighlightText { get { return FromKnownColor(System.Drawing.KnownColor.HighlightText); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Honeydew { get { return FromKnownColor(System.Drawing.KnownColor.Honeydew); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color HotPink { get { return FromKnownColor(System.Drawing.KnownColor.HotPink); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color HotTrack { get { return FromKnownColor(System.Drawing.KnownColor.HotTrack); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color InactiveBorder { get { return FromKnownColor(System.Drawing.KnownColor.InactiveBorder); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color InactiveCaption { get { return FromKnownColor(System.Drawing.KnownColor.InactiveCaption); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color InactiveCaptionText { get { return FromKnownColor(System.Drawing.KnownColor.InactiveCaptionText); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color IndianRed { get { return FromKnownColor(System.Drawing.KnownColor.IndianRed); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Indigo { get { return FromKnownColor(System.Drawing.KnownColor.Indigo); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Info { get { return FromKnownColor(System.Drawing.KnownColor.Info); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color InfoText { get { return FromKnownColor(System.Drawing.KnownColor.InfoText); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Ivory { get { return FromKnownColor(System.Drawing.KnownColor.Ivory); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Khaki { get { return FromKnownColor(System.Drawing.KnownColor.Khaki); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Lavender { get { return FromKnownColor(System.Drawing.KnownColor.Lavender); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LavenderBlush { get { return FromKnownColor(System.Drawing.KnownColor.LavenderBlush); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LawnGreen { get { return FromKnownColor(System.Drawing.KnownColor.LawnGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LemonChiffon { get { return FromKnownColor(System.Drawing.KnownColor.LemonChiffon); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightBlue { get { return FromKnownColor(System.Drawing.KnownColor.LightBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightCoral { get { return FromKnownColor(System.Drawing.KnownColor.LightCoral); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightCyan { get { return FromKnownColor(System.Drawing.KnownColor.LightCyan); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightGoldenrodYellow { get { return FromKnownColor(System.Drawing.KnownColor.LightGoldenrodYellow); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightGray { get { return FromKnownColor(System.Drawing.KnownColor.LightGray); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightGreen { get { return FromKnownColor(System.Drawing.KnownColor.LightGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightPink { get { return FromKnownColor(System.Drawing.KnownColor.LightPink); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightSalmon { get { return FromKnownColor(System.Drawing.KnownColor.LightSalmon); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightSeaGreen { get { return FromKnownColor(System.Drawing.KnownColor.LightSeaGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightSkyBlue { get { return FromKnownColor(System.Drawing.KnownColor.LightSkyBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightSlateGray { get { return FromKnownColor(System.Drawing.KnownColor.LightSlateGray); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightSteelBlue { get { return FromKnownColor(System.Drawing.KnownColor.LightSteelBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LightYellow { get { return FromKnownColor(System.Drawing.KnownColor.LightYellow); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Lime { get { return FromKnownColor(System.Drawing.KnownColor.Lime); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color LimeGreen { get { return FromKnownColor(System.Drawing.KnownColor.LimeGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Linen { get { return FromKnownColor(System.Drawing.KnownColor.Linen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Magenta { get { return FromKnownColor(System.Drawing.KnownColor.Magenta); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Maroon { get { return FromKnownColor(System.Drawing.KnownColor.Maroon); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MediumAquamarine { get { return FromKnownColor(System.Drawing.KnownColor.MediumAquamarine); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MediumBlue { get { return FromKnownColor(System.Drawing.KnownColor.MediumBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MediumOrchid { get { return FromKnownColor(System.Drawing.KnownColor.MediumOrchid); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MediumPurple { get { return FromKnownColor(System.Drawing.KnownColor.MediumPurple); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MediumSeaGreen { get { return FromKnownColor(System.Drawing.KnownColor.MediumSeaGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MediumSlateBlue { get { return FromKnownColor(System.Drawing.KnownColor.MediumSlateBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MediumSpringGreen { get { return FromKnownColor(System.Drawing.KnownColor.MediumSpringGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MediumTurquoise { get { return FromKnownColor(System.Drawing.KnownColor.MediumTurquoise); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MediumVioletRed { get { return FromKnownColor(System.Drawing.KnownColor.MediumVioletRed); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Menu { get { return FromKnownColor(System.Drawing.KnownColor.Menu); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MenuText { get { return FromKnownColor(System.Drawing.KnownColor.MenuText); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MidnightBlue { get { return FromKnownColor(System.Drawing.KnownColor.MidnightBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MintCream { get { return FromKnownColor(System.Drawing.KnownColor.MintCream); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color MistyRose { get { return FromKnownColor(System.Drawing.KnownColor.MistyRose); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Moccasin { get { return FromKnownColor(System.Drawing.KnownColor.Moccasin); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color NavajoWhite { get { return FromKnownColor(System.Drawing.KnownColor.NavajoWhite); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Navy { get { return FromKnownColor(System.Drawing.KnownColor.Navy); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color OldLace { get { return FromKnownColor(System.Drawing.KnownColor.OldLace); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Olive { get { return FromKnownColor(System.Drawing.KnownColor.Olive); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color OliveDrab { get { return FromKnownColor(System.Drawing.KnownColor.OliveDrab); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Orange { get { return FromKnownColor(System.Drawing.KnownColor.Orange); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color OrangeRed { get { return FromKnownColor(System.Drawing.KnownColor.OrangeRed); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Orchid { get { return FromKnownColor(System.Drawing.KnownColor.Orchid); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color PaleGoldenrod { get { return FromKnownColor(System.Drawing.KnownColor.PaleGoldenrod); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color PaleGreen { get { return FromKnownColor(System.Drawing.KnownColor.PaleGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color PaleTurquoise { get { return FromKnownColor(System.Drawing.KnownColor.PaleTurquoise); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color PaleVioletRed { get { return FromKnownColor(System.Drawing.KnownColor.PaleVioletRed); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color PapayaWhip { get { return FromKnownColor(System.Drawing.KnownColor.PapayaWhip); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color PeachPuff { get { return FromKnownColor(System.Drawing.KnownColor.PeachPuff); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Peru { get { return FromKnownColor(System.Drawing.KnownColor.Peru); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Pink { get { return FromKnownColor(System.Drawing.KnownColor.Pink); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Plum { get { return FromKnownColor(System.Drawing.KnownColor.Plum); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color PowderBlue { get { return FromKnownColor(System.Drawing.KnownColor.PowderBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Purple { get { return FromKnownColor(System.Drawing.KnownColor.Purple); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Red { get { return FromKnownColor(System.Drawing.KnownColor.Red); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color RosyBrown { get { return FromKnownColor(System.Drawing.KnownColor.RosyBrown); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color RoyalBlue { get { return FromKnownColor(System.Drawing.KnownColor.RoyalBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color SaddleBrown { get { return FromKnownColor(System.Drawing.KnownColor.SaddleBrown); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Salmon { get { return FromKnownColor(System.Drawing.KnownColor.Salmon); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color SandyBrown { get { return FromKnownColor(System.Drawing.KnownColor.SandyBrown); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color ScrollBar { get { return FromKnownColor(System.Drawing.KnownColor.ScrollBar); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color SeaGreen { get { return FromKnownColor(System.Drawing.KnownColor.SeaGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color SeaShell { get { return FromKnownColor(System.Drawing.KnownColor.SeaShell); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Sienna { get { return FromKnownColor(System.Drawing.KnownColor.Sienna); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Silver { get { return FromKnownColor(System.Drawing.KnownColor.Silver); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color SkyBlue { get { return FromKnownColor(System.Drawing.KnownColor.SkyBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color SlateBlue { get { return FromKnownColor(System.Drawing.KnownColor.SlateBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color SlateGray { get { return FromKnownColor(System.Drawing.KnownColor.SlateGray); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Snow { get { return FromKnownColor(System.Drawing.KnownColor.Snow); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color SpringGreen { get { return FromKnownColor(System.Drawing.KnownColor.SpringGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color SteelBlue { get { return FromKnownColor(System.Drawing.KnownColor.SteelBlue); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Tan { get { return FromKnownColor(System.Drawing.KnownColor.Tan); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Teal { get { return FromKnownColor(System.Drawing.KnownColor.Teal); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Thistle { get { return FromKnownColor(System.Drawing.KnownColor.Thistle); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Tomato { get { return FromKnownColor(System.Drawing.KnownColor.Tomato); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Transparent { get { return FromKnownColor(System.Drawing.KnownColor.Transparent); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Turquoise { get { return FromKnownColor(System.Drawing.KnownColor.Turquoise); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Violet { get { return FromKnownColor(System.Drawing.KnownColor.Violet); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Wheat { get { return FromKnownColor(System.Drawing.KnownColor.Wheat); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color White { get { return FromKnownColor(System.Drawing.KnownColor.White); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color WhiteSmoke { get { return FromKnownColor(System.Drawing.KnownColor.WhiteSmoke); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Window { get { return FromKnownColor(System.Drawing.KnownColor.Window); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color WindowFrame { get { return FromKnownColor(System.Drawing.KnownColor.WindowFrame); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color WindowText { get { return FromKnownColor(System.Drawing.KnownColor.WindowText); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color Yellow { get { return FromKnownColor(System.Drawing.KnownColor.Yellow); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a system defined color
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Color YellowGreen { get { return FromKnownColor(System.Drawing.KnownColor.YellowGreen); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;}
+&nbsp;&nbsp;#endregion
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

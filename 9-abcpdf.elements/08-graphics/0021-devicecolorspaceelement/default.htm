@@ -37,6 +37,13 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=150">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Section 8.6.4: 62, page 124.</a></p>
 </p>
+<!-- addition start -->
+<p>Device color spaces map color component values directly to the output device's native colorants. No calibration or transformation is applied between the PDF color values and the marks placed on the medium.</p>
+<p>The three device color spaces defined in PDF are DeviceGray, DeviceRGB, and DeviceCMYK. DeviceGray uses a single component for luminance; DeviceRGB uses three components for red, green, and blue; DeviceCMYK uses four components for cyan, magenta, yellow, and black.</p>
+<p>Because device color spaces have no embedded calibration, the same component values may produce visually different results on different devices. This makes them unsuitable for color-managed workflows where consistent reproduction is required.</p>
+<p>Device color spaces are commonly used in documents where color fidelity across devices is not critical, or where the output medium is known and fixed. They are simple to use and impose minimal processing overhead on conforming readers.</p>
+<p>A conforming reader may apply a default color space mapping when a device color space is encountered, substituting a calibrated equivalent defined in the document's default color space entries. This allows colour management to be applied retroactively.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

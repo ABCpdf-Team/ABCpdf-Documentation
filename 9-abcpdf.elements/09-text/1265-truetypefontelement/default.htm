@@ -42,6 +42,12 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A TrueType font dictionary describes a font whose glyphs are defined using TrueType outlines. The structure closely follows the type 1 model: BaseFont names the font, Widths gives per-character advance widths, and FontDescriptor carries detailed metrics and the embedded font program.</p>
+<p>The Widths array runs from FirstChar to LastChar and gives advance widths in thousandths of a text space unit, consistent with the type 1 convention. Character codes outside this range use MissingWidth from the FontDescriptor.</p>
+<p>Encoding works the same way as for type 1 fonts. A named encoding or an EncodingElement dictionary maps single-byte character codes to glyph names, which the font program then resolves to outlines.</p>
+<p>TrueType fonts can be embedded as FontFile2 streams in the FontDescriptor. Subsetting is common: only the glyphs actually used in the document are included, with a tag prefix added to the font name to mark it as a subset.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

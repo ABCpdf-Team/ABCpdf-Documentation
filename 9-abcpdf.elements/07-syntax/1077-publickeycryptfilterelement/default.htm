@@ -31,6 +31,11 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=77">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 27, page 69.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 27, page 91.</a></p>
 </p>
+<!-- addition start -->
+<p>The public-key crypt filter dictionary extends the base crypt filter with entries for certificate-based encryption. It identifies the recipients and permissions for the objects protected by this filter.</p>
+<p>The Recipients entry holds the DER-encoded CMS EnvelopedData structures for each authorised recipient, exactly as in the top-level public-key encryption dictionary. This allows different groups of recipients to be defined for different classes of objects within the same document.</p>
+<p>The EncryptMetadata entry controls whether the document metadata stream is covered by this filter. When false, metadata remains unencrypted regardless of the filter's other settings.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

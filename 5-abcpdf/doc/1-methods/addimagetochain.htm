@@ -128,7 +128,7 @@ doc.Rect.Inset(72, 144);
 </code></pre></P>
             <P>We add the first page of HTML. We save the returned ID as this 
             will be used to add subsequent pages.</P>
-            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">int id = doc.AddImageUrl("http://www.yahoo.com/");
+            <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">int id = doc.AddImageUrl("https://www.yahoo.com/");
 </code></pre></P>
             <P>We now chain subsequent pages together. We stop when we reach a 
             page which wasn't truncated.</P>
@@ -138,6 +138,8 @@ doc.Rect.Inset(72, 144);
 &nbsp;&nbsp;&nbsp;&nbsp;break;
 &nbsp;&nbsp;doc.Page = doc.AddPage();
 &nbsp;&nbsp;id = doc.AddImageToChain(id);
+&nbsp;&nbsp;if (doc.PageCount &gt; 5)
+&nbsp;&nbsp;&nbsp;&nbsp;break;
 }
 </code></pre></P>
             <P>Finally we save. </P>

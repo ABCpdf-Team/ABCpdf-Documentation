@@ -39,7 +39,7 @@
         <TR>
           <TD vAlign=top>
             <P><SPAN class=language>[C#]</SPAN><BR>
-            <CODE>vitual void SetFont(<a href="../../fontobject/default.htm">FontObject</a> font, double size)<BR>
+            <CODE>virtual void SetFont(<a href="../../fontobject/default.htm">FontObject</a> font, double size)<BR>
             </CODE></P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
@@ -82,11 +82,12 @@
           <TD>
             <P>Sets the font and font size to be used for text.            </P>
             <P>This function works by changing the <a href="../2-properties/defaultappearance.htm">DefaultAppearance</a> for the field using the specified <a href="../../fontobject/default.htm">FontObject</a> and size.              </P>
-            <P>Properties such ase the <a href="../2-properties/textfont.htm">TextFont</a> and <a href="../2-properties/textsize.htm">TextSize</a> get the effective value which may be inherited. 
-              Calling this funtion sets the value on this item itself which will override any inherited value.              </P>
-            <P>Passing a font value of null will remove both the font and size from the item itself though a value may be still be present if it is inherited from a parent field or from document defaults.</P>
+            <P>Properties such as the <a href="../2-properties/textfont.htm">TextFont</a> and <a href="../2-properties/textsize.htm">TextSize</a> get the effective value which may be inherited. 
+              Calling this function sets the value on this item itself which will override any inherited value.              </P>
+            <P>Passing a font value of null will remove both the font and size from the item itself though a value may still be present if it is inherited from a parent field or from document defaults.</P>
             <P>A zero size font indicates that the font should scale so that it fits the size of the field. Negative font heights appear the same as positive ones but are best avoided as they are likely to cause confusion.</P>
             <P>The appearance of the field is not updated until you change the <a href="../2-properties/value.htm">Value</a> or call <a href="../1-methods/updateappearance.htm">UpdateAppearance</a>. </P>
+            <P>When filling a field with non-Latin text, such as Chinese, Japanese or Korean (CJK), you need to ensure the FontObject you provide can support the characters you are using. Otherwise the glyphs will be missing.</P>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>

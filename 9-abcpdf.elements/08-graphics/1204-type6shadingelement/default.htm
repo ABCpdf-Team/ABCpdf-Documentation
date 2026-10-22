@@ -34,6 +34,12 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A Type 6 shading encodes a Coons patch mesh. Each patch is defined by 12 control points that form a bicubic surface, plus 4 color values at the corners. The surface smoothly interpolates both shape and colour.</p>
+<p>BitsPerCoordinate and BitsPerComponent set the bit depth of coordinate and color values in the stream. BitsPerFlag controls the flag field that specifies how each patch connects to its neighbours.</p>
+<p>The Decode array maps encoded integer values to actual coordinate ranges and color ranges.</p>
+<p>An optional Function entry allows a scalar tint per corner in place of full color components, with the function converting those tints to the shading's color space.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

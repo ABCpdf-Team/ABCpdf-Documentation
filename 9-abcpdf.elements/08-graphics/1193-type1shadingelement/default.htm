@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=193">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 79, page 185.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 78, page 230.</a></p>
 </p>
+<!-- addition start -->
+<p>A Type 1 shading, also called a function-based shading, computes the color at each point in shading space by evaluating a function of the (x, y) coordinates. The function maps two-dimensional positions to color component values.</p>
+<p>The Domain entry defines the rectangular region of (x, y) values over which the function is evaluated. Points outside the domain are not colored by the shading.</p>
+<p>The optional Matrix entry maps the shading's coordinate system to the coordinate system of the pattern or form in which it is used. This allows the shading to be rotated or scaled without changing the function.</p>
+<p>The Function entry holds the function object that produces color values. It must accept two inputs and produce a number of outputs equal to the number of components in the shading's color space.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

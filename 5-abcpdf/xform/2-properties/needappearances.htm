@@ -65,7 +65,7 @@
             <p>Secondly, that  if you read a document in which this flag may already be set to true,  to revert it back to false, you would need code of the following form to be called immediately after the read.</p>
             <p><SPAN class=language>[C#]</SPAN><BR>
             </p>
-            <pre><code class="language-csharp">var cat = doc.ObjectSoup.Catalog;<br>var form = cat.Resolve(Atom.GetItem(cat.Atom, &quot;AcroForm&quot;));<br>tom.RemoveItem(form, &quot;NeedAppearances&quot;);<br><!--notcode-->
+            <pre><code class="language-csharp">var cat = doc.ObjectSoup.Catalog;<br>var form = cat.Resolve(Atom.GetItem(cat.Atom, &quot;AcroForm&quot;));<br>Atom.RemoveItem(form, &quot;NeedAppearances&quot;);<br><!--notcode-->
 </code></pre>
 <p>&nbsp;</p>
             <TABLE class=backgrounder cellPadding=10 border=0>

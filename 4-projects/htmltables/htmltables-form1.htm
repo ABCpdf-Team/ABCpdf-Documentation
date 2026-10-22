@@ -1,0 +1,204 @@
+<html>
+<head>
+<title>HtmlTables\Form1.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">HtmlTables\Form1.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.IO;
+using WebSupergoo.ABCpdf14;
+
+namespace HtmlTables {
+&nbsp;&nbsp;&nbsp;&nbsp;public partial class Form1 : Form {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public Form1() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private string basePath;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private void Form1_Load(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;basePath = Directory.GetParent(theBase).Parent.Parent.FullName + "\\";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private void button1_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HtmlToPdf(basePath + @"TestFiles\Nested.htm", basePath + @"TestFiles\Nested.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button2_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HtmlToPdf(basePath + @"TestFiles\Paging.htm", basePath + @"TestFiles\Paging.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button3_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HtmlToPdf(basePath + @"TestFiles\Invoice.htm", basePath + @"TestFiles\Invoice.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button4_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] files = Directory.GetFiles(basePath, "*.htm");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string file in files) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HtmlToPdf(file, file.Replace(".htm", ".pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Convert an HTML file into a PDF one.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inPath"&gt;The source HTML.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="outPath"&gt;The output PDF.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void HtmlToPdf(string inPath, string outPath) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!File.Exists(inPath))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Inset(100, 100);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int page = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HtmlDoc h = new HtmlDoc(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h.MaxImageSize = new Size((int)maxImageWidth.Value, (int)maxImageHeight.Value);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h.SetFile(inPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (!h.Drawn) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (page &gt; doc.PageNumber)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (addBackground.Checked) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string save = doc.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = "255 128 128";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FillRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = "0 0 0";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = save;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect xr = h.Draw();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (outline.Checked)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawContentOutlines(doc, h, xr);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (addFrame.Checked) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string save = doc.Color.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Width = 0.25;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = "0 255 255"; // cyan
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = save;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (deleteContent.Checked) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h.Delete();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (deleteShift.Checked) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h.Delete();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Move(0, -200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h.Draw();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (doc.PageCount &gt; 200)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt;= doc.PageCount; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(outPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Diagnostics.Process.Start(outPath);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Draw outlines round content just added to the PDF to
+&nbsp;&nbsp;&nbsp;&nbsp;/// illustrate use of the GetContentArea method.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="doc"&gt;The Doc into which content has been added&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="h"&gt;The HtmlDoc which was used to add the content&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void DrawContentOutlines(Doc doc, HtmlDoc html, XRect totalArea) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string saveRect = doc.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = "0 0 255"; // blue
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Width = 1.0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// frame individual items of content
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;XRect&gt; rects = html.GetContentArea(true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (XRect xr in rects) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = xr.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// frame overall content area
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rects = html.GetContentArea(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Width = 0.75;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = "0 255 0"; // green
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = DeriveTotalContentArea(rects).String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// frame overall table area
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Width = 0.50;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = "255 0 0"; // red
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = totalArea.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = saveRect;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Convert a set of XRect areas into one union of the areas.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rects"&gt;The list of XRects to combine.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The union of the list of XRects.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public XRect DeriveTotalContentArea(List&lt;XRect&gt; rects) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((rects == null) || (rects.Count == 0))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double l = Double.MaxValue, r = Double.MinValue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double t = Double.MinValue, b = Double.MaxValue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (XRect xr in rects) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l = Math.Min(l, xr.Left);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r = Math.Max(r, xr.Right);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t = Math.Max(t, xr.Top);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b = Math.Min(b, xr.Bottom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect xr2 = new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xr2.SetRect(l, b, r - l, t - b);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return xr2;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

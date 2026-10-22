@@ -47,6 +47,13 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A font dictionary tells a PDF viewer how to find, identify, and measure the glyphs used in a piece of text. Every font used in a PDF file must be represented by a font dictionary, and every font dictionary must be an indirect object.</p>
+<p>The Subtype entry in each font dictionary tells the viewer which font model applies. The supported models are Type1, MMType1, TrueType, Type3, Type0, CIDFontType0, and CIDFontType2. Each model has its own set of required and optional entries.</p>
+<p>Type1 and TrueType are the most common simple fonts. They address characters by a single byte code and map that code to a glyph through an encoding. Type0 is the composite font model, which uses multi-byte character codes and delegates glyph selection to one or more CIDFont descendants.</p>
+<p>Type3 is the only font type where the glyph shapes are defined directly in the PDF file as content streams rather than in an external font program. All other types reference an embedded or system font.</p>
+<p>FontElement is the base class. Always use the subclass that matches the Subtype value in the dictionary, since each subclass exposes the entries that belong to that font model.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

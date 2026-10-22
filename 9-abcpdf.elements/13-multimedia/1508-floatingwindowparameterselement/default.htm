@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=508">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 284, page 500.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 295, page 626.</a></p>
 </p>
+<!-- addition start -->
+<p>A floating window parameters dictionary specifies the size, position, and behaviour of a floating media playback window. A floating window is one that appears independently of the annotation rectangle and can be moved and resized by the user.</p>
+<p>The D entry holds the initial size of the floating window as a two-element array of width and height in pixels. The RT entry controls how the window is positioned: centred in a screen area, near the annotation, or at a position given by the P entry.</p>
+<p>The O entry specifies the window offscreen behaviour: whether the window may be partially or fully offscreen or must be kept fully visible. The T entry controls whether the window has a title bar. The UC entry, when true, allows the user to close the floating window.</p>
+<p>The R entry specifies whether the window should be resizable by the user. The TT entry holds the title bar text as a PDF text string array with optional language entries.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

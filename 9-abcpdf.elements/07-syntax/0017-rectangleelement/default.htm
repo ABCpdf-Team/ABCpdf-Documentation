@@ -41,6 +41,11 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=96">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 88.</a></p>
 </p>
+<!-- addition start -->
+<p>A rectangle in PDF is a four-element array specifying two corner points: [llx, lly, urx, ury]. The values represent the x and y coordinates of the lower-left and upper-right corners in the applicable coordinate system.</p>
+<p>Rectangles are used to define bounding boxes, crop boxes, media boxes, annotation rectangles, and clip regions. The coordinate values are in user space unless a specific matrix transforms them.</p>
+<p>A conforming reader normalises a rectangle so that llx is less than urx and lly is less than ury. If a writer provides the corners in a different order, the reader swaps the values as needed.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

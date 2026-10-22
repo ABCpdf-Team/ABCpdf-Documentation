@@ -64,7 +64,7 @@
               <li>MSHtml (part of the Windows OS)</li>
               </ul>
             <p>Each HTML engine supports a different subset of HtmlOptions methods and properties.
-            You can use one of the filter objects: <a href="2-forchrome.htm">ForChrome</a>, <a href="2-forgecko.htm">ForGecko</a>, <a href="2-formshtml.htm">ForWebKit</a> and <a href="2-formshtml.htm">ForMSHtml</a>            to filter the supported options in your IDE.</p>
+            You can use one of the filter objects: <a href="2-forchrome.htm">ForChrome</a>, <a href="2-forgecko.htm">ForGecko</a>, <a href="2-forwebkit.htm">ForWebKit</a> and <a href="2-formshtml.htm">ForMSHtml</a>            to filter the supported options in your IDE.</p>
             <p>&nbsp;</p>
             <p><strong><b>Characteristics of the ABCChrome Engines:</b> </strong></p>
             <ul>
@@ -98,7 +98,7 @@
                   <li>It does not support Flash movies.</li>
                 </ul>
             <p>The default ABCChrome representation involves an overhead of about 120 bytes per page. In most situations this is irrelevant but for documents with large numbers of pages, you may wish to eliminate it by calling Page.StampFormXObjects(true) for each page in the document. </p>
-            <p>Similarly, while font embedding is generally a good idea,  it does slightly increase the size of the output.  A typical overhead is in the region of 50KB per document, so in most cases this is a tiny part of a much bigger whole. However if you are dealing with very small documents of only a few KB in size, it can become significant. If this is the case you can use the <a href="../../../8-abcpdf.operations/B-reducesizeoperation/default.htm">ReduceSizeOperation</a> or <a href="../../../4-examples/01-introduction.htm">FontUnembedment</a> project to remove fonts which have been embedded.</p>
+            <p>Similarly, while font embedding is generally a good idea,  it does slightly increase the size of the output.  A typical overhead is in the region of 50KB per document, so in most cases this is a tiny part of a much bigger whole. However if you are dealing with very small documents of only a few KB in size, it can become significant. If this is the case you can use the <a href="../../../8-abcpdf.operations/B-reducesizeoperation/default.htm">ReduceSizeOperation</a> or <a href="../../../4-projects/fontunembedment/default.htm">FontUnembedment</a> project to remove fonts which have been embedded.</p>
             <p>ABCpdf Version 11.0 shipped with ABCChrome 59. Version 11.2 ships with ABCChrome 65. Version 12.0 ships with ABCChrome 86. Version 13.0 ships with ABCChrome 117. Version 13.1 ships with ABCChrome 123. </p>
             <p>The core improvements in 65 relates to better handling of repeated headers and footers in tables using the thead and tfoot tags. The way that transparent images are displayed is much improved. There have been minor improvements in text kerning and layout - you should note that these can lead to subtly different line breaking. JavaScript redirects between local files (ie 'file://' protocol URLs) on your machine have been disabled for security reasons. </p>
             <p>ABCChrome 86 introduces a raft of security measures designed to make your development more secure. However this improvement did come at some cost in terms of speed.</p>
@@ -113,7 +113,7 @@
                   <li>It supports a wide range of the HTML5 and CSS3 standards.</li>
                   <li>It supports the majority of the SVG Full profile. SVG graphics 
                   embedded inside Web pages convert natively to PDF primitives. 
-                  Alternatively, you can specify the a SVG file's location 
+                  Alternatively, you can specify an SVG file's location 
                   in <a href="../../doc/1-methods/addimageurl.htm">Doc.AddImageUrl</a> or 
                   provide a string of SVG contents to <a
                     href="../../doc/1-methods/addimagehtml.htm">Doc.AddImageHtml</a> 
@@ -139,7 +139,7 @@
                   <li>The Gecko engine does not use Page caching. This means that 
                   your rendered PDF is never stored in a memory cache.</li>
                   <li>On the other hand, Web caching is used to store contents 
-                  downloaded over the Internet and is configurable using with 
+                  downloaded over the Internet and is configurable using 
                   the <a href="usenocache.htm">UseNoCache</a> property.
                   <li>JavaScript in <a href="onloadscript.htm">OnLoadScript</a> 
                   cannot directly modify the document object. For example, <span
@@ -153,6 +153,8 @@
                   use JavaScript to customize the page without allowing JavaScript 
                   execution in the HTML.</li>
                 </ul>
+                <p>The page break styles in the Gecko engine are not always applied as intuitively as they are in MSHTML. The root of this is the CSS specification which says that break styles must be applicable to block-level elements within the &quot;normal flow of the root element&quot;. It allows for these styles to be applied to other elements but does not mandate it. </p>
+                <p>The upshot of this, within the Gecko engine, is that page break styles cannot be applied within tables, to elements such as table rows. If you are unsure about whether something is likely to work just try Print Preview from within Firefox 38.0 as a simple sanity check.</p>
                 <p>Gecko configuration...</p>
                 <p>The ABCGecko engine contains a number of preferences that can be
                   configured. There are a set of .js files in the &quot;XULRunner??_?\defaults\pref&quot;

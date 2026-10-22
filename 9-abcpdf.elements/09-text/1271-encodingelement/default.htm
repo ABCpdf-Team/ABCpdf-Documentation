@@ -39,6 +39,12 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>An encoding dictionary customises the mapping from single-byte character codes to glyph names for a simple font. It modifies or replaces the font's built-in encoding rather than supplying a complete new mapping from scratch.</p>
+<p>BaseEncoding names the standard encoding to use as the starting point. If this entry is absent, the viewer starts from the font's own built-in encoding. The three named encodings available as base values are MacRomanEncoding, MacExpertEncoding, and WinAnsiEncoding.</p>
+<p>The Differences array lists the changes to apply on top of the base encoding. It contains a mix of integers and names: each integer sets a new starting character code, and the names that follow it assign glyph names to consecutive codes from that position onward.</p>
+<p>An encoding dictionary is not required to cover all 256 possible codes. Only the positions that differ from the base need entries in the Differences array.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

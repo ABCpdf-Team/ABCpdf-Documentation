@@ -1,0 +1,279 @@
+<html>
+<head>
+<title>TableDetection.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">TableDetection.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2022 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Operations;
+using WebSupergoo.ABCpdf14.Elements;
+
+using Structure = WebSupergoo.ABCpdf14.Operations.Accessibility.Structure;
+using ParentTree = WebSupergoo.ABCpdf14.Operations.Accessibility.ParentTree;
+using KidArranger = WebSupergoo.ABCpdf14.Operations.Accessibility.KidArranger;
+
+
+namespace WebSupergoo.TableDetection {
+&nbsp;&nbsp;public class Tables {
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;Table&gt; _tables = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public bool FontSensitive { get; set; } = false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public IList&lt;Table&gt; Items { get { return _tables; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Add(Structure tags, List&lt;StructureElementElement&gt; elements) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tables = new List&lt;Table&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tables.Add(new Table(this));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, Rows&gt; pageRows = new Dictionary&lt;int, Rows&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StructureElementElement element in elements) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rows rows = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!pageRows.TryGetValue(element.GetPage(tags).ID, out rows)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rows = new Rows(this, tags);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageRows[element.GetPage(tags).ID] = rows;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rows.Add(element);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (KeyValuePair&lt;int, Rows&gt; pair in pageRows) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int page = tags.GetPageNumber(pair.Key);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rows rows = pair.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rows.SortTopToBottom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; rows.Items.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row row = rows.Items[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add(row);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void Add(Row row) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (row.Items.Count &gt; 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count = Math.Min(_tables.Count, 3); // try last few tables
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_tables[_tables.Count - 1 - i].TryAdd(row))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Table last = new Table(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tables.Add(last);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last.TryAdd(row);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class Table {
+&nbsp;&nbsp;&nbsp;&nbsp;private Tables _tables;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;Row&gt; _rows = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;XRect&gt; _columns = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Table() {}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Table(Tables tables) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tables = tables;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rows = new List&lt;Row&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_columns = new List&lt;XRect&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Clear() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rows.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_columns.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public IList&lt;Row&gt; Items { get { return _rows; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public Page Page { get { return Items.Count &gt; 0 ? Items[0].Page : null; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public bool TryAdd(Row row) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_rows.Count == 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rows.Add(row);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// assume that first row defines the column widths
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// if it doesn't then we would need to adjust the bounding
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// boxes as we saw items or indeed perhaps even add new columns
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StructureElementElement element in row.Items)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_columns.Add(element.GetBBox());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;int&gt; blanks = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int i = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StructureElementElement element in row.Items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect bbox = element.GetBBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (i &gt;= _columns.Count) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// items left but no columns left to put them into
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j = i; j &lt; _columns.Count; j++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect col_bbox = _columns[j];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (bbox.Left &gt; col_bbox.Right) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// perhaps this column is blank, see if we fit under the next one
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (blanks == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blanks = new List&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blanks.Add(i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (bbox.Right &lt; col_bbox.Left)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// this matches
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (blanks != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (int index in blanks) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row.Items.Insert(index, null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rows.Add(row);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void UpdateColumns() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_columns == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_columns = new List&lt;XRect&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class Rows {
+&nbsp;&nbsp;&nbsp;&nbsp;private Tables _tables;
+&nbsp;&nbsp;&nbsp;&nbsp;private Structure _tags;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;Row&gt; _rows = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Rows() {}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Rows(Tables tables, Structure tags) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tables = tables;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tags = tags;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rows = new List&lt;Row&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rows.Add(new Row(_tables, _tags));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public IList&lt;Row&gt; Items { get { return _rows; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public Page Page { get { return Items.Count &gt; 0 ? Items[0].Page : null; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Add(StructureElementElement element) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Row last = _rows[_rows.Count - 1];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!last.TryAdd(element)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last = new Row(_tables, _tags);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rows.Add(last);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;last.TryAdd(element);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void SortTopToBottom() { // and left to right if top == bottom
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rows.Sort((i1, i2) =&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i1.BBox.Top != i2.BBox.Top ? i2.BBox.Top.CompareTo(i1.BBox.Top) : i1.BBox.Left.CompareTo(i2.BBox.Left)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;[DebuggerDisplay("\\{ BBox = {BBox} Page = {Page.ID} Text = {Text} \\}")]
+&nbsp;&nbsp;public class Row {
+&nbsp;&nbsp;&nbsp;&nbsp;private Tables _tables;
+&nbsp;&nbsp;&nbsp;&nbsp;private Structure _tags;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;StructureElementElement&gt; _items = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private XRect _bbox = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private Page _page = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private Dictionary&lt;string, string&gt; _style = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Row() { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Row(Tables tables, Structure tags) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tables = tables;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tags = tags;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_items = new List&lt;StructureElementElement&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public IList&lt;StructureElementElement&gt; Items { get { return _items; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public Page Page { get { return Items.Count &gt; 0 ? Items[0].GetPage(_tags) : null; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public XRect BBox { get { return _bbox; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public string Text { get { StringBuilder sb = new StringBuilder(); foreach (var item in _items) sb.Append(item.EntryActualText); return sb.ToString(); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public bool TryAdd(StructureElementElement element) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_items.Count == 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_items.Add(element);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_bbox = element.GetBBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_page = element.GetPage(_tags);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_style = element.GetStyle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// elements need to be on the same page
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_page.ID != element.GetPage(_tags).ID)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// elements in rows need to line up horizontally
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect bbox = element.GetBBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((bbox.Top &lt; _bbox.Bottom) || (bbox.Bottom &gt; _bbox.Top))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((_bbox.Top &lt; bbox.Bottom) || (_bbox.Bottom &gt; bbox.Top))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((_tables.FontSensitive) &amp;&amp; (!StylesCompatible(_style, element.GetStyle())))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_items.Add(element);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_bbox.Union(bbox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static bool StylesCompatible(Dictionary&lt;string, string&gt; style1, Dictionary&lt;string, string&gt; style2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((style1 == null) || (style2 == null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string family1 = null, family2 = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style1.TryGetValue("font-family", out family1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style2.TryGetValue("font-family", out family2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((family1 == null) || (family2 == null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return family1 == family2;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

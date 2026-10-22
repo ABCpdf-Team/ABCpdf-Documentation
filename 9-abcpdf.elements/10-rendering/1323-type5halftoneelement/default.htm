@@ -40,6 +40,12 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A type 5 halftone is a container that groups separate halftone dictionaries together, one for each colorant the output device uses. This makes it possible to assign different screen rulings, angles, or dot shapes to different ink channels within a single halftone object.</p>
+<p>The dictionary keys are colorant names. Each name maps to a complete halftone dictionary of any type other than type 5. When the viewer processes a given colorant, it looks up that colorant name in the type 5 dictionary and applies whichever sub-dictionary it finds.</p>
+<p>The Default entry holds the fallback screen. Any colorant that does not have its own named entry will use Default instead. This entry must be present and must not itself be a type 5 dictionary.</p>
+<p>Type 5 is the standard mechanism for avoiding moire in multi-ink printing. Offset printing separations are typically screened at different angles and type 5 is how those per-channel settings are recorded in a PDF file.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

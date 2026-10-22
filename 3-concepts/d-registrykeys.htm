@@ -42,18 +42,17 @@
 									Registry settings are held at:</p>
 								  <p style="margin-left:6ex">HKEY_LOCAL_MACHINE\SOFTWARE\WebSupergoo\ABCpdfNET\13</p>
 									<p>
-										Except those listed as "registry only", they can also be
+										Registry options (with the single exception of PrintHookLog) can also be
 										specified in app.config or web.config. Please see
 										<a href="../5-abcpdf/xsettings/1-methods/setconfigsection.htm">XSettings.SetConfigSection</a>
-										for the syntax.
-									</p>
-									<table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
+										for the syntax.									</p>
+								  <table class="wsgtable" border="5" bordercolor="#ffffff" cellpadding="3" cellspacing="0">
 <tbody>
 											<tr>
 												<td align="center"><b>Name</b></td>
 												<td align="center"><b>Type</b></td>
 												<td align="center"><b>Default</b></td>
-												<td align="center"><b>Overridable</b></td>
+												<td align="center"><b>Override</b></td>
 												<td align="left"><b>Description</b></td>
 											</tr>
 											<tr valign="middle">
@@ -255,10 +254,10 @@
 											<tr valign="middle">
 												<td align="center">LogDirectory</td>
 												<td align="center">STRING</td>
-												<td align="center"><small><nobr>"%SystemRoot</nobr>%\Temp\"</small></td>
-												<td align="center">&nbsp;</td>
-												<td align="left">Unused in release versions.</td>
-											</tr>
+												<td align="center">Temp</td>
+											  <td align="center">&nbsp;</td>
+												<td align="left">Unused in release versions. The default temp directory is <small><nobr>"%SystemRoot</nobr>%\Temp\"</small>.</td>
+					</tr>
 											<tr valign="middle">
 												<td align="center">LogMaxFileSize</td>
 												<td align="center">DWORD</td>
@@ -532,7 +531,7 @@
 												<td align="center" height="23"><img src="../images/steel-blob-10.gif" align="middle" height="10" width="10"></td>
 												<td align="left" height="23">
 													<p>
-														When decompressing data, ABCpdf occaisionally encounters decompression errors.  If a quantity of data is decompressed before the error
+														When decompressing data, ABCpdf occasionally encounters decompression errors.  If a quantity of data is decompressed before the error
 														occurs, then this value is a tolerance for how much compressed data is left over after the error.													</p>												</td>
 											</tr>
 											<tr valign="middle">
@@ -567,7 +566,7 @@
 												<td align="center"><b>Name</b></td>
 												<td align="center"><b>Type</b></td>
 												<td align="center"><b>Default</b></td>
-												<td align="center"><b>Overridable</b></td>
+												<td align="center"><b>Override</b></td>
 												<td align="left"><b>Description</b></td>
 											</tr>
 											<tr valign="middle">
@@ -670,7 +669,7 @@
 												<td align="center"><b>Name</b></td>
 												<td align="center"><b>Type</b></td>
 												<td align="center"><b>Default</b></td>
-												<td align="center"><b>Overridable</b></td>
+												<td align="center"><b>Override</b></td>
 												<td align="left"><b>Description</b></td>
 											</tr>
 											<tr valign="middle">
@@ -1066,12 +1065,12 @@
 															versions of ABCpdf and has the same meaning as
 															FlashPreviewWaitTime for SWF vector import.														</u>													</p>
 													<p>
-														When the movie is intialized, you can specify a time (in
+														When the movie is initialized, you can specify a time (in
 														milliseconds) at which the movie will be started.													</p>
 													<p>
 														Note that many movies contain script which can alter the
 														way that the movie is played. For example, a script might
-														reset the the current frame to the start after five seconds of
+														reset the current frame to the start after five seconds of
 														content have been played. So the content you get by setting
 														the preview time to ten seconds may be very different to the
 														content a user will see after watching the movie for ten
@@ -1098,7 +1097,7 @@
 													<p>
 														Note that many movies contain script which can alter the
 														way that the movie is played. For example, a movie might reset
-														the the current frame to the start after five seconds of
+														the current frame to the start after five seconds of
 														content have been played. So the content you get by setting
 														the preview time to ten seconds may be very different to the
 														content a user will see after watching the movie for ten
@@ -1511,7 +1510,7 @@
 												<td align="center"><b>Name</b></td>
 												<td align="center"><b>Type</b></td>
 												<td align="center"><b>Default</b></td>
-												<td align="center"><b>Overridable</b></td>
+												<td align="center"><b>Override</b></td>
 												<td align="left"><b>Description</b></td>
 											</tr>
 											<tr valign="middle">
@@ -1741,7 +1740,7 @@
 												<td align="center" height="23">&nbsp;</td>
 												<td align="left" height="23">
 													<p>
-														When rendering stroked curves, the curve is broken into a series of line segments.  The flatness value is the default value for this tesselation,
+														When rendering stroked curves, the curve is broken into a series of line segments.  The flatness value is the default value for this tessellation,
 														default is '1' which means that when the curve has deviated by 1 pixel, it is broken into a line segment.  Note that even though its registry representation is
 														type 'STRING', it will be converted into a DOUBLE numerical value.													</p>												</td>
 											</tr>
@@ -1782,7 +1781,7 @@
 												<td align="center"><b>Name</b></td>
 												<td align="center"><b>Type</b></td>
 												<td align="center"><b>Default</b></td>
-												<td align="center"><b>Overridable</b></td>
+												<td align="center"><b>Override</b></td>
 												<td align="left"><b>Description</b></td>
 											</tr>
 											<tr valign="middle">
@@ -1793,7 +1792,7 @@
 												<td align="left" height="23">
 													<p>
 														This hint flag controls ABCpdf policy regarding the
-														use of <a target="_blank" href="http://wikipedia.org/wiki/JPEG_XR" target="_blank">Windows Media Photo (WMP/JPEG XR)</a> images in
+														use of <a target="_blank" href="http://wikipedia.org/wiki/JPEG_XR">Windows Media Photo (WMP/JPEG XR)</a> images in
 														converted XPS documents. If this flag is set, ABCpdf would
 														prefer to use WMP over PNG in some situations.													</p>
 													<p>
@@ -1815,15 +1814,15 @@
 												<td align="center"><b>Name</b></td>
 												<td align="center"><b>Type</b></td>
 												<td align="center"><b>Default</b></td>
-												<td align="center"><b>Overridable</b></td>
+												<td align="center"><b>Override</b></td>
 												<td align="left"><b>Description</b></td>
 											</tr>
 											<tr valign="middle">
 												<td align="center" height="23">PrintHookLog</td>
 												<td align="center" height="23">DWORD or STRING</td>
 												<td align="center" height="23">0</td>
-												<td align="center" height="23"><small>registry only</small></td>
-												<td align="left" height="23">
+												<td align="center" height="23">&nbsp;</td>
+										  <td align="left" height="23">
 													<p>
 														Set this value to 1 to enable the logging of the PrintHook
 														library using <nobr>%SystemRoot</nobr>%\Temp or set it to a
@@ -1838,7 +1837,8 @@
 													<p>
 														On 64-bit machines, you will need to set this value in the
 														32-bit registry section (Wow6432Node) as well for intercepting
-														32-bit processes.													</p>												</td>
+												  32-bit processes.													</p>
+											  <p>This value is registry only - it cannot be set in the config file.</p></td>
 											</tr>
 											<tr valign="middle">
 												<td align="center" height="23">PrintHookShow</td>
@@ -1866,7 +1866,7 @@
 												<td align="center"><b>Name</b></td>
 												<td align="center"><b>Type</b></td>
 												<td align="center"><b>Default</b></td>
-												<td align="center"><b>Overridable</b></td>
+												<td align="center"><b>Override</b></td>
 												<td align="left"><b>Description</b></td>
 											</tr>
 											<tr valign="middle">
@@ -1898,7 +1898,7 @@
 												<td align="center"><b>Name</b></td>
 												<td align="center"><b>Type</b></td>
 												<td align="center"><b>Default</b></td>
-												<td align="center"><b>Overridable</b></td>
+												<td align="center"><b>Override</b></td>
 												<td align="left"><b>Description</b></td>
 											</tr>
 											<tr valign="middle">
@@ -1915,7 +1915,7 @@
 												<td align="center"><b>Name</b></td>
 												<td align="center"><b>Type</b></td>
 												<td align="center"><b>Default</b></td>
-												<td align="center"><b>Overridable</b></td>
+												<td align="center"><b>Override</b></td>
 												<td align="left"><b>Description</b></td>
 											</tr>
 											<tr valign="middle">

@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=569">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 324, page 561.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 357, page 727.</a></p>
 </p>
+<!-- addition start -->
+<p>A marked content reference links a structure element to a region of marked content in a content stream. It identifies the specific marked content sequence on a specific page or stream that constitutes part of the structure element content.</p>
+<p>The Pg entry references the page containing the marked content. When absent, the page is inherited from the nearest ancestor structure element that specifies one.</p>
+<p>The Stm entry references the content stream when the marked content is in a stream other than the page content stream, such as a form XObject.</p>
+<p>The MCID entry gives the marked content identifier integer matching the MCID property in the corresponding content stream operator. This integer links the reference to the exact region of content.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

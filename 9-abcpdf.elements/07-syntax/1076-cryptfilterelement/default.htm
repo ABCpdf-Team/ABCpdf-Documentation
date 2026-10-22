@@ -32,6 +32,12 @@
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 25, page 89.</a></p>
 <p><a target="_blank" href="http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=22">Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.22, page 22.</a></p>
 </p>
+<!-- addition start -->
+<p>A crypt filter dictionary defines the encryption algorithm and key length applied to a specific class of objects. Crypt filters are referenced by name from the encryption dictionary's CF entry.</p>
+<p>The CFM entry names the encryption method: None means no encryption, V2 uses RC4, AESV2 uses 128-bit AES, and AESV3 uses 256-bit AES. The method applies to streams and strings that reference this filter.</p>
+<p>The AuthEvent entry specifies when the reader should prompt for a password to authenticate against this filter: DocOpen means at document open time, and EFOpen means when an embedded file using this filter is accessed.</p>
+<p>The Length entry gives the key length in bytes for this specific filter. Different filters in the same document may use different key lengths.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

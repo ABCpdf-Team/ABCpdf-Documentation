@@ -40,6 +40,13 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A viewer preferences dictionary allows a PDF file to specify how a conforming viewer should present it when first opened. The settings cover window layout, user-interface chrome visibility, printing behaviour, and page navigation direction.</p>
+<p>All entries are optional; any viewer is free to ignore entries it does not support. The dictionary supplements the open-action and page-mode settings in the document catalog, which control a different layer of display behaviour.</p>
+<p>The print-related entries - duplex mode, page range, number of copies, and tray selection - are advisory. A viewer that does not expose direct printing access may ignore them, and a user can override them at print time.</p>
+<p>The Enforce entry limits which viewer-preference entries a viewer must honour regardless of user override. In current practice only PrintScaling can be enforced, and only by viewers that explicitly support the enforcement mechanism.</p>
+<p>The area and clip entries - ViewArea, ViewClip, PrintArea, and PrintClip - specify which bounding box defines the visible and printable region. Omitting them is equivalent to specifying CropBox, the most common choice.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

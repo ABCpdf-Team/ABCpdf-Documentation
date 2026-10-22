@@ -110,7 +110,7 @@
             <TABLE class=backgrounder cellPadding=10 border=0>
               <TBODY>
                 <TR>
-                  <TD><P><B>Ink Annotations. </B>An ink annnotation represents something one might draw with a pen - a signature - a doodle - a scribble.</P>
+                  <TD><P><B>Ink Annotations. </B>An ink annotation represents something one might draw with a pen - a signature - a doodle - a scribble.</P>
                     <P>In PDF 1.7 points in the line are represented using an InkList entry. However it is left as 'implementation dependent' as to whether points in the InkList should be joined using straight lines or curves. ABCpdf uses straight lines.</P>
                       <P>In PDF 2.0 a new Path entry was introduced which allowed you to specify straight lines and curves. This should have improved matters but in fact it has made them worse. The InkList is still there because it is a required entry but the specification does not make clear whether the Path should be used in preference to the InkList or as well as it. The InkList allows multiple discontinuous  lines but the Path allows only one so it is not clear what one should do in terms of a conflict. The specification states that the current graphics state should control path width and dash pattern but annotations do not have a graphics state. For these reasons ABCpdf does not currently use the Path entry.<BR>
                       </P>

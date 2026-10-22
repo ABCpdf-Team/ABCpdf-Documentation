@@ -34,6 +34,15 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A Type 1 pattern, also called a tiling pattern, repeats a PDF content stream at regular intervals to fill a target region. The content stream is painted into a pattern cell, and the cell is then tiled across the area to be filled or stroked.</p>
+<p>The pattern cell is defined by its bounding box (BBox). The cell is painted in pattern space, which is mapped to user space by the pattern's matrix.</p>
+<p>XStep and YStep define the horizontal and vertical spacing between pattern cell origins. These values may differ from the BBox dimensions, creating gaps or allowing content outside the BBox to be clipped.</p>
+<p>The PaintType entry controls whether the pattern defines its own colors or inherits the current color at paint time. PaintType 1 is a colored pattern; PaintType 2 is uncolored and requires a color to be specified separately.</p>
+<p>The TilingType entry controls how the pattern cell is scaled and aligned relative to device pixels. The three options offer trade-offs between visual consistency and exact spacing.</p>
+<p>The Resources entry holds any resources needed by the pattern content stream, such as fonts, images, or other patterns. These resources are local to the pattern and may differ from the page's resource dictionary.</p>
+<p>The Matrix entry maps pattern space to the default user space of the page or form in which the pattern is used. Changing the matrix allows the pattern to be rotated, scaled, or sheared without altering its content stream.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

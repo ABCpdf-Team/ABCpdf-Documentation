@@ -31,6 +31,11 @@
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 48, page 140.</a></p>
 <p><a target="_blank" href="http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=24">Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.25a, page 24.</a></p>
 </p>
+<!-- addition start -->
+<p>The Extensions dictionary in the document catalog lists all developer extensions the document uses. Each entry maps a developer prefix name to a developer extensions dictionary describing one extension.</p>
+<p>The ADBE entry is reserved for Adobe extensions to the PDF specification. These extensions were commonly used in PDF 1.7 documents to introduce features that were later standardised in PDF 2.0.</p>
+<p>A document that uses developer extensions must include the Extensions dictionary so that conforming readers can identify which extensions are required and whether they can process the document fully.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

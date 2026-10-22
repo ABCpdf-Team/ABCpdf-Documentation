@@ -1,0 +1,1740 @@
+<html>
+<head>
+<title>OptionalContent.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">OptionalContent.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+using System.Runtime;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Xml;
+using System.Net;
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+using WebSupergoo.ABCpdf14.Operations;
+using WebSupergoo.ABCpdf14.Atoms;
+
+
+namespace OptionalContent {
+
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// This class represents the Optional Content Properties Dictionary in a PDF document.
+&nbsp;&nbsp;/// This is the top level container of all Optional Content Groups (OCGs)
+&nbsp;&nbsp;/// in a document. OCGs are referenced at the top level in a global dictionary and their
+&nbsp;&nbsp;/// visibility states are held in a global configuration dictionary. These OCGs may then
+&nbsp;&nbsp;/// be referenced by one or more pages in the document. 
+&nbsp;&nbsp;/// Here we refer to OCGs simply as Groups.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;class Properties {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a Properties object for the Doc.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="doc"&gt;The Doc on which to operate.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="create"&gt;Whether to create a new properties entry if one is not already present.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Properties object. This may be null if layers were not present in the document and the create parameter is false.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Properties FromDoc(Doc doc, bool create) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Catalog catalog = doc.ObjectSoup.Catalog;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom atom = catalog.Resolve(Atom.GetItem(catalog.Atom, "OCProperties"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((atom == null) &amp;&amp; (create)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = doc.AddObject("&lt;&lt; /OCGs [] /D &lt;&lt; /BaseState /ON &gt;&gt; &gt;&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = doc.ObjectSoup[id];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom.SetItem(catalog.Atom, "OCProperties", new RefAtom(io));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atom = io.Atom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (atom == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Properties(catalog, atom);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Catalog _catalog;
+&nbsp;&nbsp;&nbsp;&nbsp;private Atom _atom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Properties(Catalog catalog, Atom atom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_catalog = catalog;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_atom = atom;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Catalog from the Doc.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Catalog Catalog { get { return _catalog; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Get the Groups for the Doc.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;A list of the Groups.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;Group&gt; GetGroups() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Group&gt; list = new List&lt;Group&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = EntryOCGs;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (array != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom item in array) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = _catalog.ResolveObj(item);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group group = Group.FromIndirectObject(this, io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (group != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(group);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Get the Optional Content Groups (OCGs) for the Page.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="page"&gt;The page from which OCGs should be found.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;A list of the OCGs.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;Group&gt; GetGroups(Page page) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var ocs = new HashSet&lt;IndirectObject&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var props = page.GetResourcesByType("Properties", true, true, true, true, null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var atom in props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject oc = page.ResolveObj(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oc != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ocs.Add(oc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var io in GetOptionalObjects(page))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ocs.Add(GetOptionalObjectOC(io));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var list = new List&lt;Group&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var oc in ocs)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddGroups(oc, list);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Adds any Optional Content Groups (OCGs) referenced by an OCG or OCG Membership Dictionary.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="io"&gt;The OCG or OCGMD&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="groups"&gt;The list to which the items should be added.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddGroups(IndirectObject io, List&lt;Group&gt; groups) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group ocg = Group.FromIndirectObject(this, io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ocg != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groups.Add(ocg);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MembershipGroup mg = MembershipGroup.FromIndirectObject(this, io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mg != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var ocg2 in mg.PolicyGroups)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groups.Add(ocg2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Find all the document level groups that are not used on pages.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;A list of groups.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public HashSet&lt;Group&gt; RemoveUnusedGroups() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;Group&gt; groups = GetUnusedGroups();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (groups.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;int&gt; ids = new HashSet&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Group g in groups)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ids.Add(g.IndirectObject.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RemoveRefsByID(_atom, ids, new HashSet&lt;int&gt;(), 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RemoveAppSettings();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return groups;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private HashSet&lt;Group&gt; GetUnusedGroups() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;Group&gt; all = new HashSet&lt;Group&gt;(GetGroups());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Page page in Catalog.Pages.GetPageArrayAll()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Group g in GetGroups(page))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all.Remove(g);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// We add these OC entries in because our page scanning only references objects which are used.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// So if there's an image which isn't used on the page but is referenced in the resources we need to
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// see if it has an OC entry. Yes it's redundant and could perhaps be removed from the resources but then
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// it might be there for a reason. Difficult to second guess what might be intended.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Group&gt; ocs = new List&lt;Group&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var io in GetOptionalObjects(page))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddGroups(GetOptionalObjectOC(io), ocs);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Group g in ocs)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all.Remove(g);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return all;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal List&lt;IndirectObject&gt; GetOptionalObjects(Page page) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;IndirectObject&gt; ocs = new List&lt;IndirectObject&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom atom in page.GetResourcesByType("XObject", true, true, true, true, null)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject oc = GetOptionalObjectOC(page.ResolveObj(atom));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oc == null) continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = page.ResolveObj(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io == null) continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ocs.Add(io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Annotation annot in page.GetAnnotations()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject oc = GetOptionalObjectOC(annot);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oc == null) continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ocs.Add(annot);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ocs;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal IndirectObject GetOptionalObjectOC(IndirectObject io) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return io != null ? io.ResolveObj(MakeIndirect(io, io.Atom, "OC")) : null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void RemoveRefsByID(Atom atom, HashSet&lt;int&gt; ids, HashSet&lt;int&gt; seen, int depth) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (depth &gt; 100)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Exception("Atom nesting depth unfeasibly large.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom resAtom = _catalog.Resolve(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = resAtom as ArrayAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (array != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n = array.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = n - 1; i &gt;= 0; i--) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom item = array[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = _catalog.ResolveObj(item);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ids.Contains(io.ID)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.RemoveAt(i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (seen.Contains(io.ID))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seen.Add(io.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom resItem = _catalog.Resolve(item);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (resItem is ArrayAtom || resItem is DictAtom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RemoveRefsByID(resItem, ids, seen, depth + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DictAtom dict = resAtom as DictAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dict != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string key in dict.GetKeys()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom item = dict[key];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = _catalog.ResolveObj(item);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ids.Contains(io.ID)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dict.Remove(key);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (seen.Contains(io.ID))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;seen.Add(io.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom resItem = _catalog.Resolve(item);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (resItem is ArrayAtom || resItem is DictAtom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RemoveRefsByID(resItem, ids, seen, depth + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void RemoveAppSettings() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Adobe Illustrator holds separate layer info in the PieceInfo structure
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// and indeed other applications may also hold layer information here. 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// It isn't ideal removing the entire thing because it will remove all
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// settings but then there isn't a public spec for AI so it's difficult
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// to know what else one would do which would be better.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom.RemoveItem(Catalog.Atom, "PieceInfo");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Page page in Catalog.Pages.GetPageArrayAll()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom.RemoveItem(page.Atom, "PieceInfo");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom atom in page.GetResourcesByType("XObject", true, true, true, true, null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom.RemoveItem(Catalog.Resolve(atom), "PieceInfo");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Sort Groups for presentation in a UI. Remove any Groups which should not appear in UI. 
+&nbsp;&nbsp;&nbsp;&nbsp;/// Construct a list of indents for those Groups that should be presented nested.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="groups"&gt;The OCGs to order.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="indents"&gt;A list of indents to indicate nestedness.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SortGroupsForPresentation(List&lt;Group&gt; groups, List&lt;int&gt; indents) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, Group&gt; lookup = new Dictionary&lt;int, Group&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Group group in groups)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lookup[group.IndirectObject.ID] = group;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groups.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;indents.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Configuration config = GetDefault();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom order = config != null ? config.EntryOrder : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (order == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SortGroupsForPresentation(order, lookup, groups, indents, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void SortGroupsForPresentation(ArrayAtom order, Dictionary&lt;int, Group&gt; lookup, List&lt;Group&gt; groups, List&lt;int&gt; indents, int depth) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (depth &gt; 100)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Exception("OCG order nesting depth unfeasibly large.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom atom in order) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom resAtom = _catalog.Resolve(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (resAtom is ArrayAtom) { // OCG group
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SortGroupsForPresentation((ArrayAtom)resAtom, lookup, groups, indents, depth + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (resAtom is DictAtom) { // OCG
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefAtom refAtom = _catalog.ResolveRef(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (refAtom != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group group = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lookup.TryGetValue(refAtom.ID, out group);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (group != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groups.Add(group);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;indents.Add(depth);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Add a Group to the Doc.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="name"&gt;The name for the Group&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="parent"&gt;The parent for the Group to indicate nested visibility. This may be null if nested visibility is not required.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The newly added Group.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Group AddGroup(string name, Group parent) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group ocg = Group.NewGroup(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ocg.EntryName = new StringAtom(name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (true) { // we need to list the ocg in the global database
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = EntryOCGs;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (array == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array = new ArrayAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EntryOCGs = array;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.Add(new RefAtom(ocg.IndirectObject));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (true) { // we also need to list it in the visible entries
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Configuration config = GetDefault();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = config.EntryOrder;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (array == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array = new ArrayAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;config.EntryOrder = array;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (parent != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tuple&lt;ArrayAtom, int&gt; entry = FindArrayEntry(parent.IndirectObject, array, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (entry == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentException("Parent OCG not present in configuration dictionary.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array = entry.Item1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int index = entry.Item2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom next = index &lt; array.Count - 1 ? _catalog.Resolve(array[index + 1]) as ArrayAtom : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (next == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next = new ArrayAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.Insert(index + 1, next);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array = next;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.Add(new RefAtom(ocg.IndirectObject));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ocg;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Add a Membership Group to the Doc.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The newly added Membership Group.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public MembershipGroup AddMembershipGroup() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return MembershipGroup.New(this);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Get the default Configuration to indicate which layers are visible or invisible.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Configuration.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Configuration GetDefault() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom defaultConfig = EntryD;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return defaultConfig != null ? Configuration.FromAtom(this, defaultConfig) : null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Get the alternate Configurations that may be used to indicate which layers are visible or invisible.
+&nbsp;&nbsp;&nbsp;&nbsp;/// Alternate configurations are indended for use under different circumstances - they represent alternate
+&nbsp;&nbsp;&nbsp;&nbsp;/// views of the pages.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;A list of Configurations.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;Configuration&gt; GetConfigs() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Configuration&gt; list = new List&lt;Configuration&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom configs = EntryConfigs;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (configs != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom item in configs) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Configuration occd = Configuration.FromAtom(this, item);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(occd);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Properties Dictionary OCG entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public ArrayAtom EntryOCGs {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _catalog.Resolve(Atom.GetItem(_atom, "OCGs")) as ArrayAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_atom, "OCGs", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Properties Dictionary D entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public DictAtom EntryD {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _catalog.Resolve(Atom.GetItem(_atom, "D")) as DictAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_atom, "D", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Properties Dictionary Configs entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public ArrayAtom EntryConfigs {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _catalog.Resolve(Atom.GetItem(_atom, "Configs")) as ArrayAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_atom, "Configs", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static Tuple&lt;ArrayAtom, int&gt; FindArrayEntry(IndirectObject io, ArrayAtom array, int depth) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (depth &gt; 100)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n = array.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; n; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom atom = array[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom subArray = io.Resolve(atom) as ArrayAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (subArray != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tuple&lt;ArrayAtom, int&gt; result = FindArrayEntry(io, subArray, depth + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (result != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return result;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefAtom refAtom = io.ResolveRef(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((refAtom != null) &amp;&amp; (refAtom.ID == io.ID))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Tuple&lt;ArrayAtom, int&gt;(array, i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static RefAtom MakeResourceIndirect(Page page, IndirectObject container, string resourceType, string resourceName, Atom resourceAtom, ref Atom cache) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefAtom refAtom = container.ResolveRef(resourceAtom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (refAtom == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (cache == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cache = GetResourceDict(page, container, resourceType, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject prop = new IndirectObject();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prop.Atom = resourceAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container.Doc.ObjectSoup.Add(prop);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;refAtom = (RefAtom)Atom.SetItem(cache, resourceName, new RefAtom(prop));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return refAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static RefAtom MakeIndirect(IndirectObject something, Atom container, string name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container = something.Resolve(container);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom value = Atom.GetItem(container, name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (value == null || value is RefAtom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (RefAtom)value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject prop = new IndirectObject();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prop.Atom = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;something.Doc.ObjectSoup.Add(prop);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefAtom refAtom = new RefAtom(prop);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom.SetItem(container, name, refAtom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return refAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static DictAtom GetResourceDict(Page page, IndirectObject container, string resourceType, bool create) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DictAtom dict = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom resAtom = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (container is FormXObject) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resAtom = container.Resolve(Atom.GetItem(container.Atom, "Resources"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (resAtom == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resAtom = Atom.SetItem(container.Atom, "Resources", new DictAtom());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resAtom = container.Resolve(Atom.GetItem(page.Atom, "Resources"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(resAtom  != null, "Page does not contain Resources.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dict = container.Resolve(Atom.GetItem(resAtom, resourceType)) as DictAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((dict == null) &amp;&amp; (create))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dict = (DictAtom)Atom.SetItem(resAtom, resourceType, new DictAtom());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return dict;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// This class represents an Optional Content Group (OCG) in a PDF document.
+&nbsp;&nbsp;/// An OCG is a layer-like object that may be visible or invisible. Items on the page
+&nbsp;&nbsp;/// may belong to one or more than one OCG. Only if all OCGs that they belong to are visible
+&nbsp;&nbsp;/// are the items visible. OCGs are held at the Doc level in a global dictionary
+&nbsp;&nbsp;/// and then referenced at a Page level.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;class Group : IEquatable&lt;Group&gt; {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a new Group for the document.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="oc"&gt;The Properties object for the Doc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The new Group.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Group NewGroup(Properties oc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = IndirectObject.FromString("&lt;&lt; /Type /OCG /Name () &gt;&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oc.Catalog.Doc.ObjectSoup.Add(io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return FromIndirectObject(oc, io);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a list of Groups from a list of atoms that reference Optional Content Groups (OCGs) already existing in the Doc.
+&nbsp;&nbsp;&nbsp;&nbsp;/// Only those atoms that reference OCGs will be included in the list. Other atoms will be ignored.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="oc"&gt;The Properties object for the Doc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="atoms"&gt;The list of atoms.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;A list of Groups.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static List&lt;Group&gt; FromAtoms(Properties oc, IEnumerable&lt;Atom&gt; atoms) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Group&gt; list = new List&lt;Group&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom atom in atoms) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = oc.Catalog.ResolveObj(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group ocg = Group.FromIndirectObject(oc, io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ocg != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(ocg);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a Group from an IndirectObject that already exists in the Doc.
+&nbsp;&nbsp;&nbsp;&nbsp;/// If the IndirectObject is not an Optional Content Group then null will be returned.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="oc"&gt;The Properties object for the Doc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="io"&gt;The IndirectObject.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Group.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Group FromIndirectObject(Properties oc, IndirectObject io) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group ocg = new Group(oc, io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ocg.AllOk() ? ocg : null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Properties _oc;
+&nbsp;&nbsp;&nbsp;&nbsp;private IndirectObject _io;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Group(Properties oc, IndirectObject io) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_oc = oc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_io = io;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override bool Equals(object obj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Equals(obj as Group);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public bool Equals(Group other) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return other != null &amp;&amp; _io.ID == other._io.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override int GetHashCode() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _io.ID.GetHashCode();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool AllOk() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// check type
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NameAtom type = _io.Resolve(Atom.GetItem(_io.Atom, "Type")) as NameAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((type == null) || (type.Text != "OCG"))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false; // malformed entry - corrupt PDF
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// The optional intent can be either a name or an array of names.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// To keep things simple we always use the array form.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom intent = _io.Resolve(Atom.GetItem(_io.Atom, "Intent"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (intent is NameAtom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = new ArrayAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.Add(intent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom.SetItem(_io.Atom, "Intent", array);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intent = array;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The IndirectObject representing the Group.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public IndirectObject IndirectObject {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _io; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Indicates whether the Group is visible or not.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool Visible {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _oc.GetDefault().GetVisibility(true, this); }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _oc.GetDefault().SetVisibility(value, this); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Adds the Group to a page.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="page"&gt;&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public string AddToPage(Page page) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return page.AddResource(_io, "Properties", "OC" + _io.ID.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Group Dictionary Name entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public StringAtom EntryName {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _io.Resolve(Atom.GetItem(_io.Atom, "Name")) as StringAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_io.Atom, "Name", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Group Dictionary Intent entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public ArrayAtom EntryIntent {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _io.Resolve(Atom.GetItem(_io.Atom, "Intent")) as ArrayAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_io.Atom, "Intent", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Group Dictionary Usage entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public DictAtom EntryUsage {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _io.Resolve(Atom.GetItem(_io.Atom, "Usage")) as DictAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_io.Atom, "Usage", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// This class represents an Optional Content Membership Dictionary (OCMD) in a PDF document.
+&nbsp;&nbsp;/// This is a bit of a mouthful and doesn't actually express what it is, which is a
+&nbsp;&nbsp;/// kind of metagroup. It expresses visibility dependent on the visibility of a 
+&nbsp;&nbsp;/// set of groups rather than directly being switched on and off by itself. OCMDs are not
+&nbsp;&nbsp;/// referenced at the document level - only at a page level. However of course the OCMD references
+&nbsp;&nbsp;/// OCGs which are themselves referenced at a document level.
+&nbsp;&nbsp;/// Membership Groups may express visibility either using a Policy or using a Visibility Expression.
+&nbsp;&nbsp;/// Policies are simpler to implement but limited in scope. Visibility Expressions are more complex
+&nbsp;&nbsp;/// but also more powerful.
+&nbsp;&nbsp;/// OCGs always have to be IndirectObjects since they are referenced from more than one place.
+&nbsp;&nbsp;/// OCMGs do not have to be IndirectObject - they can be simple Atoms - since they are only referenced from
+&nbsp;&nbsp;/// the Resources of the Page. However to make things simple we convert them to IndirectObjects when we
+&nbsp;&nbsp;/// find them.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;class MembershipGroup : IEquatable&lt;MembershipGroup&gt; {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// An enumeration representing the possibilities for a Policy based Membership Group.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum PolicyEnum { AllOn, AnyOn, AllOff, AnyOff };
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// An enumeration representing the possibilities for a Logic based Membership Group.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum LogicEnum { And, Or, Not };
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a new Membership Group.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="oc"&gt;The Properties object for the Doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Membership Group&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static MembershipGroup New(Properties oc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = IndirectObject.FromString("&lt;&lt; /Type /OCMD &gt;&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oc.Catalog.Doc.ObjectSoup.Add(io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return FromIndirectObject(oc, io);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a list of Membership Groups from a list of atoms that reference Optional Content Membership Groups (OCMGs) already existing in the Doc.
+&nbsp;&nbsp;&nbsp;&nbsp;/// Only those atoms that reference OCMGs will be included in the list. Other atoms will be ignored.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="oc"&gt;The Properties object for the Doc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="atoms"&gt;The list of atoms.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;A list of Membership Groups.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static List&lt;MembershipGroup&gt; FromAtoms(Properties oc, IEnumerable&lt;Atom&gt; atoms) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Here we assume that all atoms passed in are references to an OCMG IndirectObject.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// In our code this is always the case. However if you modify the code to take Atoms
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// read from another PDF then you need to tak account of the fact that OCMGs (unlike
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// OCGs) need not be IndirectObjects - they can be plain DictAtoms. If this is the case
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// you will need to use Properties.MakeResourceIndirect to convert these Atoms into
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// IndirectObjects.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;MembershipGroup&gt; list = new List&lt;MembershipGroup&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom atom in atoms) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = oc.Catalog.ResolveObj(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MembershipGroup ocmg = MembershipGroup.FromIndirectObject(oc, io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ocmg != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(ocmg);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a new Membership Group from an IndirectObject that already exists in the Doc.
+&nbsp;&nbsp;&nbsp;&nbsp;/// If the IndirectObject is not a Membership Group then null will be returned.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="oc"&gt;The Properties object for the Doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="io"&gt;The IndirectObject.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Group.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static MembershipGroup FromIndirectObject(Properties oc, IndirectObject io) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MembershipGroup ocm = new MembershipGroup(oc, io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ocm.AllOk() ? ocm : null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Properties _oc;
+&nbsp;&nbsp;&nbsp;&nbsp;private IndirectObject _io;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private MembershipGroup(Properties oc, IndirectObject io) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_oc = oc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_io = io;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override bool Equals(object obj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Equals(obj as MembershipGroup);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public bool Equals(MembershipGroup other) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return other != null &amp;&amp; _io.ID == other._io.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override int GetHashCode() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _io.ID.GetHashCode();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool AllOk() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// check type
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NameAtom type = _io.Resolve(Atom.GetItem(_io.Atom, "Type")) as NameAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((type == null) || (type.Text != "OCMD"))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false; // malformed entry - corrupt PDF
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// OCGs are always IndirectObjects because the OCProperties entry
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// in the document Catalog requires it to be so.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// The optional OCGs can be either a dict or an array of dicts.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// To keep things simple we always use the array form.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom ocgs = Atom.GetItem(_io.Atom, "OCGs");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_io.Resolve(ocgs) is DictAtom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = new ArrayAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.Add(ocgs);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom.SetItem(_io.Atom, "OCGs", array);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The IndirectObject representing the Membership Group.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public IndirectObject IndirectObject {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _io; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Indicates whether the Membership Group is visible or not.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool Visible {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return EntryVE != null ? EvaluateVisibility(EntryVE, 0) : EvaluateVisibility(Policy, PolicyGroups); } 
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool EvaluateVisibility(Atom ve, int depth) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (depth &gt; 100)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ve = _oc.Catalog.Resolve(ve);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ve is ArrayAtom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = (ArrayAtom)ve;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n = array.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string op = n &gt; 0 ? Atom.GetName(_oc.Catalog.Resolve(Atom.GetItem(array, 0))) : "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op == LogicEnum.And.ToString()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i = 1; i &lt; n; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = _oc.Catalog.ResolveObj(array[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!EvaluateVisibility(io))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!EvaluateVisibility(array[i], depth + 1))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (op == LogicEnum.Or.ToString()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i = 1; i &lt; n; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = _oc.Catalog.ResolveObj(array[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (EvaluateVisibility(io))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (EvaluateVisibility(array[i], depth + 1))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if ((op == LogicEnum.Not.ToString()) &amp;&amp; (n &gt; 1)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = _oc.Catalog.ResolveObj(array[1]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return !EvaluateVisibility(io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return !EvaluateVisibility(array[1], depth + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool EvaluateVisibility(PolicyEnum? policy, IEnumerable&lt;Group&gt; groups) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool visible = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (policy == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;policy = PolicyEnum.AnyOn;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (groups == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groups = new Group[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (policy == PolicyEnum.AnyOn) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visible = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Group group in groups) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (group.Visible) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visible = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (policy == PolicyEnum.AnyOff) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visible = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Group group in groups) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!group.Visible) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visible = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (policy == PolicyEnum.AllOn) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visible = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Group group in groups) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!group.Visible) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visible = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (policy == PolicyEnum.AllOff) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visible = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Group group in groups) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (group.Visible) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visible = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return visible;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool EvaluateVisibility(IndirectObject io) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group group = Group.FromIndirectObject(_oc, io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return group != null ? group.Visible : true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Policy for the Membership Group. Null indicates that there is no Policy.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public PolicyEnum? Policy {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { NameAtom a = EntryP; return a != null ? (PolicyEnum?)Enum.Parse(typeof(PolicyEnum), a.Text) : null; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { EntryP = value.HasValue ? new NameAtom(value.ToString()) : null; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Groups on which the Policy will operate.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public IEnumerable&lt;Group&gt; PolicyGroups {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = EntryOCGs;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return array != null ? Group.FromAtoms(_oc, EntryOCGs) : new List&lt;Group&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = new ArrayAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Group item in value)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.Add(new RefAtom(item.IndirectObject));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EntryOCGs = array;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a Visibility Expression showing how the visibility of a set of Groups should be combined.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="op"&gt;The logic operator used to combine the visibility.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="groups"&gt;The set of Groups on which to operate. Visible Groups are true and invisible ones are false.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;An ArrayAtom containing the Visibility Expression.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public ArrayAtom MakeVisibilityExpression(LogicEnum op, IEnumerable&lt;Group&gt; groups) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = new ArrayAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.Add(new NameAtom(op.ToString()));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var group in groups)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.Add(new RefAtom(group.IndirectObject));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return array;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a Visibility Expression showing how the visibility of a set of Visibility Expressions should be combined.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="op"&gt;The logic operator used to combine the visibility.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="atoms"&gt;The set of groups on which to operate.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;An ArrayAtom containing the Visibility Expression.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public ArrayAtom MakeVisibilityExpression(LogicEnum op, IEnumerable&lt;ArrayAtom&gt; atoms) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = new ArrayAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.Add(new NameAtom(op.ToString()));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var atom in atoms)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.Add(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return array;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// All the Groups on which the Membership Group depends.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public IEnumerable&lt;Atom&gt; GetGroupReferences() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Atom&gt; list = new List&lt;Atom&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetGroupReferences(EntryVE, list, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetGroupReferences(EntryOCGs, list, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private IEnumerable&lt;Atom&gt; GetGroupReferences(ArrayAtom array, List&lt;Atom&gt; list, int depth) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((array == null) || (depth &gt; 100))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom atom in array) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom item = _oc.Catalog.Resolve(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item is ArrayAtom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetGroupReferences((ArrayAtom)item, list, depth + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefAtom refAtom =_oc.Catalog.ResolveRef(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (refAtom != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(refAtom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Add the Membership Group to a Page.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="page"&gt;The Page to which this should be added.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The resource name used for this Membership Group.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public string AddToPage(Page page) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return page.AddResource(_io, "Properties", "OC" + _io.ID.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Membership Dictionary OCGs entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public ArrayAtom EntryOCGs { 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _io.Resolve(Atom.GetItem(_io.Atom, "OCGs")) as ArrayAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_io.Atom, "OCGs", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Membership Dictionary P entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public NameAtom EntryP {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _io.Resolve(Atom.GetItem(_io.Atom, "P")) as NameAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_io.Atom, "P", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Membership Dictionary VE entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public ArrayAtom EntryVE {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _io.Resolve(Atom.GetItem(_io.Atom, "VE")) as ArrayAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_io.Atom, "VE", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// This class represents an Optional Content Configuration Dictionary (OCCD) in a PDF document.
+&nbsp;&nbsp;/// An OCCD expresses the visibility of the Groups in the document and also how they should be
+&nbsp;&nbsp;/// presented in a User Interface (UI).
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;class Configuration {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a Configuration from an Optional Content Configuration Dictionary (OCCD) Atom already existing in the Doc.
+&nbsp;&nbsp;&nbsp;&nbsp;/// If the Atom is not an OCCD then null will be returned.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="oc"&gt;The Properties object for the Doc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="atom"&gt;The Atom.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Configuration.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Configuration FromAtom(Properties oc, Atom atom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((atom == null) || (oc == null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Configuration(oc, atom);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Properties _oc;
+&nbsp;&nbsp;&nbsp;&nbsp;private Atom _atom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Configuration(Properties oc, Atom atom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_oc = oc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_atom = atom;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Atom representing the Membership Group.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Atom Atom {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _atom; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private enum Visibility { On, Off, Unchanged };
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Evaluate the visibility of the Group.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="isDefault"&gt;Whether this is the default configuration.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="layer"&gt;The Group for which visibility should be evaluated.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Whether visible.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool GetVisibility(bool isDefault, Group layer) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Visibility visibility =  Visibility.On;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NameAtom baseState = isDefault ? null : EntryBaseState;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (baseState != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (baseState.Text) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "OFF": visibility = Visibility.Off; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "Unchanged": visibility = Visibility.Unchanged; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (visibility != Visibility.On) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = EntryON;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (array != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom item in array) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = _oc.Catalog.ResolveObj(item);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((io != null) &amp;&amp; (io.ID == layer.IndirectObject.ID)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visibility = Visibility.On;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (visibility != Visibility.Off) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = EntryOFF;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (array != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom item in array) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = _oc.Catalog.ResolveObj(item);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((io != null) &amp;&amp; (io.ID == layer.IndirectObject.ID)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;visibility = Visibility.Off;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return visibility != Visibility.Off;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Set the visibility of a Group.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="visible"&gt;Whether the Group should be visible.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="layer"&gt;The Group for which visibility should be evaluated.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetVisibility(bool visible, Group layer) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RemoveEntries(EntryOFF, layer.IndirectObject.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RemoveEntries(EntryON, layer.IndirectObject.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (visible) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (EntryON == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EntryON = new ArrayAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EntryON.Add(new RefAtom(layer.IndirectObject));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (EntryOFF == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EntryOFF = new ArrayAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EntryOFF.Add(new RefAtom(layer.IndirectObject));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//layer.IndirectObject.Atom = layer.IndirectObject.Atom.Clone();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void RemoveEntries(ArrayAtom array, int id) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n = array != null ? array.Count : 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; n; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject item = _oc.Catalog.ResolveObj(array[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((item != null) &amp;&amp; (item.ID == id)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.RemoveAt(i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i--;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n--;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Configuration Dictionary Name entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;public StringAtom EntryName {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _oc.Catalog.Resolve(Atom.GetItem(_atom, "Name")) as StringAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_atom, "Name", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Configuration Dictionary Creator entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;public StringAtom EntryCreator {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _oc.Catalog.Resolve(Atom.GetItem(_atom, "Creator")) as StringAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_atom, "Creator", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Configuration Dictionary BaseState entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;public NameAtom EntryBaseState {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _oc.Catalog.Resolve(Atom.GetItem(_atom, "BaseState")) as NameAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_atom, "BaseState", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Configuration Dictionary ON entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;public ArrayAtom EntryON {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _oc.Catalog.Resolve(Atom.GetItem(_atom, "ON")) as ArrayAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_atom, "ON", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Configuration Dictionary OFF entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;public ArrayAtom EntryOFF {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _oc.Catalog.Resolve(Atom.GetItem(_atom, "OFF")) as ArrayAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_atom, "OFF", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Optional Content Configuration Dictionary Order entry.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;public ArrayAtom EntryOrder {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _oc.Catalog.Resolve(Atom.GetItem(_atom, "Order")) as ArrayAtom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Atom.SetItem(_atom, "Order", value); }
+&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Class for evaluating which parts of a page are visible and which parts are members
+&nbsp;&nbsp;/// of which Optional Content Groups or Membership dictionaries. Includes facilities
+&nbsp;&nbsp;/// for redacting elements that are invisible.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;class Reader {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a Reader for a particular Page.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="oc"&gt;The Properties object for the Doc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="page"&gt;The page to operate on.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Reader FromPage(Properties oc, Page page) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reader content = new Reader(oc, page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return content.AllOk() ? content : null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DebuggerDisplay("\\{ Offset = {Offset} Length = {Length} Command = {Command} \\}")]
+&nbsp;&nbsp;&nbsp;&nbsp;private class Op : IComparable {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public Op(int offset, int length, string command, string textWidth) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Offset = offset;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Length = length;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Command = command;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextWidth = textWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public int CompareTo(Object obj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this.Offset - ((Op)obj).Offset;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public int Offset;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public int Length;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Command;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string TextWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Properties _oc;
+&nbsp;&nbsp;&nbsp;&nbsp;private Page _page;
+&nbsp;&nbsp;&nbsp;&nbsp;private Dictionary&lt;int, List&lt;Op&gt;&gt; _ops;
+&nbsp;&nbsp;&nbsp;&nbsp;private Dictionary&lt;int, Dictionary&lt;int, Atom[]&gt;&gt; _states; // first int is stream ID, second is position in stream
+&nbsp;&nbsp;&nbsp;&nbsp;private Dictionary&lt;int, IDictionary&lt;string, Atom&gt;&gt; _rezMap;
+&nbsp;&nbsp;&nbsp;&nbsp;private Dictionary&lt;int, List&lt;int&gt;&gt; _lookups; // fast lookup list
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Reader() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Reader(Properties oc, Page page) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_oc = oc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_page = page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_ops = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_states = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rezMap = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_lookups = null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool AllOk() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_page.DeInline(true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_page.Flatten(true, false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Theoretically a FormXObject could have different visibilty
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// at different times it is drawn. So you should really call 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// _page.StampFormXObjects(true) to separate them all out. However
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// this might have quite an impact on size and it seems unlikely
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// so we don't currently do this.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// This could be more efficiently done using the ContentStreamScanner class,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// but we would have to take care of OC properties in XObjects and Annotations ourselves.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ScanPage(_page.GetText(Page.TextType.SvgPlus2, true));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void ScanPage(string svg) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_ops = new Dictionary&lt;int, List&lt;Op&gt;&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_states = new Dictionary&lt;int, Dictionary&lt;int, Atom[]&gt;&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rezMap = new Dictionary&lt;int, IDictionary&lt;string, Atom&gt;&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_lookups = new Dictionary&lt;int, List&lt;int&gt;&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stack&lt;Atom&gt; names = new Stack&lt;Atom&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stack&lt;int&gt; depths = new Stack&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depths.Push(0);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (StringReader reader = new StringReader(svg)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (string item; (item = reader.ReadLine()) != null; ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item.StartsWith("&lt;", StringComparison.InvariantCultureIgnoreCase)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// get object ID
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string pdf_Op = GetAttribute(item, "pdf_Op");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string op = WebUtility.HtmlDecode(pdf_Op);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int streamID = Int32.Parse(GetAttribute(item, "pdf_StreamID"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int streamOffset = Int32.Parse(GetAttribute(item, "pdf_StreamOffset"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int streamLength = Int32.Parse(GetAttribute(item, "pdf_StreamLength"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string textWidth = GetAttribute(item, "pdf_w1000");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Op&gt; ops = GetOpsFromStreamID(streamID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// FormXObjects may be drawn multiple times on page. Don't need to keep
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// track of all the times this happens. Once is enough.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((ops.Count == 0) || (ops[ops.Count - 1].Offset &lt; streamOffset))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.Add(new Op(streamOffset, streamLength, op, textWidth));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool isBDC = (op.EndsWith("BDC"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool isBMC = (op.EndsWith("BMC"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool isEMC = (op.EndsWith("EMC"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (isBDC || isBMC || isEMC) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (isBDC) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = (ArrayAtom)Atom.FromString("[" + op + "]");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NameAtom type = array.Count &gt; 0 ? (NameAtom)array[0] : null; // this must be a NameAtom
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NameAtom name = array.Count &gt; 1 ? array[1] as NameAtom : null; // this may be NameAtom or DictAtom but if OC, NameAtom only
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((type != null) &amp;&amp; (name != null) &amp;&amp; (type.Text == "OC")) { // optional content
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depths.Push(0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IDictionary&lt;string, Atom&gt; map = GetResourceMapFromStreamID(streamID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;names.Push(map[name.Text]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, Atom[]&gt; state = GetStateFromStreamID(streamID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state.Add(streamOffset, names.Count &gt; 0 ? names.ToArray() : new Atom[0]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else { // some other kind of marked content
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depths.Push(depths.Pop() + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (isBMC) { // some other kind of marked content
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depths.Push(depths.Pop() + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (isEMC) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (depths.Peek() == 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;names.Pop(); // exception here indicates too many EMC without corresponding BDC
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, Atom[]&gt; state = GetStateFromStreamID(streamID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state.Add(streamOffset, names.Count &gt; 0 ? names.ToArray() : new Atom[0]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depths.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depths.Push(depths.Pop() - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Get all the Layers referenced on the current page.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;A list of Layers.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;Layer&gt; GetLayers() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;Atom&gt; set = new HashSet&lt;Atom&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (KeyValuePair&lt;int, Dictionary&lt;int, Atom[]&gt;&gt; state1 in _states) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (KeyValuePair&lt;int, Atom[]&gt; state2 in state1.Value) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom atom in state2.Value) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set.Add(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var io in _oc.GetOptionalObjects(_page))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set.Add(Atom.GetItem(io.Atom, "OC"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Layer&gt; list = new List&lt;Layer&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom atom in set) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = _oc.Catalog.ResolveObj(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group group = Group.FromIndirectObject(_oc, io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (group != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(new Layer(group, null));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MembershipGroup membershipGroup = MembershipGroup.FromIndirectObject(_oc, io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (membershipGroup != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(new Layer(membershipGroup, null));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Get the Groups active at a particular point in a particular content stream.
+&nbsp;&nbsp;&nbsp;&nbsp;/// You can use this to establish the visibility of a PDF operator at a particular
+&nbsp;&nbsp;&nbsp;&nbsp;/// point in a stream.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="streamID"&gt;The ID of the StreamObject.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="position"&gt;The offset in the stream.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;A list of Layers&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;Layer&gt; GetLayersFromStreamAndPosition(int streamID, int position) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Layer&gt; list = new List&lt;Layer&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom[] atoms = GetStateFromStreamAndPosition(streamID, position);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Group group in Group.FromAtoms(_oc, atoms))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(new Layer(group, null));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (MembershipGroup group in MembershipGroup.FromAtoms(_oc, atoms))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(new Layer(group, null));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Get the Groups active for an Image XObject, Form XObject or Annotation.
+&nbsp;&nbsp;&nbsp;&nbsp;/// You can use this to establish the visibility of particular object.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="io"&gt;The IndirectObject to check against.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;A list of Layers&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;Layer&gt; GetLayersFromObject(IndirectObject io) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Layer&gt; list = new List&lt;Layer&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io is FormXObject || io is PixMap) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var oc = _oc.GetOptionalObjectOC(io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oc != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group group = Group.FromIndirectObject(_oc, oc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (group != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(new Layer(group, null));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MembershipGroup membership = MembershipGroup.FromIndirectObject(_oc, oc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (group != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Add(new Layer(membership, null));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return list;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Delete all content associated with the specified Group. After this the Reader will
+&nbsp;&nbsp;&nbsp;&nbsp;/// no longer be valid and will need to be recreated if further operations are required.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="reader"&gt;The reader. This will be set to null on exit to ensure that an invalid reader is not used.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="layer"&gt;The Layer whos content should be deleted.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static public void Redact(ref Reader reader, Layer layer) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;Atom&gt; kept = reader.Redact(layer);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader.RemoveResources(kept);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader = null; // invalid
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private HashSet&lt;Atom&gt; Redact(Layer layer) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;Atom&gt; kept = new HashSet&lt;Atom&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (KeyValuePair&lt;int, Dictionary&lt;int, Atom[]&gt;&gt; pair in _states) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Op&gt; ops = _ops[pair.Key];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, Atom[]&gt; state = GetStateFromStreamID(pair.Key);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;int&gt; lookup = GetLookupFromStreamID(pair.Key);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n = lookup.Count, pos = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool keeping = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; n; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool match = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom[] ocs = state[lookup[i]]; // OCMG or OCMD
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom atom in ocs) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = _page.ResolveObj(atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io.ID == layer.IndirectObject.ID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;match = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!match)// keep track of the ones left
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Atom atom in ocs)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kept.Add(_oc.Catalog.Resolve(atom));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (match &amp;&amp; keeping) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos = lookup[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keeping = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (!match &amp;&amp; !keeping) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Redact(ops, pos, lookup[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keeping = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((!keeping) &amp;&amp; (ops.Count &gt; 0)) // flush
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Redact(ops, pos, ops[ops.Count - 1].Offset + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Op op in ops)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine(op.Command);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject so = (StreamObject)_page.Doc.ObjectSoup[pair.Key];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so.ClearData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so.SetText(sb.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so.CompressFlate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var io in _oc.GetOptionalObjects(_page)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject oc = _oc.GetOptionalObjectOC(io);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oc.ID == layer.IndirectObject.ID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io is Annotation) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom annots = _page.Resolve(Atom.GetItem(_page.Atom, "Annotations")) as ArrayAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = annots.Count - 1; i &gt;= 0; i--) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject a = _page.ResolveObj(Atom.GetItem(annots, i));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (a != null &amp;&amp; a.ID == io.ID)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;annots.RemoveAt(i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// If an XObject is invisible on the page, it is invisible
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// everywhere, so we can just clear it.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// As an alternative we could identify the 'Do' elements
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// during ScanPage and then remove those from the stream.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// However then we would need to ensure we also removed
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// the resource and that is a more complex operation.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (io is StreamObject) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((StreamObject)io).ClearData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom.RemoveItem(io.Atom, "Resources");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom.RemoveItem(io.Atom, "OC");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom.RemoveItem(io.Atom, "Metadata");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_states = null; // invalid
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_lookups = null; // invalid
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return kept;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void RemoveResources(HashSet&lt;Atom&gt; kept) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (KeyValuePair&lt;int, IDictionary&lt;string, Atom&gt;&gt; pair1 in _rezMap) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (KeyValuePair&lt;string, Atom&gt; pair2 in pair1.Value) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom atom = _oc.Catalog.Resolve(pair2.Value);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!kept.Contains(atom)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject resObj = _oc.Catalog.Doc.ObjectSoup[pair1.Key];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DictAtom dict = Properties.GetResourceDict(_page, resObj, "Properties", false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom.RemoveItem(dict, pair2.Key);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void Redact(List&lt;Op&gt; ops, int pos1, int pos2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;string&gt; cmdMakePath = new HashSet&lt;string&gt;(new string[] { "m", "l", "c", "v", "y", "h", "re" });
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;string&gt; cmdPaintPath = new HashSet&lt;string&gt;(new string[] { "S", "s", "F", "f", "f*", "B", "B*", "b", "b*" });
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;string&gt; cmdClipPath = new HashSet&lt;string&gt;(new string[] { "W" }); // ignore "n"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;string&gt; cmdShow = new HashSet&lt;string&gt;(new string[] { "Do", "sh" });
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int depth = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stack&lt;int&gt; depths = new Stack&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;int&gt; paints = new List&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// there should always be an exact match for the binary search
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int start = ops.BinarySearch(new Op(pos1, 0, null, null));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n = ops.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = start; i &lt; n; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Op op = ops[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert((i != start) || (op.Command.EndsWith("BDC")));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op.Offset &gt; pos2)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(!((i == n - 1) || (ops[i + 1].Offset &gt; pos2)) || (op.Command == "EMC"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string cmd = op.Command.TrimEnd();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int p = cmd.Length - 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (p &gt;= 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((char.IsWhiteSpace(cmd[p])) || (cmd[p] == ')') || (cmd[p] == ']') || (cmd[p] == '&gt;')) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd = cmd.Substring(p + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p--;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// here we remove any displayed content
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (cmdShow.Contains(cmd))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Command = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// here we remove any path painting but keep clipping
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (cmdMakePath.Contains(cmd)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paints.Add(i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (cmdPaintPath.Contains(cmd)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Command = "n"; // needed because of bugs in Acrobat
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (int j in paints)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops[j].Command = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paints.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (cmdClipPath.Contains(cmd)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paints.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// here we remove the BDC / EMC entries
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (cmd == "BMC") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depth++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (cmd == "BDC") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op.Command.StartsWith("/OC")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Command = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depths.Push(depth);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depth++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (cmd == "EMC") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depth--;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (depths.Peek() == depth) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Command = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depths.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// here we remove the text showing commands but in a way that preserves
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// the offset of the text position albeit with invisible text
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if ((cmd == "TJ") || (cmd == "Tj"))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Command = "[" + op.TextWidth + "] TJ";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (cmd == "\'")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Command = "T* [" + op.TextWidth + "] TJ";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (cmd == "\"") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int p1 = 0, p2 = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (p1 &lt; op.Command.Length - 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!char.IsWhiteSpace(op.Command[p1]))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p1++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (p1 &lt; op.Command.Length - 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (char.IsWhiteSpace(op.Command[p1]))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p1++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2 = p1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (p2 &lt; op.Command.Length - 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!char.IsWhiteSpace(op.Command[p2]))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (p2 &lt; op.Command.Length - 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (char.IsWhiteSpace(op.Command[p2]))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string tw = p1 &gt; 0 ? op.Command.Substring(0, p1) : "0";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string tc = p2 &gt; p1 ? op.Command.Substring(p1, p2 - p1) : "0";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.Command = tw + " Tw " + tc + " Tc T* [" + op.TextWidth + "] TJ";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Atom[] GetStateFromStreamAndPosition(int streamID, int position) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, Atom[]&gt; state = GetStateFromStreamID(streamID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;int&gt; lookup = GetLookupFromStreamID(streamID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pos = lookup.BinarySearch(position);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pos &gt;= 0) { // exact match
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return state[lookup[pos]];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else { // exact key not found
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos = ~pos; // Bitwise complement of the first index in the list larger than the target.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// But we want the one before that - so move back one. For that reason we shouldn't need to pin the top
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pos == 0) // no state
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Atom[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos = pos &gt;= 0 ? pos - 1 : pos;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return state[lookup[pos]];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static string GetAttribute(string item, string name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int p1 = item.IndexOf(name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (p1 &lt; 0) return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p1 = item.IndexOf('=', p1) + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (p1 &lt; 0) return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p1 = item.IndexOf('\"', p1) + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (p1 &lt; 0) return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int p2 = item.IndexOf('\"', p1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (p2 &lt; 0) return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string attr = item.Substring(p1, p2 - p1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return attr;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;Op&gt; GetOpsFromStreamID(int streamID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Op&gt; op = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_ops.TryGetValue(streamID, out op);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (op == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op = new List&lt;Op&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_ops[streamID] = op;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return op;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Dictionary&lt;int, Atom[]&gt; GetStateFromStreamID(int streamID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, Atom[]&gt; state = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_states.TryGetValue(streamID, out state);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (state == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;state = new Dictionary&lt;int, Atom[]&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_states[streamID] = state;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return state;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private IDictionary&lt;string, Atom&gt; GetResourceMapFromStreamID(int streamID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IDictionary&lt;string, Atom&gt; map = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rezMap.TryGetValue(streamID, out map);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (map == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject io = _page.Doc.ObjectSoup[streamID];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = io is FormXObject ? streamID : _page.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map = _page.GetResourceMap(id, "Properties");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom cache = null; // Convert OCMD Atoms to IndirectObjects where necessary
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;string&gt; keys = new List&lt;string&gt;(map.Keys);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string key in keys) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom atom = map[key];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_oc.Catalog.ResolveRef(atom) == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefAtom refAtom = Properties.MakeResourceIndirect(_page, io, "Properties", key, atom, ref cache);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map[key] = refAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_rezMap[streamID] = map;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return map;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;int&gt; GetLookupFromStreamID(int streamID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;int&gt; lookup = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_lookups.TryGetValue(streamID, out lookup);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (lookup == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, Atom[]&gt; state = GetStateFromStreamID(streamID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lookup = new List&lt;int&gt;(state.Keys);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lookup.Sort();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_lookups[streamID] = lookup;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return lookup;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Class to represent a Layer on the page. A Layer represents a reference to a visibility
+&nbsp;&nbsp;/// object from within a Page. The visibilty object may be either a Group or
+&nbsp;&nbsp;/// on a Membership Group.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;class Layer {
+&nbsp;&nbsp;&nbsp;&nbsp;private Layer() { ResourceName = ""; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a Layer object from a Group.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="group"&gt;The Group.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="name"&gt;The resource name for the Group.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Layer(Group group, string name) { Group = group; ResourceName = name; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a Layer object from a Membership Group.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="group"&gt;The Membership Group.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="name"&gt;The resource name for the Membership Group.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Layer(MembershipGroup group, string name) { MembershipGroup = group; ResourceName = name; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Group. Either this or the MembershipGroup property will be null. Only one can be populated.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Group Group { get; set; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The Membership Group. Either this or the Group property will be null. Only one can be populated.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public MembershipGroup MembershipGroup { get; set; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The resource name used for this object.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public string ResourceName { get; set; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The IndirectObject for this Layer.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public IndirectObject IndirectObject { get { return Group != null ? Group.IndirectObject : (MembershipGroup != null ? MembershipGroup.IndirectObject : null); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Indicates whether the Group is visible or not.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool Visible { get { return Group != null ? Group.Visible : (MembershipGroup != null ? MembershipGroup.Visible : true); } }
+&nbsp;&nbsp;}
+&nbsp;&nbsp;
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Class for creating layers on a Page.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;class Writer {
+&nbsp;&nbsp;&nbsp;&nbsp;private Properties _oc;
+&nbsp;&nbsp;&nbsp;&nbsp;private Page _page;
+&nbsp;&nbsp;&nbsp;&nbsp;private int _depth = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Writer() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a new Writer for the Page.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="oc"&gt;The Properties object for the Doc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="page"&gt;The Page on which to operate.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Writer(Properties oc, Page page) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_oc = oc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_page = page;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;~Writer() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(_depth == 0, "Unbalanced StartLayer and EndLayer calls.");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The depth of nested calls to StartLayer and EndLayer.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int Depth { get { return _depth; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Add a reference to a Group for the current Page.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="group"&gt;The Group for which a reference should be added.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Layer.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Layer AddGroup(Group group) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string resource = group.AddToPage(_page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Layer(group, resource);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Add a reference to a Membership Group for the current Page.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="group"&gt;The Membership Group for which a reference should be added.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The Layer.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Layer AddGroup(MembershipGroup group) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string resource = group.AddToPage(_page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Layer(group, resource);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Start writing content for a particular layer. Calls to StartLayer may be nested
+&nbsp;&nbsp;&nbsp;&nbsp;/// but each call to StartLayer must be balanced by a corresponding call to EndLayer.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="layer"&gt;The Layer to start.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void StartLayer(Layer layer) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_page.AddLayer(MakeLayerStart(_page, layer.ResourceName));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_depth++;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// End writing content for a particular layer. Calls to StartLayer may be nested
+&nbsp;&nbsp;&nbsp;&nbsp;/// but each call to StartLayer must be balanced by a corresponding call to EndLayer.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void EndLayer() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_page.AddLayer(MakeLayerEnd(_page));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_depth--;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static StreamObject MakeLayerStart(Page page, string name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte[] data = ASCIIEncoding.UTF7.GetBytes("/OC /" + name + " BDC\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new StreamObject(page.Doc.ObjectSoup, data);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static StreamObject MakeLayerEnd(Page page) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte[] data = ASCIIEncoding.UTF7.GetBytes("EMC\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new StreamObject(page.Doc.ObjectSoup, data);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

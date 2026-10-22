@@ -1,0 +1,196 @@
+<html>
+<head>
+<title>Drawing\PDFDocument.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Drawing\PDFDocument.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Collections.Generic;
+using WebSupergoo.ABCpdf14.Drawing;
+
+namespace WebSupergoo.ABCpdf14.Drawing {
+&nbsp;&nbsp;#region PDFDocument
+&nbsp;&nbsp;/// &lt;summary&gt;Top level object that represents a PDF document.&lt;/summary&gt;
+&nbsp;&nbsp;public class PDFDocument : IDisposable {
+&nbsp;&nbsp;&nbsp;&nbsp;#region Declare variables
+&nbsp;&nbsp;&nbsp;&nbsp;private Doc _doc = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;Page&gt; _pages = new List&lt;Page&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;private ColorSpace _colorSpace = ColorSpace.RGB;
+&nbsp;&nbsp;&nbsp;&nbsp;private float _resolution = 96;
+&nbsp;&nbsp;&nbsp;&nbsp;private PDFContent.DocumentCache _docCache = new PDFContent.DocumentCache();
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The document&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Doc Doc { get { return _doc; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;A collection of pages&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public PageCollection Pages {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return new PageCollection(_pages); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The color space for the document&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Drawing.ColorSpace ColorSpace {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _colorSpace; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _colorSpace = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The effective resolution of the document in dots per inch.
+&nbsp;&nbsp;&nbsp;&nbsp;/// When you write System.Drawing code, most measures are specified in pixel based units.
+&nbsp;&nbsp;&nbsp;&nbsp;/// However, measures such as font sizes are often specified in physical units rather than pixels.
+&nbsp;&nbsp;&nbsp;&nbsp;/// The size on the System.Drawing output surface is determined by the resolution of the output medium.
+&nbsp;&nbsp;&nbsp;&nbsp;/// As such, output to PDF requires a similar conversion and an effective
+&nbsp;&nbsp;&nbsp;&nbsp;/// resolution to mimic the behavior of System.Drawing.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public float Resolution {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _resolution; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _resolution = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Constructors and destructors
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Initializes a instance of the PDFDocument class.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFDocument() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Releases all resources used by this PDFDocument object.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Dispose() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal PDFContent NewContent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new PDFContent(_doc, _docCache);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;internal PDFBoundedContent NewBoundedContent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new PDFBoundedContent(_doc, _docCache);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;internal PDFBoundedContent NewBoundedContent(int xobjID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new PDFBoundedContent(_doc, _docCache, xobjID);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Page methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Adds a page to the current document.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The page that this method creates.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Page AddPage() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = new Page(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pages.Add(page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return page;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Adds a page of specified size to the current document.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="width"&gt;The width of pages in this document measured in points.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="height"&gt;The height of pages in this document measured in points.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The page that this method creates.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Page AddPage(int width, int height) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.MediaBox.Width = width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.MediaBox.Height = height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Rect.SetRect(_doc.MediaBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Inserts a Page into the document at the specified index.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="index"&gt;The zero-based index at which the page should be inserted.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The page that this method creates.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Page InsertPage(int index) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pages.Insert(index, new Page(index, this));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Pages[index];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Save methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Saves the document as PDF.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="stream"&gt;The destination stream.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="flatten"&gt;Flatten mode.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Save(System.IO.Stream stream, bool flatten) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Realize(flatten);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_docCache.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Save(stream);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Saves the document as PDF.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="stream"&gt;The destination stream.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Save(System.IO.Stream stream) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save(stream, false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Saves the document as PDF.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="path"&gt;The destination file path.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="flatten"&gt;Flatten mode.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Save(string path, bool flatten) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Realize(flatten);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_docCache.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Save(path);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Saves the document as PDF.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="path"&gt;The destination file path.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Save(string path) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save(path, false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal void Realize(bool flatten) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ApplicationException("Invalid document ptr");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Page page in _pages) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.Graphics.Realize();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (flatten) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_docCache.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.Graphics.Content.Doc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;}
+&nbsp;&nbsp;#endregion
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

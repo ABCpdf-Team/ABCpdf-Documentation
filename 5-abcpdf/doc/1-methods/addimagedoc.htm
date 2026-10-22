@@ -169,7 +169,7 @@ href="../../xtransform/default.htm">Transform</A>.</P>
           <TD>
             <P>This example shows how to draw one PDF into another. It takes a 
             PDF document and creates a 'four-up' summary document by drawing 
-            four pages on each page of the new document.</P>
+            four pages on each page of the new document. The same approach makes n-up layouts, imposition and booklets.</P>
             <P>First we create an ABCpdf Doc object and read in our source 
             document. </P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var src = new Doc();
@@ -179,7 +179,7 @@ int count = src.PageCount;
             <P>Next we create a destination Doc object and set the <A 
             href="../2-properties/mediabox.htm">MediaBox</A> so that the page 
             size will match that of the source document. We change the rect so 
-            that it occupies a quarter of the page with room to accomodate a 
+            that it occupies a quarter of the page with room to accommodate a 
             small margin.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var dst = new Doc();
 dst.MediaBox.String = src.MediaBox.String;

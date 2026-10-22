@@ -70,6 +70,10 @@
 <p>For definitive details see:.</p>
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=265">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 257.</a></p>
+<!-- addition start -->
+<p>Each value in the array is the advance width of the glyph at the corresponding character code, in 1/1000 text space units. This matches the convention used for Type1 fonts even though TrueType programs store widths in different internal units.</p>
+<p>The viewer uses these values for text layout. If the array is absent, the viewer must derive widths from the embedded font program, which adds processing cost.</p>
+<!-- addition end -->
 
             <p>&nbsp;</p>
             </td>

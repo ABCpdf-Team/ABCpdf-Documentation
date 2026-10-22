@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=236">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 100, page 228.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 98, page 281.</a></p>
 </p>
+<!-- addition start -->
+<p>The optional content properties dictionary is stored in the document catalog and acts as the registry for all optional content groups and configurations in the document.</p>
+<p>The OCGs entry lists every optional content group object in the document. A conforming reader uses this list to discover all groups and their initial states.</p>
+<p>The D entry holds the default viewing configuration. This configuration sets the initial on/off state for all groups and controls how the viewer's layer interface behaves when the document is opened.</p>
+<p>The Configs entry lists additional named configurations. Each configuration is an independent set of group states and interface settings. Users or applications may switch between configurations to change the document's appearance.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

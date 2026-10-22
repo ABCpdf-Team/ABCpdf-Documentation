@@ -31,6 +31,17 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=237">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 101, page 229.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 99, page 281.</a></p>
 </p>
+<!-- addition start -->
+<p>An optional content configuration dictionary defines a complete set of visibility states and user interface settings for the optional content groups in a document.</p>
+<p>The Name and Creator entries identify the configuration and the application that created it. These are informational and do not affect rendering.</p>
+<p>BaseState sets the default state for all groups in this configuration: ON means all groups start visible, OFF means all start hidden, and Unchanged means each group retains its current state. The ON and OFF arrays then override the base state for specific groups.</p>
+<p>The Intent entry restricts which groups this configuration applies to. Only groups whose intent matches are affected by the configuration's state settings.</p>
+<p>The AS entry lists usage application dictionaries. Each one specifies an event (such as View or Print) and a set of groups whose states should be set automatically based on their Usage entries when that event occurs.</p>
+<p>The Order entry provides a nested array that defines how groups are presented in the viewer's layer panel. The ordering is purely for the user interface and does not affect rendering.</p>
+<p>ListMode controls whether the viewer shows all groups in the panel or only those that are set to on. This affects how the layer interface looks to the user.</p>
+<p>RBGroups defines radio-button group arrays. Within each array, turning one group on automatically turns all others off, preventing conflicting combinations.</p>
+<p>The Locked entry lists groups that the user cannot toggle interactively. These groups may still be changed programmatically or by usage applications.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

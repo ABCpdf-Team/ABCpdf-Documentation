@@ -1,0 +1,179 @@
+<html>
+<head>
+<title>Drawing\Pen.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Drawing\Pen.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+
+namespace WebSupergoo.ABCpdf14.Drawing {
+&nbsp;&nbsp;#region Pen
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Pens can be used to draw lines and curves. This class cannot be inherited. 
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public sealed class Pen {
+&nbsp;&nbsp;&nbsp;&nbsp;#region Declare variables
+&nbsp;&nbsp;&nbsp;&nbsp;private Color _color = new Color();
+&nbsp;&nbsp;&nbsp;&nbsp;private double _width = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;private Drawing2D.LineJoin _lineJoin = Drawing2D.LineJoin.Miter;
+&nbsp;&nbsp;&nbsp;&nbsp;private Drawing2D.LineCap _lineCap = Drawing2D.LineCap.Flat;
+&nbsp;&nbsp;&nbsp;&nbsp;private Drawing2D.DashStyle _dashStyle = Drawing2D.DashStyle.Solid;
+&nbsp;&nbsp;&nbsp;&nbsp;private double[] _dashPattern  = new double[] {};
+&nbsp;&nbsp;&nbsp;&nbsp;private double _dashOffset = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;private double _miterLimit = 10.0f;
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the color of this Pen.  
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Color Color {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _color; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _color = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;} 
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the width of this Pen.  
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double Width {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _width; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _width = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the join style for the ends of two consecutive lines drawn with this Pen.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Drawing2D.LineJoin LineJoin {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _lineJoin; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _lineJoin = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the cap style used of lines drawn with this Pen. 
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Drawing2D.LineCap LineCap {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _lineCap; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _lineCap = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the style used for dashed lines drawn with this Pen. 
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Drawing2D.DashStyle DashStyle {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _dashStyle; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _dashStyle = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets an array of custom dashes and spaces. 
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double[] DashPattern {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _dashPattern; } 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _dashPattern = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the distance from the start of a line to the beginning of a dash pattern. 
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double DashOffset {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _dashOffset; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _dashOffset = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets or sets the limit of the thickness of the join on a mitered corner. 
+&nbsp;&nbsp;&nbsp;&nbsp;/// The default value is 10.0f.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double MiterLimit {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _miterLimit; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _miterLimit = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Constructors
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new instance of the Pen class with the specified Color and Width properties.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="color"&gt;The color of this Pen object.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="width"&gt;The width of this Pen object.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Pen(Color color, double width) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_width = width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_color = color;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new instance of the Pen class with the specified color. 
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="color"&gt;The color of this Pen object.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Pen(Color color) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_color = color;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override bool Equals(object obj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pen p = obj as Pen;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (p != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return p.Color.Equals(Color) &amp;&amp; (DashOffset == p.DashOffset) &amp;&amp; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(DashPattern == p.DashPattern) &amp;&amp; (DashStyle == p.DashStyle) &amp;&amp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(LineCap == p.LineCap) &amp;&amp; (LineJoin == p.LineJoin) &amp;&amp; (MiterLimit == p.MiterLimit) &amp;&amp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Width == p.Width);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override int GetHashCode() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return base.GetHashCode ();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;}
+&nbsp;&nbsp;#endregion
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

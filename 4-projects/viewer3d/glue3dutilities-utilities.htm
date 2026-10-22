@@ -1,0 +1,386 @@
+<html>
+<head>
+<title>Glue3DUtilities\Utilities.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Glue3DUtilities\Utilities.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.IO;
+using System.Linq.Expressions;
+using System.ComponentModel;
+
+
+namespace Glue3DUtilities
+{
+&nbsp;&nbsp;[System.Security.SecuritySafeCritical]
+&nbsp;&nbsp;internal static class SafeUtils {
+&nbsp;&nbsp;&nbsp;&nbsp;public static GCHandle GCHandle_Alloc(object v, GCHandleType type) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return GCHandle.Alloc(v, type);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;public static void GCHandle_Free(ref GCHandle handle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handle.Free();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;public static IntPtr GCHandle_AddrOfPinnedObject(ref GCHandle handle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return handle.AddrOfPinnedObject();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;Helper class to represent version/summary&gt;
+&nbsp;&nbsp;public struct Version
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;public int major;
+&nbsp;&nbsp;&nbsp;&nbsp;public int minor;
+&nbsp;&nbsp;&nbsp;&nbsp;public int build;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Version(int _major, int _minor, int _build)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;major = _major;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;minor = _minor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;build = _build;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override string ToString()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return major.ToString() + "." + minor.ToString() + "." + build.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;Various static utilites&lt;/summary&gt;
+&nbsp;&nbsp;public static class Utilities
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Allow setting the company name (will be used when writing to APPDATA)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void SetCompanyName(string companyName)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.SetCompanyName(companyName);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the currently set company name&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string GetCompanyName()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Dll_Glue3D.GetCompanyName();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Allow setting the application name (will be used when writing to APPDATA)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void SetApplicationName(string companyName)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.SetApplicationName(companyName);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the currently set application name&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string GetApplicationName()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Dll_Glue3D.GetApplicationName();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set the HiWord of an Int32&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Int32 HiWord(Int32 number)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((number &amp; 0x80000000) == 0x80000000)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (number &gt;&gt; 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (number &gt;&gt; 16) &amp; 0xffff;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set the LoWord of an Int32&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Int32 LoWord(Int32 number)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (number &amp; 0xffff);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Make a DWord from the provided HiWord and LoWord&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Int32 MakeDword(Int32 LoWord, Int32 HiWord)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (HiWord &lt;&lt; 16) | (LoWord &amp; 0xffff);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Make a PARAM (IntPtr of a Dword)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static IntPtr MakeParam(Int32 LoWord, Int32 HiWord)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (IntPtr)((HiWord &lt;&lt; 16) | (LoWord &amp; 0xffff));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Convenience function to get the name of the lighting scheme as a string&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string LightingSchemeToString(WebSupergoo.ELightingScheme scheme)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string outStr = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (scheme)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_None:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "None"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_Artwork:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "Artwork"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_White:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "White"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_Day:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "Day"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_Night:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "Night"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_Hard:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "Hard"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_Primary:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "Primary"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_Blue:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "Blue"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_Red:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "Red"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_Cube:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "Cube"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_CAD:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "CAD"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_Headlamp:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "Headlamp"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.ELightingScheme.LightingScheme_Custom:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "Custom"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outStr = "&lt;Invalid&gt;"; break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return outStr;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Create an open file dialog to ask the user to choose a file to open&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string GetOpenFileDialogResult(string title, string defaultExt, string filter)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;openFileDlg.Title = title;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;openFileDlg.DefaultExt = defaultExt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;openFileDlg.Filter = filter;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Show open file dialog box
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nullable&lt;bool&gt; result = openFileDlg.ShowDialog();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Process open file dialog box results
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (result == true)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return openFileDlg.FileName;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Create an save file dialog to ask the user to choose a file to save to&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string GetSaveFileDialogResult(string title, string defaultExt, string filter)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Microsoft.Win32.SaveFileDialog saveFileDlg = new Microsoft.Win32.SaveFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;saveFileDlg.Title = title;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;saveFileDlg.DefaultExt = defaultExt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;saveFileDlg.Filter = filter;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Show save file dialog box
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nullable&lt;bool&gt; result = saveFileDlg.ShowDialog();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Process open file dialog box results
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (result == true)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return saveFileDlg.FileName;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Convenience function to open a file dialog that allows opening a 3D file type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string Get3DFileDialogResult()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return GetOpenFileDialogResult("Open 3D File", ".pdf;.u3d;.prc;.obj", "3D Files|*.pdf;*.u3d;*.prc;*.obj");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Convenience function to open a file dialog that allows opening a view file&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string GetViewFileDialogResult()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return GetOpenFileDialogResult("Open ViewInfo File", ".txt", "Text Files (.txt)|*.txt");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Convenience function to open a file dialog that allows opening a PDF file&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string GetPDFFileDialogResult()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return GetOpenFileDialogResult("Open PDF File", ".pdf", "PDF Files (.pdf)|*.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Convenience function to open a file dialog that allows saving to PRC file type&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static string GetSaveToPRCFileDialogResult()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return GetSaveFileDialogResult("Save to PRC file", ".prc", "PRC files (.prc)|*.prc");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Retrieve an Image from an assembly&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static ImageSource GetImageSourceFromResource(string assemblyName, string resourceName)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Uri oUri = new Uri("pack://application:,,,/" + assemblyName + ";component/" + resourceName, UriKind.RelativeOrAbsolute);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return BitmapFrame.Create(oUri);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (IOException)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Retrieve an Image from a file&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static ImageSource GetImageSourceFromFile(string filename)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!File.Exists(filename))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return BitmapFrame.Create(new Uri(filename));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (IOException)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Convert a Color to an UInt32&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static UInt32 Color2Int(System.Windows.Media.Color inColor)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UInt32 col = 0xFF000000;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col |= (((UInt32)inColor.R &lt;&lt; 16) | ((UInt32)inColor.G &lt;&lt; 8) | ((UInt32)inColor.B));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return col;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Convert an UInt32 to a Color&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static System.Windows.Media.Color UInt2Color(UInt32 inColor)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Windows.Media.Color bgCol = new System.Windows.Media.Color();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bgCol.R = (byte)((inColor &amp; 0x00FF0000) &gt;&gt; 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bgCol.G = (byte)((inColor &amp; 0x0000FF00) &gt;&gt; 8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bgCol.B = (byte)(inColor &amp; 0x000000FF);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bgCol.A = 0xFF;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return bgCol;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set the value of a property and send a notification upon change&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static bool SetPropertyAndNotify&lt;T&gt;(PropertyChangedEventHandler changeHandler, ref T field, T value, System.Linq.Expressions.Expression&lt;Func&lt;T&gt;&gt; expr)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (expr == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentNullException("ChangePropertyAndNotify - Missing expression");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var body = expr.Body as MemberExpression;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (body == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentException("ChangePropertyAndNotify - Expression missing body");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (EqualityComparer&lt;T&gt;.Default.Equals(field, value))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field = value;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var vmExpr = body.Expression as ConstantExpression;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (vmExpr != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LambdaExpression lambda = System.Linq.Expressions.Expression.Lambda(vmExpr);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delegate vmFunc = lambda.Compile();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;object sender = vmFunc.DynamicInvoke();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (changeHandler != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changeHandler(sender, new PropertyChangedEventArgs(body.Member.Name));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Helper for comparing versions&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static bool IsVersionOk(Version minVersion, Version currVersion, bool exactSame = false, bool compareBuild = false)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// if exactSame, means all the build numbers must be exactly the same
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (exactSame)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (currVersion.major != minVersion.major || currVersion.minor != minVersion.minor)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (compareBuild &amp;&amp; currVersion.build != minVersion.build)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// otherwise a newer build will be accepted 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// check fail on major version
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (currVersion.major &lt; minVersion.major)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (currVersion.major &gt; minVersion.major)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// major version same, check minor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (currVersion.minor &lt; minVersion.minor)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (currVersion.minor &gt; minVersion.minor)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// minor version same, check build
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (compareBuild &amp;&amp; currVersion.build &lt; minVersion.build)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Output the pinned handles of ViewData strings&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void PinViews(IList&lt;PdfUtilities.ViewInfo&gt; list, out GCHandle[] outHandles) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(list == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outHandles = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outHandles = new GCHandle[list.Count];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; list.Count; ++i) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string s = list[i].View;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (s != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outHandles[i] = SafeUtils.GCHandle_Alloc(s, GCHandleType.Pinned);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -34,6 +34,13 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A Type 4 shading encodes a free-form triangle mesh in a stream. Each vertex carries a flag, a pair of coordinates, and a set of color components. The flag determines how the vertex connects to the preceding triangle.</p>
+<p>BitsPerCoordinate sets the bit depth of each coordinate value. BitsPerComponent sets the bit depth of each color component value. These govern how the raw bytes in the stream are decoded into numeric values.</p>
+<p>BitsPerFlag sets the bit depth of the flag field for each vertex. The flag value indicates whether the vertex starts a new triangle or shares an edge with the previous one.</p>
+<p>The Decode array maps the encoded integer coordinate and component values to the actual coordinate ranges and color component ranges used during rendering.</p>
+<p>The optional Function entry replaces the per-vertex color components with a single tint value per vertex. The function maps this tint to the full color in the shading's color space. When present, each vertex carries one component rather than the full number required by the color space.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

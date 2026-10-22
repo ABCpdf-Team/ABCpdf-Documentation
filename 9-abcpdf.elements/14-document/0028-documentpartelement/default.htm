@@ -33,6 +33,12 @@
 <p>This class is always an indirect object because DocumentPartGoToActionElement.EntryDp, DpartElement.EntryDParts, DpartElement.EntryParent, DpartrootElement.EntryDPartRootNode and PageObjectElement.EntryDPart require it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>A document part element represents one node in the document part hierarchy introduced in PDF 2.0. The hierarchy divides a PDF document into a tree of logical parts, each corresponding to a record, chapter, or other meaningful subdivision.</p>
+<p>Document parts are used in variable data printing and multi-record PDF workflows where a single file contains many instances of a repeated structure. The hierarchy allows individual records to be navigated or extracted without parsing the entire document.</p>
+<p>Each node may carry document part metadata in a DPM dictionary describing the properties of the part, such as data fields specific to the record it represents.</p>
+<p>Associated files may be attached at the document part level, allowing each part to carry its own supplementary data independently of document-level or page-level associated files.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

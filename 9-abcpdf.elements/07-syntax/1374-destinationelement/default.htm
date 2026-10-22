@@ -36,6 +36,12 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=374">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 151, page 366.</a></p>
 </p>
+<!-- addition start -->
+<p>A destination specifies a location within a PDF document, consisting of a page reference and a set of parameters controlling the initial view when that location is displayed. Destinations are used in links, bookmarks, and go-to actions.</p>
+<p>The Target entry identifies the destination type, which determines how the remaining parameters are interpreted. Common types include XYZ (explicit coordinates and zoom), Fit (fit the page), FitH (fit the page width), FitV (fit the page height), and FitR (fit a rectangle).</p>
+<p>For XYZ destinations, the three parameter entries give the left coordinate, top coordinate, and zoom factor. A null value for any of these means the reader retains the current value of that parameter.</p>
+<p>Destinations may be defined inline in a link annotation's Dest entry or stored by name in the document's name dictionary for reference by multiple links and bookmarks.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

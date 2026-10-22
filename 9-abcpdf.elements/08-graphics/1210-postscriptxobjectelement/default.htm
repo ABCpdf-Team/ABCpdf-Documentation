@@ -33,6 +33,11 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A PostScript XObject embeds a fragment of PostScript language code within a PDF file. It is intended only for output to PostScript devices and is ignored by conforming PDF readers that do not generate PostScript.</p>
+<p>The Level1 entry holds an alternative PostScript fragment for Level 1 PostScript devices. When absent, only the main stream content is available, which may use Level 2 or Level 3 constructs.</p>
+<p>PostScript XObjects are a legacy mechanism. PDF 2.0 discourages their use because they are device-specific and cannot be interpreted by PDF-native renderers.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

@@ -75,6 +75,11 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=136">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 128.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 164.</a></p>
 
+<!-- addition start -->
+<p>UseBlackPtComp controls whether black point compensation is applied when converting colors through an ICC color management pipeline. Black point compensation scales the source color range to map the source black point to the destination black point.</p>
+<p>Enabling this entry prevents shadow colours from being clipped when the source color space has a lower minimum density than the destination. It is particularly useful when converting from a wide-gamut profile to a press profile with a limited shadow range.</p>
+<p>This entry was added in PDF 2.0. A value of ON enables compensation; OFF disables it; Default defers the decision to the output device or viewer preference.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>

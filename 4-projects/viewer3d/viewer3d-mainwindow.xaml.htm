@@ -1,0 +1,499 @@
+<html>
+<head>
+<title>Viewer3D\MainWindow.xaml.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Viewer3D\MainWindow.xaml.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
+using Glue3DUtilities;
+
+namespace Viewer3D
+{
+
+
+&nbsp;&nbsp;/// &lt;summary&gt;Interaction logic for MainWindow.xaml&lt;/summary&gt;
+&nbsp;&nbsp;public partial class MainWindow : Window
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;#region Members
+&nbsp;&nbsp;&nbsp;&nbsp;private Application m_app;
+&nbsp;&nbsp;&nbsp;&nbsp;private Window m_window;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;MenuItem&gt; m_viewMenu = new List&lt;MenuItem&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;private WebSupergoo.DelegateLogging m_loggingHook = null;
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;MainWindow constructor&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public MainWindow()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for window initialized event, to set up various event handlers and logging etc&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void Window_Initialized(object sender, EventArgs e)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// general
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_app = System.Windows.Application.Current;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_window = m_app.MainWindow;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.RenderProxyReadyEvent += new Render3DControl.RenderProxyReadyEventHandler(OpenGLRenderControl_RenderProxyReadyEvent);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.FileOpeningEvent += new Render3DControl.FileOpeningEventHandler(OpenGLRenderControl_FileOpeningEvent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.FileOpenedEvent += new Render3DControl.FileOpenedEventHandler(OpenGLRenderControl_FileOpenedEvent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.FileClosingEvent += new Render3DControl.FileClosingEventHandler(OpenGLRenderControl_FileClosingEvent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.FileClosedEvent += new Render3DControl.FileClosedEventHandler(OpenGLRenderControl_FileClosedEvent);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.FileProgressEvent += new Render3DControl.FileProgressEventHandler(OpenGLRenderControl_FileProgressEvent);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.FileExportEvent += new Render3DControl.FileExportEventHandler(OpenGLRenderControl_FileExportEvent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.FileExportedEvent += new Render3DControl.FileExportedEventHandler(OpenGLRenderControl_FileExportedEvent);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.LightingSchemeChangedEvent += new Render3DControl.LightingSchemeChangedEventHandler(OpenGLRenderControl_LightingSchemeChangedEvent);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.Select3DStreamEvent += new Render3DControl.ContentSelect3DStreamEventHandler(OpenGLRenderControl_OnSelect3DStreamCallback);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.SelectCameraEvent += new Render3DControl.CameraSelectEventHandler(OpenGLRenderControl_OnCameraSelectCallback);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.LoadingImage = Utilities.GetImageSourceFromResource("Viewer3D", "Images/placeholder.png");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// logging test (demonstrate logging hook)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_loggingHook = new WebSupergoo.DelegateLogging(LogMessageHook);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.SetLoggingHook(IntPtr.Zero, m_loggingHook);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Info("MainWindow initialized..");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for RenderProxyReady event, to retrieve various renderer settings and adjust the UI accordingly&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void OpenGLRenderControl_RenderProxyReadyEvent(object sender, Render3DControl.RenderProxyReadyEventArgs fe)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Info("OpenGLRenderControl_RenderProxyReadyEvent for '" + fe.Name + "'");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// write OpenGL version
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Message("Using OpenGL " + OpenGLRenderControl.VersionInfo.version_GL.major + "." + OpenGLRenderControl.VersionInfo.version_GL.minor +
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", and GLSL " + OpenGLRenderControl.VersionInfo.version_GLSL.major + "." + OpenGLRenderControl.VersionInfo.version_GLSL.minor);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (OpenGLRenderControl.AvailableAntiAliasingModes != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (UInt32 currMode in OpenGLRenderControl.AvailableAntiAliasingModes)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UInt32 colSmpl = (currMode &amp; 0x0000FFFF);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UInt32 covSmpl = (currMode &amp; 0xFFFF0000) &gt;&gt; 16;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string modeName = colSmpl.ToString() + "xMSAA";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (covSmpl &gt; 1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modeName += " + " + covSmpl.ToString() + "xCSAA";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Log.Info("OpenGLRenderControl_RenderProxyReadyEvent with AA mode '" + modeName + "'");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MenuItem aaItem = new MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aaItem.Header = modeName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aaItem.IsCheckable = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Binding aaBinding = new Binding("AntiAliasing");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aaBinding.Source = OpenGLRenderControl;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aaBinding.Converter = new UInt32ToBooleanConverter();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aaBinding.ConverterParameter = (UInt32)currMode;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aaItem.SetBinding(MenuItem.IsCheckedProperty, aaBinding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AntialiasingMenu.Items.Add(aaItem);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (OpenGLRenderControl.AvialableAnisotropyModes != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (UInt32 currMode in OpenGLRenderControl.AvialableAnisotropyModes)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string anisoName = currMode.ToString() + "x";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MenuItem anisoItem = new MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;anisoItem.Header = anisoName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;anisoItem.IsCheckable = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Binding aaBinding = new Binding("AnisotropicFiltering");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aaBinding.Source = OpenGLRenderControl;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aaBinding.Converter = new UInt32ToBooleanConverter();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aaBinding.ConverterParameter = (UInt32)currMode;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;anisoItem.SetBinding(MenuItem.IsCheckedProperty, aaBinding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AnisotropyMenu.Items.Add(anisoItem);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Example log message hook for custom logging (print to the window's status line)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void LogMessageHook(IntPtr userData, Int32 level, string msg)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;App.Current.Dispatcher.Invoke((Action)delegate
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Status_Info != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status_Info.Text = msg;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for the FileProgress event, to display the loading progress&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void OpenGLRenderControl_FileProgressEvent(object sender, Render3DControl.FileProgressEventArgs fe)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fe.Percent &lt; 100.0f)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status_Info.Text = string.Format("Loading...{0:F1}%", fe.Percent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status_Info.Text = "Ready";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for the FileOpening event, sent when it begins loading a file&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void OpenGLRenderControl_FileOpeningEvent(object sender, Render3DControl.FileOpeningEventArgs fe)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MainMenu.IsEnabled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for FileOpened event, when it finished loading a file&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void OpenGLRenderControl_FileOpenedEvent(object sender, Render3DControl.FileOpenedEventArgs fe)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MainMenu.IsEnabled = true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fe.Success)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CameraChangedCallback(fe.OpenInfo.activeCameraInfo, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LightingSchemeChangedCallback(Utilities.LightingSchemeToString(fe.OpenInfo.lightingScheme), true);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CameraListReceivedCallback(fe.OpenInfo.availableCameras);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for FileClosing event, when it starts unloading a file&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void OpenGLRenderControl_FileClosingEvent(object sender, Render3DControl.FileClosingEventArgs fe)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MainMenu.IsEnabled = false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (MenuItem currItem in m_viewMenu)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ViewMenu.Items.Remove(currItem);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_viewMenu.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for FileClosed event, when it finished unloading a file&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void OpenGLRenderControl_FileClosedEvent(object sender, Render3DControl.FileClosedEventArgs fe)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MainMenu.IsEnabled = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for FileExport event, when it starts exporting a scene&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void OpenGLRenderControl_FileExportEvent(object sender, Render3DControl.FileExportEventArgs fe)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MainMenu.IsEnabled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handle for FileExported event, when it finished exporting a scene&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void OpenGLRenderControl_FileExportedEvent(object sender, Render3DControl.FileExportedEventArgs fe)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MainMenu.IsEnabled = true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( fe.Success )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Info("File successfully exported to PRC.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for view menu items that have been clicked&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void ViewItem_Click(object sender, RoutedEventArgs e)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MenuItem item = e.Source as MenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string itemText = item.Header as string;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.ActivateCamera(itemText, CameraChangedCallback);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for receiving the list of available cameras&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void OnCameraNamesReceived(string[] camNames)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (camNames != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (UInt32 i = 0; i &lt; camNames.Length; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Info("Camera " + i + ": " + camNames[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for WindowClosing event&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void Window_Closing(object sender, EventArgs e)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.SetLoggingHook(IntPtr.Zero, null);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for WindowClosed event&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void Window_Closed(object sender, EventArgs e)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Info("Window_Closed");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Helper function to display a file dialog for opening a scene, and triggering the actual scene loading&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void OpenSceneWithFileDialog()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string filename = Utilities.Get3DFileDialogResult();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (filename.Length &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.SceneFilename = filename;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Helper function to display a file dialog for opening view files (text files containing PDF 3DView annotation info), and triggering the loading of the view file&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void LoadViewForScene()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string filename = Utilities.GetViewFileDialogResult();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (filename.Length &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.LoadViewFileForScene(filename, CameraChangedCallback);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void LoadViewForSceneFromPDF()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string filename = Utilities.GetPDFFileDialogResult();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (filename.Length &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.LoadViewFromPDF(filename, CameraChangedCallback);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Helper function to close the currently open scene&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void CloseCurrentScene()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (OpenGLRenderControl != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.SceneFilename = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Helper for exporting a scene to PRC&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void ExportSceneWithFileDialog()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string sourceFile = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (OpenGLRenderControl.SceneFilename.Length == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sourceFile = Utilities.Get3DFileDialogResult();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (sourceFile == null || sourceFile.Length == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string filename = Utilities.GetSaveToPRCFileDialogResult();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (filename.Length &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.ExportSceneToPRC(filename, sourceFile);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Helper for extracting 3D Data from a PDF file&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void Extract3DDataFromPDF()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string sourceFile = Utilities.GetPDFFileDialogResult();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (sourceFile != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (PdfUtilities.ExtractAll3DDataToFiles(sourceFile))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Info("Successfully extracted 3D data from '" + sourceFile + "'");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Error("Failed to extract 3D data from '" + sourceFile + "'");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for CameraChanged events&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void CameraChangedCallback(Render3DControl.CameraInfo camInfo, bool success)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (success)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status_CameraName.Text = camInfo.cameraName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (camInfo.cameraMode == WebSupergoo.ECameraMode.CameraMode_Target)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status_CameraType.Text = "Target";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (camInfo.cameraMode == WebSupergoo.ECameraMode.CameraMode_Free)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status_CameraType.Text = "Free";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status_CameraType.Text = "Static";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status_CameraOrtho.Text = camInfo.isOrtho ? "Ortho" : "";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddNewCameraViewItem(camInfo.cameraName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for CameraListReceived events&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void CameraListReceivedCallback(string[] camNames)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string currCam in camNames)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddNewCameraViewItem(currCam);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void AddNewCameraViewItem(string cameraName)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// check for duplicates
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (MenuItem currItem in m_viewMenu)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string itemText = currItem.Header as string;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (itemText == cameraName)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// add new item
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MenuItem viewItem = new MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewItem.Header = cameraName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewItem.Click += new RoutedEventHandler(ViewItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ViewMenu.Items.Add(viewItem);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_viewMenu.Add(viewItem);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for Select3DStream events&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private int OpenGLRenderControl_OnSelect3DStreamCallback(object sender, Render3DControl.ContentSelect3DStreamEventArgs ce)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ce.Content != null )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ce.Content.Count &gt; 1) // more than one item available, let user choose
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;string&gt; choices = new List&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; ce.Content.Count; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choices.Add(ce.Content[i].Path);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UserSelection selectWindow = new UserSelection("Select 3D Stream", choices);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectWindow.ShowDialog();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return selectWindow.UserSelectionIndex;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else // only one item available anyway
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for SelectCamera events&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private int OpenGLRenderControl_OnCameraSelectCallback(object sender, Render3DControl.CameraSelectEventArgs ce)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ce.Views != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ce.Views.Count &gt; 1) // more than one item available, let user choose
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;string&gt; choices = new List&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; ce.Views.Count; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choices.Add(ce.Views[i].Path);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UserSelection selectWindow = new UserSelection("Select 3D View", choices);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectWindow.ShowDialog();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return selectWindow.UserSelectionIndex;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else // only one item available anyway
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return -1;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Handler for LightingSchemeChanged events&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;void OpenGLRenderControl_LightingSchemeChangedEvent(object sender, Render3DControl.LightingSchemeChangedEventArgs fe)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status_LightScheme.Text = Utilities.LightingSchemeToString(fe.LightingScheme);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Callback for changed lighting schemes&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void LightingSchemeChangedCallback(string lightingSchemeName, bool success)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (success)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status_LightScheme.Text = lightingSchemeName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Helper function to open the About window&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void OpenAboutWindow()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Renderer.GLVersionInfo v = OpenGLRenderControl.VersionInfo;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;About aboutWindow = new About(v);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aboutWindow.ShowDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Helper function to handle menu item clicks&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void MenuItem_Click(object sender, RoutedEventArgs e)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MenuItem item = e.Source as MenuItem;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (item.Name)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "File_Open":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenSceneWithFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "File_Close":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CloseCurrentScene();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "File_Export":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExportSceneWithFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "File_Extract":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Extract3DDataFromPDF();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "File_Quit":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application.Current.Shutdown();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "View_NextCamera":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.ActivateNextCamera(CameraChangedCallback);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "View_FirstCamera":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.ActivateFirstCamera(CameraChangedCallback);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "View_DefaultCamera":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.ActivateDefaultCamera(CameraChangedCallback);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "View_Screenshot":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenGLRenderControl.Screenshot(string.Empty);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "View_LoadFromFile":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LoadViewForScene();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "View_LoadFromPDF":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LoadViewForSceneFromPDF();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "Help_About":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenAboutWindow();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.Error("MenuItem_Click: Invalid item name: " + item.Name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -31,6 +31,11 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=500">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 272, page 492.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 283, page 616.</a></p>
 </p>
+<!-- addition start -->
+<p>A selector rendition contains an ordered array of renditions and selects the first one whose playback criteria are satisfied. It provides a fallback mechanism when a document must support a range of playback environments.</p>
+<p>The R entry holds the array of rendition dictionaries to try in order. A conforming reader evaluates each candidate's criteria in sequence and activates the first rendition that qualifies. If no candidate qualifies, nothing plays.</p>
+<p>Selector renditions may be nested: an element of the R array may itself be a selector rendition, allowing hierarchical fallback strategies.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

@@ -1,0 +1,129 @@
+<html>
+<head>
+<title>Drawing\FontMetrics.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Drawing\FontMetrics.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Collections.Generic;
+
+namespace WebSupergoo.ABCpdf14.Drawing.Text
+{
+&nbsp;&nbsp;#region FontMetrics
+&nbsp;&nbsp;internal abstract class FontMetrics
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;public string FontMetricsVersion = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;public int MetricsSets = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;public string FontName = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;public string FullName = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;public string FamilyName = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;public string Weight = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;public double FontBBox_llx = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public double FontBBox_lly = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public double FontBBox_urx = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public double FontBBox_ury = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public string Version = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;public string Notice = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;public string EncodingScheme = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;public string CharacterSet = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool IsBaseFont = true;
+&nbsp;&nbsp;&nbsp;&nbsp;public double CapHeight = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public double XHeight = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public double Ascender = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public double Descender = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public double StdHW = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public double StdVW = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public double UnderlinePosition = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public double UnderlineThickness = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public double ItalicAngle = double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool IsFixedPitch = false;
+&nbsp;&nbsp;&nbsp;&nbsp;public int CharMetricsCount = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;public CharMetrics[] CharMetrics = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal virtual System.Drawing.SizeF MeasureString(string s, double size, TextState state)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new System.Drawing.SizeF(float.NaN, float.NaN);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal virtual double GetSizeFactor(double size) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return double.NaN;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;}
+&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;#region CharMetrics 
+&nbsp;&nbsp;internal abstract class CharMetrics 
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;#region Ligature
+&nbsp;&nbsp;&nbsp;&nbsp;public class Ligature 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Successor = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string LigatureString = string.Empty;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public Ligature(string successor, string ligatureString)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Successor = successor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LigatureString = ligatureString;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;public int CharacterCode = -1;
+&nbsp;&nbsp;&nbsp;&nbsp;public double WidthX = 250;
+&nbsp;&nbsp;&nbsp;&nbsp;public string Name = string.Empty;
+&nbsp;&nbsp;&nbsp;&nbsp;public double BBox_llx;
+&nbsp;&nbsp;&nbsp;&nbsp;public double BBox_lly;
+&nbsp;&nbsp;&nbsp;&nbsp;public double BBox_urx;
+&nbsp;&nbsp;&nbsp;&nbsp;public double BBox_ury;
+&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;Ligature&gt; Ligatures = null;
+&nbsp;&nbsp;}
+&nbsp;&nbsp;#endregion
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

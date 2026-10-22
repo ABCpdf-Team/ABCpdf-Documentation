@@ -31,6 +31,10 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=115">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 49, page 107.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 47, page 139.</a></p>
 </p>
+<!-- addition start -->
+<p>A collection subitem dictionary holds the value of a single field in a PDF portfolio collection item. The data type of the value must match the subtype declared for that field in the collection schema.</p>
+<p>The D entry holds the actual data value: a string for text or date fields, a number for numeric fields, or a boolean. The P entry, when false, indicates that the field data is not present for this item even though the entry exists in the dictionary.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

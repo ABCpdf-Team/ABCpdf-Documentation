@@ -43,6 +43,13 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A CIDFont dictionary describes a font that uses two-byte character identifiers, called CIDs, to select glyphs. CIDFonts are not used directly as top-level fonts; they always appear as the descendant of a type 0 composite font, which handles the mapping from character codes to CIDs.</p>
+<p>Subtype is either CIDFontType0 for CIDFont programs based on Type 1 outlines, or CIDFontType2 for those based on TrueType outlines. The two subtypes share the same dictionary structure but embed different kinds of font programs.</p>
+<p>The CIDSystemInfo entry identifies the character collection the font covers. The encoding in the parent type 0 dictionary must be compatible with this collection.</p>
+<p>DW gives the default advance width for glyphs not listed in W. W provides explicit widths for specific CIDs or ranges of CIDs, overriding the default. The DW2 and W2 entries serve the same purpose for vertical writing: DW2 is a two-element default, and W2 provides per-CID overrides.</p>
+<p>CIDToGIDMap is only valid for CIDFontType2 fonts. When present as a stream, it maps each CID to the glyph index in the TrueType font program. The name Identity means CID and glyph index are the same, which is the common case for fonts whose glyph order matches their CID order.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

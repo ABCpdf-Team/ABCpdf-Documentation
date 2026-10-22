@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=516">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 296, page 508.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 307, page 635.</a></p>
 </p>
+<!-- addition start -->
+<p>A movie activation dictionary carries parameters for the legacy movie action, which plays a QuickTime or AVI movie associated with a movie annotation. These parameters control the starting time, duration, playback rate, and display of the movie.</p>
+<p>The Start and Duration entries give the starting time and duration for playback, expressed as time values. Rate controls the playback speed relative to normal. Volume controls the audio volume.</p>
+<p>ShowControls, when true, causes the player to display its user interface controls. Mode controls what happens at the end of playback. Synchronous, when true, causes the reader to wait for the movie to finish before continuing.</p>
+<p>FWScale and FWPosition control the size and position of the floating playback window relative to the annotation rectangle.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

@@ -1,0 +1,422 @@
+<html>
+<head>
+<title>PDFView.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">PDFView.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+
+
+namespace ABCpdfView {
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Main view windows.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class ABCpdfView : System.Windows.Forms.Form {
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem FileMenu;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem New;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem Open;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem Save;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem SaveAs;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem PrintPreview;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem PageSetup;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem Print;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MainMenu mainMenu1;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem menuItem1;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem MenuOpen;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem MenuSaveAs;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem menuItem6;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem MenuPrint;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem MenuPrintPreview;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem MenuPageSetup;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem menuItem10;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem MenuExit;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Splitter splitter1;
+&nbsp;&nbsp;&nbsp;&nbsp;private ABCpdfControls.PDFControl pdfControl1;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem menuItem8;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem menuDocument;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem menuAddWatermark;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem menuInsertPages;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem menuDeletePages;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem menuExtractPages;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem menuRotatePages;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required designer variable.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.ComponentModel.Container components = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ABCpdfView() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Required for Windows Form Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose( bool disposing ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( disposing ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (components != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose( disposing );
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Windows Form Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.FileMenu = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.New = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Open = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Save = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SaveAs = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Print = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PrintPreview = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PageSetup = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mainMenu1 = new System.Windows.Forms.MainMenu();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem1 = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuOpen = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuSaveAs = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem6 = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPrint = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPrintPreview = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPageSetup = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem10 = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuExit = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuDocument = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuAddWatermark = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem8 = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuInsertPages = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuDeletePages = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuExtractPages = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuRotatePages = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pdfControl1 = new ABCpdfControls.PDFControl();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.splitter1 = new System.Windows.Forms.Splitter();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// FileMenu
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.FileMenu.Index = -1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.FileMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.New,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Open,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Save,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SaveAs,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Print,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PrintPreview,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PageSetup});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.FileMenu.Text = "File";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// New
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.New.Index = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.New.Text = "New";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Open
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Open.Index = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Open.Text = "Open...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Save
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Save.Index = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Save.Text = "Save";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// SaveAs
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SaveAs.Index = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SaveAs.Text = "Save As...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Print
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Print.Index = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Print.Text = "Print...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// PrintPreview
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PrintPreview.Index = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PrintPreview.Text = "Print Preview";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// PageSetup
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PageSetup.Index = 6;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PageSetup.Text = "Page Setup...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mainMenu1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mainMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuDocument});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// menuItem1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem1.Index = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuOpen,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuSaveAs,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem6,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPrint,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPrintPreview,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPageSetup,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem10,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuExit});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem1.Text = "File";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem1.Select += new System.EventHandler(this.menuItem1_Select);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// MenuOpen
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuOpen.Index = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuOpen.Text = "Open...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuOpen.Click += new System.EventHandler(this.MenuOpen_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// MenuSaveAs
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuSaveAs.Index = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuSaveAs.Text = "Save As...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuSaveAs.Click += new System.EventHandler(this.MenuSaveAs_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// menuItem6
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem6.Index = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem6.Text = "-";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// MenuPrint
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPrint.Index = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPrint.Text = "Print...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPrint.Click += new System.EventHandler(this.MenuPrint_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// MenuPrintPreview
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPrintPreview.Index = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPrintPreview.Text = "Print Preview";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPrintPreview.Click += new System.EventHandler(this.MenuPrintPreview_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// MenuPageSetup
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPageSetup.Index = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPageSetup.Text = "Page Setup...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuPageSetup.Click += new System.EventHandler(this.MenuPageSetup_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// menuItem10
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem10.Index = 6;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem10.Text = "-";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// MenuExit
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuExit.Index = 7;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuExit.Text = "Exit";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MenuExit.Click += new System.EventHandler(this.MenuExit_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// menuDocument
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuDocument.Index = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuDocument.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuAddWatermark,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem8,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuInsertPages,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuDeletePages,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuExtractPages,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuRotatePages});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuDocument.Text = "Document";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuDocument.Select += new System.EventHandler(this.menuItem1_Select);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// menuAddWatermark
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuAddWatermark.Index = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuAddWatermark.Text = "Add Watermark...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuAddWatermark.Click += new System.EventHandler(this.menuItem7_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// menuItem8
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem8.Index = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuItem8.Text = "-";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// menuInsertPages
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuInsertPages.Index = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuInsertPages.Text = "Insert Pages...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuInsertPages.Click += new System.EventHandler(this.menuItem3_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// menuDeletePages
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuDeletePages.Index = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuDeletePages.Text = "Delete Pages...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuDeletePages.Click += new System.EventHandler(this.menuItem4_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// menuExtractPages
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuExtractPages.Index = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuExtractPages.Text = "Extract Pages...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuExtractPages.Click += new System.EventHandler(this.menuItem5_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// menuRotatePages
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuRotatePages.Index = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuRotatePages.Text = "Rotate Pages...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.menuRotatePages.Click += new System.EventHandler(this.menuRotatePages_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pdfControl1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pdfControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.AnchorStyles.Left) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pdfControl1.DotsPerInch = 72;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pdfControl1.ImeMode = System.Windows.Forms.ImeMode.On;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pdfControl1.Location = new System.Drawing.Point(8, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pdfControl1.Name = "pdfControl1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pdfControl1.PageNumber = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pdfControl1.Size = new System.Drawing.Size(512, 424);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pdfControl1.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pdfControl1.Load += new System.EventHandler(this.pdfControl1_Load);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// splitter1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.splitter1.Location = new System.Drawing.Point(0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.splitter1.Name = "splitter1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.splitter1.Size = new System.Drawing.Size(3, 433);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.splitter1.TabIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.splitter1.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// ABCpdfView
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ClientSize = new System.Drawing.Size(528, 433);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.splitter1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.pdfControl1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Menu = this.mainMenu1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Name = "ABCpdfView";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Text = "ABCpdfView";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ResumeLayout(false);
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The main entry point for the application.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;[STAThread]
+&nbsp;&nbsp;&nbsp;&nbsp;static void Main() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application.Run(new ABCpdfView());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void MenuOpen_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdfControl1.Open();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void MenuSave_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdfControl1.Save();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void MenuSaveAs_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdfControl1.SaveAs();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void MenuPrint_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdfControl1.Print();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void MenuPrintPreview_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdfControl1.PrintPreview();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void MenuPageSetup_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdfControl1.PageSetup();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void MenuExit_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application.Exit();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void menuItem1_Select(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MenuPrint.Enabled = pdfControl1.DocumentOpened;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MenuPrintPreview.Enabled = pdfControl1.DocumentOpened;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MenuSaveAs.Enabled = pdfControl1.DocumentOpened;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menuAddWatermark.Enabled = pdfControl1.DocumentOpened;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menuInsertPages.Enabled = pdfControl1.DocumentOpened;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menuDeletePages.Enabled = pdfControl1.DocumentOpened;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menuExtractPages.Enabled = pdfControl1.DocumentOpened;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menuRotatePages.Enabled = pdfControl1.DocumentOpened;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void menuItem3_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdfControl1.InsertPages();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void menuItem4_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdfControl1.DeletePages();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void menuItem5_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdfControl1.ExtractPages();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void menuItem7_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdfControl1.AddWatermark();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void menuRotatePages_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdfControl1.RotatePages();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void pdfControl1_Load(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

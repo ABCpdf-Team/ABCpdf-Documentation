@@ -33,6 +33,12 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A Type 7 shading encodes a tensor-product patch mesh. Each patch uses 16 control points arranged as a 4×4 tensor-product Bézier surface, giving more shape control than the 12-point Coons patch of Type 6.</p>
+<p>BitsPerCoordinate and BitsPerComponent govern the bit depth of coordinates and color components in the stream. BitsPerFlag controls the edge-sharing flag.</p>
+<p>The Decode array maps encoded integers to the working coordinate and color ranges.</p>
+<p>The optional Function entry allows per-corner tint values instead of full color components, converted by the function to the shading's color space.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

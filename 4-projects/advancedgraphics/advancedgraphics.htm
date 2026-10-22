@@ -1,0 +1,905 @@
+<html>
+<head>
+<title>AdvancedGraphics.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">AdvancedGraphics.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.IO;
+using WebSupergoo.ABCpdf14;
+
+namespace AdvancedGraphics
+{
+&nbsp;&nbsp;class AdvancedGraphicsApp
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The main entry point for the application.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;[STAThread]
+&nbsp;&nbsp;&nbsp;&nbsp;static void Main(string[] args)
+&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc theDoc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StarStroke(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StarFill(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillEvenOddRule(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StarClip(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BezierCurve(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetLineJoin(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetLineCap(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dash(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rotate(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hexahedron(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Transparency(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BlendModes(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextExamples(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FormXObject(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ClippedImages(theDoc);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i = 1, count = theDoc.PageCount; i&lt;=count; ++i) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.PageNumber = i;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Save(Directory.GetParent(theBase).Parent.FullName +"\\AdvancedGraphicsExamples.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Clear(); 
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Add example description on the top of the page
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="description"&gt;&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void AddDescription(Doc theDoc, string description)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = theDoc.AddFont("Times-Italic");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(id, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 30, 740);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString(description);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Start new page, set active rect to MediaBox, set active color to black
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void StartNewPage(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Page = theDoc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.String = theDoc.MediaBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Color.String = "0 0 0";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Stroke operator example
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void StarStroke(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Stroke path example");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineWidth(30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineJoin(2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(124, 158);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(300, 700);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(476, 158);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(15, 493);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(585, 493);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Fill operator example
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void StarFill(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Fill path example");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineWidth(30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineJoin(2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(124, 158);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(300, 700);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(476, 158);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(15, 493);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(585, 493);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Fill using Even-odd filling rule operator example
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void FillEvenOddRule(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Even-Odd Fillling rule example");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double size =100;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double centerX = size;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double centerY = size;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(2, 0, 0, 2, 100, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Rect(0, 0 , size, size);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Rect(size, size , size, size);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 4; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Arc(0, 360, centerX - size/2, centerY ,size/2, size/2, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Arc(0, 360, centerX + size/2, centerY ,size/2, size/2, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Arc(0, 360, centerX, centerY + size/2 ,size/2, size/2, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Arc(0, 360, centerX, centerY - size/2, size/2 , size/2, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size = size / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.FillEvenOddRule();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Bezier curve operator example
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void BezierCurve(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Bezier curve example");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent&nbsp;&nbsp;theContent = new PDFContent(theDoc);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineWidth(30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(100, 50);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Bezier(200, 650, 400, 550, 500, 250);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// annotate Bezier curve in red
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Color.String = "255 0 0";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Width = 20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FontSize = 30;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "100 50";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("p0 (current point)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "200 650";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.Y = theDoc.Pos.Y + theDoc.FontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("p1 (x1, y1)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "400 550";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.Y = theDoc.Pos.Y + theDoc.FontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("p2 (x2, y2)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "500 250";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.X = theDoc.Pos.X - theDoc.FontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("p3 (x3, y3)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddLine(100, 50, 200, 650);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddLine(400, 550, 500, 250);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clipping operator example
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void StarClip(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Clipping path example");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineWidth(30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineJoin(2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(124, 158);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(300, 700);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(476, 158);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(15, 493);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(585, 493);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Clip();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Rect(100, 200, 400, 400);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Line cap operator example
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void SetLineCap(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Line cap example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineWidth(100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineCap(0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(100, 600);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(500, 600); // line
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineCap(1); // round cap
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(100, 400);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(500, 400);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineCap(2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(100, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(500, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// add capped lines
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// annotate capped lines
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FontSize = 48;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "50 720";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("0 - Butt Cap");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "50 520";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("1 - Round Cap");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "50 320";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = theDoc.AddText("2 - Projecting Square Cap");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Width = 20;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Color.String = "255 255 255";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddLine(100, 200, 500, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.String = "80 180 120 220";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FillRect(20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.String = "480 180 520 220";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FillRect(20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddLine(100, 400, 500, 400);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.String = "80 380 120 420";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FillRect(20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.String = "480 380 520 420";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FillRect(20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddLine(100, 600, 500, 600);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.String = "80 580 120 620";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FillRect(20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.String = "480 580 520 620";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FillRect(20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Color.String = "0 0 0";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Line join operator example
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void SetLineJoin(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Line join example");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineWidth(50);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineJoin(0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(300, 500);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(400, 700);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(500, 500);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineJoin(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(300, 300);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(400, 500);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(500, 300);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineJoin(2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(300, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(400, 300);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(500, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FontSize = 48;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "50 700";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("0 - Miter");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "50 500";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("1 - Round ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "50 300";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("2 - Bevel");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Width = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Color.String = "255 255 255";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddLine(300, 500, 400, 700);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddLine(400, 700, 500, 500);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.String = "390 690 410 710";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FillRect(10, 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddLine(300, 300, 400, 500);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddLine(400, 500, 500, 300);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.String = "390 490 410 510";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FillRect(10, 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddLine(300, 100, 400, 300);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddLine(400, 300, 500, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.String = "390 290 410 310";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FillRect(10, 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Color.String = "0 0 0";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Dash pattern operator example
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void Dash(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Dash pattern example");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineWidth(20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.LineDash("[ ] 0");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(100, 650);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(500, 650);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.LineDash("[ 90 ] 0");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(100, 500);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(500, 500);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.LineDash("[ 60 ] 30");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(100, 350);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(500, 350);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.LineDash("[ 60 30 ] 0");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Move(100, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Line(500, 200);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// annotate dashed lines
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Color.String = "0 0 0";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FontSize = 36;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "50 710";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("[ ] 0 - no dashes");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "50 560";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("[ 90 ] 0 - 90 on, 90 off...");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "50 410";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("[ 60 ] 30 - 30 on, 60 off, 60 on...");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Pos.String = "50 260";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("[ 60 30 ] 0 - 60 on, 30 off, 60 on...");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// add dashed lines
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Example of cordinate space transformation
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void Rotate(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Coordinate transformation example");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent star = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;star.Move(124, 108);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;star.Line(300, 650);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;star.Line(476, 108);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;star.Line(15, 443);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;star.Line(585, 443);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;star.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;star.Stroke();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineWidth(30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetLineJoin(2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddContent(star);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetRGBStrokeColor(1, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(0.7, 0.7, -0.7, 0.7, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddContent(star);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Example of cordinate space transformation
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void Hexahedron(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Coordinate transformation example");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double side = 200;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double offset = side*Math.Sqrt(3)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XPoint center = new XPoint();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;center.X = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;center.Y = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Construct hexahedron figure
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent hexahedron = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hexahedron.Move(center.X - side/2, center.Y - offset);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hexahedron.Line(center.X + side/2, center.Y - offset);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hexahedron.Line(center.X + side, center.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hexahedron.Line(center.X + side/2, center.Y + offset);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hexahedron.Line(center.X - side/2, center.Y + offset);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hexahedron.Line(center.X - side, center.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hexahedron.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hexahedron.Fill();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const double pi = 3.141592;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double scale = 1.5*Math.Sqrt(3)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double angle = 15;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt; 8; i++ )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetRGBNonStrokeColor(0.1*i, 0.1*i, 0.1*i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Rotate hexahedron
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(Math.Cos(angle*i*pi/180), Math.Sin(angle*i*pi/180), - Math.Sin(angle*i*pi/180), Math.Cos(angle*i*pi/180), 300, 400);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Scale hexahedron
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(scale, 0, 0, scale, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scale *= 0.9 * Math.Sqrt(3)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddContent(hexahedron);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Example of usage of different text operators
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void TextExamples(Doc theDoc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Text examples");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(1, 0, 0, 1, 0, 620);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Character spacing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int HelveticaBoldID = theDoc.AddFont("Helvetica-Bold");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaBoldID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 60);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Character spacing:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int HelveticaID = theDoc.AddFont("Helvetica");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Tc = 0 (default)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Character");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Tc = 5");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetCharacterSpacing(5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Character");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Word spacing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(1, 0, 0, 1, 0, -110);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaBoldID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 60);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Word spacing:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Tw = 0 (default)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Word Space");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Tw = 10");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetWordSpacing(10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Word Space");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Horizontal scaling
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(1, 0, 0, 1, 0, -110);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaBoldID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 60);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Horizontal scaling:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Th = 100 (default)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Word");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Th = 50");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetHorizontalScaling(50);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("WordWord");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Text rise
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(1, 0, 0, 1, 0, -80);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaBoldID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Text rise:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("This text is");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextRise(5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("superscripted");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Text rendering modes
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(1, 0, 0, 1, 0, -90);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaBoldID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 40);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Text rendering modes:");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 8; i++ )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextRenderingMode((PDFContent.TextRenderingMode) i );
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50 * (i+1), 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("R");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Example of transparent objects
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void Transparency( Doc theDoc )
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Transparency example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetRGBNonStrokeColor(0.9, 0.9, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Add background rect
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Rect(130, 200, 350, 350);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Fill();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetRGBNonStrokeColor(0, 0, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetNonStrokeAlpha(0.6);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Add transparent circles
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Arc(0, 360, 305, 300, 100, 100, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetRGBNonStrokeColor(1, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Arc(0, 360, 230, 450, 100, 100, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetRGBNonStrokeColor(0, 1, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Arc(0, 360, 380, 450, 100, 100, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Different blend modes example
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void BlendModes( Doc theDoc )
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Different blending modes example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Add background
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent background = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background.SetRGBNonStrokeColor(0.5, 0.5, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background.Rect(20, 120, theDoc.MediaBox.Width - 40 , theDoc.MediaBox.Height -230);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background.AddToDoc();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XImage sampleImage = new XImage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sampleImage.SetFile((Directory.GetParent(theBase).Parent.FullName +"\\pic.png"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double width = sampleImage.Width*2/3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double height = sampleImage.Height*2/3;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.Position(23, 500);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.Width = width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.Height = height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int imageID = theDoc.AddImage(sampleImage);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] blendModes = {"Normal", "Multiply", "Screen", "Overlay", "Darken",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Lighten", "ColorDodge", "ColorBurn", "HardLight", "Difference", "Exclusion",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Hue", "Saturation", "Color", "Luminosity"};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int HelveticaID = theDoc.AddFont("Helvetica");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Draw images with different blend modes
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; blendModes.Length; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (i &gt; 0) // Don't show 1st image, because we already have done it with Doc.AddImage
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(width, 0, 0, height, 23 + (width+10)*(i % 5), 500- (height+40) * (i / 5));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetBlendMode(blendModes[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.DoImage(imageID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Print blend mode name
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(1, 0, 0, 1, 23 + (width+10)*(i % 5), 500- (height+40) * (i / 5) + height + 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString(blendModes[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Form XObject example
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+
+&nbsp;&nbsp;&nbsp;&nbsp;static void FormXObject(Doc theDoc )
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Form XObject example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFBoundedContent theContent = new PDFBoundedContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(1, 0, 0, 1, 0, 620);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Character spacing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int HelveticaBoldID = theDoc.AddFont("Helvetica-Bold");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaBoldID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 60);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Character spacing:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int HelveticaID = theDoc.AddFont("Helvetica");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Tc = 0 (default)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Character");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Tc = 5");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetCharacterSpacing(5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Character");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Word spacing
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(1, 0, 0, 1, 0, -110);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaBoldID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 60);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Word spacing:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Tw = 0 (default)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Word Space");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Tw = 10");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetWordSpacing(10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Word Space");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Horizontal scaling
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(1, 0, 0, 1, 0, -110);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaBoldID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 60);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Horizontal scaling:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Th = 100 (default)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Word");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Th = 50");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 250, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetHorizontalScaling(50);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("WordWord");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Text rise
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(1, 0, 0, 1, 0, -80);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaBoldID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Text rise:");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("This text is");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextRise(5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("superscripted");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Text rendering modes
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(1, 0, 0, 1, 0, -90);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaBoldID, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50, 40);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("Text rendering modes:");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetFont(HelveticaID, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 8; i++ )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextRenderingMode((PDFContent.TextRenderingMode) i );
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetTextMatrix(1, 0, 0, 1, 50 * (i+1), 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.ShowTextString("R");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.EndText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFFormXObjectID theTextID = theContent.WriteToFormXObject();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.GetInfo(theTextID.ID, "Compress");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent = new PDFBoundedContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(0.5, 0, 0.25, 0.5, 0, 310);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.DoFormXObject(theTextID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetNonStrokeAlpha(0.1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetRGBNonStrokeColor(0, 0, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Add background rect
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Rect(130, 200, 350, 350);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Fill();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetRGBNonStrokeColor(0, 0, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetNonStrokeAlpha(0.6);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Add transparent circles
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Arc(0, 360, 305, 300, 100, 100, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetRGBNonStrokeColor(1, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Arc(0, 360, 230, 450, 100, 100, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SetRGBNonStrokeColor(0, 1, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Arc(0, 360, 380, 450, 100, 100, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFFormXObjectID theTransparencyID = theContent.WriteToFormXObject();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.GetInfo(theTransparencyID.ID, "Compress");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent thePageContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.Transform(0.5, 0, 0, 0.5, 0, 310);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.Rect(theTextID.Bounds.X, theTextID.Bounds.Y,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTextID.Bounds.Width, theTextID.Bounds.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.DoFormXObject(theTextID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.Transform(0.5, 0, 0, 0.5, 300, 310);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.DoFormXObject(theTextID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.Transform(0.5, 0, 0, 0.5, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.Rect(theTransparencyID.Bounds.X, theTransparencyID.Bounds.Y,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTransparencyID.Bounds.Width, theTransparencyID.Bounds.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.DoFormXObject(theTransparencyID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.Transform(0.5, 0, 0, 0.5, 300, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.DoFormXObject(theTransparencyID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clipped images example
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theDoc"&gt;Output doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void ClippedImages(Doc theDoc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StartNewPage(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddDescription(theDoc, "Clipped images example");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (XImage image = new XImage()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image.SetFile((Directory.GetParent(theBase).Parent.FullName + "\\pic.png"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double width = image.Width, height = image.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x = (theDoc.MediaBox.Width - width) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double y = (theDoc.MediaBox.Height - height) / 2;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFContent theContent = new PDFContent(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = theContent.AddImage(image);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Transform(width, 0, 0, height, x, y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Arc(0, 360, 0.5, 0.5, 0.5, 0.5, 0, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.Clip();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.DoImage(name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.RestoreState();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theContent.AddToDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

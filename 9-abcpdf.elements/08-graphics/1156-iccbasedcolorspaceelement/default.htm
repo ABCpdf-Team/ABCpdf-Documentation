@@ -37,6 +37,12 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=157">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 66, page 149.</a></p>
 </p>
+<!-- addition start -->
+<p>ICCBased wraps an ICC color profile stream to define a device-independent color space. The number of components is determined by the profile's color space signature rather than by a fixed rule.</p>
+<p>The embedded ICC profile provides the full forward and inverse transforms between the encoded component values and the CIE profile connection space. A conforming reader uses this profile when converting colors to the output device.</p>
+<p>An alternate color space may be provided for contexts where ICC processing is not available. The alternate must have the same number of components as the ICC profile's input space.</p>
+<p>ICCBased spaces can represent gray, RGB, CMYK, and Lab input spaces, depending on the embedded profile. This makes the color space family flexible enough to cover most real-world color encoding scenarios.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

@@ -1,0 +1,911 @@
+<html>
+<head>
+<title>AddWatermarkForm.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">AddWatermarkForm.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.IO;
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+
+namespace ABCpdfControls {
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for AddWatermarkForm.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class AddWatermarkForm : System.Windows.Forms.Form {
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.GroupBox groupBox1;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.GroupBox groupBox2;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label1;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required designer variable.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.ComponentModel.Container components = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.PictureBox pagePreviewPictureBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button okButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button cancelButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label2;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label3;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.TextBox watermarkTextBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.NumericUpDown verticalOffsetUpDown;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.NumericUpDown horizontalOffsetUpDown;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.RadioButton imageWatermarkRadioButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.RadioButton textWatermarkRadioButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ComboBox fontNameComboBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.NumericUpDown fontSizeNumericUpDown;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button fontColorButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label4;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.TrackBar opacityPercentTrackBar;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.NumericUpDown opacityPercentNumericUpDown;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label5;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button selectImageButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.TextBox imageFileTextBox;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Doc mDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;private int m_iTextId = -1;
+&nbsp;&nbsp;&nbsp;&nbsp;private int m_iImageId = -1;
+&nbsp;&nbsp;&nbsp;&nbsp;private int m_iImageWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;private int m_iImageHeight;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.CheckBox allPagesCheckBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label6;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label7;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label8;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.NumericUpDown scaleNumericUpDown;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label9;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label10;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label11;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.NumericUpDown rotateNumericUpDown;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.GroupBox positionGroupBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.GroupBox appearanceGroupBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private Color mColor = Color.Black;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public AddWatermarkForm(Doc currentDoc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Required for Windows Form Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// TODO: Add any constructor code after InitializeComponent call
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc = currentDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontNameComboBox.SelectedIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose( bool disposing ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( disposing ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(components != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose( disposing );
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Windows Form Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1 = new System.Windows.Forms.GroupBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagePreviewPictureBox = new System.Windows.Forms.PictureBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2 = new System.Windows.Forms.GroupBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox = new System.Windows.Forms.ComboBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectImageButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageFileTextBox = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageWatermarkRadioButton = new System.Windows.Forms.RadioButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textWatermarkRadioButton = new System.Windows.Forms.RadioButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.watermarkTextBox = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox = new System.Windows.Forms.GroupBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label11 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.rotateNumericUpDown = new System.Windows.Forms.NumericUpDown();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label10 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label9 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.scaleNumericUpDown = new System.Windows.Forms.NumericUpDown();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label8 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label7 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.horizontalOffsetUpDown = new System.Windows.Forms.NumericUpDown();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.verticalOffsetUpDown = new System.Windows.Forms.NumericUpDown();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox = new System.Windows.Forms.GroupBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentNumericUpDown = new System.Windows.Forms.NumericUpDown();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentTrackBar = new System.Windows.Forms.TrackBar();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.allPagesCheckBox = new System.Windows.Forms.CheckBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.fontSizeNumericUpDown)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.rotateNumericUpDown)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.scaleNumericUpDown)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.horizontalOffsetUpDown)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.verticalOffsetUpDown)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.opacityPercentNumericUpDown)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.opacityPercentTrackBar)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// groupBox1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Controls.Add(this.pagePreviewPictureBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Location = new System.Drawing.Point(296, 8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Name = "groupBox1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Size = new System.Drawing.Size(264, 312);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Text = "Preview";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pagePreviewPictureBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagePreviewPictureBox.Location = new System.Drawing.Point(16, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagePreviewPictureBox.Name = "pagePreviewPictureBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagePreviewPictureBox.Size = new System.Drawing.Size(240, 280);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagePreviewPictureBox.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagePreviewPictureBox.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// groupBox2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Controls.Add(this.fontSizeNumericUpDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Controls.Add(this.fontColorButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Controls.Add(this.label1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Controls.Add(this.fontNameComboBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Controls.Add(this.selectImageButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Controls.Add(this.imageFileTextBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Controls.Add(this.imageWatermarkRadioButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Controls.Add(this.textWatermarkRadioButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Controls.Add(this.watermarkTextBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Location = new System.Drawing.Point(8, 8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Name = "groupBox2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Size = new System.Drawing.Size(280, 176);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Text = "Source";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// fontSizeNumericUpDown
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.Location = new System.Drawing.Point(192, 80);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.Maximum = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1000,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.Minimum = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.Name = "fontSizeNumericUpDown";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.Size = new System.Drawing.Size(40, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.TabIndex = 9;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.Value = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.ValueChanged += new System.EventHandler(this.fontSizeNumericUpDown_ValueChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// fontColorButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Location = new System.Drawing.Point(248, 80);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Name = "fontColorButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Size = new System.Drawing.Size(24, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.TabIndex = 8;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Click += new System.EventHandler(this.fontColorButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Paint += new System.Windows.Forms.PaintEventHandler(this.fontColorButton_Paint);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Location = new System.Drawing.Point(32, 80);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Name = "label1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Size = new System.Drawing.Size(32, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.TabIndex = 6;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Text = "Font:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// fontNameComboBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.DisplayMember = "Arial";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Items.AddRange(new object[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Arial",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Arial Black",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Arial Black Italic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-Roman",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-Bold",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-Italic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-BoldItalic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica-Bold",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica-Oblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica-BoldOblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier-Bold",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier-Oblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier-BoldOblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Symbol",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ZapfDingbats"});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Location = new System.Drawing.Point(64, 80);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Name = "fontNameComboBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Size = new System.Drawing.Size(112, 21);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.TabIndex = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.SelectedIndexChanged += new System.EventHandler(this.fontNameComboBox_SelectedIndexChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// selectImageButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectImageButton.Enabled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectImageButton.Location = new System.Drawing.Point(248, 144);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectImageButton.Name = "selectImageButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectImageButton.Size = new System.Drawing.Size(24, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectImageButton.TabIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectImageButton.Text = "...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectImageButton.Click += new System.EventHandler(this.selectImageButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// imageFileTextBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageFileTextBox.Enabled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageFileTextBox.Location = new System.Drawing.Point(32, 144);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageFileTextBox.Name = "imageFileTextBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageFileTextBox.Size = new System.Drawing.Size(208, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageFileTextBox.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageFileTextBox.Text = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageFileTextBox.TextChanged += new System.EventHandler(this.imageFileTextBox_TextChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// imageWatermarkRadioButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageWatermarkRadioButton.Location = new System.Drawing.Point(16, 112);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageWatermarkRadioButton.Name = "imageWatermarkRadioButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageWatermarkRadioButton.Size = new System.Drawing.Size(80, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageWatermarkRadioButton.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageWatermarkRadioButton.Text = "Image file:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imageWatermarkRadioButton.CheckedChanged += new System.EventHandler(this.imageWatermarkRadioButton_CheckedChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textWatermarkRadioButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textWatermarkRadioButton.Checked = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textWatermarkRadioButton.Location = new System.Drawing.Point(16, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textWatermarkRadioButton.Name = "textWatermarkRadioButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textWatermarkRadioButton.Size = new System.Drawing.Size(48, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textWatermarkRadioButton.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textWatermarkRadioButton.TabStop = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textWatermarkRadioButton.Text = "Text:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// watermarkTextBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.watermarkTextBox.AcceptsReturn = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.watermarkTextBox.Location = new System.Drawing.Point(72, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.watermarkTextBox.Multiline = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.watermarkTextBox.Name = "watermarkTextBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.watermarkTextBox.Size = new System.Drawing.Size(200, 48);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.watermarkTextBox.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.watermarkTextBox.Text = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.watermarkTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.watermarkTextBox_KeyDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.watermarkTextBox.Leave += new System.EventHandler(this.watermarkTextBox_Leave);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// positionGroupBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.label11);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.rotateNumericUpDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.label10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.label9);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.scaleNumericUpDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.label8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.label7);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.label6);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.horizontalOffsetUpDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.label3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.label2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Controls.Add(this.verticalOffsetUpDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Enabled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Location = new System.Drawing.Point(8, 192);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Name = "positionGroupBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Size = new System.Drawing.Size(280, 160);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.Text = "Position";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label11
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label11.Location = new System.Drawing.Point(128, 128);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label11.Name = "label11";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label11.Size = new System.Drawing.Size(148, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label11.TabIndex = 11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label11.Text = "degrees (counterclockwise)";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// rotateNumericUpDown
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.rotateNumericUpDown.Increment = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.rotateNumericUpDown.Location = new System.Drawing.Point(64, 128);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.rotateNumericUpDown.Maximum = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;360,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.rotateNumericUpDown.Name = "rotateNumericUpDown";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.rotateNumericUpDown.Size = new System.Drawing.Size(56, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.rotateNumericUpDown.TabIndex = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.rotateNumericUpDown.ValueChanged += new System.EventHandler(this.rotateNumericUpDown_ValueChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label10
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label10.Location = new System.Drawing.Point(8, 128);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label10.Name = "label10";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label10.Size = new System.Drawing.Size(56, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label10.TabIndex = 9;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label10.Text = "Rotation:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label9
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label9.Location = new System.Drawing.Point(128, 96);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label9.Name = "label9";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label9.Size = new System.Drawing.Size(16, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label9.TabIndex = 8;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label9.Text = "%";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// scaleNumericUpDown
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.scaleNumericUpDown.Increment = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.scaleNumericUpDown.Location = new System.Drawing.Point(64, 94);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.scaleNumericUpDown.Maximum = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1000,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.scaleNumericUpDown.Name = "scaleNumericUpDown";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.scaleNumericUpDown.Size = new System.Drawing.Size(56, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.scaleNumericUpDown.TabIndex = 7;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.scaleNumericUpDown.Value = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.scaleNumericUpDown.ValueChanged += new System.EventHandler(this.scaleNumericUpDown_ValueChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label8
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label8.Location = new System.Drawing.Point(8, 96);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label8.Name = "label8";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label8.Size = new System.Drawing.Size(48, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label8.TabIndex = 6;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label8.Text = "Scale:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label7
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label7.Location = new System.Drawing.Point(160, 60);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label7.Name = "label7";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label7.Size = new System.Drawing.Size(16, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label7.TabIndex = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label7.Text = "pt";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label6
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Location = new System.Drawing.Point(160, 26);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Name = "label6";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Size = new System.Drawing.Size(16, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.TabIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Text = "pt";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// horizontalOffsetUpDown
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.horizontalOffsetUpDown.Increment = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;36,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.horizontalOffsetUpDown.Location = new System.Drawing.Point(96, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.horizontalOffsetUpDown.Maximum = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10000000,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.horizontalOffsetUpDown.Name = "horizontalOffsetUpDown";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.horizontalOffsetUpDown.Size = new System.Drawing.Size(56, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.horizontalOffsetUpDown.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.horizontalOffsetUpDown.ValueChanged += new System.EventHandler(this.horizontalOffsetUpDown_ValueChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Location = new System.Drawing.Point(8, 26);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Name = "label3";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Size = new System.Drawing.Size(104, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Text = "Horizontal offset:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Location = new System.Drawing.Point(8, 60);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Name = "label2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Size = new System.Drawing.Size(88, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Text = "Vertical offset:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// verticalOffsetUpDown
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.verticalOffsetUpDown.Increment = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;36,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.verticalOffsetUpDown.Location = new System.Drawing.Point(96, 58);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.verticalOffsetUpDown.Maximum = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10000000,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.verticalOffsetUpDown.Name = "verticalOffsetUpDown";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.verticalOffsetUpDown.Size = new System.Drawing.Size(56, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.verticalOffsetUpDown.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.verticalOffsetUpDown.Value = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;792,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.verticalOffsetUpDown.ValueChanged += new System.EventHandler(this.verticalOffsetUpDown_ValueChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// okButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Location = new System.Drawing.Point(400, 409);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Name = "okButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.TabIndex = 9;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Text = "OK";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Click += new System.EventHandler(this.okButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// cancelButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Location = new System.Drawing.Point(488, 409);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Name = "cancelButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.TabIndex = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Text = "Cancel";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// appearanceGroupBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.Controls.Add(this.label5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.Controls.Add(this.opacityPercentNumericUpDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.Controls.Add(this.label4);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.Controls.Add(this.opacityPercentTrackBar);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.Enabled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.Location = new System.Drawing.Point(8, 360);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.Name = "appearanceGroupBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.Size = new System.Drawing.Size(280, 72);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.TabIndex = 11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.Text = "Appearance";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label5
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Location = new System.Drawing.Point(262, 21);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Name = "label5";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Size = new System.Drawing.Size(12, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Text = "%";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// opacityPercentNumericUpDown
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentNumericUpDown.Location = new System.Drawing.Point(222, 22);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentNumericUpDown.Name = "opacityPercentNumericUpDown";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentNumericUpDown.Size = new System.Drawing.Size(40, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentNumericUpDown.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentNumericUpDown.Value = new System.Decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentNumericUpDown.ValueChanged += new System.EventHandler(this.opacityPercentNumericUpDown_ValueChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label4
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4.Location = new System.Drawing.Point(16, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4.Name = "label4";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4.Size = new System.Drawing.Size(48, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4.Text = "Opacity:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// opacityPercentTrackBar
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentTrackBar.Location = new System.Drawing.Point(64, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentTrackBar.Maximum = 100;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentTrackBar.Name = "opacityPercentTrackBar";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentTrackBar.Size = new System.Drawing.Size(152, 45);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentTrackBar.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentTrackBar.TickFrequency = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentTrackBar.Value = 100;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.opacityPercentTrackBar.Scroll += new System.EventHandler(this.opacityPercentTrackBar_Scroll);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// allPagesCheckBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.allPagesCheckBox.Location = new System.Drawing.Point(296, 336);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.allPagesCheckBox.Name = "allPagesCheckBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.allPagesCheckBox.Size = new System.Drawing.Size(200, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.allPagesCheckBox.TabIndex = 12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.allPagesCheckBox.Text = "Apply to all pages in the document";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// AddWatermarkForm
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ClientSize = new System.Drawing.Size(568, 440);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ControlBox = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.appearanceGroupBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.allPagesCheckBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.okButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.cancelButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.positionGroupBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.groupBox2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.groupBox1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Name = "AddWatermarkForm";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ShowInTaskbar = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Text = "Add Watermark";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Load += new System.EventHandler(this.AddWatermarkForm_Load);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.fontSizeNumericUpDown)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionGroupBox.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.rotateNumericUpDown)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.scaleNumericUpDown)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.horizontalOffsetUpDown)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.verticalOffsetUpDown)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.appearanceGroupBox.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.opacityPercentNumericUpDown)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.opacityPercentTrackBar)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ResumeLayout(false);
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void UpdatePreview() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc == null || mDoc.PageCount == 0 || mDoc.Page == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sw = pagePreviewPictureBox.Width - 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sh = pagePreviewPictureBox.Height - 4;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double resX = (sw * 72) / mDoc.Rect.Width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double resY = (sh * 72) / mDoc.Rect.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double res = resX &gt; resY ? resY : resX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double width = mDoc.Rect.Width * res / 72.0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double height = mDoc.Rect.Height * res / 72.0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x = (pagePreviewPictureBox.Width - width) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double y = (pagePreviewPictureBox.Height - height) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RectangleF theRect = new RectangleF((float)x, (float)y, (float)width, (float)height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double saveDPI = mDoc.Rendering.DotsPerInch;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.DotsPerInch = res;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.ColorSpace = XRendering.ColorSpaceType.Rgb;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.BitsPerChannel = 8;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bitmap bm = mDoc.Rendering.GetBitmap();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pagePreviewPictureBox.Image = bm;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.DotsPerInch = saveDPI;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;bool m_bFirstTime = true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool FirstTime {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return m_bFirstTime;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( value == false) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;positionGroupBox.Enabled = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;appearanceGroupBox.Enabled = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_bFirstTime = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void UpdateWatermark(bool deleteOld) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (deleteOld &amp;&amp; m_iTextId &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(m_iTextId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int rotate = (int)rotateNumericUpDown.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double scale = (double)scaleNumericUpDown.Value / 100;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Transform.Reset();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (textWatermarkRadioButton.Checked) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (m_iTextId &lt;= 0 &amp;&amp; watermarkTextBox.Text == "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string savePos = mDoc.Pos.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string saveRect = mDoc.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.X = (double)horizontalOffsetUpDown.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Left = mDoc.Pos.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.Y = (double)verticalOffsetUpDown.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Font = mDoc.AddFont(fontNameComboBox.Text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.FontSize = (int)fontSizeNumericUpDown.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Color.Color = mColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Color.Alpha = GetAlpha();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_iTextId = mDoc.AddText(watermarkTextBox.Text);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect theRect = new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theRect.String = mDoc.GetInfo(m_iTextId, "Rect");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(m_iTextId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Transform.Rotate(rotate, (theRect.Left + theRect.Right)/2, (theRect.Bottom + theRect.Top)/2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Transform.Magnify(scale, scale, (theRect.Left + theRect.Right)/2, (theRect.Bottom + theRect.Top)/2);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (FirstTime) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.X = (mDoc.CropBox.Width - theRect.Width) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.Y = (mDoc.CropBox.Height + theRect.Height) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horizontalOffsetUpDown.Value = (decimal)mDoc.Pos.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verticalOffsetUpDown.Value = (decimal)mDoc.Pos.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FirstTime = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.X = (double)horizontalOffsetUpDown.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.Y = (double)verticalOffsetUpDown.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_iTextId = mDoc.AddText(watermarkTextBox.Text);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.String = savePos;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = saveRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (imageWatermarkRadioButton.Checked) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (File.Exists(imageFileTextBox.Text)) {
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool bNewImage = (m_iImageId &lt;= 0);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XImage theImage = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (bNewImage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theImage  = new XImage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theImage.SetFile(imageFileTextBox.Text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_iImageWidth = theImage.Width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_iImageHeight = theImage.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("Can't add image. Image file is invalid.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string saveRect = mDoc.Rect.String;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (FirstTime) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Bottom = (mDoc.CropBox.Height - m_iImageHeight)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Left = (mDoc.CropBox.Width - m_iImageWidth)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verticalOffsetUpDown.Value = (decimal)mDoc.Rect.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;horizontalOffsetUpDown.Value = (decimal)mDoc.Rect.Left;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FirstTime = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Bottom = (double)verticalOffsetUpDown.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Left = (double)horizontalOffsetUpDown.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Width = m_iImageWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Height = m_iImageHeight;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Transform.Rotate(rotate, (mDoc.Rect.Left + mDoc.Rect.Right)/2, (mDoc.Rect.Bottom + mDoc.Rect.Top)/2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Transform.Magnify(scale, scale, (mDoc.Rect.Left + mDoc.Rect.Right)/2, (mDoc.Rect.Bottom + mDoc.Rect.Top)/2);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (bNewImage) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_iImageId = mDoc.AddImageFile(imageFileTextBox.Text, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int newImage = mDoc.AddImageCopy(m_iImageId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (deleteOld)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(m_iImageId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_iImageId = newImage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ImageLayer im = (ImageLayer)mDoc.ObjectSoup[m_iImageId];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;im.PixMap.SetAlpha(GetAlpha());
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = saveRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (deleteOld)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePreview();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void AddWatermarkForm_Load(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePreview();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void watermarkTextBox_Leave(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void watermarkTextBox_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.KeyCode == Keys.Enter) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void verticalOffsetUpDown_ValueChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!FirstTime)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void horizontalOffsetUpDown_ValueChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!FirstTime)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void okButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (allPagesCheckBox.Checked) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int currentPageNumber = mDoc.PageNumber;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt;= mDoc.PageCount; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( i != currentPageNumber) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.PageNumber = i;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.PageNumber = currentPageNumber;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DialogResult = DialogResult.OK;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void fontNameComboBox_SelectedIndexChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void fontSizeNumericUpDown_ValueChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void fontColorButton_Paint(object sender, System.Windows.Forms.PaintEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.OnPaint(e);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Graphics g = e.Graphics;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.FillRectangle(new SolidBrush(mColor), new Rectangle(4, 4, fontColorButton.Size.Width - 8, fontColorButton.Size.Height - 8));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void fontColorButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ColorDialog theDialog = new ColorDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDialog.Color = mColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DialogResult res = theDialog.ShowDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( res == DialogResult.OK ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mColor = theDialog.Color;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontColorButton.Refresh();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void opacityPercentNumericUpDown_ValueChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opacityPercentTrackBar.Value = (int)opacityPercentNumericUpDown.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void opacityPercentTrackBar_Scroll(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opacityPercentNumericUpDown.Value = opacityPercentTrackBar.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private int GetAlpha() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 255 * (int)opacityPercentNumericUpDown.Value /100;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void selectImageButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenFileDialog od = new OpenFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;od.Filter = "Image files (*.jpg;*.bmp;*.png;*.tif)|*.jpg;*.bmp;*.png;*.tif|All files (*.*)|*.*" ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;od.FilterIndex = 1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (od.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imageFileTextBox.Text = od.FileName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void imageWatermarkRadioButton_CheckedChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Text watermark section
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontNameComboBox.Enabled = !imageWatermarkRadioButton.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSizeNumericUpDown.Enabled = !imageWatermarkRadioButton.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontColorButton.Enabled = !imageWatermarkRadioButton.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;watermarkTextBox.Enabled = !imageWatermarkRadioButton.Checked;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Image watermark section
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imageFileTextBox.Enabled = imageWatermarkRadioButton.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectImageButton.Enabled = imageWatermarkRadioButton.Checked;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (m_iImageId &gt; 0 &amp;&amp; !imageWatermarkRadioButton.Checked) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(m_iImageId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_iImageId = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (m_iTextId &gt; 0 &amp;&amp; imageWatermarkRadioButton.Checked) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(m_iTextId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_iTextId = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void imageFileTextBox_TextChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (m_iImageId &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(m_iImageId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_iImageId = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void cancelButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (m_iImageId &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(m_iImageId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (m_iTextId &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(m_iTextId);
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void scaleNumericUpDown_ValueChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void rotateNumericUpDown_ValueChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateWatermark(true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

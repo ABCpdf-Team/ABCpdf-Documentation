@@ -1,0 +1,443 @@
+<html>
+<head>
+<title>Drawing\Font.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Drawing\Font.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.IO;
+using System.Globalization;
+
+namespace WebSupergoo.ABCpdf14.Drawing {
+&nbsp;&nbsp;public class Font: ICloneable, IDisposable {
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Drawing.Font _gdiplusFont;
+&nbsp;&nbsp;&nbsp;&nbsp;private FontFamily _family;
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets style information for this font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A font style enumeration that contains style information for this font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual FontStyle Style{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return FontInfoConvert.ToFontStyle(_gdiplusFont.Style); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a value that indicates whether this font is bold.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;&lt;c&gt;true&lt;/c&gt; if this font is bold; otherwise, &lt;c&gt;false&lt;/c&gt;.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual bool Bold{ get{ return _gdiplusFont.Bold; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a value that indicates whether this font is italic.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;&lt;c&gt;true&lt;/c&gt; if this font is italic; otherwise, &lt;c&gt;false&lt;/c&gt;.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual bool Italic{ get{ return _gdiplusFont.Italic; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a value that indicates whether this font is underlined.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;&lt;c&gt;true&lt;/c&gt; if this font is underlined; otherwise, &lt;c&gt;false&lt;/c&gt;.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual bool Underline{ get{ return _gdiplusFont.Underline; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a value that indicates whether this font specifies a horizontal line through the font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;&lt;c&gt;true&lt;/c&gt; if this font has a horizontal line through it; otherwise, &lt;c&gt;false&lt;/c&gt;.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual bool Strikeout{ get{ return _gdiplusFont.Strikeout; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the face name of this font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A string representation of the face name of this font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual string Name{ get{ return _gdiplusFont.Name; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the em-size, in points, of this font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;The em-size, in points, of this font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual float SizeInPoints{ get{ return _gdiplusFont.SizeInPoints; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the em-size, in points, of this font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;The em-size, in points, of this font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual float Size{ get{ return _gdiplusFont.SizeInPoints; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the height, in pixels, for this font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="resolution"&gt;The resolution at which to calculate the height.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;The height in pixels, for this font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual float GetHeight(float resolution) { 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (_gdiplusFont != null) ? _gdiplusFont.GetHeight(resolution) : (SizeInPoints * resolution) / 72;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the font family associated with this font.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;The font family associated with this font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public FontFamily FontFamily{ get{ return _family; } }
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override string ToString() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return string.Format("[Font: Name={0}, Size={1}]", Name, Size);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Constructors
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font using a specified size.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="familyName"&gt;A string representation of the font family for the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="emSize"&gt;The em-size, in points, of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Font(string familyName, float emSize):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this(familyName, emSize, FontStyle.Regular){}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font using a specified size and style.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="familyName"&gt;A string representation of the font family for the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="emSize"&gt;The em-size, in points, of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;The font style of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Font(string familyName, float emSize, FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_gdiplusFont = new System.Drawing.Font(familyName, emSize,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontInfoConvert.ToGdiplusFontStyle(style));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_family = new FontFamily(_gdiplusFont.FontFamily);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font using a specified size.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="family"&gt;The font family of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="emSize"&gt;The em-size, in points, of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Font(FontFamily family, float emSize):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this(family, emSize, FontStyle.Regular){}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font using a specified size and style.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="family"&gt;The font family of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="emSize"&gt;The em-size, in points, of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;The font style of the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Font(FontFamily family, float emSize, FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(family.GetType() != typeof(FontFamily))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentException(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"family must not be a derived class of FontFamily.", "family");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_family = family;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_gdiplusFont = new System.Drawing.Font(family.GdiplusFontFamily,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;emSize, FontInfoConvert.ToGdiplusFontStyle(style));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font using the specified existing font and font style enumeration.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="prototype"&gt;The existing font from which to create the new font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="newStyle"&gt;The font style to apply to the new font. Multiple values of the font style enumeration can be combined with the &lt;c&gt;OR&lt;/c&gt; operator.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Font(Font prototype, FontStyle newStyle):
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this(prototype.FontFamily, prototype.SizeInPoints, newStyle){}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font using the specified existing &lt;c&gt;System.Drawing.Font&lt;/c&gt;.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="prototype"&gt;The existing System.Drawing.Font from which to create the new font&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Font(System.Drawing.Font prototype) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_gdiplusFont = (System.Drawing.Font)prototype.Clone();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_family = new FontFamily(_gdiplusFont.FontFamily);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal Font(FontFamily family) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_gdiplusFont = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_family = family;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Embedded Font Name
+&nbsp;&nbsp;&nbsp;&nbsp;private XFont GetFontWithBetterWeight(XFont xfont0, XFont xfont1){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const int boldWeight = 700;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(Bold){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(xfont0.Weight &gt;= boldWeight &amp;&amp; xfont1.Weight &gt;= boldWeight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return xfont0.Weight &lt;= xfont1.Weight? xfont0: xfont1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(xfont0.Weight &gt;= boldWeight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return xfont0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(xfont1.Weight &gt;= boldWeight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return xfont1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const int normalWeight = 400;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Math.Abs(xfont0.Weight - normalWeight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;= Math.Abs(xfont1.Weight - normalWeight)?
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xfont0: xfont1;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;internal virtual string GetEmbeddedFontName(out FontStyle leftoutStyle){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leftoutStyle = Style;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const int boldWeight = 700;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XFont xfont = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XFont[] xfontList = XFont.FindFamily(Name);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach(XFont xfontItor in xfontList){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(xfont == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xfont = xfontItor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if(xfontItor.Italic == xfont.Italic)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xfont = GetFontWithBetterWeight(xfont, xfontItor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if(Bold || (xfontItor.Weight &gt;= boldWeight) == (xfont.Weight &gt;= boldWeight)){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(Italic == xfontItor.Italic)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xfont = xfontItor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else if(Italic == xfontItor.Italic &amp;&amp; xfontItor.Weight &lt; boldWeight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xfont = xfontItor;&nbsp;&nbsp;// exact match
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if(Italic == xfont.Italic &amp;&amp; xfont.Weight &lt; boldWeight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if(!xfontItor.Italic &amp;&amp; xfontItor.Weight &lt; boldWeight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xfont = xfontItor;&nbsp;&nbsp;// regular
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if(!xfont.Italic &amp;&amp; xfont.Weight &lt; boldWeight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if(Italic == xfontItor.Italic)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xfont = xfontItor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(xfont == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Name;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(xfont.Italic)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leftoutStyle &amp;= ~FontStyle.Italic;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(xfont.Weight &gt;= boldWeight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;leftoutStyle &amp;= ~FontStyle.Bold;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return xfont.PostScriptName;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;object ICloneable.Clone(){ return Clone(); }
+&nbsp;&nbsp;&nbsp;&nbsp;public Font Clone(){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Font o = (Font)MemberwiseClone();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;o._gdiplusFont = (System.Drawing.Font)_gdiplusFont.Clone();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return o;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual Font Clone(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Font(this, style);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region IDisposable Members
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool _disposed = false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;~Font(){ Dispose(false); }
+&nbsp;&nbsp;&nbsp;&nbsp;public void Dispose() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispose(true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GC.SuppressFinalize(this);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;protected virtual void Dispose(bool disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_disposed)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_gdiplusFont != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_gdiplusFont.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class FontFamily: IDisposable {
+&nbsp;&nbsp;&nbsp;&nbsp;#region Static Properties
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a generic monospace font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A font family that represents a generic monospace font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static FontFamily GenericMonospace {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return new FontFamily(System.Drawing.FontFamily.GenericMonospace); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a generic sans serif font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A font family that represents a generic sans serif font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static FontFamily GenericSansSerif {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return new FontFamily(System.Drawing.FontFamily.GenericSansSerif); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets a generic serif font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A font family that represents a generic serif font.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static FontFamily GenericSerif {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return new FontFamily(System.Drawing.FontFamily.GenericSerif); }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Drawing.FontFamily _gdiplusFamily;
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties and Simple Info Methods
+&nbsp;&nbsp;&nbsp;&nbsp;internal virtual System.Drawing.FontFamily GdiplusFontFamily {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get{ return _gdiplusFamily; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the name of this font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A &lt;c&gt;String&lt;/c&gt; that represents the name of this font family.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual string Name{ get{ return _gdiplusFamily.Name; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns the name, in the specified language, of this font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="language"&gt;The language in which the name is returned.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;A &lt;c&gt;String&lt;/c&gt; that represents the name, in the specified language, of this font family.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual string GetName(int language) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _gdiplusFamily.GetName(language);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns the cell ascent, in design units, of the font family of the specified style.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;A font style that contains style information for the font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The cell ascent for this font family that uses the specified font style.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual int GetCellAscent(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _gdiplusFamily.GetCellAscent(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontInfoConvert.ToGdiplusFontStyle(style));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns the cell descent, in design units, of the font family of the specified style.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;A font style that contains style information for the font.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The cell descent for this font family that uses the specified font style.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual int GetCellDescent(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _gdiplusFamily.GetCellDescent(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontInfoConvert.ToGdiplusFontStyle(style));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the height, in design units, of the em square for the specified style.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;The font style for which to get the em height.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The height of the em square.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual int GetEmHeight(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _gdiplusFamily.GetEmHeight(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontInfoConvert.ToGdiplusFontStyle(style));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns the line spacing, in design units, of the font family of the specified style. The line spacing is the vertical distance between the base lines of two consecutive lines of text.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;The font style to apply.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The distance between two consecutive lines of text.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual int GetLineSpacing(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _gdiplusFamily.GetLineSpacing(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontInfoConvert.ToGdiplusFontStyle(style));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Indicates whether the specified font style enumeration is available.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="style"&gt;The font style to test.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;&lt;c&gt;true&lt;/c&gt; if the specified font style is available; otherwise, &lt;c&gt;false&lt;/c&gt;.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual bool IsStyleAvailable(FontStyle style) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _gdiplusFamily.IsStyleAvailable(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontInfoConvert.ToGdiplusFontStyle(style));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override string ToString() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _gdiplusFamily.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Constructors
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font family from the specified generic font family.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="genericFamily"&gt;The generic font family from which to create the new font family.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public FontFamily(Text.GenericFontFamilies genericFamily) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_gdiplusFamily = new System.Drawing.FontFamily(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontInfoConvert.ToGdiplusGenericFontFamilies(genericFamily));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font family with the specified name.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="name"&gt;The name of the new font family.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public FontFamily(string name): this(new System.Drawing.FontFamily(name)){}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Initializes a new font family using the specified existing &lt;c&gt;System.Drawing.FontFamily&lt;/c&gt;.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="prototype"&gt;The existing System.Drawing.FontFamily from which to create the new font family.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public FontFamily(System.Drawing.FontFamily prototype) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_gdiplusFamily = prototype;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal FontFamily(){}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region IDisposable Members
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool _disposed = false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;~FontFamily(){ Dispose(false); }
+&nbsp;&nbsp;&nbsp;&nbsp;public void Dispose() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispose(true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GC.SuppressFinalize(this);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;protected virtual void Dispose(bool disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_disposed)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_gdiplusFamily != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_gdiplusFamily.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;}
+
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -31,6 +31,11 @@
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 325, page 680.</a></p>
 <p><a target="_blank" href="http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=60">Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.33a, page 60.</a></p>
 </p>
+<!-- addition start -->
+<p>A 3D units dictionary defines the unit system for 3D measurements in a 3D annotation. It specifies the translation scale and units for three orthogonal measurement axes, allowing measurements made on the 3D model to be expressed in meaningful physical units.</p>
+<p>For each of the three measurement axes (translation T, a second axis U, and a depth axis D), the dictionary holds a scale numerator (Sm), scale denominator (Sn), and a unit name (U). The actual scale factor is Sm divided by Sn, expressing the ratio of model units to the named unit.</p>
+<p>Unit names are text strings such as m, cm, mm, in, or ft. Consistent units allow measurement tools and external applications to interpret model dimensions correctly.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

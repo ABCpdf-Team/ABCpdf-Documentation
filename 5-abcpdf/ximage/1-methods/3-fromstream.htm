@@ -33,7 +33,7 @@ XImage takes ownership of this parameter. This may be null.</TD>
       src="../../../images/steel-pin.gif" width=64><BR>Notes</TD><TD width=14>&nbsp;</TD><TD vAlign=top> 
 <TABLE cellSpacing=0 cellPadding=0 width="100%" border=0> <TBODY> <TR> <TD> <P>The stream will typically be one of the following types: JPEG, GIF, TIFF, BMP, 
             PNG, PSD, PDB, EXIF, WMF, EMF, EPS, PS or SWF (Flash).</P>
-        <P>For details of additional  formats which are supported and the way they are imported, see the <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a> property and the the <A 
+        <P>For details of additional  formats which are supported and the way they are imported, see the <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a> property and the <A 
             href="../../doc/1-methods/read.htm">Doc.Read</A> method.</P>
         <P>The advantage of  this method over <A 
             href="setstream.htm">SetStream</A>, is that you can specify the <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a> you would like to use. This allows precise control over the way that your graphics are imported.</P>
@@ -44,8 +44,7 @@ XImage takes ownership of this parameter. This may be null.</TD>
           release the ownership without disposing of the XReadOptions using 
           the parameterized overloads of <A href="4-dispose.htm">Dispose</A> and <A href="clear.htm">Clear</A>. The XReadOptions must not be 
           modified as long as the object has the ownership.</P>
-        <P>If the returned XImage has the <A href="../2-properties/needsstream.htm">NeedsStream</A><A 
-            href="../2-properties/needsfile.htm"></A> property set to true, you must ensure that the specified stream 
+        <P>If the returned XImage has the <A href="../2-properties/needsstream.htm">NeedsStream</A> property set to true, you must ensure that the specified stream 
              will remain present and unmodified  until the XImage object is  cleared, 
             disposed of, or garbage-collected. When this happens the 
   XImage takes  ownership of the Stream, which is disposed of when the object 

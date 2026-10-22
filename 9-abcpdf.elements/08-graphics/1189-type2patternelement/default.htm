@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=189">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 76, page 181.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 75, page 225.</a></p>
 </p>
+<!-- addition start -->
+<p>A Type 2 pattern paints a shading directly without a repeating tile. The shading fills the area painted by the pattern, with the color varying continuously according to the shading's function and geometry.</p>
+<p>The shading dictionary entry specifies all details of the gradient, including its type, color space, and the function that maps positions to colors.</p>
+<p>The matrix entry maps pattern space to the default user space of the context in which the pattern is used. This allows the shading to be positioned, rotated, or scaled independently of the shading's internal coordinate system.</p>
+<p>An extended graphics state may be attached via the ExtGState entry to control transparency or other rendering parameters when the shading pattern is painted.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

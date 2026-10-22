@@ -131,7 +131,7 @@ doc.Save("doctagopen.pdf");
 doc.Read("doctagopen.pdf");
 var ts = doc.Tag.GetStructure();
 var str = ts.ExtractStructure();
-File.WriteAllText("out.txt", str.ToString());
+File.WriteAllText("doctagopen.txt", str.ToString());
 </code></pre></P>
               <table cellspacing="3" cellpadding="3">
                 <tr>

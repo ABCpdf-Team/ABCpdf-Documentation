@@ -1,0 +1,994 @@
+<html>
+<head>
+<title>Form1.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Form1.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows.Forms;
+using System.IO;
+using System.Text;
+using System.Linq;
+
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Operations;
+using WebSupergoo.ABCpdf14.Elements;
+using WebSupergoo.ABCpdf14.Operations.Accessibility;
+using WebSupergoo.TableDetection;
+
+
+namespace AccessiblePDF {
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for Form1.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class Form1 : System.Windows.Forms.Form {
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button1;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button2;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button3;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button4;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button5;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button6;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button7;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBox textBox1;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBox textBox3;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBox textBox2;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button8;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button9;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button10;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button11;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private Button button13;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// Required designer variable.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private System.ComponentModel.Container components = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Form1() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Required for Windows Form Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// TODO: Add any constructor code after InitializeComponent call
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose(bool disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (components != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose(disposing);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Windows Form Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button7 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1 = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3 = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2 = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button8 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button9 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button10 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button11 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button12 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button13 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Location = new System.Drawing.Point(19, 358);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Name = "button1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Size = new System.Drawing.Size(256, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Text = "Change Content";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Click += new System.EventHandler(this.button1_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.Location = new System.Drawing.Point(301, 120);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.Name = "button3";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.Size = new System.Drawing.Size(256, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.Text = "Detect Tables";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.Click += new System.EventHandler(this.button3_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button4
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.Location = new System.Drawing.Point(19, 120);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.Name = "button4";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.Size = new System.Drawing.Size(256, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.Text = "Detect Headers";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.Click += new System.EventHandler(this.button4_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button5
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.Location = new System.Drawing.Point(301, 162);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.Name = "button5";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.Size = new System.Drawing.Size(256, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.TabIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.Text = "Detect Lists";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.Click += new System.EventHandler(this.button5_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button6
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.Location = new System.Drawing.Point(19, 162);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.Name = "button6";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.Size = new System.Drawing.Size(256, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.TabIndex = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.Text = "Detect Sections";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.Click += new System.EventHandler(this.button6_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button7
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button7.Location = new System.Drawing.Point(584, 120);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button7.Name = "button7";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button7.Size = new System.Drawing.Size(256, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button7.TabIndex = 6;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button7.Text = "Detect Artifacts";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button7.Click += new System.EventHandler(this.button7_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textBox1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Location = new System.Drawing.Point(17, 244);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Multiline = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Name = "textBox1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.ReadOnly = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Size = new System.Drawing.Size(823, 88);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.TabIndex = 7;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Text = resources.GetString("textBox1.Text");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textBox3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Location = new System.Drawing.Point(19, 30);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Multiline = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Name = "textBox3";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.ReadOnly = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Size = new System.Drawing.Size(821, 68);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.TabIndex = 9;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Text = resources.GetString("textBox3.Text");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.Location = new System.Drawing.Point(19, 575);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.Name = "button2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.Size = new System.Drawing.Size(256, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.TabIndex = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.Text = "Extract Structure";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.Click += new System.EventHandler(this.button2_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textBox2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.Location = new System.Drawing.Point(19, 481);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.Multiline = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.Name = "textBox2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.ReadOnly = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.Size = new System.Drawing.Size(823, 67);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.TabIndex = 11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.Text = resources.GetString("textBox2.Text");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button8
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button8.Location = new System.Drawing.Point(586, 575);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button8.Name = "button8";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button8.Size = new System.Drawing.Size(256, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button8.TabIndex = 12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button8.Text = "Markup Structure";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button8.Click += new System.EventHandler(this.button8_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button9
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button9.Location = new System.Drawing.Point(584, 358);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button9.Name = "button9";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button9.Size = new System.Drawing.Size(256, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button9.TabIndex = 13;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button9.Text = "Add Tagged Signature";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button9.Click += new System.EventHandler(this.button9_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button10
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button10.Location = new System.Drawing.Point(584, 162);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button10.Name = "button10";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button10.Size = new System.Drawing.Size(256, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button10.TabIndex = 14;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button10.Text = "Add Custom Tags";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button10.Click += new System.EventHandler(this.button10_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button11
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button11.Location = new System.Drawing.Point(301, 358);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button11.Name = "button11";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button11.Size = new System.Drawing.Size(256, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button11.TabIndex = 15;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button11.Text = "Remove Content";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button11.Click += new System.EventHandler(this.button11_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button12
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button12.Location = new System.Drawing.Point(19, 404);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button12.Name = "button12";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button12.Size = new System.Drawing.Size(256, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button12.TabIndex = 16;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button12.Text = "Add Tagged Content 1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button12.Click += new System.EventHandler(this.button12_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button13
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button13.Location = new System.Drawing.Point(301, 404);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button13.Name = "button13";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button13.Size = new System.Drawing.Size(256, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button13.TabIndex = 17;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button13.Text = "Add Tagged Content 2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button13.Click += new System.EventHandler(this.button13_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Form1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AutoScaleBaseSize = new System.Drawing.Size(8, 19);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ClientSize = new System.Drawing.Size(881, 626);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button13);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button12);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button11);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button9);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.textBox2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.textBox3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.textBox1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button7);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button6);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button4);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Name = "Form1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Text = "AccessiblePDF";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PerformLayout();
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The main entry point for the application.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;[STAThread]
+&nbsp;&nbsp;&nbsp;&nbsp;static void Main() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application.Run(new Form1());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button1_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChangeContent(Path.Combine(theRez, "_Flowers.pdf"), Path.Combine(theRez, "_Squirrel.png"), Path.Combine(theRez, "6-replace_content.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void ChangeContent(string src, string img, string dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure tags = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StructureElementElement&gt; images = tags.FindElementsByType("CustomImageTag");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (images.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (XImage image = XImage.FromFile(img, null)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PixMap pm = PixMap.FromXImage(doc.ObjectSoup, image);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags.ReplaceImages(images, pm);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StructureElementElement&gt; texts = tags.FindElementsByType("CustomTextTag");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags.ReplaceText(texts, "Replaced Text!");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button11_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityWithTables(Path.Combine(theRez, "_Romans.pdf"), Path.Combine(theRez, "9-subject_matter.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PurgeUnreferencedTags(Path.Combine(theRez, "9-subject_matter.pdf"), Path.Combine(theRez, "9-purge_tags_before.pdf"), Path.Combine(theRez, "9-purge_tags_after.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.Delete(Path.Combine(theRez, "9-subject_matter.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void PurgeUnreferencedTags(string src, string before, string after) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var r = new Random(5); // arbitrary seed set to ensure same output each time
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var page in doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string txt = ASCIIEncoding.ASCII.GetString(page.GetContentData());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] lines = txt.Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var sb = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool skipping = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string line in lines) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (line.Contains("/Span &lt;&lt; /MCID") &amp;&amp; (r.Next(5) == 0))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;skipping = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (skipping &amp;&amp; line.Contains("EMC"))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;skipping = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (!skipping)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine(line);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var l = page.GetLayers()[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l.SetData(Encoding.ASCII.GetBytes(sb.ToString()), true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(before);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure tags = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags.Purge(new string[] { "P" });
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags.UpdateActualText(true, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(after);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//MarkupStructure(before, before.Replace(".pdf", "_Markup.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//MarkupStructure(after, after.Replace(".pdf", "_Markup.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button2_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string file in Directory.GetFiles(theRez, "*.pdf")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Path.GetFileName(file).StartsWith("_"))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// the content we extract isn't really HTML but it is similar enough that a browser will often display it
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExtractStructure(file, Path.Combine(theRez, Path.GetFileNameWithoutExtension(file) + ".htm"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void ExtractStructure(string src, string dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure tags = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = tags.ExtractStructure();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.WriteAllText(dst, sb.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button3_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityWithTables(Path.Combine(theRez, "_Romans.pdf"), Path.Combine(theRez, "3-detect_tables.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void AccessibilityWithTables(string src, string dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityOperation op = new AccessibilityOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.MakeAccessible();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure tags = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// reorder elements so that they go from top to bottom
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement document = (StructureElementElement)tags.Root.EntryK[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KidArranger.SortTopToBottom(tags, document, null); // can pass KidArranger.GetPageLayout(doc.MediaBox, 72.0, 72.0, 2) for columns
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// convert paragraphs to tables where appropriate
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StructureElementElement&gt; elements = tags.FindElementsByType("P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tables tables = new Tables();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tables.FontSensitive = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tables.Add(tags, elements);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Table table in tables.Items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (table.Items.Count &lt;= 1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue; // too small
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int index = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement parent = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement tb = new StructureElementElement(document);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tb.EntryType = "StructElem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tb.EntryS = "Table";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Row row in table.Items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement tr = new StructureElementElement(document);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tr.EntryType = "StructElem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tr.EntryS = "TR";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tr.SetParent(tb);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StructureElementElement item in row.Items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((parent == null) &amp;&amp; (item != null)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(item.EntryP is StructureTreeRootElement == false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent = item.EntryP as StructureElementElement;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index = parent.EntryK.IndexOf(item);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement td = new StructureElementElement(document);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;td.EntryType = "StructElem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;td.EntryS = "TD";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;td.SetParent(tr);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.SetParent(td);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tb.SetParent(parent, index);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button4_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityWithHeaders(Path.Combine(theRez, "_Romans.pdf"), Path.Combine(theRez, "1-detect_headers.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void AccessibilityWithHeaders(string src, string dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityOperation op = new AccessibilityOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.MakeAccessible();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure tags = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// reorder elements so that they go from top to bottom
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement document = (StructureElementElement)tags.Root.EntryK[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KidArranger.SortTopToBottom(tags, document, null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// determine what styles are used for headers and change tag type appropriately
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StructureElementElement&gt; elements = tags.FindElementsByType("P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;string, List&lt;StructureElementElement&gt;&gt; styles = new Dictionary&lt;string, List&lt;StructureElementElement&gt;&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StructureElementElement element in elements) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string weight = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!element.GetStyle().TryGetValue("font-weight", out weight))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue; // we are only interested in bold fonts
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int value = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((!int.TryParse(weight, out value)) || (value &lt; 700))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string size = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!element.GetStyle().TryGetValue("font-size", out size))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StructureElementElement&gt; matches = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!styles.TryGetValue(size, out matches)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matches = new List&lt;StructureElementElement&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;styles[size] = matches;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matches.Add(element);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Style&gt; headers = new List&lt;Style&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (KeyValuePair&lt;string, List&lt;StructureElementElement&gt;&gt; pair in styles)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headers.Add(new Style(pair.Key, pair.Value));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headers.Sort((i1, i2) =&gt; i1.Elements.Count.CompareTo(i2.Elements.Count));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; headers.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (i &gt; 4)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break; // limit the number of header levels
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string tag = "H" + (i + 1).ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StructureElementElement element in headers[i].Elements) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element.EntryS = tag;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button5_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityWithLists(Path.Combine(theRez, "_Romans.pdf"), Path.Combine(theRez, "4-detect_lists.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void AccessibilityWithLists(string src, string dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityOperation op = new AccessibilityOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.MakeAccessible();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure tags = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// reorder elements so that they go from top to bottom
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement document = (StructureElementElement)tags.Root.EntryK[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KidArranger.SortTopToBottom(tags, document, null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// detect and insert list and list item structure
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StructureElementElement&gt; elements = tags.FindElementsByType("P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement list = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StructureElementElement element in elements) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool isListItem = element.EntryActualText.TrimStart().StartsWith("\u2022");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((isListItem) &amp;&amp; (list == null)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list = new StructureElementElement(document);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.EntryType = "StructElem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.EntryS = "L";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(element.EntryP is StructureTreeRootElement == false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement parent = element.EntryP as StructureElementElement;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(parent != null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int index = parent.EntryK.IndexOf(element);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.SetParent(parent, index);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (isListItem) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element.SetParent(list, int.MaxValue);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element.EntryS = "LI";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((!isListItem) &amp;&amp; (list != null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button10_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityWithCustomTags(Path.Combine(theRez, "8-detect_custom_tags.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void AccessibilityWithCustomTags(string dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// add some content and some custom tags
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Inset(50, 50);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = (Page)doc.ObjectSoup[doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.AddLayer(new StreamObject(doc.ObjectSoup, Encoding.ASCII.GetBytes("BX\r\n")));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddTextStyled("&lt;p tag-start=\"/H1 TAG\"&gt;&lt;stylerun fontsize='72'&gt;&lt;b&gt;De Bello Gallico&lt;/b&gt;&lt;/stylerun&gt;&lt;/p&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddTextStyled("&lt;p tag-start=\"/H2 TAG\"&gt;&lt;stylerun fontsize='36'&gt;Julius Caesar&lt;/stylerun&gt;&lt;/p&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddTextStyled("&lt;p&gt;&lt;stylerun fontsize='18'&gt;&amp;nbsp;&lt;/stylerun&gt;&lt;/p&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddTextStyled("&lt;p tag-start=\"/P TAG\"&gt;&lt;stylerun fontsize='18'&gt;&lt;b&gt;Gallia&lt;/b&gt; est omnis divisa in partes tres, quarum unam incolunt &lt;b&gt;Belgae&lt;/b&gt;, aliam &lt;b&gt;Aquitani&lt;/b&gt;, tertiam qui ipsorum lingua &lt;b&gt;Celtae&lt;/b&gt;, nostra &lt;b&gt;Galli&lt;/b&gt; appellantur.&lt;/stylerun&gt;&lt;/p&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.AddLayer(new StreamObject(doc.ObjectSoup, Encoding.ASCII.GetBytes("EX\r\n")));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// make accessible
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityOperation op = new AccessibilityOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.MakeAccessible();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// work out how our custom tags match up with the standard PDF tags
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, Dictionary&lt;int, string&gt;&gt; allCustomTags = new Dictionary&lt;int, Dictionary&lt;int, string&gt;&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; doc.PageCount; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// get page contents
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, string&gt; customTags = new Dictionary&lt;int, string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allCustomTags[doc.Page] = customTags;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;int&gt; deletion = new List&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = (Page)doc.ObjectSoup[doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = ArrayAtom.FromContentStream(page.GetContentData());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var items = OpAtom.Find(array, new string[] { "BDC", "TAG" });
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string style = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// scan for tags
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var pair in items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pair.Item1 == "BDC") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumAtom mcid = Atom.GetItem(array[pair.Item2 - 1], "MCID") as NumAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mcid != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;customTags[mcid.Num] = style;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style = Atom.GetName(array[pair.Item2 - 1]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deletion.Add(pair.Item2 - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deletion.Add(pair.Item2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// remove the custom tags we added
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j = deletion.Count - 1; j &gt;= 0; j--)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;array.RemoveAt(deletion[j]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte[] arrayData = array.GetData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject so = new StreamObject(doc.ObjectSoup);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so.SetData(arrayData, 1, arrayData.Length - 2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so.CompressFlate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.SetInfo(page.ID, "/Contents:Del", "");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.AddLayer(so);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// determine what custom styles are used and change tag type appropriately
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure tags = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StructureElementElement&gt; elements = tags.FindElementsByType("P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StructureElementElement element in elements) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var page = element.EntryPg;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (page == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue; // this should never happen
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;Page, HashSet&lt;int&gt;&gt; mcidMap = new Dictionary&lt;Page, HashSet&lt;int&gt;&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element.FindMcids(mcidMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mcidMap.Count != 1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue; // paragraph spread across more than one page
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;int&gt; mcids = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mcidMap.TryGetValue(page.Object as Page, out mcids);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mcids == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// match mcids with custom tags
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, string&gt; customTags = allCustomTags[page.Object.ID];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;string, int&gt; styles = new Dictionary&lt;string, int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (int mcid in mcids) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string style = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;customTags.TryGetValue(mcid, out style);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!string.IsNullOrWhiteSpace(style)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;styles.TryGetValue(style, out count);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;styles[style] = count + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// if verdict is unanimous assign new style
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (styles.Count == 1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element.EntryS = (new List&lt;string&gt;(styles.Keys))[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button6_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityWithSections(Path.Combine(theRez, "_Romans.pdf"), Path.Combine(theRez, "2-detect_sections.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void AccessibilityWithSections(string src, string dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityOperation op = new AccessibilityOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.MakeAccessible();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure tags = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// reorder elements so that they go from top to bottom
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement document = (StructureElementElement)tags.Root.EntryK[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KidArranger.SortTopToBottom(tags, document, null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// define structure hierarchy template
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Heading&gt; template = new List&lt;Heading&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;template.Add(new Heading("Title ", "Part", 1));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;template.Add(new Heading("Subheader ", "Sect", 2));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// detect and insert section item structure
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StructureElementElement&gt; elements = tags.FindElementsByType("P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stack&lt;StructureElementElement&gt; hierarchy = new Stack&lt;StructureElementElement&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StructureElementElement element in elements) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string text = element.EntryActualText.TrimStart();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Heading item in template) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (text.StartsWith(item.Match)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (hierarchy.Count &gt;= item.Level)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (hierarchy.Count == item.Level - 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement heading = new StructureElementElement(document);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heading.EntryType = "StructElem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heading.EntryS = item.Type;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement parent = (StructureElementElement)element.EntryP;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heading.SetParent(hierarchy.Count &gt; 0 ? hierarchy.Peek() : parent, Int32.MaxValue);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hierarchy.Push(heading);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (hierarchy.Count &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element.SetParent(hierarchy.Peek(), Int32.MaxValue);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button7_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityWithArtifacts(Path.Combine(theRez, "_Romans.pdf"), Path.Combine(theRez, "5-detect_artifacts.pdf"), false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void AccessibilityWithArtifacts(string src, string dst, bool frame) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// define header and footer areas
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, XRect&gt; headers = new Dictionary&lt;int, XRect&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;int, XRect&gt; footers = new Dictionary&lt;int, XRect&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; doc.PageCount; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect header = doc.CropBox.Clone();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;header.Pin = XRect.Corner.TopLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;header.Height = 2.0 * 72;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headers[doc.Page] = header;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect footer = doc.CropBox.Clone();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;footer.Pin = XRect.Corner.BottomLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;footer.Height = 2.0 * 72;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;footers[doc.Page] = footer;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (frame) { // mark red so we can see where they are
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(255, 0, 0, 40);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = header.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FillRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = footer.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FillRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// make accessible
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AccessibilityOperation op = new AccessibilityOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.MakeAccessible();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure tags = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// reorder elements so that they go from top to bottom
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement document = (StructureElementElement)tags.Root.EntryK[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KidArranger.SortTopToBottom(tags, document, null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dictionary&lt;Page, HashSet&lt;int&gt;&gt; artifacts = new Dictionary&lt;Page, HashSet&lt;int&gt;&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// find header elements and remove from structure
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StructureElementElement&gt; elements = tags.FindElementsByType("P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StructureElementElement element in elements) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var page = element.EntryPg;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((page != null) &amp;&amp; (headers[page.Object.ID].Contains(element.GetBBox())) || (footers[page.Object.ID].Contains(element.GetBBox()))) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(element.Object is StreamObject == false, "This should never happen using ABCpdf. We should only ever see Pages.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element.FindMcids(artifacts);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;element.SetParent(null, int.MaxValue);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// turn header elements into artifacts
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (KeyValuePair&lt;Page, HashSet&lt;int&gt;&gt; pair in artifacts) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = pair.Key;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.Flatten(true, false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;int&gt; mcids = pair.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StreamObject layer in page.GetLayers()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!layer.Decompress())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Exception("Unable to decompress stream.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool changed = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = ArrayAtom.FromContentStream(layer.GetData());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// eg "/Span &lt;&lt; /MCID 11 &gt;&gt; BDC" becomes "/Artifact &lt;&lt; /Type /Pagination /Subtype /Header&gt;&gt; BDC"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var items = OpAtom.Find(array, new string[] { "BDC" });
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var pair2 in items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom[] args = OpAtom.GetParameters(array, pair2.Item2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DictAtom pars = (DictAtom)args[1];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumAtom mcid = (NumAtom)pars["MCID"];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((mcid != null) &amp;&amp; (mcids.Contains(mcid.Num))) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NameAtom name = (NameAtom)args[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name.Text = "Artifact";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pars.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pars["Type"] = new NameAtom("Pagination");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pars["Subtype"] = new NameAtom("Header");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;changed = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (changed) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte[] arrayData = array.GetData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layer.SetData(arrayData, 1, arrayData.Length - 2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layer.CompressFlate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button8_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string file in Directory.GetFiles(theRez, "*.pdf")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Path.GetFileName(file).StartsWith("_"))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MarkupStructure(file, Path.Combine(theRez, "_" + Path.GetFileNameWithoutExtension(file) + "_Markup.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void MarkupStructure(string src, string dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure tags = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags.MarkupStructure();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button9_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddTaggedSignature(Path.Combine(theRez, "_Flowers.pdf"), Path.Combine(theRez, "7-tagged-signature.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void AddTaggedSignature(string src, string dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(src);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// find place in structure
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure tags = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StructureElementElement&gt; elements = tags.FindElementsByType("Span");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(elements.Count == 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement signatureTag = elements[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = signatureTag.GetPage(tags).ID;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// create signature and add to page
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// we use a restricted set of options because it seems that eSignLive may not
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// always understand all possible options 9th April 2018
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CatalogElement catalog = new CatalogElement(doc.ObjectSoup.Catalog);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageObjectElement page = new PageObjectElement(doc.ObjectSoup[doc.Page]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = doc.AddObject("&lt;&lt;/FT /Sig /Subtype /Widget /Type /Annot &gt;&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AnnotationElement sigAnnot = new AnnotationElement(doc.ObjectSoup[id]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sigAnnot.EntryP = page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect sigRect = XRect.FromLbwh(150, 600, 300, 100);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sigAnnot.EntryRect = new RectangleElement(ArrayAtom.FromXRect(sigRect), sigAnnot.Host);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SignatureFieldElement sigField = new SignatureFieldElement(doc.ObjectSoup[id]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sigField.EntryT = "Signature1"; // name of signature field
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sigField.EntryTU = "My Signature"; // display name of signature field
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (page.EntryAnnots == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.EntryAnnots = new ArrayElement&lt;AnnotationElement&gt;(page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.EntryAnnots.Add(sigAnnot);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (catalog.EntryAcroForm == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catalog.EntryAcroForm = new InteractiveFormElement(catalog);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (catalog.EntryAcroForm.EntryFields == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catalog.EntryAcroForm.EntryFields = new ArrayElement&lt;FieldElement&gt;(catalog);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catalog.EntryAcroForm.EntrySigFlags = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catalog.EntryAcroForm.EntryFields.Add(sigField);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// link into accessibility structure
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StructureElementElement form = new StructureElementElement(page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;form.EntryType = "StructElem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;form.EntryT = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;form.EntryS = "Form";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;form.EntryP = signatureTag;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;form.EntryK = new ArrayElement&lt;Element&gt;(form);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;signatureTag.EntryK.Add(form);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectReferenceElement objr = new ObjectReferenceElement(page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objr.EntryType = "OBJR";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objr.EntryObj = sigAnnot;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objr.EntryPg = page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;form.EntryK.Add(objr);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags.ParentTree.AddStructParent(sigAnnot.Object, form.Object);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button12_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddTaggedContent1(Path.Combine(theRez, "A-add-tagged-content.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void AddTaggedContent1(string dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (var doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Font = doc.EmbedFont("Arial");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.TextStyle.Size = 20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Inset(50, 50);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var sb = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("&lt;ul&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var color in Enum.GetNames(typeof(System.Drawing.KnownColor)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine($"&lt;li&gt;{color}&lt;/li&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("&lt;/ul&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.TextStyle.AutoTag = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.Open("P"); // put our content inside a paragraph
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = doc.AddTextStyled(sb.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var tl = (TextLayer)doc.ObjectSoup[id];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!tl.Truncated)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = doc.AddTextStyled("", id);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.Close("P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button13_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddTaggedContent2(Path.Combine(theRez, "_Flowers.pdf"), Path.Combine(theRez, "B-add-tagged-content.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void AddTaggedContent2(string src, string dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (var doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool doRead = true, addToExistingPage = true, addToNewPage = true, addStampToExistingPage = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (doRead)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(src);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Structure structure = new Structure(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;structure.CreateAsRequired();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (string.IsNullOrEmpty(structure.Title))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;structure.Title = "Tagged Document"; // PDF/UA requires a title
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (structure.Root.EntryK == null || structure.Root.EntryK.Count == 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var d = structure.Root.AddKid("Document");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d.EntryLang = "en-US";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addToExistingPage = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Font = doc.EmbedFont("Arial", LanguageType.Unicode, false, true, false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.TextStyle.Size = 24;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (addToExistingPage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.SetRect(0, 0, doc.MediaBox.Width, 150);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.TextStyle.HPos = 0.5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.Open("P", "Span");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("Some new additional content for the page.\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.CloseOpen("Span");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("Continued here as we have more content.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.Close("Span", "P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (addToNewPage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Inset(72, 72);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.TextStyle.HPos = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.Open("Sect", "Div", "P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("Div one paragraph one.\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.CloseOpen("P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("Div one paragraph two.\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.Close("P", "Div");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.Open("Div", "P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("Div two paragraph one.\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.CloseOpen("P");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("Div two paragraph two.\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.Close("P", "Div", "Sect");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (addStampToExistingPage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.TextStyle.HPos = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (doc.Page == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.Roles["RubberStamp"] = "Annot";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.Classes["RedBorder"] = Atom.FromString("&lt;&lt; /O /Layout /BorderColor [1 0 0] /BorderStyle /Solid &gt;&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var graphic = doc.Tag.MakeTag("RubberStamp");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;graphic.Attributes = new DictAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;graphic.Attributes["Alt"] = new StringAtom("Classification: Secret");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;graphic.Attributes["C"] = new NameAtom("RedBorder");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;graphic.Object = new StampAnnotation(doc, XRect.FromLbwh(200, 400, 100, 40), "SECRET", XColor.FromRgb(255, 0, 0));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Tag.OpenClose(graphic);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;class Heading {
+&nbsp;&nbsp;&nbsp;&nbsp;public string Match;
+&nbsp;&nbsp;&nbsp;&nbsp;public string Type;
+&nbsp;&nbsp;&nbsp;&nbsp;public int Level;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Heading(string match, string type, int level) { Match = match; Type = type; Level = level; }
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;class Style {
+&nbsp;&nbsp;&nbsp;&nbsp;public string Size;
+&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;StructureElementElement&gt; Elements;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Style(string size, List&lt;StructureElementElement&gt; elements) { Size = size; Elements = elements; }
+&nbsp;&nbsp;};
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

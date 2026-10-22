@@ -1,0 +1,1930 @@
+<html>
+<head>
+<title>MainForm.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">MainForm.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
+using SD = System.Drawing;
+using SD2 = System.Drawing.Drawing2D;
+
+using System.Drawing.Imaging;
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Objects;
+
+namespace WebSupergoo.PDFSurgeon
+{
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for MainForm.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class MainForm : System.Windows.Forms.Form {
+&nbsp;&nbsp;&nbsp;&nbsp;private Doc _doc;
+&nbsp;&nbsp;&nbsp;&nbsp;private Navigator _nav;
+&nbsp;&nbsp;&nbsp;&nbsp;private string _filePath;
+&nbsp;&nbsp;&nbsp;&nbsp;private string _tempPath;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;TemporaryFile&gt; _tempFiles;
+&nbsp;&nbsp;&nbsp;&nbsp;private bool _dirty;
+&nbsp;&nbsp;&nbsp;&nbsp;private ObjectExtractor _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;private GraphicsScanner.Graphics _graphics;
+&nbsp;&nbsp;&nbsp;&nbsp;private GraphicsScanner.Fixture _fixture;
+&nbsp;&nbsp;&nbsp;&nbsp;public Dictionary&lt;ObjectExtractor, EditText&gt; _editTexts;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Find _findDialog;
+&nbsp;&nbsp;&nbsp;&nbsp;private ListView lst;
+&nbsp;&nbsp;&nbsp;&nbsp;private OpenFileDialog dlgOpenFile;
+&nbsp;&nbsp;&nbsp;&nbsp;private FontDialog dlgSelectFont;
+&nbsp;&nbsp;&nbsp;&nbsp;private SplitContainer split;
+&nbsp;&nbsp;&nbsp;&nbsp;private ColumnHeader cheaderID;
+&nbsp;&nbsp;&nbsp;&nbsp;private ColumnHeader cheaderType;
+&nbsp;&nbsp;&nbsp;&nbsp;private ColumnHeader cheaderName;
+&nbsp;&nbsp;&nbsp;&nbsp;private ColumnHeader cheaderInfo1;
+&nbsp;&nbsp;&nbsp;&nbsp;private ColumnHeader cheaderInfo2;
+&nbsp;&nbsp;&nbsp;&nbsp;private TabControl tabInfo;
+&nbsp;&nbsp;&nbsp;&nbsp;private TabPage pageAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;private TabPage pageContent;
+&nbsp;&nbsp;&nbsp;&nbsp;private RichTextBox txtContent;
+&nbsp;&nbsp;&nbsp;&nbsp;private TabPage pageImage;
+&nbsp;&nbsp;&nbsp;&nbsp;private PictureBox pict;
+&nbsp;&nbsp;&nbsp;&nbsp;private MenuStrip mstrip;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mitemFile;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mitemOpen;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripSeparator mitemSep1;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mitemExit;
+&nbsp;&nbsp;&nbsp;&nbsp;private ImageList imglist;
+&nbsp;&nbsp;&nbsp;&nbsp;private Panel pnlPicture;
+&nbsp;&nbsp;&nbsp;&nbsp;private ContextMenuStrip cmenuIndirectObject;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mitemDecompress;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mItemMakeAscii85;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mItemCompressFlate;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mItemCompressJpeg75;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mItemCompressJpeg50;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mItemCompressJpeg25;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mitemSaveAs;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mitemSave;
+&nbsp;&nbsp;&nbsp;&nbsp;private SaveFileDialog dlgSaveFile;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mItemEdit;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mItemRefresh;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mItemMakeAsciiHex;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem editToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem findToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem selectAllToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem viewToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem showAllToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem selectedToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem unselectedToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem compactToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem saveImageToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private SaveFileDialog dlgSaveImage;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem realizeToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem flattenToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mItemFlattenFormXObjects;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mItemExtract;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripSeparator toolStripSeparator1;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem overprintToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem mitemSaveAll;
+&nbsp;&nbsp;&nbsp;&nbsp;private FolderBrowserDialog dlgSaveFolder;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem openInAcrobatToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private TreeView atomTree;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem toolStripBack;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem toolStripForward;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolTip toolTip1;
+&nbsp;&nbsp;&nbsp;&nbsp;private Timer timer1;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolStripMenuItem exportToolStripMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private SaveFileDialog dlgExportFile;
+&nbsp;&nbsp;&nbsp;&nbsp;private IContainer components;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public MainForm() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Required for Windows Form Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.ListViewItemSorter = new ListViewItemComparer();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] args = Environment.GetCommandLineArgs();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (args.Length &gt; 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open(args[1]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception exc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show(exc.Message);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose(bool disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (components != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose(disposing);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Windows Form Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.components = new System.ComponentModel.Container();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgOpenFile = new System.Windows.Forms.OpenFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSelectFont = new System.Windows.Forms.FontDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split = new System.Windows.Forms.SplitContainer();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst = new System.Windows.Forms.ListView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderInfo1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderInfo2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject = new System.Windows.Forms.ContextMenuStrip(this.components);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemDecompress = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAscii85 = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAsciiHex = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressFlate = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg75 = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg50 = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg25 = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.flattenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemFlattenFormXObjects = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.realizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemRefresh = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemEdit = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemExtract = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo = new System.Windows.Forms.TabControl();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage = new System.Windows.Forms.TabPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture = new System.Windows.Forms.Panel();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict = new System.Windows.Forms.PictureBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageAtom = new System.Windows.Forms.TabPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.atomTree = new System.Windows.Forms.TreeView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageContent = new System.Windows.Forms.TabPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.txtContent = new System.Windows.Forms.RichTextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imglist = new System.Windows.Forms.ImageList(this.components);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip = new System.Windows.Forms.MenuStrip();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemFile = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemOpen = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSave = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAs = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAll = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSep1 = new System.Windows.Forms.ToolStripSeparator();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemExit = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.compactToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.showAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.unselectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.overprintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openInAcrobatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripBack = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripForward = new System.Windows.Forms.ToolStripMenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveFile = new System.Windows.Forms.SaveFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveImage = new System.Windows.Forms.SaveFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveFolder = new System.Windows.Forms.FolderBrowserDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.timer1 = new System.Windows.Forms.Timer(this.components);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgExportFile = new System.Windows.Forms.SaveFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.split)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.Panel1.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.Panel2.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.pict)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageAtom.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageContent.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// dlgOpenFile
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgOpenFile.DefaultExt = "pdf";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgOpenFile.Filter = "PDF Document (*.pdf)|*.pdf";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgOpenFile.Title = "Open a PDF Document";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// split
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.Dock = System.Windows.Forms.DockStyle.Fill;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.Location = new System.Drawing.Point(0, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.Name = "split";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// split.Panel1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.Panel1.Controls.Add(this.lst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// split.Panel2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.Panel2.Controls.Add(this.tabInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.Size = new System.Drawing.Size(778, 511);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.SplitterDistance = 455;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// lst
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.AllowDrop = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderID,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderType,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderName,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderInfo1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderInfo2});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.ContextMenuStrip = this.cmenuIndirectObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.Dock = System.Windows.Forms.DockStyle.Fill;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.FullRowSelect = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.HideSelection = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.Location = new System.Drawing.Point(0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.Name = "lst";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.Size = new System.Drawing.Size(455, 511);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.UseCompatibleStateImageBehavior = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.View = System.Windows.Forms.View.Details;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lst_ColumnClick);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.SelectedIndexChanged += new System.EventHandler(this.lst_SelectedIndexChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.DragDrop += new System.Windows.Forms.DragEventHandler(this.lst_DragDrop);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.DragOver += new System.Windows.Forms.DragEventHandler(this.lst_DragOver);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lst.DoubleClick += new System.EventHandler(this.lst_DoubleClick);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// cheaderID
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderID.Text = "ID";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// cheaderType
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderType.Text = "Type";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderType.Width = 86;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// cheaderName
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderName.Text = "Details";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderName.Width = 117;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// cheaderInfo1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderInfo1.Text = "Info";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderInfo1.Width = 77;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// cheaderInfo2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderInfo2.Text = "Info";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cheaderInfo2.Width = 300;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// cmenuIndirectObject
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject.ImageScalingSize = new System.Drawing.Size(20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemDecompress,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAscii85,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAsciiHex,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressFlate,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg75,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg50,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg25,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.flattenToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemFlattenFormXObjects,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.realizeToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveImageToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.exportToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemRefresh,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemEdit,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemExtract});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject.Name = "textBoxContextMenu";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject.ShowCheckMargin = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject.ShowImageMargin = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject.Size = new System.Drawing.Size(339, 484);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject.Text = "cmenuIndirectObject";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject.Opening += new System.ComponentModel.CancelEventHandler(this.cmenuTextBox_Opening);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mitemDecompress
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemDecompress.Name = "mitemDecompress";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemDecompress.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemDecompress.Text = "&amp;Decompress";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemDecompress.Click += new System.EventHandler(this.mitemDecompress_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mItemMakeAscii85
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAscii85.Name = "mItemMakeAscii85";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAscii85.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAscii85.Text = "&amp;Make ASCII85";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAscii85.Click += new System.EventHandler(this.mItemMakeAscii_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mItemMakeAsciiHex
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAsciiHex.Name = "mItemMakeAsciiHex";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAsciiHex.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAsciiHex.Text = "&amp;Make ASCII Hex";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemMakeAsciiHex.Click += new System.EventHandler(this.mItemMakeAsciiHex_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mItemCompressFlate
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressFlate.Name = "mItemCompressFlate";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressFlate.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressFlate.Text = "Compress Flate";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressFlate.Click += new System.EventHandler(this.mItemCompressFlate_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mItemCompressJpeg75
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg75.Name = "mItemCompressJpeg75";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg75.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg75.Text = "Compress JPEG High Quality";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg75.Click += new System.EventHandler(this.mItemCompressJpeg75_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mItemCompressJpeg50
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg50.Name = "mItemCompressJpeg50";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg50.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg50.Text = "Compress JPEG Medium Quality";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg50.Click += new System.EventHandler(this.mItemCompressJpeg50_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mItemCompressJpeg25
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg25.Name = "mItemCompressJpeg25";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg25.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg25.Text = "Compress JPEG Low Quality";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemCompressJpeg25.Click += new System.EventHandler(this.mItemCompressJpeg25_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// flattenToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.flattenToolStripMenuItem.Name = "flattenToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.flattenToolStripMenuItem.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.flattenToolStripMenuItem.Text = "Compress Page Contents";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.flattenToolStripMenuItem.Click += new System.EventHandler(this.flattenToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mItemFlattenFormXObjects
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemFlattenFormXObjects.Name = "mItemFlattenFormXObjects";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemFlattenFormXObjects.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemFlattenFormXObjects.Text = "Stamp Form XObjects Into Page";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemFlattenFormXObjects.Click += new System.EventHandler(this.mItemFlattenFormXObjects_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// realizeToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.realizeToolStripMenuItem.Name = "realizeToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.realizeToolStripMenuItem.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.realizeToolStripMenuItem.Text = "Realize Image";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.realizeToolStripMenuItem.Click += new System.EventHandler(this.realizeToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// saveImageToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveImageToolStripMenuItem.Name = "saveImageToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveImageToolStripMenuItem.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveImageToolStripMenuItem.Text = "Save Image...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveImageToolStripMenuItem.Click += new System.EventHandler(this.saveImageToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// exportToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.exportToolStripMenuItem.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.exportToolStripMenuItem.Text = "Export Data...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mItemRefresh
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemRefresh.Name = "mItemRefresh";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemRefresh.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemRefresh.Text = "Refresh";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemRefresh.Click += new System.EventHandler(this.mItemRefresh_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mItemEdit
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemEdit.Name = "mItemEdit";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemEdit.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemEdit.Text = "Edit Item...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemEdit.Click += new System.EventHandler(this.mItemEdit_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mItemExtract
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemExtract.Name = "mItemExtract";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemExtract.Size = new System.Drawing.Size(338, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemExtract.Text = "Delete Other Pages...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mItemExtract.Click += new System.EventHandler(this.mItemExtract_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// tabInfo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.Controls.Add(this.pageImage);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.Controls.Add(this.pageAtom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.Controls.Add(this.pageContent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.ImageList = this.imglist;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.Location = new System.Drawing.Point(0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.Name = "tabInfo";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.SelectedIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.Size = new System.Drawing.Size(319, 511);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.SelectedIndexChanged += new System.EventHandler(this.tabInfo_SelectedIndexChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pageImage
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage.AutoScroll = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage.Controls.Add(this.pnlPicture);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage.ImageIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage.Location = new System.Drawing.Point(4, 29);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage.Name = "pageImage";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage.Size = new System.Drawing.Size(311, 478);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage.Text = "Image";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage.UseVisualStyleBackColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pnlPicture
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.AutoScroll = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.BackColor = System.Drawing.Color.Azure;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.Controls.Add(this.pict);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.Dock = System.Windows.Forms.DockStyle.Fill;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.Location = new System.Drawing.Point(0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.Margin = new System.Windows.Forms.Padding(0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.Name = "pnlPicture";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.Size = new System.Drawing.Size(311, 478);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.Click += new System.EventHandler(this.pict_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pict
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict.Location = new System.Drawing.Point(0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict.Name = "pict";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict.Size = new System.Drawing.Size(311, 493);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict.Click += new System.EventHandler(this.pict_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict.Paint += new System.Windows.Forms.PaintEventHandler(this.pict_Paint);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pict_MouseDoubleClick);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict.MouseLeave += new System.EventHandler(this.pict_MouseLeave);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pict.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pict_MouseMove);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pageAtom
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageAtom.Controls.Add(this.atomTree);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageAtom.ImageIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageAtom.Location = new System.Drawing.Point(4, 29);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageAtom.Name = "pageAtom";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageAtom.Size = new System.Drawing.Size(417, 614);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageAtom.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageAtom.Text = "Atom";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageAtom.UseVisualStyleBackColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// atomTree
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.atomTree.Dock = System.Windows.Forms.DockStyle.Fill;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.atomTree.Location = new System.Drawing.Point(0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.atomTree.Name = "atomTree";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.atomTree.ShowNodeToolTips = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.atomTree.Size = new System.Drawing.Size(417, 614);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.atomTree.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.atomTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.atomTree_NodeMouseDoubleClick);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pageContent
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageContent.Controls.Add(this.txtContent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageContent.ImageIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageContent.Location = new System.Drawing.Point(4, 29);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageContent.Name = "pageContent";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageContent.Size = new System.Drawing.Size(417, 614);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageContent.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageContent.Text = "Content";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageContent.UseVisualStyleBackColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// txtContent
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.txtContent.Dock = System.Windows.Forms.DockStyle.Fill;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.txtContent.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.txtContent.Location = new System.Drawing.Point(0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.txtContent.Name = "txtContent";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.txtContent.ReadOnly = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.txtContent.Size = new System.Drawing.Size(417, 614);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.txtContent.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.txtContent.Text = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.txtContent.WordWrap = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// imglist
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imglist.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imglist.ImageStream")));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imglist.TransparentColor = System.Drawing.Color.Transparent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imglist.Images.SetKeyName(0, "cross.ico");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imglist.Images.SetKeyName(1, "tick.ico");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mstrip
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemFile,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.editToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.viewToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripBack,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripForward});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.Location = new System.Drawing.Point(0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.Name = "mstrip";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.Size = new System.Drawing.Size(778, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.TabIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.Text = "mstrip";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mitemFile
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemOpen,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSave,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAs,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAll,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSep1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemExit});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemFile.Name = "mitemFile";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemFile.Size = new System.Drawing.Size(54, 29);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemFile.Text = "&amp;File";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mitemOpen
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemOpen.Name = "mitemOpen";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemOpen.Size = new System.Drawing.Size(255, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemOpen.Text = "&amp;Open...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemOpen.Click += new System.EventHandler(this.mitemOpen_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mitemSave
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSave.Name = "mitemSave";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSave.Size = new System.Drawing.Size(255, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSave.Text = "&amp;Save";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSave.Click += new System.EventHandler(this.mitemSave_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mitemSaveAs
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAs.Name = "mitemSaveAs";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAs.Size = new System.Drawing.Size(255, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAs.Text = "&amp;Save As...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAs.Click += new System.EventHandler(this.mitemSaveAs_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mitemSaveAll
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAll.Name = "mitemSaveAll";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAll.Size = new System.Drawing.Size(255, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAll.Text = "Export &amp;Revisions...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSaveAll.Click += new System.EventHandler(this.mitemSaveAll_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mitemSep1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSep1.Name = "mitemSep1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemSep1.Size = new System.Drawing.Size(252, 6);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// mitemExit
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemExit.Name = "mitemExit";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemExit.Size = new System.Drawing.Size(255, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemExit.Text = "E&amp;xit";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mitemExit.Click += new System.EventHandler(this.mitemExit_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// editToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.findToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectAllToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.compactToolStripMenuItem});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 29);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.editToolStripMenuItem.Text = "&amp;Edit";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// findToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.findToolStripMenuItem.Name = "findToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.findToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.findToolStripMenuItem.Size = new System.Drawing.Size(248, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.findToolStripMenuItem.Text = "&amp;Find All...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// selectAllToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(248, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectAllToolStripMenuItem.Text = "Select &amp;All";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// compactToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.compactToolStripMenuItem.Name = "compactToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.compactToolStripMenuItem.Size = new System.Drawing.Size(248, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.compactToolStripMenuItem.Text = "Compact";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.compactToolStripMenuItem.Click += new System.EventHandler(this.compactToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// viewToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.showAllToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.unselectedToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripSeparator1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.overprintToolStripMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openInAcrobatToolStripMenuItem});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.viewToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.viewToolStripMenuItem.Text = "View";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// showAllToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.showAllToolStripMenuItem.Name = "showAllToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.showAllToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.showAllToolStripMenuItem.Text = "All";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.showAllToolStripMenuItem.Click += new System.EventHandler(this.allToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// selectedToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedToolStripMenuItem.Name = "selectedToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedToolStripMenuItem.Text = "Selected Only";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedToolStripMenuItem.Click += new System.EventHandler(this.selectedToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// unselectedToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.unselectedToolStripMenuItem.Name = "unselectedToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.unselectedToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.unselectedToolStripMenuItem.Text = "Unselected Only";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.unselectedToolStripMenuItem.Click += new System.EventHandler(this.unselectedToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// toolStripSeparator1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripSeparator1.Name = "toolStripSeparator1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripSeparator1.Size = new System.Drawing.Size(357, 6);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// overprintToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.overprintToolStripMenuItem.Name = "overprintToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.overprintToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.overprintToolStripMenuItem.Text = "Overprint";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.overprintToolStripMenuItem.Click += new System.EventHandler(this.overprintToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// openInAcrobatToolStripMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openInAcrobatToolStripMenuItem.Name = "openInAcrobatToolStripMenuItem";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openInAcrobatToolStripMenuItem.ShortcutKeyDisplayString = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openInAcrobatToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.Keys.V)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openInAcrobatToolStripMenuItem.Size = new System.Drawing.Size(360, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openInAcrobatToolStripMenuItem.Text = "View in Acrobat...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openInAcrobatToolStripMenuItem.Click += new System.EventHandler(this.openInAcrobatToolStripMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// toolStripBack
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripBack.AutoToolTip = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripBack.Name = "toolStripBack";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripBack.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Left)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripBack.Size = new System.Drawing.Size(44, 29);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripBack.Text = "&#9664;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripBack.ToolTipText = "Click to go back";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripBack.Click += new System.EventHandler(this.toolStripBack_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// toolStripForward
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripForward.AutoToolTip = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripForward.Name = "toolStripForward";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripForward.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripForward.Size = new System.Drawing.Size(44, 29);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripForward.Text = "&#9654;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripForward.ToolTipText = "Click to go forwards";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolStripForward.Click += new System.EventHandler(this.toolStripForward_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// dlgSaveFile
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveFile.DefaultExt = "pdf";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveFile.FileName = "Untitled";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveFile.Filter = "PDF Document (*.pdf)|*.pdf";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveFile.Title = "Save a PDF Document";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// dlgSaveImage
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveImage.DefaultExt = "jpg";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveImage.FileName = "Untitled";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveImage.Filter = "Image Files(*.JPG;*.PNG;*.TIF;*.GIF;*.BMP;)|*.JPG;*.PNG;*.TIF;*.GIF;*.BMP|All fil" +
+&nbsp;&nbsp;&nbsp;&nbsp;"es (*.*)|*.*";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveImage.Title = "Save an Image";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// dlgSaveFolder
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgSaveFolder.Description = "Export the revisions of the saved document in a diffable format.";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// timer1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.timer1.Enabled = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// dlgExportFile
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgExportFile.AddExtension = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgExportFile.DefaultExt = "txt";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgExportFile.FileName = "Untitled";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgExportFile.Filter = "Data Files(*.TXT;*.DAT;*.TTF;*.JPG;)|*.TXT;*.DAT;*.TTF;*.JPG;|All files (*.*)|*.*" +
+&nbsp;&nbsp;&nbsp;&nbsp;"";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgExportFile.SupportMultiDottedExtensions = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dlgExportFile.Title = "Export Data";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// MainForm
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AutoScaleBaseSize = new System.Drawing.Size(8, 19);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ClientSize = new System.Drawing.Size(778, 544);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.split);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.mstrip);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MainMenuStrip = this.mstrip;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Name = "MainForm";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Text = "PDF Surgeon";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Load += new System.EventHandler(this.MainForm_Load);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.Panel1.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.Panel2.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.split)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.split.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cmenuIndirectObject.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.tabInfo.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageImage.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pnlPicture.PerformLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.pict)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageAtom.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageContent.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.mstrip.PerformLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PerformLayout();
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The main entry point for the application.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;[STAThread]
+&nbsp;&nbsp;&nbsp;&nbsp;static void Main() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application.EnableVisualStyles();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application.Run(new MainForm());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void Clear() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResetItemView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.Items.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_graphics = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fixture = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_editTexts = new Dictionary&lt;ObjectExtractor, EditText&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_nav = new Navigator();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void ResetItemView() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atomTree.Nodes.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//txtAtom.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txtContent.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pict.Visible = false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageImage.ImageIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageAtom.ImageIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageContent.ImageIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void UpdateInfo(HashSet&lt;int&gt; ids) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.BeginUpdate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (ListViewItem item in lst.Items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = item.Tag as ObjectExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((extractor == null) || (extractor.Object == null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ids == null || ids.Contains(extractor.Object.ID)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var info = extractor.GetProperties();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; (i &lt; item.SubItems.Count) &amp;&amp; (i &lt; info.Count); i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.SubItems[i].Text = info[i].Summary;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.EndUpdate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void UpdateListItemInfo(ListViewItem item) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = item.Tag as ObjectExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((extractor == null) || (extractor.Object == null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var info = extractor.GetProperties();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; (i &lt; item.SubItems.Count) &amp;&amp; (i &lt; info.Count); i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.SubItems[i].Text = info[i].Summary;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void UpdateContent(ObjectExtractor item) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// first atom...
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atomTree.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atomTree.Nodes.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TreeNode root = atomTree.Nodes.Add($"{item.Object.ID} {item.Object.Gen} R");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(root, new Font(atomTree.Font, FontStyle.Bold), item.Object.Atom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObjectExtractor so = item as StreamObjectExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item is StreamObjectExtractor) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atomTree.Nodes.Add($"stream");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atomTree.Nodes.Add(((StreamObjectExtractor)item).GetSnippet());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atomTree.Nodes.Add($"endstream");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// ... then content
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string content = item.GetContent();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (content == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txtContent.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageContent.ImageIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetTextBoxText(content, txtContent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageContent.ImageIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// ... then properties
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TreeNode props = atomTree.Nodes.Add($"Calculated Properties");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var items = item.GetProperties();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 2; i &lt; items.Count; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Nodes.Add(items[i].Detail);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// ... finish
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atomTree.ExpandAll();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root.EnsureVisible();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageAtom.ImageIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_nav.Add(item.Object.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atomTree.ResumeLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void UpdateContent(TreeNode root, Font bold, Atom atom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root.Tag = atom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (atom is DictAtom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DictAtom dict = atom as DictAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root.Text += " &lt;&lt;&gt;&gt;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var pair in dict) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TreeNode key = root.Nodes.Add("/" + pair.Key);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(key, bold, pair.Value);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (atom is ArrayAtom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom array = atom as ArrayAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool isRectOrMatrix = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (array.Count == 4 || array.Count == 6) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isRectOrMatrix = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; array.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (array[i] is NumAtom == false) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;isRectOrMatrix = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (isRectOrMatrix) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root.Text += " [";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; array.Count; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root.Text += " " + array[i].ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root.Text += " ]";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (array.Count == 4) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x1 = ((NumAtom)array[0]).Real;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double y1 = ((NumAtom)array[1]).Real;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x2 = ((NumAtom)array[2]).Real;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double y2 = ((NumAtom)array[3]).Real;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect rect = XRect.FromSides(x1, y1, x2, y2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root.ToolTipText = $"Width {rect.Width} Height {rect.Height}";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root.Text += " []";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; array.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TreeNode item = root.Nodes.Add("");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.ToolTipText = $"Item {i + 1} of {array.Count}";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(item, bold, array[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root.Text += " " + atom.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (atom is RefAtom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;root.ToolTipText = $"Jump to {atom}";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void UpdateImage(ObjectExtractor extractor, bool reload) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Preview preview = extractor.GetPreview(reload);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (preview == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageImage.ImageIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageImage.ImageIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public bool Dirty { get { return _dirty; } set { _dirty = value; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public Find FindDialog { get { return _findDialog; } set { _findDialog = value; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public GraphicsScanner.Fixture Fixture { get { return _fixture; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Find(string search, bool wholeWord) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((_doc == null) || (search == null) || (search == ""))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (ListViewItem item in lst.Items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = item.Tag as ObjectExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string val = extractor != null ? extractor.GetValue(_doc) : "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pos = -1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos = val.IndexOf(search, pos + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pos &lt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!wholeWord)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int p1 = pos - 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((p1 &gt;= 0) &amp;&amp; (!char.IsWhiteSpace(val[p1])) &amp;&amp; (!char.IsPunctuation(val[p1])))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue; // start of word joined up
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int p2 = pos + search.Length + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((p2 &lt; val.Length) &amp;&amp; (!char.IsWhiteSpace(val[p2])) &amp;&amp; (!char.IsPunctuation(val[p2])))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue; // end of word joined up
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.Selected = (pos &gt;= 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void SelectByObjectID(int id) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (ListViewItem item in lst.Items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = item.Tag as ObjectExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.Selected = (extractor != null) &amp;&amp; (extractor.Object != null) &amp;&amp; (extractor.Object.ID == id);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void OpenSnapshot() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_tempFiles == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tempFiles = new List&lt;TemporaryFile&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TemporaryFile temp = new TemporaryFile(".pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// when we save we try to keep the object ids constant
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.Linearize = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.Remap = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.Compact = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.CompressObjects = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Save(temp.Path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tempFiles.Add(temp);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Process.Start(temp.Path);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void Open(string filePath) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!CloseFile())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldText = Text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text = "PDF Surgeon - "+filePath;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Update();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XReadOptions ro = new XReadOptions();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ro.Repair = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(filePath, ro);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(doc!=null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text = oldText;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc = doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SetInfo(0, "CheckSaveRestore", 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Rendering.Overprint = overprintToolStripMenuItem.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_filePath = filePath;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dirty = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.BeginUpdate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.Items.AddRange(MakeListItems(doc));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.EndUpdate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static ListViewItem[] MakeListItems(Doc doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSoup soup = doc.ObjectSoup;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count = soup.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ListViewItem[] items;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;ObjectExtractor&gt; extractorList = new List&lt;ObjectExtractor&gt;(count);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] errorList = new string[count];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExtractorContext context = new ExtractorContext();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; count; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractorList.Add(null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; count; ++i) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject obj = soup[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractorList[i] = ObjectExtractor.FromIndirectObject(obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception exc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractorList[i] = new ObjectExtractor(obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errorList[i] = exc.Message;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach(int id in context.CMaps) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObjectExtractor streamExtractor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= unchecked((uint)id) &gt;= unchecked((uint)count) ? null :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractorList[id] as StreamObjectExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(streamExtractor != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;streamExtractor.StreamType = "CMap";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (KeyValuePair&lt;int, string&gt; pair in context.Xfa) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObjectExtractor streamExtractor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= unchecked((uint)pair.Key) &gt;= unchecked((uint)count) ? null :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractorList[pair.Key] as StreamObjectExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (streamExtractor != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;streamExtractor.StreamType = pair.Value == null ? "XML/XFA" :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string.Format("XML/XFA[{0}]", pair.Value);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] scriptTypeList = { "JavaScript",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"JavaScript[{0}]",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"JavaScript[PageID {1}]",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"JavaScript[{0},PageID {1}]",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"JavaScript[AnnotationID {2}]",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"JavaScript[{0},AnnotationID {2}]",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"JavaScript[PageID {1},AnnotationID {2}]",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"JavaScript[{0},PageID {1},AnnotationID {2}]"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (KeyValuePair&lt;int, ScriptType&gt; pair in context.Scripts) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObjectExtractor streamExtractor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= unchecked((uint)pair.Key) &gt;= unchecked((uint)count) ? null :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractorList[pair.Key] as StreamObjectExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (streamExtractor != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int formatIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pair.Value.DocumentName != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatIndex |= 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pair.Value.PageName != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatIndex |= 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pair.Value.AnnotationName != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatIndex |= 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;streamExtractor.StreamType = string.Format(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scriptTypeList[formatIndex], pair.Value.DocumentName,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pair.Value.PageName, pair.Value.AnnotationName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach(KeyValuePair&lt;int, string&gt; pair in context.Type3Glyphs) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObjectExtractor streamExtractor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= unchecked((uint)pair.Key) &gt;= unchecked((uint)count) ? null :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractorList[pair.Key] as StreamObjectExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(streamExtractor != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;streamExtractor.StreamType = string.Format(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Type 3 Glyph[{0}]", pair.Value);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (int id in context.PageContents) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObjectExtractor streamExtractor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= unchecked((uint)id) &gt;= unchecked((uint)count) ? null :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractorList[id] as StreamObjectExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (streamExtractor != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;streamExtractor.ContentPageNumber = context.PageContentIdToPageNumber[id];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;ListViewItem&gt; itemList = new List&lt;ListViewItem&gt;(count);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; count; ++i) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = extractorList[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var props = extractor.GetProperties();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (errorList[i] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Insert(Math.Min(props.Count, 2), new Property("Error", errorList[i]));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;string&gt; values = new List&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var prop in props)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;values.Add(prop.Summary);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ListViewItem item = new ListViewItem(values.ToArray());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.Tag = extractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itemList.Add(item);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;items = itemList.ToArray();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return items;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool CloseFile() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool ok = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_dirty) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string text = string.Format("Do you want to save changes to {0} ?",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Path.GetFileNameWithoutExtension(_filePath));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (MessageBox.Show(text, Application.ProductName, MessageBoxButtons.YesNoCancel)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case DialogResult.Yes :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dirty = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case DialogResult.No :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case DialogResult.Cancel :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ok;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void Save() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool swap = File.Exists(_filePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tuple&lt;string, string&gt; pair = swap ? GetSaveAsName(_filePath) : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string path = swap ? Path.Combine(pair.Item1, pair.Item2): _filePath;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// when we save we try to keep the object ids constant
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.Linearize = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.Remap = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.Compact = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.CompressObjects = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Save(path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (swap) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.Delete(_filePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.Move(path, _filePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception ex) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show($"Saving to {Path.GetFileName(path)}. The reason for this is the following. {ex.Message}");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_filePath = path;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dirty = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open(_filePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TempFile = null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void SaveAll(string folder) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (TemporaryFile temp = new TemporaryFile(".pdf")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.Copy(_filePath, temp.Path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool linearized = File.ReadAllText(temp.Path).Contains("/Linearized 1");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = Path.GetFileNameWithoutExtension(_filePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;long&gt; eofs = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;int&gt; signedAreas = new List&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(temp.Path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n =  doc.ObjectSoup.Revisions;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (eofs == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eofs = new List&lt;long&gt;(doc.ObjectSoup.RevisionEOFs);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eofs.Reverse();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (linearized)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n--;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; n; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(temp.Path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XReadOptions ro = new XReadOptions { SkipRevisions = i };
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(temp.Path, ro);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int max = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var o in doc.ObjectSoup) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (o == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var a = o.Atom; // touch the atom to ensure consistent formatting
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var br = Atom.GetItem(a, "ByteRange") as ArrayAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (br != null &amp;&amp; br.Count == 4 &amp;&amp; Atom.GetItem(a, "Contents") != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max = Math.Max(max, Atom.GetInt(br[2]) + Atom.GetInt(br[3]));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;signedAreas.Add(max);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.SaveOptions.Remap = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.SaveOptions.Linearize = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.SaveOptions.Incremental = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.SaveOptions.Compact = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.SaveOptions.CompressObjects = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(Path.Combine(folder, $"{name}-rewrite-{n - i}of{n}.pdf"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var data = File.ReadAllBytes(temp.Path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; eofs.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int diff = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (signedAreas[i] &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;diff = signedAreas[i] - (int)eofs[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (diff &lt; 0 || diff &gt; 10) // something odd
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;diff = "%%EOF\r\n".Length;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var path = Path.Combine(folder, $"{name}-original-{eofs.Count - i}of{eofs.Count}.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (var stream = new FileStream(path, FileMode.Create))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream.Write(data, 0, (int)(eofs[i] + diff));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private string TempFile {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((_tempPath != null) &amp;&amp; (File.Exists(_tempPath)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.Delete(_tempPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tempPath = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _tempPath; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetItemValue(int id, string text) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SetInfo(id, "value", text);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private ListViewItem GetSelectedItem() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ListViewItem item = lst.FocusedItem;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(item!=null &amp;&amp; item.Selected)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return item;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(lst.SelectedItems.Count&gt;0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return lst.SelectedItems[0];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void SetPreview(Preview preview) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (preview == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pict.Visible = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var img = preview.Image;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var graphics = preview.Graphics;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (img != pict.Image)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pict.Image = img;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (graphics != _graphics) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_graphics = graphics;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fixture = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pageImage.ImageIndex != 1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageImage.ImageIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pict.Visible = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void SetTextBoxText(string text, RichTextBox textBox) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textBox.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int i = text.IndexOf('\0');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(i&lt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textBox.Text = text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textBox.Text = text.Replace('\0', '\ufeff');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = textBox.Text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textBox.Text = text.Replace('\ufeff', ' ');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color backColor = Color.FromKnownColor(KnownColor.Control);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color highlight = Color.FromKnownColor(KnownColor.Highlight);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;highlight = Color.FromArgb(highlight.A, (highlight.R+backColor.R)/2,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(highlight.G+backColor.G)/2, (highlight.B+backColor.B)/2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// some character combinations cause mismatches between Select and text positions
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while((i = text.IndexOf('\ufeff', i))&gt;=0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int j = i;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++i;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} while(i&lt;text.Length &amp;&amp; text[i]=='\ufeff');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textBox.Select(j, i-j);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textBox.SelectionBackColor = highlight;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textBox.Select(0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textBox.SelectionBackColor = new Color();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mitemExit_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CloseFile();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Close();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mitemOpen_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(dlgOpenFile.ShowDialog()!=DialogResult.OK)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open(dlgOpenFile.FileName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch(Exception exc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show(exc.Message);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void cmenuTextBox_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void cmenuTextBox_Opening(object sender, CancelEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IndirectObject extractor = _selectedExtractor != null ? _selectedExtractor.Object : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ContextMenuStrip cmd = (ContextMenuStrip)sender;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[0].Enabled = extractor is StreamObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[1].Enabled = extractor is StreamObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[2].Enabled = extractor is StreamObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[3].Enabled = extractor is StreamObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[4].Enabled = extractor is PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[5].Enabled = extractor is PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[6].Enabled = extractor is PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[7].Enabled = extractor is Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[8].Enabled = extractor is Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[9].Enabled = extractor is PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[10].Enabled = extractor is PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cmd.Items[10].Enabled = extractor is StreamObject;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void lst_SelectedIndexChanged(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ListViewItem item = GetSelectedItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = item==null? null: item.Tag as ObjectExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_selectedExtractor==extractor)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_selectedExtractor = extractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(extractor==null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResetItemView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateImage(extractor, false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void lst_DoubleClick(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EditItem();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void lst_ColumnClick(object sender, ColumnClickEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ListViewItemComparer comparer = lst.ListViewItemSorter as ListViewItemComparer;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(comparer!=null){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(e.Column==comparer.Column){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(comparer.Order==SortOrder.Ascending)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comparer.Order = SortOrder.Descending;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comparer.Order = SortOrder.Ascending;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}else{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comparer.Column = e.Column;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comparer.Order = SortOrder.Ascending;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.Sort();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ListViewItem item = lst.FocusedItem;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(item!=null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.EnsureVisible();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void lst_DragOver(object sender, DragEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.Data.GetDataPresent(DataFormats.FileDrop))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Effect = DragDropEffects.Move;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void lst_DragDrop(object sender, DragEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (files.Length &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open(files[0]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception exc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show(exc.Message);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void pict_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pnlPicture.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void pict_MouseDoubleClick(object sender, MouseEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var preview = _selectedExtractor != null ? _selectedExtractor.GetPreview(false) : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (preview == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double[] levels = new double[] { 0.02, 0.04, 0.08, 0.16, 0.25, 0.33, 0.5, 0.67, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 };
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pos = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double bestDelta = double.MaxValue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; levels.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double delta = Math.Abs(preview.Scale - levels[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (delta &lt; bestDelta) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bestDelta = delta;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos = i;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool unzoom = (Control.ModifierKeys &amp; Keys.Alt) == Keys.Alt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos = unzoom ? Math.Max(pos - 1, 0) : Math.Min(pos + 1, levels.Length - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (preview.Scale != levels[pos]) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;preview.Scale = levels[pos];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;preview.Reload();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mitemDecompress_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject stream = extractor.Object as StreamObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (stream == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream.Decompress();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateListItemInfo(GetSelectedItem());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mItemMakeAscii_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject stream = extractor.Object as StreamObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (stream == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream.CompressAscii85();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mItemMakeAsciiHex_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject stream = extractor.Object as StreamObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (stream == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream.CompressAsciiHex();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mItemCompressFlate_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject stream = extractor.Object as StreamObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (stream == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream.CompressFlate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mItemCompressJpeg75_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PixMap pixMap = extractor.Object as PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pixMap == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pixMap.Decompress();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pixMap.CompressJpeg(75);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mItemCompressJpeg50_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PixMap pixMap = extractor.Object as PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pixMap == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pixMap.Decompress();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pixMap.CompressJpeg(50);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mItemCompressJpeg25_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PixMap pixMap = extractor.Object as PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pixMap == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pixMap.Decompress();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pixMap.CompressJpeg(25);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void flattenToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = extractor.Object as Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (page == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.Flatten(true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateInfo(null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateImage(extractor, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mItemFlattenFormXObjects_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = extractor.Object as Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (page == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.StampFormXObjects(true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;int&gt; ids = new HashSet&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var item in page.GetLayers())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ids.Add(item.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateInfo(ids);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateImage(extractor, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void realizeToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PixMap pixMap = extractor.Object as PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pixMap == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pixMap.Realize();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void saveImageToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PixMap pixMap = extractor.Object as PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pixMap == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dlgSaveImage.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string filePath = dlgSaveImage.FileName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pixMap.Save(filePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void exportToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject stm = extractor.Object as StreamObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (stm == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dlgExportFile.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string filePath = dlgExportFile.FileName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.WriteAllBytes(filePath, stm.GetData());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mItemRefresh_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefreshSelectedImage();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void RefreshSelectedImage() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extractor.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateImage(extractor, true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mItemEdit_Click(object sender, EventArgs e)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EditItem();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void EditItem()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((extractor == null) || (extractor.Object == null)) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EditText theEdit = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_editTexts.TryGetValue(extractor, out theEdit);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theEdit == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theEdit = new EditText(this, extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_editTexts.Add(extractor, theEdit);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theEdit.Show();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theEdit.BringToFront();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mItemExtract_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor extractor = _selectedExtractor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (extractor == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = extractor.Object as Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (page == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Page = page.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.RemapPages(new int[] { _doc.PageNumber });
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateInfo(null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateContent(extractor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateImage(extractor, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mitemSave_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mitemSaveAs_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (File.Exists(_filePath)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tuple&lt;string, string&gt; dirAndName = GetSaveAsName(_filePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dlgSaveFile.InitialDirectory = dirAndName.Item1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dlgSaveFile.FileName = dirAndName.Item2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dlgSaveFile.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_filePath = dlgSaveFile.FileName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static Tuple&lt;string, string&gt; GetSaveAsName(string currentFilePath) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string directory = Directory.GetParent(currentFilePath).FullName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string currentName = Path.GetFileNameWithoutExtension(currentFilePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string newName = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int p = currentName.LastIndexOf(' ');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (p &gt;= 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool alreadyNumbered = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = p + 1; i &lt; currentName.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (char.IsNumber(currentName[i]) == false) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alreadyNumbered = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (alreadyNumbered)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentName = currentName.Substring(0, p);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt; 1000; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newName = currentName + " " + i.ToString() + Path.GetExtension(currentFilePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!File.Exists(Path.Combine(directory, newName)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Tuple&lt;string, string&gt;(directory, newName);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void mitemSaveAll_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (File.Exists(_filePath)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dlgSaveFolder.SelectedPath = Directory.GetParent(_filePath).FullName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dlgSaveFolder.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveAll(dlgSaveFolder.SelectedPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void selectAllToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Control control = ActiveControl;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while(control!=null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ContainerControl container = control as ContainerControl;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(container==null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBoxBase txt = control as TextBoxBase;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(txt!=null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txt.SelectAll();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;control = container.ActiveControl;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (ListViewItem item in lst.Items)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.Selected = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void findToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_findDialog == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_findDialog = new Find(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_findDialog.Show();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_findDialog.BringToFront();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void compactToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// remove any redundant objects
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string path = Path.GetTempPath() + Guid.NewGuid().ToString() + ".pdf";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.Linearize = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.Remap = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.Compact = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.CompressObjects = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Save(path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldText = Text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldPath = _filePath;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dirty = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open(path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_dirty = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_filePath = oldPath;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text = oldText;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TempFile = path;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void allToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.BeginUpdate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.Items.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.Items.AddRange(MakeListItems(_doc));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.EndUpdate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void selectedToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowSelected(true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void unselectedToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowSelected(false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void ShowSelected(bool truth) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;ListViewItem&gt; itemList = new List&lt;ListViewItem&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (ListViewItem item in lst.Items) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item.Selected == truth)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itemList.Add(item);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.BeginUpdate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.Items.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.Items.AddRange(itemList.ToArray());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.EndUpdate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void overprintToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;overprintToolStripMenuItem.Checked = !overprintToolStripMenuItem.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Rendering.Overprint = overprintToolStripMenuItem.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefreshSelectedImage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void openInAcrobatToolStripMenuItem_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenSnapshot();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void MainForm_Load(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Size size = Properties.Settings.Default.WindowSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (size.Width &gt; 30 &amp;&amp; size.Height &gt; 30)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Size = size;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int distance = Properties.Settings.Default.SplitterDistance;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (distance &gt; 10)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;split.SplitterDistance = distance;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Preview.InitialImage = pict.InitialImage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Preview.ErrorImage = pict.ErrorImage;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void MainForm_FormClosing(object sender, FormClosingEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Properties.Settings.Default.WindowSize = Size;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Properties.Settings.Default.SplitterDistance = split.SplitterDistance;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Properties.Settings.Default.Save();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (CloseFile()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TempFile = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Cancel = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void atomTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefAtom rf = e.Node.Tag as RefAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (rf == null) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SelectByObjectID(rf.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (lst.SelectedItems.Count &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lst.EnsureVisible(lst.SelectedIndices[0]);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void toolStripBack_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_nav.CanNavigate())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SelectByObjectID(_nav.Back());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void toolStripForward_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_nav.CanNavigate())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SelectByObjectID(_nav.Forward());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void pict_MouseMove(object sender, MouseEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ModifierKeys.HasFlag(Keys.Shift))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return; // allow focus freeze if shift pressed
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool refresh = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_graphics != null &amp;&amp; _graphics.All.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point loc = e.Location;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var offset = GetImageOffset();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loc.Offset(-offset.X, -offset.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsScanner.Fixture best = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var part in _graphics.All) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (part.Region.IsVisible(loc)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (best == null || part.Area &lt; best.Area)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;best = part;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_fixture != best) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;refresh = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fixture = best;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_fixture == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toolTip1.Hide(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toolTip1.Tag = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (toolTip1.Tag != _fixture) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string txt = $"ID {_fixture.OwnerID} {_fixture.Text}";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!string.IsNullOrEmpty(txt)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point pp = pict.PointToScreen(new Point());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point fp = this.PointToScreen(new Point());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point delta = new Point(pp.X - fp.X, pp.Y - fp.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point imgloc = GetImageOffset();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toolTip1.Tag = _fixture;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (txt.Length &gt; 500)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txt = txt.Substring(0, 500) + "...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toolTip1.Show(txt, this, loc.X + delta.X + imgloc.X + 32, loc.Y + delta.Y + imgloc.Y + 64);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (refresh)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pict.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void pict_MouseLeave(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fixture = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toolTip1.Hide(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toolTip1.Tag = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pict.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void tabInfo_SelectedIndexChanged(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fixture = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toolTip1.Hide(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toolTip1.Tag = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pict.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void pict_Paint(object sender, PaintEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Graphics g = e.Graphics;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_graphics != null &amp;&amp; _graphics.All.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var offset = GetImageOffset();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var pen = new Pen(Color.Blue, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((Control.ModifierKeys &amp; Keys.Control) == Keys.Control &amp;&amp; (Control.ModifierKeys &amp; Keys.Alt) == Keys.Alt) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var saved = g.Save();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.TranslateTransform(offset.X, offset.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var fixture in _graphics.All)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.DrawPath(pen, fixture.Path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.Restore(saved);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (_fixture != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var saved = g.Save();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.TranslateTransform(offset.X, offset.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.DrawPath(pen, _fixture.Path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.Restore(saved);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Point GetImageOffset() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pict.SizeMode != PictureBoxSizeMode.CenterImage)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Point();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var image = pict.Image;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(image != null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (image == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Point();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int dx = (pict.Width - image.Width) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int dy = (pict.Height - image.Height) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Point(dx, dy);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void timer1_Tick(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// We update from a timer because we are loading images on a separate
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// thread and we can't call directly into the UI from that thread.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ListViewItem item = GetSelectedItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectExtractor obj = item != null ? (ObjectExtractor)item.Tag : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Preview preview = obj != null ? obj.GetPreview(false) : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPreview(preview);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

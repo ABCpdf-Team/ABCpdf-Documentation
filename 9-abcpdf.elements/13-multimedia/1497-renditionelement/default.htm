@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=497">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 266, page 489.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 277, page 613.</a></p>
 </p>
+<!-- addition start -->
+<p>A rendition dictionary describes one way of presenting media content. It is associated with a screen annotation and specifies either the media data directly (media rendition) or a prioritised list of candidate renditions to try in order (selector rendition).</p>
+<p>The S entry names the rendition subtype: MR for a media rendition or SR for a selector rendition. The subtype determines which additional entries are present and how the rendition is processed.</p>
+<p>The N entry holds a human-readable name for the rendition. This name is used in the rendition actions that refer to this rendition and in user interface elements that present the rendition to the user.</p>
+<p>The MH and BE entries carry must-honour and best-effort parameter dictionaries that apply to the rendition. Must-honour parameters must be satisfied for playback to proceed; best-effort parameters are applied when possible but are not required.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

@@ -92,10 +92,10 @@ int AddImageFile(string path, int frame)
           <TD>
             <P>Adds an image to the current page returning the ID of the newly 
             added object.</P>
-            <P>This method  supports JPEG, JPEG 2000, TIFF, EMF, WMF, PS (PostScript) or EPS 
-              (Encapsulated PostScript).</P>
-            <P>Images embedded using this method are  inserted using a restricted range of <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModules</a>. For this reason you may wish to prefer the use of the <a href="addimageobject.htm">AddImageObject</a> method. AddImageFile is the equivalent of <a href="addimageobject.htm">AddImageObject</a> with the transparent parameter set to true.</P>
-            <P>The only difference between AddImageFile and <a href="addimageobject.htm">AddImageObject</a> relates to the treatment of EMF and WMF files. AddImageFile defaults to the EmfVector <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a> which means that the vector nature of such files will be preserved. <a href="addimageobject.htm">AddImageObject</a> defaults to the BasicImage ReadModule which means that such files will be rasterized. For more details see the <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a> property.</P>
+            <P>In general you want the   <a href="addimageobject.htm">AddImageObject</a> method rather than this one, as AddImageFile embeds images using a restricted range of <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModules</a> and transparency options. </P>
+            <P>This method only supports JPEG, JPEG 2000, TIFF, EMF, WMF, PS (PostScript) or EPS 
+              (Encapsulated PostScript) and always preserves transparency.</P>
+            <P>AddImageFile and <a href="addimageobject.htm">AddImageObject</a> treat EMF and WMF files differently. AddImageFile defaults to the EmfVector <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a> which means that the vector nature of such files will be preserved. <a href="addimageobject.htm">AddImageObject</a> defaults to the BasicImage ReadModule which means that such files will be rasterized. For more details see the <a href="../../xreadoptions/2-properties/1-readmodule.htm">ReadModule</a> property.</P>
             <P>The image is scaled to fill the current <A 
             href="../2-properties/rect.htm">Rect</A>. It is transformed using 
             the current <A 

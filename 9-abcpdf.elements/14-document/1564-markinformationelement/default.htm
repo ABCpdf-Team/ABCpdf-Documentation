@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=564">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 321, page 556.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 353, page 719.</a></p>
 </p>
+<!-- addition start -->
+<p>The mark information dictionary records whether a PDF document contains tagged content and what kind of accessibility marking has been applied. It appears in the document catalog and describes the document overall tagging status.</p>
+<p>The Marked entry, when true, indicates that all content is either marked with structure information or explicitly tagged as an artifact. A false value or absence of this entry means the document is not fully tagged.</p>
+<p>The UserProperties entry, when true, indicates that one or more structure elements carry user property attribute dictionaries holding custom metadata beyond the standard attribute sets.</p>
+<p>The Suspects entry, when true, signals that the document contains structure elements whose content associations may be inaccurate, typically from automated tagging that could not reliably determine reading order.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

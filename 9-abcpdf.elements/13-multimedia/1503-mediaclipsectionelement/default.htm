@@ -31,6 +31,11 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=503">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 277, page 495.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 288, page 620.</a></p>
 </p>
+<!-- addition start -->
+<p>A media clip section dictionary defines a time-delimited portion of another media clip. It references the source clip and specifies start and end offsets, allowing a single media file to provide multiple named sections that can be played independently.</p>
+<p>The D entry references the source media clip. The Alt entry provides alternate text descriptions of the section for accessibility.</p>
+<p>The MH and BE entries carry must-honour and best-effort parameters. The section start and end times are given through the MhBe parameters rather than directly in the clip section dictionary.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

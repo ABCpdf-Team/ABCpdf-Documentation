@@ -1,0 +1,278 @@
+<html>
+<head>
+<title>ExtractPagesForm.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">ExtractPagesForm.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using WebSupergoo.ABCpdf14;
+
+
+namespace ABCpdfControls {
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for ExtractPagesForm.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class ExtractPagesForm : System.Windows.Forms.Form {
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button okButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button cancelButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label pagesNumberLabel;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.TextBox toPageTextBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label2;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.TextBox fromPageTextBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label1;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required designer variable.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.ComponentModel.Container components = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label3;
+&nbsp;&nbsp;&nbsp;&nbsp;private Doc mCurrentDoc;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ExtractPagesForm(Doc currentDoc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Required for Windows Form Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// TODO: Add any constructor code after InitializeComponent call
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDoc = currentDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose( bool disposing ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( disposing ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(components != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose( disposing );
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Windows Form Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagesNumberLabel = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toPageTextBox = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fromPageTextBox = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// okButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Location = new System.Drawing.Point(144, 80);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Name = "okButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.TabIndex = 9;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Text = "OK";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Click += new System.EventHandler(this.okButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// cancelButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Location = new System.Drawing.Point(232, 80);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Name = "cancelButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.TabIndex = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Text = "Cancel";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pagesNumberLabel
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagesNumberLabel.Location = new System.Drawing.Point(192, 48);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagesNumberLabel.Name = "pagesNumberLabel";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagesNumberLabel.TabIndex = 15;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagesNumberLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// toPageTextBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toPageTextBox.Location = new System.Drawing.Point(144, 48);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toPageTextBox.Name = "toPageTextBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toPageTextBox.Size = new System.Drawing.Size(40, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toPageTextBox.TabIndex = 14;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toPageTextBox.Text = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Location = new System.Drawing.Point(112, 48);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Name = "label2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Size = new System.Drawing.Size(24, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.TabIndex = 13;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Text = "To:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// fromPageTextBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fromPageTextBox.Location = new System.Drawing.Point(56, 48);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fromPageTextBox.Name = "fromPageTextBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fromPageTextBox.Size = new System.Drawing.Size(40, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fromPageTextBox.TabIndex = 12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fromPageTextBox.Text = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Location = new System.Drawing.Point(8, 48);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Name = "label1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Size = new System.Drawing.Size(40, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.TabIndex = 11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Text = "From:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Location = new System.Drawing.Point(8, 8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Name = "label3";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Size = new System.Drawing.Size(296, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.TabIndex = 16;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Text = "Extract a portion of a PDF. All the pages outside the selected portion will be de" +
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"leted.";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// ExtractPagesForm
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AcceptButton = this.okButton;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.CancelButton = this.cancelButton;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ClientSize = new System.Drawing.Size(312, 112);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ControlBox = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.label3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.pagesNumberLabel);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.toPageTextBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.label2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.fromPageTextBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.label1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.okButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.cancelButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Name = "ExtractPagesForm";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ShowInTaskbar = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Text = "Extract Pages";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Load += new System.EventHandler(this.ExtractPagesForm_Load);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ResumeLayout(false);
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void ExtractPagesForm_Load(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mCurrentDoc != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fromPageTextBox.Text = mCurrentDoc.PageNumber.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toPageTextBox.Text = mCurrentDoc.PageNumber.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pagesNumberLabel.Text = "of " + mCurrentDoc.PageCount.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void okButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int fromPage = 0, toPage = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool error = false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fromPage = int.Parse(fromPageTextBox.Text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fromPage &lt;= 0 || fromPage &gt; mCurrentDoc.PageCount )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error = true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (error) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("There is no page numbered '" + fromPageTextBox.Text + "' in this document.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;toPage = int.Parse(toPageTextBox.Text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (toPage &lt;= 0 || toPage &gt; mCurrentDoc.PageCount )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error = true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (error) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("There is no page numbered '" + toPageTextBox.Text + "' in this document.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (toPage &lt; fromPage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("The starting page number must be less then or the same as the ending page number.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int origPageCount = mCurrentDoc.PageCount;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = toPage + 1; i &lt;= origPageCount; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDoc.PageNumber = toPage + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDoc.Delete(mCurrentDoc.Page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt; fromPage; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDoc.PageNumber = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDoc.Delete(mCurrentDoc.Page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDoc.PageNumber = 1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DialogResult = DialogResult.OK;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<html>
+<head>
+<title>InvoiceData.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">InvoiceData.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Xml;
+using System.Globalization;
+
+
+namespace PDFTableExamples {
+
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// InvoiceData class is used to represent invoice information stored in xml file
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class InvoiceData&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;public InvoiceData()&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Load invoice data from xml file
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inFile"&gt;Xml file path&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void LoadFromFile(string inFile)&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlTextReader xmlReader = new XmlTextReader(inFile);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlDocument xmlDoc = new XmlDocument();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmlDoc.Load(xmlReader);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNode invoice = xmlDoc["Invoice"];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNode companyInfo = invoice["CompanyInfo"];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (companyInfo.Attributes["Name"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Company.Name = companyInfo.Attributes["Name"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (companyInfo.Attributes["Address"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Company.Address = companyInfo.Attributes["Address"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (companyInfo.Attributes["State"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Company.State = companyInfo.Attributes["State"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (companyInfo.Attributes["Phone"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Company.Phone = companyInfo.Attributes["Phone"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (companyInfo.Attributes["Zip"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Company.Zip = companyInfo.Attributes["Zip"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (companyInfo.Attributes["City"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Company.City  = companyInfo.Attributes["City"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (companyInfo.Attributes["logo"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Company.logo = companyInfo.Attributes["logo"].Value;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNode customerInfo = invoice["Customer"];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (customerInfo.Attributes["Name"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Customer.Name = customerInfo.Attributes["Name"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (customerInfo.Attributes["Address"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Customer.Address = customerInfo.Attributes["Address"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (customerInfo.Attributes["State"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Customer.State = customerInfo.Attributes["State"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (customerInfo.Attributes["Phone"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Customer.Phone = customerInfo.Attributes["Phone"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (customerInfo.Attributes["Zip"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Customer.Zip = customerInfo.Attributes["Zip"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (customerInfo.Attributes["City"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Customer.City = customerInfo.Attributes["City"].Value;
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNode paymentDetails = invoice["PaymentDetails"];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (paymentDetails != null)&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (paymentDetails.Attributes["Payment"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PaymentDetails.PaymentType = paymentDetails.Attributes["Payment"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (paymentDetails.Attributes["Name"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PaymentDetails.Name = paymentDetails.Attributes["Name"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (paymentDetails.Attributes["CC"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PaymentDetails.CC = paymentDetails.Attributes["CC"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (paymentDetails.Attributes["Expires"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PaymentDetails.Expires = paymentDetails.Attributes["Expires"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNode order = invoice["Order"];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CultureInfo cultureInfo = new CultureInfo("en-US", false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo formatInfo = cultureInfo.NumberFormat;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formatInfo.NumberDecimalDigits = 2;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double taxRate = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double shippingCharge = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (order != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (order.Attributes["Date"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.Date = order.Attributes["Date"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (order.Attributes["OrderNo"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.OrderNo = order.Attributes["OrderNo"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (order.Attributes["FOB"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.FOB = order.Attributes["FOB"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (order.Attributes["Rep"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.Rep = order.Attributes["Rep"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (order.Attributes["TaxRate"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;taxRate = Double.Parse(order.Attributes["TaxRate"].Value, cultureInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.TaxRate = "&lt;StyleRun hpos = 1&gt; " + taxRate.ToString("N", formatInfo) + "&lt;/StyleRun&gt;";;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (order.Attributes["ShippingCharge"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shippingCharge = Double.Parse(order.Attributes["ShippingCharge"].Value, cultureInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.ShippingCharge = "&lt;StyleRun hpos = 1&gt; " + shippingCharge.ToString("N", formatInfo) + "&lt;/StyleRun&gt;";;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderItems = new OrderItemData[order.ChildNodes.Count];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double Total = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for ( int i = 0; i &lt; order.ChildNodes.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNode item = order.ChildNodes.Item(i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderItems[i] = new OrderItemData();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double unitPrice = Double.Parse(item.Attributes["UnitPrice"].Value, cultureInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int qty = Int32.Parse(item.Attributes["Qty"].Value);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item.Attributes["Desc"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderItems[i].Description = item.Attributes["Desc"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item.Attributes["Qty"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderItems[i].Qty = qty.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item.Attributes["UnitPrice"] != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderItems[i].UnitPrice = "&lt;StyleRun hpos = 1&gt; " + unitPrice.ToString("N", formatInfo) + "&lt;/StyleRun&gt;";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double SubTotal = qty * unitPrice;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderItems[i].SubTotal = "&lt;StyleRun hpos = 1&gt; " + SubTotal.ToString("N", formatInfo) + "&lt;/StyleRun&gt;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total += SubTotal;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.Subtotal = "&lt;StyleRun hpos = 1&gt; " + Total.ToString("N", formatInfo) + "&lt;/StyleRun&gt;";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total = Total + Total* taxRate + shippingCharge;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.Total = "&lt;StyleRun hpos = 1&gt; " + Total.ToString("N", formatInfo) + "&lt;/StyleRun&gt;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Invalid xml file
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Company information
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public CompanyInfoData Company&nbsp;&nbsp;{get {return mCompany;}&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Customer information
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public CompanyInfoData Customer { get {return mCustomer;}}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Order information
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public OrderInfoData OrderInfo&nbsp;&nbsp; {get {return mOrderInfo;}}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Payment details information
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public PaymentDetailsData PaymentDetails&nbsp;&nbsp; {get {return mPaymentDetails;}}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns formatted data for the header table
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Array of strings to put into the table cells&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public string[] GetHeaderTableData() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] textInfo = new string[4]{ "&lt;StyleRun fontsize = 50&gt;" + Company.Name + " &lt;/StyleRun&gt;",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Company.Address, Company.City + ", " + Company.State + ", " + Company.Zip,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Company.Phone};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return textInfo;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns formatted data for the customer table
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Array of strings to put into the table cells&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public string[][] GetCustomerTableData() 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[][] textInfo = new string[2][];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[0] = new string[4] {"Name", "Address", "", "Phone"};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[1] = new string[4] {Customer.Name, Customer.Address,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Customer.City + ", " + Customer.State + ", " + Customer.Zip),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Customer.Phone};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return textInfo;
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns formatted data for the order table
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Array of strings to put into the table cells&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public string[][] GetOrderTableData() 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[][] textInfo = new string[2][];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[0] = new string[4] {"Date", "Order No", "Rep", "FOB"};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[1] = new string[4] {OrderInfo.Date, OrderInfo.OrderNo,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.Rep, OrderInfo.FOB};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return textInfo;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns formatted data for the order items table
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Array of strings to put into the table cells&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public string[][] GetOrderItemsTableData() 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[][] textInfo = new string[4][];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 4; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[0] = new string[1+OrderItems.Length];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[1] = new string[1+OrderItems.Length];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[2] = new string[1+OrderItems.Length];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[3] = new string[1+OrderItems.Length];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[0][0] = "Qty";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[1][0] = "Description";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[2][0] = "&lt;StyleRun hpos = 1 &gt; Unit Price &lt;/StyleRun&gt;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[3][0] = "&lt;StyleRun hpos = 1 &gt; Total &lt;/StyleRun&gt;";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; OrderItems.Length; i++)&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[0][i+1] = OrderItems[i].Qty;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[1][i+1] = OrderItems[i].Description;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[2][i+1] = OrderItems[i].UnitPrice;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[3][i+1] = OrderItems[i].SubTotal;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return textInfo;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns formatted data for the payment table
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Array of strings to put into the table cells&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public string[][] GetPaymentTableData()&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[][] textInfo = new string[2][];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[0] = new string[4] { "Payment type", "Name", "CC#", "Expires"};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[1] = new string[4] { PaymentDetails.PaymentType,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PaymentDetails.Name,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PaymentDetails.CC,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PaymentDetails.Expires};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return textInfo;
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns formatted data for the total table
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Array of strings to put into the table cells&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public string[][] GetTotalTableData() 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[][] textInfo = new string[2][];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[0] = new string[4] { "SubTotal", "Shipping", "Taxes", "Total"};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textInfo[1] = new string[4] { OrderInfo.Subtotal,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.ShippingCharge,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.TaxRate,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OrderInfo.Total};
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return textInfo;
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Represents Company information
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public class CompanyInfoData {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Name = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Address = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string City = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string State = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Phone = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Zip = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string logo = "";
+&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Represents general Order information
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public class OrderInfoData&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Date = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string OrderNo = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Rep = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string FOB = "";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string ShippingCharge = "0";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string TaxRate = "0";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Total = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Subtotal = "";
+&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Describes Order Item
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public class OrderItemData&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Qty = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Description = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string UnitPrice = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string SubTotal = "";
+&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Represents Payment details
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public class PaymentDetailsData 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string PaymentType = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Name = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string CC = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Expires = "";
+&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;private CompanyInfoData mCompany = new CompanyInfoData();
+&nbsp;&nbsp;&nbsp;&nbsp;private CompanyInfoData mCustomer = new CompanyInfoData();
+&nbsp;&nbsp;&nbsp;&nbsp;private OrderInfoData mOrderInfo = new OrderInfoData();
+&nbsp;&nbsp;&nbsp;&nbsp;private PaymentDetailsData mPaymentDetails = new PaymentDetailsData();
+
+&nbsp;&nbsp;&nbsp;&nbsp;public OrderItemData[] OrderItems;
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

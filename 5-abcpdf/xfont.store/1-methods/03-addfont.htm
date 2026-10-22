@@ -92,9 +92,9 @@
         <TR>
           <TD>
             <p>Adds a font from a file to this font store.</p>
-<p>Most font files (.ttf, .otf, .pfm, etc.) contain a single font face, so a returned array will contain exactly one element. </p>
+<p>Most font files (.ttf, .otf, .pfm, etc.) contain a single font face, so the returned <a href="../../xfont/default.htm">XFont</a> is the font in that file. </p>
 <p>However, font collection files (.ttc - TrueType Collection) can bundle multiple fonts into a single file. For such files, the returned <a href="../../xfont/default.htm">XFont</a> will be the first in the collection.</p>
-<p>Similarly an <a href="../default.htm">XFont</a> may be part of a collection. If that is the case then all fonts in that collection are added.</p>
+<p>Similarly an <a href="../../xfont/default.htm">XFont</a> may be part of a collection. If that is the case then all fonts in that collection are added.</p>
 <p>For collections you may wish to use <a href="05-addstore.htm">AddStore</a> which returns a set of fonts rather than just the first one.</p>
 <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

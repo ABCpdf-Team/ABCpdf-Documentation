@@ -31,6 +31,13 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=649">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 370, page 641.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 407, page 825.</a></p>
 </p>
+<!-- addition start -->
+<p>A version 2.0 OPI dictionary provides metadata and placement parameters for high-resolution image substitution following the OPI 2.0 specification, which simplifies the placement model compared to version 1.3.</p>
+<p>The F entry holds the file specification of the high-resolution original. The MainImage entry identifies the primary file in a multi-file image set.</p>
+<p>The Size and CropRect entries describe the dimensions and cropped region. The Overprint entry records overprinting behaviour at output.</p>
+<p>The Inks entry describes the image colorants, supporting multi-ink workflows. The IncludedImageDimensions and IncludedImageQuality entries describe the low-resolution proxy in the PDF.</p>
+<p>The Tags entry holds application-specific key-value metadata.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

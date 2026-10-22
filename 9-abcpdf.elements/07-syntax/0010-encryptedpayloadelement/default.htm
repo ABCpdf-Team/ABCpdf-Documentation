@@ -30,6 +30,11 @@
 
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 28, page 94.</a></p>
 </p>
+<!-- addition start -->
+<p>The encrypted payload dictionary is used in PDF 2.0 to attach an unencrypted wrapper document to an encrypted payload. The wrapper is visible to viewers that do not support the encryption, while the payload carries the protected content.</p>
+<p>The Version entry in the dictionary identifies the PDF version of the encrypted payload, allowing the reader to determine whether it can process the protected content before attempting decryption.</p>
+<p>This mechanism supports a two-layer document structure: a conforming reader that can decrypt the payload ignores the wrapper, while a non-conforming reader presents the wrapper as a fallback.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

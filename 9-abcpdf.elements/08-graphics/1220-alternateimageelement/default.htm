@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=220">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 91, page 212.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 89, page 261.</a></p>
 </p>
+<!-- addition start -->
+<p>An alternate image dictionary provides a substitute rendering of an image XObject. A conforming reader may choose an alternate based on output resolution, rendering context, or optional content state.</p>
+<p>The Image entry references the substitute image XObject. This XObject may have different dimensions, color space, or compression from the parent image, allowing optimisation for different output conditions.</p>
+<p>The DefaultForPrinting flag marks this alternate as the preferred choice for printing. Only one alternate in a given list should have this flag set to true.</p>
+<p>The OC entry associates the alternate with an optional content group. When the group is off, the alternate is not used. This allows content authors to define alternates that activate under specific viewing or printing configurations.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

@@ -35,6 +35,13 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=164">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Section: 8.6.6.3, page 156.</a></p>
 </p>
+<!-- addition start -->
+<p>An Indexed color space maps a single integer component to a full color sample in an underlying color space. It works as a lookup table: the integer selects a row in a table, and the row holds the actual color components.</p>
+<p>The base color space defines the type and number of components of each entry in the lookup table. It can be any color space except another Indexed or Pattern space.</p>
+<p>The hival value sets the highest valid index. Indices must be in the range 0 to hival inclusive. The lookup table therefore contains hival + 1 entries.</p>
+<p>The lookup table is stored as either a string or a stream. Its total byte length must equal (hival + 1) multiplied by the number of components per entry in the base color space.</p>
+<p>Indexed color spaces are compact: each pixel requires only one byte rather than the three or four bytes needed for full RGB or CMYK samples. This makes them efficient for images with limited palettes.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

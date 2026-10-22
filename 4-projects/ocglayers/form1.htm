@@ -1,0 +1,742 @@
+<html>
+<head>
+<title>Form1.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Form1.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+using System.Runtime;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Xml;
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+using WebSupergoo.ABCpdf14.Operations;
+using WebSupergoo.ABCpdf14.Atoms;
+using OptionalContent;
+
+
+namespace OCGLayers
+{
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for Form1.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class Form1 : System.Windows.Forms.Form {
+&nbsp;&nbsp;&nbsp;&nbsp;private Button annotateButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button removeButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBox textBox2;
+&nbsp;&nbsp;&nbsp;&nbsp;private PictureBox previewPictureBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private CheckedListBox layersCheckedListBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private ComboBox pageCombo;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button openButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button saveButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button createButton1;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button createButton2;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button createButton3;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBox textBox1;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBox textBox3;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button openExternallyButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button purgeButton;
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required designer variable.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.ComponentModel.Container components = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Form1()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Required for Windows Form Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// TODO: Add any constructor code after InitializeComponent call
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose( bool disposing )
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( disposing )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (components != null) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose( disposing );
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Windows Form Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.annotateButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.removeButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2 = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.previewPictureBox = new System.Windows.Forms.PictureBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layersCheckedListBox = new System.Windows.Forms.CheckedListBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageCombo = new System.Windows.Forms.ComboBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton1 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton2 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton3 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1 = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3 = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openExternallyButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.purgeButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// annotateButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.annotateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.annotateButton.Location = new System.Drawing.Point(666, 505);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.annotateButton.Name = "annotateButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.annotateButton.Size = new System.Drawing.Size(186, 26);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.annotateButton.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.annotateButton.Text = "Annotate Layers";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.annotateButton.Click += new System.EventHandler(this.annotateButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// removeButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.removeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.removeButton.Location = new System.Drawing.Point(666, 538);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.removeButton.Name = "removeButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.removeButton.Size = new System.Drawing.Size(186, 76);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.removeButton.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.removeButton.Text = "Delete Content of Invisible Layers and Remove From Page";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textBox2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.Location = new System.Drawing.Point(19, 770);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.Name = "textBox2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.Size = new System.Drawing.Size(623, 22);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox2.TabIndex = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// previewPictureBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.previewPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.AnchorStyles.Left) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.previewPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.previewPictureBox.Location = new System.Drawing.Point(19, 21);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.previewPictureBox.Name = "previewPictureBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.previewPictureBox.Size = new System.Drawing.Size(623, 730);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.previewPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.previewPictureBox.TabIndex = 6;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.previewPictureBox.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// layersCheckedListBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layersCheckedListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layersCheckedListBox.FormattingEnabled = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layersCheckedListBox.Location = new System.Drawing.Point(666, 57);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layersCheckedListBox.Name = "layersCheckedListBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layersCheckedListBox.Size = new System.Drawing.Size(186, 106);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layersCheckedListBox.TabIndex = 7;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layersCheckedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.layersCheckedListBox_ItemCheck);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pageCombo
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageCombo.FormattingEnabled = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageCombo.Location = new System.Drawing.Point(666, 21);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageCombo.Name = "pageCombo";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageCombo.Size = new System.Drawing.Size(186, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageCombo.TabIndex = 8;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageCombo.SelectedIndexChanged += new System.EventHandler(this.pageCombo_SelectedIndexChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// openButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openButton.Location = new System.Drawing.Point(19, 804);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openButton.Name = "openButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openButton.Size = new System.Drawing.Size(124, 26);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openButton.TabIndex = 9;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openButton.Text = "Load PDF...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openButton.Click += new System.EventHandler(this.openButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// saveButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveButton.Location = new System.Drawing.Point(270, 804);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveButton.Name = "saveButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveButton.Size = new System.Drawing.Size(124, 26);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveButton.TabIndex = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveButton.Text = "Save PDF...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// createButton1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton1.Location = new System.Drawing.Point(666, 291);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton1.Name = "createButton1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton1.Size = new System.Drawing.Size(186, 27);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton1.TabIndex = 11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton1.Text = "Create Simple Layers";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton1.Click += new System.EventHandler(this.createButton1_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// createButton2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton2.Location = new System.Drawing.Point(666, 323);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton2.Name = "createButton2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton2.Size = new System.Drawing.Size(186, 27);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton2.TabIndex = 12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton2.Text = "Create Nested Layers";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton2.Click += new System.EventHandler(this.createButton2_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// createButton3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton3.Location = new System.Drawing.Point(666, 354);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton3.Name = "createButton3";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton3.Size = new System.Drawing.Size(186, 27);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton3.TabIndex = 13;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton3.Text = "Create Membership Layers";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.createButton3.Click += new System.EventHandler(this.createButton3_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textBox1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Enabled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Location = new System.Drawing.Point(666, 204);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Multiline = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Name = "textBox1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Size = new System.Drawing.Size(186, 82);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.TabIndex = 14;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox1.Text = "The buttons below allow you to create different types of layer structure. Details" +
+&nbsp;&nbsp;&nbsp;&nbsp;" of the specific structures created can be found in the source code.";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textBox3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Enabled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Location = new System.Drawing.Point(666, 406);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Multiline = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Name = "textBox3";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Size = new System.Drawing.Size(186, 92);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.TabIndex = 15;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBox3.Text = "Use the buttons below to annotate items on the page with their layer details and " +
+&nbsp;&nbsp;&nbsp;&nbsp;"also to delete and redact items on specific layers.";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// openExternallyButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openExternallyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openExternallyButton.Location = new System.Drawing.Point(666, 678);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openExternallyButton.Name = "openExternallyButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openExternallyButton.Size = new System.Drawing.Size(186, 27);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openExternallyButton.TabIndex = 16;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openExternallyButton.Text = "Open in Acrobat";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openExternallyButton.UseVisualStyleBackColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openExternallyButton.Click += new System.EventHandler(this.openExternallyButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// purgeButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.purgeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.purgeButton.Location = new System.Drawing.Point(666, 621);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.purgeButton.Name = "purgeButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.purgeButton.Size = new System.Drawing.Size(186, 51);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.purgeButton.TabIndex = 17;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.purgeButton.Text = "Remove Unused Layers From Document";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.purgeButton.Click += new System.EventHandler(this.purgeButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Form1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ClientSize = new System.Drawing.Size(873, 856);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.purgeButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.openExternallyButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.textBox3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.textBox1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.createButton3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.createButton2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.createButton1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.saveButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.openButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.pageCombo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.layersCheckedListBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.previewPictureBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.textBox2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.removeButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.annotateButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Name = "Form1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Text = "Optional Content Demo";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Load += new System.EventHandler(this.Form1_Load);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PerformLayout();
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The main entry point for the application.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;[STAThread]
+&nbsp;&nbsp;&nbsp;&nbsp;static void Main() 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application.Run(new Form1());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Doc _doc;
+&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Group&gt; _groups;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void Form1_Load(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string thePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] files = Directory.GetFiles(thePath, "*.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string file in files) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!file.Contains("_out")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LoadPDF(file);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void annotateButton_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Properties props = Properties.FromDoc(_doc, false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (props == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Page page in _doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Page = page.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reader oc = Reader.FromPage(props, page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextOperation op = new TextOperation(_doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages(_doc.PageNumber);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string text = op.GetText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (text.Length &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IList&lt;TextFragment&gt; fragments = op.Select(0, text.Length);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.FontSize = 12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Width = 0.1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (TextFragment fragment in fragments) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Rect.String = fragment.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;OptionalContent.Layer&gt; states = oc.GetLayersFromStreamAndPosition(fragment.StreamID, fragment.StreamOffset);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (states.Count &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.AddText(MakeDescription(states));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.FrameRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// The ImageOperation only picks up images and not Form XObjects.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Until we have an update which allows us to see Form XObject location
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// too, we cannot annotate Form XObjects which are marked as optional.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ImageOperation op = new ImageOperation(_doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages(_doc.PageNumber);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (ImageProperties image in op.GetImageProperties()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;OptionalContent.Layer&gt; states = oc.GetLayersFromObject(image.PixMap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (states.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string txt = MakeDescription(states);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (ImageRendition rendition in image.Renditions) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rendition.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.AddText(txt);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.FrameRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Annotation annot in page.GetAnnotations()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;OptionalContent.Layer&gt; states = oc.GetLayersFromObject(annot);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (states.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;annot.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.AddText(MakeDescription(states));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.FrameRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePreview();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static string MakeDescription(List&lt;OptionalContent.Layer&gt; states) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] names = new string[states.Count];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; names.Length; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;names[i] = states[i].Group != null ? states[i].Group.EntryName.Text : "Membership Dictionary";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string txt = string.Join(" ", names);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return txt;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void removeButton_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cursor.Current = Cursors.WaitCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Properties props = Properties.FromDoc(_doc, false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (props == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = (Page)_doc.ObjectSoup[_doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reader reader = Reader.FromPage(props, page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;OptionalContent.Layer&gt; layers = reader.GetLayers();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (OptionalContent.Layer layer in layers) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (layer.Visible == false) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (reader == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader = Reader.FromPage(props, page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reader.Redact(ref reader, layer);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateLayers();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePreview();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cursor.Current = Cursors.Default;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void purgeButton_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cursor.Current = Cursors.WaitCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Properties props = Properties.FromDoc(_doc, false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (props == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;Group&gt; unused = props.RemoveUnusedGroups();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (unused.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateLayers();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePreview();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cursor.Current = Cursors.Default;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;TemporaryFile&gt; _tempFiles;
+&nbsp;&nbsp;&nbsp;&nbsp;private void openExternallyButton_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_tempFiles == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tempFiles = new List&lt;TemporaryFile&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TemporaryFile temp = new TemporaryFile(".pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// when we save we try to keep the object ids constant
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.Linearize = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.SaveOptions.Remap = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Save(temp.Path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_tempFiles.Add(temp);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Diagnostics.Process.Start(temp.Path);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void createButton1_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Properties props = Properties.FromDoc(doc, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Group&gt; groups = new List&lt;Group&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt; 4; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groups.Add(props.AddGroup("Layer " + i.ToString(), null));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FontSize = 36;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Inset(20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 1; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = (Page)doc.ObjectSoup[doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writer writer = new Writer(props, page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (Group group in groups) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OptionalContent.Layer layer = writer.AddGroup(group);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.StartLayer(layer);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(group.EntryName.Text + "\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.EndLayer();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("Always Visible\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.StartLayer(layer);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(group.EntryName.Text + "\r\n\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.EndLayer();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LoadPDF(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void createButton2_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Properties props = Properties.FromDoc(doc, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group parent = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Group&gt; groups = new List&lt;Group&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// The Optional Content Group parent determines the nesting in the UI. 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// The presentation of the nesting is separate from the actual nesting 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// of visibility. In general you will want to ensure the two correspond
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// as in the code here.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt;= 10; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group group = props.AddGroup("Layer " + i.ToString(), parent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groups.Add(group);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;parent = i == 5 ? null : group;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FontSize = 36;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Inset(20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = (Page)doc.ObjectSoup[doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writer writer = new Writer(props, page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// This determines the nesting of actual visibility. Here we ensure that this
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// corresponds to the hierarchy specified in the UI so that it works in an
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// obvious way.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; groups.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group group = groups[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OptionalContent.Layer layer = writer.AddGroup(group);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (i == 5)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (writer.Depth &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.EndLayer();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.StartLayer(layer);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(group.EntryName.Text + "\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (writer.Depth &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.EndLayer();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LoadPDF(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void createButton3_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Properties props = Properties.FromDoc(doc, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Group&gt; groups = new List&lt;Group&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt; 4; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groups.Add(props.AddGroup("Layer " + i.ToString(), null));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// membership policies are simple to use but limited in scope
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MembershipGroup alloff = props.AddMembershipGroup();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alloff.Policy = MembershipGroup.PolicyEnum.AllOff;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alloff.PolicyGroups = groups;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// membership visibility expressions are more complex but more powerful
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MembershipGroup mgve = props.AddMembershipGroup();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom ve = mgve.MakeVisibilityExpression(MembershipGroup.LogicEnum.Or, groups);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mgve.EntryVE = mgve.MakeVisibilityExpression(MembershipGroup.LogicEnum.Not, new ArrayAtom[] { ve });
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FontSize = 36;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.Inset(20, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 3; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = (Page)doc.ObjectSoup[doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writer writer = new Writer(props, page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OptionalContent.Layer layer1 = writer.AddGroup(alloff);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("The next line uses a Policy so that it is only visible if all layers are turned off...\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.StartLayer(layer1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("I am normally invisible\r\n\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.EndLayer();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OptionalContent.Layer layer2 = writer.AddGroup(mgve);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("The next line uses a Visibility Expression so that it is only visible if all layers are turned off...\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.StartLayer(layer2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText("I am normally invisible\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.EndLayer();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LoadPDF(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void pageCombo_SelectedIndexChanged(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.PageNumber = pageCombo.SelectedIndex + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateLayers();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePreview();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void LoadPDF(string file) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(file);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LoadPDF(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textBox2.Text = file;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private class ComboBoxItem {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public int Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public ComboBoxItem(string name, int value) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name = name; Value = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public override string ToString() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void LoadPDF(Doc doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc = doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_groups = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n = _doc.PageCount;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageCombo.Items.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt;= n; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageCombo.Items.Add(new ComboBoxItem("Page " + i.ToString() + " of " + n.ToString(), i));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageCombo.SelectedIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateLayers();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePreview();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void UpdateLayers() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_groups = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layersCheckedListBox.Items.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Properties props = Properties.FromDoc(_doc, false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (props == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Configuration config = props.GetDefault();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (config == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = (Page)_doc.ObjectSoup[_doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Group&gt; groups = props.GetGroups(page);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;int&gt; indents = new List&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.SortGroupsForPresentation(groups, indents);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = _doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n = groups.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; n; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Group group = groups[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string indent = new string(' ', indents[i] * 3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layersCheckedListBox.Items.Add(indent + group.EntryName.Text, group.Visible);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc = doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_groups = groups;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void UpdatePreview() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;previewPictureBox.Image = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Rect.String = _doc.MediaBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double scale = previewPictureBox.Width / _doc.Rect.Width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Rendering.DotsPerInch = Math.Max(scale, 1.0) * 72.0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;previewPictureBox.Image = _doc.Rendering.GetBitmap();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//if (_doc.Rendering.Log.Length &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;&nbsp;MessageBox.Show("Render warning: " + _doc.Rendering.Log);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void layersCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((_doc == null) || (_groups == null) || (e.NewValue == CheckState.Indeterminate))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_groups[e.Index].Visible = e.NewValue == CheckState.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePreview();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void openButton_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenFileDialog dialog = new OpenFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dialog.Filter = "PDF Files (.pdf)|*.pdf|AI Files (*.ai)|*.ai";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dialog.FilterIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dialog.ShowDialog() == DialogResult.OK)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LoadPDF(dialog.FileName);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void saveButton_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_doc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveFileDialog dialog = new SaveFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dialog.FilterIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dialog.FileName = "Untitled.pdf";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dialog.ShowDialog() == DialogResult.OK)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_doc.Save(dialog.FileName);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;internal sealed class TemporaryFile : IDisposable {
+&nbsp;&nbsp;&nbsp;&nbsp;private string mPath;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private TemporaryFile() { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public TemporaryFile(string ext) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPath = GetTempFilePath(ext);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;~TemporaryFile() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispose(false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Dispose() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispose(true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GC.SuppressFinalize(this);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;// sealed class cannot introduce virtual method
+&nbsp;&nbsp;&nbsp;&nbsp;// warned if sealed class introduces protected member
+&nbsp;&nbsp;&nbsp;&nbsp;private /*virtual*/ void Dispose(bool disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DeleteFile();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public string Path { get { return mPath; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void DeleteFile() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mPath != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (File.Exists(mPath))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.Delete(mPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPath = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static string GetTempFilePath(string ext) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (string.IsNullOrWhiteSpace(ext))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ext = ".dat";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (!ext.StartsWith("."))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ext = "." + ext;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return System.IO.Path.Combine(System.IO.Path.GetTempPath(), Guid.NewGuid().ToString() + ext);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

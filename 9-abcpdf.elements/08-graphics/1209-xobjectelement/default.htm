@@ -33,6 +33,12 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>An XObject is a self-contained graphical element stored as a PDF stream. Its content can be referenced multiple times within a document, making it an efficient way to reuse images, forms, and PostScript fragments.</p>
+<p>The three XObject subtypes are Image (a sampled raster image), Form (a reusable content stream), and PS (a PostScript fragment for compatibility with PostScript output pipelines).</p>
+<p>XObjects are named resources stored in the XObject entry of a resource dictionary. A content stream paints an XObject by invoking the Do operator with the resource name.</p>
+<p>The AF entry, added in PDF 2.0, attaches one or more associated files to the XObject. These files carry supplementary data related to the XObject's content, such as source data or accessibility alternatives.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

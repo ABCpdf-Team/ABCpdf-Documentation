@@ -31,6 +31,13 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=154">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 64, page 146.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 63, page 184.</a></p>
 </p>
+<!-- addition start -->
+<p>The CalRGB color space attributes dictionary holds the calibration data that maps three RGB component values to CIE XYZ tristimulus values.</p>
+<p>Each component is first raised to the corresponding power in the Gamma array. The resulting linearised values are then multiplied by the 3×3 matrix to produce XYZ coordinates relative to the specified white point.</p>
+<p>The white point fixes the reference illuminant. It must have a Y component of 1.0. The XZ components establish the chromaticity of the white for the space, which is used during colour conversion.</p>
+<p>The optional black point identifies the XYZ of the darkest reproducible colour. If absent, zero XYZ is assumed, meaning a component value of zero maps to no light output.</p>
+<p>The matrix columns correspond to the XYZ primaries of the red, green, and blue channels. Choosing appropriate matrix values allows the space to accurately model a specific display or scanner.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

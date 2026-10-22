@@ -1,0 +1,1338 @@
+<html>
+<head>
+<title>Drawing\Graphics.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Drawing\Graphics.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Globalization;
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Objects;
+
+using TextState = WebSupergoo.ABCpdf14.Drawing.TextState;
+using FontStyle = WebSupergoo.ABCpdf14.Drawing.FontStyle;
+using FontInfoConvert = WebSupergoo.ABCpdf14.Drawing.FontInfoConvert;
+using Font = WebSupergoo.ABCpdf14.Drawing.Font;
+using BuiltInFont = WebSupergoo.ABCpdf14.Drawing.BuiltInFont;
+
+namespace WebSupergoo.ABCpdf14.Drawing {
+&nbsp;&nbsp;public enum ColorSpace { GrayScale, RGB, CMYK }
+
+&nbsp;&nbsp;#region Drawing2D
+&nbsp;&nbsp;namespace Drawing2D {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The line join style specifies the shape to be used at
+&nbsp;&nbsp;&nbsp;&nbsp;/// the corners of paths that are stroked.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum LineJoin {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Miter join. The outer edges of the strokes for the two
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// segments are extended until they meet at an angle. If the segments
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// meet at too sharp an angle, a bevel join is used instead.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Miter,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Round join. An arc of a circle with a diameter equal to
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// the line width is drawn around the point where the two segments
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// meet, connecting the outer edges of the strokes for the two segments.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// This pieslice-shaped figure is filled in, producing a rounded corner.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Round,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Bevel join. The two segments are finished with butt caps
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// and the resulting notch beyond the ends of the segments is filled
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// with a triangle.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bevel
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The line cap style specifies the shape to be used at the
+&nbsp;&nbsp;&nbsp;&nbsp;/// ends of open subpaths (and dashes, if any) when they are stroked.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum LineCap {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Flat cap. The stroke is squared off at the endpoint of
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// the path. There is no projection beyond the end of the path.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flat,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Round cap. A semicircular arc with a diameter equal to
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// the line width is drawn around the endpoint and filled in.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Round,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Projecting square cap. The stroke continues beyond the
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// endpoint of the path for a distance equal to half the line width
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// and is squared off.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Square
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Specifies the style of dashed lines drawn with a Pen object.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum DashStyle {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Specifies a user-defined custom dash style.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Custom,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Specifies a line consisting of dashes.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dash,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Specifies a line consisting of a repeating pattern of dash-dot.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DashDot,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Specifies a line consisting of a repeating pattern of dash-dot-dot.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DashDotDot,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Specifies a line consisting of dots.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dot,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Specifies a solid line.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solid
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Specifies how the interior of a closed path is filled.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum FillMode {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The even-odd rule rule determines whether a point is
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// inside a path by drawing a ray from that point in any direction
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// and simply counting the number of path segments that cross the
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// ray, regardless of direction.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The nonzero winding number rule determines whether a
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// given point is inside a path by conceptually drawing a ray from
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// that point to infinity in any direction and then examining the
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// places where a segment of the path crosses the ray.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Winding
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum PathPointType {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start = 1, 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Line = 2, 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CloseSubPath = 4 
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;public enum MatrixOrder { Prepend, Append }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Specifies a PDF transformation matrix.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public sealed class Matrix {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private double _a = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private double _b = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private double _c = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private double _d = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private double _e = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private double _f = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double A {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _a; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _a = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double B {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _b; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _b = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double C {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _c; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _c = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double D {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _d; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _d = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double E {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _e; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _e = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double F {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _f; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _f = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public Matrix() { }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public Matrix(double a, double b, double c, double d, double e, double f) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_a = a;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_b = b;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_c = c;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_d = d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_e = e;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_f = f;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void Multiply(double a, double b, double c, double d, double e, double f) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multiply(a, b, c, d, e, f, MatrixOrder.Prepend);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void Multiply(double a, double b, double c, double d, double e, double f, MatrixOrder order) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double ra, rb, rc, rd, re, rf;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (order == MatrixOrder.Prepend) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ra = a * _a + b * _c;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rb = a * _b + b * _d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rc = c * _a + d * _c;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rd = c * _b + d * _d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;re = e * _a + f * _c + _e ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rf = e * _b + f * _d + _f ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ra = _a * a + _b * c;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rb = _a * b + _b * d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rc = _c * a + _d * c;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rd = _c * b + _d * d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;re = _e * a + _f * c + e ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rf = _e * b + _f * d + f ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_a = ra;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_b = rb;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_c = rc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_d = rd;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_e = re;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_f = rf;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void Multiply(Matrix m, MatrixOrder order) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multiply(m.A, m.B, m.C, m.D, m.E, m.F, order);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void Multiply(Matrix m) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multiply(m, MatrixOrder.Prepend);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void Rotate(double angle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double cos = Math.Cos(angle / 180 * Math.PI);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sin = Math.Sin(angle / 180 * Math.PI);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multiply(cos, sin, -sin, cos, 0, 0, MatrixOrder.Prepend);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public void Scale(double width, double height) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multiply(width, 0, 0, height, 0, 0, MatrixOrder.Prepend);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;internal double TransformX(System.Drawing.SizeF size) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return size.Width * _a + size.Height * _c + _e;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;internal double TransformY(System.Drawing.SizeF size) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return size.Width * _b + size.Height * _d + _f;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public override bool Equals(object obj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix m = obj as Matrix;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (m == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (A == m.A &amp;&amp; B == m.B &amp;&amp; C == m.C &amp;&amp; D == m.D &amp;&amp; E == m.E &amp;&amp; F == m.F); 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public override int GetHashCode() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return base.GetHashCode ();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public override string ToString() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return string.Format(NumberFormatInfo.InvariantInfo,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"{0:0.#####} {1:0.#####} {2:0.#####} {3:0.#####} {4:0.#####} {5:0.#####}",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A, B, C, D, E, F);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;internal Matrix Clone() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Matrix(A, B, C, D, E, F);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;#region Graphics
+&nbsp;&nbsp;/// &lt;summary&gt;Encapsulates a PDF drawing surface. This class cannot be inherited.&lt;/summary&gt;
+&nbsp;&nbsp;public sealed class Graphics {
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Declare variables
+&nbsp;&nbsp;&nbsp;&nbsp;internal readonly PDFContent Content;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Drawing.Rectangle _clip;
+&nbsp;&nbsp;&nbsp;&nbsp;private Drawing2D.Matrix _curMatrix = new Drawing2D.Matrix();
+&nbsp;&nbsp;&nbsp;&nbsp;private ColorSpace _colorSpace;
+&nbsp;&nbsp;&nbsp;&nbsp;private float _resolution = 96;
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Defining the bounds of the visible content.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public System.Drawing.Rectangle Rect {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return Content.Doc.Rect.Rectangle; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { Content.Doc.Rect.Rectangle = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Determines the current world space transform.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Drawing2D.Matrix Transform {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _curMatrix; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _curMatrix = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Gets or sets a Rectangle that limits the drawing region of this Graphics.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public System.Drawing.Rectangle Clip {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return _clip; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { _clip = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Gets a RectangleF structure that bounds the clipping region of this Graphics.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;value&gt;A RectangleF structure that represents a bounding rectangle for the clipping region of this Graphics.&lt;/value&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public System.Drawing.RectangleF ClipBounds{ get{ return _clip; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Constructors
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Initializes a new instance of the Graphics class with
+&nbsp;&nbsp;&nbsp;&nbsp;/// the specified Page parent.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;internal Graphics(Page page) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content = page.Document.NewContent();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_clip = Content.Doc.Rect.Rectangle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_colorSpace = page.Document.ColorSpace;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_resolution = page.Document.Resolution;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Write content to the doc.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool Realize() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Content.AddToDoc();&nbsp;&nbsp;// idempotent
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Line methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a line connecting two Point structures.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen object that determines the color, width, and style of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt1"&gt;The point at the start of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt2"&gt;The point at the end of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawLine(Pen pen, System.Drawing.Point pt1, System.Drawing.Point pt2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawLines(pen, new System.Drawing.PointF[] { new System.Drawing.PointF(pt1.X, pt1.Y), new System.Drawing.PointF(pt2.X, pt2.Y) });
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a line connecting two System.Drawing.PointF structures.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen object that determines the color, width, and style of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt1"&gt;The point at the start of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt2"&gt;The point at the end of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawLine(Pen pen, System.Drawing.PointF pt1, System.Drawing.PointF pt2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawLines(pen, new System.Drawing.PointF[] { pt1, pt2 });
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a line connecting the two points specified by coordinate pairs.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen object that determines the color, width, and style of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x1"&gt;x-coordinate of the first point.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y1"&gt;y-coordinate of the first point.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x2"&gt;x-coordinate of the second point.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y2"&gt;y-coordinate of the second point.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawLine(Pen pen, double x1, double y1, double x2, double y2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawLines(pen, new System.Drawing.PointF[] { new System.Drawing.PointF((float)x1, (float)y1), new System.Drawing.PointF((float)x2, (float)y2) });
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a series of line segments that connect an array of points.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen object that determines the color, width, and style of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;The points to be connected.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawLines(Pen pen, System.Drawing.Point[] points) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawLines(pen, ToPointFArray(points));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a series of line segments that connect an array of System.Drawing.PointF structures.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen object that determines the color, width, and style of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;The points to be connected.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawLines(Pen pen, System.Drawing.PointF[] points) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawLines(pen, points, false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a series of line segments that connect an array of System.Drawing.PointF structures.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen object that determines the color, width, and style of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;The points to be connected.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="closePath"&gt;Close the current subpath by appending a straight line segment from the current point to the starting point of the subpath.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void DrawLines(Pen pen, System.Drawing.PointF[] points, bool closePath) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPenStyle(pen);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Move(points[0].X, Rect.Height - points[0].Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt; points.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Line(points[i].X, Rect.Height - points[i].Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (closePath)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Polygon methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a polygon defined by an array of points.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen object that determines the color, width, and style of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;Array of points that represent the vertices of the polygon.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawPolygon(Pen pen, System.Drawing.Point[] points) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawLines(pen, ToPointFArray(points), true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a polygon defined by an array of System.Drawing.PointF structures.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen object that determines the color, width, and style of the line.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;Array of points that represent the vertices of the polygon.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawPolygon(Pen pen, System.Drawing.PointF[] points) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawLines(pen, points, true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of a polygon defined by an array of points specified by points using the specified fill mode.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush object that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;Array of points that represent the vertices of the polygon to be filled.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="fillMode"&gt;The style of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillPolygon(Brush brush, System.Drawing.Point[] points, Drawing2D.FillMode fillMode) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillPolygon(brush, ToPointFArray(points), fillMode);&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of a polygon defined by an array of points specified by points using the specified fill mode.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush object that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;Array of points that represent the vertices of the polygon to fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillPolygon(Brush brush, System.Drawing.Point[] points) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillPolygon(brush, points, Drawing2D.FillMode.Alternate);&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of a polygon defined by an array of points specified by System.Drawing.PointF structures using the specified fill mode.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush object that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;Array of points that represent the vertices of the polygon to be filled.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="fillMode"&gt;The style of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillPolygon(Brush brush, System.Drawing.PointF[] points, Drawing2D.FillMode fillMode) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBrushStyle(brush);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Move(points[0].X, Rect.Height - points[0].Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt; points.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Line(points[i].X, Rect.Height - points[i].Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fillMode == Drawing2D.FillMode.Winding) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (fillMode == Drawing2D.FillMode.Alternate) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.FillEvenOddRule();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of a polygon defined by an array of points specified by System.Drawing.PointF structures using the specified fill mode.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush object that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;Array of points that represent the vertices of the polygon to be filled.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillPolygon(Brush brush, System.Drawing.PointF[] points) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillPolygon(brush, points, Drawing2D.FillMode.Alternate);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Rectangle methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a rectangle specified by a coordinate pair, a width, and a height.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen object that determines the color, width, and style of the rectangle.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;x-coordinate of the upper-left corner of the rectangle to draw.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;y-coordinate of the upper-left corner of the rectangle to draw.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="width"&gt;Width of the rectangle to draw.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="height"&gt;Height of the rectangle to draw.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawRectangle(Pen pen, double x, double y, double width, double height) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPenStyle(pen);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Rect(x, Rect.Height - y - height, width, height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a rectangle.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen object that determines the color, width, and style of the rectangle.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle to be drawn.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawRectangle(Pen pen, System.Drawing.Rectangle rect) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a series of rectangles.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the outlines of the rectangles.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rects"&gt;Array of rectangles to be drawn.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawRectangles(Pen pen, System.Drawing.Rectangle[] rects) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawRectangles(pen, ToRectangleFArray(rects));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a series of rectangles.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the outlines of the rectangles.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rects"&gt;Array of rectangles to be drawn.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawRectangles(Pen pen, System.Drawing.RectangleF[] rects) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPenStyle(pen);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (System.Drawing.RectangleF rect in rects) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Rect(rect.X, Rect.Height - rect.Y - rect.Height, rect.Width, rect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of a rectangle.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush object that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle to be filled.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillRectangle(Brush brush, System.Drawing.Rectangle rect) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillRectangle(brush, rect.X, rect.Y, rect.Width, rect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of a rectangle.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush object that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle to be filled.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillRectangle(Brush brush, System.Drawing.RectangleF rect) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillRectangle(brush, rect.X, rect.Y, rect.Width, rect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of a rectangle.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush object that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;x-coordinate of the upper-left corner of the rectangle.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;y-coordinate of the upper-left corner of the rectangle.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="width"&gt;Width of the rectangle.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="height"&gt;Height of the rectangle.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillRectangle(Brush brush, double x, double y, double width, double height) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBrushStyle(brush);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Rect(x, Rect.Height - y - height, width, height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interiors of a series of rectangles.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush object that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rects"&gt;The rectangles to be filled.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillRectangles(Brush brush, System.Drawing.Rectangle[] rects) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillRectangles(brush, ToRectangleFArray(rects));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interiors of a series of rectangles.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush object that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rects"&gt;The rectangles to be filled.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillRectangles(Brush brush, System.Drawing.RectangleF[] rects) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBrushStyle(brush);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (System.Drawing.RectangleF rect in rects) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Rect(rect.X, rect.Y, rect.Width, rect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Arc methods
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void ContentArc(double x, double y, double width, double height,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double startAngle, double sweepAngle, bool inMove) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Arc(-startAngle, -(startAngle + sweepAngle),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x + (width / 2), Rect.Height - y - (height / 2),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width / 2, height / 2, 0, inMove);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws an arc representing a portion of an ellipse.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the arc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle that defines the boundaries of the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="startAngle"&gt;Angle in degrees measured clockwise from the x-axis to the starting point of the arc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="sweepAngle"&gt;Angle in degrees measured clockwise from the &lt;paramref name="startAngle"/&gt; parameter to ending point of the arc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawArc(Pen pen, System.Drawing.Rectangle rect, double startAngle, double sweepAngle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawArc(pen, rect.Left, rect.Top, rect.Width, rect.Height, startAngle, sweepAngle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws an arc representing a portion of an ellipse.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the arc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle that defines the boundaries of the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="startAngle"&gt;Angle in degrees measured clockwise from the x-axis to the starting point of the arc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="sweepAngle"&gt;Angle in degrees measured clockwise from the &lt;paramref name="startAngle"/&gt; parameter to ending point of the arc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawArc(Pen pen, System.Drawing.RectangleF rect, double startAngle, double sweepAngle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawArc(pen, rect.Left, rect.Top, rect.Width, rect.Height, startAngle, sweepAngle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws an arc representing a portion of an ellipse.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the arc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;The x-coordinate of the upper-left corner of the rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;The y-coordinate of the upper-left corner of the rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="width"&gt;Width of the rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="height"&gt;Height of the rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="startAngle"&gt;Angle in degrees measured clockwise from the x-axis to the starting point of the arc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="sweepAngle"&gt;Angle in degrees measured clockwise from the &lt;paramref name="startAngle"/&gt; parameter to ending point of the arc.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawArc(Pen pen, double x, double y, double width, double height,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double startAngle, double sweepAngle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawArc(pen, x, y, width, height, startAngle, sweepAngle, false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void DrawArc(Pen pen, double x, double y, double width, double height,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double startAngle, double sweepAngle, bool closePath) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPenStyle(pen);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ContentArc(x, y, width, height, startAngle, sweepAngle, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (closePath)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a pie shape defined by an ellipse and two radial lines.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the pie shape.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle that represents the bounding rectangle that defines the ellipse from which the pie shape comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="startAngle"&gt;Angle in degrees measured clockwise from the x-axis to the first side of the pie shape.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="sweepAngle"&gt;Angle in degrees measured clockwise from the &lt;paramref name="startAngle"/&gt; parameter to the second side of the pie shape.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawPie(Pen pen, System.Drawing.Rectangle rect, double startAngle, double sweepAngle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawPie(pen, rect.Left, rect.Top, rect.Width, rect.Height, startAngle, sweepAngle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a pie shape defined by an ellipse and two radial lines.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the pie shape.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle that represents the bounding rectangle that defines the ellipse from which the pie shape comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="startAngle"&gt;Angle in degrees measured clockwise from the x-axis to the first side of the pie shape.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="sweepAngle"&gt;Angle in degrees measured clockwise from the &lt;paramref name="startAngle"/&gt; parameter to the second side of the pie shape.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawPie(Pen pen, System.Drawing.RectangleF rect, double startAngle, double sweepAngle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawPie(pen, rect.Left, rect.Top, rect.Width, rect.Height, startAngle, sweepAngle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a pie shape defined by an ellipse specified by a coordinate pair, a width, a height, and two radial lines.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the pie shape.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;The x-coordinate of the upper-left corner of the bounding rectangle that defines the ellipse from which the pie shape comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;The y-coordinate of the upper-left corner of the bounding rectangle that defines the ellipse from which the pie shape comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="width"&gt;Width of the bounding rectangle that defines the ellipse from which the pie shape comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="height"&gt;Height of the bounding rectangle that defines the ellipse from which the pie shape comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="startAngle"&gt;Angle in degrees measured clockwise from the x-axis to the first side of the pie shape.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="sweepAngle"&gt;Angle in degrees measured clockwise from the &lt;paramref name="startAngle"/&gt; parameter to the second side of the pie shape.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawPie(Pen pen, double x, double y, double width, double height,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double startAngle, double sweepAngle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPenStyle(pen);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Move(x + (width / 2), Rect.Height - y - (height / 2));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ContentArc(x, y, width, height, startAngle, sweepAngle, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Line(x + (width / 2), Rect.Height - y - (height / 2));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of a pie section defined by an ellipse specified by a rectangle and two radial lines.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle that represents the bounding rectangle that defines the ellipse from which the pie section comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="startAngle"&gt;Angle in degrees measured clockwise from the x-axis to the first side of the pie section.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="sweepAngle"&gt;Angle in degrees measured clockwise from the &lt;paramref name="startAngle"/&gt; parameter to the second side of the pie section.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillPie(Brush brush, System.Drawing.Rectangle rect, double startAngle, double sweepAngle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillPie(brush, rect.Left, rect.Top, rect.Width, rect.Height, startAngle, sweepAngle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of a pie section defined by an ellipse specified by a rectangle and two radial lines.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The bounding rectangle that defines the ellipse from which the pie section comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="startAngle"&gt;Angle in degrees measured clockwise from the x-axis to the first side of the pie section.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="sweepAngle"&gt;Angle in degrees measured clockwise from the &lt;paramref name="startAngle"/&gt; parameter to the second side of the pie section.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillPie(Brush brush, System.Drawing.RectangleF rect, double startAngle, double sweepAngle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillPie(brush, rect.Left, rect.Top, rect.Width, rect.Height, startAngle, sweepAngle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of a pie section defined by an ellipse specified by a pair of coordinates, a width, a height, and two radial lines.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;The x-coordinate of the upper-left corner of the bounding rectangle that defines the ellipse from which the pie section comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;The y-coordinate of the upper-left corner of the bounding rectangle that defines the ellipse from which the pie section comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="width"&gt;Width of the bounding rectangle that defines the ellipse from which the pie section comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="height"&gt;Height of the bounding rectangle that defines the ellipse from which the pie section comes.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="startAngle"&gt;Angle in degrees measured clockwise from the x-axis to the first side of the pie section.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="sweepAngle"&gt;Angle in degrees measured clockwise from the &lt;paramref name="startAngle"/&gt; parameter to the second side of the pie section.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillPie(Brush brush, double x, double y, double width, double height,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double startAngle, double sweepAngle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBrushStyle(brush);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Move(x + (width / 2), Rect.Height - y - (height / 2));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ContentArc(x, y, width, height, startAngle, sweepAngle, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Line(x + (width / 2), Rect.Height - y - (height / 2));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Close();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drawing2D.FillMode fillMode = Drawing2D.FillMode.Alternate;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fillMode == Drawing2D.FillMode.Winding)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (fillMode == Drawing2D.FillMode.Alternate)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.FillEvenOddRule();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws an ellipse defined by a bounding rectangle.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle that defines the boundaries of the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawEllipse(Pen pen, System.Drawing.Rectangle rect){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawArc(pen, rect, 0, 360);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws an ellipse defined by a bounding rectangle.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle that defines the boundaries of the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawEllipse(Pen pen, System.Drawing.RectangleF rect){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawArc(pen, rect, 0, 360);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws an ellipse defined by a bounding rectangle specified by a pair of coordinates, a width, and a height.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;The x-coordinate of the upper-left corner of the bounding rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;The y-coordinate of the upper-left corner of the bounding rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="width"&gt;Width of the bounding rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="height"&gt;Height of the bounding rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawEllipse(Pen pen, double x, double y, double width, double height){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawArc(pen, x, y, width, height, 0, 360);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of an ellipse defined by a bounding rectangle.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The bounding rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillEllipse(Brush brush, System.Drawing.Rectangle rect){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillPie(brush, rect, 0, 360);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of an ellipse defined by a bounding rectangle.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The bounding rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillEllipse(Brush brush, System.Drawing.RectangleF rect){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillPie(brush, rect, 0, 360);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of an ellipse defined by a bounding rectangle specified by a pair of coordinates, a width, and a height.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;The x-coordinate of the upper-left corner of the bounding rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;The y-coordinate of the upper-left corner of the bounding rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="width"&gt;Width of the bounding rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="height"&gt;Height of the bounding rectangle that defines the ellipse.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillEllipse(Brush brush, double x, double y, double width, double height){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillPie(brush, x, y, width, height, 0, 360);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Bezier methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a Bezier spline defined by four points.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt1"&gt;The starting point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt2"&gt;The first control point for the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt3"&gt;The second control point for the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt4"&gt;The ending point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawBezier(Pen pen, System.Drawing.Point pt1, System.Drawing.Point pt2, System.Drawing.Point pt3, System.Drawing.Point pt4) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawBezier(pen, pt1.X, pt1.Y, pt2.X, pt2.Y, pt3.X, pt3.Y, pt4.X, pt4.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a Bezier spline defined by four points.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt1"&gt;The starting point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt2"&gt;The first control point for the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt3"&gt;The second control point for the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pt4"&gt;The ending point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawBezier(Pen pen, System.Drawing.PointF pt1, System.Drawing.PointF pt2, System.Drawing.PointF pt3, System.Drawing.PointF pt4) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawBezier(pen, pt1.X, pt1.Y, pt2.X, pt2.Y, pt3.X, pt3.Y, pt4.X, pt4.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a Bezier spline defined by four ordered pairs of coordinates that represent points.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x1"&gt;x-coordinate of the starting point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y1"&gt;y-coordinate of the starting point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x2"&gt;x-coordinate of the first control point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y2"&gt;y-coordinate of the first control point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x3"&gt;x-coordinate of the second control point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y3"&gt;y-coordinate of the second control point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x4"&gt;x-coordinate of the ending point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y4"&gt;y-coordinate of the ending point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawBezier(Pen pen, double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawBezier(pen, x1, y1, x2, y2, x3, y3, x4, y4, false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a Bezier spline defined by four ordered pairs of coordinates that represent points.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x1"&gt;x-coordinate of the starting point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y1"&gt;y-coordinate of the starting point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x2"&gt;x-coordinate of the first control point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y2"&gt;y-coordinate of the first control point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x3"&gt;x-coordinate of the second control point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y3"&gt;y-coordinate of the second control point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x4"&gt;x-coordinate of the ending point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y4"&gt;y-coordinate of the ending point of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="closePath"&gt;Close the current subpath by appending a straight line segment from the current point to the starting point of the subpath.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void DrawBezier(Pen pen, double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, bool closePath) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPenStyle(pen);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Move(x1, Rect.Height - y1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Bezier(x2, Rect.Height - y2, x3, Rect.Height - y3, x4, Rect.Height - y4);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (closePath) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a series of Bezier splines from an array of points.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;Array of points that represent the points that determine the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawBeziers(Pen pen, System.Drawing.Point[] points) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawBeziers(pen , ToPointFArray(points));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a series of Bezier splines from an array of points.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;Array of System.Drawing.PointF structures that represent the points that determine the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawBeziers(Pen pen, System.Drawing.PointF[] points) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawBeziers(pen, points, false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a series of Bezier splines from an array of points.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="points"&gt;Array of System.Drawing.PointF structures that represent the points that determine the curve.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="closePath"&gt;Close the current subpath by appending a straight line segment from the current point to the starting point of the subpath.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void DrawBeziers(Pen pen, System.Drawing.PointF[] points, bool closePath) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(points.Length &lt;= 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPenStyle(pen);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Move(points[0].X, Rect.Height - points[0].Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i = 0; i &lt; points.Length - 3; i += 3){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Bezier(points[i + 1].X, Rect.Height - points[i + 1].Y,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;points[i + 2].X, Rect.Height - points[i + 2].Y,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;points[i + 3].X, Rect.Height - points[i + 3].Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (closePath) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Path methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws a Drawing2D.GraphicsPath.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the path.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="path"&gt;The path to draw.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawPath(Pen pen, Drawing2D.GraphicsPath path) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPenStyle(pen);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Contents.Append(path.Content.Contents.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fills the interior of a Drawing2D.GraphicsPath.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the characteristics of the fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="path"&gt;The path to fill.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillPath(Brush brush, Drawing2D.GraphicsPath path) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBrushStyle(brush);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Contents.Append(path.Content.Contents.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Content.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (path.FillMode == Drawing2D.FillMode.Winding) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (path.FillMode == Drawing2D.FillMode.Alternate) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.FillEvenOddRule();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Text methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified text string at the specified location with the specified Brush and Font objects.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="s"&gt;String to draw&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="font"&gt;Font that defines the text format of the string.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the color and texture of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;The x-coordinate of the upper-left corner of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;The y-coordinate of the upper-left corner of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawString(string s, Font font, Brush brush, double x, double y) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawString(s, font, new Pen(brush.Color), brush, x, y, new TextState());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified text string at the specified location with the specified Brush and Font objects.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="s"&gt;String to draw&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="font"&gt;Font that defines the text format of the string.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the color and texture of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="point"&gt;System.Drawing.PointF structure that specifies the upper-left corner of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawString(string s, Font font, Brush brush, System.Drawing.PointF point) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawString(s, font, new Pen(brush.Color), brush, point, new TextState());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified text string in the specified rectangle with the specified Brush and Font objects.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="s"&gt;String to draw&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="font"&gt;Font that defines the text format of the string.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the color and texture of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="layoutRectangle"&gt;The rectangle that specifies the location of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawString(string s, Font font, Brush brush,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.RectangleF layoutRectangle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawString(s, font, new Pen(brush.Color), brush, layoutRectangle, new TextState());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified text string at the specified location with the specified Pen, Brush, and Font objects.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="s"&gt;String to draw&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="font"&gt;Font that defines the text format of the string.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the outlines of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the color and texture of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;The x-coordinate of the upper-left corner of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;The y-coordinate of the upper-left corner of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawString(string s, Font font, Pen pen, Brush brush, double x, double y) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawString(s, font, pen, brush, x, y, new TextState());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified text string at the specified location with the specified Pen, Brush, and Font objects.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="s"&gt;String to draw&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="font"&gt;Font that defines the text format of the string.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the outlines of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the color and texture of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="point"&gt;The upper-left corner of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawString(string s, Font font, Pen pen, Brush brush,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.PointF point) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawString(s, font, pen, brush, point, new TextState());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified text string in the specified rectangle with the specified Pen, Brush, and Font objects.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="s"&gt;String to draw&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="font"&gt;Font that defines the text format of the string.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the outlines of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the color and texture of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="layoutRectangle"&gt;The rectangle that specifies the location of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawString(string s, Font font, Pen pen, Brush brush,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.RectangleF layoutRectangle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawString(s, font, pen, brush, layoutRectangle, new TextState());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified text string at the specified location with the specified Pen, Brush, and Font objects using the styling attributes of the specified TextState.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="s"&gt;String to draw&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="font"&gt;Font that defines the text format of the string.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the outlines of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the color and texture of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;The x-coordinate of the upper-left corner of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;The y-coordinate of the upper-left corner of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="state"&gt;TextState that specifies styling attributes that are applied to the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawString(string s, Font font, Pen pen, Brush brush,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x, double y, TextState state) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawString(s, font, pen, brush, x, y, 1000000, 1000000, state);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified text string at the specified location with the specified Pen, Brush, and Font objects using the styling attributes of the specified TextState.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="s"&gt;String to draw&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="font"&gt;Font that defines the text format of the string.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the outlines of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the color and texture of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="point"&gt;The upper-left corner of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="state"&gt;TextState that specifies styling attributes that are applied to the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawString(string s, Font font, Pen pen, Brush brush,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.PointF point, TextState state) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawString(s, font, pen, brush, point.X, point.Y, state);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified text string in the specified rectangle with the specified Pen, Brush, and Font objects using the styling attributes of the specified TextState.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="s"&gt;String to draw&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="font"&gt;Font that defines the text format of the string.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pen"&gt;Pen that determines the color, width, and style of the outlines of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="brush"&gt;Brush that determines the color and texture of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="layoutRectangle"&gt;The rectangle that specifies the location of the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="state"&gt;TextState that specifies styling attributes that are applied to the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawString(string s, Font font, Pen pen, Brush brush,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.RectangleF layoutRectangle, TextState state) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawString(s, font, pen, brush,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutRectangle.Left, layoutRectangle.Top,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutRectangle.Width, layoutRectangle.Height, state);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void DrawString(string s, Font font, Pen pen, Brush brush,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x, double y, double width, double height, TextState state) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetCoordinateSystems();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetPenStyle(pen);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBrushStyle(brush);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetFontAndTextStyle(font, state);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldRect = Content.Doc.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldTransform = Content.Doc.Transform.String;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double hscale = state.HorizontalScaling / 100;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Rect.Left = x;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Rect.Width = width / hscale;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Rect.Top = Content.Doc.MediaBox.Top - y; // - Content.mDoc.TextStyle.LineSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Rect.Bottom = Content.Doc.Rect.Top - height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Transform.Magnify(hscale, 1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Rect.Left, Content.Doc.Rect.Top);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string renderingModeStr;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (state.RenderingMode) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextRenderingMode.FillThenStrokeText :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextRenderingMode.FillThenStrokeTextAndAddForClipping :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextRenderingMode.StrokeText :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextRenderingMode.StrokeTextAndAddForClipping :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderingModeStr = string.Format("rendering-mode=\"{0}\" outline=\"1\"",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int)state.RenderingMode);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderingModeStr = string.Format("rendering-mode=\"{0}\"",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int)state.RenderingMode);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string colorFillStr = string.Format(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"color-fill=\"#{0:x2}{1:x2}{2:x2}\"",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int)(brush.Color.R * 255),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int)(brush.Color.G * 255),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int)(brush.Color.B * 255));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string colorStrokeStr = string.Format(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"color-stroke=\"#{0:x2}{1:x2}{2:x2}\"",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int)(pen.Color.R * 255),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int)(pen.Color.G * 255),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(int)(pen.Color.B * 255));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = Content.Doc.AddTextStyled(string.Format("&lt;Font {1} {2} {3}&gt;&lt;Pre&gt;{0}&lt;/Pre&gt;&lt;/Font&gt;",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Web.HttpUtility.HtmlEncode(s),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderingModeStr, colorFillStr, colorStrokeStr));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string stream = Content.Doc.GetInfo(id, "stream");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Objects.Page page = (Objects.Page)Content.Doc.ObjectSoup[Content.Doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.Detach(Content.Doc.ObjectSoup[id] as StreamObject);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Contents.Append(" ").Append(stream).Append(" ");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Transform.String = oldTransform;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Rect.String = oldRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Measures the specified string when drawn with the specified Font.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="s"&gt;String to measure&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="font"&gt;Font that defines the text format of the string.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The size, in points, of the string specified by the &lt;paramref name="s"/&gt; parameter as drawn with the &lt;paramref name="font"/&gt; parameter.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public System.Drawing.SizeF MeasureString(string s, Font font) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return MeasureString(s, font, new TextState());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Measures the specified string when drawn with the specified Font using the styling attributes of the specified TextState.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="s"&gt;String to measure&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="font"&gt;Font that defines the text format of the string.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="state"&gt;The styling attributes that are applied to the drawn text.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The size, in points, of the string specified by the &lt;paramref name="s"/&gt; parameter as drawn with the &lt;paramref name="font"/&gt; parameter.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public System.Drawing.SizeF MeasureString(string s, Font font, TextState state) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontStyle leftoutFontStyle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int fontId = SetFontAndTextStyle(font, state, out leftoutFontStyle);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string widths = Content.Doc.GetInfo(fontId, "widths " + s);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float width = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach(string widthStr in widths.Split(',')) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(widthStr != string.Empty) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width += float.Parse(widthStr, NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch{}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double adjustItalic = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double adjustBold = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(s.Length &gt; 0){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(font.Italic)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adjustItalic = 0.25 - 0.1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(FontInfoConvert.TestFlag(leftoutFontStyle, FontStyle.Bold))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adjustBold = 0.03;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int ascent = font.FontFamily.GetCellAscent(font.Style);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int descent = font.FontFamily.GetCellDescent(font.Style);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int emHeight = font.FontFamily.GetEmHeight(font.Style);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float sizeInPixels = (font.SizeInPoints * _resolution) / 72;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new System.Drawing.SizeF(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(float)(sizeInPixels
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* (width / 1000d + adjustBold + adjustItalic * ascent / emHeight)),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(float)(sizeInPixels * (ascent + descent) / emHeight));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Image methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified Image, using its original physical size, at the specified location.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="image"&gt;Image to draw.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="point"&gt;The location of the upper-left corner of the drawn image.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawImage(Image image, System.Drawing.Point point) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawImage(image, point.X, point.Y, double.NaN, double.NaN);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified Image, using its original physical size, at the specified location.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="image"&gt;Image to draw.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="point"&gt;The location of the upper-left corner of the drawn image.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawImage(Image image, System.Drawing.PointF point) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawImage(image, point.X, point.Y, double.NaN, double.NaN);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified Image at the specified location and with the specified size.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="image"&gt;Image to draw.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle into which the image should be drawn.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawImage(Image image, System.Drawing.Rectangle rect) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawImage(image, rect.Left, rect.Top, rect.Width, rect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified Image at the specified location and with the specified size.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="image"&gt;Image to draw.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;The rectangle into which the image should be drawn.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawImage(Image image, System.Drawing.RectangleF rect) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawImage(image, rect.Left, rect.Top, rect.Width, rect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified Image, using its original physical size, at the specified location.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="image"&gt;Image to draw.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;The x-coordinate of the upper-left corner of the drawn image.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;The y-coordinate of the upper-left corner of the drawn image.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawImage(Image image, double x, double y) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawImage(image, x, y, double.NaN, double.NaN);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Draws the specified Image at the specified location and with the specified size.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="image"&gt;Image to draw.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;The x-coordinate of the upper-left corner of the drawn image.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;The y-coordinate of the upper-left corner of the drawn image.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="width"&gt;Width of the drawn image.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="height"&gt;Height of the drawn image.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DrawImage(Image image, double x, double y, double width, double height) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (double.IsNaN(width)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (double.IsNaN(height)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width = image.Width / image.xImage.HRes * 72;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height = image.Height / image.xImage.VRes * 72;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width = image.Width * height / image.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (double.IsNaN(height)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;height = image.Height * width / image.Width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drawing2D.Matrix m = GetTransformMatrix();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m.Multiply(width, 0, 0, height, x, Rect.Height - y - height);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int imageID = Content.GetReferencedImageID(image);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (imageID != 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Transform(m.A, m.B, m.C, m.D, m.E, m.F);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.DoImage(imageID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldTransform = Content.Doc.Transform.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldRect = Content.Doc.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Transform.SetTransform(m.A, m.B, m.C, m.D, m.E, m.F);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Rect.SetRect(0, 0, 1, 1);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imageID = Content.Doc.AddImageObject(image.xImage, false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.AddReferencedImage(image, imageID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string stream = Content.Doc.GetInfo(imageID, "stream");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Objects.Page page = (Objects.Page)Content.Doc.ObjectSoup[Content.Doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;page.Detach(Content.Doc.ObjectSoup[imageID] as StreamObject);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Contents.Append(" ").Append(stream).Append(" ");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Rect.String = oldRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Transform.String = oldTransform;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Private methods
+
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Drawing.PointF[] ToPointFArray(System.Drawing.Point[] points){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.PointF[] arr = new System.Drawing.PointF[points.Length];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i = 0; i &lt; points.Length; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = points[i];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return arr;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Drawing.RectangleF[] ToRectangleFArray(System.Drawing.Rectangle[] rects){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.RectangleF[] arr = new System.Drawing.RectangleF[rects.Length];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i = 0; i &lt; rects.Length; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = rects[i];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return arr;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private int SetFontAndTextStyle(Font font, TextState state){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontStyle leftoutFontStyle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return SetFontAndTextStyle(font, state, out leftoutFontStyle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private int SetFontAndTextStyle(Font font, TextState state, out FontStyle leftoutFontStyle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XTextStyle textStyle = Content.Doc.TextStyle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Size = (font.SizeInPoints * _resolution) / 72;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.CharSpacing = state.CharacterSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.WordSpacing = state.WordSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.LineSpacing = state.Leading + (font.GetHeight(_resolution) - textStyle.Size);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string embeddedFontName = font.GetEmbeddedFontName(out leftoutFontStyle);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Bold = FontInfoConvert.TestFlag(leftoutFontStyle, FontStyle.Bold);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Italic = FontInfoConvert.TestFlag(leftoutFontStyle, FontStyle.Italic);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Underline = FontInfoConvert.TestFlag(leftoutFontStyle, FontStyle.Underline);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Strike = FontInfoConvert.TestFlag(leftoutFontStyle, FontStyle.Strikeout);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int fontId = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (font is BuiltInFont)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontId = Content.Doc.AddFont(embeddedFontName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontId == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontId = Content.Doc.EmbedFont(embeddedFontName, LanguageType.Unicode, false, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontId == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontId = Content.Doc.AddFont(embeddedFontName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#if DEBUG
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontId == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ApplicationException("Unable to find font \"" + embeddedFontName + "\".");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#endif
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Doc.Font = fontId;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return fontId;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Drawing2D.Matrix GetTransformMatrix() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drawing2D.Matrix transform = Transform;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double rectHeight = Rect.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Drawing2D.Matrix(transform.A, -transform.B, -transform.C, transform.D,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transform.E + transform.C * rectHeight,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rectHeight - transform.F - transform.D * rectHeight);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void SetCoordinateSystems() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!_curMatrix.Equals(new Drawing2D.Matrix())) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Drawing2D.Matrix m = GetTransformMatrix();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Transform(m.A, m.B, m.C, m.D, m.E, m.F);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!Content.Doc.Rect.Rectangle.Equals(_clip)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetNonStrokeAlpha(0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Clip();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Rect(_clip.X, Rect.Height - _clip.Y - _clip.Height, _clip.Width, _clip.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void SetPenStyle(Pen pen) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetLineWidth(pen.Width);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetLineJoin((int)pen.LineJoin);&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetLineCap((int)pen.LineCap);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetStrokeAlpha(pen.Color.A);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_colorSpace == ColorSpace.RGB) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetRGBStrokeColor(pen.Color.R, pen.Color.G, pen.Color.B);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (_colorSpace == ColorSpace.CMYK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetCMYKStrokeColor(pen.Color.C, pen.Color.M, pen.Color.Y, pen.Color.K);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (_colorSpace == ColorSpace.GrayScale) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetGrayStrokeColor(pen.Color.GrayScale);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetMiterLimit(pen.MiterLimit);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (pen.DashStyle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Drawing2D.DashStyle.Custom:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append("[ ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (double p in pen.DashPattern)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(p).Append(" ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append("] ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Drawing2D.DashStyle.Dash:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append("[ 10 5 ] ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Drawing2D.DashStyle.DashDot:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append("[ 10 5 3 5 ] ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Drawing2D.DashStyle.DashDotDot:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append("[ 10 5 3 5 3 5 ] ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Drawing2D.DashStyle.Dot:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append("[ 3 10 ] ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case Drawing2D.DashStyle.Solid:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append("[ ] ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.LineDash(sb.Append(pen.DashOffset).ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void SaveState() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!_curMatrix.Equals(new Drawing2D.Matrix()) || !Content.Doc.Rect.Rectangle.Equals(_clip))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void RestoreState() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!_curMatrix.Equals(new Drawing2D.Matrix()) || !Content.Doc.Rect.Rectangle.Equals(_clip))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void SetBrushStyle(Brush brush) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetNonStrokeAlpha(brush.Color.A);
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_colorSpace == ColorSpace.RGB) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetRGBNonStrokeColor(brush.Color.R, brush.Color.G, brush.Color.B);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (_colorSpace == ColorSpace.CMYK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetCMYKNonStrokeColor(brush.Color.C, brush.Color.M, brush.Color.Y, brush.Color.K);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (_colorSpace == ColorSpace.GrayScale) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content.SetGrayNonStrokeColor(brush.Color.GrayScale);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;}
+&nbsp;&nbsp;#endregion
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

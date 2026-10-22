@@ -32,6 +32,13 @@
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 32, page 108.</a></p>
 <p><a target="_blank" href="http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=23">Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.28, page 23.</a></p>
 </p>
+<!-- addition start -->
+<p>The name dictionary is referenced from the document catalog and provides access to named trees that map string keys to various types of PDF objects. It centralises all named resources in the document.</p>
+<p>The Dests entry maps destination names to destination arrays or dictionaries. Named destinations allow links, bookmarks, and actions to reference page locations by name rather than by object reference.</p>
+<p>The EmbeddedFiles entry maps file names to file specification dictionaries for embedded file attachments. This tree is the primary mechanism for attaching files to a PDF document in PDF 1.2 and later.</p>
+<p>The JavaScript entry maps script names to JavaScript action dictionaries. Document-level scripts listed here run when the document is opened or when triggered by other events.</p>
+<p>The Pages entry maps page names to page object references, supporting named page targets in links and actions. The Templates, IDS, URLS, AlternatePresentations, and Renditions entries support specialised workflows including web capture, multimedia, and presentations.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

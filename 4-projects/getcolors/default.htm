@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>GetColors Example Project</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> GetColors Example Project</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../../images/steel-pin.gif" width="64" height="10"><br>
+      Project</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>This project   shows how to find the colors used in a document.</p>
+            <p>One has to be a little careful about this concept - these things are not as straightforward as they might appear.</p>
+            <p>For example in a shading pattern there may be only two colors but of course a shade involves a variety of colors between these two points. Similarly an image may contain only two colors but the process of resizing it for display at a particular resolution may result in the creation of additional intermediate colors. Indeed the particular intermediate colors used may vary dependent on the resolution. </p>
+            <p>Likewise a page may reference a particular color, but for a variety of reasons, that color may not be displayed. For example it might be part of an object which is clipped, or it might be obscured by another item that is  drawn a bit later, or it might be referenced but never actually used in an object.</p>
+            <p>However, with those caveats, it is sometimes useful to be able to count and retrieve the colors that are referenced. This project shows how this can be done. It reads the document pages and keeps track of the colors and color spaces that are referenced in the content stream. Finally it displays the answer.</p>
+            <p>In addition to being useful  for counting colors, this project also provides a good example of how the <a href="../../7-abcpdf.atoms/opatom/default.htm">OpAtom</a> and <a href="../../8-abcpdf.operations/G-contentstreamoperation/default.htm">ContentStreamOperation</a> classes can be used to analyze a page content stream and graphic state. So if you are wanting to do low level analysis of page content, this is a good place to start.</p>
+            <p>The work is done by a ColorScanner class. This looks at the color operators on each page and resolves each color within its color space - gray, RGB, CMYK and so on.</p>
+            <p>So you can list or count the colors a document uses, or check whether a document is grayscale or CMYK before sending it to print. The project also includes an SvgExporter which uses the same approach to convert page content to SVG.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

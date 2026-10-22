@@ -32,6 +32,13 @@
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 310, page 642.</a></p>
 <p><a target="_blank" href="http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=56">Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.34, page 56.</a></p>
 </p>
+<!-- addition start -->
+<p>A 3D activation dictionary controls how and when a 3D annotation becomes active and interactive. Activation determines when the 3D runtime begins rendering the model and responding to user interaction.</p>
+<p>The A entry names the activation event: XA (explicit activation by a 3D JavaScript action), PO (page open), or PV (page visible). The AIS entry names the initial state when activated: I for instantiated (model loaded but not displayed) or L for live (model displayed and interactive).</p>
+<p>The D entry names the deactivation event: XD (explicit deactivation), PC (page close), or PI (page invisible). The DIS entry names the state after deactivation: U for uninstantiated or I for instantiated.</p>
+<p>The TB entry, when true, causes a toolbar to be displayed when the annotation is active. The NP entry, when true, prevents the 3D content from drawing to the screen after activation.</p>
+<p>The Style entry names the rendering style for the activation. The Window entry controls the window type used for display. The Transparent entry, when true, causes the annotation background to be transparent.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

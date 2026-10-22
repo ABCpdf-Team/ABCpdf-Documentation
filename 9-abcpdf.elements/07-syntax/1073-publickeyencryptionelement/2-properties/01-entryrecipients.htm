@@ -73,6 +73,10 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=73">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 23, page 65.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 23, page 86.</a></p>
 
+<!-- addition start -->
+<p>The Recipients entry holds an array of byte strings, each containing a DER-encoded CMS EnvelopedData structure. Each structure wraps the file encryption key encrypted with one recipient's X.509 public key certificate.</p>
+<p>A reader with access to a private key matching one of the recipient certificates decrypts that EnvelopedData structure to recover the file encryption key. All recipients share the same encryption key; only the key-wrapping differs per recipient.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>

@@ -64,7 +64,7 @@
                 <TD><B>Description</B></TD></TR>
 <TR vAlign=top>
                 <TD align=middle>oid</TD>
-                <TD>The hash algorithm to use to create the digest of the signature to be timestamped where uri is specified, for example new Oid("SHA256").</TD>
+                <TD>The hash algorithm to use to create the digest of the signature to be timestamped where the <a href="../2-properties/TimestampServiceUrl.htm">TimestampServiceUrl</a> is specified, for example new Oid("SHA256").</TD>
               </TR>
 </TBODY></TABLE>
             <P>&nbsp;</P></TD>
@@ -88,7 +88,7 @@
 <p>The DSS dictionary is created containing references to these streams.</p>
 <p>In addition a signature Validation Related Information (VRI) entry is added which enables fast lookup of information from the DSS.</p>
 <p>If the TimestampServiceUrl is set an RFC 3161 timestamp will be stored as a stream with its reference set in to the VRI TS entry.</p>
-<p>It it is null then the VRI TU value will be set to the current time from the computer's clock.</p>
+<p>If it is null then the VRI TU value will be set to the current time from the computer's clock.</p>
 <p>For more information see ISO 32000-2:2017 Section 12.8.4 (https://www.iso.org/standard/63534.html).</p>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>

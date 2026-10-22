@@ -31,6 +31,11 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=240">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 102, page 232.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 100, page 284.</a></p>
 </p>
+<!-- addition start -->
+<p>The print usage dictionary controls whether an optional content group is visible during printing and, optionally, under what printing conditions.</p>
+<p>The PrintState entry holds ON or OFF to indicate the desired group state during a print event. Viewers and processors that honour usage-based automatic state setting apply this when printing.</p>
+<p>The Subtype entry further qualifies the printing condition, for example distinguishing screen printing from commercial printing. This allows groups to target specific output workflows.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

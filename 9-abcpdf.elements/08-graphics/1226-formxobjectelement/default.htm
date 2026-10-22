@@ -37,6 +37,18 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A Form XObject is a self-contained PDF content stream that can be painted multiple times by reference. It encapsulates its own resource dictionary, graphics state, and coordinate system, isolating it from the surrounding content.</p>
+<p>The BBox entry clips the form's content to a rectangle in the form's own coordinate system. Content outside this box is not painted. The box also defines the extent used when compositing the form as a transparency group.</p>
+<p>The Matrix entry maps the form's coordinate system to the coordinate system of the context in which it is invoked. This allows scaling, rotation, and translation of the form content without altering the content stream itself.</p>
+<p>The Resources entry holds all PDF objects needed by the form's content stream. These are local to the form and may differ from the resources of the enclosing page or form.</p>
+<p>The Group entry, if present, designates the form as a transparency group. The group type determines how the form's objects composite internally before the result is composited into the parent context.</p>
+<p>The Ref entry provides a reference to an external page that the form represents. This is used in the reference XObject mechanism to incorporate pages from other documents with deferred resolution.</p>
+<p>PieceInfo and LastModified support application-level private data and incremental update tracking. They do not affect rendering.</p>
+<p>StructParent and StructParents link the form or its constituent objects into the document's structure tree for accessibility and tagged PDF purposes.</p>
+<p>The OPI entry holds an Open Prepress Interface dictionary for workflows that use low-resolution proxy images in the PDF and replace them with high-resolution originals at output time.</p>
+<p>The OC entry associates the form with an optional content group. When the group is off, the form is not painted. This allows form visibility to be toggled by the viewer's optional content configuration.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

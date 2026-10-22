@@ -30,6 +30,11 @@
 
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 402, page 817.</a></p>
 </p>
+<!-- addition start -->
+<p>The output profiles element carries an ICC color profile as a stream, describing the intended output color space for a document or page. It appears in the OutputIntents array when the output condition is defined by an embedded profile.</p>
+<p>The profile stream conforms to the ICC specification. Its color space signature determines the number of channels and the type of output device the profile describes.</p>
+<p>Descriptive entries accompany the stream to identify the profile: its name, ICC version, input color space, a checksum for integrity verification, a colorant table, and URLs for external retrieval.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

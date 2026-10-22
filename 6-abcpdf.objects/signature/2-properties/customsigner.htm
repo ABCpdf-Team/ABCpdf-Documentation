@@ -54,7 +54,7 @@
       <table border="0" width="100%" cellpadding="0" cellspacing="0">
         <tr> 
           <td> 
-            <p>A delegate called to perform a custom signing of the PDF content digest and signed attributes.</p>
+            <p>A delegate called to perform a custom signing of the PDF content digest and signed attributes. Use it when the private key is held elsewhere - for example on an HSM, a USB token, in Azure Key Vault or with a remote signing service.</p>
             <p>You should prefer the use of the <a href="customsigner2.htm">CustomSigner2</a> property over this one, as it provides a more extensible implementation and will form the basis of future development.</p>
             <p>The definition of the SigningDelegate delegate is as follows.</p>
             <P><SPAN class=language>[C#]</SPAN><BR>

@@ -1,0 +1,327 @@
+<html>
+<head>
+<title>InsertPagesForm.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">InsertPagesForm.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using System.Windows.Forms;
+using WebSupergoo.ABCpdf14;
+
+namespace ABCpdfControls {
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for InsertPagesForm.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class InsertPagesForm : System.Windows.Forms.Form {
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label1;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label2;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label3;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.GroupBox groupBox1;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ComboBox positionComboBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.TextBox pageNumberTextBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.RadioButton pageRadioButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.RadioButton lastRadioButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.RadioButton firstRadioButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label pagesCountLabel;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button cancelButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button okButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private Doc mCurrentDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;private Doc mInsertedDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required designer variable.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.ComponentModel.Container components = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public InsertPagesForm(Doc currentDoc, Doc insertedDoc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Required for Windows Form Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// TODO: Add any constructor code after InitializeComponent call
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDoc = currentDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mInsertedDoc = insertedDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose( bool disposing ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( disposing ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(components != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose( disposing );
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Windows Form Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionComboBox = new System.Windows.Forms.ComboBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1 = new System.Windows.Forms.GroupBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagesCountLabel = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageRadioButton = new System.Windows.Forms.RadioButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lastRadioButton = new System.Windows.Forms.RadioButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.firstRadioButton = new System.Windows.Forms.RadioButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Location = new System.Drawing.Point(8, 8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Name = "label1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Size = new System.Drawing.Size(120, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Text = "Insert Pages from File:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Location = new System.Drawing.Point(128, 8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Name = "label2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Size = new System.Drawing.Size(224, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Location = new System.Drawing.Point(8, 31);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Name = "label3";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Size = new System.Drawing.Size(88, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.Text = "Where to insert:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// positionComboBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionComboBox.Items.AddRange(new object[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"After",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Before"});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionComboBox.Location = new System.Drawing.Point(93, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionComboBox.Name = "positionComboBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionComboBox.Size = new System.Drawing.Size(80, 21);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionComboBox.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.positionComboBox.Text = "After";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// groupBox1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Controls.Add(this.pagesCountLabel);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Controls.Add(this.pageNumberTextBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Controls.Add(this.pageRadioButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Controls.Add(this.lastRadioButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Controls.Add(this.firstRadioButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Location = new System.Drawing.Point(8, 64);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Name = "groupBox1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Size = new System.Drawing.Size(342, 128);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.TabIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Text = "Page";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pagesCountLabel
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagesCountLabel.Location = new System.Drawing.Point(128, 88);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagesCountLabel.Name = "pagesCountLabel";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagesCountLabel.Size = new System.Drawing.Size(120, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagesCountLabel.TabIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pagesCountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pageNumberTextBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.Location = new System.Drawing.Point(72, 89);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.Name = "pageNumberTextBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.Size = new System.Drawing.Size(48, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.Text = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pageRadioButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageRadioButton.Checked = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageRadioButton.Location = new System.Drawing.Point(8, 87);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageRadioButton.Name = "pageRadioButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageRadioButton.Size = new System.Drawing.Size(64, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageRadioButton.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageRadioButton.TabStop = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageRadioButton.Text = "Page:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageRadioButton.CheckedChanged += new System.EventHandler(this.pageRadioButton_CheckedChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// lastRadioButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lastRadioButton.Location = new System.Drawing.Point(8, 56);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lastRadioButton.Name = "lastRadioButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lastRadioButton.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.lastRadioButton.Text = "Last";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// firstRadioButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.firstRadioButton.Location = new System.Drawing.Point(8, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.firstRadioButton.Name = "firstRadioButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.firstRadioButton.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.firstRadioButton.Text = "First";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// cancelButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Location = new System.Drawing.Point(275, 198);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Name = "cancelButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.TabIndex = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.cancelButton.Text = "Cancel";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// okButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Location = new System.Drawing.Point(192, 198);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Name = "okButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.TabIndex = 6;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Text = "OK";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.okButton.Click += new System.EventHandler(this.okButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// InsertPagesForm
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AcceptButton = this.okButton;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.CancelButton = this.cancelButton;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ClientSize = new System.Drawing.Size(354, 226);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ControlBox = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.okButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.cancelButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.groupBox1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.positionComboBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.label3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.label2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.label1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MaximizeBox = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MinimizeBox = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Name = "InsertPagesForm";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ShowInTaskbar = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Text = "Insert Pages";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Load += new System.EventHandler(this.InsertPagesForm_Load);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ResumeLayout(false);
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void InsertPagesForm_Load(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mCurrentDoc != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageNumberTextBox.Text = mCurrentDoc.PageNumber.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pagesCountLabel.Text = "of " + mCurrentDoc.PageCount.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void okButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pageNumber = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (firstRadioButton.Checked)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageNumber = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (lastRadioButton.Checked)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageNumber = mCurrentDoc.PageCount;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (pageRadioButton.Checked) {
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool error = false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageNumber = int.Parse(pageNumberTextBox.Text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pageNumber &lt;= 0 || pageNumber &gt; mCurrentDoc.PageCount )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error = true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (error) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("There is no page numbered '" + pageNumberTextBox.Text + "' in this document.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int origDocPageCount = mCurrentDoc.PageCount;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDoc.Append(mInsertedDoc);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string mappingString = "";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int before = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (positionComboBox.Text == "Before")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;before = 1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt;= pageNumber - before; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mappingString += i.ToString() + " ";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt;= mInsertedDoc.PageCount; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mappingString += (i + origDocPageCount).ToString() + " ";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = pageNumber + 1 - before; i &lt;= origDocPageCount; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mappingString += i.ToString() + " ";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDoc.RemapPages(mappingString);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDoc.PageNumber = pageNumber + 1 - before;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DialogResult = DialogResult.OK;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void pageRadioButton_CheckedChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageNumberTextBox.Enabled = pageRadioButton.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

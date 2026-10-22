@@ -36,6 +36,18 @@
 <p>This class is always an indirect object because RichMediaActivationElement.EntryView and RichMediaContentElement.EntryViews require it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>A 3D view dictionary defines a named viewpoint for a 3D model, specifying the camera position, orientation, projection, lighting, rendering style, and other display settings that constitute one way of looking at the model.</p>
+<p>The XN entry holds the external name of the view as a text string displayed in the viewer user interface. The IN entry holds the internal name used to reference the view from JavaScript and other annotations.</p>
+<p>The C2W entry holds a 12-element array defining the camera-to-world transformation matrix. This matrix specifies the position and orientation of the camera in the model coordinate space.</p>
+<p>The U3DPath entry holds the path to a node within the U3D model hierarchy that defines the camera position, as an alternative to C2W. The CO entry gives the camera-to-orbit distance for orbit-style navigation.</p>
+<p>The P entry references a projection dictionary specifying the projection type (perspective or orthographic) and the associated parameters such as field of view and clipping planes.</p>
+<p>The O entry specifies the orbital navigation centre as a three-element array in world coordinates. The BG entry references a 3D background dictionary specifying the background colour or image.</p>
+<p>The RM entry references a render mode dictionary and the LS entry references a lighting scheme dictionary, together controlling the visual appearance of the model surfaces and lighting.</p>
+<p>The SA entry holds an array of 3D cross-section dictionaries that define cross-sectional cuts through the model. The NA entry holds an array of 3D node dictionaries that override the visibility and appearance of individual model nodes.</p>
+<p>The NR entry, when true, renders node names in the 3D viewport. The MS entry names the projection mode for the view. The MA entry holds an array specifying the model matrix.</p>
+<p>The Snapshot entry holds an image XObject providing a 2D snapshot of the view for display when the 3D runtime is unavailable. The Params entry holds additional view parameters as a dictionary.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

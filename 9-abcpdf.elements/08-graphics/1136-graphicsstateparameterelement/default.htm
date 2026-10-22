@@ -31,6 +31,18 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=136">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 128.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 162.</a></p>
 </p>
+<!-- addition start -->
+<p>The graphics state parameter dictionary lets a content stream set multiple graphics state parameters in a single operation. Its entries correspond directly to parameters that can also be set by specific graphics state operators, but grouping them in a dictionary allows efficient reuse.</p>
+<p>A graphics state parameter dictionary is stored as a named resource under the ExtGState entry of a resource dictionary. A content stream activates its parameters by invoking the gs operator with the resource name.</p>
+<p>The dictionary may contain any subset of the defined entries. Parameters absent from the dictionary are not changed; the current graphics state retains its existing values for those parameters.</p>
+<p>Line width, cap style, join style, and miter limit control the geometry of stroked paths. These parameters affect every subsequent stroke operation until changed again.</p>
+<p>The dash pattern entry defines a phase and array that together describe an on-off repeating pattern for dashed lines. A solid line is produced when the array is empty.</p>
+<p>Rendering intent, overprint mode, and overprint flags govern how colors interact at the compositing stage, particularly for CMYK output. The distinction between OP and op lets separate overprint settings apply to filling and stroking operations.</p>
+<p>Transfer functions (TR and TR2), black generation (BG and BG2), and undercolor removal (UCR and UCR2) control the mapping from color values to device colorants during rendering. The '2' variants were introduced to support PDF 1.3 and later color processing.</p>
+<p>The halftone entry (HT) specifies or references a halftone dictionary or stream that controls how continuous-tone values are screened for output on halftone devices.</p>
+<p>Transparency-related entries - blend mode (BM), soft mask (SMask), alpha constants (CA and ca), and the alpha-is-shape flag (AIS) - control how objects composite with the current transparency group.</p>
+<p>The UseBlackPtComp entry, added in PDF 2.0, controls whether black point compensation is applied during color conversions, which can affect shadow detail and tonal range on output.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

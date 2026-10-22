@@ -35,6 +35,11 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=153">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 63, page 145.</a></p>
 </p>
+<!-- addition start -->
+<p>CalGray is a CIE-based color space for grayscale content. It provides a device-independent definition of gray by tying the single component value to a calibrated XYZ reference through a gamma function and a white point.</p>
+<p>The attributes dictionary attached to a CalGray space carries the white point, optional black point, and gamma. These three parameters fully define the mapping from the encoded gray value to CIE Y.</p>
+<p>Because CalGray is device-independent, a conforming reader can convert its values to any target color space using standard CIE arithmetic, allowing consistent gray reproduction across different output devices.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

@@ -30,6 +30,11 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=181">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 173.</a></p>
 </p>
+<!-- addition start -->
+<p>The pattern element is the abstract base for PDF pattern types. Patterns allow a painting operation to fill or stroke with a repeating or algorithmically generated design rather than a flat color.</p>
+<p>PDF defines two pattern types: Type 1 tiling patterns, which repeat a content stream in a regular grid, and Type 2 shading patterns, which paint a smooth colour gradient without tiling.</p>
+<p>Patterns are stored as named resources in a resource dictionary under the Pattern entry. A content stream selects a pattern by setting the current color space to a Pattern space and then invoking a color-setting operator with the pattern name.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

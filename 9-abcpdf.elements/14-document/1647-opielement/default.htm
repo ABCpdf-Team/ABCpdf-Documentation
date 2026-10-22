@@ -33,6 +33,11 @@
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 406, page 823.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 407, page 825.</a></p>
 </p>
+<!-- addition start -->
+<p>An OPI dictionary provides metadata for a low-resolution proxy image in a PDF file, identifying the high-resolution original to substitute at final output. OPI workflows allow large image files to be excluded from the PDF during layout and proofing.</p>
+<p>The Version entry identifies the OPI specification version: 1.3 or 2.0. Each version has different entries and semantics for describing image placement.</p>
+<p>At output time, an OPI-aware processor reads the dictionary, locates the high-resolution original using the file specification, and substitutes it according to the placement parameters.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

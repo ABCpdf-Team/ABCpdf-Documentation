@@ -111,8 +111,8 @@ doc.Rendering.IccRgb = "device";
 doc.Rendering.IccGray = "device";
 doc.Rendering.IccCmyk = "device";
 doc.Rendering.IccOutput = "device";
-// Put image back into another PDF and render the document as RGB
-// (so that we can see the effect of the overprint in RGB)
+// Put image back into another PDF and render the document as RGB,
+// so that we can see the effect of the overprint in RGB.
 using var theRgb = new Doc();
 theRgb.AddImageData(doc.Rendering.GetData(".tif"), 1);
 theRgb.Rendering.DotsPerInch = 36;

@@ -85,23 +85,23 @@
       <table border="0" width="100%" cellpadding="0" cellspacing="0">
         <tr> 
           <td> 
-            <P>The following code creates a simple tagged document containg text and an image.</P>
+            <P>The following code creates a simple tagged document containing text and an image.</P>
             <P><SPAN class=language>[C#]</SPAN><BR>
             <pre><code class="language-csharp">using var doc = new Doc();
-string text = &quot;From the attic window, snow-draped rooftops stretch into the distance, chimneys smoking softly. Icicles glitter in the pale sun. A quiet, frozen world.&quot;;
+string text = "From the attic window, snow-draped rooftops stretch into the distance, chimneys smoking softly. Icicles glitter in the pale sun. A quiet, frozen world.";
 doc.Rect.Inset(20, 40);
 doc.TextStyle.AutoTag = true;
 doc.TextStyle.Size = 36;
-doc.AddTextStyled($&quot;&lt;p&gt;{text}&lt;/p&gt;&quot;);
-using var img = XImage.FromFile(&quot;../mypics/mypic.jpg&quot;, null);
+doc.AddTextStyled($"&lt;p&gt;{text}&lt;/p&gt;");
+using var img = XImage.FromFile("../mypics/mypic.jpg", null);
 doc.Rect.SetRect(100, 100, img.Width / 2, img.Height / 2);
-var figure = doc.Tag.MakeTag(&quot;Figure&quot;);
+var figure = doc.Tag.MakeTag("Figure");
 figure.Attributes = new DictAtom();
-figure.Attributes[&quot;Alt&quot;] = new StringAtom(&quot;Snowy rooftops.&quot;);
+figure.Attributes["Alt"] = new StringAtom("Snowy rooftops.");
 doc.Tag.Open(figure);
 doc.AddImageObject(img, true);
 doc.Tag.Close(figure.Type);
-doc.Save(&quot;simpletags.pdf&quot;);
+doc.Save("simpletags.pdf");
 </code></pre>
             </P>
             <P><IMG src="../../../images/pdf/styleautotag.pdf.png" width="302" height="391" class="example"><BR>

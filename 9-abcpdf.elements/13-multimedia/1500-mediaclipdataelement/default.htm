@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=500">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 274, page 492.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 285, page 617.</a></p>
 </p>
+<!-- addition start -->
+<p>A media clip data dictionary identifies the actual media content for playback. It references the media data through a file specification or URL, specifies the MIME content type of the data, and may carry player-specific parameters and permissions information.</p>
+<p>The D entry holds the media data itself, either as a file specification for embedded or external media, or as a URL string. The CT entry names the MIME type of the data, which helps a reader select an appropriate media player.</p>
+<p>The P entry references a media permissions dictionary that controls whether the media may be played by an external player and whether temporary files may be created. The Alt entry provides alternate text descriptions of the media for accessibility.</p>
+<p>The PL entry references a media players dictionary listing the media players required or preferred for this clip. The MH and BE entries carry must-honour and best-effort clip data parameters.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

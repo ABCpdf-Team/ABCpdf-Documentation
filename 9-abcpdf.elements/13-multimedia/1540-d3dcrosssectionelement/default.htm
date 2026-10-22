@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=540">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 311, page 532.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 322, page 664.</a></p>
 </p>
+<!-- addition start -->
+<p>A 3D cross-section dictionary defines a planar cut through a 3D model that reveals its interior. Cross-sections allow viewers to inspect the internal structure of solid models without modifying the model data.</p>
+<p>The C entry holds a three-element array specifying the centre point of the cutting plane in model coordinates. The O entry holds a three-element array specifying the orientation of the cutting plane as a normal vector direction.</p>
+<p>The PO entry specifies the plane opacity: how transparent the cutting plane itself appears. The PC entry holds the cutting plane colour.</p>
+<p>The IV entry, when true, makes the intersecting geometry visible. The IC entry holds the colour of the intersecting geometry. The ST entry, when true, causes the model to be cut and the cross-section to show solid material. The SC entry controls the colour shown on the cut surfaces.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

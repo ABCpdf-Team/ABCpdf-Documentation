@@ -1,0 +1,134 @@
+<html>
+<head>
+<title>Drawing\Page.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Drawing\Page.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+
+namespace WebSupergoo.ABCpdf14.Drawing {
+&nbsp;&nbsp;#region Page
+&nbsp;&nbsp;/// &lt;summary&gt;A visible page within the document.&lt;/summary&gt;
+&nbsp;&nbsp;public sealed class Page {
+&nbsp;&nbsp;&nbsp;&nbsp;#region Declare variables
+&nbsp;&nbsp;&nbsp;&nbsp;private PDFDocument _document = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private Drawing.Graphics _graphics = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private int _id = -1;
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The PDF document.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;internal PDFDocument Document { get { return _document; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The ID of the PDF page.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int ID { get { return _id; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The Graphics object for the page.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Drawing.Graphics Graphics {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_document.Doc.Page = _id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _graphics; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The Width of the page.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int Width {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_document.Doc.Page = _id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (int)_document.Doc.MediaBox.Width; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The Height of the page.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int Height {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_document.Doc.Page = _id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (int)_document.Doc.MediaBox.Height; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;#region Constructors
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Page constructor.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="page"&gt;The PDFDocument instance.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;internal Page(PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (doc == null || doc.Doc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ApplicationException("Invalid document ptr");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_document = doc;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_graphics = new Drawing.Graphics(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_id = _document.Doc.AddPage();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_document.Doc.Page = _id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_document.Doc.Rect.SetRect(_document.Doc.MediaBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_document.Doc.Color.SetRgb(0, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Page constructor.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="index"&gt;The zero-based index at which Page should be inserted.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="doc"&gt;The PDFDocument instance.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;internal Page(int index, PDFDocument doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (doc == null || doc.Doc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ApplicationException("Invalid document ptr");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_document = doc;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_graphics = new Drawing.Graphics(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_id = _document.Doc.AddPage(index);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_document.Doc.Page = _id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_document.Doc.Rect.SetRect(_document.Doc.MediaBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_document.Doc.Color.SetRgb(0, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;}
+&nbsp;&nbsp;#endregion
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

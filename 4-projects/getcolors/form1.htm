@@ -1,0 +1,480 @@
+<html>
+<head>
+<title>Form1.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Form1.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2024 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Net;
+using System.Xml;
+using System.Diagnostics;
+
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Operations;
+using WebSupergoo.ABCpdf14.Elements;
+using System.Net.Http.Headers;
+
+namespace GetColors {
+&nbsp;&nbsp;public partial class Form1 : Form {
+&nbsp;&nbsp;&nbsp;&nbsp;public Form1() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backgroundWorker1.WorkerReportsProgress = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal string Root;
+&nbsp;&nbsp;&nbsp;&nbsp;internal List&lt;string&gt; Files;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void Form1_Load(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Root = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Files = new List&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void Form1_Activated(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string item = comboBox1.SelectedItem != null ? (string)comboBox1.SelectedItem : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comboBox1.Items.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string path in Directory.GetFiles(Root, "*.pdf", SearchOption.TopDirectoryOnly))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comboBox1.Items.Add(path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string path in Directory.GetFiles(Root, "*.eps", SearchOption.TopDirectoryOnly))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comboBox1.Items.Add(path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (comboBox1.Items.Count &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comboBox1.SelectedIndex = item == null ? 0 : comboBox1.FindStringExact(item);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button1_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string file = (string)comboBox1.SelectedItem;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// get colors
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ColorScanner scanner = new ColorScanner();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HashSet&lt;AbstractColor&gt; colors = new HashSet&lt;AbstractColor&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TimeSpan time = scanner.Scan(file, colors);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// sort colors
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;AbstractColor&gt; list = new List&lt;AbstractColor&gt;(colors);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.Sort((i1, i2) =&gt; {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string i1s = (i1.Space == null ? "na" : i1.Space.ColorSpace.ToString()) + i1.Color.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string i2s = (i2.Space == null ? "na" : i2.Space.ColorSpace.ToString()) + i2.Color.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return i1s.CompareTo(i2s);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// report colors
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("Document \"" + Path.GetFileName(file) + "\" contains " + colors.Count.ToString() + " colors.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (AbstractColor color in list)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine(color.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine("");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.AppendLine($"Processed in {(int)time.TotalMilliseconds} ms.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textBox1.Text = sb.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button2_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MakeSimpleSvg((string)comboBox1.SelectedItem, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button3_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;string&gt; files = new List&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; comboBox1.Items.Count; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;files.Add((string)comboBox1.Items[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Files = files;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backgroundWorker1.RunWorkerAsync();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int total = Files.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (Files.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string file = Files[Files.Count - 1];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Files.RemoveAt(Files.Count - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int done = total - Files.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string txt = MakeSimpleSvg(file, done);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backgroundWorker1.ReportProgress((done * 100) / total, txt);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backgroundWorker1.ReportProgress(0);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textBox1.Text += (string)e.UserState;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;progressBar1.Value = e.ProgressPercentage;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private string MakeSimpleSvg(string srcPath, int count) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string txt = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string dstDir = Path.Combine(Root, "_svg");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Directory.CreateDirectory(dstDir);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = Path.GetFileNameWithoutExtension(srcPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txt += $"Document \"{name}\"\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TimeSpan time = new TimeSpan();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SvgExporter scanner = new SvgExporter();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scanner.Warnings = new List&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stopwatch timer = new Stopwatch();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timer.Start();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(srcPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timer.Stop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txt += $"Read in {(int)timer.ElapsedMilliseconds} ms.\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pageCount = Math.Min((int)maxPages.Value, doc.PageCount);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j &lt; pageCount; j++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = j + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time += scanner.Scan(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string svgPath = Path.Combine(dstDir, $"{name}_p{j + 1}.svg");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.WriteAllText(svgPath, scanner.Svg.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scanner.Svg.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txt += $"Scanned in {(int)time.TotalMilliseconds} ms.\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (scanner.Warnings.Count &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txt += $"Warnings:\r\n" + string.Join("\r\n", scanner.Warnings);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txt += "\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception ex) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string errPath = Path.Combine(Path.Combine(Root, "_svg"), $"{name}_error.txt");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.WriteAllText(errPath, ex.ToString(), Encoding.UTF8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return txt;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class ColorScanner : ContentStreamScanner {
+&nbsp;&nbsp;&nbsp;&nbsp;public int Precision { get; set; } = 255;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ColorScanner() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;string&gt; ops = new List&lt;string&gt;(new string[] { "q", "Q" });
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.AddRange(ContentStreamScanner.OperatorCategories.Color);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Operators = new HashSet&lt;string&gt;(ops);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public HashSet&lt;AbstractColor&gt; Colors { get; } = new HashSet&lt;AbstractColor&gt;();
+
+&nbsp;&nbsp;&nbsp;&nbsp;public TimeSpan Scan(string file, HashSet&lt;AbstractColor&gt; colors) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stopwatch timer = new Stopwatch();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(file);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; doc.PageCount; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = (Page)doc.ObjectSoup[doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ContentStreamOperation op = new ContentStreamOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.AddPages(i + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var pair in op.ArrayAtoms) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timer.Start();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Process(pair.Key, pair.Value);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timer.Stop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResolveColorSpaces(page, pair.Key.ID, Colors, colors);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return timer.Elapsed;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ProcessItem(IndirectObject owner, ArrayAtom array, string op, int pos) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.ProcessItem(owner, array, op, pos);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (op) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "g":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "rg":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "k":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "sc":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "scn":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.Add(new AbstractColor(State.FillColorSpace, State.FillColor, Precision));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "G":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "RG":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "K":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "SC":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "SCN":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Colors.Add(new AbstractColor(State.StrokeColorSpace, State.StrokeColor, Precision));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void ResolveColorSpaces(Page page, int id, HashSet&lt;AbstractColor&gt; src, HashSet&lt;AbstractColor&gt; dst) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IDictionary&lt;string, Atom&gt; spaces = page.GetResourceMap(id, "ColorSpace");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string deviceSpace in new string[] { "DeviceGray", "DeviceRGB", "DeviceCMYK" })
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!spaces.ContainsKey(deviceSpace))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spaces[deviceSpace] = new NameAtom(deviceSpace);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (AbstractColor color in src) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (color.Name != "Pattern") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom space = spaces[color.Name];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color.Space = (ColorSpaceElement)ElementFactories.AutodetectFactory(space, page, null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color.Name = page.Resolve(space).ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dst.Add(color);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class AbstractColor {
+&nbsp;&nbsp;&nbsp;&nbsp;public AbstractColor() { Precision = 255; }
+&nbsp;&nbsp;&nbsp;&nbsp;public AbstractColor(string name, double[] color, int precision) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name = name; Color = color; Space = null; Precision = precision;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public double[] Color { get; set; }
+&nbsp;&nbsp;&nbsp;&nbsp;public string Name { get; set; }
+&nbsp;&nbsp;&nbsp;&nbsp;public ColorSpaceElement Space { get; set; }
+&nbsp;&nbsp;&nbsp;&nbsp;public int Precision { get; set; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override int GetHashCode() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int hash = 17;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count = Color != null ? Color.Length : 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; count; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hash = hash * 23 + ToInt(Color[i]).GetHashCode();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Name != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hash = hash * 23 + Name.GetHashCode();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return hash;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override bool Equals(object obj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AbstractColor other = obj as AbstractColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (other == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n1 = Color != null ? Color.Length : 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n2 = other.Color != null ? other.Color.Length : 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n1 != n2)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; n1; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ToInt(Color[i]) != ToInt(other.Color[i]))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Name != other.Name)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override string ToString() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append("Components: ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n1 = Color != null ? Color.Length : 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string format = Precision == 0xFF ? "x2" : (Precision == 0xFFFF ? "x4" : "");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; n1; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (i != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(", ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(ToInt(Color[i]).ToString(format));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(" Space: ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(Name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return sb.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private int ToInt(double value) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (int)Math.Round(value * Precision);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class SvgExporter : ContentStreamScanner {
+&nbsp;&nbsp;&nbsp;&nbsp;public SvgExporter() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;string&gt; ops = new List&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.AddRange(OperatorCategories.SpecialGraphicsState);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.AddRange(OperatorCategories.TextObjects);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.AddRange(OperatorCategories.TextPositioning);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.AddRange(OperatorCategories.TextShowing);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.AddRange(OperatorCategories.TextState);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.AddRange(OperatorCategories.XObjects);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.AddRange(OperatorCategories.PathConstruction);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.AddRange(OperatorCategories.PathPainting);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.AddRange(OperatorCategories.ClippingPaths);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ops.Add("gs");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Operators = new HashSet&lt;string&gt;(ops);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DoFormXObjects = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;private StringBuilder _path { get; set; } = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;private double _x = 0, _y = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;public StringBuilder Svg { get; set; } = new StringBuilder();
+
+&nbsp;&nbsp;&nbsp;&nbsp;public TimeSpan Scan(Doc doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stopwatch timer = new Stopwatch();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = (Page)doc.ObjectSoup[doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayAtom contents = ArrayAtom.FromContentStream(page.GetContentData());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool topLevel = Svg.Length == 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timer.Start();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (topLevel) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double w = page.MediaBox.Width, h = page.MediaBox.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine("&lt;?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"&lt;svg width=\"{w}\" height=\"{h}\" x=\"0\" y=\"0\" version=\"1.1\" baseProfile=\"full\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox=\"0 -{h} {w} {h}\"&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"\t&lt;rect x=\"0\" y=\"{-h}\" width=\"{w}\" height=\"{h}\" fill=\"seashell\" /&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Process(page, contents);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (topLevel)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"&lt;/svg&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;timer.Stop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return timer.Elapsed;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ProcessItem(IndirectObject owner, ArrayAtom contents, string op, int pos) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double GetDbl(int idx) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Atom.GetDouble(contents[pos - idx]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string GetTransform() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var s = State.CTM;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (s == null || s.IsIdentity) return "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var el = s.Elements;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return $"transform =\"matrix({el[0]}, {el[1]}, {el[2]}, {-el[3]}, {el[4]}, {-el[5]})\"";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.ProcessItem(owner, contents, op, pos);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (op) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "m":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_x = GetDbl(2); _y = GetDbl(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Append($"M{_x} {_y} ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "l":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_x = GetDbl(2); _y = GetDbl(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Append($"L{_x} {_y} ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "c":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Append($"C{GetDbl(6)} {GetDbl(5)} {GetDbl(4)} {GetDbl(3)} {GetDbl(2)} {GetDbl(1)} ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_x = GetDbl(2); _y = GetDbl(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "v":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Append($"C{_x} {_y} {GetDbl(4)} {GetDbl(3)} {GetDbl(2)} {GetDbl(1)} ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_x = GetDbl(2); _y = GetDbl(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "y":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Append($"C{GetDbl(4)} {GetDbl(3)} {GetDbl(4)} {GetDbl(3)} {GetDbl(2)} {GetDbl(1)} ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_x = GetDbl(2); _y = GetDbl(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Append($"Z ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "re":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_x = GetDbl(4); _y = GetDbl(3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double w = GetDbl(2), h = GetDbl(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Append($"M{_x} {_y} L{_x + w} {_y} L{_x + w} {_y + h} L{_x} {_y + h} Z ");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "S":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"\t&lt;path d=\"{_path}\" fill=\"none\" stroke=\"blue\" /&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "s":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"\t&lt;path d=\"{_path}Z\" fill=\"none\" stroke=\"blue\" /&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "f":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "F":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"\t&lt;path d=\"{_path}Z\" fill=\"red\" stroke=\"none\" {GetTransform()}/&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "f*":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"\t&lt;path d=\"{_path}Z\" fill=\"red\" fill-rule=\"evenodd\" stroke=\"none\" {GetTransform()}/&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "B":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"\t&lt;path d=\"{_path}\" fill=\"red\" stroke=\"blue\" {GetTransform()}/&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "B*":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"\t&lt;path d=\"{_path}\" fill=\"red\" fill-rule=\"evenodd\" stroke=\"blue\" {GetTransform()}/&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "b":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"\t&lt;path d=\"{_path}Z\" fill=\"red\" stroke=\"blue\" {GetTransform()}/&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "b*":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"\t&lt;path d=\"{_path}Z\" fill=\"red\" fill-rule=\"evenodd\" stroke=\"blue\" {GetTransform()}/&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "n":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "W":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// nonzero clipping path not supported here
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "W*":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// evenodd clipping path not supported here
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_path.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ShowText(List&lt;int&gt; codes, List&lt;int&gt; widths, List&lt;double&gt; advances, double advanceTotal, StringBuilder text, List&lt;string&gt; strings, bool vertical) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsState state = State;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontObject font = (FontObject)Resources.GetResource(Owners.Peek(), ResourceType.Font, state.TextFont).Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double[] saved = Text.TextMatrix.Elements;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string comment = VetText(string.Join("", text.ToString())).Replace("--", "\u2013\u2013"); // n-dash characters
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"\t&lt;g&gt;&lt;!-- {WebUtility.HtmlEncode(comment)} --&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; codes.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string part = strings[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (part == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;part = text[i].ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double[] trm = Text.GetTextRenderingMatrix(state).Elements;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string matrix = $"transform=\"matrix({trm[0]} {trm[1]} {trm[2]} {trm[3]} {trm[4]} {-trm[5]})\"";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string family = $"font-family=\"{WebUtility.HtmlEncode(VetText(font.BaseFont))}\"";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string html = WebUtility.HtmlEncode(VetText(part));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine($"\t\t&lt;text font-size=\"1\" {matrix} {family}&gt;{html}&lt;/text&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text.Advance(advances[i], vertical);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Svg.AppendLine("\t&lt;/g&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text.TextMatrix.Elements = saved;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static string VetText(string text) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (text == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return " ";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool ok = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; text.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!XmlConvert.IsXmlChar(text[i])) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ok) return text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder sb = new StringBuilder(text.Length);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; text.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char c = text[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sb.Append(XmlConvert.IsXmlChar(c) ? c : ' ');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return sb.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

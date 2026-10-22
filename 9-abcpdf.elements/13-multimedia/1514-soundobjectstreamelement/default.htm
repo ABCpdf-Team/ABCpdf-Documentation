@@ -34,6 +34,12 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A sound object stream carries audio data for playback using the legacy sound action mechanism. The stream body contains the raw audio samples according to the encoding specified in the stream dictionary.</p>
+<p>The R entry gives the sampling rate in samples per second. The C entry gives the number of sound channels: 1 for mono, 2 for stereo. The B entry gives the number of bits per sample.</p>
+<p>The E entry names the encoding format: Raw for uncompressed samples, Signed for signed linear samples, muLaw for mu-law compressed audio, or ALaw for A-law compressed audio.</p>
+<p>The CO and CP entries carry codec-specific configuration. CO names the codec and CP holds parameters for that codec when a non-standard encoding is used.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

@@ -35,6 +35,17 @@
 <p>This class is always an indirect object because AnnotationElement.EntryP, BeadElement.EntryP, DpartElement.EntryEnd, DpartElement.EntryStart, MarkedContentReferenceElement.EntryPg, ObjectReferenceElement.EntryPg, PageTreeNodeElement.EntryKids, SeparationElement.EntryPages, StructureElementElement.EntryPg and StructureTreeRootElement.EntryParentTree require it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>A page object defines all properties of a single page in a PDF document. It is a leaf node in the page tree and is referenced from its parent page tree node's Kids array.</p>
+<p>The MediaBox defines the full extent of the page's physical medium. CropBox, BleedBox, TrimBox, and ArtBox define successively more specific regions within the MediaBox for different production purposes.</p>
+<p>The Resources entry holds the resource dictionary for this page, listing all fonts, images, color spaces, patterns, and other objects used in the page's content streams. Resources may also be inherited from ancestor page tree nodes.</p>
+<p>The Contents entry references the page's content stream or an array of content streams. Multiple content streams are treated as if they were concatenated into one. The streams contain the PDF operators that describe the page's visual appearance.</p>
+<p>The Rotate entry specifies the clockwise rotation in degrees applied to the page when displayed or printed. Valid values are 0, 90, 180, and 270.</p>
+<p>The Annots entry holds an array of annotation dictionaries attached to the page. Annotations include markup, links, form fields, and media.</p>
+<p>The Group entry designates the page as a transparency group, controlling how the page's content composites when the page is used as a transparency group XObject.</p>
+<p>The UserUnit entry, introduced in PDF 1.6, specifies the size of one user space unit in points. The default is 1/72 inch. A value other than 1 scales the entire page coordinate system.</p>
+<p>The AF entry holds associated files linked to this page for PDF/A-3 and PDF 2.0 workflows. The OutputIntents entry provides output intent information specific to this page, overriding any document-level output intents.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

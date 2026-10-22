@@ -87,6 +87,7 @@
           <TD>
             <P>Vectorizes the text glyphs on pages in the document.</P>
             <P>The VectorizeTextOperation operation removes font glyphs and replaces them with polygonal outlines that appear the same.</P>
+            <P>This is also known as converting text to outlines or curves. The resulting pages do not need the fonts in order to display or print, but the text can no longer be selected, searched or extracted.</P>
             <P>Note that pages may sometimes share content with other pages. If this is the case then vectorizing the text on one page will also vectorize it on other pages which use this shared content.</P>
             <p>The <a href="../../1-operation/3-events/1-processingobject.htm">Operation.ProcessingObject</a> property is used to give the user some control over which fonts would be vectorized. 
               Setting the ProcessingObjectEventArgs.Cancel to 'true' turns off the vectorization for the particular font that's passed in to the Processing method (see examples below)</p>

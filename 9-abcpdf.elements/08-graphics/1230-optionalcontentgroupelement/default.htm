@@ -34,6 +34,12 @@
 <p>This class is always an indirect object because OptionalContentPropertiesElement.EntryOCGs requires it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>An optional content group (OCG) is a named object that controls whether associated content is rendered. Content associated with a group is shown when the group is on and hidden when it is off.</p>
+<p>The Name entry provides a human-readable label for the group. This name is typically shown in a viewer's layer panel to allow users to toggle visibility.</p>
+<p>The Intent entry constrains how the group is used. A group intended for View may be toggled freely by the user; one intended for Design may be used by authoring tools for design layer control. Multiple intents may be listed.</p>
+<p>The Usage entry holds a dictionary that describes the real-world conditions under which the group should be on or off, such as a zoom level range, a print condition, or a language preference. Viewers and processors use this information to set group states automatically.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

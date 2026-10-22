@@ -44,6 +44,14 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>Halftone dictionaries tell a PDF viewer how to convert smooth tonal values into the binary dot patterns that most printers require. Without halftoning, a device that can only put ink down or not would have no way to render grey or intermediate colour values.</p>
+<p>The integer value of HalftoneType controls everything else about how the halftone works. Each value selects a completely different model, and the other entries in the dictionary only make sense in the context of that model.</p>
+<p>Type 1 relies on a mathematical spot function to grow dots from the centre of each halftone cell outward. Types 6, 10, and 16 replace that calculation with a pre-computed table of threshold values stored as stream data. Type 5 is different again: it groups any number of the other types together so each ink channel can have its own screen.</p>
+<p>A halftone dictionary can appear as a direct object embedded inside another structure, or as an indirect object referenced by its object number. Stream-based types (6, 10, and 16) are always stream objects, so the halftone data sits in the stream body and the dictionary keys sit in the stream dictionary.</p>
+<p>When a halftone is applied to a device with more than one colorant, the same screen is used for all channels unless a type 5 dictionary assigns separate screens. Mismatched screens between channels can cause moire, so multi-ink workflows often need type 5.</p>
+<p>HalftoneElement is the base class. You should always work with the subclass that matches the HalftoneType value actually present in the dictionary, since each subclass exposes only the entries that belong to that type.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

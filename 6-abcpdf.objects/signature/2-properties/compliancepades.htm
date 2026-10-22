@@ -61,7 +61,7 @@
               <a href="../1-methods/validate.htm">Validate</a> has not been called on an existing signature, this value will remain set to its default value of
               PadesLevel.None.</p>
               <p> Any PAdES compliance level greater than PAdES_B_B, means
-                 that it is also compliant to any of the preceeding PAdES compliance levels in the order specified above. So PAdES_B_LT is also PAdES_B_T and PAdES_B_B compliant.</p>
+                 that it is also compliant to any of the preceding PAdES compliance levels in the order specified above. So PAdES_B_LT is also PAdES_B_T and PAdES_B_B compliant.</p>
               <p>If a compliance level of PAdES_B_T or above is specified when signing, a Timestamp Authority will be required. 
                 If a <a href="../2-properties/TimestampServiceUrl.htm">TimestampServiceUrl</a> is specified then that value is used. 
                 If no <a href="../2-properties/TimestampServiceUrl.htm">TimestampServiceUrl</a> is specified and the signing certificate has a certificate extension with Oid 1.2.840.113583.1.1.9.1, 
@@ -102,7 +102,8 @@ foreach (char c in "password".ToCharArray())
 sig.Sign(cert, pwd, new Oid(CryptoConfig.MapNameToOID("SHA256")));
 doc.Save("SignedDoc.pdf");
 </code></pre>
-            <p>&nbsp;</p>
+            <p>&nbsp;</p><p>Also see example code in: <a href="maxsignaturelength.htm">Signature MaxSignatureLength Property</a>.</p>
+            
           </td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td>

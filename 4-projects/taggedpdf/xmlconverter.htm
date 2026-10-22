@@ -1,0 +1,805 @@
+<html>
+<head>
+<title>XmlConverter.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">XmlConverter.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Xml;
+using System.Collections.Generic;
+using System.IO;
+using System.Web;
+using System.Globalization;
+
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Atoms;
+
+namespace TaggedPDF {
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Parses xml files and converts them to tagged pdf
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class XmlConverter {
+&nbsp;&nbsp;&nbsp;&nbsp;protected enum TextFormat {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// No format
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;None,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// HTML styled.  Allows a single structure elements for
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// text with many styles.  The XML should use &amp;lt; and &amp;gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Html,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// Pre-formatted.  Respects new line characters
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pre
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;protected sealed class BackgroundElement {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// Rectangle
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Rect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// Background color
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string BackgroundColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// Background image
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string BackgroundImage;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// Constructor
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public BackgroundElement() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Members
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Base directory for resolving relative URIs
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private string mBaseDirectory;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Parent document
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected Doc mDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Xml reader for parsing document
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected XmlTextReader mReader;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The last page with the background set
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected int mBackgroundSetPage;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The last background set
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected BackgroundElement mBackground;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Stack of background items (e.g. body tags)
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected Stack&lt;BackgroundElement&gt; mBackgroundStack = new Stack&lt;BackgroundElement&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Stack of text formats
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected Stack&lt;TextFormat&gt; mTextFormatStack = new Stack&lt;TextFormat&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Stack of font sizes
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected Stack&lt;double&gt; mFontSizeStack = new Stack&lt;double&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Stack of font faces
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected Stack&lt;string&gt; mFontFaceStack = new Stack&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Stack of font colors
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected Stack&lt;string&gt; mFontColorStack = new Stack&lt;string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Stack of paragraph alignments
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected Stack&lt;double&gt; mAlignStack = new Stack&lt;double&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Stack of text styles
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected Stack&lt;XTextStyle&gt; mTextStyleStack = new Stack&lt;XTextStyle&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Height of the current line
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected double mNewLineAdvance;
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region TopLevel
+&nbsp;&nbsp;&nbsp;&nbsp;protected XmlConverter() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Init();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;protected Doc Load(string fileName) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBaseDirectory = Path.GetDirectoryName(fileName) + Path.DirectorySeparatorChar;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Init();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mReader = new XmlTextReader(fileName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mReader.WhitespaceHandling = WhitespaceHandling.None;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (mReader.Read()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (mReader.NodeType) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case XmlNodeType.Element:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string tagName = mReader.Name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProcessTag();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case XmlNodeType.Text:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string text = mReader.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProcessText(text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case XmlNodeType.EndElement:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProcessCloseTag(mReader);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mReader != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mReader.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Handlers
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle new paragraph tag P
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleP() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.X = mDoc.Rect.Left;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XTextStyle theTextStyle = new XTextStyle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTextStyle.String = mTextStyleStack.Peek().String;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string attr;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("fontsize", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Push(double.Parse(attr,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo.InvariantInfo));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Push(mFontSizeStack.Peek());
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExtractParagraphAttributes(theTextStyle);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Push(theTextStyle);
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle end of the paragraph
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleCloseP() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextFormatStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAlignStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XTextStyle textStyle = mTextStyleStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.Y -= textStyle.ParaSpacing + mNewLineAdvance;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mNewLineAdvance = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle headers tag (H1, H2 ... H6)
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleH() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.X = mDoc.Rect.Left;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XTextStyle theTextStyle = new XTextStyle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTextStyle.String = mTextStyleStack.Peek().String;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (mReader.Name.ToLower()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h1":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Push(28);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h2":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Push(24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h3":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Push(20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h4":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Push(16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h5":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Push(10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h6":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Push(6);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExtractParagraphAttributes(theTextStyle);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Push(theTextStyle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle Font tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleFont() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string attr;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("face", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontFaceStack.Push(attr);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontFaceStack.Push(mFontFaceStack.Peek());
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("size", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Push(double.Parse(attr,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo.InvariantInfo));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Push(mFontSizeStack.Peek());
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("color", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontColorStack.Push(attr);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontColorStack.Push(mFontColorStack.Peek());
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle end of the font tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleCloseFont() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontFaceStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontColorStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle image tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleImage() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string alt, src;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetAttribute("alt", out alt);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("src", out src))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProcessImage(src, alt);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle B tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleB() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XTextStyle theStyle = new XTextStyle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theStyle.String = mTextStyleStack.Peek().String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theStyle.Bold = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Push(theStyle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle end of the B tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleCloseB() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle I tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleI() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XTextStyle theStyle = new XTextStyle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theStyle.String = mTextStyleStack.Peek().String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theStyle.Italic = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Push(theStyle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle end of the I tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleCloseI() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle U tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleU() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XTextStyle theStyle = new XTextStyle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theStyle.String = mTextStyleStack.Peek().String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theStyle.Underline = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Push(theStyle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle end of the U tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleCloseU() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle Strike tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleStrike() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XTextStyle theStyle = new XTextStyle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theStyle.String = mTextStyleStack.Peek().String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theStyle.Strike = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Push(theStyle);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle end of the Strike tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleCloseStrike() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle BR tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleBR() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.X = mDoc.Rect.Left;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.Y -= mNewLineAdvance;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mNewLineAdvance = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle BODY tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleBody() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string bgcolor, background;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetAttribute("bgcolor", out bgcolor);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetAttribute("background", out background);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string attr;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(GetAttribute("leftmargin", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Left += double.Parse(attr, NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("rightmargin", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Right -= double.Parse(attr, NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("topmargin", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Top -= double.Parse(attr, NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("bottommargin", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Bottom += double.Parse(attr, NumberFormatInfo.InvariantInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BackgroundElement bodyItem = new BackgroundElement();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mBackgroundStack.Count &lt;= 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bodyItem.BackgroundColor = bgcolor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bodyItem.BackgroundImage = background;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bodyItem.BackgroundColor = bgcolor??
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBackgroundStack.Peek().BackgroundColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bodyItem.BackgroundImage = background??
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBackgroundStack.Peek().BackgroundImage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBackgroundStack.Push(bodyItem);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Handle end of BODY tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void HandleCloseBody() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBackgroundStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Utilities
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Get the value of the attribute
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="name"&gt;The name of the attribute&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="value"&gt;The vale of the attribute&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Whether the result is null&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private bool GetAttribute(string name, out string value) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value = mReader.GetAttribute(name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return value != null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Extract all common atrribute of p, h1, ... h6 tags
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="textStyle"&gt;Textstyle descibed by the tag attributes&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void ExtractParagraphAttributes(XTextStyle textStyle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string attr;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("textformat", out attr)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch(attr) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "none":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextFormatStack.Push(TextFormat.None);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "html":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextFormatStack.Push(TextFormat.Html);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "pre":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextFormatStack.Push(TextFormat.Pre);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextFormatStack.Push(mTextFormatStack.Peek());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextFormatStack.Push(mTextFormatStack.Peek());
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("align", out attr)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (attr) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "left":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAlignStack.Push(0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "right":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAlignStack.Push(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "center":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAlignStack.Push(0.5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAlignStack.Push(mAlignStack.Peek());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAlignStack.Push(mAlignStack.Peek());
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("charspacing", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.CharSpacing = double.Parse(attr,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo.InvariantInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("wordspacing", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.WordSpacing = double.Parse(attr,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo.InvariantInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("justification", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Justification = double.Parse(attr,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo.InvariantInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("bold", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Bold = bool.Parse(attr);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("italic", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Italic = bool.Parse(attr);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("underline", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Underline = bool.Parse(attr);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("strike", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Strike = bool.Parse(attr);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("strike2", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Strike2 = bool.Parse(attr);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("outline", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Outline = double.Parse(attr,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo.InvariantInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("linespacing", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.LineSpacing = double.Parse(attr,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo.InvariantInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("paraspacing", out attr)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.ParaSpacing = double.Parse(attr,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.Y -= textStyle.ParaSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("leftmargin", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.LeftMargin = double.Parse(attr,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo.InvariantInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (GetAttribute("indent", out attr))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle.Indent = double.Parse(attr,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Process arbitrary tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void ProcessTag() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (mReader.Name.ToLower()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "p":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleP();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Tag.Open(mReader.Name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h1":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h2":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h3":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h4":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h5":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h6":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Tag.Open(mReader.Name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleH();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "font":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleFont();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "img":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleImage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "b":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleB();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "br":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleBR();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "i":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleI();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "u":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleU();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "strike":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleStrike();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "body":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleBody();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Process closing of arbitrary tag
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="mReader"&gt;Xml reader to read data from&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void ProcessCloseTag(XmlReader mReader) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (mReader.Name.ToLower()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "p":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h1":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h2":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h3":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h4":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h5":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "h6":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleCloseP();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Tag.Close(mReader.Name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "font":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleCloseFont();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "b":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleCloseB();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "i":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleCloseI();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "u":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleCloseU();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "strike":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleCloseStrike();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "body":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleCloseBody();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Add block of text to the output content
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="text"&gt;Text data&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void ProcessText(string text) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBackground();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.TextStyle.String = mTextStyleStack.Peek().String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.TextStyle.Size = mFontSizeStack.Peek();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Font = mDoc.AddFont(mFontFaceStack.Peek());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Color.String = mFontColorStack.Peek();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.TextStyle.HPos = mAlignStack.Peek();
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc.Pos.X == mDoc.Rect.Right)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.Y -= mNewLineAdvance;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int initialY = (int)mDoc.Pos.Y;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch(mTextFormatStack.Peek()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextFormat.Pre:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = mDoc.AddText(text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(id == 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NewPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = mDoc.AddText(text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextFormat.Html:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = mDoc.AddTextStyled(text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(id == 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NewPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = mDoc.AddTextStyled(text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = HttpUtility.HtmlEncode(text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = mDoc.AddTextStyled(text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(id == 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NewPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = mDoc.AddTextStyled(text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (mDoc.Chainable(id)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NewPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = mDoc.AddTextStyled("", id);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc.Pos.Y &gt; initialY)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mNewLineAdvance = mDoc.TextStyle.Size;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mNewLineAdvance = Math.Max(mDoc.TextStyle.Size, mNewLineAdvance);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Create a new page for the same tagged item.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void NewPage() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Page = mDoc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBackground();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Add image object to the output content
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="fileName"&gt;Image file name&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void ProcessImage(string fileName, string alt) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XImage image = new XImage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!Path.IsPathRooted(fileName))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fileName = mBaseDirectory + fileName;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!File.Exists(fileName))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image.SetFile(fileName);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleBR();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetBackground();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc.Pos.Y - image.Height &lt; mDoc.Rect.Bottom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NewPage();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string curRect = mDoc.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double curY = mDoc.Pos.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.TextStyle.HPos = mAlignStack.Peek();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (image.Width &lt; mDoc.Rect.Width)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Left = mDoc.Rect.Left + (mDoc.Rect.Width - image.Width) * mDoc.TextStyle.HPos;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Left = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Right = mDoc.Rect.Left + image.Width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Top = curY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Bottom = mDoc.Rect.Top - image.Height;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var figure = mDoc.Tag.MakeTag("Image");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!string.IsNullOrEmpty(alt)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;figure.Attributes = new DictAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;figure.Attributes["Alt"] = new StringAtom(alt);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Tag.Open(figure);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = mDoc.AddImage(fileName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Tag.Close(figure.Type);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = curRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.Y = curY;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.X += image.Width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mNewLineAdvance = image.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandleBR();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Add background to the document
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="item"&gt;background item&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void SetBackground() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mBackgroundStack.Count &lt;= 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BackgroundElement item = mBackgroundStack.Peek();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Whether either color or image is set for the current page
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// If both are set, return
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool partialSet = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mBackgroundSetPage == mDoc.Page) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item == mBackground)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mBackground != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(mBackground.BackgroundColor != null
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; mBackground.BackgroundImage != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;partialSet = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBackgroundSetPage = mDoc.Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBackground = item;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string rect = item.Rect?? mDoc.MediaBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;int&gt; contentIds = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item.BackgroundColor != null
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; (!partialSet || mBackground.BackgroundColor == null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (contentIds == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contentIds = new List&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string curPos = mDoc.Pos.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string curRect = mDoc.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string curColor = mDoc.Color.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = rect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Color.String = item.BackgroundColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contentIds.Add(mDoc.FillRect());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = curRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Color.String = curColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.String = curPos;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (item.BackgroundImage != null
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; (!partialSet || mBackground.BackgroundImage == null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string fileName = item.BackgroundImage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!Path.IsPathRooted(fileName))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fileName = mBaseDirectory + fileName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!File.Exists(fileName))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.BackgroundImage = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (contentIds == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contentIds = new List&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XImage image = new XImage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image.SetFile(fileName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string curPos = mDoc.Pos.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string curRect = mDoc.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = rect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;contentIds.Add(mDoc.AddImage(image));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = curRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Pos.String = curPos;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Set default values for text styles and other formatting attributes
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void Init() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBackgroundSetPage = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBackground = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBackgroundStack.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextFormatStack.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextFormatStack.Push(TextFormat.None);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontSizeStack.Push(10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontFaceStack.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontFaceStack.Push("Times-Roman");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontColorStack.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFontColorStack.Push("black");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAlignStack.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAlignStack.Push(0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mNewLineAdvance = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextStyleStack.Push(new XTextStyle());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Public methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Convert xml file to the tagged pdf
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="fileName"&gt;Xml file name&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static Doc Create(string fileName) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var conv = new XmlConverter();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return conv.Load(fileName);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

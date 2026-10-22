@@ -59,6 +59,7 @@ Notes</td>
 <tbody>
 <tr>
 <td>
+<p>This property applies to the <a href="2-forchrome.htm">ABCChrome</a>, <a href="2-forgecko.htm">ABCGecko</a> and <a href="2-formshtml.htm">MSHTML</a> engines.</p>
 <p>This property determines whether selected elements in the
 HTML are noted so that their location can be determined at a later date.</p>
 <p>After adding your web pages you can retrieve
@@ -66,7 +67,7 @@ information about the items on the PDF page using the <a href="../1-methods/gett
 the <a href="../1-methods/gettagrects.htm">GetTagRects</a>
 methods.</p>
 <p>Only HTML elements which have a visual representation can be tagged. If you are unsure if your item has a visual representation, put a border style  on the element. If you can see the border then you can tag it.</p>
-<p>Using the ABCChrome engine you specify tags using attributes. Using the Gecko and MSHTML engines you specify tags using styles. The change from styles to attributes was made as the originals styles based method became standards non-compliant.</p>
+<p>Using the ABCChrome engine you specify tags using attributes. Using the Gecko and MSHTML engines you specify tags using styles. The change from styles to attributes was made as the original styles based method became standards non-compliant.</p>
 <p>The ABCChrome engine relies on JavaScript for this feature, so if you set the <a href="usescript.htm">UseScript</a> property to false, it will cease to  operate. </p>
 <p>For   the ABCChrome engine, elements with an attribute 'abcpdf-tag-visible' will be tagged. For example:</p>
 <p><pre><code class="language-html">&lt;p id=&quot;p1&quot; abcpdf-tag-visible=&quot;&quot;&gt;Gallia est omnis divisa in partes tres.&lt;p&gt;

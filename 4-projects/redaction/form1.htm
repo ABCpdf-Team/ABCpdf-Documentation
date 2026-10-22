@@ -1,0 +1,628 @@
+<html>
+<head>
+<title>Form1.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Form1.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Data;
+using System.IO;
+using System.Text;
+using System.Diagnostics;
+using System.Reflection;
+
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Operations;
+
+namespace Redaction
+{
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for Form1.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class Form1 : System.Windows.Forms.Form {
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button button1;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button2;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button4;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button5;
+&nbsp;&nbsp;&nbsp;&nbsp;private PictureBox pictureBox1;
+&nbsp;&nbsp;&nbsp;&nbsp;private GroupBox groupBox1;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBox textBoxFind;
+&nbsp;&nbsp;&nbsp;&nbsp;private RadioButton radioButtonFine;
+&nbsp;&nbsp;&nbsp;&nbsp;private RadioButton radioButtonCoarse;
+&nbsp;&nbsp;&nbsp;&nbsp;private GroupBox groupBox2;
+&nbsp;&nbsp;&nbsp;&nbsp;private Label label1;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBox textBoxRect;
+&nbsp;&nbsp;&nbsp;&nbsp;private GroupBox groupBox3;
+&nbsp;&nbsp;&nbsp;&nbsp;private Label label2;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBox textBoxFont;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button3;
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button6;
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required designer variable.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.ComponentModel.Container components = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Form1() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Required for Windows Form Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// TODO: Add any constructor code after InitializeComponent call
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose(bool disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (components != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose(disposing);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Windows Form Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pictureBox1 = new System.Windows.Forms.PictureBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1 = new System.Windows.Forms.GroupBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFind = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonFine = new System.Windows.Forms.RadioButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonCoarse = new System.Windows.Forms.RadioButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2 = new System.Windows.Forms.GroupBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxRect = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3 = new System.Windows.Forms.GroupBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFont = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Location = new System.Drawing.Point(517, 491);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Name = "button1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Size = new System.Drawing.Size(323, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Text = "Redact Text Area";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Click += new System.EventHandler(this.button1_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.Location = new System.Drawing.Point(517, 533);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.Name = "button2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.Size = new System.Drawing.Size(321, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.Text = "Redact Text Words";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button2.Click += new System.EventHandler(this.button2_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button4
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.Location = new System.Drawing.Point(515, 576);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.Name = "button4";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.Size = new System.Drawing.Size(322, 33);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.Text = "Redact Text Fonts";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button4.Click += new System.EventHandler(this.button4_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button5
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.Location = new System.Drawing.Point(514, 618);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.Name = "button5";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.Size = new System.Drawing.Size(323, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.TabIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.Text = "Redact Image Area";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button5.Click += new System.EventHandler(this.button5_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pictureBox1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.AnchorStyles.Left) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pictureBox1.Location = new System.Drawing.Point(24, 19);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pictureBox1.Name = "pictureBox1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pictureBox1.Size = new System.Drawing.Size(480, 853);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pictureBox1.TabIndex = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pictureBox1.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// groupBox1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Controls.Add(this.textBoxFind);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Controls.Add(this.radioButtonFine);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Controls.Add(this.radioButtonCoarse);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Location = new System.Drawing.Point(514, 18);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Name = "groupBox1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Size = new System.Drawing.Size(321, 268);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.TabIndex = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.Text = "Text Selection - Marked in Blue";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textBoxFind
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFind.Location = new System.Drawing.Point(26, 96);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFind.Multiline = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFind.Name = "textBoxFind";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFind.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFind.Size = new System.Drawing.Size(275, 148);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFind.TabIndex = 12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFind.Text = "plant\r\nflower";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFind.TextChanged += new System.EventHandler(this.textBoxFind_TextChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// radioButtonFine
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonFine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonFine.AutoSize = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonFine.Checked = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonFine.Location = new System.Drawing.Point(34, 28);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonFine.Name = "radioButtonFine";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonFine.Size = new System.Drawing.Size(126, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonFine.TabIndex = 11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonFine.TabStop = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonFine.Text = "Fine Grained";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonFine.UseVisualStyleBackColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// radioButtonCoarse
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonCoarse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonCoarse.AutoSize = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonCoarse.Location = new System.Drawing.Point(35, 63);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonCoarse.Name = "radioButtonCoarse";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonCoarse.Size = new System.Drawing.Size(146, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonCoarse.TabIndex = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonCoarse.Text = "Coarse Grained";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.radioButtonCoarse.UseVisualStyleBackColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// groupBox2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Controls.Add(this.label1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Controls.Add(this.textBoxRect);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Location = new System.Drawing.Point(514, 295);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Name = "groupBox2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Size = new System.Drawing.Size(320, 89);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.TabIndex = 12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.Text = "Area Selection - Marked in Green";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.AutoSize = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Location = new System.Drawing.Point(21, 37);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Name = "label1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Size = new System.Drawing.Size(43, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.TabIndex = 16;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Text = "Rect";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textBoxRect
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxRect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxRect.Location = new System.Drawing.Point(78, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxRect.Name = "textBoxRect";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxRect.Size = new System.Drawing.Size(223, 26);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxRect.TabIndex = 15;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxRect.Text = "5 5 400 80";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxRect.TextChanged += new System.EventHandler(this.textBoxRect_TextChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// groupBox3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.Controls.Add(this.label2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.Controls.Add(this.textBoxFont);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.Location = new System.Drawing.Point(517, 393);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.Name = "groupBox3";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.Size = new System.Drawing.Size(320, 89);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.TabIndex = 17;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.Text = "Font Selection - Marked in Red";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.AutoSize = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Location = new System.Drawing.Point(19, 37);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Name = "label2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Size = new System.Drawing.Size(51, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.TabIndex = 16;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Text = "Name";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textBoxFont
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFont.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFont.Location = new System.Drawing.Point(78, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFont.Name = "textBoxFont";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFont.Size = new System.Drawing.Size(223, 26);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFont.TabIndex = 15;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFont.Text = "Helvetica-Bold";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textBoxFont.TextChanged += new System.EventHandler(this.textBoxFont_TextChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.Location = new System.Drawing.Point(517, 728);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.Name = "button3";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.Size = new System.Drawing.Size(323, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.TabIndex = 18;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.Text = "Reload Document";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button3.Click += new System.EventHandler(this.button3_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button6
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.Location = new System.Drawing.Point(517, 661);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.Name = "button6";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.Size = new System.Drawing.Size(321, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.TabIndex = 19;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.Text = "ReplaceText Words";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button6.Click += new System.EventHandler(this.button6_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Form1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AutoScaleBaseSize = new System.Drawing.Size(8, 19);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ClientSize = new System.Drawing.Size(854, 890);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button6);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.groupBox3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.groupBox2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.groupBox1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.pictureBox1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button4);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Name = "Form1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Text = "Form1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Load += new System.EventHandler(this.Form1_Load);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox1.PerformLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox2.PerformLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.groupBox3.PerformLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ResumeLayout(false);
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The main entry point for the application.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;[STAThread]
+&nbsp;&nbsp;&nbsp;&nbsp;static void Main() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application.Run(new Form1());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;string _src = "";
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void Form1_Load(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reload();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void textBoxRect_TextChanged(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void textBoxFont_TextChanged(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void textBoxFind_TextChanged(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void Reload() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string file in Directory.GetFiles(theRez, "*.pdf")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!Path.GetFileName(file).StartsWith("_")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_src = file;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void UpdateDoc() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = LoadDoc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} // do nothing
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button1_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Here we look at an area on the page and redact the text in it
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect toRedact = new XRect(textBoxRect.Text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(_src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextOperation op = new TextOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string text = op.GetText(toRedact, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IList&lt;TextFragment&gt; fragments = op.Select(0, text.Length);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (radioButtonCoarse.Checked)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SimpleRedaction.RedactTextOps(doc, fragments);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FineRedaction.RedactCharacters(doc, fragments);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string dst = Path.Combine(Directory.GetParent(_src).FullName, "_" + Path.GetRandomFileName() + ".pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_src = dst;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button2_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// here we search for some text on the page and then redact it
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(_src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;TextFragment&gt; fragments = FindText(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (radioButtonCoarse.Checked)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SimpleRedaction.RedactTextOps(doc, fragments);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FineRedaction.RedactCharacters(doc, fragments);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string dst = Path.Combine(Directory.GetParent(_src).FullName, "_" + Path.GetRandomFileName() + ".pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_src = dst;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button3_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reload();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button4_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Here we look at specific style - fonts - that we don't want.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// However the crucial difference between this and the other examples is
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// that we purge the unused fonts to remove all references from the document.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(_src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontTracker tracker = new FontTracker(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; doc.PageNumber; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.PageNumber = i + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (XRect rect = doc.Rect) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;TextFragment&gt; toKeep = new List&lt;TextFragment&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;TextFragment&gt; fragments = FindFont(doc, toKeep);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (TextFragment fragment in toKeep)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracker.Keep(fragment);&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SimpleRedaction.RedactTextOps(doc, fragments);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracker.PurgeForm();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracker.Purge();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string dst = Path.Combine(Directory.GetParent(_src).FullName, "_" + Path.GetRandomFileName() + ".pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_src = dst;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button5_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// here we find and remove images which overlap with our area of interest
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect toRedact = new XRect(textBoxRect.Text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(_src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ImageOperation op = new ImageOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ICollection&lt;ImageProperties&gt; images = op.GetImageProperties();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ImageRedaction redaction = new ImageRedaction(doc, images, doc.PageCount == 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (ImageProperties image in images)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (ImageRendition rendition in image.Renditions)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (rendition.BoundingBox.IntersectsWith(toRedact))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;redaction.MarkForRedaction(rendition);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;redaction.Redact();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string dst = Path.Combine(Directory.GetParent(_src).FullName, "_" + Path.GetRandomFileName() + ".pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_src = dst;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Doc LoadDoc() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bitmap bitmap = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (File.Exists(_src)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// NB It's a bit inefficient calling both FindText and FindFont
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// but it makes the code a good deal easier to understand.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(_src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(0, 255, 0); // green
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// show where rect is
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = textBoxRect.Text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// show where text is
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(0, 0, 255); // blue
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Width = 0; // hairlines
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (TextFragment fragment in FindText(doc)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fragment.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect(); // show where fragments have been found
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// show where fonts are
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.SetRgb(255, 0, 0); // red
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (TextFragment fragment in FindFont(doc, null)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fragment.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.FrameRect(); // show where fragments have been found
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// render
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = doc.CropBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bitmap = doc.Rendering.GetBitmap();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pictureBox1.Image = bitmap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return doc;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;TextFragment&gt; FindText(Doc doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextOperation op = new TextOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages(1); // hardwired to page one for these examples
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string text = op.GetText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;TextFragment&gt; fragments = new List&lt;TextFragment&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string candidate in textBoxFind.Lines) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (candidate.Length == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pos = -1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos = text.IndexOf(candidate, pos + 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pos &lt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fragments.AddRange(op.Select(pos, candidate.Length));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return fragments;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;TextFragment&gt; FindFont(Doc doc, List&lt;TextFragment&gt; others) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextOperation op = new TextOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages(1); // hardwired to page one for these examples
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string text = op.GetText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;TextFragment&gt; fragments = new List&lt;TextFragment&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (text.Length &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IList&lt;TextFragment&gt; candidates = op.Select(0, text.Length);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (TextFragment candidate in candidates) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (candidate.Font.BaseFont.Contains(textBoxFont.Text))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fragments.Add(candidate);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (others != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;others.Add(candidate);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return fragments;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button6_Click(object sender, EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// here we search for some text on the page and then replace it
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string find = textBoxFind.Lines.Length &gt; 0 ? textBoxFind.Lines[0] : "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string replace = textBoxFind.Lines.Length &gt; 1 ? textBoxFind.Lines[1] : "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (find.Length == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc doc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Read(_src);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var op = new TextOperation(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.IncludeColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;op.PageContents.AddPages(1); // hardwired to page one for these examples
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string text = op.GetText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var pos = text.IndexOf(find, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pos &lt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return; // nothing found
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var fragments = op.Select(pos, find.Length);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert(fragments.Count &gt; 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (radioButtonCoarse.Checked)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SimpleRedaction.RedactTextOps(doc, fragments);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FineRedaction.RedactCharacters(doc, fragments);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!string.IsNullOrEmpty(replace)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect rect = new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var fragment in fragments)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect.Union(fragment.Rect);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var first = fragments[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (FontSupportsText(first.Font, replace))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Font = first.Font.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Font = doc.EmbedFont(first.Font.BaseFont, LanguageType.Unicode);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var font = (FontObject)doc.ObjectSoup[doc.Font];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (FontSupportsText(first.Font, replace) == false)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Exception("Text contains glyphs which do not exist in font.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.TextStyle.Size = first.FontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.ColorSpace = first.FontColorSpace != null ? first.FontColorSpace.ID : 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Color.String = first.FontColor.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddText(replace);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string dst = Path.Combine(Directory.GetParent(_src).FullName, "_" + Path.GetRandomFileName() + ".pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Save(dst);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_src = dst;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateDoc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static bool FontSupportsText(FontObject font, string replace) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chars = font.CharToEncoding;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var c in replace)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!chars.ContainsKey(c))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -34,6 +34,14 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A cross-reference stream, introduced in PDF 1.5, replaces or supplements the traditional cross-reference table. It records the byte offset or object stream location of every indirect object in the file revision, stored as a compressed stream rather than plain text.</p>
+<p>The stream body contains fixed-width binary records, one per cross-reference entry. The W entry specifies the byte width of each field within a record. A record has three fields: type, location, and generation or index.</p>
+<p>A type-0 entry marks a free object. A type-1 entry gives the byte offset of an in-use object in the file. A type-2 entry gives the object stream number and the index within that stream for a compressed object.</p>
+<p>The Index entry lists pairs of integers specifying which object numbers the stream covers. Each pair is a starting object number and a count. When absent, the stream covers objects starting at zero for the full Size count.</p>
+<p>The Prev entry gives the byte offset of the previous cross-reference stream or table, enabling traversal of all revisions. The cross-reference stream also carries the trailer dictionary entries (Root, Encrypt, Info, ID) that were previously in a separate trailer dictionary.</p>
+<p>Because the cross-reference stream is itself a compressed stream, a reader must be able to locate and decode it before it can find any other object. The stream's own dictionary entries must therefore not reference other indirect objects that require cross-reference lookup to resolve.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

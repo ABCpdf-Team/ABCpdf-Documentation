@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>XTagging OpaqueTypes Property. Tag types in the content stream that should be excluded from tagging. ABCpdf .NET PDF Library.</title>
+<title>Focus OpaqueTypes Property. Tag types in the content stream that should be excluded from tagging. ABCpdf .NET PDF Library.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="../../../mystyles.css">
 <link rel="stylesheet" href="../../../prism.css">
@@ -77,8 +77,19 @@
           <td><P>The following code detags the document leaving Artifacts behind. It then tags the entire pag as a Sect. When the output is exported, items previously marked as Artifacts - some images, the header,  footer and page number- are not part of the Sect.</P>
             <P><SPAN class=language>[C#]</SPAN><BR>
             </P>
-            <pre><code class="language-csharp">using var doc = new Doc();<br>doc.Read(&quot;../Rez/spacex_nasa_dragon.pdf&quot;);<br>var st = doc.Tag.GetStructure();<br>st.Detag(); // Artifacts will be left<br>st.CreateAsRequired();<br>var div = st.Root.AddKid(&quot;Document&quot;).AddKid(&quot;Div&quot;);<br>var focus = doc.Tag.AddFocus(div.AddKid(&quot;Sect&quot;), doc.Rect);<br>focus.OpaqueTypes = new HashSet&lt;string&gt;([&quot;Artifact&quot;]);<br>doc.Save(&quot;opaquetags.pdf&quot;);<br>st.UpdateActualText(true, true);<br>st.MarkupStructure();<br>
-doc.Save(&quot;opaquetags.pdf&quot;);</code></pre>
+            <pre><code class="language-csharp">using var doc = new Doc();
+doc.Read("../Rez/spacex_nasa_dragon.pdf");
+var st = doc.Tag.GetStructure();
+st.Detag(); // Artifacts will be left
+st.CreateAsRequired();
+var div = st.Root.AddKid("Document").AddKid("Div");
+var focus = doc.Tag.AddFocus(div.AddKid("Sect"), doc.Rect);
+focus.OpaqueTypes = new HashSet&lt;string&gt;(["Artifact"]);
+doc.Save("opaquetags.pdf");
+st.UpdateActualText(true, true);
+st.MarkupStructure();
+doc.Save("opaquetags.pdf");
+</code></pre>
             </P>
             <IMG src="../../../images/pdf/addtagstotaggeddoc.pdf.png" class="example"><BR>
 opaquetags.pdf

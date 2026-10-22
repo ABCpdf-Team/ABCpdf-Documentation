@@ -34,6 +34,13 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A Type 0 function, also called a sampled function, encodes a multi-dimensional table of output values in a stream. Values not in the table are computed by interpolating between adjacent table entries.</p>
+<p>The Size entry is an array giving the number of samples along each input dimension. The total number of sample sets in the stream is the product of all Size values.</p>
+<p>The BitsPerSample entry gives the bit depth of each sample value in the stream. Values may be 1, 2, 4, 8, 12, 16, 24, or 32 bits. Samples are packed in the stream without padding between values.</p>
+<p>The Order entry controls the interpolation algorithm. A value of 1 selects linear interpolation between adjacent samples. A value of 3 selects cubic spline interpolation, which produces smoother results at the cost of more computation.</p>
+<p>The Encode array maps each input value from the domain to a sample index. The Decode array maps each raw sample integer to an output value in the output range.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

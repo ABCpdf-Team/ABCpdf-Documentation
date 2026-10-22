@@ -1,0 +1,274 @@
+<html>
+<head>
+<title>DraggingUtilities.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">DraggingUtilities.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
+
+namespace ABCpdfControls {
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for DraggingUtils.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;internal class DraggingUtilities {
+&nbsp;&nbsp;&nbsp;&nbsp;private const int kDragWindowMimimumSize = 10;&nbsp;&nbsp;
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Object returned by the GetDragWindowSize() Method.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;internal struct DragWindowInfo {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// Creates a new object with the size, and point already initialized.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="size"&gt;Size of the drag window drawn.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="topLeft"&gt;Top left point of the drag window created.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public DragWindowInfo(Size size, Point topLeft) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WindowSize = size;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TopLeft = topLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// Size of the drag window drawn.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public Size WindowSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// Top left point of the drag window created.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public Point TopLeft;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public Rectangle GetRectangle() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rectangle theRect = new Rectangle(TopLeft, WindowSize);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Gets the size of the drag window drawn by the user.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="dragCurrent"&gt;The current position of the curser.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="dragStart"&gt;The position of the cursor where the drag was started.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Drag Window Information.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static public DragWindowInfo GetDragWindowSize(Point dragCurrent, Point dragStart) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point topLeft&nbsp;&nbsp;  = new Point(0,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point bottomRight = new Point(0,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( dragStart.X &lt; dragCurrent.X ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Dragging to the right.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( dragStart.Y &lt; dragCurrent.Y ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Right &amp; Down
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topLeft&nbsp;&nbsp;&nbsp;&nbsp;= dragStart;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomRight = dragCurrent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Right &amp; Up
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topLeft&nbsp;&nbsp;&nbsp;&nbsp;= new Point(dragStart.X, dragCurrent.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomRight = new Point(dragCurrent.X, dragStart.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if ( dragCurrent.X &lt; dragStart.X ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Dragging to the left.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( dragStart.Y &lt; dragCurrent.Y ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Left &amp; Down
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topLeft&nbsp;&nbsp;&nbsp;&nbsp;= new Point(dragCurrent.X, dragStart.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomRight&nbsp;&nbsp;= new Point(dragStart.X, dragCurrent.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Left &amp; Up
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;topLeft&nbsp;&nbsp;&nbsp;&nbsp;= dragCurrent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bottomRight = dragStart;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int width&nbsp;&nbsp;= bottomRight.X - topLeft.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int height&nbsp;&nbsp;= bottomRight.Y - topLeft.Y;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DragWindowInfo dwi = new DragWindowInfo(new Size(width, height), topLeft);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return dwi;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Make sure that dragged rect is big enough
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="dragStart"&gt;Start dragging point&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="dragEnd"&gt;End dragging point&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;True if height and witdh of the rectangle are bigger than kDragWindowMimimumSize&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static public bool CheckDragBoxSize(Point dragStart, Point dragEnd) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DragWindowInfo dwi = GetDragWindowSize(dragEnd, dragStart);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Size size = dwi.WindowSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int height = size.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int width  = size.Width;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( height &gt; kDragWindowMimimumSize &amp;&amp; width &gt; kDragWindowMimimumSize )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Invert 3-dimensional matrix
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="a"&gt;Original matrix&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="r"&gt;on output: Inverted matrix&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;static void matrix3Invert(float[,] a, float[,] r) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float a11 = a[0,0],a12=a[0,1],a13=a[0,2];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float a21 = a[1,0],a22=a[1,1],a23=a[1,2];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float a31 = a[2,0],a32=a[2,1],a33=a[2,2];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float d =(a11*a22*a33-a11*a23*a32-a21*a12*a33+a21*a13*a32+a31*a12*a23-a31*a13*a22);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (d != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r[0,0]= (a22*a33-a23*a32)/d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r[0,1]=-(a12*a33-a13*a32)/d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r[0,2]= (a12*a23-a13*a22)/d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r[1,0]=-(a21*a33-a23*a31)/d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r[1,1]= (a11*a33-a13*a31)/d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r[1,2]=-(a11*a23-a13*a21)/d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r[2,0]= (a21*a32-a22*a31)/d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r[2,1]=-(a11*a32-a12*a31)/d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r[2,2]= (a11*a22-a12*a21)/d;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;static public Matrix GetDraggingMatrix(Point dragNewPoint, GraphicsPath path, int draggingPointIndex) {
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF[] points = path.PathPoints;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//A bit of mathematics to calculate transformation factors
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF pointA = points[(draggingPointIndex + 2) % 4];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF pointB = points[(draggingPointIndex + 1) % 4];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF pointC = points[(draggingPointIndex + 3) % 4];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF pointM  = dragNewPoint;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Calculate new points positions
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float ub = ((pointA.X - pointM.X)*(pointC.Y - pointA.Y) - (pointA.Y - pointM.Y)*(pointC.X - pointA.X)) /
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((pointB.Y - pointA.Y)*(pointC.X - pointA.X) - (pointB.X - pointA.X)*(pointC.Y - pointA.Y));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF pointBnew = new PointF(pointA.X + (pointB.X - pointA.X )*ub, pointA.Y + (pointB.Y - pointA.Y )*ub);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float uc = ((pointA.X - pointM.X)*(pointB.Y - pointA.Y) - (pointA.Y - pointM.Y)*(pointB.X - pointA.X)) /
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((pointC.Y - pointA.Y)*(pointB.X - pointA.X) - (pointC.X - pointA.X)*(pointB.Y - pointA.Y));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF pointCnew = new PointF(pointA.X + (pointC.X - pointA.X )*uc, pointA.Y + (pointC.Y - pointA.Y )*uc);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Find the transformation Matrix
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float[,] m = new float[3,3];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m[0,0] = pointA.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m[0,1] = pointA.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m[0,2] = 1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m[1,0] = pointB.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m[1,1] = pointB.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m[1,2] = 1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m[2,0] = pointC.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m[2,1] = pointC.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m[2,2] = 1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float[,] r = new float[3,3];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matrix3Invert(m, r);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float a = r[0,0]*pointA.X + r[0,1]*pointBnew.X + r[0,2]*pointCnew.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float c = r[1,0]*pointA.X + r[1,1]*pointBnew.X + r[1,2]*pointCnew.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float e = r[2,0]*pointA.X + r[2,1]*pointBnew.X + r[2,2]*pointCnew.X;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float b = r[0,0]*pointA.Y + r[0,1]*pointBnew.Y + r[0,2]*pointCnew.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float d = r[1,0]*pointA.Y + r[1,1]*pointBnew.Y + r[1,2]*pointCnew.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float f = r[2,0]*pointA.Y + r[2,1]*pointBnew.Y + r[2,2]*pointCnew.Y;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix theMatrix = new Matrix(a, b, c, d, e, f);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theMatrix;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;static double GetVectorAngle(PointF p1, PointF p2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double angle = Math.Atan2(p1.Y - p2.Y, p2.X - p1.X);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return angle*180/Math.PI;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static Cursor GetGrabBarCursor(int index, GraphicsPath inPath) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF pointA = inPath.PathPoints[index];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF pointB = inPath.PathPoints[(index + 1) % 4];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF pointC = inPath.PathPoints[(index + 3) % 4];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double bisectorAngle = 180 + (GetVectorAngle(pointB, pointA) + GetVectorAngle(pointC, pointA)) / 2;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cursor theCursor = Cursors.Default;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (0 &lt;= bisectorAngle &amp;&amp; bisectorAngle &lt;= 45/2  ) || (315/2 &lt;= bisectorAngle &amp;&amp; bisectorAngle &lt;= 405/2) || bisectorAngle &gt;=675/2)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theCursor = Cursors.SizeWE;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (45/2 &lt;= bisectorAngle &amp;&amp; bisectorAngle &lt;= 135/2) || (405/2 &lt;=bisectorAngle &amp;&amp; bisectorAngle &lt;= 495/2))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theCursor = Cursors.SizeNESW;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (135/2 &lt;= bisectorAngle &amp;&amp; bisectorAngle &lt;= 225/2) || (495/2 &lt;= bisectorAngle &amp;&amp; bisectorAngle &lt;= 585/2))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theCursor = Cursors.SizeNS;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( (225/2 &lt;= bisectorAngle &amp;&amp; bisectorAngle &lt;= 315/2) || (585/2 &lt;= bisectorAngle &amp;&amp; bisectorAngle &lt;= 675/2))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theCursor = Cursors.SizeNWSE;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static bool IsOverGrabBars(Point p, GraphicsPath path, int grabBarWidth, out int grabPoint) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; path.PathPoints.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rectangle theRect = new Rectangle((int)path.PathPoints[i].X - grabBarWidth / 2 , (int)path.PathPoints[i].Y - grabBarWidth / 2, grabBarWidth, grabBarWidth);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theRect.Contains(p)&nbsp;&nbsp;) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grabPoint = i;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grabPoint = -1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

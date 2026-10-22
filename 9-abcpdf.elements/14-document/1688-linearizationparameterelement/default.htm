@@ -31,6 +31,14 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=688">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: f.1, page 680.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: f.1, page 877.</a></p>
 </p>
+<!-- addition start -->
+<p>The linearization parameter dictionary is stored at the very beginning of a linearized PDF file. It enables a web browser or networked reader to display the first page while the rest of the file is still downloading.</p>
+<p>The Linearized entry confirms the file is linearized and gives the specification version used as a real number.</p>
+<p>The L entry gives the total file length in bytes, allowing a reader to verify a download is complete.</p>
+<p>The H entry holds an array of two or four integers giving the offset and length of the primary and overflow hint streams. Hint streams allow a reader to calculate byte ranges of objects before downloading them.</p>
+<p>The O entry gives the object number of the first page object, allowing immediate first-page display. The E entry gives the byte offset of the end of the first page objects.</p>
+<p>The N entry gives the total number of pages. The T entry gives the byte offset of the main cross-reference table or stream. The P entry gives the page index of the first page as defined by the linearization.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

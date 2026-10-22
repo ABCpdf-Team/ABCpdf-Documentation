@@ -79,6 +79,11 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=317">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 130, page 309.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 128, page 371.</a></p>
+<!-- addition start -->
+<p>When the value is a name, the viewer looks up a built-in spot function with that name. The named functions each produce a characteristic dot shape: SimpleDot and Round grow circular dots, Ellipse and EllipseA grow elongated dots, Line and LineX produce line screens, and so on. ISO 32000-2:2020 defines the calculation behind each name.</p>
+<p>When the value is a function object, the viewer calls it for every device pixel inside the halftone cell. The function receives two arguments, the x and y positions in the range -1 to 1, and returns a single number. Pixels with smaller return values become part of the dot first as tint increases, so the function controls both the dot shape and its growth direction.</p>
+<p>The spot function has a direct effect on print quality. Round dots are forgiving on press; elliptical dots can smooth the midtone jump; line screens reduce rosette patterns in some screening combinations.</p>
+<!-- addition end -->
 
             <p>&nbsp;</p>
             </td>

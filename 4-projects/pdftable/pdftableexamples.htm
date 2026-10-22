@@ -1,0 +1,317 @@
+<html>
+<head>
+<title>PDFTableExamples.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">PDFTableExamples.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.IO;
+using WebSupergoo.ABCpdf14;
+
+
+namespace PDFTableExamples {
+
+&nbsp;&nbsp;public class PDFTableExamplesApp {
+&nbsp;&nbsp;&nbsp;&nbsp;[STAThread]
+&nbsp;&nbsp;&nbsp;&nbsp;static void Main() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InvoiceTest();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SmallTest();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LargeTest();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpaceSampleTest();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;static private string ReadDataFromFile(string path) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamReader sr = File.OpenText(path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string result = sr.ReadToEnd();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sr.Close();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return result;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;static void SmallTest() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\TextData\\";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theText = ReadDataFromFile(theRez + "text6.txt");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc theDoc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// set up document
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FontSize = 16;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.Inset(20, 100);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theText = theText.Trim();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theText = theText.Replace("\r\n", "\r");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] theRows = theText.Split(new char[] {'\r'});
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// set up table
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable theTable = new PDFTable(theDoc, 5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.CellPadding = 5;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// add some rotated text
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.NextRow();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// We need to specify a height as the width that the text has
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// to be drawn into has to be fixed (much the same as table columns).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.SetRowHeight(72);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.HorizontalAlignment = 0; // because of rotation - aligned at bottom
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.TextStyle.VPos = 0.5; // because of rotation - aligned horizontally in middle
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j &lt; 5; j++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] names = { "One", "Two", "Three", "Four", "Five" };
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.SelectCell(theTable.Row, j, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.SelectionRotate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.AddText("Vertical Column Number " + names[j]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.SelectionReset();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.TextStyle.VPos = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// add the content
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.HorizontalAlignment = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; theRows.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.NextRow();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] theCols = theRows[i].Split(new char[] {'\t'});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theCols[0] = "&lt;stylerun hpos=0&gt;" + theCols[0] + "&lt;/stylerun&gt;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.AddTextStyled(theCols);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((i % 2) == 1) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.FillRow("220 220 220", i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.Frame();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int p = 1; p &lt;= theDoc.PageCount; p++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.PageNumber = p;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Save(Directory.GetParent(theBase).Parent.FullName + "\\SmallTable.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;static void LargeTest() 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\TextData\\";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theText = ReadDataFromFile(theRez + "text7.txt");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc theDoc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// set up document
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FontSize = 12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.Inset(20, 20);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable theTable = new PDFTable(theDoc, 6);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.SetColumnWidths(new double [] {2, 1, 3 , 2, 1, 4});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.CellPadding = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.RepeatHeader = true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theText = theText.Trim();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theText = theText.Replace("\r\n", "\r");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] theRows = theText.Split(new char[] {'\r'});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int thePage = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool theShade = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; theRows.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.NextRow();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] theCols = theRows[i].Split(new char[] {'\t'});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.AddTextStyled(theCols);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theDoc.PageNumber &gt; thePage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePage = theDoc.PageNumber;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theShade = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theShade)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTable.FillRow("200 200 200", theTable.Row);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theShade = ! theShade;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int p = 1; p &lt;= theDoc.PageCount; p++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.PageNumber = p;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Save(Directory.GetParent(theBase).Parent.FullName + "\\LargeTable.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;static void InvoiceTest() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\InvoiceData\\";
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InvoiceData invoiceData = new InvoiceData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;invoiceData.LoadFromFile(theRez + "travelfun.xml");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc theDoc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// set up document
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FontSize = 14;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.Inset(40, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int padding = 5;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable layoutTable = new PDFTable(theDoc, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.VerticalAlignment = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable headerTable = layoutTable.AddTable(2, padding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headerTable.SetColumnWidth(1, 4);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headerTable.NextCell();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XImage logoImage = new XImage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logoImage.SetFile(theRez + invoiceData.Company.logo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headerTable.AddImage(logoImage, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headerTable.NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable companyInfoTable = headerTable.AddTable(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;companyInfoTable.AddTextStyled(invoiceData.GetHeaderTableData());
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.NextRow();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.NextCell();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable orderTable = layoutTable.AddTable(3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderTable.SetColumnWidths(new double[] {3, 0.2, 2});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderTable.NextCell();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable customerTable = orderTable.AddTable(2, padding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;customerTable.SetColumnWidth(1, 3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;customerTable.AddTextStyled(invoiceData.GetCustomerTableData());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;customerTable.Frame();
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderTable.NextCell(2);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable orderInfoTable = orderTable.AddTable(2, padding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderInfoTable.SetColumnWidth(1, 2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderInfoTable.AddTextStyled(invoiceData.GetOrderTableData());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderInfoTable.Frame();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.NextRow();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.Advance(10);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable orderItemsTable = layoutTable.AddTable(4, padding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderItemsTable.RepeatHeader = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderItemsTable.FrameHeader = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderItemsTable.VerticalAlignment = 0.5;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderItemsTable.SetColumnWidths(new double[] {1,4,1,1});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderItemsTable.AddTextStyled(invoiceData.GetOrderItemsTableData());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderItemsTable.FrameColumns();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderItemsTable.FillColumn("240 240 240", 3);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.NextRow();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable footerTable = layoutTable.AddTable(3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;footerTable.SetColumnWidths(new double[] {3,2,2});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;footerTable.NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;footerTable.Advance(10);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable paymentTable = footerTable.AddTable(2, padding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paymentTable.AddTextStyled(invoiceData.GetPaymentTableData());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;paymentTable.Frame();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;footerTable.NextCell(2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable totalTable = footerTable.AddTable(2,padding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalTable.AddTextStyled(invoiceData.GetTotalTableData());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalTable.FrameColumns();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalTable.FillColumn("240 240 240", 1);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int p = 1; p &lt;= theDoc.PageCount; p++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.PageNumber = p;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Save(Directory.GetParent(theBase).Parent.FullName + "\\Invoice.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;static void SpaceSampleTest() 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = Directory.GetCurrentDirectory();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRez = Directory.GetParent(theBase).Parent.FullName + "\\";
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpaceSampleData spaceSampleData = new SpaceSampleData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spaceSampleData.LoadFromFile(theRez + "\\SpaceSampleData\\", theRez + "\\SpaceSampleData\\spaceSample.xml");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc theDoc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Font = theDoc.AddFont("Helvetica");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.FontSize = 12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Rect.Inset(20, 20);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable layoutTable = new PDFTable(theDoc, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable titleTable = layoutTable.AddTable(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;titleTable.CellPadding = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;titleTable.NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;titleTable.AddTextStyled("&lt;StyleRun fontsize = 30&gt;Conquering Space&lt;/StyleRun&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;titleTable.NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;titleTable.AddTextStyled("&lt;StyleRun fontsize = 20&gt;Apollo program overview &lt;/StyleRun&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;titleTable.NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;titleTable.AddTextStyled("Images and Text Courtesy of &lt;A href = \"http://images.jsc.nasa.gov/\"&gt; NASA &lt;/A&gt;");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;titleTable.Fill("230 230 230");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.Advance(10);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; spaceSampleData.Items.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpaceSampleItem item = spaceSampleData.Items[i] as SpaceSampleItem;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable itemTable = layoutTable.AddTable(1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itemTable.NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable headerTable = itemTable.AddTable(6, 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headerTable.SetColumnWidths(new double[6] {1.2, 1, 1, 1, 1, 1});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headerTable.AddEnumerableData(item.header);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;itemTable.NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable infoTable = itemTable.AddTable(1, 10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;infoTable.AddEnumerableData(item.info);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theColor = theDoc.Color.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Color.String = "255 255 255";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headerTable.FrameColumns();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;infoTable.FrameRows();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Color.String = theColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.FillRow("230 230 230", layoutTable.Row);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;layoutTable.Advance(3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int p = 1; p &lt;= theDoc.PageCount; p++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.PageNumber = p;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Save(Directory.GetParent(theBase).Parent.FullName + "\\SpaceSample.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

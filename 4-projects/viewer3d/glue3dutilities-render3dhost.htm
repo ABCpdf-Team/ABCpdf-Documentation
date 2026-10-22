@@ -1,0 +1,164 @@
+<html>
+<head>
+<title>Glue3DUtilities\Render3DHost.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Glue3DUtilities\Render3DHost.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Windows;
+using System.Windows.Interop;
+using System.Runtime.InteropServices;
+
+namespace Glue3DUtilities
+{
+&nbsp;&nbsp;/// &lt;summary&gt;Implementation of HwndHost to host the Win32 based OpenGL window&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;internal class Render3DHost : HwndHost
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;#region Private Data
+
+&nbsp;&nbsp;&nbsp;&nbsp;private int m_width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private int m_height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private IntPtr m_renderProxyHwnd;
+&nbsp;&nbsp;&nbsp;&nbsp;private static int s_viewCounter = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;IntPtr to the RenderProxy instance&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public IntPtr RenderProxy { get; private set; }
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The name of the RenderProxy instance&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public string ProxyName { get; private set; }
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Flags describing details of the RenderProxy, see also ERenderProxyFlags&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public uint ProxyFlags { get; private set; }
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The antialiasing color samples currently used&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public ushort AntialiasingColorSamples { get; private set; }
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The antialiasing coverage samples currently used (CSAA)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public ushort AntialiasingCoverageSamples { get; private set; }
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The list of available antialiasing modes. Note: Uses packed ints containing the color (lo word) and coverage (hi word) samples&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public uint[] AvailableAAModes { get; private set; }
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The currently used anisotropic filtering mode&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public uint Anisotropy { get; private set; }
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The list of available anisotropic filtering modes&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public uint[] AnisotropyModes { get; private set; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Methods
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Construct an instance, specifying window dimensions&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public Render3DHost(double width, double height)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_width = (Int32)width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_height = (Int32)height;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderProxy = IntPtr.Zero;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_renderProxyHwnd = IntPtr.Zero;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set up the core window from an HWND; part of HwndHost interface&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override HandleRef BuildWindowCore(HandleRef parent)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++s_viewCounter;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebSupergoo.RenderProxyParams proxyParams = new WebSupergoo.RenderProxyParams();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxyParams.parent = parent.Handle.ToInt64();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxyParams.width = (UInt32)m_width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxyParams.height = (UInt32)m_height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxyParams.setUInt32List = delegate (int field, uint[] list, uint count) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch(field) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.RenderProxyParams.availableAAModesField:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AvailableAAModes = list;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case WebSupergoo.RenderProxyParams.anisotropyModesField:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AnisotropyModes = list;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebSupergoo.RenderProxyInfo proxyInfo = new WebSupergoo.RenderProxyInfo();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderProxy = Dll_Glue3D.CreateRenderProxy(proxyParams, ref proxyInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name = Dll_Glue3D.StringFromDll(proxyInfo.name, proxyInfo.nameLen);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProxyFlags = proxyInfo.flags;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AntialiasingColorSamples = proxyInfo.antialiasingColorSamples;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AntialiasingCoverageSamples = proxyInfo.antialiasingCoverageSamples;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Anisotropy = proxyInfo.anisotropy;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (RenderProxy == IntPtr.Zero)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new HandleRef(null, IntPtr.Zero);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_renderProxyHwnd = Dll_Glue3D.GetRenderProxyHwnd(RenderProxy);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (m_renderProxyHwnd == IntPtr.Zero)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new HandleRef(null, IntPtr.Zero);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new HandleRef(this, m_renderProxyHwnd);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Destroy the core (HWND base) window; part of HwndHost interface&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void DestroyWindowCore(HandleRef hwnd)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (RenderProxy != IntPtr.Zero)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.DestroyRenderProxy(RenderProxy);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RenderProxy = m_renderProxyHwnd = IntPtr.Zero;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_User32.DestroyWindow(m_renderProxyHwnd);            
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Window procedure (not handling anything in this case)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;handled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return IntPtr.Zero;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;}
+
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

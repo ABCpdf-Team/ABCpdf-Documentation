@@ -31,6 +31,11 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=43">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 13, page 35.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 13, page 48.</a></p>
 </p>
+<!-- addition start -->
+<p>The DCT decode parameters dictionary configures the DCTDecode filter, which implements JPEG lossy compression for continuous-tone image data.</p>
+<p>The ColorTransform entry controls the color space transformation applied before or after JPEG encoding. A value of 0 means no transformation is applied. A value of 1 applies an RGB-to-YCbCr transformation for three-component images, or a CMYK-to-YCCK transformation for four-component images.</p>
+<p>Most JPEG images embedded in PDFs do not require an explicit DCT parameter dictionary because the JPEG data stream itself carries the necessary metadata. The parameter dictionary is needed only when the default color transform behaviour must be overridden.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

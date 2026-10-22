@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=512">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 292, page 504.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 303, page 631.</a></p>
 </p>
+<!-- addition start -->
+<p>A software identifier dictionary identifies a software application by URI and version constraints. It is used in media player info dictionaries to name a specific media player and to express minimum and maximum version requirements.</p>
+<p>The U entry holds the URI that identifies the software. This URI is typically a vendor-defined string that uniquely identifies the player, not necessarily a URL.</p>
+<p>The L entry holds the minimum allowed version as an array of non-negative integers giving the version components from most to least significant. The LI entry, when true, makes the minimum version inclusive.</p>
+<p>The H entry holds the maximum allowed version. The HI entry, when true, makes the maximum version inclusive. The OS entry specifies the operating systems on which this player runs.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

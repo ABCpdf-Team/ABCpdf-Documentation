@@ -71,6 +71,10 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=267">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 112, page 259.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 110, page 314.</a></p>
+<!-- addition start -->
+<p>The bounding box is expressed in glyph space coordinates, before the FontMatrix transformation. It should be large enough to enclose every glyph in the font.</p>
+<p>If all four values are zero, the viewer is free to determine the bounding box by other means. This can disable clipping of glyph rendering, which may be useful for glyphs that intentionally paint outside their natural bounds.</p>
+<!-- addition end -->
 
             <p>&nbsp;</p>
             </td>

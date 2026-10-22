@@ -43,6 +43,14 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A type 3 font differs from all other font types in that the glyph shapes are defined by PDF content streams stored directly in the file, rather than by an embedded font program. Each glyph is a named content stream in the CharProcs dictionary.</p>
+<p>The FontMatrix maps glyph space coordinates to text space. The conventional value scales glyph units so that 1000 glyph units equal one text space unit, matching the convention used by Type1 and TrueType. Other values can be used to suit the coordinate system of the glyph streams.</p>
+<p>FontBBox gives the bounding box of the font in glyph space. It should enclose all glyphs. The viewer may use it to clip glyph rendering. Giving a zero-size box disables clipping.</p>
+<p>Encoding maps character codes to glyph names. Unlike type 1 and TrueType, type 3 encoding must use an EncodingElement dictionary; a bare encoding name is not permitted.</p>
+<p>The Resources entry lists the PDF resources, such as graphics state parameters or images, that the glyph streams may reference. If a glyph stream uses no external resources, Resources can be an empty dictionary.</p>
+<p>Type3 fonts are device-dependent because the glyph streams are rendered in user space. The same glyphs may look different at different sizes or on different devices.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

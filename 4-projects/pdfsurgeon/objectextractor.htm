@@ -1,0 +1,902 @@
+<html>
+<head>
+<title>ObjectExtractor.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">ObjectExtractor.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using SD2 = System.Drawing.Drawing2D;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Operations;
+
+namespace WebSupergoo.PDFSurgeon {
+&nbsp;&nbsp;public sealed class ExtractorContext {
+&nbsp;&nbsp;&nbsp;&nbsp;private static readonly string[] _aActionEntryList = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"O", "C", "K", "F", "V", "C",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"E", "X", "D", "U", "Fo", "Bl", "PO", "PC", "PV", "PI",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"WC", "WS", "DS", "WP", "DP"
+&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;&nbsp;&nbsp;private static readonly string[] _aActionSearchList;
+
+&nbsp;&nbsp;&nbsp;&nbsp;static ExtractorContext() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_aActionSearchList = new string[_aActionEntryList.Length];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; _aActionEntryList.Length; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_aActionSearchList[i] = ',' + _aActionEntryList[i] + ',';
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private HashSet&lt;int&gt; _pageContentList;
+&nbsp;&nbsp;&nbsp;&nbsp;private Dictionary&lt;int, int&gt; _pageContentIdToPageId;
+&nbsp;&nbsp;&nbsp;&nbsp;private Dictionary&lt;int, int&gt; _pageContentIdToPageNumber;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;int&gt; _cmapList;
+&nbsp;&nbsp;&nbsp;&nbsp;private SortedDictionary&lt;int, string&gt; _xfaDict;
+&nbsp;&nbsp;&nbsp;&nbsp;private SortedDictionary&lt;int, ScriptType&gt; _scriptDict;
+&nbsp;&nbsp;&nbsp;&nbsp;private SortedDictionary&lt;int, string&gt; _type3GlyphDict;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ExtractorContext() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pageContentList = new HashSet&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pageContentIdToPageId = new Dictionary&lt;int, int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pageContentIdToPageNumber = new Dictionary&lt;int, int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_cmapList = new List&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_xfaDict = new SortedDictionary&lt;int, string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_scriptDict = new SortedDictionary&lt;int, ScriptType&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_type3GlyphDict = new SortedDictionary&lt;int, string&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public HashSet&lt;int&gt; PageContents { get { return _pageContentList; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public Dictionary&lt;int, int&gt; PageContentIdToPageId { get { return _pageContentIdToPageId; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public Dictionary&lt;int, int&gt; PageContentIdToPageNumber { get { return _pageContentIdToPageNumber; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;int&gt; CMaps { get { return _cmapList; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public SortedDictionary&lt;int, string&gt; Xfa { get { return _xfaDict; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public SortedDictionary&lt;int, ScriptType&gt; Scripts { get { return _scriptDict; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public SortedDictionary&lt;int, string&gt; Type3Glyphs { get { return _type3GlyphDict; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddXfa(int id, string name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_xfaDict.TryGetValue(id, out oldName)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oldName == name)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (name != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oldName == "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_xfaDict[id] = name;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddScript(int id, ScriptType type) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ScriptType oldType;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_scriptDict.TryGetValue(id, out oldType))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldType.Add(type);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_scriptDict[id] = type;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddAction(Doc doc, int id, ScriptType type) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int jsId = doc.GetInfoInt(id, "/A*/JS:Ref");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (jsId != 0 &amp;&amp; doc.GetInfo(id, "/A*/S*:Name") == "JavaScript")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddScript(jsId, type);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddAdditionalAction(Doc doc, int id, ScriptType type) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string keys = doc.GetInfo(id, "/AA*:Keys");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (keys == "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keys = ',' + keys + ',';
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; _aActionSearchList.Length; ++i) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (keys.IndexOf(_aActionSearchList[i]) &gt;= 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string path = "/AA*/" + _aActionEntryList[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int jsId = doc.GetInfoInt(id, path + "*/JS:Ref");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (jsId != 0 &amp;&amp; doc.GetInfo(id, path + "*/S*:Name") == "JavaScript")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddScript(jsId, type);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddType3Glyph(Doc doc, int id) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string s = doc.GetInfo(id, "/CharProcs*:Keys");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (s != "") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] keys = s.Split(new char[] { ',' },
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringSplitOptions.RemoveEmptyEntries);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (string name in keys) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int glyphId = doc.GetInfoInt(id, "/CharProcs*/" + name + ":Ref");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (glyphId != 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_type3GlyphDict.TryGetValue(glyphId, out oldName)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oldName == name || oldName == "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_type3GlyphDict[glyphId] = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_type3GlyphDict[glyphId] = name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;public class Preview {
+&nbsp;&nbsp;&nbsp;&nbsp;public static Image InitialImage { get; set; }
+&nbsp;&nbsp;&nbsp;&nbsp;public static Image ErrorImage { get; set; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Page Page;
+&nbsp;&nbsp;&nbsp;&nbsp;public IndirectObject Target;
+&nbsp;&nbsp;&nbsp;&nbsp;public double Scale;
+&nbsp;&nbsp;&nbsp;&nbsp;public Image Image;
+&nbsp;&nbsp;&nbsp;&nbsp;public GraphicsScanner.Graphics Graphics;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Preview() { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Preview(Page page, IndirectObject target) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page = page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Image = InitialImage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Target = target;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var mediaBox = page.MediaBox;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double dimension = mediaBox != null ? Math.Max(mediaBox.Width, mediaBox.Height) : 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scale = dimension &lt; 850 ? 1.0 : 850 / dimension;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Preview(Bitmap bm) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Image = bm != null ? bm : ErrorImage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scale = 1.0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Reload() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Page == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Image = InitialImage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Graphics = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = Page.Doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = Page.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.SetRect(doc.MediaBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double top = doc.Rect.Top;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double dpi = 72.0 * Scale;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rendering.DotsPerInch = dpi;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// We could run parts of this in a separate thread. However we need
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// to be careful here as the process of changing the value of the content stream
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// might interfere with an ongoing render operation with catastrophic results.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (var operation = new RenderOperation(doc)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Image = operation.GetBitmap();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var scanner = new GraphicsScanner(Target);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var results = scanner.GetResults();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;results.Transform((float)top, (float)dpi);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Graphics = results;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Image = ErrorImage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public sealed class ScriptType {
+&nbsp;&nbsp;&nbsp;&nbsp;public string DocumentName;
+&nbsp;&nbsp;&nbsp;&nbsp;public string PageName;
+&nbsp;&nbsp;&nbsp;&nbsp;public string AnnotationName;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public static ScriptType NewDocument(string name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ScriptType v = new ScriptType();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v.DocumentName = name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return v;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;public static ScriptType NewPage(string name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ScriptType v = new ScriptType();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v.PageName = name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return v;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;public static ScriptType NewAnnotation(string name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ScriptType v = new ScriptType();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v.AnnotationName = name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return v;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Add(ScriptType v) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (DocumentName != v.DocumentName)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DocumentName = DocumentName == null ? v.DocumentName : "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (PageName != v.PageName)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageName = PageName == null ? v.PageName : "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (AnnotationName != v.AnnotationName)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AnnotationName = AnnotationName == null ? v.AnnotationName : "";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class Property {
+&nbsp;&nbsp;&nbsp;&nbsp;public Property(string key, string value) { K = key; V = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;public string K { get; set; }
+&nbsp;&nbsp;&nbsp;&nbsp;public string V { get; set; }
+&nbsp;&nbsp;&nbsp;&nbsp;public string Summary { get { int n = 0; return K != "ID" &amp;&amp; int.TryParse(V, out n) ? $"{K} {V}" : $"{V}"; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public string Detail { get { return V.Contains(" ") ? $"{K}: \"{V}\"" : $"{K}: {V}"; } }
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class ObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public static ObjectExtractor FromIndirectObject(IndirectObject obj, ExtractorContext context) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentNullException("obj", "IndirectObject obj cannot be null.");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is StreamObject)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return StreamObjectExtractor.FromStreamObject((StreamObject)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is Annotation)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new AnnotationExtractor((Annotation)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is Page)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new PageExtractor((Page)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is Pages)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new PagesExtractor((Pages)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is FontObject)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new FontObjectExtractor((FontObject)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is Field)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return FieldExtractor.FromField((Field)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is GraphicsState)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new GraphicsStateExtractor((GraphicsState)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is Bookmark)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return BookmarkExtractor.FromBookmark((Bookmark)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is ColorSpace)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new ColorSpaceExtractor((ColorSpace)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is Catalog)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new CatalogExtractor((Catalog)obj, context);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new ObjectExtractor(obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private IndirectObject _obj;
+&nbsp;&nbsp;&nbsp;&nbsp;private ExtractorContext _context;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ObjectExtractor(IndirectObject obj, ExtractorContext context) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_obj = obj;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_context = context;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Doc Doc { get { return _obj.Doc; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public IndirectObject Object { get { return _obj; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public ExtractorContext Context { get { return _context; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual bool IsAscii { get { return true; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void Invalidate() { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual string GetValue(Doc doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((doc == null) || (_obj == null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return doc.GetInfo(_obj.ID, "value").Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetValue(Doc doc, string value) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((doc == null) || (_obj == null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = _obj.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.SetInfo(id, "value", value);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_obj = doc.ObjectSoup[id];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;Property&gt; GetProperties() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var props = new List&lt;Property&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception ex) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Error", $"{ex.Message}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return props;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("ID", $"{_obj.ID}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Name", $"{_obj.GetType().Name}"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual Preview GetPreview(bool reload) { return null; }
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual string GetAtom() { return Object.Atom.ToString(); }
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual string GetContent() { return Object.Atom.ToString(); }
+
+&nbsp;&nbsp;&nbsp;&nbsp;protected static string FormatList(string[] list) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (list == null || list.Length &lt;= 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder builder = new StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;builder.Append(list[0]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt; list.Length; ++i)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;builder.Append(", ").Append(list[i]);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return builder.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class CatalogExtractor : ObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public CatalogExtractor(Catalog obj, ExtractorContext context) : base(obj, context) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = obj.Doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = obj.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int treeId = doc.GetInfoInt(id, "/Names*/JavaScript:Ref");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (treeId != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddScriptInTree(doc, context, treeId);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count = doc.GetInfoInt(id, "/AcroForm*/XFA*:Count");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; count; i += 2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.AddXfa(doc.GetInfoInt(id,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"/AcroForm*/XFA*[" + (i + 1).ToString() + "]:Ref"),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.GetInfo(id, "/AcroForm*/XFA*[" + i.ToString() + "]*:Text"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int xfaId = doc.GetInfoInt(id, "/AcroForm*/XFA:Ref");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (xfaId != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.AddXfa(xfaId, null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;private static void AddScriptInTree(Doc doc, ExtractorContext context, int nodeId) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count = doc.GetInfoInt(nodeId, "/Kids*:Count");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; count; ++i) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int childNodeId = doc.GetInfoInt(nodeId, "/Kids*[" + i.ToString() + "]:Ref");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (childNodeId != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddScriptInTree(doc, context, childNodeId);    // recur on childNodeID
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count = doc.GetInfoInt(nodeId, "/Names*:Count");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; count; i += 2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string path = "/Names*[" + (i + 1).ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int jsId = doc.GetInfoInt(nodeId, path + "]*/JS:Ref");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (jsId != 0 &amp;&amp; doc.GetInfo(nodeId, path + "]*/S*:Name") == "JavaScript") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.AddScript(jsId, ScriptType.NewDocument(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.GetInfo(nodeId, "/Names*[" + i.ToString() + "]*:Text")));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new Catalog Object { get { return (Catalog)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Catalog obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Revisions", $"{obj.Soup.Revisions}"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class ColorSpaceExtractor : ObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public ColorSpaceExtractor(ColorSpace obj, ExtractorContext context) : base(obj, context) { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new ColorSpace Object { get { return (ColorSpace)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ColorSpace obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Name", $"{obj.Name}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("ColorSpace", $"{ obj.ColorSpaceType}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Components", $"{ obj.Components}"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class BookmarkExtractor : ObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public static BookmarkExtractor FromBookmark(Bookmark obj, ExtractorContext context) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is Outline)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new OutlineExtractor((Outline)obj, context);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new BookmarkExtractor(obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public BookmarkExtractor(Bookmark obj, ExtractorContext context) : base(obj, context) { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new Bookmark Object { get { return (Bookmark)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bookmark obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Title", $"{obj.Title}"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class OutlineExtractor : BookmarkExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public OutlineExtractor(Outline obj, ExtractorContext context) : base(obj, context) { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new Outline Object { get { return (Outline)base.Object; } }
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class GraphicsStateExtractor : ObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public GraphicsStateExtractor(GraphicsState obj, ExtractorContext context) : base(obj, context) { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new GraphicsState Object { get { return (GraphicsState)base.Object; } }
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class FieldExtractor : ObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public static FieldExtractor FromField(Field obj, ExtractorContext context) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is Signature)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new SignatureExtractor((Signature)obj, context);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new FieldExtractor(obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public bool IsCombinedWithWidget = false;
+&nbsp;&nbsp;&nbsp;&nbsp;public FieldExtractor(Field obj, ExtractorContext context) : base(obj, context) { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new Field Object { get { return (Field)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!IsCombinedWithWidget)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Field obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Name", $"{obj.Name}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Value", $"{obj.Value}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Type", $"{obj.FieldType}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!string.IsNullOrWhiteSpace(obj.Format))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Format", $"{obj.Format}"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class SignatureExtractor : FieldExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public SignatureExtractor(Signature obj, ExtractorContext context) : base(obj, context) { Object.Validate(); }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new Signature Object { get { return (Signature)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signature obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Revision", $"{obj.SigningRevision} of {obj.Soup.Revisions}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("IsModified", $"{obj.IsModified}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("IsTimeValid", $"{obj.IsTimeValid}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("IsSecure", $"{obj.IsSecure}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("IsTrusted", $"{obj.IsTrusted}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj.Signer != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Signer", $"{obj.Signer}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj.Reason != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Reason", $"{obj.Reason}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj.Location != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Location", $"{obj.Location}"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class FontObjectExtractor : ObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public FontObjectExtractor(FontObject obj, ExtractorContext context)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: base(obj, context) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = obj.Doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = obj.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int cmapId = doc.GetInfoInt(id, "/ToUnicode:Ref");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (cmapId != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.CMaps.Add(cmapId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.AddType3Glyph(doc, id);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new FontObject Object { get { return (FontObject)base.Object; } }
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class AnnotationExtractor : ObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public FieldExtractor _fieldExtractor = null;
+&nbsp;&nbsp;&nbsp;&nbsp;public FormXObjectExtractor _formxExtractor = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public AnnotationExtractor(Annotation obj, ExtractorContext context) : base(obj, context) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = obj.Doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = obj.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ScriptType scryptType = ScriptType.NewAnnotation(id.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.AddAction(doc, id, scryptType);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.AddAdditionalAction(doc, id, scryptType);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var field = obj.Doc.Form[obj.FullName];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (field != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fieldExtractor = FieldExtractor.FromField(field, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fieldExtractor.IsCombinedWithWidget = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new Annotation Object { get { return (Annotation)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Annotation obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("SubType", $"{obj.SubType}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_fieldExtractor != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fieldExtractor.GetProperties(props);
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override Preview GetPreview(bool reload) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Annotation obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_formxExtractor == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var ap = obj.NormalAppearance;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ap == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.UpdateAppearance();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ap = obj.NormalAppearance;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ap != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_formxExtractor = new FormXObjectExtractor(ap, Context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_formxExtractor != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _formxExtractor.GetPreview(reload);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class PageExtractor : ObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;private string _atom;
+&nbsp;&nbsp;&nbsp;&nbsp;private int _pageNum;
+&nbsp;&nbsp;&nbsp;&nbsp;private Preview _image;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public PageExtractor(Page obj, ExtractorContext context) : base(obj, context) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_atom = obj.Atom.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = obj.Doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = obj.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (doc.Page == id)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pageNum = doc.PageNumber;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.AddAdditionalAction(doc, id, ScriptType.NewPage(id.ToString()));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (StreamObject so in obj.GetLayers()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.PageContents.Add(so.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.PageContentIdToPageId[so.ID] = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.PageContentIdToPageNumber[so.ID] = _pageNum;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new Page Object { get { return (Page)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_pageNum != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Page", $"{_pageNum}"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override Preview GetPreview(bool reload) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_image == null || reload) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_image = new Preview(Object, Object);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_image.Reload();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _image;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override string GetAtom() { return _atom; }
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class PagesExtractor : ObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public PagesExtractor(Pages obj, ExtractorContext context) : base(obj, context) { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new Pages Object { get { return (Pages)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pages obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Count", $"{obj.Count}"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class StreamObjectExtractor : ObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public static StreamObjectExtractor FromStreamObject(StreamObject obj, ExtractorContext context) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is PixMap)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new PixMapExtractor((PixMap)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is Layer)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return LayerExtractor.FromLayer((Layer)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is IccProfile)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new IccProfileExtractor((IccProfile)obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj is FormXObject)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new FormXObjectExtractor((FormXObject)obj, context);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new StreamObjectExtractor(obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private string _atom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public StreamObjectExtractor(StreamObject obj, ExtractorContext context) : base(obj, context) { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new StreamObject Object { get { return (StreamObject)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override bool IsAscii {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject so = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (so == null) return true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte[] data = so.GetData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; data.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((data[i] &gt;= 32) &amp;&amp; (data[i] &lt; 128))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((data[i] != '\r') &amp;&amp; (data[i] != '\n') &amp;&amp; (data[i] != '\t'))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return base.IsAscii;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override string GetValue(Doc doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!ContentPageNumber.HasValue)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return base.GetValue(doc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject so = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((doc == null) || (so == null))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return doc.GetInfo(so.ID, "value");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public string StreamType { get; set; }
+&nbsp;&nbsp;&nbsp;&nbsp;public int? ContentPageNumber { get; set; }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void Invalidate() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_atom = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamType = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Invalidate();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateStreamType();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("StreamType", $"{StreamType}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Compression", $"{obj.Compression}"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Length", $"{obj.Length}"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void UpdateStreamType() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (StreamType != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ContentPageNumber != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamType = $"Page {ContentPageNumber} Content";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = obj.Doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = obj.ID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string type = doc.GetInfo(id, "/Type*:Name");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (type == "Metadata")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamType = "Metadata";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (doc.GetInfo(id, "/PatternType") != "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamType = "Pattern";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (doc.GetInfoInt(id, "/FunctionType*:Num") == 4)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamType = "Function/Type-4";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamType = "";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool ContainsText() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CompressionType[] comps = obj.Compressions;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CompressionType comp = comps.Length &gt; 0 ? comps[0] : CompressionType.None;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (comp == CompressionType.AsciiHex) || (comp == CompressionType.Ascii85);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override string GetAtom() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_atom == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_atom = base.GetAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _atom;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override string GetContent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateStreamType();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (StreamType != "") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_atom == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_atom = base.GetAtom();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int len = obj.CopyDecompressedData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte[] data = new byte[len];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.CopyDecompressedData(data);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Encoding.ASCII.GetString(data);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ContainsText()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Object.GetText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return base.GetContent();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public string GetSnippet() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const int max = 250;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string txt = Object.GetText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (txt.Length &gt; max)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txt = txt.Substring(0, max);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txt = Regex.Escape(txt);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txt = txt.Replace("\u0000", @"\0");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (txt.Length &gt; max)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txt = txt.Substring(0, max - 3) + "...";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return txt;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class IccProfileExtractor : StreamObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public IccProfileExtractor(IccProfile obj, ExtractorContext context) : base(obj, context) { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new IccProfile Object { get { return (IccProfile)base.Object; } }
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class PixMapExtractor : StreamObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;private Preview _image;
+&nbsp;&nbsp;&nbsp;&nbsp;public PixMapExtractor(PixMap obj, ExtractorContext context) : base(obj, context) { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new PixMap Object { get { return (PixMap)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PixMap obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int n = obj.Components;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int bpc = obj.BitsPerComponent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("PixMap", $"{obj.Width}\u00d7{obj.Height} {obj.ColorSpaceType} {n} col {bpc} bit"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override Preview GetPreview(bool reload) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_image == null || reload)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Object.Width &gt; 0 &amp;&amp; Object.Height &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_image = new Preview(Object.GetBitmap());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _image;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class LayerExtractor : StreamObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;public static LayerExtractor FromLayer(Layer obj, ExtractorContext context) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new LayerExtractor(obj, context);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public LayerExtractor(Layer obj, ExtractorContext context) : base(obj, context) { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new Layer Object { get { return (Layer)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void GetProperties(List&lt;Property&gt; props) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.GetProperties(props);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Layer obj = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;props.Add(new Property("Rect", $"{obj.Rect}"));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;public class FormXObjectExtractor : StreamObjectExtractor {
+&nbsp;&nbsp;&nbsp;&nbsp;private Preview _image;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public FormXObjectExtractor(FormXObject obj, ExtractorContext context) : base(obj, context) { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public new FormXObject Object { get { return (FormXObject)base.Object; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override Preview GetPreview(bool reload) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_image == null || reload) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var pair = MakePage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_image = new Preview(pair.Item1, pair.Item2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_image.Reload();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _image;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Tuple&lt;Page, FormXObject&gt; MakePage() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FormXObject me = Object;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSoupSubset subset = new ObjectSoupSubset(me.Soup);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subset.AddFamily(me);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc doc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.MediaBox.String = me.BBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Rect.String = doc.MediaBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.Page = doc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subset.CopyTo(doc.ObjectSoup);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (var io in doc.ObjectSoup)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (io != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;io.Transcode();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = subset.RemapIDs[me.ID];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FormXObject form = doc.ObjectSoup[id] as FormXObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;form.Matrix = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddXObject(form);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Page page = (Page)doc.ObjectSoup[doc.Page];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new Tuple&lt;Page, FormXObject&gt;(page, form);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;internal sealed class TemporaryFile : IDisposable {
+&nbsp;&nbsp;&nbsp;&nbsp;private string mPath;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private TemporaryFile() { }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public TemporaryFile(string ext) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPath = GetTempFilePath(ext);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;~TemporaryFile() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispose(false);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Dispose() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dispose(true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GC.SuppressFinalize(this);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;// sealed class cannot introduce virtual method
+&nbsp;&nbsp;&nbsp;&nbsp;// warned if sealed class introduces protected member
+&nbsp;&nbsp;&nbsp;&nbsp;private /*virtual*/ void Dispose(bool disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DeleteFile();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public string Path { get { return mPath; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void DeleteFile() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mPath != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (File.Exists(mPath))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File.Delete(mPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPath = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static string GetTempFilePath(string ext) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (string.IsNullOrWhiteSpace(ext))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ext = ".dat";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (!ext.StartsWith("."))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ext = "." + ext;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return System.IO.Path.Combine(System.IO.Path.GetTempPath(), Guid.NewGuid().ToString() + ext);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;internal class Navigator {
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;int&gt; _ids = new List&lt;int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;private int _pos = -1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Add(int id) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_pos &gt;= 0 &amp;&amp; _pos &lt; _ids.Count &amp;&amp; _ids[_pos] == id)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (_pos &gt;= 0 &amp;&amp; _pos &lt; _ids.Count - 1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_ids.RemoveAt(_ids.Count - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_ids.Add(id);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pos = _ids.Count - 1;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public bool CanNavigate() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _ids.Count &gt; 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public int Forward() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pos = Math.Min(_pos + 1, _ids.Count - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _ids[_pos];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public int Back() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pos = Math.Max(_pos - 1, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return _ids[_pos];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

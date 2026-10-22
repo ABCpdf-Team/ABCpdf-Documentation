@@ -53,6 +53,7 @@
         <TBODY>
         <TR>
           <TD>
+            <P>This property applies to the <a href="2-formshtml.htm">MSHTML</a> engine only.</P>
             <P>This delegate is called when embedding an object.</P>
             <P>Objects embedded in HTML, such as those with the embed HTML tags, 
             will trigger the callback if they are of certain content types. This 
@@ -163,22 +164,16 @@ case-sensitive.</TD></TR>
 </code></pre></TD>
                 <TD>None</TD>
                 <TD>No</TD>
-                <TD>The conversion for the value. 
-                  <TABLE class=wsgtable borderColor=#ffffff cellSpacing=0 
-                  cellPadding=3 border=5>
-                    <TBODY>
-                    <TR>
-                      <TD 
-                        align=middle><B><SMALL>HtmlParameterConversionType</SMALL></B></TD>
-                      <TD><B>Description</B></TD></TR>
-                    <TR>
-                      <TD align=middle>None</TD>
-                      <TD>No conversion.</TD></TR>
-                    <TR>
-                      <TD align=middle>UrlToTextFileContent</TD>
-                      <TD>Sets the value to the text content of the file 
-                        pointed to by Value as a 
-              URL.</TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+                <TD><p>The conversion for the value. 
+                </p>
+                  <ul>
+                    <li>HtmlParameterConversionType None - No conversion.</li>
+                    <li>HtmlParameterConversionType UrlToTextFileContent - Sets the value to the text content of the file 
+                      pointed to by Value as a 
+                      URL.</li>
+                    </ul>
+                  <p>&nbsp;</p></TD>
+              </TR></TBODY></TABLE>
             <P>&nbsp;</P></TD>
           <TD width=60>&nbsp;</TD>
           <TD width=11>&nbsp;</TD></TR></TBODY></TABLE></TD></TR>

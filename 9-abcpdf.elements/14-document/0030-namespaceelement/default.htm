@@ -33,6 +33,12 @@
 <p>This class is always an indirect object because AttributeObjectElement.EntryNS, NamespaceElement.EntryRoleMapNS and StructureElementElement.EntryNS require it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>A namespace element defines a namespace used in a tagged PDF document structure tree. Namespaces allow structure element types from different specifications to coexist without name collisions.</p>
+<p>The NS entry holds the namespace URI as a string. This URI uniquely identifies the namespace and distinguishes its element types from those of other namespaces, including the standard PDF namespace.</p>
+<p>The Schema entry references an associated file carrying a schema definition for the namespace, describing the permitted element types, attributes, and relationships.</p>
+<p>The RoleMapNS entry provides a mapping from element type names in this namespace to standard PDF structure type names, allowing readers that do not support the namespace to apply standard semantics.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

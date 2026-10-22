@@ -32,6 +32,14 @@
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 21, page 77.</a></p>
 <p><a target="_blank" href="http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=16">Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.19, page 16.</a></p>
 </p>
+<!-- addition start -->
+<p>The standard encryption dictionary extends the base encryption dictionary with entries specific to the standard password-based security handler. It stores the hashed and encrypted forms of the owner and user passwords.</p>
+<p>The O entry holds data derived from the owner password. The U entry holds data derived from the user password and the document encryption key. Together, these entries allow a reader to verify a supplied password and recover the document encryption key.</p>
+<p>In PDF 2.0 (revision 6), the OE and UE entries hold the document encryption key encrypted under the owner and user passwords respectively. This design means the encryption key is not derived from the password but is instead a random key stored in encrypted form.</p>
+<p>The P entry is a set of permission flags stored as a signed 32-bit integer. The bits control operations such as printing, copying, and modifying the document. These flags are enforced by conforming readers and are included in the encryption key derivation to prevent tampering.</p>
+<p>The Perms entry, present in revision 6, holds an encrypted copy of the permission flags and other metadata. A reader verifies this entry after decryption to confirm that the P flags have not been altered.</p>
+<p>The EncryptMetadata entry controls whether the document's XML metadata stream is encrypted. When false, the metadata remains accessible without decryption, supporting metadata indexing by search engines and other tools.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

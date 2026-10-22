@@ -1,0 +1,862 @@
+<html>
+<head>
+<title>Drawing\Chart.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Drawing\Chart.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">using System;
+using System.ComponentModel;
+using System.Collections;
+using System.Diagnostics;
+using System.Windows.Forms;
+using System.Drawing.Drawing2D;
+using System.Drawing;
+using System.Globalization;
+
+namespace Nolme.WinForms
+{
+&nbsp;&nbsp;public enum ChartRenderingMode
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;Linear3d,
+&nbsp;&nbsp;&nbsp;&nbsp;BarWith3d,
+&nbsp;&nbsp;&nbsp;&nbsp;Max
+&nbsp;&nbsp;};
+
+&nbsp;&nbsp;public enum ChartCumulativeMode
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;StartFrom0,
+&nbsp;&nbsp;&nbsp;&nbsp;StartFromLastValue,
+&nbsp;&nbsp;&nbsp;&nbsp;Max
+&nbsp;&nbsp;};
+
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for Chart.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class Chart : CustomPanel&nbsp;&nbsp;//System.ComponentModel.Component
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required designer variable.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.ComponentModel.Container components = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private int&nbsp;&nbsp;&nbsp;&nbsp;m_LeftMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;private int&nbsp;&nbsp;&nbsp;&nbsp;m_RightMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;private int&nbsp;&nbsp;&nbsp;&nbsp;m_TopMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;private int&nbsp;&nbsp;&nbsp;&nbsp;m_BottomMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;private int&nbsp;&nbsp;&nbsp;&nbsp;m_DeltaDepth;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool&nbsp;&nbsp;m_DisplayTextOnColumns;
+&nbsp;&nbsp;&nbsp;&nbsp;private bool&nbsp;&nbsp;m_DisplayHiddenSides;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Pen&nbsp;&nbsp;&nbsp;&nbsp;m_GridPen;
+&nbsp;&nbsp;&nbsp;&nbsp;private Pen&nbsp;&nbsp;&nbsp;&nbsp;m_GridPenFor0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Pen&nbsp;&nbsp;&nbsp;&nbsp;m_ColumnPen;
+&nbsp;&nbsp;&nbsp;&nbsp;private Font&nbsp;&nbsp;m_ColumnFont;
+&nbsp;&nbsp;&nbsp;&nbsp;private Font&nbsp;&nbsp;m_ColumnTitleFont;
+&nbsp;&nbsp;&nbsp;&nbsp;private Pen&nbsp;&nbsp;&nbsp;&nbsp;m_HiddenColumnPen;
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;private Brush&nbsp;&nbsp;m_LegendBrush;
+&nbsp;&nbsp;&nbsp;&nbsp;private Font&nbsp;&nbsp;m_LegendFont;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private int&nbsp;&nbsp;&nbsp;&nbsp;m_VerticalAxisMinValue;
+&nbsp;&nbsp;&nbsp;&nbsp;private int&nbsp;&nbsp;&nbsp;&nbsp;m_VerticalAxisMaxValue;
+&nbsp;&nbsp;&nbsp;&nbsp;private int&nbsp;&nbsp;&nbsp;&nbsp;m_VerticalAxisStep;
+&nbsp;&nbsp;&nbsp;&nbsp;private int&nbsp;&nbsp;&nbsp;&nbsp;m_MarginBetweenColumn;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private string&nbsp;&nbsp;m_MainTitle;
+&nbsp;&nbsp;&nbsp;&nbsp;private Font&nbsp;&nbsp;m_MainTitleFont;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private ArrayList&nbsp;&nbsp;m_Columns;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Color&nbsp;&nbsp;[]m_PredefinedColors = {Color.FromArgb (125, Color.Red),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Green),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Blue),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Yellow),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Cyan),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Magenta),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Maroon),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Aqua),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Beige),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Orange),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Coral),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Lavender),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Gainsboro),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Ivory),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.LemonChiffon),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color.FromArgb (125, Color.Pink)};
+
+&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;&nbsp;ChartRenderingMode&nbsp;&nbsp;m_RenderingMode;
+&nbsp;&nbsp;&nbsp;&nbsp;private ChartCumulativeMode&nbsp;&nbsp;m_CumulativeMode;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Chart(System.ComponentModel.IContainer container)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;///
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// Required for Windows.Forms Class Composition Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;///
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (container != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container.Add(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// TODO: Add any constructor code after InitializeComponent call
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.InitDefault ();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Chart()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;///
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// Required for Windows.Forms Class Composition Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;///
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// TODO: Add any constructor code after InitializeComponent call
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.InitDefault ();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitDefault ()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.LeftMargin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 50;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.RightMargin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.TopMargin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.BottomMargin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DeltaDepth&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 10;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.GridPen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new Pen (Color.Black, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.GridPenFor0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new Pen (Color.Violet, 2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ColumnPen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new Pen (Color.Black, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.HiddenColumnPen&nbsp;&nbsp;&nbsp;&nbsp;= new Pen (Color.Gray, 1);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.LegendFont&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new Font("Arial", 11F, FontStyle.Bold);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.LegendBrush&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new SolidBrush(Color.Black);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ColumnFont&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new Font("Arial", 8F, FontStyle.Italic);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ColumnTitleFont&nbsp;&nbsp;&nbsp;&nbsp;= new Font("Arial", 10F, FontStyle.Underline);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MainTitle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= "Main title";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MainTitleFont&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new Font("Arial", 16F, FontStyle.Underline | FontStyle.Bold);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DisplayTextOnColumns&nbsp;&nbsp;= true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DisplayHiddenSides&nbsp;&nbsp;&nbsp;&nbsp;= true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.VerticalAxisMinValue&nbsp;&nbsp;= 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.VerticalAxisMaxValue&nbsp;&nbsp;= 5000;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.VerticalAxisStep&nbsp;&nbsp;&nbsp;&nbsp;= 1000;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.MarginBetweenColumn&nbsp;&nbsp;= 20;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.m_Columns&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new ArrayList ();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.RenderingMode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ChartRenderingMode.Linear3d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.CumulativeMode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ChartCumulativeMode.StartFrom0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public ChartCumulativeMode&nbsp;&nbsp;CumulativeMode
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return m_CumulativeMode; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { m_CumulativeMode = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public ChartRenderingMode&nbsp;&nbsp;RenderingMode
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return m_RenderingMode; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { m_RenderingMode = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Color[]&nbsp;&nbsp;GetPredefinedColors ()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return m_PredefinedColors;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;public Color&nbsp;&nbsp;GetPredefinedColors (int colorIndex)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return m_PredefinedColors [colorIndex];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetPredefinedColors (Color[] value)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_PredefinedColors = value;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public int&nbsp;&nbsp;NumberOfItemsPerColumn
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int iCount = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((m_Columns != null) &amp;&amp; (m_Columns.Count != 0))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChartColumn column = (ChartColumn)m_Columns[0];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iCount = column.Length;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return iCount;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public int&nbsp;&nbsp;LeftMargin
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_LeftMargin; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_LeftMargin = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public int&nbsp;&nbsp;RightMargin
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_RightMargin; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_RightMargin = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public int&nbsp;&nbsp;TopMargin
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_TopMargin; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_TopMargin = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public int&nbsp;&nbsp;BottomMargin
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_BottomMargin; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_BottomMargin = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public int DeltaDepth
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_DeltaDepth; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_DeltaDepth = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public bool&nbsp;&nbsp;DisplayTextOnColumns
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_DisplayTextOnColumns; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_DisplayTextOnColumns = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public bool&nbsp;&nbsp;DisplayHiddenSides
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_DisplayHiddenSides; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_DisplayHiddenSides = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public Pen&nbsp;&nbsp;&nbsp;&nbsp;GridPen
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_GridPen; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_GridPen = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public Pen&nbsp;&nbsp;&nbsp;&nbsp;GridPenFor0
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_GridPenFor0; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_GridPenFor0 = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public Pen&nbsp;&nbsp;&nbsp;&nbsp;ColumnPen
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_ColumnPen; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_ColumnPen = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public Pen&nbsp;&nbsp;&nbsp;&nbsp;HiddenColumnPen
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_HiddenColumnPen; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_HiddenColumnPen = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public Brush&nbsp;&nbsp;LegendBrush
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_LegendBrush; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_LegendBrush = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public Font&nbsp;&nbsp;LegendFont
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_LegendFont; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_LegendFont = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public Font&nbsp;&nbsp;ColumnFont
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_ColumnFont; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_ColumnFont = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public Font&nbsp;&nbsp;ColumnTitleFont
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_ColumnTitleFont; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_ColumnTitleFont = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public Font&nbsp;&nbsp;MainTitleFont
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_MainTitleFont; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_MainTitleFont = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public string&nbsp;&nbsp;MainTitle
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_MainTitle; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_MainTitle = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public int&nbsp;&nbsp;&nbsp;&nbsp;VerticalAxisMinValue
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_VerticalAxisMinValue; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_VerticalAxisMinValue = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public int&nbsp;&nbsp;&nbsp;&nbsp;VerticalAxisMaxValue
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_VerticalAxisMaxValue; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_VerticalAxisMaxValue = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public int&nbsp;&nbsp;&nbsp;&nbsp;VerticalAxisStep
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_VerticalAxisStep; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_VerticalAxisStep = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+&nbsp;&nbsp;&nbsp;&nbsp;public int&nbsp;&nbsp;&nbsp;&nbsp;MarginBetweenColumn
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_MarginBetweenColumn; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {m_MarginBetweenColumn = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;public ArrayList&nbsp;&nbsp;Columns
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {return m_Columns; }&nbsp;&nbsp;&nbsp;&nbsp;// Use carefully
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Highlevel functions
+&nbsp;&nbsp;&nbsp;&nbsp;public ChartColumn&nbsp;&nbsp;AddColumn (int value)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int []localArray = new int [1];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localArray[0] = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return AddColumn (localArray);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ChartColumn&nbsp;&nbsp;AddColumn (int value0, int value1)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int []localArray = new int [2];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localArray[0] = value0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localArray[1] = value1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return AddColumn (localArray);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ChartColumn&nbsp;&nbsp;AddColumn (int value0, int value1, int value2)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int []localArray = new int [3];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localArray[0] = value0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localArray[1] = value1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localArray[2] = value2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return AddColumn (localArray);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ChartColumn&nbsp;&nbsp;AddColumn (int value0, int value1, int value2, int value3)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int []localArray = new int [4];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localArray[0] = value0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localArray[1] = value1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localArray[2] = value2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;localArray[3] = value3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return AddColumn (localArray);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ChartColumn&nbsp;&nbsp;AddColumn (int []values)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this.AddColumn (values, null);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ChartColumn&nbsp;&nbsp;AddColumn (int []values, string title)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Create new column
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChartColumn&nbsp;&nbsp;newColumn = this.AllocateColumn (values, title);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Resize vertical axis
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (newColumn.PositiveValuesSum &gt; this.VerticalAxisMaxValue)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.VerticalAxisMaxValue = newColumn.PositiveValuesSum;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (newColumn.NegativeValuesSum &lt; this.VerticalAxisMinValue)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.VerticalAxisMinValue = newColumn.NegativeValuesSum;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Add column
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Columns.Add (newColumn);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return newColumn;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;virtual protected ChartColumn&nbsp;&nbsp;AllocateColumn (int []values, string title)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChartColumn&nbsp;&nbsp;newColumn = new ChartColumn (values, title);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return newColumn;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Automatic detection and adjustment of vertical axis maximum
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void AdjustVerticalAxis ()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Reset current max
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.VerticalAxisMaxValue = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.VerticalAxisMinValue = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int savedVerticalAxisMaxValue = int.MinValue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int savedVerticalAxisMinValue = int.MaxValue;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Iterate to get highest value
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (this.CumulativeMode == ChartCumulativeMode.StartFromLastValue)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IEnumerator Iterator = Columns.GetEnumerator ();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (Iterator.MoveNext ())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChartColumn currentColumn = (ChartColumn)Iterator.Current;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (currentColumn.PositiveValuesSum &gt; savedVerticalAxisMaxValue)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;savedVerticalAxisMaxValue = currentColumn.PositiveValuesSum;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (currentColumn.NegativeValuesSum &lt; savedVerticalAxisMinValue)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;savedVerticalAxisMinValue = currentColumn.NegativeValuesSum;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (this.CumulativeMode == ChartCumulativeMode.StartFrom0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IEnumerator Iterator = Columns.GetEnumerator ();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (Iterator.MoveNext ())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChartColumn currentColumn = (ChartColumn)Iterator.Current;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (currentColumn.HighestValue &gt; savedVerticalAxisMaxValue)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;savedVerticalAxisMaxValue = currentColumn.HighestValue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (currentColumn.LowestValue &lt; savedVerticalAxisMinValue)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;savedVerticalAxisMinValue = currentColumn.LowestValue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (this.CumulativeMode == ChartCumulativeMode.Max, "Chart.AdjustVerticalAxis", "Cumulative mode not managed");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Round max value
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (savedVerticalAxisMaxValue != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string Value = savedVerticalAxisMaxValue.ToString (CultureInfo.InvariantCulture);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int NbDigits = Value.Length;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int Round    = (int)Math.Pow (10.0F, (double)(NbDigits - 1));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// N.B.: Round must be an even number in order to make the following calculation works
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// As Round is a base-10 number, this condition is true.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (Round%2 == 0, "Chart.AdjustVerticalAxis ()", "Can't proceed when Round is odd");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//this.VerticalAxisMaxValue = ((savedVerticalAxisMaxValue + Round/2) / Round) * Round;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.VerticalAxisMaxValue = ((savedVerticalAxisMaxValue + Round) / Round) * Round;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (this.VerticalAxisMaxValue &gt;= savedVerticalAxisMaxValue, "Chart.AdjustVerticalAxis", string.Format (CultureInfo.InvariantCulture, "Overflow during resize from to {0} (max {1})", this.VerticalAxisMaxValue, savedVerticalAxisMaxValue));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Round min value
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (savedVerticalAxisMinValue != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string Value = (-savedVerticalAxisMinValue).ToString (CultureInfo.InvariantCulture);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int NbDigits = Value.Length;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int Round    = (int)Math.Pow (10.0F, (double)(NbDigits - 1));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// N.B.: Round must be an even number in order to make the following calculation works
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// As Round is a base-10 number, this condition is true.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (Round%2 == 0, "Chart.AdjustVerticalAxis ()", "Can't proceed when Round is odd");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//this.VerticalAxisMaxValue = ((savedVerticalAxisMaxValue + Round/2) / Round) * Round;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.VerticalAxisMinValue = - (((-savedVerticalAxisMinValue + Round) / Round) * Round);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (this.VerticalAxisMinValue &lt;= savedVerticalAxisMinValue, "Chart.AdjustVerticalAxis", string.Format (CultureInfo.InvariantCulture, "Overflow during resize from to {0} (max {1})", this.VerticalAxisMinValue, savedVerticalAxisMinValue));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt; 
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose( bool disposing )
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( disposing )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(components != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose( disposing );
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/*
+&nbsp;&nbsp;PANEL ALIGNMENT                                  CHART COLUMN
+*************************                     |      
+*            ^          * TM : Top Margin     |       T3________T2                    
+*&nbsp;&nbsp;&nbsp;&nbsp;     | TM       * BM : Bottom Margin  |        /        /|                     
+*            v          * LM : Left Margin    |       /        / |     _________        
+*      P3_________P6    * RM : Right Margin   |      /________/  |    /|       /|       
+*    P2/|         |  RM *                     |     Top0    T1|  |   / |      / |      
+*&lt;---&gt;| |         |&lt;---&gt;*                     |     |         |  |  /________/  |      
+*  LM | |         |     *                     |     |         |  | |   |     |  |      
+*     | |P1       |P5   *                     |     |  B3_____|B2|_|___|_____|__|____  
+*     |/__________/     *                     |     |  /      | /  |  /      | /    /  
+*    P0      ^   P4     *                     |     | /       |/   | /       |/    /   
+*&nbsp;&nbsp;&nbsp;&nbsp;     | BM       *                     |     |/________/____|/________/____/    
+*            v          *                     |     Base0    B1                        
+*************************                     |    &lt;---------&gt;&lt;----&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ColumnWidth  MarginBetweenColumn
+&nbsp;&nbsp;&nbsp;&nbsp;*/
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs pevent) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;verticalAxisMaxValueInPixels;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int x0, y0, x1, y2, x5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//int x2, x3, x4, x6;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//int y1, y3, y4, y5, y6;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.OnPaintBackground(pevent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pevent.Graphics.SmoothingMode&nbsp;&nbsp;= SmoothingMode.None;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Diagonal border
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x0 = LeftMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y0 = this.Height - BottomMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x1 = x0 + DeltaDepth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//y1 = y0 - DeltaDepth;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//x2= x0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y2= TopMargin + DeltaDepth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//x3= x1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//y3= TopMargin;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//x4 = this.Width - RightMargin - DeltaDepth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//y4 = y0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x5 = this.Width - RightMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//y5 = y1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//x6 = this.Width - RightMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//y6 = TopMargin;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verticalAxisMaxValueInPixels = y0 - y2;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw main title
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DisplayGrid (pevent);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw columns
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int numberOfColumns = Columns.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (numberOfColumns != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;columnWidth&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= (x5 - x1) / (numberOfColumns);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;columnWidthNoMargin = columnWidth - MarginBetweenColumn;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int columnStartOffset&nbsp;&nbsp;= x0 + MarginBetweenColumn / 2;&nbsp;&nbsp;&nbsp;&nbsp;// Center columns on graph
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw columns title
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DisplayColumnsTitle (pevent, columnWidth, columnWidthNoMargin, columnStartOffset, verticalAxisMaxValueInPixels, x0, y0);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (this.RenderingMode == ChartRenderingMode.BarWith3d)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DisplayColumnsAsBarWith3d (pevent, columnWidth, columnWidthNoMargin, columnStartOffset, verticalAxisMaxValueInPixels, x0, y0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (this.RenderingMode == ChartRenderingMode.Linear3d)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DisplayColumnsAsLinear (pevent, columnWidth, columnWidthNoMargin, columnStartOffset, verticalAxisMaxValueInPixels, x0, y0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (this.DisplayTextOnColumns)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DisplayColumnsText (pevent, columnWidth, columnWidthNoMargin, columnStartOffset, verticalAxisMaxValueInPixels, x0, y0-this.DeltaDepth);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw main title
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.DisplayMainTitle (pevent);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;virtual protected void DisplayColumnsAsLinear (System.Windows.Forms.PaintEventArgs e, int columnWidth, int columnWidthNoMargin, int columnStartOffset, int verticalAxisMaxValueInPixels, int lowerLeftX, int lowerLeftY)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point Base0, Base1, Base2, Base3;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IEnumerator Iterator&nbsp;&nbsp;&nbsp;&nbsp;= Columns.GetEnumerator ();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChartColumn&nbsp;&nbsp;previousColumn&nbsp;&nbsp;= null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point&nbsp;&nbsp;&nbsp;&nbsp;prevBase0&nbsp;&nbsp;&nbsp;&nbsp;= new Point (0,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point&nbsp;&nbsp;&nbsp;&nbsp;prevBase1&nbsp;&nbsp;&nbsp;&nbsp;= new Point (0,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point&nbsp;&nbsp;&nbsp;&nbsp;prevBase2&nbsp;&nbsp;&nbsp;&nbsp;= new Point (0,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point&nbsp;&nbsp;&nbsp;&nbsp;prevBase3&nbsp;&nbsp;&nbsp;&nbsp;= new Point (0,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columnCurrentOffset = columnStartOffset;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offsetFor0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= (-this.VerticalAxisMinValue) * verticalAxisMaxValueInPixels / (this.VerticalAxisMaxValue - this.VerticalAxisMinValue);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (Iterator.MoveNext ())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChartColumn&nbsp;&nbsp;currentColumn = (ChartColumn)Iterator.Current;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (currentColumn.PositiveValuesSum &lt;= VerticalAxisMaxValue, "Chart.DisplayColumns_BarWith3d", "Vertical axis overflow, verify why current column value is higher than axis vertical value");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (this.VerticalAxisMaxValue &gt; 0, "Chart.DisplayColumns_BarWith3d", "Integer divided by 0");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Base0 = new Point (columnCurrentOffset, lowerLeftY-offsetFor0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Base1 = new Point (columnCurrentOffset + columnWidthNoMargin, lowerLeftY-offsetFor0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Base2 = new Point (columnCurrentOffset + columnWidthNoMargin + DeltaDepth, lowerLeftY -offsetFor0 - DeltaDepth);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Base3 = new Point (columnCurrentOffset + DeltaDepth, lowerLeftY -offsetFor0 - DeltaDepth);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentColumn.DisplayAsLinear (e, this, previousColumn, columnWidthNoMargin, verticalAxisMaxValueInPixels, Base0, Base1, Base2, Base3, prevBase0, prevBase1, prevBase2, prevBase3);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Next
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prevBase0 = Base0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prevBase1 = Base1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prevBase2 = Base2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prevBase3 = Base3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columnCurrentOffset += columnWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;previousColumn&nbsp;&nbsp;&nbsp;&nbsp;= currentColumn;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;virtual protected void DisplayColumnsAsBarWith3d (System.Windows.Forms.PaintEventArgs e, int columnWidth, int columnWidthNoMargin, int columnStartOffset, int verticalAxisMaxValueInPixels, int lowerLeftX, int lowerLeftY)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point Base0, Base1, Base2, Base3;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IEnumerator Iterator&nbsp;&nbsp;&nbsp;&nbsp;= Columns.GetEnumerator ();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChartColumn&nbsp;&nbsp;previousColumn&nbsp;&nbsp;= null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point&nbsp;&nbsp;&nbsp;&nbsp;prevBase0&nbsp;&nbsp;&nbsp;&nbsp;= new Point (0,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point&nbsp;&nbsp;&nbsp;&nbsp;prevBase1&nbsp;&nbsp;&nbsp;&nbsp;= new Point (0,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point&nbsp;&nbsp;&nbsp;&nbsp;prevBase2&nbsp;&nbsp;&nbsp;&nbsp;= new Point (0,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point&nbsp;&nbsp;&nbsp;&nbsp;prevBase3&nbsp;&nbsp;&nbsp;&nbsp;= new Point (0,0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columnCurrentOffset = columnStartOffset;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offsetFor0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= (-this.VerticalAxisMinValue) * verticalAxisMaxValueInPixels / (this.VerticalAxisMaxValue - this.VerticalAxisMinValue);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (Iterator.MoveNext ())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChartColumn&nbsp;&nbsp;currentColumn = (ChartColumn)Iterator.Current;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (currentColumn.PositiveValuesSum &lt;= VerticalAxisMaxValue, "Chart.DisplayColumns_BarWith3d", "Vertical axis overflow, verify why current column value is higher than axis vertical value");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (this.VerticalAxisMaxValue &gt; 0, "Chart.DisplayColumns_BarWith3d", "Integer divided by 0");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Base0 = new Point (columnCurrentOffset, lowerLeftY-offsetFor0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Base1 = new Point (columnCurrentOffset + columnWidthNoMargin, lowerLeftY-offsetFor0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Base2 = new Point (columnCurrentOffset + columnWidthNoMargin + DeltaDepth, lowerLeftY - offsetFor0 - DeltaDepth);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Base3 = new Point (columnCurrentOffset + DeltaDepth, lowerLeftY - offsetFor0 - DeltaDepth);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentColumn.DisplayAsBarWith3d (e, this, previousColumn, columnWidthNoMargin, verticalAxisMaxValueInPixels, Base0, Base1, Base2, Base3, prevBase0, prevBase1, prevBase2, prevBase3);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Next column
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prevBase0 = Base0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prevBase1 = Base1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prevBase2 = Base2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prevBase3 = Base3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columnCurrentOffset += columnWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;previousColumn&nbsp;&nbsp;&nbsp;&nbsp;= currentColumn;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;virtual protected void DisplayColumnsTitle (System.Windows.Forms.PaintEventArgs e, int columnWidth, int columnWidthNoMargin, int columnStartOffset, int verticalAxisMaxValueInPixels, int lowerLeftX, int lowerLeftY)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IEnumerator Iterator = Columns.GetEnumerator ();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int columnCurrentOffset = columnStartOffset;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (Iterator.MoveNext ())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChartColumn&nbsp;&nbsp;currentColumn = (ChartColumn)Iterator.Current;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point Base0 = new Point (columnCurrentOffset, lowerLeftY);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point Base1 = new Point (columnCurrentOffset + columnWidthNoMargin, lowerLeftY);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentColumn.DisplayTitle (e, this, Base0, Base1);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Jump to next offset
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columnCurrentOffset += columnWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;virtual protected void DisplayColumnsText (System.Windows.Forms.PaintEventArgs e, int columnWidth, int columnWidthNoMargin, int columnStartOffset, int verticalAxisMaxValueInPixels, int lowerLeftX, int lowerLeftY)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offset;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offsetFor0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IEnumerator Iterator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= Columns.GetEnumerator ();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columnCurrentOffset = columnStartOffset;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offsetFor0 = (-this.VerticalAxisMinValue) * verticalAxisMaxValueInPixels / (this.VerticalAxisMaxValue - this.VerticalAxisMinValue);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (Iterator.MoveNext ())
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChartColumn&nbsp;&nbsp;currentColumn = (ChartColumn)Iterator.Current;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (currentColumn.PositiveValuesSum &lt;= VerticalAxisMaxValue, "Chart.OnPaintBackground", "Vertical axis overflow, verify why current column value is higher than axis vertical value");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (this.VerticalAxisMaxValue &gt; 0, "Chart.OnPaintBackground", "Integer divided by 0");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (this.CumulativeMode == ChartCumulativeMode.StartFrom0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offset  = offsetFor0 + (verticalAxisMaxValueInPixels * currentColumn.HighestValue / (this.VerticalAxisMaxValue-this.VerticalAxisMinValue));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (this.CumulativeMode == ChartCumulativeMode.StartFromLastValue)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offset  = offsetFor0 + (verticalAxisMaxValueInPixels * currentColumn.PositiveValuesSum / (this.VerticalAxisMaxValue-this.VerticalAxisMinValue));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert (this.CumulativeMode == ChartCumulativeMode.Max, "Chart.OnPaintBackground", "Cumulative mode not managed");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offset  = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Drawing.SizeF    size&nbsp;&nbsp;= e.Graphics.MeasureString (currentColumn.PositiveValuesSum.ToString (CultureInfo.InvariantCulture), this.ColumnFont);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Base0&nbsp;&nbsp;= new PointF ((float)columnCurrentOffset, (float)(lowerLeftY - offset) - size.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RectangleF backgroundRectangle&nbsp;&nbsp;= new RectangleF (Base0, size);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Align rectangle on column width
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backgroundRectangle.X = columnCurrentOffset + this.MarginBetweenColumn / 2 + ((columnWidthNoMargin - backgroundRectangle.Width) / 2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentColumn.DisplayText (e, this, backgroundRectangle);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Jump to next offset
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;columnCurrentOffset += columnWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;virtual protected void DisplayGrid (System.Windows.Forms.PaintEventArgs e)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5, x6, y6;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Diagonal border from front side to back side
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x0 = LeftMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y0 = this.Height - BottomMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x1 = x0 + DeltaDepth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y1 = y0 - DeltaDepth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x0, y0, x1, y1);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x2= x0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y2= TopMargin + DeltaDepth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x3= x1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y3= TopMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x2, y2, x3, y3);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x4 = this.Width - RightMargin - DeltaDepth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y4 = y0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x5 = this.Width - RightMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y5 = y1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x4, y4, x5, y5);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x6 = this.Width - RightMargin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y6 = TopMargin;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Horizontal &amp; vertical borders
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x0, y0, x4, y4);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x0, y0, x2, y2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x1, y1, x3, y3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x6, y6, x3, y3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x6, y6, x5, y5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x1, y1, x5, y5);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Vertical Axis
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;currentNumber&nbsp;&nbsp;= 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;numberOfSteps&nbsp;&nbsp;= (VerticalAxisMaxValue-VerticalAxisMinValue) / VerticalAxisStep;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int tmpY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= y0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int deltaStep&nbsp;&nbsp;&nbsp;&nbsp;= (y0 - y2) / numberOfSteps;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Loop for all steps but avoid rounding error &amp; overdraw by not drawing last step
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int iVertical = 0; iVertical &lt; numberOfSteps-1; iVertical++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tmpY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-= deltaStep;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentNumber&nbsp;&nbsp;= this.VerticalAxisMinValue + (iVertical+1) * VerticalAxisStep;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((currentNumber == 0) &amp;&amp; (this.VerticalAxisMinValue &lt; 0))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw diagonal
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPenFor0, x0, tmpY, x1, tmpY - DeltaDepth);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//e.Graphics.DrawLine (GridPenFor0, x4, tmpY, x5, tmpY - DeltaDepth);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw horizontal on chart
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPenFor0, x5, tmpY - DeltaDepth, x1, tmpY - DeltaDepth);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//e.Graphics.DrawLine (GridPenFor0, x0, tmpY, x4, tmpY);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw diagonal
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x0, tmpY, x1, tmpY - DeltaDepth);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw horizontal on chart
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x5, tmpY - DeltaDepth, x1, tmpY - DeltaDepth);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw vertical legend 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringFormat legendDrawFormat&nbsp;&nbsp;= new StringFormat();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;legendDrawFormat.Alignment&nbsp;&nbsp;&nbsp;&nbsp;= StringAlignment.Far;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;legendDrawFormat.LineAlignment&nbsp;&nbsp;= StringAlignment.Center;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tmpY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= y0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int iVertical = 0; iVertical &lt; numberOfSteps; iVertical++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tmpY&nbsp;&nbsp;-= deltaStep;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw horizontal on scaling
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawLine (GridPen, x0, tmpY, x0-5, tmpY);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw legend
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentNumber = VerticalAxisMinValue + (iVertical+1) * VerticalAxisStep;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF point = new PointF (x0-5, tmpY);&nbsp;&nbsp;&nbsp;&nbsp;// remove few pixels from vertical line
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawString (currentNumber.ToString (CultureInfo.InvariantCulture), LegendFont, LegendBrush, point, legendDrawFormat);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;virtual protected void DisplayMainTitle (System.Windows.Forms.PaintEventArgs e)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (this.MainTitle != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new Point (this.LeftMargin, this.Height - this.MainTitleFont.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new Size (this.Width - this.LeftMargin - this.RightMargin, this.MainTitleFont.Height) ; //e.Graphics.MeasureString (this.MainTitle, this.MainTitleFont);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringFormat&nbsp;&nbsp;legendDrawFormat&nbsp;&nbsp;= new StringFormat();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;legendDrawFormat.Alignment&nbsp;&nbsp;&nbsp;&nbsp;= StringAlignment.Center;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;legendDrawFormat.LineAlignment&nbsp;&nbsp;= StringAlignment.Center;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rectangle textRectangle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= new Rectangle (point, size);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawString (this.MainTitle, this.MainTitleFont, this.LegendBrush, textRectangle, legendDrawFormat);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Component Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components = new System.ComponentModel.Container();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

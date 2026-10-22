@@ -34,6 +34,12 @@
 <p>This class is always an indirect object because SourceInformationElement.EntryC and WebCaptureInformationElement.EntryC require it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>A web capture command dictionary records the parameters of a single web capture operation: the requested URL, retrieval settings, and response content type.</p>
+<p>The URL entry holds the requested URL. The L entry gives the link depth followed. The F entry holds command flags controlling spider behaviour.</p>
+<p>The P entry holds an array of web capture command settings dictionaries recording global capture settings. The CT entry records the MIME content type of the response.</p>
+<p>The H entry holds the HTTP request headers sent. The S entry holds source information dictionaries for all content retrieved by this command.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

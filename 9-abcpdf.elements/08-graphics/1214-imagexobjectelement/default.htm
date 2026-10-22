@@ -37,6 +37,18 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>An image XObject is a sampled raster image stored as a PDF stream. Each sample in the stream represents one pixel, and the Width and Height entries define the image's dimensions in samples.</p>
+<p>The ColorSpace entry names the color space for the image's samples. The number of color components per sample must match the color space. For image masks, the color space is omitted because the image has only one component used as a mask.</p>
+<p>BitsPerComponent sets the number of bits used to encode each color component. Valid values are 1, 2, 4, 8, and 16. This value, combined with the number of components and the image dimensions, determines the total size of the unencoded sample data.</p>
+<p>The ImageMask flag, when true, treats the image as a stencil mask rather than a color image. A mask image has one component per sample; painted pixels take the current color and the mask controls which pixels are affected.</p>
+<p>The Mask entry clips painting to a specified color range or to the shape defined by another image mask stream. When a color range mask is used, pixels whose sample values fall within the range are left unpainted.</p>
+<p>SMask supplies a soft mask image that controls the alpha channel of the image during compositing. The soft mask must be a grayscale image with the same dimensions as the parent image.</p>
+<p>SMaskInData is an integer that indicates whether soft-mask data is interleaved with the image samples in the stream. A value of 0 means no interleaved mask; 1 and 2 specify different interleaving conventions.</p>
+<p>The Decode array remaps the encoded sample values to the component ranges expected by the color space. Each pair of values in the array maps the minimum and maximum encoded values to the minimum and maximum decoded values for one component.</p>
+<p>The Interpolate flag advises the renderer to smooth pixel boundaries when scaling the image up. The default is false; enabling it may improve appearance but increases rendering cost.</p>
+<p>The Alternates entry lists substitute image XObjects that a renderer may use in place of the main image, for example a lower-resolution version for screen display or a higher-resolution version for printing.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

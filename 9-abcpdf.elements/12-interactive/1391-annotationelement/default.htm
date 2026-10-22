@@ -56,6 +56,14 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>An annotation dictionary describes an interactive or graphical object placed at a specific location on a page. Annotations can display content, accept user input, trigger actions, or represent marks and comments.</p>
+<p>All annotations share a common set of entries defined in this base class. Specific annotation types extend it with entries appropriate to their function.</p>
+<p>The Subtype entry distinguishes the kind of annotation. Viewers that do not recognise a subtype must still render the annotation's appearance stream if one is present.</p>
+<p>The F entry is a flags integer whose bits control visibility, printing, locking, and read-only state. The AP entry holds one or more appearance streams that conforming readers must use for rendering.</p>
+<p>The AS entry selects which sub-appearance within the AP dictionary is currently active, allowing widget annotations to show different images for different values.</p>
+<p>In PDF 2.0 annotations gained additional entries for language, blending mode, and non-stroking opacity, bringing annotation rendering closer to full transparency-model compositing.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

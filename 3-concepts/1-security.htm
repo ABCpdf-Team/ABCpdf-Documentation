@@ -33,7 +33,7 @@
   </tr>
   <tr>
     <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
-      Inro</td>
+      Intro</td>
     <td>&nbsp;</td>
     <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
         <tr>
@@ -42,6 +42,23 @@
             <P>It is not difficult to make your use of the APIs secure, but you have to actively do it. You need to be making design decisions here.</P>
             <P>Each system is different and each system has different needs, however the following are the base principles by which you should operate when securing a system using ABCpdf.</P>
             <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../images/steel-pin.gif" width="64" height="10"><br>
+      Env</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><H2>Software and Environment</H2>
+              <p>It is important for security, stability and support that you stay up-to-date. This is true for our software and also for your systems. </p>
+              <p>We advise that you do not use our software on older platforms which are out of support,  on platforms which are not flagged as supported, or that we tell you are unsupported. </p>
+              <p>We advise that you use modern features of ABCpdf rather than features which are maintained for legacy reasons. This is particularly the case for legacy HTML conversion engines - use the current one not the old ones.</p>
+              <p>We often provide help and advice with these types of platforms and features because  business needs may require compromise. However that does not mean we advise you to use them. You may decide the risks of moving out of a supported environment are acceptable, but those are your risks and that is your decision.</p>
+              <p>&nbsp;</p></td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td>
         </tr>
@@ -164,7 +181,7 @@
       <table border="0" width="100%" cellpadding="0" cellspacing="0">
         <tr>
           <td><H2>Vulnerability in Your Code</H2>
-          <P>HTML conversion is a common task and in most situations it is safe. However be  cautious about allowing untrusted input here as HTML can pull in many different technologies and it exposes quite a wide attack surface. While ABCpdf .NET has many layers of defense here it is best to apply your own too. More details may be be found in the <a href="../3-concepts/g-htmlrender.htm">HTML / CSS Rendering</a> section of the documentation.</P>
+          <P>HTML conversion is a common task and in most situations it is safe. However be  cautious about allowing untrusted input here as HTML can pull in many different technologies and it exposes quite a wide attack surface. While ABCpdf .NET has many layers of defense here it is best to apply your own too. More details may be found in the <a href="../3-concepts/g-htmlrender.htm">HTML / CSS Rendering</a> section of the documentation.</P>
           <P>Document rendering shows you how a document should appear but it does not say anything about the validity of a document. It is easy to craft a document which has a part which looks like a signature - so it may appear to be signed even though it is not. If you are relying on  document signatures you must validate them in your code and report the results back to the user so that they are not mislead.<br>
           </P>
           <p>&nbsp;</p>          </td>

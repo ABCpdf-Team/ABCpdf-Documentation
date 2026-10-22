@@ -44,6 +44,15 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A font descriptor carries the metric and structural properties of a font as a whole. It complements the per-glyph width data in the font dictionary with font-level measurements that viewers use for layout, substitution, and text extraction.</p>
+<p>FontName must match the BaseFont entry in the font dictionary it belongs to. For subset fonts the name carries a six-letter uppercase tag prefix separated by a plus sign, such as ABCDEF+FontName.</p>
+<p>Flags is a 32-bit integer where each bit signals a typographic property of the font. Key bits include FixedPitch (bit 1), Serif (bit 2), Symbolic (bit 3), Script (bit 4), Nonsymbolic (bit 6), Italic (bit 7), AllCap (bit 17), SmallCap (bit 18), and ForceBold (bit 19).</p>
+<p>The metric entries, Ascent, Descent, CapHeight, and XHeight, are all measured in the same glyph coordinate space as FontBBox. They give the viewer the data it needs to size and position text, and to simulate bold or italic when the actual variant is unavailable.</p>
+<p>StemV and StemH give the typical stroke widths of vertical and horizontal stems. Viewers use these values to choose appropriate font substitutes when the original font is not available and for hinting decisions on low-resolution devices.</p>
+<p>The font file entries, FontFile, FontFile2, and FontFile3, each point to an embedded font program stream. FontFile is for Type 1 programs, FontFile2 for TrueType, and FontFile3 for OpenType and other Subtype-labelled formats. Only one of these should be present.</p>
+<p>CharSet lists the glyph names present in a Type 1 font subset. It is a PDF string in the format of a PostScript array of name tokens. Viewers may use it to determine which glyphs are available without parsing the font program.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

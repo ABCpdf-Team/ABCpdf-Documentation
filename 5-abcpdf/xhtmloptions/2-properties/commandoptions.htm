@@ -55,10 +55,17 @@
       <table border="0" width="100%" cellpadding="0" cellspacing="0">
         <tr> 
           <td> 
-            <p>A set of command options for the HTML engine.</p>
-            <p>For example the ABCChrome engine accepts a &quot;lang&quot; option to allow you to set the default locale. You can provide strings like &quot;en-GB&quot; or &quot;es&quot;.</p>
-            <p>Options are engine specific and low level so you will need to investigate to find out what may be available.</p>
-          <p>&nbsp;</p></td>
+            <p>Extra command line options to be provided to the ABCChrome HTML engine.</p>
+            <p>These flags are special switches passed to the browser executable at startup that modify its default behavior, primarily intended for developers, testers, and advanced users to debug rendering issues, test experimental features, override security policies, or optimize performance. </p>
+            <p>For example the ABCChrome engine accepts a language option to allow you to set the default locale. You can provide strings like &quot;en-GB&quot; or &quot;es&quot;. For example,</p>
+            <span class="language">[C#]</span><br>
+            <pre><CODE class="language-csharp"><!--notcode-->var doc = new Doc();<br>doc.HtmlOptions.CommandOptions = new Dictionary&lt;string, string&gt;();<br>doc.HtmlOptions.CommandOptions[&quot;accept-lang&quot;] = &quot;es&quot;; // --accept-lang=es</CODE></pre>
+            <p>They can control everything from graphics rendering (eg --disable-gpu, --show-paint-rects) and text display (eg --disable-lcd-text, --font-render-hinting=none) to security restrictions (eg --allow-file-access-from-files, --disable-web-security) and feature toggles (eg --blink-settings=imagesEnabled=false). For example,</p>
+            <span class="language">[C#]</span><br>
+            <pre><CODE class="language-csharp"><!--notcode-->var doc = new Doc();<br>doc.HtmlOptions.CommandOptions = new Dictionary&lt;string, string&gt;();<br>doc.HtmlOptions.CommandOptions[&quot;blink-settings=imagesEnabled=false&quot;] = null; // --blink-settings=imagesEnabled=false</CODE></pre>
+            <p>You can find details of these flags on the <a href="https://www.chromium.org/developers/how-tos/run-chromium-with-flags/">Chromium</a> site.</p>
+          <p>&nbsp;</p>
+          </td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td>
         </tr>
@@ -74,7 +81,7 @@
           <td> 
             <p>None.</p>
             <p>&nbsp;</p>
-            </td>
+          </td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td>
         </tr>

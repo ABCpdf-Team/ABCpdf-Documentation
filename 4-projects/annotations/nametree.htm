@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>NameTree.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">NameTree.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.ComponentModel;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Runtime.InteropServices;
+using System.Globalization;
+
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Elements;
+
+
+namespace WebSupergoo.Annotations {
+&nbsp;&nbsp;public class TreeUtilities {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Embeds a file and adds it to the name tree.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="key"&gt;A key that uniquely identifies an embedded file in the name tree.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="filePath"&gt;A file path.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="description"&gt;A description.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static FullFileSpecificationElement EmbedFile(string filePath, string description, ObjectSoup soup) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileInfo info = new FileInfo(filePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EmbeddedFileStreamElement stream = EmbedFileStream(info, soup);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CatalogElement cat = new CatalogElement(soup.Catalog);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FullFileSpecificationElement file = new FullFileSpecificationElement(cat);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file.EntryType = "Filespec";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file.EntryF = info.Name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file.EntryUF = info.Name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file.EntryEF = new EmbeddedFileSetElement(file);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file.EntryEF.EntryF = stream;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file.EntryDesc = description;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return file;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Embeds a file.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="info"&gt;A file info.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The ID of the embedded file stream.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static EmbeddedFileStreamElement EmbedFileStream(FileInfo info, ObjectSoup soup) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string filePath = info.FullName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject obj = new StreamObject(soup, filePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (obj.Length &gt; 64)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj.CompressFlate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EmbeddedFileStreamElement fs = new EmbeddedFileStreamElement(obj);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fs.EntryType = "EmbeddedFile";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fs.EntrySubtype = GetContentType(filePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fs.EntryParams = new EmbeddedFileParameterElement(fs);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fs.EntryParams.EntrySize = (int)info.Length;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fs.EntryParams.EntryModDate = StringAtom.DateToString(info.LastWriteTimeUtc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fs.EntryParams.EntryCreationDate = StringAtom.DateToString(info.CreationTimeUtc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return fs;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Gets the content type of a file.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="fileName"&gt;A file name or path.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The content type.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected static string GetContentType(string fileName) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fileName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "application/pdf";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fileName.EndsWith(".swf", StringComparison.OrdinalIgnoreCase))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "application/x-shockwave-flash";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fileName.EndsWith(".wmv", StringComparison.OrdinalIgnoreCase))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "video/x-ms-wmv";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fileName.EndsWith(".mpg", StringComparison.OrdinalIgnoreCase))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "video/mpeg";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fileName.EndsWith(".avi", StringComparison.OrdinalIgnoreCase))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "video/avi";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;The name tree for embedded file streams.&lt;/summary&gt;
+&nbsp;&nbsp;public class EmbeddedFileTree : NameOrNumberTree&lt;string, FileSpecificationElement&gt; {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;EmbeddedFileTree constructor.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="doc"&gt;A document.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public EmbeddedFileTree(Doc doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CatalogElement cat = new CatalogElement(doc.ObjectSoup.Catalog);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (cat.EntryNames == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cat.EntryNames = new NameDictionaryElement(cat);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (cat.EntryNames.EntryEmbeddedFiles == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cat.EntryNames.EntryEmbeddedFiles = new NameTreeNodeElement&lt;FileSpecificationElement&gt;(cat);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cat.EntryNames.EntryEmbeddedFiles.EntryNames = new ArrayElement&lt;Element&gt;(cat);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Root = cat.EntryNames.EntryEmbeddedFiles;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Embeds a file and adds it to the name tree.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="key"&gt;A key that uniquely identifies an embedded file in the name tree.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="filePath"&gt;A file path.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="description"&gt;A description.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void EmbedFile(string key, string filePath, string description) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FullFileSpecificationElement file = TreeUtilities.EmbedFile(filePath, description, Root.Host.Soup);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add(key, file);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;The name tree for document-level JavaScript actions.&lt;/summary&gt;
+&nbsp;&nbsp;public class JavaScriptTree : NameOrNumberTree&lt;string, JavaScriptActionElement&gt; {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;JavaScriptTree constructor.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="doc"&gt;A document.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public JavaScriptTree(Doc doc)  {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CatalogElement cat = new CatalogElement(doc.ObjectSoup.Catalog);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (cat.EntryNames == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cat.EntryNames = new NameDictionaryElement(cat);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (cat.EntryNames.EntryJavaScript == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cat.EntryNames.EntryJavaScript = new NameTreeNodeElement&lt;JavaScriptActionElement&gt;(cat);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cat.EntryNames.EntryJavaScript.EntryNames = new ArrayElement&lt;Element&gt;(cat);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Root = cat.EntryNames.EntryJavaScript;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Adds a JavaScript action to the name tree.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="key"&gt;A key that uniquely identifies a JavaScript action in the name tree.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="script"&gt;JavaScript code.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddScript(string key, string script) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddScript(key, script, script.Length &gt; 128);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Adds a JavaScript action to the name tree.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="key"&gt;A key that uniquely identifies a JavaScript action in the name tree.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="script"&gt;JavaScript code.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="useStream"&gt;Whether to use a stream (otherwise, a string) to store JavaScript code.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddScript(string key, string script, bool useStream) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JavaScriptActionElement action = new JavaScriptActionElement(Root);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.EntryType = "Action";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.EntryS = "JavaScript";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!useStream)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.EntryJS = new Element(new StringAtom(script), action.Host);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject stream = new StreamObject(action.Host.Soup);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream.SetText(script);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (stream.Length &gt; 64)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream.CompressFlate();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.EntryJS = new Element(stream);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add(key, action);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -47,7 +47,7 @@
             cert, bool silent, Oid oid, X509IncludeOption? option)<br>
             void Sign(X509Certificate2 cert, SecureString password, Oid oid) <br>
             void Sign(Oid oid, DataType dataType, int sizeEstimate)<br>
-            void Sign(Oid oid, DataType dataType, int sizeEstimate, X509Certificate2 cert)</code></p>
+            void Sign(Oid oid, DataType dataType, int sizeEstimate, X509Certificate2 cert2)</code></p>
             <p><code><img alt="Throws Exceptions" src="../../../images/steel-blob-10.gif" border="0" height="10" width="10"> may throw 
             Exception()</code></p>
             <p>&nbsp;</p></td>
@@ -98,7 +98,8 @@
                   <p>The 
                   System.Security.Cryptography.X509Certificates.X509Certificate2 
                   object for the PFX/PKCS #12 (.pfx or .p12) certificate used for 
-                  signing.</p></td></tr>
+                  signing.</p>
+                  <p>When used with a CustomSigner, a template certificate into which the digest can be inserted.</p></td></tr>
               <tr valign="top">
                 <td align="center">silent</td>
                 <td>
@@ -152,6 +153,7 @@
         <tr>
           <td>
             <p>Use this method to sign a signature field.</p>
+            <p>Cryptography features vary quite considerably between .NET versions and platforms. Using a recent release of .NET is highly recommended.</p>
             <p>In order to sign a signature, you need to use your private key. To authorize the use of this key, you need to provide your password.</p>
             <p>If you are using a X509Certificate2 certificate with a password protected private key you need to instantiate the X509Certificate2 instance with the
                 optional parameter X509KeyStorageFlags.Exportable. This will give the Sign method access to the private key. If the private key is not accessible 
@@ -161,7 +163,7 @@
             <p>If private key is held in an PFX/PKCS #12 
             (.pfx or .p12) file, you need to provide a path to this file and a password to allow use of the private key.</p>
 
-            <p>Different digest algorithms may be used to create signatures. The default is SHA256 but you may also use SHA256, SHA384, SHA512. SHA1 can be specified but is deprecated in PDF 2.0 so it is not advised.</p>
+            <p>Different digest algorithms may be used to create signatures. The default is SHA256 but you may also use SHA384, SHA512. SHA1 can be specified but is deprecated in PDF 2.0 so it is not advised.</p>
             <p>Time-stamped signatures can be produced by using the service of a Time Stamping Authority (TSA).
               See <a href="../2-properties/TimestampServiceUrl.htm">TimestampServiceUrl</a>. Also see <a href="../2-properties/compliancepades.htm">Compliance</a> for
             TSA requirements under different compliance levels.</p>
@@ -194,7 +196,7 @@ theSig.Reason = "Schedule Agreed";
 theSig.Sign("../Rez/JohnSmith.pfx", "1234");
 doc.Save("Signed.pdf");
 </code></pre></p>
-            <p>Also see example code in: <a href="addltv.htm">Signature AddLTV Function</a>, <a href="../2-properties/compliancepades.htm">Signature CompliancePades Property</a>, <a href="../2-properties/customsigner.htm">Signature CustomSigner Property</a>, <a href="../2-properties/customsigner2.htm">Signature CustomSigner2 Property</a>.</p>
+            <p>Also see example code in: <a href="addltv.htm">Signature AddLTV Function</a>, <a href="../2-properties/compliancepades.htm">Signature CompliancePades Property</a>, <a href="../2-properties/customsigner.htm">Signature CustomSigner Property</a>, <a href="../2-properties/customsigner2.htm">Signature CustomSigner2 Property</a>, <a href="../2-properties/maxsignaturelength.htm">Signature MaxSignatureLength Property</a>.</p>
             <p>&nbsp;</p></td>
           <td width="60">&nbsp;</td>
           <td width="11">&nbsp;</td></tr></tbody></table></td></tr></tbody></table>

@@ -31,6 +31,14 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=191">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 78, page 183.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 77, page 227.</a></p>
 </p>
+<!-- addition start -->
+<p>The shading dictionary is the base structure for all PDF shading types. It defines the color space, optional bounding box, optional background color, and anti-aliasing flag that apply to every shading regardless of its type.</p>
+<p>The ShadingType entry selects one of seven shading algorithms: function-based (Type 1), axial (Type 2), radial (Type 3), free-form Gouraud-shaded triangle mesh (Type 4), lattice-form Gouraud-shaded triangle mesh (Type 5), Coons patch mesh (Type 6), and tensor-product patch mesh (Type 7).</p>
+<p>The ColorSpace entry sets the color space in which color values are expressed. It must be consistent with the number of color components produced by the shading's function or data stream.</p>
+<p>The optional Background entry gives a color in the shading's color space that is painted outside the shading's natural geometry. It does not affect what appears inside the shading itself.</p>
+<p>The optional BBox entry clips the shading to a rectangle in shading space. The shading paints nothing outside this box, which can improve rendering performance when only part of the shading is visible.</p>
+<p>The AntiAlias flag advises the renderer whether to apply anti-aliasing when painting the shading. The default is false. Enabling it may improve edge quality at the cost of additional computation.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

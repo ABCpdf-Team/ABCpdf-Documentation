@@ -34,6 +34,13 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>An object stream is a PDF stream that contains a sequence of indirect objects compressed together. This structure, introduced in PDF 1.5, allows the cross-reference stream to index objects by their position within the object stream, achieving better compression than storing each object individually.</p>
+<p>The N entry gives the number of objects stored in the stream. The First entry gives the byte offset within the decoded stream body where the object data begins, after the header section that lists object numbers and their offsets.</p>
+<p>The header section consists of N pairs of integers: each pair gives an object number followed by the byte offset of that object relative to First. Objects are stored in the body section in the same order as listed in the header.</p>
+<p>Object streams cannot contain stream objects, the document catalog, encrypt dictionaries, or objects with generation numbers other than zero. These objects must remain as conventional indirect objects.</p>
+<p>The Extends entry references another object stream that this stream logically extends. This allows a large set of compressed objects to be spread across multiple streams while sharing a single set of compressed symbol tables.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

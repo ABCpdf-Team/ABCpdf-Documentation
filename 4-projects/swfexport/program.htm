@@ -1,0 +1,158 @@
+<html>
+<head>
+<title>Program.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Program.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Xml;
+
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+
+namespace SwfExport {
+&nbsp;&nbsp;class Program {
+&nbsp;&nbsp;&nbsp;&nbsp;static void Main(string[] args) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theSourcePdf = Server.MapPath("MyFolder\\import.pdf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theSourceSwf = Server.MapPath("MyFolder\\swfexport.swf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theDestSwf   = Server.MapPath("MyFolder\\output.swf"); // n.b. 'output.html' needs updating if filename changed.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Doc theDoc = new Doc()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Read(theSourcePdf);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SortedDictionary&lt;int, ImageInfo&gt; images = FindAllImages(theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResizeImages(theDoc, images, 48, 48, 75); // make images 48 DPI using quality of 75
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.SaveOptions.Template = theSourceSwf;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Save(theDestSwf);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static SortedDictionary&lt;int, ImageInfo&gt; FindAllImages(Doc inDoc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SortedDictionary&lt;int, ImageInfo&gt; images = new SortedDictionary&lt;int, ImageInfo&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 1; i &lt;= inDoc.PageCount; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inDoc.PageNumber = i;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlDocument xmlDoc = new XmlDocument();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmlDoc.LoadXml(inDoc.GetText("svg+"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNamespaceManager nsmgr = new XmlNamespaceManager(xmlDoc.NameTable);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nsmgr.AddNamespace("svg", "http://www.w3.org/2000/svg");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlElement root = xmlDoc.DocumentElement;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNodeList nodeList = xmlDoc.SelectNodes("//svg:image", nsmgr);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (XmlNode n in nodeList) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ImageInfo ii = new ImageInfo(n);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Discard the visually smaller duplicates.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ImageInfo iiDict;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!images.TryGetValue(ii.PixMapId, out iiDict))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;images[ii.PixMapId] = ii;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (iiDict.WidthInPoints &lt; ii.WidthInPoints)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iiDict.WidthInPoints = ii.WidthInPoints;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (iiDict.HeightInPoints &lt; ii.HeightInPoints)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;iiDict.HeightInPoints = ii.HeightInPoints;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return images;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private static void ResizeImages(Doc inDoc, SortedDictionary&lt;int, ImageInfo&gt; inImages,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double inDpiHorizontal, double inDpiVertical, int inCompressionQuality)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (ImageInfo ii in inImages.Values) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PixMap pm = inDoc.ObjectSoup[ii.PixMapId] as PixMap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int newWidth = Math.Max(1, (int)Math.Round(ii.WidthInPoints * inDpiHorizontal / 72));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int newHeight = Math.Max(1, (int)Math.Round(ii.HeightInPoints * inDpiVertical / 72));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (newWidth &lt; pm.Width || newHeight &lt; pm.Height)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.Resize(Math.Min(newWidth, pm.Width), Math.Min(newHeight, pm.Height));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pm.BitsPerComponent == 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!pm.Compressed)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.CompressCcitt();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ColorSpaceType colorSpace = pm.ColorSpaceType;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (colorSpace == ColorSpaceType.Indexed) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!pm.Compressed)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.Compress(); // Flate.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((colorSpace != ColorSpaceType.DeviceGray) &amp;&amp; (colorSpace != ColorSpaceType.DeviceRGB))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.Recolor(new ColorSpace(inDoc.ObjectSoup)); // DeviceRGB.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pm.CompressJpeg(inCompressionQuality);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;sealed class ImageInfo {
+&nbsp;&nbsp;&nbsp;&nbsp;public double WidthInPoints;
+&nbsp;&nbsp;&nbsp;&nbsp;public double HeightInPoints;
+&nbsp;&nbsp;&nbsp;&nbsp;public int PixMapId;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public ImageInfo(XmlNode inNode) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Image nodes contain lots of useful infomation eg
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// &lt;image xlink:href="image.png" width="810" height="400" x="210" y="414" transform="translate(210, 414) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// translate(-210, -414)" pdf_Name="Iabc43" pdf_ObjectID="44" pdf_CTM="810 0 0 400 210 410" pdf_Op="/Iabc43 Do" 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pdf_StreamID="41" pdf_StreamOffset="31" pdf_StreamLength="10" /&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PixMapId = int.Parse(inNode.Attributes["pdf_ObjectID"].Value);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlAttribute at = inNode.Attributes["width"];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.WidthInPoints = (at == null) ? 0 : double.Parse(at.Value);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;at = inNode.Attributes["height"];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.HeightInPoints = (at == null) ? 0 : double.Parse(at.Value);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;static class Server {
+&nbsp;&nbsp;&nbsp;&nbsp;public static string MapPath(string fileName) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theBase = di.Parent.Parent.FullName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Path.Combine(theBase, fileName);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

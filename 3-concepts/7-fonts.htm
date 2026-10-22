@@ -80,18 +80,18 @@
         <tr> 
           <td> 
             <p>Embedded TrueType or OpenType Unicode fonts are generally the most 
-              efficient and reliable way of adding complex language support to 
+              efficient and reliable way of adding complex language support - for example Cyrillic, Greek, Arabic, Hebrew, Chinese and Japanese - to 
               your PDF documents. However you need to ensure that you have permission 
               to embed and redistribute your chosen font.</p>
             <p>ABCpdf includes options to try and protect you from inadvertently 
               embedding copyrighted fonts. However you should not rely on this 
-              protection. If you wish to embed fonts It is vitally important that 
+              protection. If you wish to embed fonts it is vitally important that 
               you think about the way these fonts will be used and that you understand 
               the operations permitted by the copyright holder. Ultimately you 
               need to take responsibility for any fonts you embed in your PDF 
               documents.</p>
             <p>When embedding large fonts you should generally choose to subset 
-              them. Not only does it produce smaller PDF documents but It is also 
+              them. Not only does it produce smaller PDF documents but it is also 
               generally faster to embed a subset of a large font than to embed 
               the entire font.</p>
             <p>Use the <a href="../5-abcpdf/doc/1-methods/embedfont.htm">Doc.EmbedFont</a> 
@@ -246,7 +246,7 @@
             <p>Fonts are changed when they are inserted into a PDF document. As such it can be difficult to reuse a font which has already been embedded.</p>
             <p>Unicode fonts are complex and the changes that are made to insert them into a PDF document mean that the characteristics that ABCpdf requires for general text operations are unlikely to be present.</p>
             <p>Any font that has been subsetted is obviously going to present difficulty because glyphs have been removed. If you wish to reuse such a font you will not be able to generate output for those glyphs.</p>
-            <p>Because Type 1 fonts contain contain a limited set of characters and a simple encoding, they are the most reliable for re-use - they are much more reliable than TrueType fonts.</p>
+            <p>Because Type 1 fonts contain a limited set of characters and a simple encoding, they are the most reliable for re-use - they are much more reliable than TrueType fonts.</p>
             <p>To access a font that you might be able to re-use you can scan through the <a href="../6-abcpdf.objects/2-objectsoup/default.htm">ObjectSoup</a> looking for <a href="../6-abcpdf.objects/fontobject/default.htm">FontObject</a> objects.</p>
             <p>However be aware that the changes made to fonts may vary between software and between font types. As such this kind of operation is unpredictable.</p>
             <p>&nbsp;</p>            </td>
@@ -277,7 +277,7 @@
             <p>Sometimes permissions are placed on individual font files which 
               may restrict access from restricted permission accounts such as 
               ASP or ASP.NET.</p>
-            <p>Occasionally TrueType fonts are corrupt or non- standard. This 
+            <p>Occasionally TrueType fonts are corrupt or non-standard. This 
               can cause problems for ABCpdf (which will refuse to recognize them) 
               or Acrobat (which will refuse to use a font embedded in the PDF). 
               However this type of problem is relatively infrequent and tends 
@@ -336,7 +336,7 @@
                 <p><strong>Indic Scripts:</strong>&nbsp;Supports the complex conjuncts and reordering rules required for languages like Hindi, Tamil, or Bengali.</p>
               </li>
                             <li>
-                <p><strong>Cursive and Psudo-random Scripts:</strong>&nbsp;Supports the contextual alternates needed for the support of cursive  scripts - one where the letters are designed to connect smoothly to one another, often with flowing strokes. Supports pseudo-random  fonts - a font which includes multiple  glyphs for the same character and switches between them to avoid repetitive patterns.</p>
+                <p><strong>Cursive and Pseudo-random Scripts:</strong>&nbsp;Supports the contextual alternates needed for the support of cursive  scripts - one where the letters are designed to connect smoothly to one another, often with flowing strokes. Supports pseudo-random  fonts - a font which includes multiple  glyphs for the same character and switches between them to avoid repetitive patterns.</p>
               </li>
               <li><strong>Shaping and Breaking:</strong> Uses a variety of shaping and breaking engines for control over complex scripts. Typically ABCpdf uses the official Unicode engine along with HarfBuzz and sometimes Uniscribe. HarfBuzz is the industry-standard, open-source text shaping engine used by Android, Chrome, Firefox, and most Linux systems. It supports OpenType features and all major world scripts.</li>
             </ul>

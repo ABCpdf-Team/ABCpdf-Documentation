@@ -1,0 +1,929 @@
+<html>
+<head>
+<title>PDFContent.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">PDFContent.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+#if DEBUG
+#define CONTENT_VALIDATION
+#endif
+
+using System;
+using System.Globalization;
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Objects;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+#if CONTENT_VALIDATION
+using System.Windows.Forms;
+#endif
+
+
+namespace AdvancedGraphics
+{
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// PDFContent class is a simple constructor of the pdf content.
+&nbsp;&nbsp;/// It provides easy access to the most of the commands described in the PDF Reference.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class PDFContent
+&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFContent(Doc theDoc) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc = theDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The ID of the object containing the resources dictionary.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected virtual int ResourcesObjectID {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(mDoc.PageCount == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Page = mDoc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mDoc.Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Begin new subpath.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;x coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;y coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void Move(double x, double y)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(x);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" m");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("m");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Append straight line segment to path.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;x coordinate &lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;y coordinate &lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void Line(double x, double y) 
+&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(x);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" l");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("l");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Append rectangle to path.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;Bottom left x coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;Bottom left y coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="w"&gt;Width&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="h"&gt;Height&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void Rect(double x, double y, double w, double h)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(x);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(w);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(h);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" re");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("re");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Append curved segment to path (three control points).&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x1"&gt;x coordinate (1st control point)&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y1"&gt;y coordinate (1st control point)&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x2"&gt;x coordinate (2nd control point)&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y2"&gt;y coordinate (2nd control point)&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x3"&gt;x coordinate (3rd control point)&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y3"&gt;y coordinate (3rd control point)&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void Bezier(double x1, double y1, double x2, double y2, double x3, double y3)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(x1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(y1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(x2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(y2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(x3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(y3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" c");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("c");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Close subpath.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Close() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" h");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Stroke path.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void Stroke() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" S");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("S");
+#endif
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fill path using nonzero winding number rule.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void Fill() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" f");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("f");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fill path using even-odd rule.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void FillEvenOddRule() 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" f*");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("f");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set clipping path using nonzero winding number rule.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void Clip() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" W n");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("W");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set clipping path using even-odd rule.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void ClipEvenOddRule() 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" W* n");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("W");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Save graphics state.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SaveState() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" q");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("q");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Restore graphics state.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void RestoreState() 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" Q");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("Q");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set line width.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="v"&gt;Line width&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetLineWidth(double v) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(v);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" w");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("w");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The line cap for the ends of any lines to be stroked.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum LineCap
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Butt,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Round,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ProjectingSquare
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set line cap style.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="v"&gt;Line cap style&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetLineCap(int v) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(v);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" J");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("J");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The line join for the shape of joints between connected segments of a path.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum LineJoin
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Miter,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Round,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bevel
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set line join style.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="v"&gt;Line join style&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetLineJoin(int v) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(v);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" j");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("j");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set miter limit.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="v"&gt;Miter limit&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetMiterLimit(double v) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(v);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" M");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("M");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set line dash pattern.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="dashPattern"&gt;Dash pattern&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void LineDash(string dashPattern) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" ").Append(dashPattern).Append(" d");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("d");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set gray level for stroking operations.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="w"&gt;Level of gray color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetGrayStrokeColor(double w) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(w);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" G");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("G");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set gray level for nonstroking operations.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="w"&gt;Level of gray color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetGrayNonStrokeColor(double w) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(w);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" g");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("g");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set RGB color for stroking operations.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="r"&gt;Level of red color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="g"&gt;Level of green color &lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="b"&gt;Level of blue color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetRGBStrokeColor(double r, double g, double b) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(r);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(g);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(b);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" RG");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("RG");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set RGB color for nonstroking operations.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="r"&gt;Level of red color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="g"&gt;Level of green color &lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="b"&gt;Level of blue color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetRGBNonStrokeColor(double r, double g, double b) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(r);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(g);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(b);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" rg");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("rg");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set CMYK color for stroking operations.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="c"&gt;Level of cyan color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="m"&gt;Level of magenta color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;Level of yellow color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="k"&gt;Level of black color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetCMYKStrokeColor(double c, double m, double y, double k) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(c);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(m);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(k);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" K");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("K");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set CMYK color for nonstroking operations.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="c"&gt;Level of cyan color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="m"&gt;Level of magenta color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;Level of yellow color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="k"&gt;Level of black color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetCMYKNonStrokeColor(double c, double m, double y, double k) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(c);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(m);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(k);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" k");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("k");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Concatenate matrix to current transformation matrix.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="a"&gt;Transformation matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="b"&gt;Transformation matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="c"&gt;Transformation matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="d"&gt;Transformation matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="h"&gt;Transformation matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="v"&gt;Transformation matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void Transform(double a, double b, double c, double d, double h, double v) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(a);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(b);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(c);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(d);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(h);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(v);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" cm");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("cm");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Append arc segment to path.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="start"&gt;Start angle of the arc in degrees&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="end"&gt;End angle of the arc in degrees&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="cx"&gt;Horizontal center of the arc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="cy"&gt;Vertical center of the arc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rx"&gt;Horizontal radius of the arc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="ry"&gt;Vertical radius of the arc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="angle"&gt;Rotate angle&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inMove"&gt;If true, move to the first point of the arc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Arc(double start, double end, double cx, double cy, double rx, double ry, double angle, bool inMove) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;angle = angle * Math.PI / 180;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start = start * Math.PI / 180;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = end * Math.PI / 180;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// for efficiency reasons we should probably suppress calculation of bounds rect here
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const int theN = 8;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const int theNum = (theN * 3) - 2; // start and end only have one control point
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double delta = (end - start) / (theN - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double kv = 4 * (1 - Math.Cos(delta / 2)) / (3 * Math.Sin(delta / 2));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double[] x = new double[theNum];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double[] y = new double[theNum];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double ca = 0, sa = 0, tx = 0, ty = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int i = 0, n = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// make points
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt; theN; i++) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// establish point
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = i * 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ca = Math.Cos((i * delta) + start);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sa = Math.Sin((i * delta) + start);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x[n] = rx * ca;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y[n] = ry * sa;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sa = kv * rx * sa;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ca = kv * ry * ca;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// establish control points
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((n + 1) &lt; theNum) x[n + 1] = x[n] - sa;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((n + 1) &lt; theNum) y[n + 1] = y[n] + ca;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n &gt; 0) x[n - 1] = x[n] + sa;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (n &gt; 0) y[n - 1] = y[n] - ca;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// translate and rotate
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ca = Math.Cos(angle);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sa = Math.Sin(angle);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt; theNum; i++) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tx = (x[i] * ca) - (y[i] * sa) + cx;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ty = (x[i] * sa) + (y[i] * ca) + cy;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x[i] = tx; y[i] = ty;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// draw ellipse
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inMove) Move(x[0], y[0]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt; (theN - 1); i++) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n = i * 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bezier(x[n + 1], y[n + 1], x[n + 2], y[n + 2], x[n + 3], y[n + 3]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("c");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Append ellipse to path. You may wish to close the path after callling this method.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="x"&gt;Bottom left x coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="y"&gt;Bottom left y coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="w"&gt;Width&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="h"&gt;Height&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;internal void Ellipse(double x1, double y1, double w1, double h1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x = x1 + w1, cy = y1 + h1 / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double y = y1 + h1, cx = x1 + w1 / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const double SquareRoot2 = 1.4142135623731d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const double ctrlDist = (SquareRoot2 - 1) * 2 / 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double ctrlX = ctrlDist * w1, ctrlY = ctrlDist * h1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Move(x, cy);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bezier(x, cy + ctrlY, cx + ctrlX, y, cx, y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bezier(cx - ctrlX, y, x1, cy + ctrlY, x1, cy);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bezier(x1, cy - ctrlY, cx - ctrlX, y1, cx, y1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bezier(cx + ctrlX, y1, x, cy - ctrlY, x, cy);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Append pdf content.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="theContent"&gt;The content&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void AddContent(PDFContent theContent)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(theContent.mContents.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add graphic state dictionaries to the page resources.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="enumerable"&gt;Graphic states&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void WriteGStates(IEnumerable&lt;ExtGState&gt; enumerable)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (ExtGState gstate in enumerable) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int theID = mDoc.AddObject(gstate.PdfObject);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.SetInfo(ResourcesObjectID, "/Resources*/ExtGState*/" + gstate.Name + ":Ref", theID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Write content to the doc.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void AddToDoc()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc.PageCount == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Page = mDoc.AddPage();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WriteAllGStates();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.SetInfo(mDoc.FrameRect(), "stream", mContents.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowErrors();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;protected void WriteAllGStates()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WriteGStates(mNonStrokeExtGStates.Values);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WriteGStates(mStrokeExtGStates.Values);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WriteGStates(mBlendModeExtGStates.Values);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WriteGStates(mArbitraryExtGStates);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;protected void ShowErrors()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(mErrors.Count &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string errors = "The content contains following errors:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int errorsToShow = (mErrors.Count &gt; 20)? 20: mErrors.Count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i = 0; i&lt; errorsToShow; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errors += "\n" + mErrors[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(errorsToShow &lt; mErrors.Count)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;errors += "\n...";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show(errors, "PDFContent",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Extended graphic state.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private class ExtGState
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string Name = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string PdfObject = "";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set nonstroking alpha constant.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="ca"&gt;Nonstroking alpha constant&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetNonStrokeAlpha(double ca)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string val = ca.ToString(mFloatFormat, NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ca = double.Parse(val, NumberFormatInfo.InvariantInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExtGState gstate;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( !mNonStrokeExtGStates.TryGetValue(ca, out gstate) ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gstate = new ExtGState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gstate.Name = GetNextGSName();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gstate.PdfObject = "&lt;&lt; /Type/ExtGState\n /ca "+ val + "\n &gt;&gt;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mNonStrokeExtGStates.Add(ca, gstate);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" /").Append(gstate.Name).Append(" gs");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("gs");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set stroking alpha constant.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="CA"&gt;Stroking alpha constant&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetStrokeAlpha(double CA)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string val = CA.ToString(mFloatFormat, NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CA = double.Parse(val, NumberFormatInfo.InvariantInfo);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExtGState gstate;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( !mStrokeExtGStates.TryGetValue(CA, out gstate) ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gstate = new ExtGState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gstate.Name = GetNextGSName();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gstate.PdfObject = "&lt;&lt; /Type/ExtGState\n /CA "+ val + "\n &gt;&gt;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mStrokeExtGStates.Add(CA, gstate);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" /").Append(gstate.Name).Append(" gs");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("gs");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set graphic state.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="pdfFormattedDict"&gt;Graphic State dictionary in pdf native format&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetGraphicState(string pdfFormattedDict)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExtGState gstate = new ExtGState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gstate.Name = GetNextGSName();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gstate.PdfObject = pdfFormattedDict;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mArbitraryExtGStates.Add(gstate);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" /").Append(gstate.Name).Append(" gs");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("gs");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set blend mode.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="blendMode"&gt;Blend mode&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetBlendMode(string blendMode)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExtGState gstate;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( !mBlendModeExtGStates.TryGetValue(blendMode, out gstate) ) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = GetNextGSName();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gstate = new ExtGState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gstate.Name = name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gstate.PdfObject = "&lt;&lt; /Type/ExtGState\n /BM /"+ blendMode + "\n &gt;&gt;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBlendModeExtGStates.Add(blendMode, gstate);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" /").Append(gstate.Name).Append(" gs");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("gs");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get next available name for gs pdf command.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Name of the gs command&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private string GetNextGSName()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = mGSNumber; ; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string gsName = "GS" + i.ToString(NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string test = mDoc.GetInfo(ResourcesObjectID, "/Resources/ExtGState/" + gsName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (test == "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mGSNumber = i + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return gsName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private string FindResourceName(string path, int id, out DictAtom outDict)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string resourcesStr = mDoc.GetInfo(ResourcesObjectID, path);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DictAtom resourcesDict = Atom.FromString(resourcesStr) as DictAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outDict = resourcesDict;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(resourcesDict != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach(KeyValuePair&lt;string, Atom&gt; pair in resourcesDict) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefAtom theRef = pair.Value as RefAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(theRef != null &amp;&amp; theRef.ID == id)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return pair.Key;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the name for Do pdf command.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="id"&gt;The ID of the XObject&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Name of the Do command&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private string GetXObjectName(int id)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const string path = "/Resources/XObject";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DictAtom xobjDict;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = FindResourceName(path + "*", id, out xobjDict);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(name != "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return name;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(xobjDict == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xobjDict = new DictAtom();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string idStr = id.ToString(NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom xobjRef = Atom.FromString(idStr + " 0 R");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name = "Iabc" + idStr;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string test = mDoc.GetInfo(ResourcesObjectID, path + "/" + name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(test == "") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xobjDict.Add(name, xobjRef);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.SetInfo(ResourcesObjectID, path, xobjDict.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i = mXObjNumber; ; ++i) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name = "Iabc" + i.ToString(NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;test = mDoc.GetInfo(ResourcesObjectID, path + "/" + name);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(test == "") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xobjDict.Add(name, xobjRef);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.SetInfo(ResourcesObjectID, path, xobjDict.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mXObjNumber = i + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return name;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set rendering intent.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="intent"&gt;Rendering intent&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetRenderingIntent(string intent)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" /").Append(intent).Append(" ri");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add image to the pdf content.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="imageID"&gt;ID of the image returned by Doc.AddImage method&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void DoImage(int imageID)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imageID = int.Parse(mDoc.GetInfo(imageID , "XObject"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string doImageCommand = GetXObjectName(imageID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" /").Append(doImageCommand).Append(" Do");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add image to the pdf content.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="imageID"&gt;ID of the image returned by Doc.AddImage method&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void DoImage(string name) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" /").Append(name).Append(" Do");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add image to the pdf page without drawing it.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="image"&gt;Image to be added to the page&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual string AddImage(XImage image) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = mDoc.AddImage(image);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var stm = (StreamObject)mDoc.ObjectSoup[id];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = int.Parse(mDoc.GetInfo(id, "XObject"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string name = GetXObjectName(id);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stm.ClearData();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return name;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add Form XObject to the pdf content.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="xobjID"&gt;ID of the Form XObject returned by PDFBoundedContent.WriteToFormXObject method&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void DoFormXObject(PDFFormXObjectID xobjID)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string doCommand = GetXObjectName(xobjID.ID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" /").Append(doCommand).Append(" Do");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Begin text object.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void BeginText()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" BT");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("BT");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;End text object.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void EndText()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" ET");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("ET");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Text rendering mode.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum TextRenderingMode
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillText,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StrokeText,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillThenStrokeText,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Invisible,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillTextAndAddForClipping,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StrokeTextAndAddForClipping,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillThenStrokeTextAndAddForClipping,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddForClipping
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set text rendering mode.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="mode"&gt;Text rendering mode&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetTextRenderingMode(TextRenderingMode mode)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter((double)mode);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" Tr");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("Tr");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set character spacing.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="tc"&gt;Character spacing&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetCharacterSpacing(double tc)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(tc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" Tc");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("Tc");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set Word Spacing.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="tw"&gt;Word spacing&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetWordSpacing(double tw)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(tw);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" Tw");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("Tw");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set horizontal text scaling.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="th"&gt;Horizontal text scaling&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetHorizontalScaling(double th)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(th);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" Tz");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("Tz");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set text leading.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="tl"&gt;Text leading&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetTextLeading(double tl)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(tl);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" TL");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("TL");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set text rise.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="ts"&gt;Text rise&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetTextRise(double ts)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(ts);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" Ts");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("Ts");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Show text.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="text"&gt;Text string&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void ShowTextString(string text)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.AppendFormat(" ({0}) Tj", mPdfString.Replace(text,  @"\$&amp;"));
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("Tj");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set text font and size.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="fontObjID"&gt;Font object ID&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="fontSize"&gt;Font size&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetFont(int fontObjID, double fontSize)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const string path = "/Resources/Font";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DictAtom fontDict;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string fontCommand = FindResourceName(path + "*", fontObjID, out fontDict);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontCommand == "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontDict == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontDict = new DictAtom();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom fontRef = Atom.FromString(fontObjID.ToString(NumberFormatInfo.InvariantInfo) + " 0 R");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontCommand = "Fabc" + fontObjID.ToString(NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontDict.Add(fontCommand, fontRef);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.SetInfo(ResourcesObjectID, path, fontDict.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ( fontCommand != "" )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.AppendFormat(" /{0} {1} Tf", fontCommand, fontSize);
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("Tf");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Set text matrix and text line matrix.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="a"&gt;Text matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="b"&gt;Text matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="c"&gt;Text matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="d"&gt;Text matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="e"&gt;Text matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="f"&gt;Text matrix parameter&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void SetTextMatrix(double a, double b, double c, double d, double e, double f) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(a);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(b);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(c);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(d);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(e);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(f);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" Tm");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("Tm");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Move to start of next text line.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void NextLine() 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" T*");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("T*");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Move text position.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="tx"&gt;x offset from the start of the current line&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="ty"&gt;y offset from the start of the current line&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public virtual void TextMove(double tx, double ty) 
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(tx);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AppendParameter(ty);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.Append(" Td");
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Validate("Td");
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void AppendParameter(double v)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mContents.AppendFormat(NumberFormatInfo.InvariantInfo, " {0:" + mFloatFormat + "}", v);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The PDF floating-point format.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;internal const string mFloatFormat = "0.#####";
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The PDF string escape.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private static readonly Regex mPdfString = new Regex(@"[\\\(\)]",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RegexOptions.Compiled | RegexOptions.Singleline
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| RegexOptions.CultureInvariant);
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Last used number for graphic state command (e.g. GS7 for mGSNumber = 7).&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private int mGSNumber = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Last used number for XObject Do command (e.g. Iabc7 for mXObjNumber = 7).&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private int mXObjNumber = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Parent doc.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected Doc mDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Pdf content string.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;internal System.Text.StringBuilder mContents = new System.Text.StringBuilder();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Binary tree of used extended graphic states for stroke color transparency.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private SortedDictionary&lt;double, ExtGState&gt; mStrokeExtGStates = new SortedDictionary&lt;double, ExtGState&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Binary tree of used extended graphic states for nonstroke color transparency.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private SortedDictionary&lt;double, ExtGState&gt; mNonStrokeExtGStates = new SortedDictionary&lt;double, ExtGState&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Hashtable of used extended graphic states for blending modes.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private Dictionary&lt;string, ExtGState&gt; mBlendModeExtGStates = new Dictionary&lt;string, ExtGState&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;List of used ExtGStates.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;ExtGState&gt; mArbitraryExtGStates = new List&lt;ExtGState&gt;();
+
+#if CONTENT_VALIDATION
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Pdf command validation.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="command"&gt;Pdf command&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void Validate(string command)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int generalOperation =  Array.BinarySearch(mGeneralOps, command);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int textOperation =  Array.BinarySearch(mTextOps, command);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (generalOperation &gt; 0 &amp;&amp; mBeginTextOpen)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mErrors.Add("Illegal operation '" + command + "' inside text object");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (textOperation &gt; 0 &amp;&amp; !mBeginTextOpen )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mErrors.Add("Illegal operation '" + command + "' outside text object");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (command)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "q":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mOpenQCount++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "Q":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mOpenQCount--;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mOpenQCount &lt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mErrors.Add("Invalid restore");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "BT":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBeginTextOpen = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case "ET":
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBeginTextOpen = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Array of pdf commands.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private static readonly string[] mGeneralOps = {"b", "B", "b*", "B*", "c", "d", "f",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"F", "f*", "g", "G", "h", "i", "j", "J", "k", "l", "m",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"M", "n", "re", "rg", "RG", "ri", "s", "S", "v", "w", "W", "W*",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"y"};
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Array of pdf commands used for text output.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private static readonly string[] mTextOps = {"T*", "Tc", "Td", "TD", "Tf", "Tj", "TJ", "TL",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Tm", "Tr", "Ts", "Tw", "Tz"};
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Number of open "q" operators.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private int mOpenQCount = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;True if Begin text operator wasn't closed by End text operator.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private bool mBeginTextOpen = false;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;List of errors in pdf content.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;string&gt; mErrors = new List&lt;string&gt;();
+#endif
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

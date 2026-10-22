@@ -37,6 +37,13 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=165">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Section: 8.6.6.4, page 157.</a></p>
 </p>
+<!-- addition start -->
+<p>A Separation color space names a single colorant channel, typically a spot color or a specific ink used in printing. It encodes a single tint value that represents the amount of that colorant to apply.</p>
+<p>The name identifies the colorant. The special name All targets every available colorant simultaneously; the name None targets no colorant and produces no visible output.</p>
+<p>The alternate color space provides a fallback rendering for devices that cannot produce the named colorant. The tint transform function converts the single tint value into component values in the alternate space.</p>
+<p>On devices that support the named colorant, the tint value is passed directly to the colorant channel. On other devices, the alternate space and tint transform together determine what is rendered.</p>
+<p>Spot color workflows rely on Separation color spaces to pass colorant identity through the PDF pipeline to a RIP or press, which can then use the correct physical ink.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

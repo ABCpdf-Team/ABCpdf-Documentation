@@ -42,6 +42,13 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A CMap stream defines a mapping from character codes to character identifiers. In a type 0 composite font, the Encoding entry points to either a predefined CMap name or a CMap stream. The stream body holds the CMap program in a PostScript-like syntax that lists the code mappings.</p>
+<p>CMapName gives the name of the CMap as it would be used to reference it. This name appears in the CMap program body as well as in the stream dictionary.</p>
+<p>CIDSystemInfo identifies the character collection the CMap targets. It must be compatible with the CIDSystemInfo of the CIDFont it is paired with.</p>
+<p>WMode controls writing direction. A value of 0 selects horizontal writing; a value of 1 selects vertical. The default is 0.</p>
+<p>UseCMap names or references another CMap that this one extends. Character codes not handled by this CMap fall through to the referenced one. This allows a compact CMap to cover only the differences from a standard mapping.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=229">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 97, page 221.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 95, page 272.</a></p>
 </p>
+<!-- addition start -->
+<p>The reference dictionary identifies an external page that a Form XObject represents. It is used in the reference XObject mechanism, which allows a form to serve as a proxy for a page in another PDF document.</p>
+<p>The F entry names the file specification of the external PDF file. The referenced file must be accessible at rendering time for the reference to be resolved.</p>
+<p>The Page entry selects which page of the external file the form represents. It may be specified as an integer page index or as a string page label.</p>
+<p>The ID entry carries the document identifier of the external file. A conforming reader may use this to verify that the correct version of the file is being accessed.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

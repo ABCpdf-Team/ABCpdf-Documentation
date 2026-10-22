@@ -42,6 +42,12 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>An embedded font stream carries the binary data of a font program. The stream dictionary extends the standard stream structure with entries that describe the internal layout of the font data.</p>
+<p>Length1, Length2, and Length3 divide the stream body into sections. For Type 1 font programs, Length1 is the length of the clear-text section, Length2 is the length of the encrypted section, and Length3 is the length of the fixed-content section. For TrueType programs, only Length1 is used and it gives the total length of the uncompressed font file.</p>
+<p>Subtype identifies the font program format when the stream is referenced from FontFile3. Common values are Type1C for CFF-based Type 1 programs, CIDFontType0C for CFF-based CIDFonts, and OpenType for OpenType programs. This entry is absent for FontFile and FontFile2 streams.</p>
+<p>The stream body may be compressed using any standard PDF filter. The Length entries always refer to the decompressed data; the stream's Filter and Length entries in the stream dictionary handle the compression layer.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

@@ -95,7 +95,7 @@
         <td><p>There are no trial licenses created on Linux so you need to set a license in your code. </p>
               <p>At application startup simply call <a href="../5-abcpdf/xsettings/1-methods/installlicense.htm">XSettings:InstallLicense</a> with a license key. You can use a trial license key copied from the PDFSettings application on Windows or with a purchased license key.</p>
           <p>The PDFSettings application is available in the full Windows MSI installation. Download and run the MSI from our site and then look under the ABCpdf menu item for the PDFSettings app. Open it and you will see a trial license key - an alphanumeric string about a hundred characters long. You can use this in your code.</p>
-          <p><img src="../images/pdfsettings.png" alt="PDFSettings Screenshot" width="574" height="579"></p>
+          <p><img src="../images/pdfsettings.png" alt="PDFSettings Screenshot" width="574" height="549"></p>
           <p>&nbsp;</p></td>
         <td width="60">&nbsp;</td>
         <td width="11">&nbsp;</td>
@@ -119,9 +119,9 @@
             App host version: 6.0.22<br>
             .NET location: Not found</code></P>
           <p>Publishing with self-contained true is a good alternative if your chosen runtime is not easily available on your distro. It increases the output size by about 60 MB but provides a simple solution.</p>
-          <p>Details of how to install the runtime may be found <a href="https://learn.microsoft.com/en-us/dotnet/core/install/linux">here</a>. If you are using .NET 8 you might need the following. However the process does vary by platform so you may need to check the Microsoft documentation.</p>
+          <p>Details of how to install the runtime may be found <a href="https://learn.microsoft.com/en-us/dotnet/core/install/linux">here</a>. If you are using .NET 10 you might need the following. However the process does vary by platform so you may need to check the Microsoft documentation.</p>
           <p><code class="language-html">sudo apt update<br>
-            sudo apt install dotnet-runtime-8.0<br>
+            sudo apt install dotnet-runtime-10.0<br>
           </code></p>
           <p>If you are using ABCChrome then you may need to install a few extra packages. </p>
           <p><code class="language-html"># for Ubuntu 22 and 23<br>
@@ -167,7 +167,7 @@
       <tr>
         <td><p>If you are using WSL you must use WSL 2. WSL version 1 is not supported.</p>
           <p>WSL 2 is not fast when it comes to file access across the OS divide. Operations such as validating the ABCChrome install require checksums to be calculated on large files. These take a fraction of a second if your files are located on the same OS file system. However if they are located on the Windows file system (paths such as /mnt/c) they can take many seconds.</p>
-          <p>WSL 1 is much faster here but there are parts missing from which can lead to subtle problems. For example in WSL 1 there is no range based file locking. Without file locking it is difficult to be sure that files will get synchronized correctly. Similarly WSL 1 does not support some memory mapping operations which means that some complex HTML conversion operations may fail.</p>
+          <p>WSL 1 is much faster here but there are parts missing which can lead to subtle problems. For example in WSL 1 there is no range based file locking. Without file locking it is difficult to be sure that files will get synchronized correctly. Similarly WSL 1 does not support some memory mapping operations which means that some complex HTML conversion operations may fail.</p>
           <p>In many situations things will work, but when they go wrong the problems will be small and subtle and impossible to fix. That is why we do not support WSL 1.</p>
           <p>&nbsp;</p></td>
         <td width="60">&nbsp;</td>
@@ -215,6 +215,8 @@ sudo chmod +x helloworld
               <pre><code class="language-html">sudo chmod +x ABCChrome146/ABCChrome146</code></pre>
               <p>Then run your executable to produce an output.</p>
               <pre><code class="language-html">./helloworld</code></pre>
+              <p>Sometimes WSL will create your files owned by root rather than as your pcuser. This is related to the way files are written from the Windows side to the Linux side. If this is the case you will get a permissions error and you will need to change the ownership. If you build from the Linux side permissions will be more straightforward.</p>
+              <pre><code class="language-html">sudo chown -R pcuser:pcuser /home/pcuser/helloworld</code></pre>
               <p>&nbsp;</p></td>
         <td width="60">&nbsp;</td>
         <td width="11">&nbsp;</td>

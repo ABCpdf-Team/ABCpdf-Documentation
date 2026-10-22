@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=153">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 63, page 145.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 62, page 183.</a></p>
 </p>
+<!-- addition start -->
+<p>The CalGray color space attributes dictionary holds the calibration parameters that define how a single gray component value maps to a CIE XYZ tristimulus value.</p>
+<p>CalGray encodes a single-channel luminance value. The component is first raised to the power given by Gamma, then scaled by the Y component of the white point to produce the CIE Y value.</p>
+<p>The white point array defines the reference illuminant as CIE XYZ values. It must contain three positive numbers, with the Y component equal to 1.0. This anchors the color space to a specific viewing condition.</p>
+<p>The optional black point sets the CIE XYZ values corresponding to a component value of zero. If omitted, the black point defaults to the origin, meaning no output for a zero component.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

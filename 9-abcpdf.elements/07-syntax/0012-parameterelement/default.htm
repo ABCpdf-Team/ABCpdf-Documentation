@@ -30,6 +30,10 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=30">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 22.</a></p>
 </p>
+<!-- addition start -->
+<p>Parameter dictionaries carry decode parameters for stream filters. Each filter that requires configuration has a corresponding parameter dictionary type. The parameter dictionary is referenced from the stream's DecodeParms entry.</p>
+<p>When a stream uses multiple filters, the DecodeParms entry holds an array with one parameter dictionary per filter in the same order as the Filter array. A null entry in the array means the corresponding filter takes no parameters.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

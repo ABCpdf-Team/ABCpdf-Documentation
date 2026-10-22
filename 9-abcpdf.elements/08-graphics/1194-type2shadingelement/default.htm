@@ -31,6 +31,13 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=194">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 80, page 186.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 79, page 231.</a></p>
 </p>
+<!-- addition start -->
+<p>A Type 2 shading, also called an axial shading, paints a smooth transition between colors along a straight axis defined by two points. The color varies linearly along the axis and is constant in the perpendicular direction.</p>
+<p>The Coords entry gives the two endpoints of the colour axis in shading space. Color values at intermediate positions are determined by the function evaluated at the interpolated parameter value.</p>
+<p>The Domain entry bounds the parameter range passed to the function. Its default of [0 1] maps the start point of Coords to 0 and the end point to 1. Extending the domain beyond these limits can produce extrapolated colors.</p>
+<p>The Function entry maps the parameter to color component values. It must accept one scalar input and produce outputs for each component of the shading's color space.</p>
+<p>The Extend array controls whether the shading extends beyond the defined endpoints. Each boolean value applies to one end: true means the terminal color continues indefinitely; false means no paint is applied beyond that end.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

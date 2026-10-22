@@ -42,6 +42,11 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A signature dictionary holds all data associated with a digital signature applied to a PDF. The Filter entry names the security handler. SubFilter names the encoding convention. Both are required so that a verifier can locate the correct processing module.</p>
+<p>The Contents entry holds the signature bytes. The ByteRange entry identifies the byte ranges that were hashed. The Reference array holds signature reference dictionaries describing the transform applied before hashing.</p>
+<p>The M entry records the signing time. Name, Location, Reason, and ContactInfo provide additional metadata. Prop_Build, Prop_AuthTime, and Prop_AuthType carry application and authentication metadata.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

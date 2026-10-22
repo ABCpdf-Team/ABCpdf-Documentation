@@ -39,6 +39,12 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=97">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 36, page 89.</a></p>
 </p>
+<!-- addition start -->
+<p>Name tree nodes form the structure of a name tree, which maps string keys in lexicographic order to PDF values. Name trees are used throughout PDF for named destinations, embedded files, and other named resources.</p>
+<p>An intermediate node holds a Kids array of indirect references to child nodes and a Limits array containing the lexicographically smallest and largest keys in its subtree. Readers use the Limits arrays to navigate to the correct subtree for a given key without visiting every node.</p>
+<p>A leaf node holds a Names array of alternating key-value pairs. The keys are string objects in ascending lexicographic order, and the values are the corresponding PDF objects for each key.</p>
+<p>The root node may be either an intermediate node or a leaf node. A root that holds Names directly is a leaf root covering all entries in a single node.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

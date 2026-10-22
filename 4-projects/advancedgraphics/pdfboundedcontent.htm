@@ -1,0 +1,753 @@
+<html>
+<head>
+<title>PDFBoundedContent.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">PDFBoundedContent.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Globalization;
+using System.Runtime.InteropServices;
+using WebSupergoo.ABCpdf14;
+
+namespace AdvancedGraphics {
+&nbsp;&nbsp;/// &lt;summary&gt;Rectangle in double precision.&lt;/summary&gt;
+&nbsp;&nbsp;[StructLayout(LayoutKind.Auto)]
+&nbsp;&nbsp;public struct PDFRect {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The entire plane.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static PDFRect Infinity {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new PDFRect(double.NegativeInfinity, double.NegativeInfinity,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double.PositiveInfinity, double.PositiveInfinity);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public double X, Y, Width, Height;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFRect(double x, double y, double width, double height) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X = x;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y = y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width = width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Height = height;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public double Right {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return double.IsInfinity(Width)? Width: X+Width; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;public double Top {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return double.IsInfinity(Height)? Height: Y+Height; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The string representation as used in PDF and XRect.String.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public override string ToString() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const string format = PDFContent.mFloatFormat;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return string.Format(NumberFormatInfo.InvariantInfo,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"{0:" + format + "} {1:" + format
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "} {2:" + format + "} {3:" + format + "}",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X, Y, Right, Top);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Union(double x, double y, double width, double height) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(width&gt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(!(Width&gt;0)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width = width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X = x;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if(x&lt;X) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width += X-x;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X = x;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(width&gt;Width)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width = width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double right = Right;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double rectRight = double.IsInfinity(width)? width: x+width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(rectRight&gt;right)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width = rectRight-X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(height&gt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(!(Height&gt;0)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Height = height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y = y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if(y&lt;Y) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Height += Y-y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y = y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(height&gt;Height)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Height = height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double top = Top;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double rectTop = double.IsInfinity(height)? height: y+height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(rectTop&gt;top)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Height = rectTop-Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Intersect(PDFRect rect) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(X&lt;rect.X) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width -= rect.X-X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X = rect.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(rect.Width&lt;double.PositiveInfinity
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; (!(Width&lt;double.PositiveInfinity) || X+Width&gt;rect.X+rect.Width))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width = rect.X+rect.Width-X;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(Y&lt;rect.Y) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Height -= rect.Y-Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y = rect.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(rect.Height&lt;double.PositiveInfinity
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; (!(Height&lt;double.PositiveInfinity) || Y+Height&gt;rect.Y+rect.Height))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Height = rect.Y+rect.Height-Y;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal static void GetLineBounds(double x0, double y0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x1, double y1, out double outX, out double outY,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out double outWidth, out double outHeight)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(x0&lt;=x1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outWidth = x1-x0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outX = x0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outWidth = x0-x1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outX = x1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(y0&lt;=y1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outHeight = y1-y0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outY = y0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outHeight = y0-y1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outY = y1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal static void GetBezierBounds(double start, double control0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double control1, double end, out double outX, out double outWidth)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double midControl = (control0+control1)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double quadControl0 = (start+control0)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double quadControl1 = (quadControl0+midControl)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quadControl0 = (start+quadControl0*3)/4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double quadControl3 = (end+control1)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double quadControl2 = (quadControl3+midControl)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quadControl3 = (end+quadControl3*3)/4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double mid = quadControl1+quadControl2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quadControl1 = (quadControl1*6+mid)/8;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quadControl2 = (quadControl2*6+mid)/8;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(start&lt;=end)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = start;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = end;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = start;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(quadControl0&lt;x)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = quadControl0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if(quadControl0&gt;end)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = quadControl0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(quadControl1&lt;x)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = quadControl1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if(quadControl1&gt;end)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = quadControl1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(quadControl2&lt;x)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = quadControl2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if(quadControl2&gt;end)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = quadControl2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(quadControl3&lt;x)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = quadControl3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if(quadControl3&gt;end)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = quadControl3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outX = x;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outWidth = end-x;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;Matrix in double precision.&lt;/summary&gt;
+&nbsp;&nbsp;[StructLayout(LayoutKind.Auto)]
+&nbsp;&nbsp;public struct PDFMatrix {
+&nbsp;&nbsp;&nbsp;&nbsp;public static PDFMatrix Identity { get { return new PDFMatrix(1, 0, 0, 1, 0, 0); } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public double M00, M01, M10, M11, M20, M21;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFMatrix(double m00, double m01, double m10, double m11,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double m20, double m21)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M00 = m00;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M01 = m01;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M10 = m10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M11 = m11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M20 = m20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M21 = m21;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFMatrix(PDFMatrix v, double m00, double m01, double m10, double m11,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double m20, double m21)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M00 = v.M00*m00+v.M10*m01;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M01 = v.M01*m00+v.M11*m01;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M10 = v.M00*m10+v.M10*m11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M11 = v.M01*m10+v.M11*m11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M20 = v.M00*m20+v.M10*m21+v.M20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M21 = v.M01*m20+v.M11*m21+v.M21;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFMatrix(ref PDFMatrix v, double m00, double m01, double m10, double m11,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double m20, double m21)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M00 = v.M00*m00+v.M10*m01;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M01 = v.M01*m00+v.M11*m01;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M10 = v.M00*m10+v.M10*m11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M11 = v.M01*m10+v.M11*m11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M20 = v.M00*m20+v.M10*m21+v.M20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M21 = v.M01*m20+v.M11*m21+v.M21;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFMatrix(PDFMatrix v0, PDFMatrix v1) : this(ref v0, ref v1) { }
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFMatrix(ref PDFMatrix v0, ref PDFMatrix v1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M00 = v0.M00*v1.M00+v0.M10*v1.M01;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M01 = v0.M01*v1.M00+v0.M11*v1.M01;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M10 = v0.M00*v1.M10+v0.M10*v1.M11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M11 = v0.M01*v1.M10+v0.M11*v1.M11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M20 = v0.M00*v1.M20+v0.M10*v1.M21+v0.M20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M21 = v0.M01*v1.M20+v0.M11*v1.M21+v0.M21;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public double MultiplierXSquare { get { return M00*M00+M10*M10; } }
+&nbsp;&nbsp;&nbsp;&nbsp;public double MultiplierYSquare { get { return M01*M01+M11*M11; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void TransformPoint(double x, double y,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out double outX, out double outY)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outX = x*M00+y*M10+M20;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outY = x*M01+y*M11+M21;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Translate(double offsetX, double offsetY) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TransformPoint(offsetX, offsetY, out M20, out M21);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void Scale(double scaleX, double scaleY) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M00 *= scaleX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M01 *= scaleX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M10 *= scaleY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M11 *= scaleY;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void GetRectBounds(double x, double y,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double width, double height, out double outX, out double outY,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out double outWidth, out double outHeight)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TransformPoint(x, y, out x, out y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double widthX = width*M00;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double heightX = height*M10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(widthX&gt;=heightX) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(widthX&lt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;widthX = -widthX-heightX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x -= widthX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if(heightX&lt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;widthX -= heightX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x += heightX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;widthX += heightX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(heightX&lt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;widthX = -widthX-heightX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x -= widthX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if(widthX&lt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x += widthX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;widthX = heightX-widthX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;widthX += heightX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outX = x;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outWidth = widthX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double heightY = height*M11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double widthY = width*M01;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(heightY&gt;=widthY) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(heightY&lt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heightY = -heightY-widthY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y -= heightY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if(widthY&lt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heightY -= widthY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y += widthY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heightY += widthY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(widthY&lt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heightY = -heightY-widthY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y -= heightY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if(heightY&lt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y += heightY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heightY = widthY-heightY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heightY += widthY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outY = y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outHeight = heightY;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;internal void GetBezierBounds(double startX, double startY,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double controlX0, double controlY0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double controlX1, double controlY1, double endX, double endY,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out double outX, out double outY,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out double outWidth, out double outHeight)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// startX and startY are already transformed
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//TransformPoint(startX, startY, out startX, out startY);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TransformPoint(controlX0, controlY0, out controlX0, out controlY0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TransformPoint(controlX1, controlY1, out controlX1, out controlY1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TransformPoint(endX, endY, out endX, out endY);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFRect.GetBezierBounds(startX, controlX0, controlX1, endX,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out outX, out outWidth);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFRect.GetBezierBounds(startY, controlY0, controlY1, endY,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out outY, out outHeight);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;Form XObject ID and bounds.&lt;/summary&gt;
+&nbsp;&nbsp;[StructLayout(LayoutKind.Auto)]
+&nbsp;&nbsp;public struct PDFFormXObjectID {
+&nbsp;&nbsp;&nbsp;&nbsp;public int ID;
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFRect Bounds;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFFormXObjectID(int id, PDFRect bounds) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bounds = bounds;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+
+&nbsp;&nbsp;/// &lt;summary&gt;PDF content with bounds for the construction of Form XObjects.&lt;/summary&gt;
+&nbsp;&nbsp;public class PDFBoundedContent: PDFContent {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The graphics state for the calculation of the bounds.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected class PDFGraphicsState {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public PDFRect ClipBounds;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public PDFMatrix Matrix;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double LineWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double MiterLimit;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public LineJoin LineJoin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public LineCap LineCap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public int FontID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double FontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double CharSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double WordSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double HorizontalTextScale;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double TextLeading;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public TextRenderingMode TextRender;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double TextRise;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public PDFGraphicsState() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ClipBounds = PDFRect.Infinity;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix = PDFMatrix.Identity;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LineWidth = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MiterLimit = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LineJoin = PDFContent.LineJoin.Miter;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LineCap = PDFContent.LineCap.Butt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HorizontalTextScale = 100;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextRender = TextRenderingMode.FillText;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private PDFGraphicsState(PDFGraphicsState v) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ClipBounds = v.ClipBounds;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix = v.Matrix;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LineWidth = v.LineWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MiterLimit = v.MiterLimit;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LineJoin = v.LineJoin;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LineCap = v.LineCap;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontID = v.FontID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontSize = v.FontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CharSpacing = v.CharSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WordSpacing = v.WordSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HorizontalTextScale = v.HorizontalTextScale;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextLeading = v.TextLeading;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextRender = v.TextRender;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextRise = v.TextRise;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public PDFGraphicsState Clone() { return CloneState(); }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;protected virtual PDFGraphicsState CloneState() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new PDFGraphicsState(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The Form XObject ID.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private int _xobjID;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The stack of graphics states.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private Stack&lt;PDFGraphicsState&gt; _stateStack;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The current graphics state.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private PDFGraphicsState _state;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The current drawing position.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private double _x, _y;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The bounds of the content.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private PDFRect _bounds;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The bounds of path being constructed.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private PDFRect _pathBounds;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The text line matrix.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private PDFMatrix _textMatrix;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The ID of the font whose information is loaded/cached.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private int _fontInfoID;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The font glyph bounding box.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private XRect _fontBBox;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Whether the font is multibyte.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private bool _fontIsMultibyte;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFBoundedContent(Doc doc) : this(doc,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.AddObject("&lt;&lt;/Type /XObject /Subtype /Form"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+" /Resources &lt;&lt;/ProcSet[/PDF /Text /ImageB /ImageC /ImageI]&gt;&gt;&gt;&gt;stream\nendstream\n"))
+&nbsp;&nbsp;&nbsp;&nbsp;{ }
+
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFBoundedContent(Doc doc, int xobjID) : base(doc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_xobjID = xobjID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_stateStack = new Stack&lt;PDFGraphicsState&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state = new PDFGraphicsState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_textMatrix = PDFMatrix.Identity;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fontBBox = new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;protected override int ResourcesObjectID { get { return _xobjID; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void UnionBounds(PDFRect rect) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect.Intersect(_state.ClipBounds);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_bounds.Union(rect.X, rect.Y, rect.Width, rect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;private void UnionPathBounds(double lineWidth) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x = _pathBounds.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double y = _pathBounds.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(lineWidth&gt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lineWidth /= 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double halfWidthX = lineWidth*Math.Sqrt(_state.Matrix.MultiplierXSquare);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double halfWidthY = lineWidth*Math.Sqrt(_state.Matrix.MultiplierYSquare);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.X -= halfWidthX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Y -= halfWidthY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Width += 2*halfWidthX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Height += 2*halfWidthY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UnionBounds(_pathBounds);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.X = x;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Y = y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Width = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Height = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void Move(double x, double y) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Move(x, y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.Matrix.TransformPoint(x, y, out _x, out _y);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void Line(double x, double y) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Line(x, y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x0 = _x, y0 = _y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.Matrix.TransformPoint(x, y, out _x, out _y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFRect.GetLineBounds(x0, y0, _x, _y, out x0, out y0, out x, out y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Union(x0, y0, x, y);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void Rect(double x, double y, double w, double h) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Rect(x, y, w, h);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.Matrix.TransformPoint(x, y, out _x, out _y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.Matrix.GetRectBounds(x, y, w, h, out x, out y, out w, out h);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Union(x, y, w, h);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void Bezier(double x1, double y1, double x2, double y2,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x3, double y3)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Bezier(x1, y1, x2, y2, x3, y3);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x0 = _x, y0 = _y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.Matrix.TransformPoint(x3, y3, out _x, out _y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.Matrix.GetBezierBounds(x0, y0, x1, y1, x2, y2, x3, y3,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out x0, out y0, out x1, out y1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Union(x0, y0, x1, y1);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void Stroke() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Stroke();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UnionPathBounds(_state.LineWidth);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void Fill() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Fill();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UnionPathBounds(0);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void FillEvenOddRule() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.FillEvenOddRule();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UnionPathBounds(0);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void Clip() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Clip();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.ClipBounds.Intersect(_pathBounds);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Width = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Height = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ClipEvenOddRule() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.ClipEvenOddRule();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.ClipBounds.Intersect(_pathBounds);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Width = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_pathBounds.Height = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SaveState() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SaveState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_stateStack.Push(_state.Clone());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void RestoreState() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.RestoreState();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state = _stateStack.Pop();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetLineWidth(double v) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetLineWidth(v);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.LineWidth = Math.Abs(v);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetLineCap(int v) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetLineCap(v);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.LineCap = (LineCap)v;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetLineJoin(int v) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetLineJoin(v);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.LineJoin = (LineJoin)v;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetMiterLimit(double v) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetMiterLimit(v);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.MiterLimit = Math.Abs(v);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void Transform(double a, double b, double c, double d,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double h, double v)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Transform(a, b, c, d, h, v);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.Matrix = new PDFMatrix(ref _state.Matrix, a, b, c, d, h, v);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void AddContent(PDFContent theContent) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new NotSupportedException("PDFBoundedContent does not support AddContent.");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void AddToDoc() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new InvalidOperationException("PDFBoundedContent does not allow AddToDoc.");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Write the contents to the Form XObject.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFFormXObjectID WriteToFormXObject() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WriteAllGStates();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.SetInfo(_xobjID, "stream", mContents.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.SetInfo(_xobjID, "/BBox:Rect", _bounds.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowErrors();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new PDFFormXObjectID(_xobjID, _bounds);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void DoImage(int imageID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.DoImage(imageID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFRect rect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.Matrix.GetRectBounds(0, 0, 1, 1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out rect.X, out rect.Y, out rect.Width, out rect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UnionBounds(rect);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void DoFormXObject(PDFFormXObjectID xobjID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.DoFormXObject(xobjID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFRect rect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.Matrix.GetRectBounds(xobjID.Bounds.X, xobjID.Bounds.Y,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xobjID.Bounds.Width, xobjID.Bounds.Height,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out rect.X, out rect.Y, out rect.Width, out rect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UnionBounds(rect);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void BeginText() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.BeginText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_textMatrix = PDFMatrix.Identity;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetTextRenderingMode(PDFContent.TextRenderingMode mode) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetTextRenderingMode(mode);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.TextRender = mode;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetCharacterSpacing(double tc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetCharacterSpacing(tc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.CharSpacing = tc;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetWordSpacing(double tw) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetWordSpacing(tw);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.WordSpacing = tw;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetHorizontalScaling(double th) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetHorizontalScaling(th);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.HorizontalTextScale = th;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetTextLeading(double tl) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetTextLeading(tl);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.TextLeading = tl;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetTextRise(double ts) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetTextRise(ts);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.TextRise = ts;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void ShowTextString(string text) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.ShowTextString(text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(text.Length&lt;=0 || _state.FontID==0 || !(_state.FontSize&gt;0))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string s = mDoc.GetInfo(_state.FontID, "Widths "+text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(s.Length&lt;=0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_fontInfoID!=_state.FontID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fontIsMultibyte = mDoc.GetInfo(_state.FontID, "/Subtype:Name")=="Type0";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fontBBox.String = mDoc.GetInfo(_state.FontID, "FontBBox");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_fontInfoID = _state.FontID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long width = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int i = 0, count = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int j; (j = s.IndexOf(',', i))&gt;=i; i = j+1, ++count) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width += int.Parse(s.Substring(i, j-i), NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i = int.Parse(s.Substring(i), NumberFormatInfo.InvariantInfo);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double right = width + Math.Max(_fontBBox.Right, i);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width += i;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++count;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double scale = _state.FontSize/1000;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right *= scale;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double advance = width*scale;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int wordSpaceCount = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(!_fontIsMultibyte &amp;&amp; _state.WordSpacing!=0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(i = 0; i&lt;count; ++i) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(text[i]==' ')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++wordSpaceCount;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(wordSpaceCount&gt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double spacing = _state.WordSpacing*wordSpaceCount;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right += text[count-1]!=' '? spacing: spacing-_state.WordSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;advance += spacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_state.CharSpacing!=0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double spacing = _state.CharSpacing*count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(count&gt;1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right += spacing-_state.CharSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;advance += spacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFMatrix matrix = new PDFMatrix(ref _state.Matrix, ref _textMatrix);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_state.TextRise!=0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matrix.Translate(0, _state.TextRise);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_state.HorizontalTextScale!=100) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double hscale = _state.HorizontalTextScale/100;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matrix.Scale(hscale, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;advance *= hscale;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_textMatrix.Translate(advance, 0);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double left = _fontBBox.Left*scale;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFRect rect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matrix.GetRectBounds(left, _fontBBox.Bottom*scale,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right-left, _fontBBox.Height*scale,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out rect.X, out rect.Y, out rect.Width, out rect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_state.LineWidth&gt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch(_state.TextRender) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextRenderingMode.StrokeText:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextRenderingMode.FillThenStrokeText:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextRenderingMode.StrokeTextAndAddForClipping:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case TextRenderingMode.FillThenStrokeTextAndAddForClipping:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double halfWidth = _state.LineWidth/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double halfWidthX = halfWidth*Math.Sqrt(_state.Matrix.MultiplierXSquare);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double halfWidthY = halfWidth*Math.Sqrt(_state.Matrix.MultiplierYSquare);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect.X -= halfWidthX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect.Y -= halfWidthY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect.Width += 2*halfWidthX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect.Height += 2*halfWidthY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UnionBounds(rect);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetFont(int fontObjID, double fontSize) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetFont(fontObjID, fontSize);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.FontID = fontObjID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_state.FontSize = Math.Abs(fontSize);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void SetTextMatrix(double a, double b, double c, double d, double e, double f) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.SetTextMatrix(a, b, c, d, e, f);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_textMatrix.M00 = a;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_textMatrix.M01 = b;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_textMatrix.M10 = c;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_textMatrix.M11 = d;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_textMatrix.M20 = e;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_textMatrix.M21 = f;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void NextLine() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.NextLine();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_state.TextLeading!=0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_textMatrix.Translate(0, -_state.TextLeading);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public override void TextMove(double tx, double ty) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.TextMove(tx, ty);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_textMatrix.Translate(tx, ty);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

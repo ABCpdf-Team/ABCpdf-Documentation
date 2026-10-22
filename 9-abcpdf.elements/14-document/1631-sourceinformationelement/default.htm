@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=631">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 355, page 623.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 391, page 803.</a></p>
 </p>
+<!-- addition start -->
+<p>A source information dictionary records the origin of captured web content: the source URL, capture timestamp, HTTP encoding, and the capture command used.</p>
+<p>The AU entry holds the source URL as a string or URL alias dictionary. The TS entry holds the capture timestamp as a PDF date string.</p>
+<p>The E entry records the MIME encoding. The S entry holds an array of source information dictionaries for content retrieved from multiple sources or through redirects.</p>
+<p>The C entry references the web capture command dictionary used to capture this content, linking source information back to the capture parameters.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

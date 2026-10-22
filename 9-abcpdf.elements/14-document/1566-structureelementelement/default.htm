@@ -34,6 +34,18 @@
 <p>This class is always an indirect object because OutlineItemElement.EntrySE, StructureElementElement.EntryP and StructureElementElement.EntryRef require it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>A structure element represents one node in the logical structure tree of a tagged PDF document. Structure elements form a hierarchy mirroring the logical organization of the content: sections, paragraphs, headings, tables, and figures.</p>
+<p>The S entry names the structure type, identifying the element role. Standard types cover document-level containers, block-level elements, and inline elements. Non-standard types must be mapped to standard ones via the role map.</p>
+<p>The K entry references the children of this element. Children may be other structure elements, marked content references, object references, integers as MCID shortcuts, or inline dictionaries combining a page reference with an MCID.</p>
+<p>The A entry holds attribute objects describing visual and structural properties. Attributes may specify placement, spacing, borders, color, and other properties. The C entry references class names in the ClassMap to inherit shared attribute sets.</p>
+<p>The T entry provides a human-readable title for the element. The Alt entry provides an alternate description for figures and other non-text content to support screen readers.</p>
+<p>The Lang entry specifies the natural language of the element content, overriding ancestor declarations and allowing multilingual documents to tag each section correctly.</p>
+<p>The ActualText entry holds the Unicode text the element content represents, used when rendered glyphs do not directly map to the intended text, such as in ligatures or glyph substitutions.</p>
+<p>The Ref entry holds an array of references to logically related structure elements, supporting cross-references within the structure tree.</p>
+<p>The NS entry references the namespace to which this element type belongs. When absent, the element type is in the standard PDF namespace.</p>
+<p>The PhoneticAlphabet and Phoneme entries support text-to-speech rendering by providing a phonetic transcription of the element content using a named phonetic alphabet.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

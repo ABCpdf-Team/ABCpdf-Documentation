@@ -1,0 +1,1111 @@
+<html>
+<head>
+<title>PDFTable.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">PDFTable.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Drawing;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Diagnostics;
+using WebSupergoo.ABCpdf14;
+
+
+namespace PDFTableExamples
+{
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// PDFTable class is used to add table aligned content to pdf files
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class PDFTable {
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The cell padding property&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double CellPadding {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return mCellPadding; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { mCellPadding = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Vertical alignment of the row&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double VerticalAlignment&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return mVerticalAlignment; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (value &gt; 1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mVerticalAlignment = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (value &lt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mVerticalAlignment = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mVerticalAlignment = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Horizontal alignment. This property is taken
+&nbsp;&nbsp;&nbsp;&nbsp;/// directly from Doc.TextStyle.HPos&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public double HorizontalAlignment {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return mDoc.TextStyle.HPos; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { mDoc.TextStyle.HPos = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Number of lines to be repeated on every page&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int HeaderLinesCount {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return mHeaderLinesCount; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { mHeaderLinesCount = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;If true, header is repeated on every new page&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool RepeatHeader {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return mRepeatHeader; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { mRepeatHeader = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;If true, header is framed&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool FrameHeader {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return mFrameHeader; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set { mFrameHeader = value; }
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The current page number - cached for speed&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int PageNumber {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int thePageID = mDoc.Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (thePageID == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int thePageNum;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mPageNos.TryGetValue(thePageID, out thePageNum)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageNum = mDoc.PageNumber;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPageNos.Add(thePageID, thePageNum);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPageIDs[thePageNum] = thePageID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return thePageNum;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int thePageID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mPageIDs.TryGetValue(value, out thePageID)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePageID = mDoc.Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (value == 1 &amp;&amp; thePageID == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.PageNumber = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPageNos[thePageID] = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPageIDs.Add(value, thePageID);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Page = thePageID;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private double mCellPadding = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;private double mVerticalAlignment = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;private int mHeaderLinesCount = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;private bool mRepeatHeader = false;
+&nbsp;&nbsp;&nbsp;&nbsp;private bool mFrameHeader = false;
+&nbsp;&nbsp;&nbsp;&nbsp;private SortedDictionary&lt;int, int&gt; mPageNos = new SortedDictionary&lt;int, int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;private SortedDictionary&lt;int, int&gt; mPageIDs = new SortedDictionary&lt;int, int&gt;();
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Associated Doc&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private Doc mDoc = null;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Number of pre-existing layers&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private SortedDictionary&lt;int, int&gt; mInitialLayerCounts =  new SortedDictionary&lt;int, int&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Current cell&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private Point mPos = new Point();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Bounds of the table&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private XRect mBounds = new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Relative widths of the columns&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private double[] mWidths = new double[0];
+&nbsp;&nbsp;&nbsp;&nbsp;private PDFTable mParentTable;
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;PagePos class includes vertical position and page number&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private sealed class PagePos {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public PagePos(PDFTable inTable) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPageHeight = inTable.mDoc.MediaBox.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PosY = inTable.mDoc.Rect.Top;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNr = inTable.PageNumber;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public PagePos(PagePos p) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPageHeight = p.mPageHeight;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PosY = p.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNr = p.PageNr;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static bool operator &lt;(PagePos p1, PagePos p2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (p1.PageNr &gt; p2.PageNr) || (p1.PageNr == p2.PageNr &amp;&amp; p1.PosY &lt; p2.PosY);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static bool operator &lt;=(PagePos p1, PagePos p2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (p1.PageNr &gt; p2.PageNr) || (p1.PageNr == p2.PageNr &amp;&amp; p1.PosY &lt;= p2.PosY);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static bool operator &gt;(PagePos p1, PagePos p2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return !(p1.PageNr &gt; p2.PageNr) || (p1.PageNr == p2.PageNr &amp;&amp; p1.PosY &lt; p2.PosY);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static bool operator &gt;=(PagePos p1, PagePos p2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return !(p1.PageNr &gt; p2.PageNr) || (p1.PageNr == p2.PageNr &amp;&amp; p1.PosY &lt;= p2.PosY);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static PagePos operator -(PagePos p1, double val) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PagePos pn = new PagePos(p1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pn.PosY -= val;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return pn;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public static PagePos operator +(PagePos p1, double val) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PagePos pn = new PagePos(p1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pn.PosY += val;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return pn;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public override bool Equals(System.Object obj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Equals(obj as PagePos);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public bool Equals(PagePos p) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((object)p == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const double tolerance = 0.01; // arbitrary value in points
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (PageNr == p.PageNr) &amp;&amp; (Math.Abs(PosY - p.PosY) &lt;= tolerance) &amp;&amp; (Math.Abs(mPageHeight - p.mPageHeight) &lt;= tolerance);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public override int GetHashCode() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return PageNr.GetHashCode() + PosY.GetHashCode() + mPageHeight.GetHashCode();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Page number&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public int PageNr = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Vertical position&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public double PosY = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Page height&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private double mPageHeight;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;RowVerticalBounds class includes row top and bottom coordinates&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private sealed class RowVerticalBounds {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public PagePos Top;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public PagePos Bottom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public override bool Equals(System.Object obj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Equals(obj as RowVerticalBounds);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public bool Equals(RowVerticalBounds p) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((object)p == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (Top.Equals(p.Top)) &amp;&amp; (Bottom.Equals(p.Bottom));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public override int GetHashCode() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Top.GetHashCode() + Bottom.GetHashCode();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} 
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Bounds of the all existing rows&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private RowVerticalBounds[] mRowPositions = new RowVerticalBounds[0];
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Top of the current row&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private PagePos RowTop;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Bottom of the current row&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private PagePos mRowBottom;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Row bottom&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private PagePos RowBottom {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get { return mRowBottom; }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mRowBottom = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mParentTable != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mParentTable.RowBottom &gt; mRowBottom - CellPadding)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mParentTable.RowBottom = mRowBottom - CellPadding;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;RowObject class describes row object (string or image)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private sealed class RowObject {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public RowObject() { }
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public RowObject(RowObject inObj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = inObj.id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj = inObj.obj;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rect.String = inObj.rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textStyle = inObj.textStyle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageNr = inObj.pageNr;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font = inObj.font;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Pdf object id&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public int id = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;String or image object&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public object obj = new object();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Bounding rectangle&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public XRect rect = new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Text style&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public string textStyle = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Page number&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public int pageNr = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Font ID&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public int font = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Contains current row objects added directly via AddTextStyled or AddImage methods&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;RowObject&gt; mOwnRowObjects = new List&lt;RowObject&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Contains current row objects added to the child tables&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;RowObject&gt; mChildRowObjects = new List&lt;RowObject&gt;();
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Save object description&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="id"&gt;id of the added object&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="obj"&gt;string or XImage&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private string SaveRowObject(int id, object obj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowObject newObj = new RowObject();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newObj.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newObj.obj = obj;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newObj.rect.String = mDoc.GetInfo(id, "rect");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newObj.textStyle = mDoc.TextStyle.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newObj.pageNr = PageNumber;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newObj.font = mDoc.Font;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mOwnRowObjects.Add(newObj);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mParentTable != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mParentTable.SaveChildRowObject(newObj);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return newObj.rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void SaveChildRowObject(RowObject obj) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowObject newObj = new RowObject(obj);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newObj.rect.String = obj.rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newObj.rect.Inset(-CellPadding, -CellPadding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mChildRowObjects.Add(newObj);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mParentTable != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mParentTable.SaveChildRowObject(newObj);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Header position&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private PagePos mHeaderPos;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Header content&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;RowObject&gt; mHeaderObjects = new List&lt;RowObject&gt;();
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Focus on the document and assign the relevant number of columns&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="doc"&gt;Parent Doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="columns"&gt;Number of columns&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFTable(Doc doc, int columns) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc = doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowTop = new PagePos(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mRowBottom = new PagePos(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetRect(mDoc.Rect.String);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetColumns(columns);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Focus on the document and assign the relevant number of columns and padding&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="doc"&gt;Parent Doc&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="columns"&gt;Number of columns&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="padding"&gt;Padding amount&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFTable(Doc doc, int columns, double padding) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc = doc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowTop = new PagePos(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mRowBottom = new PagePos(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetRect(mDoc.Rect.String);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetColumns(columns);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CellPadding = padding;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Assign a new table rectangle and reset the current table position&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="rect"&gt;New table rectangle&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected void SetRect(string rect) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = rect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mInitialLayerCounts[mDoc.Page] = mDoc.LayerCount;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBounds.String = rect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPos.Y = -1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPos.X = -1;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Change the number of columns in the table&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inNum"&gt;Number of columns&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void SetColumns(int inNum) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inNum &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mWidths = new double[inNum];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int i = 0; i &lt; mWidths.Length; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mWidths[i] = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the current row - a zero based index&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int Row { get { return mPos.Y; } }
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the current column - a zero based index&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int Column { get { return mPos.X; } }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Change a column width&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="i"&gt;Column index&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inWidth"&gt;Relative width of the column&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetColumnWidth(int i, double inWidth) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((i &gt;= 0) &amp;&amp; (i &lt; mWidths.Length))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mWidths[i] = inWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Change column widths&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inWidths"&gt;Array of column widths&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetColumnWidths(double[] inWidths) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inWidths.CopyTo(mWidths, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Move to the next cell&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void NextCell() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mPos.Y == -1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NextRow();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPos.X = mPos.X + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mPos.X &gt;= mWidths.Length) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NextRow();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPos.X = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mPos.X &lt; 0) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPos.X = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SelectCurrentCell();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Move by the number of cells&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="count"&gt; Number of cells to move by&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void NextCell(int count)&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i =0; i &lt; count; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NextCell();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Move to the next row&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void NextRow() {&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FixRowPosition();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (VerticalAlignment &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AlignVertically();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (RepeatHeader &amp;&amp; mPos.Y == 0 &amp;&amp; HeaderLinesCount != 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mHeaderObjects = new List&lt;RowObject&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mHeaderPos = RowTop;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (RepeatHeader &amp;&amp; mPos.Y &gt;= 0 &amp;&amp; mPos.Y &lt; HeaderLinesCount) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; mOwnRowObjects.Count; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mHeaderObjects.Add(mOwnRowObjects[i]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (RepeatHeader &amp;&amp; FrameHeader &amp;&amp; mPos.Y == HeaderLinesCount - 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FrameCells(0, 0, mWidths.Length - 1, HeaderLinesCount - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mPos.Y &gt;= 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowTop = RowBottom - CellPadding;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowTop = RowBottom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (RowTop.PosY &lt; mBounds.Bottom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowTop.PosY = mBounds.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = mBounds.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowBottom = RowTop;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Top = RowTop.PosY;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mChildRowObjects.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mOwnRowObjects.Clear();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPos.Y++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPos.X = -1;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add text to the current cell&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inText"&gt;Text of the cell&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;id of the created pdf object&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int AddText(string inText) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (inText.Length &gt; 0 &amp;&amp; Char.IsWhiteSpace(inText[inText.Length - 1]))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inText = inText.Remove(inText.Length -1 , 1);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRect = mDoc.Rect.String;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Inset (CellPadding, CellPadding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber = RowTop.PageNr;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = mDoc.AddText(inText);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int theDrawn = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (id &gt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDrawn = mDoc.GetInfoInt(id, "Characters");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theDrawn &lt; inText.Length) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (id != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(id);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mRowPositions.Length &gt;= 2)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mRowPositions[mRowPositions.Length - 1].Top.PosY
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= mRowPositions[mRowPositions.Length - 2].Bottom.PosY;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MoveRowToNextPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = theRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Top = RowTop.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddText(inText);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect drawnRect = new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drawnRect.String = SaveRowObject(id, inText);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PagePos thePos = new PagePos(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePos.PosY = (double)(mDoc.Pos.Y - mDoc.FontSize);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (thePos &lt; RowBottom) RowBottom = thePos;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = theRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return id;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add text to the current cell&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inText"&gt;Text of the cell&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inFontSize"&gt;Font size&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;id of the created text object&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int AddText(string inText, int inFontSize) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int oldFontSize = mDoc.FontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.FontSize = inFontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = AddText(inText);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.FontSize = oldFontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return id;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add enumerable data (strings or images) to the table&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="data"&gt;Enumerable collection of strings and images&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddEnumerableData(System.Collections.IEnumerable data) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Collections.IEnumerator it = data.GetEnumerator();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it.Reset();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool bNoneEmpty = it.MoveNext();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (bNoneEmpty) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NextCell();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (it.Current is string)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddTextStyled((string)it.Current);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (it.Current is XImage)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddImage((XImage)it.Current, true);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bNoneEmpty = it.MoveNext();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add enumerable html data&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="data"&gt;Enumerable collection of strings and images&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddTextStyled(System.Collections.IEnumerable data) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddEnumerableData(data);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fill table with rectangular array of strings&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inTextArrays"&gt;Rectangular array of strings&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddTextStyled(string [][] inTextArrays) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inTextArrays.Length == mWidths.Length) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool bLast = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int RowCount =0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (! bLast) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NextRow();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bLast = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; inTextArrays.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NextCell();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inTextArrays[i].Length &gt; RowCount+1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bLast = false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inTextArrays[i].Length &gt; RowCount)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddTextStyled(inTextArrays[i][RowCount]);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowCount++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Depth of recursion into AddTextStyled function&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private int HtmlDepth = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Maximum allowed depth of recursion into AddTextStyled function&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private const int MaxHtmlDepth = 10;
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add Html to the current cell&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inHtml"&gt;Html to put into the cell&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;id of the created pdf object&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int AddTextStyled(string inHtml) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return AddTextStyled(inHtml, true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private int AddTextStyled(string inHtml, bool inMoveRows) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HtmlDepth++;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (HtmlDepth &lt; MaxHtmlDepth) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inHtml = inHtml.TrimEnd(null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inHtml.Length &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRect = mDoc.Rect.String;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Inset (CellPadding, CellPadding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber = RowTop.PageNr;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc.Rect.Top &gt;= mDoc.Rect.Bottom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = mDoc.AddTextStyled(inHtml);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((id == 0) || (mDoc.Chainable(id))) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inMoveRows) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (id != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(id);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mRowPositions.Length &gt;= 2)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mRowPositions[mRowPositions.Length - 1].Top.PosY
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= mRowPositions[mRowPositions.Length - 2].Bottom.PosY;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MoveRowToNextPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = theRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Top = RowTop.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = AddTextStyled(inHtml);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect drawnRect = new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;drawnRect.String = SaveRowObject(id, inHtml);
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PagePos thePos = new PagePos(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePos.PosY = drawnRect.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (thePos &lt; RowBottom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowBottom = thePos;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = theRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HtmlDepth--;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return id;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add nested table with the specified number of columns&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inColumns"&gt;Number of columns&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFTable AddTable(int inColumns)&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber = RowTop.PageNr;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRect = mDoc.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Bottom = mBounds.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable nestedTable = new PDFTable(mDoc, inColumns);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nestedTable.mParentTable = this;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nestedTable.CellPadding = CellPadding;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nestedTable.VerticalAlignment = VerticalAlignment;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = theRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return nestedTable;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add nested table with the specified number of columns and cellpadding&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inColumns"&gt;Number of columns&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="padding"&gt;Padding amount&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Created PDFTable object&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFTable AddTable(int inColumns, double padding)&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFTable result = AddTable(inColumns);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result.CellPadding = padding;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return result;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add image&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inImage"&gt;XImage to put into the cell&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="bStretch"&gt;If bStretch is true inserted image will have the same width as the cell.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The ID of the image. Zero if no image added.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int AddImage(XImage inImage, bool inStretch) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return AddImage(inImage, inStretch, true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add image&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inImage"&gt;XImage to put into the cell&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="bStretch"&gt;If bStretch is true inserted image will have the same width as the cell.&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;The ID of the image. Zero if no image added.&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int AddImage(XImage inImage, bool inStretch, bool allowMoveToNextPage){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((inImage != null) &amp;&amp; (inImage.Width &gt; 0) &amp;&amp; (inImage.Height &gt; 0)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theRect = mDoc.Rect.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Inset (CellPadding, CellPadding);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double scale = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inStretch) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scale =  mDoc.Rect.Width / inImage.Width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!allowMoveToNextPage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double horizontalScale = mDoc.Rect.Height / inImage.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scale = Math.Min(scale, horizontalScale);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Width = inImage.Width * scale;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber = RowTop.PageNr;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc.Rect.Top - inImage.Height * scale &gt;= mBounds.Bottom) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Bottom = mDoc.Rect.Top - inImage.Height * scale;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PagePos thePos = new PagePos(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = mDoc.AddImage(inImage);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePos -= inImage.Height*scale;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (thePos &lt; RowBottom) RowBottom = thePos;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveRowObject(id, inImage);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (allowMoveToNextPage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MoveRowToNextPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = theRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Top = RowTop.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = AddImage(inImage, inStretch, false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = theRect;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return id;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Moves vertically the input rect of the cell&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="advance"&gt;Advance amount&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Advance(double advance) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc.Rect.Top - advance &gt;= mBounds.Bottom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Top -= advance;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Top = mBounds.Bottom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (RowBottom.PosY - advance &gt;= mBounds.Bottom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowBottom -= advance;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowBottom.PosY = mBounds.Bottom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UnfixRowPosition();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Returns top bound of the top parent table&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;top bound of the top parent table&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private double GetParentTopBounds()&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mParentTable == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mBounds.Top;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mParentTable.GetParentTopBounds();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Align content vertically&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void AlignVertically() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;RowObject&gt; objectList = new List&lt;RowObject&gt;(mOwnRowObjects);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mOwnRowObjects.Clear();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; objectList.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowObject oldObj = objectList[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double bottom = Math.Round(RowBottom.PosY - CellPadding, 6);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect bbox = new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bbox.String = mDoc.GetInfo(oldObj.id, "rect");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bbox.Inset(-CellPadding, -CellPadding);
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (bbox.Bottom &gt; bottom &amp;&amp; oldObj.pageNr == RowBottom.PageNr) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double alpha = VerticalAlignment;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (VerticalAlignment &gt; 1)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alpha = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double offset = alpha * (bbox.Bottom - bottom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double width = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oldObj.obj is XImage)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width = Double.Parse(mDoc.GetInfo(oldObj.id, "Width"), new CultureInfo("en-US"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(oldObj.id);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect newRect =new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newRect.String = bbox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newRect.Move(0, -offset);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (newRect.Bottom &gt; bottom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newRect.Bottom = bottom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = newRect.String;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theTextStyle = mDoc.TextStyle.String;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.TextStyle.String = oldObj.textStyle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int iFont = mDoc.Font;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Font = oldObj.font;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oldObj.obj is string)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddTextStyled((string)oldObj.obj);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (oldObj.obj is XImage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XImage image = (XImage)oldObj.obj;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (width == image.Width)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddImage(image, false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddImage(image, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Font = iFont;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.TextStyle.String = theTextStyle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mOwnRowObjects.Add(oldObj);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Move row content to the next page&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void MoveRowToNextPage() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;RowObject&gt; oldRowObjects = new List&lt;RowObject&gt;(mOwnRowObjects);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldRowObjects.AddRange(mChildRowObjects);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mOwnRowObjects.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mChildRowObjects.Clear();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UnfixRowPosition();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (PageNumber == mDoc.PageCount)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Page = mDoc.AddPage();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber = PageNumber + 1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mInitialLayerCounts.ContainsKey(mDoc.Page))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mInitialLayerCounts[mDoc.Page] = mDoc.LayerCount;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = mBounds.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Top = GetParentTopBounds();
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PagePos oldRowTop = RowTop;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowTop = new PagePos(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowBottom = RowTop;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double headerOffset = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (RepeatHeader) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int posX = mPos.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mHeaderPos != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MoveRowToNextPage(mHeaderObjects, GetParentTopBounds() - mHeaderPos.PosY, false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (FrameHeader)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FrameRow(mPos.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NextRow();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPos.X = posX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var position = mPos.Y &gt; 0 ? mRowPositions[mPos.Y - 1] : null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;headerOffset = position != null ? position.Top.PosY - position.Bottom.PosY : 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MoveRowToNextPage(oldRowObjects, GetParentTopBounds() - oldRowTop.PosY - headerOffset, true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private bool MoveRowToNextPage(List&lt;RowObject&gt; objectList, double offset, bool bRemove) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool ok = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; objectList.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowObject oldObj = objectList[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double width = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oldObj.obj is XImage)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width = Double.Parse(mDoc.GetInfo(oldObj.id, "Width"), new CultureInfo("en-US"));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = mDoc.GetInfo(oldObj.id, "rect");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (bRemove)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(oldObj.id);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Move(0, offset);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Inset(-CellPadding, -CellPadding);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theTextStyle = mDoc.TextStyle.String;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.TextStyle.String = oldObj.textStyle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Bottom -= mDoc.TextStyle.LineSpacing;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int iFont = mDoc.Font;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Font = oldObj.font;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oldObj.obj is string) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (AddTextStyled((string)oldObj.obj) == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (oldObj.obj is XImage) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XImage image = (XImage)oldObj.obj;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (AddImage(image, width != image.Width) == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ok = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Font = iFont;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.TextStyle.String = theTextStyle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return ok;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Frame specified rectangle&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inX1"&gt;Bottom left X coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inY1"&gt;Bottom left Y coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inX2"&gt;Top right X coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inY2"&gt;Top right Y coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FrameCells(int inX1, int inY1, int inX2, int inY2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FrameCells(inX1, inY1, inX2, inY2, true, true, true, true);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Frame specified rectangle&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inX1"&gt;Bottom left X coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inY1"&gt;Bottom left Y coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inX2"&gt;Top right X coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inY2"&gt;Top right Y coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inTop"&gt;If true, line top side&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inBottom"&gt;If true, line bottom side&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inLeft"&gt;If true, line left side&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inRight"&gt;If true, line right side&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FrameCells(int inX1, int inY1, int inX2, int inY2, bool inTop, bool inBottom, bool inLeft, bool inRight) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// check inputs
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inX1 &gt; inX2) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inY1 &gt; inY2) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double theTotal = 0; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double left = 0, right = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; inX1; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left += mWidths[i];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt;= inX2; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right += mWidths[i];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; mWidths.Length; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTotal += mWidths[i];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left = mBounds.Left + left * mBounds.Width / theTotal;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right = mBounds.Left +  right * mBounds.Width / theTotal;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PagePos top = mRowPositions[inY1].Top;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PagePos bottom = mRowPositions[inY2].Bottom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pageNr = PageNumber;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double tempTop = top.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double tempBottom = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int curPageNr = top.PageNr;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (curPageNr == bottom.PageNr)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tempBottom = bottom.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tempBottom = mBounds.Bottom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (curPageNr == top.PageNr)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tempTop = top.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tempTop = GetParentTopBounds();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber = curPageNr++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inLeft)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.AddLine(left, tempBottom, left, tempTop);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inTop)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.AddLine(left, tempTop, right, tempTop);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inRight)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.AddLine(right, tempTop, right, tempBottom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inBottom)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.AddLine(right, tempBottom, left, tempBottom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} while (curPageNr &lt;= bottom.PageNr);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber = pageNr;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Frame table&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Frame()&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FixRowPosition();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FrameCells(0, 0, mWidths.Length - 1, mRowPositions.Length - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Frame Row&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="index"&gt;Row index&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FrameRow(int index) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FixRowPosition();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FrameCells(0, index, mWidths.Length - 1, index);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Frame all rows&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FrameRows() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FixRowPosition();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i&lt; mRowPositions.Length; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FrameRow(i);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Frame column&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="index"&gt;Column index&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FrameColumn(int index) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FixRowPosition();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FrameCells(index, 0, index, mRowPositions.Length - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Frame all columns&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FrameColumns() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FixRowPosition();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; mWidths.Length; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FrameCells(i, 0, i, mRowPositions.Length - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fill rectangle with specified color&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inColor"&gt;Fill color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inX1"&gt;Bottom left X coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inY1"&gt;Bottom left Y coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inX2"&gt;Top right X coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inY2"&gt;Top right Y coordinate&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillCells(string inColor, int inX1, int inY1, int inX2, int inY2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// check inputs
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inX1 &gt; inX2) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inY1 &gt; inY2) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double theTotal = 0; 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double left = 0, right = 0;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; inX1; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left += mWidths[i];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt;= inX2; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right += mWidths[i];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; mWidths.Length; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTotal += mWidths[i];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left = mBounds.Left + left * mBounds.Width / theTotal;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;right = mBounds.Left +  right * mBounds.Width / theTotal;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PagePos top = mRowPositions[inY1].Top;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PagePos bottom = mRowPositions[inY2].Bottom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pageNr = PageNumber;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double tempTop = top.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double tempBottom = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int curPageNr = top.PageNr;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (curPageNr == bottom.PageNr)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tempBottom = bottom.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tempBottom = mBounds.Bottom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (curPageNr == top.PageNr)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tempTop = top.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tempTop = GetParentTopBounds();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber = curPageNr++;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Left = left;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Right = right;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Top = tempTop;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Bottom = tempBottom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int theLayer = mDoc.Layer;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theColor = mDoc.Color.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int layer = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mInitialLayerCounts.TryGetValue(mDoc.Page, out layer);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Layer = mDoc.LayerCount - layer + 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Color.String = inColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int id = mDoc.FillRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Color.String = theColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Layer = theLayer;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} while (curPageNr &lt;= bottom.PageNr);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber = pageNr;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fill table with specified color&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inColor"&gt;Fill color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Fill(string inColor) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FixRowPosition();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillCells(inColor, 0, 0, mWidths.Length - 1, mRowPositions.Length - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fill column with specified color&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inColor"&gt;Fill color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="index"&gt;Column index&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillColumn(string inColor, int index) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FixRowPosition();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillCells(inColor, index, 0, index, mRowPositions.Length - 1);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fill row with specified color&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inColor"&gt;Fill color&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="index"&gt;Row index&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void FillRow(string inColor, int index) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FixRowPosition();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FillCells(inColor, 0, index, mWidths.Length - 1, index);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Sets the height of the current row.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SetRowHeight(double inHeight) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PagePos thePos = new PagePos(this);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePos.PosY = thePos.PosY - inHeight;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowBottom = thePos;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Fix current row position&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void FixRowPosition() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mPos.Y &gt;= 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mPos.Y &gt; mRowPositions.Length - 1) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowVerticalBounds[] theCopy = new RowVerticalBounds[mPos.Y + 1];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mRowPositions.CopyTo(theCopy, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mRowPositions = theCopy;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (RowBottom.PosY &lt; mBounds.Bottom) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowBottom.PosY = mBounds.Bottom;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RowVerticalBounds theBounds = new RowVerticalBounds();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBounds.Top = RowTop;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBounds.Bottom = RowBottom - CellPadding;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// If the row position is not null then the height of row has already been fixed.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// This generally indicates a programming error. A typical thing that might cause it would be
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// to add some content, add a frame round part of the row, add some more content that might
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// well change the height and thus mean that the frame had been drawn incorrectly.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Debug.Assert((mRowPositions[mPos.Y] == null) || (mRowPositions[mPos.Y].Equals(theBounds)));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mRowPositions[mPos.Y] = theBounds;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Unfix current row position so that it can be fixed again.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void UnfixRowPosition() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((mPos.Y &gt;= 0) &amp;&amp; (mPos.Y &lt; mRowPositions.Length))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mRowPositions[mPos.Y] = null;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Select current cell&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void SelectCurrentCell() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double theTotal = 0, thePos = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((mPos.X &gt;= 0) &amp;&amp; (mPos.X &lt; mWidths.Length)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// get the x offset and width of the cell
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; mWidths.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theTotal = theTotal + mWidths[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (i &lt; mPos.X) thePos = thePos + mWidths[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePos = thePos * (mBounds.Width / theTotal);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double theWidth = mWidths[mPos.X] * (mBounds.Width / theTotal);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// position the cell
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Top = RowTop.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Left = mBounds.Left + thePos;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Width = theWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Delete all the objects drawn part of the current row&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void DeleteLastRow() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; mOwnRowObjects.Count; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(mOwnRowObjects[i].id);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; mChildRowObjects.Count; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(mChildRowObjects[i].id);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Select a cell specified by row and column. This function fixes
+&nbsp;&nbsp;&nbsp;&nbsp;/// the row height so you must have already added your content.&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SelectCell(int row, int column, bool applyPadding) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FixRowPosition();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPos.Y = row;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPos.X = column;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SelectCurrentCell();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (row &lt; mRowPositions.Length)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Bottom = mRowPositions[row].Bottom.PosY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (applyPadding)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Inset(CellPadding, CellPadding);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void SelectionRotate() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Transform.Rotate(90, mDoc.Rect.Left, mDoc.Rect.Bottom);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Transform.Translate(mDoc.Rect.Height, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.Resize(mDoc.Rect.Height, mDoc.Rect.Width, XRect.Corner.TopLeft);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void SelectionReset() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Transform.Reset();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -36,6 +36,15 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=147">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 62, page 139.</a></p>
 </p>
+<!-- addition start -->
+<p>The color space element is the abstract base for all PDF color space representations. Every color space in a PDF file belongs to one of the families defined by the specification: device, CIE-based, special, or pattern.</p>
+<p>Color spaces govern how numeric color values are interpreted when painting graphics, text, or images. A conforming reader must convert those values to device-specific colorants before rendering.</p>
+<p>Device color spaces (DeviceGray, DeviceRGB, DeviceCMYK) map component values directly to device colorants without a calibration stage. Their rendering is output-dependent and may vary across devices.</p>
+<p>CIE-based color spaces (CalGray, CalRGB, Lab, ICCBased) anchor color values to a device-independent reference. This allows consistent color appearance across different output devices when proper ICC profiles or calibration data are present.</p>
+<p>Special color spaces include Indexed, Pattern, Separation, and DeviceN. These extend the color model for use cases such as spot colors, tiling patterns, and multi-colorant printing.</p>
+<p>A color space may be specified inline in a content stream or stored as a named resource in a page's or form's resource dictionary under the ColorSpace entry. Named resources allow reuse across multiple graphics operations without repeated definition.</p>
+<p>When a color space is used with an image XObject, it defines how the sample data in the image stream maps to colors. The number of color components in the space must match the expected number of samples per pixel.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

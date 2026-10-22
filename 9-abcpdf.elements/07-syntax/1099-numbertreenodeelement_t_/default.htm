@@ -39,6 +39,11 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=99">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 37, page 91.</a></p>
 </p>
+<!-- addition start -->
+<p>Number tree nodes form the structure of a number tree, which maps integer keys in ascending numeric order to PDF values. Number trees are used for structure parent trees, page label ranges, and other integer-keyed mappings.</p>
+<p>An intermediate node holds a Kids array and a Limits array containing the smallest and largest integer keys in its subtree, allowing direct navigation to the subtree covering a target key.</p>
+<p>A leaf node holds a Nums array of alternating key-value pairs. Keys are integers in ascending order; values are the corresponding PDF objects.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

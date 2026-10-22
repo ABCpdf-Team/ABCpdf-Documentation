@@ -43,6 +43,13 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A type 0 font is a composite font that maps multi-byte character codes to glyphs through a combination of a CMap encoding and one or more CIDFont descendants. It is the standard mechanism in PDF for handling large character sets such as Chinese, Japanese, and Korean.</p>
+<p>The Encoding entry names the CMap used to interpret character codes in text strings. It can be a predefined CMap name such as Identity-H or a reference to a CMap stream. The CMap converts character codes to CIDs, which the CIDFont then maps to glyphs.</p>
+<p>DescendantFonts holds an array containing exactly one CIDFont dictionary. The CIDFont provides the glyph outlines and per-glyph metrics. Its CIDSystemInfo must be compatible with that of the CMap.</p>
+<p>BaseFont names the font for display purposes. For type 0 fonts it typically reflects the PostScript name of the CIDFont, sometimes with a CMap suffix such as -Identity-H.</p>
+<p>ToUnicode is particularly important for type 0 fonts because the character codes in the content stream are not directly Unicode values. Without a ToUnicode stream, text extraction tools cannot reliably recover the Unicode text from the PDF.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

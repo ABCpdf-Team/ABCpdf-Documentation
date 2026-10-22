@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=629">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 352, page 621.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 388, page 801.</a></p>
 </p>
+<!-- addition start -->
+<p>A web capture content set dictionary describes a set of related PDF objects captured from web content, recording the content type, source URL, and capture metadata.</p>
+<p>The S entry names the content set type: SPS for a spider page set or SIS for a spider image set. The type determines which additional entries are present.</p>
+<p>The ID entry uniquely identifies the content set within the document. The O entry holds an array of indirect references to the captured page or image objects.</p>
+<p>The SI entry holds source information dictionaries describing the source URLs. The CT and TS entries record the MIME type and capture timestamp.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

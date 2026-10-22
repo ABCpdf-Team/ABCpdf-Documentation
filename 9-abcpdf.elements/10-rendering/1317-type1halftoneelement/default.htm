@@ -40,6 +40,14 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A type 1 halftone defines a screen using three values: a cell frequency, a rotation angle, and a spot function, rather than storing pre-computed dot data. The viewer calculates the exact dot pattern at render time by evaluating the spot function for every device pixel in the cell.</p>
+<p>Frequency gives the number of halftone cells per inch in default user space. The rendered ruling on the output device depends on both this value and the device resolution. When AccurateScreens is not set, the viewer is free to round frequency and angle to values that align cleanly with device pixels, which avoids partial-pixel artefacts at the cost of some deviation from the requested screen.</p>
+<p>Angle sets the tilt of the screen in degrees, measured counter-clockwise from horizontal. For single-colour work, 45 degrees is common because it minimises the visual regularity of the dot pattern. For multi-colour printing, different angles are used for each separation to reduce interference between screens.</p>
+<p>The spot function controls the shape of the dot. It takes a pair of x and y values in the range -1 to 1 and returns a single number. Device pixels with lower return values switch on first as the tint level rises, so the function effectively describes the order in which pixels join the growing dot. A name such as SimpleDot or Ellipse selects a built-in function; a function object supplies custom behaviour.</p>
+<p>When AccurateScreens is true, the viewer tries to preserve the exact Frequency and Angle values rather than snapping to the nearest device-pixel-aligned screen. This demands more computation and not all viewers or devices support it. If the device cannot comply, it falls back to the standard approximation.</p>
+<p>TransferFunction adjusts tint values before the spot function is evaluated. A function object maps each input level in the range 0 to 1 to a corrected output level, allowing compensation for press dot gain or other device non-linearity. The name Identity passes tint values through without adjustment.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

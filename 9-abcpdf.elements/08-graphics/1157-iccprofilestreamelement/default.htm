@@ -34,6 +34,13 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>An ICC profile stream carries a binary ICC color profile that defines the relationship between device color values and a standard CIE profile connection space. The profile follows the ICC specification for its internal structure.</p>
+<p>The N entry records the number of color components in the profile's input color space. Valid values are 1, 3, and 4, corresponding to gray, RGB or Lab, and CMYK respectively.</p>
+<p>The Alternate entry provides a fallback color space for use when ICC processing is not supported. The alternate must have the same number of components as N to ensure consistent handling of color values.</p>
+<p>The Range entry bounds the valid component values. Although component values are typically in the range 0 to 1, some profiles use different encodings and the Range array communicates those bounds to the reader.</p>
+<p>The stream data must be a valid ICC profile. A conforming reader that supports ICC color management will embed this data into its color pipeline for accurate conversion from the encoded space to the output device.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

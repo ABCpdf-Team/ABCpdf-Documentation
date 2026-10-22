@@ -73,6 +73,10 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=29">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 5, page 21.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 5, page 32.</a></p>
 
+<!-- addition start -->
+<p>The DL entry gives the number of bytes in the stream after all filters have been decoded. This allows an application to allocate a receive buffer of the correct size before decoding begins, avoiding reallocation during decoding.</p>
+<p>DL is particularly useful for large streams where pre-allocation is important for performance. It is advisory; a reader should not rely on it for correctness but may use it for optimisation.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>

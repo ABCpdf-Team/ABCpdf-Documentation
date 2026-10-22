@@ -31,6 +31,11 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=516">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 295, page 508.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 306, page 635.</a></p>
 </p>
+<!-- addition start -->
+<p>A movie dictionary is the legacy mechanism for associating a video file with a movie annotation. It references the video file, specifies the aspect ratio of the movie frame, and optionally provides a poster image.</p>
+<p>The F entry holds a file specification for the movie file. Aspect holds a two-element array giving the movie frame dimensions as a ratio.</p>
+<p>The Rotate entry specifies a clockwise rotation in degrees applied to the movie frame. The Poster entry may be a boolean or an indirect reference: if true, a frame from the movie is used as the poster image; if an indirect reference, it points to an image XObject used as the poster.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

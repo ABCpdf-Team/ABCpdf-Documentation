@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>AccessiblePDF Example Project</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader"> AccessiblePDF Example Project</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+  <tr>
+    <td valign="top" class="sectheader"><img src="../../images/steel-pin.gif" width="64" height="10"><br>
+      Project</td>
+    <td>&nbsp;</td>
+    <td valign="top"><table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><p>This project demonstrates how to tag a PDF and make it accessible. The methods used are based around Section 508 compliance and the PDF/UA standard. </p>
+            <p>The basis of this project is the use of the <a href="../../8-abcpdf.operations/C-accessibilityoperation/1-methods/makeaccessible.htm">AccessibilityOperation and the MakeAccessible method.</a> You can read more about  these  and the types of information that is added,  under the documentation for those methods.</p>
+            <p>However a one function method  can only ever achieve so much in the context of complicated and semantically ambiguous documents. For example the reading order of any complex document is likely to vary between people - there is no absolutely correct answer. ABCpdf will come up with a reasonable method but it may not be the one you want.</p>
+            <p>The AccessiblePDF project shows how to use  knowledge of your documents to take the base data and enhance it. It shows how to detect and insert structure based on your understanding   of the document and supports the following structure types.</p>
+            <ul>
+              <li>Headers and Footers</li>
+              <li>Tables</li>
+              <li>Lists</li>
+              <li>Sections</li>
+              <li>Artifacts</li>
+            </ul>
+            <p>It shows how to use the tags in a PDF document to detect and change content within it. This includes some code relevant to eSignLive signatures.</p>
+            <p>It contains code to show how to add content and tags to an already tagged document, merging these tags with the existing structure in the style of the base document.</p>
+            <p>Usefully it provides a method of extracting the tagged structure of any PDF document to an HTML-like format you can  easily examine.</p>
+            <p>Each of these is handled by a separate routine. For example, text which lines up in rows and columns can be converted to a table structure. Text styles can be used to identify headings, and bulleted or numbered lists can be detected and tagged as lists.</p>
+            <p>Other code shows how to add your own custom tags and map them onto the standard PDF structure types, how to change tagged content such as images, and how to remove tags which no longer refer to any content.</p>
+            <p>This makes the project a good starting point if you need to remediate documents for screen readers or improve their reading order.</p>
+            <p>&nbsp;</p></td>
+          <td width="60">&nbsp;</td>
+          <td width="11">&nbsp;</td>
+        </tr>
+    </table></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

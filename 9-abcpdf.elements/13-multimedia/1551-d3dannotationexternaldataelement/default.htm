@@ -31,6 +31,10 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=551">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 313, page 543.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 324, page 675.</a></p>
 </p>
+<!-- addition start -->
+<p>A 3D annotation external data dictionary references 3D annotation data stored in a separate file rather than embedded in the PDF. It carries the 3D stream reference and the default view identifier for use when loading the external data.</p>
+<p>The 3DA entry holds an indirect reference to the 3D stream. The 3DV entry identifies the default view. The MD5 entry holds a 16-byte MD5 digest of the external data file, allowing a reader to verify the file is intact.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

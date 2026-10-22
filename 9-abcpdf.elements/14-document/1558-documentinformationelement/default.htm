@@ -34,6 +34,13 @@
 <p>This class is always an indirect object because CrossReferenceStreamElement.EntryInfo and FileTrailerElement.EntryInfo require it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>The document information dictionary stores basic metadata about a PDF document as string entries. It is referenced from the file trailer and is not encrypted, making its contents accessible without authentication.</p>
+<p>The dictionary provides entries for title, author, subject, keywords, creator application, producer application, creation date, modification date, and trapping status.</p>
+<p>In PDF 2.0, this dictionary is deprecated. Authors should record metadata using an XMP metadata stream attached to the document catalog. Conforming PDF 2.0 readers should prefer XMP when both are present.</p>
+<p>When both are present, their values should be consistent. If they conflict, the XMP metadata takes precedence in PDF 2.0 documents.</p>
+<p>The Trapped entry is the only entry that affects document processing rather than simply describing the document. It tells a reader whether the document has been trapped for printing.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

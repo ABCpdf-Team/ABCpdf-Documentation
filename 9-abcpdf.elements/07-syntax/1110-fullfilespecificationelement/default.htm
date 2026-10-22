@@ -35,6 +35,14 @@
 <p>This class is always an indirect object because it inherits from FileSpecificationElement which is always an indirect object.</p>
 
 </p>
+<!-- addition start -->
+<p>A full file specification dictionary provides a comprehensive file reference that can include platform-specific paths, an embedded copy of the file, related file sets, and metadata about the referenced file.</p>
+<p>The F entry gives a file path or URI as a byte string. The UF entry gives the same path as a Unicode string for platforms where Unicode is required. Together they allow the same file to be located on both legacy and modern systems.</p>
+<p>The DOS, Mac, and Unix entries carry platform-specific file paths for compatibility with older PDF documents. These entries are deprecated in PDF 2.0 in favour of the F and UF entries.</p>
+<p>The EF entry holds a dictionary mapping path keys (F, UF, DOS, Mac, Unix) to embedded file stream references. This is the mechanism for attaching files directly within the PDF rather than referencing external files.</p>
+<p>The RF entry holds a related files array for each platform path, listing additional files that accompany the main file. This supports workflows where a document depends on a set of supporting files.</p>
+<p>The Desc entry provides a human-readable description of the file for display in the viewer's attachments panel. The AFRelationship entry names the relationship between the document and the attached file, such as Source, Data, Alternative, Supplement, or Unspecified.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

@@ -36,6 +36,11 @@
 
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=164">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Section: 8.6.6.2, page 156.</a></p>
 </p>
+<!-- addition start -->
+<p>The Pattern color space is the mechanism through which a content stream selects a pattern as the current color. It wraps any underlying color space for use with uncolored patterns, or stands alone for colored patterns.</p>
+<p>When used with a colored (PaintType 1) pattern, no underlying color space is needed. When used with an uncolored (PaintType 2) pattern, the underlying color space determines the color that will be applied when the pattern is painted.</p>
+<p>A content stream sets the Pattern color space with the CS or cs operator, and then sets the current pattern with the SCN or scn operator, naming a pattern resource from the resource dictionary.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

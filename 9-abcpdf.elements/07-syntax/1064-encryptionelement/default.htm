@@ -32,6 +32,14 @@
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 20, page 71.</a></p>
 <p><a target="_blank" href="http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=14">Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.18, page 14.</a></p>
 </p>
+<!-- addition start -->
+<p>The encryption dictionary describes the security handler and encryption parameters applied to a PDF document. It is referenced from the file trailer's Encrypt entry and is never itself encrypted.</p>
+<p>The Filter entry names the security handler responsible for encryption and decryption. The standard handler is named Standard. Third-party handlers may be registered under other names.</p>
+<p>The V entry selects the encryption algorithm and key length. Higher values correspond to stronger algorithms: V 4 introduced crypt filters and AES in PDF 1.5, and V 6 introduced 256-bit AES in PDF 2.0.</p>
+<p>The CF entry holds a dictionary of named crypt filter definitions. The StmF and StrF entries name the crypt filters applied to streams and string objects respectively. The EFF entry names the filter applied to embedded file streams.</p>
+<p>The Length entry specifies the key length in bits. For V values that support variable key lengths, this entry controls the actual key size used. It must be a multiple of 8.</p>
+<p>When SubFilter is present, it names a public-key or other non-standard encryption protocol layered on top of the named Filter. This allows vendor-specific encryption while retaining a standard outer handler name.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

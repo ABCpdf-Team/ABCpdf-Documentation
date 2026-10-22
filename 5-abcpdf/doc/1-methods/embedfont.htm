@@ -127,7 +127,7 @@
         <TR>
           <TD>
             <P>Embeds a font into the document.</P>
-            <P>The font name, a description of the font style and the the font 
+            <P>The font name, a description of the font style and the font 
             glyph descriptions themselves are placed into the document. This 
             ensures that the document will always display perfectly on every 
             system and that font substitutions will never need to be made. </P>
@@ -144,7 +144,7 @@ this.</P>
             Font Object. Typically you will want to assign this return value to 
             the document Font property using code of the form.</P>
             <p><span class="language">[C#]</span><br>
-<pre><code class="language-csharp">theDoc.Font = theDoc.AddFont("Courier");
+<pre><code class="language-csharp">theDoc.Font = theDoc.EmbedFont("Courier");
 </code></pre></p>
             <P>If the specified font could not be found then you will get an 
             Object ID of zero returned. You may wish to check for this 

@@ -40,6 +40,12 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A type 10 halftone is similar to type 6 in that it stores threshold data as stream bytes, but it replaces the simple rectangular cell with a pair of square regions. Together these regions tile to form a parallelogram-shaped cell, which allows the screen to follow irrational angles far more closely than a rectangular grid can.</p>
+<p>Xsquare and Ysquare give the side lengths of the two square regions. The total number of threshold bytes in the stream is Xsquare squared plus Ysquare squared. The first region occupies the first Xsquare-squared bytes; the second region follows immediately.</p>
+<p>The non-rectangular geometry is useful when screen angle accuracy matters, for example in multi-colorant printing where even a small angle error between separations can produce visible moire patterns.</p>
+<p>As with type 6, each sample is one byte giving 256 threshold levels. TransferFunction adjusts tint values before the threshold comparison, with the Identity name serving as a pass-through and a function object providing custom correction.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

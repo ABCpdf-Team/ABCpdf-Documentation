@@ -1,0 +1,1903 @@
+<html>
+<head>
+<title>PDFControl.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">PDFControl.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+//#define DISPLAY_TEXT_RECTANGLES
+//#define DISPLAY_PRINT_AREA
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Printing;
+using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.Xml;
+using System.IO;
+using System.Drawing.Drawing2D;
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+
+namespace ABCpdfControls {
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for PDFControl.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class PDFControl : System.Windows.Forms.UserControl {
+&nbsp;&nbsp;&nbsp;&nbsp;#region Private types and members
+&nbsp;&nbsp;&nbsp;&nbsp;private System.ComponentModel.IContainer components;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button nextPageButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button prevPageButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.NumericUpDown dpiNumericUpDown;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.TextBox pageNumberTextBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label dpiLabel;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ImageList iconsImageList;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ContextMenu zoomContextMenu;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem zoomInMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.MenuItem zoomOutMenuItem;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ToolBarButton openToolBarButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ToolBarButton saveToolBarButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ToolBarButton toolBarButton1;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ToolBarButton printToolBarButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ToolBarButton toolBarButton2;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ToolBarButton toolBarButton3;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ToolBarButton textToolBarButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.PictureBox renderedDocPictureBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label1;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Panel textEditingPanel;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.TextBox selectedBlockTextBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Panel layoutPanel;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Panel imagePanel;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Splitter panelsSplitter;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ToolBar toolBar1;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button addTextButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.GroupBox textStyleGroupBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label2;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label4;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.CheckBox fitToSelectionCheckBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.NumericUpDown fontSizeNumericUpDown;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label5;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Button fontColorButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.Label label6;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ComboBox fontNameComboBox;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ToolBarButton selectToolBarButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ToolBarButton zoomInToolBarButton;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.Windows.Forms.ToolBarButton zoomOutToolBarButton;
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Type of the tool
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private enum ToolType {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HandTool,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZoomInTool,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZoomOutTool,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextTool,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextAddTool,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SelectTool
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;private Doc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private AnnotatedContent mAnnotatedContent = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPath = "";
+&nbsp;&nbsp;&nbsp;&nbsp;private PrintDocument&nbsp;&nbsp;mPrint = null;
+&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPage = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;private&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDotsPerInch = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;private int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPageSaved = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;private int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCopiesNumber;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolType&nbsp;&nbsp;&nbsp;&nbsp;mCurrentTool = ToolType.HandTool;
+&nbsp;&nbsp;&nbsp;&nbsp;private Cursor mZoomInCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;private Cursor mZoomOutCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;private bool mZoomToolReverted;
+&nbsp;&nbsp;&nbsp;&nbsp;private const int kZoomIncrement = 72;
+&nbsp;&nbsp;&nbsp;&nbsp;private const int kGrabBarSize = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Component Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt; 
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify 
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.components = new System.ComponentModel.Container();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PDFControl));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiLabel = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown = new System.Windows.Forms.NumericUpDown();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.nextPageButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.prevPageButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomContextMenu = new System.Windows.Forms.ContextMenu();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomInMenuItem = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomOutMenuItem = new System.Windows.Forms.MenuItem();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.iconsImageList = new System.Windows.Forms.ImageList(this.components);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openToolBarButton = new System.Windows.Forms.ToolBarButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveToolBarButton = new System.Windows.Forms.ToolBarButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton1 = new System.Windows.Forms.ToolBarButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.printToolBarButton = new System.Windows.Forms.ToolBarButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton2 = new System.Windows.Forms.ToolBarButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomInToolBarButton = new System.Windows.Forms.ToolBarButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton3 = new System.Windows.Forms.ToolBarButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textToolBarButton = new System.Windows.Forms.ToolBarButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1 = new System.Windows.Forms.ToolBar();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomOutToolBarButton = new System.Windows.Forms.ToolBarButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectToolBarButton = new System.Windows.Forms.ToolBarButton();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imagePanel = new System.Windows.Forms.Panel();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox = new System.Windows.Forms.PictureBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.panelsSplitter = new System.Windows.Forms.Splitter();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel = new System.Windows.Forms.Panel();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox = new System.Windows.Forms.GroupBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox = new System.Windows.Forms.ComboBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fitToSelectionCheckBox = new System.Windows.Forms.CheckBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.addTextButton = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1 = new System.Windows.Forms.Label();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox = new System.Windows.Forms.TextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layoutPanel = new System.Windows.Forms.Panel();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.dpiNumericUpDown)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imagePanel.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.renderedDocPictureBox)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.fontSizeNumericUpDown)).BeginInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layoutPanel.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// dpiLabel
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiLabel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiLabel.Location = new System.Drawing.Point(28, 423);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiLabel.Name = "dpiLabel";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiLabel.Size = new System.Drawing.Size(80, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiLabel.TabIndex = 11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiLabel.Text = "Dots per inch:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiLabel.Visible = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// dpiNumericUpDown
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.Increment = new decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;72,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.Location = new System.Drawing.Point(108, 424);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.Maximum = new decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1000,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.Minimum = new decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;36,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.Name = "dpiNumericUpDown";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.Size = new System.Drawing.Size(48, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.TabIndex = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.Value = new decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;72,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.Visible = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dpiNumericUpDown.ValueChanged += new System.EventHandler(this.dpiNumericUpDown_ValueChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// nextPageButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.nextPageButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.nextPageButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.nextPageButton.Location = new System.Drawing.Point(288, 424);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.nextPageButton.Name = "nextPageButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.nextPageButton.Size = new System.Drawing.Size(24, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.nextPageButton.TabIndex = 9;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.nextPageButton.Text = "&gt;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.nextPageButton.Visible = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.nextPageButton.Click += new System.EventHandler(this.nextPageButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// prevPageButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.prevPageButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.prevPageButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.prevPageButton.Location = new System.Drawing.Point(186, 424);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.prevPageButton.Name = "prevPageButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.prevPageButton.Size = new System.Drawing.Size(24, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.prevPageButton.TabIndex = 8;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.prevPageButton.Text = "&lt;";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.prevPageButton.Visible = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.prevPageButton.Click += new System.EventHandler(this.prevPageButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// pageNumberTextBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.Location = new System.Drawing.Point(216, 424);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.Name = "pageNumberTextBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.Size = new System.Drawing.Size(66, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.TabIndex = 7;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.Text = "1 of 1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.Visible = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pageNumberTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pageNumberTextBox_KeyDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// zoomContextMenu
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomInMenuItem,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomOutMenuItem});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// zoomInMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomInMenuItem.Checked = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomInMenuItem.Index = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomInMenuItem.Text = "Zoom in";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomInMenuItem.Click += new System.EventHandler(this.zoomInMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// zoomOutMenuItem
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomOutMenuItem.Index = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomOutMenuItem.Text = "Zoom out";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomOutMenuItem.Click += new System.EventHandler(this.zoomOutMenuItem_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// iconsImageList
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.iconsImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconsImageList.ImageStream")));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.iconsImageList.TransparentColor = System.Drawing.Color.White;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.iconsImageList.Images.SetKeyName(0, "");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.iconsImageList.Images.SetKeyName(1, "");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.iconsImageList.Images.SetKeyName(2, "");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.iconsImageList.Images.SetKeyName(3, "");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.iconsImageList.Images.SetKeyName(4, "");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.iconsImageList.Images.SetKeyName(5, "");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.iconsImageList.Images.SetKeyName(6, "");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// openToolBarButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openToolBarButton.ImageIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openToolBarButton.Name = "openToolBarButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// saveToolBarButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveToolBarButton.ImageIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveToolBarButton.Name = "saveToolBarButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// toolBarButton1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton1.Name = "toolBarButton1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton1.Style = System.Windows.Forms.ToolBarButtonStyle.Separator;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// printToolBarButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.printToolBarButton.ImageIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.printToolBarButton.Name = "printToolBarButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// toolBarButton2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton2.Name = "toolBarButton2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton2.Style = System.Windows.Forms.ToolBarButtonStyle.Separator;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// zoomInToolBarButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomInToolBarButton.ImageIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomInToolBarButton.Name = "zoomInToolBarButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomInToolBarButton.Style = System.Windows.Forms.ToolBarButtonStyle.ToggleButton;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// toolBarButton3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton3.Name = "toolBarButton3";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton3.Style = System.Windows.Forms.ToolBarButtonStyle.Separator;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textToolBarButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textToolBarButton.ImageIndex = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textToolBarButton.Name = "textToolBarButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textToolBarButton.Style = System.Windows.Forms.ToolBarButtonStyle.ToggleButton;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// toolBar1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1.Buttons.AddRange(new System.Windows.Forms.ToolBarButton[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.openToolBarButton,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.saveToolBarButton,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.printToolBarButton,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton2,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomInToolBarButton,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomOutToolBarButton,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBarButton3,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textToolBarButton,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectToolBarButton});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1.ButtonSize = new System.Drawing.Size(24, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1.Divider = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1.DropDownArrows = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1.ImageList = this.iconsImageList;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1.Location = new System.Drawing.Point(0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1.Name = "toolBar1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1.ShowToolTips = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1.Size = new System.Drawing.Size(496, 34);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1.TabIndex = 12;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.toolBar1.ButtonClick += new System.Windows.Forms.ToolBarButtonClickEventHandler(this.toolBar1_ButtonClick);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// zoomOutToolBarButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomOutToolBarButton.ImageIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomOutToolBarButton.Name = "zoomOutToolBarButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.zoomOutToolBarButton.Style = System.Windows.Forms.ToolBarButtonStyle.ToggleButton;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// selectToolBarButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectToolBarButton.ImageIndex = 6;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectToolBarButton.Name = "selectToolBarButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectToolBarButton.Style = System.Windows.Forms.ToolBarButtonStyle.ToggleButton;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// imagePanel
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imagePanel.AutoScroll = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imagePanel.Controls.Add(this.renderedDocPictureBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imagePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imagePanel.Location = new System.Drawing.Point(168, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imagePanel.Name = "imagePanel";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imagePanel.Size = new System.Drawing.Size(328, 384);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imagePanel.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// renderedDocPictureBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.Cursor = System.Windows.Forms.Cursors.Default;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.Location = new System.Drawing.Point(144, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.Name = "renderedDocPictureBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.Size = new System.Drawing.Size(184, 233);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.DoubleClick += new System.EventHandler(this.renderedDocPictureBox_DoubleClick);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderedDocPictureBox_MouseMove);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.renderedDocPictureBox_MouseDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.renderedDocPictureBox_Paint);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.renderedDocPictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.renderedDocPictureBox_MouseUp);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// panelsSplitter
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.panelsSplitter.Location = new System.Drawing.Point(168, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.panelsSplitter.MinExtra = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.panelsSplitter.MinSize = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.panelsSplitter.Name = "panelsSplitter";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.panelsSplitter.Size = new System.Drawing.Size(3, 384);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.panelsSplitter.TabIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.panelsSplitter.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.panelsSplitter.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.panelsSplitter_SplitterMoved);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textEditingPanel
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.Controls.Add(this.label4);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.Controls.Add(this.textStyleGroupBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.Controls.Add(this.addTextButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.Controls.Add(this.label1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.Controls.Add(this.selectedBlockTextBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.Dock = System.Windows.Forms.DockStyle.Left;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.Location = new System.Drawing.Point(0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.Name = "textEditingPanel";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.Size = new System.Drawing.Size(168, 384);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.Visible = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label4
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4.Location = new System.Drawing.Point(0, 8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4.Name = "label4";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4.Size = new System.Drawing.Size(160, 40);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4.TabIndex = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label4.Text = "Drag a rectangle to add a new text block.";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// textStyleGroupBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Controls.Add(this.fontNameComboBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Controls.Add(this.label6);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Controls.Add(this.fontColorButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Controls.Add(this.label5);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Controls.Add(this.fitToSelectionCheckBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Controls.Add(this.fontSizeNumericUpDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Controls.Add(this.label2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Location = new System.Drawing.Point(0, 176);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Name = "textStyleGroupBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Size = new System.Drawing.Size(160, 128);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.TabStop = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.Text = "Text Style";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// fontNameComboBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Items.AddRange(new object[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Arial",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Arial Black",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Arial Black Italic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-Roman",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-Bold",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-Italic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Times-BoldItalic",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica-Bold",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica-Oblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Helvetica-BoldOblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier-Bold",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier-Oblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Courier-BoldOblique",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Symbol",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ZapfDingbats"});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Location = new System.Drawing.Point(48, 96);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Name = "fontNameComboBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.Size = new System.Drawing.Size(104, 21);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontNameComboBox.TabIndex = 11;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label6
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Location = new System.Drawing.Point(8, 96);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Name = "label6";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Size = new System.Drawing.Size(32, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.TabIndex = 10;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.Text = "Font:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// fontColorButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Location = new System.Drawing.Point(88, 72);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Name = "fontColorButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Size = new System.Drawing.Size(24, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.TabIndex = 9;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Paint += new System.Windows.Forms.PaintEventHandler(this.fontColorButton_Paint);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontColorButton.Click += new System.EventHandler(this.fontColorButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label5
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Location = new System.Drawing.Point(8, 74);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Name = "label5";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Size = new System.Drawing.Size(64, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.Text = "Text color:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// fitToSelectionCheckBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fitToSelectionCheckBox.Checked = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fitToSelectionCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fitToSelectionCheckBox.Location = new System.Drawing.Point(8, 24);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fitToSelectionCheckBox.Name = "fitToSelectionCheckBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fitToSelectionCheckBox.Size = new System.Drawing.Size(146, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fitToSelectionCheckBox.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fitToSelectionCheckBox.Text = "Fit to selection rectangle";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fitToSelectionCheckBox.CheckedChanged += new System.EventHandler(this.fitToSelectionCheckBox_CheckedChanged);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// fontSizeNumericUpDown
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.Enabled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.Location = new System.Drawing.Point(88, 48);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.Name = "fontSizeNumericUpDown";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.Size = new System.Drawing.Size(40, 20);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.fontSizeNumericUpDown.Value = new decimal(new int[] {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0});
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label2
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Location = new System.Drawing.Point(8, 48);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Name = "label2";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Size = new System.Drawing.Size(56, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.Text = "Font size:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// addTextButton
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.addTextButton.Enabled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.addTextButton.Location = new System.Drawing.Point(0, 136);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.addTextButton.Name = "addTextButton";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.addTextButton.Size = new System.Drawing.Size(75, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.addTextButton.TabIndex = 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.addTextButton.Text = "Add text";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.addTextButton.Click += new System.EventHandler(this.addTextButton_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// label1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Location = new System.Drawing.Point(0, 48);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Name = "label1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Size = new System.Drawing.Size(80, 16);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.TabIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.label1.Text = "Text:";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// selectedBlockTextBox
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Enabled = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Location = new System.Drawing.Point(0, 64);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Multiline = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Name = "selectedBlockTextBox";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.Size = new System.Drawing.Size(160, 64);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.selectedBlockTextBox.TabIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// layoutPanel
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layoutPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.AnchorStyles.Left) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| System.Windows.Forms.AnchorStyles.Right)));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layoutPanel.Controls.Add(this.panelsSplitter);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layoutPanel.Controls.Add(this.imagePanel);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layoutPanel.Controls.Add(this.textEditingPanel);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layoutPanel.Location = new System.Drawing.Point(0, 32);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layoutPanel.Name = "layoutPanel";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layoutPanel.Size = new System.Drawing.Size(496, 384);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layoutPanel.TabIndex = 13;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// PDFControl
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.toolBar1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.dpiLabel);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.dpiNumericUpDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.nextPageButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.prevPageButton);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.pageNumberTextBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.layoutPanel);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Name = "PDFControl";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Size = new System.Drawing.Size(496, 448);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Load += new System.EventHandler(this.PDFControl_Load);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.dpiNumericUpDown)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.imagePanel.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.renderedDocPictureBox)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textEditingPanel.PerformLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.textStyleGroupBox.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((System.ComponentModel.ISupportInitialize)(this.fontSizeNumericUpDown)).EndInit();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.layoutPanel.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PerformLayout();
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Initialization
+
+&nbsp;&nbsp;&nbsp;&nbsp;public PDFControl() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// This call is required by the Windows.Forms Form Designer.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Activates double buffering
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetStyle(ControlStyles.UserPaint, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetStyle(ControlStyles.DoubleBuffer, true); 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dragPen.DashStyle = DashStyle.Custom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dragPen.DashPattern = mDashPattern;
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void PDFControl_Load(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPrint = new PrintDocument();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPrint.BeginPrint += new PrintEventHandler(this.DoBeginPrint);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPrint.EndPrint += new PrintEventHandler(this.DoEndPrint);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPrint.PrintPage += new PrintPageEventHandler(this.DoPrintPage);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDotsPerInch = (int)dpiNumericUpDown.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontNameComboBox.SelectedIndex = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mZoomInCursor =&nbsp;&nbsp;new Cursor(this.GetType(), "zoomIn.cur");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mZoomOutCursor = new Cursor(this.GetType(), "zoomOut.cur");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PDFControl_KeyDown);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PDFControl_KeyUp);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectToolBarButton.Pushed = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CurrentTool = ToolType.SelectTool;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Finalizing
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt; 
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose(bool disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(components != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose(disposing);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region PDF view layout
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Adsjust the position of image panel
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void SetLayout() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (renderedDocPictureBox.Image == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int width = renderedDocPictureBox.Image.Width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int height = renderedDocPictureBox.Image.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int left = (imagePanel.Width - width)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (left &lt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left += imagePanel.AutoScrollPosition.X+5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int top = (imagePanel.Height - height)/2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (top &lt; 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top += imagePanel.AutoScrollPosition.Y;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.SetBounds(left, top, width, height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Render page of the document
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void UpdateView() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cursor saveCursor = renderedDocPictureBox.Cursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = Cursors.WaitCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Image = mDoc.Rendering.GetBitmap();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = saveCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Refresh();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void OnResize(EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.OnResize(e);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Refresh();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void panelsSplitter_SplitterMoved(object sender, System.Windows.Forms.SplitterEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;#region Open/Save dialogs
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Show open file dialog and load selected pdf file
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Open() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenFileDialog od = new OpenFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;od.Filter = "PDF Files (*.pdf;*.ai)|*.pdf;*ai|All Files (*.*)|*.*" ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;od.FilterIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (od.ShowDialog() == DialogResult.OK) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open(od.FileName);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Open pdf file
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="inPath"&gt;File path&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Open(string inPath) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc == null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageNumberTextBox.Visible = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prevPageButton.Visible = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nextPageButton.Visible = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpiNumericUpDown.Visible = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpiLabel.Visible = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Read(inPath);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = mDoc.CropBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPath = inPath;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileInfo fileInfo = new FileInfo(mPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPrint.DocumentName = fileInfo.Name;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sw = imagePanel.Width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sh = imagePanel.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double resX = (sw * 72) / mDoc.Rect.Width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double resY = (sh * 72) / mDoc.Rect.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int res = (int)(resX &gt; resY ? resY : resX);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int oldDPI = (int)dpiNumericUpDown.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dpiNumericUpDown.Minimum &gt;= res / 2) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpiNumericUpDown.Minimum = res / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpiNumericUpDown.Value = res;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpiNumericUpDown.Value = res;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpiNumericUpDown.Minimum = res / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAnnotatedContent = new AnnotatedContent(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextBlocks = mAnnotatedContent.Parse(mDoc);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string thePermissions = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanAssemble)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePermissions += " - page assembly\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanChange)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePermissions += " - page changes\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanCopy)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePermissions += " - copying from pages\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanEdit)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePermissions += " - editing pages\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanExtract)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePermissions += " - content extraction\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanFillForms)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePermissions += " - form filling\r\n ";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanPrint)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePermissions += " - printing\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanPrintHi)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePermissions += " - high resolution printing\r\n";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (thePermissions != "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("This document does not allow:\r\n" + thePermissions);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.BorderStyle = BorderStyle.FixedSingle;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePageNumberTextBox();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.MouseUp += new System.Windows.Forms.MouseEventHandler(renderedDocPictureBox_MouseUp);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;saveToolBarButton.Enabled = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printToolBarButton.Enabled = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zoomInToolBarButton.Enabled = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zoomOutToolBarButton.Enabled = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textToolBarButton.Enabled = mDoc.Encryption.CanChange;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectToolBarButton.Enabled = true;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Save file to disc
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Save() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mPath == "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveAs();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save(mPath);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Show "Save as" dialog and save file to the specified location on the disc
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void SaveAs() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveFileDialog sd = new SaveFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sd.Filter = "PDF Files (*.pdf;*.ai)|*.pdf;*ai|All Files (*.*)|*.*" ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sd.FilterIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sd.RestoreDirectory = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (sd.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPath = sd.FileName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save(mPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Save file to the specified location on the disc
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="path"&gt;&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Save(string path) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (path != "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Save(path);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Page manipulations
+&nbsp;&nbsp;&nbsp;&nbsp;public void InsertPages() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanAssemble) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("This document does not permit page assembly.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenFileDialog od = new OpenFileDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;od.Filter = "PDF Files (*.pdf;*.ai)|*.pdf;*ai|All Files (*.*)|*.*" ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;od.FilterIndex = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;od.Title = "Select File To Insert";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (od.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Doc theDoc = new Doc();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDoc.Read(od.FileName);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("Can't open " + od.FileName + ".");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InsertPages();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InsertPagesForm theDialog = new InsertPagesForm(mDoc, theDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theDialog.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePageNumberTextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void DeletePages() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanAssemble) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("This document does not permit page assembly.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DeletePagesForm theDialog = new DeletePagesForm(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theDialog.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePageNumberTextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void ExtractPages() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanAssemble) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("This document does not permit page assembly.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExtractPagesForm theDialog = new ExtractPagesForm(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theDialog.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePageNumberTextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void AddWatermark() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanChange) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("This document does not permit page changes.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AddWatermarkForm theDialog = new AddWatermarkForm(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theDialog.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePageNumberTextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;public void RotatePages() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanAssemble) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("This document does not permit page assembly.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RotatePagesForm theDialog = new RotatePagesForm(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theDialog.ShowDialog() == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Page navigation
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Update text in the page number text box
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void UpdatePageNumberTextBox() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageNumberTextBox.Text = PageNumber.ToString() + " of " + PageCount.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prevPageButton.Enabled = PageNumber &gt; 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nextPageButton.Enabled = PageNumber &lt; PageCount;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void nextPageButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePageNumberTextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void prevPageButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber--;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePageNumberTextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void pageNumberTextBox_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.KeyCode == Keys.Enter) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string text = ((TextBox)sender).Text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Regex regExp = new Regex("^[0-9]*");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string pageNumberString = regExp.Match(text).Value;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pageNumberString != "") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageNumber = int.Parse(pageNumberString);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdatePageNumberTextBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Properties
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Current page number
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int PageNumber {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mDoc.PageNumber;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc != null &amp;&amp; value &lt;= mDoc.PageCount &amp;&amp; value != mDoc.PageNumber) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.PageNumber = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = mDoc.CropBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cursor saveCursor = renderedDocPictureBox.Cursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = Cursors.WaitCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Image = mDoc.Rendering.GetBitmap();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = saveCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextBlocks = mAnnotatedContent.Parse(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Number of pages in the opened document
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int PageCount {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mDoc.PageCount;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Rendering resolution
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public int DotsPerInch {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mDotsPerInch;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDotsPerInch = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.DotsPerInch = mDotsPerInch;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cursor saveCursor = renderedDocPictureBox.Cursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = Cursors.WaitCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Image = mDoc.Rendering.GetBitmap();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = saveCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Is any document opened
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public bool DocumentOpened {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mDoc != null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Document name
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public string DocumentName {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mPrint.DocumentName;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;#region Printing
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Show page setup dialog
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void PageSetup() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PageSetupDialog p = new PageSetupDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.Document = mPrint;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// we hardwire the margins because of .NET bug http://support.microsoft.com/kb/814355
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPrint.DefaultPageSettings.Margins = new Margins(0, 0, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.AllowMargins = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//p.AllowOrientation = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//p.AllowPaper = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//p.AllowPrinter = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.ShowDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Show print dialog and print document
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void Print() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanPrint) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("This document does not permit printing.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PrintDialog p = new PrintDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.Document = mPrint;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Note: on some AMD64 machines the dialog will not show
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// unless this is set to true.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.UseEXDialog = true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPrint.PrinterSettings.FromPage = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPrint.PrinterSettings.ToPage = PageCount;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPrint.PrinterSettings.MinimumPage = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPrint.PrinterSettings.MaximumPage = PageCount;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.AllowSomePages = true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (p.ShowDialog() == DialogResult.OK) 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPrint.Print();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Show print preview
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public void PrintPreview() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanPrint) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("This document does not permit printing.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PrintPreviewDialog p = new PrintPreviewDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.Document = mPrint;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.WindowState = FormWindowState.Maximized;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.ShowDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void DoBeginPrint(object sender, PrintEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPage = Math.Max(1, mPrint.PrinterSettings.FromPage);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPageSaved = mDoc.PageNumber;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCopiesNumber = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void DoEndPrint(object sender, PrintEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.PageNumber = mPageSaved;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.String = mDoc.CropBox.String;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void DoPrintPage(object sender, PrintPageEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.PageNumber = mPage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mPrint.PrinterSettings.Collate) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mCopiesNumber++ &gt;= mPrint.PrinterSettings.Copies) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPage++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCopiesNumber = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.HasMorePages = mPage &lt;= mPrint.PrinterSettings.ToPage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPage++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.HasMorePages = mPage &lt;= mPrint.PrinterSettings.ToPage;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!e.HasMorePages &amp;&amp; mCopiesNumber &lt; mPrint.PrinterSettings.Copies) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCopiesNumber++;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mPage = mPrint.PrinterSettings.FromPage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.HasMorePages = mPage &lt;= mPrint.PrinterSettings.ToPage;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Graphics g = e.Graphics;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc.PageCount == 0) return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDoc.Page == 0) return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect cropBox = mDoc.CropBox;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double srcWidth = (cropBox.Width / 72) * 100;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double srcHeight = (cropBox.Height / 72) * 100;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double pageWidth = e.PageBounds.Width;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double pageHeight = e.PageBounds.Height;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double marginX = e.PageSettings.HardMarginX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double marginY = e.PageSettings.HardMarginY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double dstWidth = pageWidth - (marginX * 2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double dstHeight = pageHeight - (marginY * 2);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;const bool autoRotate = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int rotate = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (autoRotate &amp;&amp; srcWidth!=srcHeight &amp;&amp; dstWidth!=dstHeight
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; (srcWidth&gt;srcHeight)!=(dstWidth&gt;dstHeight))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double temp = pageWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageWidth = pageHeight;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pageHeight = temp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp = marginX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;marginX = marginY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;marginY = temp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp = dstWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dstWidth = dstHeight;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dstHeight = temp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rotate = PDFUtilities.GetPageRotation(mDoc) % 360;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (rotate &lt;= -180)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rotate += 360;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (rotate &gt; 180)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rotate -= 360;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rotate = rotate &gt; 0? 90: -90;&nbsp;&nbsp;// default to -90
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Use -90 because we want the staple to be at a top corner
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// of the page.  Assuming a rotation of "rotate" (0 or 180 degrees)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// produces upright contents, a rotation of -90 or 90 degrees
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// (respectively) produces outputs whose top is at the
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// left edge of the portrait page.  The staple at the top-left
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// corner of the portrait page will be at the top-right corner of the
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// contents.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rotate = PDFUtilities.GetPageRotation(mDoc) % 360;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (rotate != 180 &amp;&amp; rotate != -180)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rotate = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// if source bigger than destination then scale
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((srcWidth &gt; dstWidth) || (srcHeight &gt; dstHeight)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sx = dstWidth / srcWidth;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double sy = dstHeight / srcHeight;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double s = Math.Min(sx, sy);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;srcWidth *= s;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;srcHeight *= s;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// now center
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x = (pageWidth - srcWidth) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double y = (pageHeight - srcHeight) / 2;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// adjust to work around bug in .NET
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// http://social.msdn.microsoft.com/forums/en-US/vbgeneral/thread/c4b3408f-5b4f-4608-a36d-dd74f69ecdbd/
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mPrint.PrintController.IsPreview) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x -= marginX;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y -= marginY;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// save state
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double saveDotsPerInch = mDoc.Rendering.DotsPerInch;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.AutoRotate = false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RectangleF theRect = new RectangleF((float)x, (float)y, (float)srcWidth, (float)srcHeight);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int theRez = e.PageSettings.PrinterResolution.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.PageSettings.Color) // color is generally CMYK so to translate from dpi to ppi we divide by four
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theRez /= 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theRez &lt;= 0) // Invalid printer resolution - use the default value
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theRez = 72;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// draw content
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rect.SetRect(cropBox);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix oldTransform = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (rotate != 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldTransform = g.Transform;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (rotate) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 90:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Matrix matrix = new Matrix(0, 1, -1, 0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(float)(2*y+srcHeight), 0))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.MultiplyTransform(matrix);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case -90:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Matrix matrix = new Matrix(0, -1, 1, 0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0, (float)(2*x+srcWidth)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.MultiplyTransform(matrix);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 180: case -180:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Matrix matrix = new Matrix(-1, 0, 0, -1,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(float)(2*x+srcWidth), (float)(2*y+srcHeight)))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.MultiplyTransform(matrix);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+#if !DISPLAY_PRINT_AREA
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.SetClip(theRect);
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanPrintHi) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.DotsPerInch = 72;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Bitmap bm = mDoc.Rendering.GetBitmap()) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.DrawImage(bm, theRect);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.DotsPerInch = theRez;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.ColorSpace = XRendering.ColorSpaceType.Rgb;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.BitsPerChannel = 8;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte[] theData = mDoc.Rendering.GetData(".emf");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MemoryStream theStream = new MemoryStream(theData);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (Metafile theEMF = new Metafile(theStream)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.DrawImage(theEMF, theRect);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oldTransform != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.Transform = oldTransform;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldTransform.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// restore state
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.DotsPerInch = saveDotsPerInch;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Rendering.AutoRotate = true;
+#if DISPLAY_PRINT_AREA
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.DrawRectangle(new Pen(Color.Red),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theRect.X, theRect.Y, theRect.Width, theRect.Height);
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Dragging
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// True when user drags a new selection rectangle or selected text block
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private bool mbDragging = false;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Tracks the original point where mbDragging was started.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private Point mDragStart;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Tracks the point where the drag ended.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private Point mDragEnd;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Single[] mDashPattern = new Single[]{5,2,5,2}; /* The dash pattern used to draw the zoom box. */
+&nbsp;&nbsp;&nbsp;&nbsp;private Pen dragPen = new Pen(Brushes.Black, 1); /* The pen used to draw the zoom box. */
+
+&nbsp;&nbsp;&nbsp;&nbsp;//Drag selected rect
+&nbsp;&nbsp;&nbsp;&nbsp;private Point mCurrentDragPosition;
+&nbsp;&nbsp;&nbsp;&nbsp;private GraphicsPath mCurrentDragPath;
+
+&nbsp;&nbsp;&nbsp;&nbsp;//Drag grab bar
+&nbsp;&nbsp;&nbsp;&nbsp;private bool mbGrabBarDragging = false;
+&nbsp;&nbsp;&nbsp;&nbsp;private int mDragBarPointIndex = -1;
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Rectangle mTextAreaSelection;
+&nbsp;&nbsp;&nbsp;&nbsp;private Rectangle TextAreaSelection {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mTextAreaSelection;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mTextAreaSelection.IsEmpty &amp;&amp; ! value.IsEmpty)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SelectBlock(null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextAreaSelection = value;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fitToSelectionCheckBox.Enabled = ! value.IsEmpty;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontColorButton.Enabled = ! value.IsEmpty;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSizeNumericUpDown.Enabled = ! value.IsEmpty &amp;&amp; !fitToSelectionCheckBox.Enabled;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontNameComboBox.Enabled = ! value.IsEmpty;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectedBlockTextBox.Enabled = ! value.IsEmpty;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addTextButton.Enabled = ! value.IsEmpty;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void DrawResizingRect(Point dragCurrent) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dragCurrent != mDragStart) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Refresh();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DraggingUtilities.DragWindowInfo dwi = DraggingUtilities.GetDragWindowSize(dragCurrent, mDragStart);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.CreateGraphics().DrawRectangle(dragPen, dwi.TopLeft.X, dwi.TopLeft.Y,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dwi.WindowSize.Width, dwi.WindowSize.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void DrawDraggedRect(Point dragNewPoint) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mCurrentDragPosition != dragNewPoint) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix translateMatrix = new Matrix();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;translateMatrix.Translate(dragNewPoint.X - mCurrentDragPosition.X, dragNewPoint.Y - mCurrentDragPosition.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDragPath.Transform(translateMatrix);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDragPosition = dragNewPoint;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Refresh();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.CreateGraphics().DrawPath(dragPen, mCurrentDragPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void  DrawDraggedRectWithGrabBar(Point dragNewPoint) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDragStart != dragNewPoint) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath thePath = (GraphicsPath)mCurrentDragPath.Clone();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix theMatrix = DraggingUtilities.GetDraggingMatrix(dragNewPoint, thePath, mDragBarPointIndex);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePath.Transform(theMatrix);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Refresh();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.CreateGraphics().DrawPath(dragPen, thePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Mouse and Keyboard Events
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void renderedDocPictureBox_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.OnMouseDown(e);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (CurrentTool == ToolType.TextTool) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.Button == MouseButtons.Left) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDragStart = new Point(e.X, e.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextAreaSelection = new Rectangle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mbDragging = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (CurrentTool == ToolType.SelectTool &amp;&amp; SelectedBlock != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.Button == MouseButtons.Left) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF[] points = new PointF[1];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;points[0] = new PointF(e.X, e.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix theMatrix = ViewTransform;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix.Invert();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix.TransformPoints(points);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Drag Grab bar
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pointIndex;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath thePath = SelectedBlock.GetGraphics(ViewTransform);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (DraggingUtilities.IsOverGrabBars(new Point(e.X, e.Y), thePath, kGrabBarSize, out pointIndex)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDragBarPointIndex = pointIndex;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDragStart = new Point(e.X, e.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDragPath = thePath;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mbGrabBarDragging = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else // Drag selected rect
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (SelectedBlock.ContainsPoint(points[0])) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDragPath = SelectedBlock.GetGraphics(ViewTransform);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentDragPosition = new Point(e.X, e.Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDragStart = mCurrentDragPosition;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mbDragging = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void renderedDocPictureBox_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.OnMouseMove(e);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Drag text area 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (CurrentTool == ToolType.TextTool &amp;&amp; mbDragging)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawResizingRect(new Point(e.X, e.Y));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (CurrentTool == ToolType.SelectTool) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mbGrabBarDragging) { //Drag the rect with grab bar
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawDraggedRectWithGrabBar(new Point(e.X, e.Y));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mbDragging) { //Drag the rect
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DrawDraggedRect(new Point(e.X, e.Y));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool bDefaultCursor = true;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Check if the mouse is over the grab bars.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBlock theBlock = SelectedBlock;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theBlock != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pointIndex;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath thePath = theBlock.GetGraphics(ViewTransform);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (DraggingUtilities.IsOverGrabBars(new Point(e.X, e.Y), thePath, kGrabBarSize, out pointIndex)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = DraggingUtilities.GetGrabBarCursor(pointIndex, thePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bDefaultCursor = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (bDefaultCursor)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = CurrentCursor;
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void renderedDocPictureBox_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int x = e.X;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int y = e.Y;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (CurrentTool == ToolType.ZoomInTool || CurrentTool == ToolType.ZoomOutTool) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int dpi;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (CurrentTool == ToolType.ZoomInTool)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpi = (mDotsPerInch &gt; kZoomIncrement)? mDotsPerInch + kZoomIncrement : mDotsPerInch * 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpi = (mDotsPerInch / 2&gt; kZoomIncrement)? mDotsPerInch - kZoomIncrement: mDotsPerInch / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dpi &lt; dpiNumericUpDown.Minimum)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpi = (int)dpiNumericUpDown.Minimum;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpiNumericUpDown.Value = dpi;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (CurrentTool == ToolType.TextTool) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mbDragging) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.Button == MouseButtons.Left) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// A drag has just ended and now we need to perform the actual zoom.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mbDragging = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDragEnd == mDragStart)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDragEnd = new Point(e.X, e.Y);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (DraggingUtilities.CheckDragBoxSize(mDragStart, mDragEnd)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rectangle rect = DraggingUtilities.GetDragWindowSize(mDragEnd, mDragStart).GetRectangle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix theMatrix = ViewTransform;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix.Invert();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath thePath = new GraphicsPath();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePath.AddRectangle(rect);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePath.Transform(theMatrix);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RectangleF updatedRect = thePath.GetBounds();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextAreaSelection = new Rectangle((int)updatedRect.Left, (int)updatedRect.Top, (int)updatedRect.Width, (int)updatedRect.Height);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextAreaSelection = new Rectangle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Refresh();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (CurrentTool == ToolType.SelectTool) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mbDragging) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mbDragging = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.Button == MouseButtons.Left) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// A drag has just ended and now we need to perform the actual zoom.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDragEnd = new Point(e.X, e.Y);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mDragStart != mDragEnd) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point[] points = new Point[2];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;points[0] = mDragStart;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;points[1] = mDragEnd;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix theMatrix = ViewTransform;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix.Invert();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix.TransformPoints(points);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAnnotatedContent.MoveTextBlock(SelectedBlock, points[1].X - points[0].X, points[1].Y - points[0].Y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextBlocks = mAnnotatedContent.Parse(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (mbGrabBarDragging) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBlock theBlock = SelectedBlock;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mbGrabBarDragging = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix theMatrix = DraggingUtilities.GetDraggingMatrix(new Point(e.X, e.Y), mCurrentDragPath, mDragBarPointIndex);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix invertedViewMatrix = ViewTransform.Clone();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;invertedViewMatrix.Invert();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix newMatrix = ViewTransform.Clone();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newMatrix.Multiply(theMatrix, MatrixOrder.Append);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newMatrix.Multiply(invertedViewMatrix, MatrixOrder.Append);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAnnotatedContent.TransformTextBlock(theBlock, newMatrix);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextBlocks = mAnnotatedContent.Parse(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateView();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SelectBlock(null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rectangle updateRect = TextAreaSelection;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateRect.Inflate(2,2);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextAreaSelection = new Rectangle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Invalidate(updateRect);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mTextBlocks.Count&gt;0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//float scale = 72 / (float)mDotsPerInch;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix theMatrix = ViewTransform;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix.Invert();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PointF[] points = { new PointF(x, y) };
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix.TransformPoints(points);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; mTextBlocks.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBlock textBlock = mTextBlocks[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (textBlock.ContainsPoint(points[0])) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SelectBlock(textBlock);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void renderedDocPictureBox_DoubleClick(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (SelectedBlock != null &amp;&amp; (CurrentTool == ToolType.SelectTool || CurrentTool == ToolType.TextTool)) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextPropertiesForm theDialog = new TextPropertiesForm(SelectedBlock, mAnnotatedContent);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDialog.CanChange = mDoc.Encryption.CanChange;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDialog.CanCopy = mDoc.Encryption.CanCopy;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DialogResult res = theDialog.ShowDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (res == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextBlocks = mAnnotatedContent.Parse(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void PDFControl_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.KeyCode == Keys.ControlKey)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateToolCursors();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.KeyCode == Keys.Delete) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBlock theBlock = SelectedBlock;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theBlock != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAnnotatedContent.DeleteTextBlock(theBlock);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextBlocks = mAnnotatedContent.Parse(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void PDFControl_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.KeyCode == Keys.ControlKey)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateToolCursors();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Toolbar
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void toolBar1_ButtonClick(object sender, System.Windows.Forms.ToolBarButtonClickEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (e.Button == openToolBarButton) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (e.Button == saveToolBarButton) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SaveAs();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (e.Button == printToolBarButton) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Print();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (e.Button == zoomInToolBarButton) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CurrentTool = (zoomInToolBarButton.Pushed) ? ToolType.ZoomInTool : ToolType.HandTool;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (e.Button == zoomOutToolBarButton) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CurrentTool = (zoomOutToolBarButton.Pushed) ? ToolType.ZoomOutTool : ToolType.HandTool;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (e.Button == textToolBarButton) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CurrentTool = (textToolBarButton.Pushed) ? ToolType.TextTool : ToolType.HandTool;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextAreaSelection = new Rectangle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (e.Button == selectToolBarButton) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CurrentTool = (selectToolBarButton.Pushed) ? ToolType.SelectTool : ToolType.HandTool;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Currently active tool
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private ToolType CurrentTool {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mCurrentTool;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mCurrentTool = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (mCurrentTool) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ToolType.ZoomInTool:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = mZoomInCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ToolType.ZoomOutTool:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = mZoomOutCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ToolType.HandTool:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = Cursors.Default;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ToolType.TextTool:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = Cursors.Cross;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowTextEditPane = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ToolType.SelectTool:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Cursor = Cursors.Arrow;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mCurrentTool != ToolType.TextTool &amp;&amp; ShowTextEditPane) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ShowTextEditPane = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textToolBarButton.Pushed = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mCurrentTool != ToolType.SelectTool)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectToolBarButton.Pushed = false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mCurrentTool !=  ToolType.ZoomOutTool)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zoomOutToolBarButton.Pushed = false;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mCurrentTool !=  ToolType.ZoomInTool)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zoomInToolBarButton.Pushed = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Cursor CurrentCursor {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (CurrentTool) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ToolType.ZoomInTool:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mZoomInCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ToolType.ZoomOutTool:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return mZoomOutCursor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ToolType.HandTool:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Cursors.Default;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ToolType.TextTool:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Cursors.Cross;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case ToolType.SelectTool:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Cursors.Arrow;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Cursors.Default;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Zooming tools
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void dpiNumericUpDown_ValueChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int x = imagePanel.Width / 2 - imagePanel.AutoScrollPosition.X ;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int y = imagePanel.Height /2 - imagePanel.AutoScrollPosition.Y;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int oldDPI = mDotsPerInch;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DotsPerInch = (int)((NumericUpDown)sender).Value;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = x * mDotsPerInch / oldDPI - imagePanel.Width / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y = y * mDotsPerInch / oldDPI - imagePanel.Height /2;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.AutoScrollPosition = new Point(x , y);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.Focus();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpiNumericUpDown.Increment = (dpiNumericUpDown.Value &lt; kZoomIncrement)? dpiNumericUpDown.Value : kZoomIncrement;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dpiNumericUpDown.Minimum = ((int)dpiNumericUpDown.Value + 1) / 2;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Refresh();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void zoomInMenuItem_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void zoomOutMenuItem_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void UpdateToolCursors() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (CurrentTool == ToolType.ZoomInTool || CurrentTool == ToolType.ZoomOutTool) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mZoomToolReverted &amp;&amp; Control.ModifierKeys == Keys.Control) { //switch zooming tool if control is pressed
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CurrentTool = (CurrentTool == ToolType.ZoomInTool)? ToolType.ZoomOutTool: ToolType.ZoomInTool;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mZoomToolReverted = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (mZoomToolReverted &amp;&amp; Control.ModifierKeys != Keys.Control) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CurrentTool = (CurrentTool == ToolType.ZoomInTool)? ToolType.ZoomOutTool: ToolType.ZoomInTool;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mZoomToolReverted = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Text editing
+
+&nbsp;&nbsp;&nbsp;&nbsp;private Pen BlackPen = new Pen(Brushes.Black, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;private Pen RedPen = new Pen(Brushes.Red, 1);
+&nbsp;&nbsp;&nbsp;&nbsp;private Color mTextColor = Color.Black;
+&nbsp;&nbsp;&nbsp;&nbsp;private List&lt;TextBlock&gt; mTextBlocks = new List&lt;TextBlock&gt;();
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Select text block
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="selectedBlock"&gt;Text block&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void SelectBlock(TextBlock selectedBlock) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; mTextBlocks.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBlock theBlock = mTextBlocks[i];
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath thePath = theBlock.GetGraphics(ViewTransform);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePath.Widen(new Pen(Brushes.Black, 2 + kGrabBarSize));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theBlock == selectedBlock) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.Selected = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Invalidate(new Region(thePath));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectedBlockTextBox.Text = theBlock.Text;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theBlock.Selected) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.Selected = false;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;renderedDocPictureBox.Invalidate(new Region(thePath));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (selectedBlock == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectedBlockTextBox.Text = "";
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Enable edit box and button
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selectedBlockTextBox.Enabled = selectedBlock != null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;addTextButton.Enabled = selectedBlock != null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Selected text block
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBlock SelectedBlock {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; mTextBlocks.Count; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBlock theBlock = mTextBlocks[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theBlock.Selected)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theBlock;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Show text editing pane
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private bool ShowTextEditPane {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;textEditingPanel.Visible = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panelsSplitter.Visible = value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SetLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return textEditingPanel.Visible;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Transformation from pdf coordinates to view coordinates
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private Matrix ViewTransform {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;get {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float scale = mDotsPerInch / (float)72;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix theMatrix = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int angle = PDFUtilities.GetPageRotation(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (angle) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 0:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix = new Matrix(scale, 0, 0, -scale, 0, (float)mDoc.MediaBox.Height*scale);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix.Translate( (float)(mDoc.MediaBox.Left - mDoc.CropBox.Left), (float)(mDoc.MediaBox.Top - mDoc.CropBox.Top), MatrixOrder.Prepend);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 90:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix = new Matrix(0, scale, scale, 0, 0, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix.Translate( (float)(mDoc.MediaBox.Left - mDoc.CropBox.Left), (float)(mDoc.MediaBox.Bottom - mDoc.CropBox.Bottom), MatrixOrder.Prepend);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 180:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix = new Matrix(-scale, 0, 0, scale, (float)mDoc.MediaBox.Width*scale, 0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix.Translate( (float)(mDoc.MediaBox.Right - mDoc.CropBox.Right), (float)(mDoc.MediaBox.Bottom - mDoc.CropBox.Bottom), MatrixOrder.Prepend);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 270:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix = new Matrix(0, -scale, -scale, 0, (float)mDoc.MediaBox.Height*scale, (float)mDoc.MediaBox.Width*scale);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theMatrix.Translate( (float)(mDoc.MediaBox.Right - mDoc.CropBox.Right), (float)(mDoc.MediaBox.Top - mDoc.CropBox.Top), MatrixOrder.Prepend);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theMatrix;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void renderedDocPictureBox_Paint(object sender, System.Windows.Forms.PaintEventArgs e) {
+#if DISPLAY_TEXT_RECTANGLES
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; mTextBlocks.Count; i++)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBlock textBlock = mTextBlocks[i];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath thePath = textBlock.GetGraphics(ViewTransform);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (textBlock.Selected)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawPath(RedPen, thePath);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawPath(BlackPen, thePath);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+#else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBlock textBlock = SelectedBlock;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (textBlock != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath thePath = textBlock.GetGraphics(ViewTransform);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawPath(BlackPen, thePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; thePath.PathPoints.Length; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.FillRectangle(new SolidBrush(Color.White), thePath.PathPoints[i].X - 2, thePath.PathPoints[i].Y - 2, 4, 4);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawRectangle(BlackPen, thePath.PathPoints[i].X - kGrabBarSize / 2, thePath.PathPoints[i].Y - kGrabBarSize / 2, kGrabBarSize, kGrabBarSize);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+#endif
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!TextAreaSelection.IsEmpty &amp;&amp; CurrentTool == ToolType.TextTool) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath thePath = new GraphicsPath();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePath.AddRectangle(TextAreaSelection);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePath.Transform(ViewTransform);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.Graphics.DrawPath(dragPen, thePath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void addTextButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!mDoc.Encryption.CanChange) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("This document does not permit page changes.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!TextAreaSelection.IsEmpty) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XRect theRect = new XRect();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theRect.Bottom = TextAreaSelection.Bottom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theRect.Left = TextAreaSelection.Left;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theRect.Top = TextAreaSelection.Top;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theRect.Right = TextAreaSelection.Right;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDFUtilities.AddTextBlock(mDoc, selectedBlockTextBox.Text, theRect, (int)fontSizeNumericUpDown.Value, mTextColor, fitToSelectionCheckBox.Checked);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextAreaSelection = new Rectangle();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextBlocks = mAnnotatedContent.Parse(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.Focus();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imagePanel.Focus();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBlock theBlock = SelectedBlock;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theBlock != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mAnnotatedContent.UpdateTextBlock(theBlock, selectedBlockTextBox.Text);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextBlocks = mAnnotatedContent.Parse(mDoc);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UpdateView();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;private void fitToSelectionCheckBox_CheckedChanged(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSizeNumericUpDown.Enabled = !fitToSelectionCheckBox.Checked;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void fontColorButton_Paint(object sender, System.Windows.Forms.PaintEventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.OnPaint(e);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Graphics g = e.Graphics;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.FillRectangle(new SolidBrush(mTextColor), new Rectangle(4, 4, fontColorButton.Size.Width - 8, fontColorButton.Size.Height - 8));
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void fontColorButton_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ColorDialog theDialog = new ColorDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theDialog.Color = mTextColor;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DialogResult res = theDialog.ShowDialog();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (res == DialogResult.OK) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mTextColor = theDialog.Color;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontColorButton.Refresh();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -94,7 +94,7 @@
             <p>The MSOffice module uses Microsoft Office for document conversion. This
             module is fast and produces high fidelity output, including native form
             fields and annotations conversion. It takes advantage of the
-            <a href="addforms.htm">AddForms</a>, <a href="bookmarks.htm">Boomarks</a>,
+            <a href="addforms.htm">AddForms</a>, <a href="bookmarks.htm">Bookmarks</a>,
             <a href="password.htm">Password</a>, <a href="enablemsofficemacros.htm">EnableMSOfficeMacros</a>,
             <a href="preservetransparency.htm">PreserveTransparency</a> and <a href="timeout.htm">Timeout</a>
             properties.</p>
@@ -117,7 +117,7 @@
             </TABLE>
             <p>The WordGlue module uses WordGlue .NET for DOC and DOCX 
             conversion. WordGlue .NET is a fully managed and fully secure component for the conversion of semantic document formats. This requires WordGlue 2.0.0.1 or later to be installed. WordGlue can be downloaded from our web site.</p>
-            <p>The RichTextFormat module is a native RTF import module. It takes advantage of the <a href="defaultrect.htm">DefaultRect</a><a href="openofficeparameters.htm"></a> and <a href="timeout.htm">Timeout</a> properties.</p>
+            <p>The RichTextFormat module is a native RTF import module. It takes advantage of the <a href="defaultrect.htm">DefaultRect</a> and <a href="timeout.htm">Timeout</a> properties.</p>
             <p>The Svg module is a native SVG (Scaleable Vector Graphics) import 
             module. It takes advantage of the <a href="defaultfont.htm">DefaultFont</a>
             and <a href="defaultrect.htm">DefaultRect</a> properties.</p>
@@ -132,7 +132,7 @@
             <p>The EmfVector module allows direct vector import of Enhanced Metafile (EMF) and Windows Metafile (WMF) into a PDF document. However you should note that not all EMF or WMF files can be directly imported this way. If this is the case you should look at using AddImageObject with the default ReadModule, which is fast but will result in the image being rasterized. As another alternative, the XpsAny ReadModule will not be as fast but will preserve the vector nature of practically all such files.</p>
             <p>The WebP module allows import of the WebP file format. WebP is a google format that provides lossy and lossless compression for images on the web. It claims size reductions of perhaps 25% over PNG and JPEG and highly optimized alpha channel support.</p>
             <p>The Png module is a native import module designed to run cross platform. It supports all PNG bit depths (1, 8, 16) and color spaces (grayscale and RGB) in the PNG specification and allows import preserving those native depths and color spaces.</p>
-            <p>The Gif, Jpeg and Bmp modules are native import module designed to run cross platform. They support all bit depths and color spaces in the respective color spaces and and allow import preserving those native depths and color spaces.</p>
+            <p>The Gif, Jpeg and Bmp modules are native import module designed to run cross platform. They support all bit depths and color spaces in the respective color spaces and allow import preserving those native depths and color spaces.</p>
             <p>The FlashNative module is a legacy parser that depends on Adobe components. For importing Flash or SWF files, ABCpdf now defaults to using the custom SwfVector ReadModule. To revert to the older native Flash module, select FlashNative as the ReadModule.</p>
             <p>The BasicImage module is based around the native import abilities provided by Windows. It allows you to read common formats such as JPEG (grayscale, RGB or CMYK) and multi-page TIFF. It uses supports, at minimum, JPEG,TIFF, BMP, PNG, GIF, WMP (Windows Media Photo) and ICO. It also allows the import of EMF and WMF though these will be rasterized on import. In general, color spaces and bit depth will be preserved, though not always and in particular  not  in the case of TIFF. The specialist cross platform modules detailed above are superior for formats like JPEG, TIFF, BMP and GIF. </p>
             <p>Beyond the standard image formats listed above, the BasicImage module  typically supports the following:</p>

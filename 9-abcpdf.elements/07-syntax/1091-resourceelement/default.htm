@@ -31,6 +31,13 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=91">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 33, page 83.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 34, page 112.</a></p>
 </p>
+<!-- addition start -->
+<p>A resource dictionary lists all named resources used by a content stream. Before a content stream can reference a font, image, color space, pattern, shading, XObject, graphics state parameter set, or properties dictionary, that resource must appear in the applicable resource dictionary.</p>
+<p>Each entry in the resource dictionary is itself a dictionary mapping resource names to the corresponding PDF objects. Names are chosen by the content stream author and need only be unique within the resource category.</p>
+<p>Resource dictionaries are associated with pages, form XObjects, Type 1 patterns, and annotation appearances. A content stream may only use resources listed in its own resource dictionary or inherited from ancestor page tree nodes.</p>
+<p>The ProcSet entry holds an array of procedure set names for compatibility with PDF 1.0 and 1.1 readers. These values are ignored by conforming readers but must be present in documents targeting older viewers.</p>
+<p>The Properties entry maps names to property list dictionaries used with marked-content operators. This supports tagged PDF and optional content group references within the content stream.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

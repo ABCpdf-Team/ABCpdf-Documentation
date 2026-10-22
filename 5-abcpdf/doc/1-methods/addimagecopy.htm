@@ -110,7 +110,7 @@ href="../../xtransform/default.htm">Transform</A>.</P>
         <TR>
           <TD>
             <P>This example shows how to read an existing PDF document and 
-            insert a background image into every page.</P>
+            insert a background image (for example a watermark) into every page.</P>
             <P>We start by reading our template PDF document and finding out 
             core information we will need to reference each page.</P>
             <P><SPAN class=language>[C#]</SPAN><BR><pre><code class="language-csharp">using var doc = new Doc();
@@ -119,7 +119,7 @@ int count = doc.PageCount;
 </code></pre></P>
             <P>We cycle through the pages inserting images as we go.</P>
             <P>We set the layer property to ensure that the image gets added in 
-            the background rather than on top of existing content. </P>
+            the background (behind the page content) rather than on top of (in front of) existing content. </P>
             <P>The first time we add an image file. Subsequent times we 
             reference the image ID. This means that we embed only one copy of 
             the image data and simply reference that data from each page. </P>

@@ -34,6 +34,13 @@
 <p>This class is always an indirect object because CatalogElement.EntryPages, PageObjectElement.EntryParent, PageTreeNodeElement.EntryKids and PageTreeNodeElement.EntryParent require it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>Page tree nodes form the internal nodes of the page tree that organises a document's pages. Each node holds an array of references to its children, which may be other page tree nodes or page objects.</p>
+<p>The Count entry gives the total number of page objects in the subtree rooted at this node. A reader uses these counts to navigate directly to a page by index without visiting every node in the tree.</p>
+<p>The Parent entry references the node's parent in the tree. Every node except the root has a parent. The root node is referenced from the document catalog's Pages entry and has no parent entry.</p>
+<p>The Resources, MediaBox, CropBox, and Rotate entries may appear in a page tree node as inheritable attributes. Page objects that do not specify these entries inherit them from the nearest ancestor node that does.</p>
+<p>The Kids array contains the immediate children of this node. The order of entries in Kids defines the page order of the document. A well-formed tree has no cycles and every page object appears exactly once.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

@@ -34,6 +34,13 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A Type 5 shading encodes a lattice-form triangle mesh where vertices are arranged in a rectangular grid of rows. Adjacent rows share edges to form a strip of triangles without explicit edge flags.</p>
+<p>BitsPerCoordinate and BitsPerComponent set the bit depths for coordinates and color components respectively. These values determine how each vertex's data is decoded from the stream.</p>
+<p>VerticesPerRow gives the fixed number of vertices in each row of the lattice. The mesh is formed by pairing each row with the next, producing two triangles per pair of adjacent vertices.</p>
+<p>The Decode array maps encoded integer values to the coordinate and color component ranges used during rendering.</p>
+<p>The optional Function entry allows a single tint value per vertex in place of full color components, with the function converting that tint to the shading's color space.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

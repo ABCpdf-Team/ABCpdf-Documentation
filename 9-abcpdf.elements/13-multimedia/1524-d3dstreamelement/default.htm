@@ -35,6 +35,12 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>A 3D stream contains the three-dimensional model data for a 3D annotation. The stream body holds the model in a format such as U3D or PRC, identified by the Subtype entry.</p>
+<p>The VA entry holds an array of 3D view dictionaries that define the named views available for the model. Viewers present these views in a list from which the user can select. The DV entry names or references the default view.</p>
+<p>The Resources entry holds a resources dictionary for assets referenced by the 3D stream, such as textures and auxiliary data files. The OnInstantiate entry holds a 3D JavaScript script that runs when the model is first loaded.</p>
+<p>The AN entry references a 3D animation style dictionary that controls how the model animates. The ColorSpace entry specifies the colour space used for lighting and rendering calculations.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

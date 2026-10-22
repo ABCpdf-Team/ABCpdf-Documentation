@@ -1,0 +1,429 @@
+<html>
+<head>
+<title>AnnotatedContent.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">AnnotatedContent.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+using System.Xml;
+using System.Globalization;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using System.IO;
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Objects;
+
+
+namespace ABCpdfControls {
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Annotated page content.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;internal class AnnotatedContent {
+&nbsp;&nbsp;&nbsp;&nbsp;private Doc mDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;private NumberFormatInfo mFormatProvider;
+&nbsp;&nbsp;&nbsp;&nbsp;private const string kDefaultTextProperties = "0 Tc 0 Tw 100 Tz 0 TL 0 Ts";
+
+&nbsp;&nbsp;&nbsp;&nbsp;public AnnotatedContent(Doc inDoc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc = inDoc;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFormatProvider = new NumberFormatInfo();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFormatProvider.NumberDecimalSeparator = ".";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mFormatProvider.NumberDecimalDigits = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Extract text block information from the xml decription
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="node"&gt;Xml node corresonding to the text block&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;Text Block&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private TextBlock ParseTextBlock(XmlNode node) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NumberFormatInfo theFormatProvider = new NumberFormatInfo();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theFormatProvider.NumberDecimalSeparator = ".";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNode attrNode = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float fontSize = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["font-size"]) != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = float.Parse(attrNode.Value, mFormatProvider);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// SVG does not allow negative font size
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// so special leading '+' sign indicates negative font size
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (attrNode.Value.Length &gt; 0 &amp;&amp; attrNode.Value[0] == '+')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontSize = -fontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string text = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float w = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (node.ChildNodes.Count == 0 || (node.ChildNodes.Count &gt; 0 &amp;&amp; node.ChildNodes[0].Name != "tspan")) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text = node.InnerText;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string lengthStr = node.Attributes["pdf_w1000"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w = float.Parse(lengthStr, theFormatProvider) / 1000;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j &lt; node.ChildNodes.Count; j++) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNode childNode = node.ChildNodes.Item(j);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (childNode.Name == "tspan") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text += childNode.InnerText;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string lengthStr = childNode.Attributes["pdf_w1000"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w += float.Parse(lengthStr, theFormatProvider) / 1000;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = childNode.Attributes["dx"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w += float.Parse(attrNode.Value, theFormatProvider) / fontSize;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (text == "" || w == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float h = 1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GraphicsPath thePath = new GraphicsPath();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePath.AddRectangle(new RectangleF(0, -(float)0.2*h, w, h));
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string textMatrix = node.Attributes["pdf_Trm"].Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string[] valuesStr = textMatrix.Split(' ');
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix theMatrix = new Matrix(float.Parse(valuesStr[0], theFormatProvider), float.Parse(valuesStr[1], theFormatProvider), float.Parse(valuesStr[2], theFormatProvider), float.Parse(valuesStr[3], theFormatProvider), float.Parse(valuesStr[4], theFormatProvider), float.Parse(valuesStr[5], theFormatProvider));
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thePath.Transform(theMatrix);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBlock theBlock = new TextBlock(text, thePath, node);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["pdf_StreamID"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.StreamId = int.Parse(attrNode.Value);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["pdf_StreamOffset"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.StreamOffset = int.Parse(attrNode.Value);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["pdf_StreamLength"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.Length = int.Parse(attrNode.Value);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["fill"]) != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string colorStr = attrNode.Value;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;colorStr = colorStr.Replace("rgb(", "");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;colorStr = colorStr.Replace(")", "");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XColor theColor = new XColor();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theColor.String = colorStr;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.TextColor = theColor.Color;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.TextColor = Color.Black;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["font-family"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.FontFamily = attrNode.Value;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.FontSize = fontSize;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["pdf_Op"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.PDFOperator = attrNode.Value;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["pdf_Tf"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.FontOperator = attrNode.Value;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["pdf_Ts"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.TextRise = float.Parse(attrNode.Value, mFormatProvider);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["pdf_Tw"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.WordSpacing = float.Parse(attrNode.Value, mFormatProvider);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["pdf_Tc"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.CharacterSpacing = float.Parse(attrNode.Value, mFormatProvider);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["pdf_TL"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.TextLeading = float.Parse(attrNode.Value, mFormatProvider);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["pdf_Tz"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.HorizontalScaling = float.Parse(attrNode.Value, mFormatProvider);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if ((attrNode = node.Attributes["pdf_nonStroke"]) != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.TextColorOperator = attrNode.Value;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlock.TextRenderingMatrix = theMatrix;
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theBlock;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Returns Text Blocks from the page
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;param name="mDoc"&gt;Document&lt;/param&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;returns&gt;ArrayList containing text blocks&lt;/returns&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;TextBlock&gt; Parse(Doc mDoc) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;TextBlock&gt; theBlocks = new List&lt;TextBlock&gt;();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Flatten();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string content = mDoc.GetText("SVG+");
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringReader xmlReader = new StringReader(content);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlDocument xmlDoc = new XmlDocument();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmlDoc.Load(xmlReader);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (Exception e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageBox.Show("Error deconstructing SVG: " + e.Message);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlocks.Clear();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNode svg = xmlDoc["svg"];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XmlNode node = svg != null &amp;&amp; svg.FirstChild != null? svg.FirstChild: svg;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (node!=svg) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (node.Name == "text") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextBlock theBlock = ParseTextBlock(node);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (theBlock != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theBlocks.Add(theBlock);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (node.FirstChild != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node = node.FirstChild;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (node.NextSibling != null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node = node.NextSibling;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node = node.ParentNode;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} while (node != svg &amp;&amp; node.NextSibling == null);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (node != svg)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;node = node.NextSibling;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theBlocks;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void UpdateTextBlock(TextBlock inBlock, string inText) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inBlock != null &amp;&amp; inBlock.StreamId != 0 &amp;&amp; inBlock.StreamOffset &gt; 0 &amp;&amp; inBlock.Length &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject streamObject = (StreamObject)mDoc.ObjectSoup[inBlock.StreamId];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;streamObject.Decompress();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string stream = streamObject.GetText();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream = stream.Remove(inBlock.StreamOffset, inBlock.Length);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldFontPath = "/Resources/Font/"+inBlock.FontOperator+":Ref";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int oldFontId = mDoc.GetInfoInt(inBlock.StreamId, oldFontPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(oldFontId == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldFontId = mDoc.GetInfoInt(mDoc.Page, oldFontPath);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int fontId;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string updatedString = UnicodeToFontEncoding(mDoc, oldFontId,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBlock.FontFamily?? "", inText, out fontId) + " Tj";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string fontOp = fontId==0? "": GetFontOperator(inBlock.StreamId, fontId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontOp != "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updatedString = string.Format(mFormatProvider,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" /{0} {1:0.#####} Tf\r\n{2}\r\n/{3} {1:0.#####} Tf",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontOp, inBlock.FontSize, updatedString, inBlock.FontOperator);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream = stream.Insert(inBlock.StreamOffset, updatedString);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;streamObject.SetText(stream);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBlock.Length = updatedString.Length;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private string UnicodeToFontEncoding(Doc inDoc, int inFontId, string inFont,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string inText, out int outFontId)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string theText;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontObject fontObj = inFontId==0? null: inDoc.ObjectSoup[inFontId] as FontObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontObj != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int count;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theText = fontObj.EncodeText(inText,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontObject.EncodingSupport.NoneIfAnyNotSupported, out count);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (count &gt;= inText.Length) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outFontId = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theText;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inFont != "") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inFontId = mDoc.AddFont(inFont);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontObj = inFontId==0? null: inDoc.ObjectSoup[inFontId] as FontObject;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontObj != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theText = fontObj.EncodeText(inText,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontObject.EncodingSupport.NoneIfAnyNotSupported, out count);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (count &gt;= inText.Length) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outFontId = inFontId;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theText;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.Delete(inFontId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outFontId = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theText = inText.Replace("\\", "\\\\");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theText = theText.Replace("(", "\\(");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theText = theText.Replace(")", "\\)");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return theText;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public string GetFontOperator(int resObjId, int fontID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string fontCommand = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string fontStr = mDoc.GetInfo(resObjId, "/Resources/Font*");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DictAtom fontDict = Atom.FromString(fontStr) as DictAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(fontDict==null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resObjId = mDoc.Page;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontStr = mDoc.GetInfo(resObjId, "/Resources/Font*");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontDict = Atom.FromString(fontStr) as DictAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontDict != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach (KeyValuePair&lt;string, Atom&gt; pair in fontDict) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RefAtom refAtom = pair.Value as RefAtom;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (refAtom != null &amp;&amp; refAtom.ID == fontID) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontCommand = pair.Key;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontCommand == "") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontDict == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontDict = new DictAtom();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom fontRef = Atom.FromString(fontID.ToString()+" 0 R");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontCommand = "Fabc"+fontID.ToString();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontDict.Add(fontCommand, fontRef);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.SetInfo(resObjId, "/Resources*/Font", fontDict.ToString());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return fontCommand;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void UpdateTextBlock(TextBlock inBlock, string inText, Color inColor, string font) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inBlock != null &amp;&amp; inBlock.StreamId != 0 &amp;&amp; inBlock.StreamOffset &gt; 0 &amp;&amp; inBlock.Length &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject streamObject = (StreamObject)mDoc.ObjectSoup[inBlock.StreamId];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;streamObject.Decompress();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string stream = streamObject.GetText();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream = stream.Remove(inBlock.StreamOffset, inBlock.Length);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int fontId = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string fontOp = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (font != "") {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontId = mDoc.AddFont(font);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontId != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontOp = GetFontOperator(inBlock.StreamId, fontId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string updatedString = inBlock.PDFOperator;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bool sameText = inBlock.Text == inText;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!sameText || fontId != 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldFontPath = "/Resources/Font/"+inBlock.FontOperator+":Ref";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int oldFontId = mDoc.GetInfoInt(inBlock.StreamId, oldFontPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (oldFontId == 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldFontId = mDoc.GetInfoInt(mDoc.Page, oldFontPath);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldEncoding = "";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (sameText &amp;&amp; oldFontId != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldEncoding = mDoc.GetInfo(oldFontId, "/Encoding*:Name");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!sameText || oldEncoding == ""
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|| oldEncoding != mDoc.GetInfo(fontId, "/Encoding*:Name"))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updatedString = UnicodeToFontEncoding(mDoc,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontId==0? oldFontId: fontId,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontId!=0 || inBlock.FontFamily==null? "": inBlock.FontFamily,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inText, out fontId) + " Tj";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontId != 0)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontOp = GetFontOperator(inBlock.StreamId, fontId);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inBlock.TextColor != inColor) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string oldColorOP = inBlock.TextColorOperator?? string.Format(mFormatProvider,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"{0:0.#####} {1:0.#####} {2:0.#####} rg",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBlock.TextColor.R / 255.0, inBlock.TextColor.G / 255.0, inBlock.TextColor.B / 255.0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updatedString = string.Format(mFormatProvider,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" {0:0.#####} {1:0.#####} {2:0.#####} rg\r\n{3}\r\n{4}",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inColor.R / 255.0, inColor.G / 255.0, inColor.B / 255.0, updatedString, oldColorOP);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (fontOp != "")
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updatedString = string.Format(mFormatProvider,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" /{0} {1:0.#####} Tf\r\n{2}\r\n/{3} {1:0.#####} Tf",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fontOp, inBlock.FontSize, updatedString, inBlock.FontOperator);
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream = stream.Insert(inBlock.StreamOffset, updatedString);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;streamObject.SetText(stream);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBlock.Length = updatedString.Length;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;//public string GetTextPropertiesString(TextBlock inBlock) {
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;&nbsp;return " " + inBlock.TextRise.ToString(mFormatProvider) + " Ts " + 
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;&nbsp;&nbsp;&nbsp;inBlock.WordSpacing.ToString(mFormatProvider) + " Tw " +
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;&nbsp;&nbsp;&nbsp;inBlock.CharacterSpacing.ToString(mFormatProvider) + " Tc " +
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;&nbsp;&nbsp;&nbsp;inBlock.TextLeading.ToString(mFormatProvider) + " TL " +
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;&nbsp;&nbsp;&nbsp;inBlock.HorizontalScaling.ToString(mFormatProvider) + " Tz ";
+&nbsp;&nbsp;&nbsp;&nbsp;//}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void DeleteTextBlock(TextBlock inBlock) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inBlock != null &amp;&amp; inBlock.StreamId != 0 &amp;&amp; inBlock.StreamOffset &gt; 0 &amp;&amp; inBlock.Length &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StreamObject streamObject = (StreamObject)mDoc.ObjectSoup[inBlock.StreamId];
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;streamObject.Decompress();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string stream = streamObject.GetText();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inBlock.StreamOffset + inBlock.Length &lt; stream.Length){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stream = stream.Remove(inBlock.StreamOffset, inBlock.Length);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;streamObject.SetText(stream);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBlock.Length = 0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void MoveTextBlock(TextBlock inBlock, int xOffset, int yOffset) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matrix moveMatrix = new Matrix(1, 0, 0, 1, xOffset, yOffset);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TransformTextBlock(inBlock, moveMatrix);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;public void TransformTextBlock(TextBlock inBlock, Matrix ctm) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (inBlock != null &amp;&amp; inBlock.StreamId != 0 &amp;&amp; inBlock.StreamOffset &gt; 0 &amp;&amp; inBlock.Length &gt; 0) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DeleteTextBlock(inBlock);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string colorOP = inBlock.TextColorOperator?? string.Format(mFormatProvider,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"{0:0.#####} {1:0.#####} {2:0.#####} rg",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBlock.TextColor.R / 255.0, inBlock.TextColor.G / 255.0, inBlock.TextColor.B / 255.0);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBlock.TextRenderingMatrix.Multiply(ctm, MatrixOrder.Append);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float[] elements = inBlock.TextRenderingMatrix.Elements;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// not using GetTextPropertiesString(inBlock)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string textBlockStr = string.Format(mFormatProvider,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"q\r\nBT\r\n"+kDefaultTextProperties
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "\r\n{0}\r\n{1:0.#####} {2:0.#####} {3:0.#####} {4:0.#####} {5:0.#####} {6:0.#####} Tm"
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "\r\n/{7} 1 Tf\r\n{8}\r\nET\r\nQ",
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;colorOP, elements[0], elements[1], elements[2], elements[3], elements[4], elements[5],
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBlock.FontOperator, inBlock.PDFOperator);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mDoc.SetInfo(mDoc.FrameRect(), "stream", textBlockStr);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

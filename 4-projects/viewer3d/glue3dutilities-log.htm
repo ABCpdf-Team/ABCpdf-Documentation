@@ -1,0 +1,155 @@
+<html>
+<head>
+<title>Glue3DUtilities\Log.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Glue3DUtilities\Log.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+using System;
+
+
+namespace Glue3DUtilities
+{
+&nbsp;&nbsp;/// &lt;summary&gt;Convenience class to wrap the logging functionaity contained in the Glue3D dlls&lt;/summary&gt;
+&nbsp;&nbsp;public static class Log
+&nbsp;&nbsp;{
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Constants
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;The log level as used inside the Glue3D dlls&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public enum LogLevel : int
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message = 0,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Error,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Warning,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Info,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Verbose,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ExtraVerbose
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Specify a log file and log level, and start the logger; if append is specified it will append to the last log (if available). Note: If no log file is specified, will log to output console&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static bool StartLogging(string logFile, bool append, LogLevel logLevel)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Dll_Glue3D.StartLogging(logFile, append, (Int32)logLevel);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Stop the logger&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void StopLogging()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.StopLogging();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Check if logging is enabled&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static bool IsLogging()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Dll_Glue3D.IsLogging();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Change the log level&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void SetLogLevel(LogLevel level)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.SetLogLevel((Int32)level);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the current log level&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static LogLevel GetLogLevel()
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (LogLevel)Dll_Glue3D.GetLogLevel();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Write a (high priority) message to the log&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void Message(string logMsg)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.LogMessage((Int32)LogLevel.Message, logMsg);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Write an error to the log&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void Error(string logMsg)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.LogMessage((Int32)LogLevel.Error, logMsg);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Write a warning to the log&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void Warn(string logMsg)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.LogMessage((Int32)LogLevel.Warning, logMsg);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Write a informational message to the log&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void Info(string logMsg)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.LogMessage((Int32)LogLevel.Info, logMsg);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Write a (lower priority) message to the log&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void Verbose(string logMsg)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.LogMessage((Int32)LogLevel.Verbose, logMsg);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Write a (lowest priority) message to the log&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static void ExtraVerbose(string logMsg)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dll_Glue3D.LogMessage((Int32)LogLevel.ExtraVerbose, logMsg);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Add a logging hook to receive any log messages (if the hook is zero, it will revert to logging to the default logger)&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static WebSupergoo.DelegateLogging SetLoggingHook(IntPtr userData, WebSupergoo.DelegateLogging hook)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Dll_Glue3D.SetLoggingHook(userData, hook);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;Get the current logging hook&lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;public static WebSupergoo.DelegateLogging GetLoggingHook(out IntPtr userData)
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return Dll_Glue3D.GetLoggingHook(out userData);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

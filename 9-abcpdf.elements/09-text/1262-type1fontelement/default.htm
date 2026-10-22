@@ -43,6 +43,13 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>A type 1 font dictionary describes a PostScript Type 1 or Multiple Master font. It identifies the font by name through BaseFont, maps character codes to glyph widths through the Widths array, and can reference a FontDescriptor for detailed metric and embedding information.</p>
+<p>The Widths array covers the character codes from FirstChar to LastChar inclusive. Each entry gives the advance width of the glyph at that code position, measured in units of 1/1000 of a text space unit. Codes outside this range use the MissingWidth value from the FontDescriptor.</p>
+<p>The encoding controls which character codes map to which glyph names. A named encoding such as WinAnsiEncoding selects a standard mapping; an EncodingElement dictionary can start from a named base and apply per-glyph overrides through the Differences array.</p>
+<p>The 14 standard Type1 fonts are always available in a conforming viewer without embedding. For any other Type1 font, the font program should be embedded in the FontDescriptor to ensure correct rendering across all viewers.</p>
+<p>MMType1 is the Multiple Master variant, which supports interpolation between design axes such as weight and width. The mechanics are the same as Type1 but the font program contains multiple master designs.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

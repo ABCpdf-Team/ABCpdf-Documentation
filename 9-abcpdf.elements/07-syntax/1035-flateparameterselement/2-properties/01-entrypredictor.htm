@@ -73,6 +73,10 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=35">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 8, page 27.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 8, page 40.</a></p>
 
+<!-- addition start -->
+<p>The Predictor entry selects the pre-compression transformation applied to the data before deflate compression. Values 2 through 15 select TIFF predictors; values 10 through 15 select PNG predictors. A value of 1 means no prediction.</p>
+<p>PNG predictor 12 (Up) works well for many types of data by subtracting each byte from the corresponding byte in the previous row. PNG predictor 15 (Optimum) selects the best filter per row, producing the highest compression at the cost of more computation.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>

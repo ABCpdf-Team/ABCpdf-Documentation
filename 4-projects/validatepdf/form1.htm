@@ -1,0 +1,227 @@
+<html>
+<head>
+<title>Form1.cs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../mystyles.css">
+<link rel="stylesheet" href="../../prism.css">
+<script src="../../prism.js"></script></head>
+
+<body bgcolor="#FFFFFF">
+<table border="0" cellpadding="0" cellspacing="4">
+  <tr> 
+    <td valign="top"><img src="../../images/goo.gif" width="58" height="60"></td>
+    <td width="14">&nbsp;</td>
+    <td> 
+      <table border="0" width="100%" cellpadding="0" cellspacing="0">
+        <tr> 
+          <td class="pageheader">Form1.cs</td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr> 
+          <td background="../../images/steel-line-3.gif" height="11"></td>
+          <td background="../../images/steel-line-3.gif" height="11" width="60"></td>
+          <td height="11"><img src="../../images/steel-blob-11.gif" width="11" height="11"></td>
+        </tr>
+        <tr> 
+          <td> 
+            <p>&nbsp;</p>
+<P><SPAN class=language>[C#]</SPAN><pre><code class="language-csharp">// ===========================================================================
+//&nbsp;&nbsp;&#169;2013-2026 WebSupergoo. All rights reserved.
+//
+//&nbsp;&nbsp;This source code is for use exclusively with the ABCpdf product with
+//&nbsp;&nbsp;which it is distributed, under the terms of the license for that
+//&nbsp;&nbsp;product. Details can be found at
+//
+//&nbsp;&nbsp;&nbsp;&nbsp;http://www.websupergoo.com/
+//
+//&nbsp;&nbsp;This copyright notice must not be deleted and must be reproduced alongside
+//&nbsp;&nbsp;any sections of code extracted from this module.
+// ===========================================================================
+
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows.Forms;
+using System.IO;
+using System.Text;
+
+using WebSupergoo.ABCpdf14;
+using WebSupergoo.ABCpdf14.Objects;
+using WebSupergoo.ABCpdf14.Atoms;
+using WebSupergoo.ABCpdf14.Operations;
+using WebSupergoo.ABCpdf14.Elements;
+
+namespace ValidatePDF {
+&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;/// Summary description for Form1.
+&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;public class Form1 : System.Windows.Forms.Form {
+&nbsp;&nbsp;&nbsp;&nbsp;private Button button1;
+&nbsp;&nbsp;&nbsp;&nbsp;private CheckBox checkBoxOrphans;
+&nbsp;&nbsp;&nbsp;&nbsp;private CheckBox checkBoxCoverage;
+&nbsp;&nbsp;&nbsp;&nbsp;private CheckBox checkBoxObjects;
+&nbsp;&nbsp;&nbsp;&nbsp;private CheckBox checkBoxContentStreams;
+&nbsp;&nbsp;&nbsp;&nbsp;private CheckBox checkBoxSyntax;
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required designer variable.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private System.ComponentModel.Container components = null;
+
+&nbsp;&nbsp;&nbsp;&nbsp;public Form1() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Required for Windows Form Designer support
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InitializeComponent();
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// TODO: Add any constructor code after InitializeComponent call
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Clean up any resources being used.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;protected override void Dispose(bool disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (disposing) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (components != null) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.Dispose();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base.Dispose(disposing);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;#region Windows Form Designer generated code
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// Required method for Designer support - do not modify
+&nbsp;&nbsp;&nbsp;&nbsp;/// the contents of this method with the code editor.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;private void InitializeComponent() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1 = new System.Windows.Forms.Button();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxOrphans = new System.Windows.Forms.CheckBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxCoverage = new System.Windows.Forms.CheckBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxObjects = new System.Windows.Forms.CheckBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxContentStreams = new System.Windows.Forms.CheckBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxSyntax = new System.Windows.Forms.CheckBox();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.SuspendLayout();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// button1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Location = new System.Drawing.Point(21, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Name = "button1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Size = new System.Drawing.Size(260, 23);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.TabIndex = 3;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Text = "Validate PDFs in ToValidate Folder";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.button1.Click += new System.EventHandler(this.button1_Click);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// checkBoxOrphans
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxOrphans.AutoSize = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxOrphans.Location = new System.Drawing.Point(57, 93);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxOrphans.Name = "checkBoxOrphans";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxOrphans.Size = new System.Drawing.Size(152, 17);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxOrphans.TabIndex = 4;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxOrphans.Text = "Report orphaned Elements";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxOrphans.UseVisualStyleBackColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// checkBoxCoverage
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxCoverage.AutoSize = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxCoverage.Location = new System.Drawing.Point(57, 116);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxCoverage.Name = "checkBoxCoverage";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxCoverage.Size = new System.Drawing.Size(170, 17);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxCoverage.TabIndex = 5;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxCoverage.Text = "Report Element type coverage";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxCoverage.UseVisualStyleBackColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// checkBoxObjects
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxObjects.AutoSize = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxObjects.Checked = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxObjects.CheckState = System.Windows.Forms.CheckState.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxObjects.Location = new System.Drawing.Point(39, 70);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxObjects.Name = "checkBoxObjects";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxObjects.Size = new System.Drawing.Size(120, 17);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxObjects.TabIndex = 6;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxObjects.Text = "Check PDF Objects";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxObjects.UseVisualStyleBackColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// checkBoxContentStreams
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxContentStreams.AutoSize = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxContentStreams.Checked = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxContentStreams.CheckState = System.Windows.Forms.CheckState.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxContentStreams.Location = new System.Drawing.Point(39, 139);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxContentStreams.Name = "checkBoxContentStreams";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxContentStreams.Size = new System.Drawing.Size(138, 17);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxContentStreams.TabIndex = 7;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxContentStreams.Text = "Check Content Streams";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxContentStreams.UseVisualStyleBackColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// checkBoxSyntax
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxSyntax.AutoSize = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxSyntax.Checked = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxSyntax.CheckState = System.Windows.Forms.CheckState.Checked;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxSyntax.Location = new System.Drawing.Point(39, 162);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxSyntax.Name = "checkBoxSyntax";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxSyntax.Size = new System.Drawing.Size(116, 17);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxSyntax.TabIndex = 9;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxSyntax.Text = "Check PDF Syntax";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.checkBoxSyntax.UseVisualStyleBackColor = true;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Form1
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ClientSize = new System.Drawing.Size(306, 204);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.checkBoxSyntax);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.checkBoxContentStreams);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.checkBoxObjects);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.checkBoxCoverage);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.checkBoxOrphans);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Controls.Add(this.button1);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Name = "Form1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.Text = "Form1";
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.ResumeLayout(false);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.PerformLayout();
+
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;#endregion
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// The main entry point for the application.
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;[STAThread]
+&nbsp;&nbsp;&nbsp;&nbsp;static void Main() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application.Run(new Form1());
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;private void button1_Click(object sender, System.EventArgs e) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string folder = null;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DirectoryInfo dir = new DirectoryInfo(Directory.GetCurrentDirectory());
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (true) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;folder = Path.Combine(dir.FullName, "ToValidate");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Directory.Exists(folder))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dir = dir.Parent;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (dir == null)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Exception("Unable to find validation folder.");
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ValidationUtilities.Validate(folder, checkBoxObjects.Checked, checkBoxOrphans.Checked, checkBoxCoverage.Checked, checkBoxContentStreams.Checked, false, checkBoxSyntax.Checked);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+</code></pre></P>
+            <p>&nbsp;</p>          </td>
+          <td width="60">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>

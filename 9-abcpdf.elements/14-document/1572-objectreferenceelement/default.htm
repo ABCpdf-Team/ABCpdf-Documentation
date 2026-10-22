@@ -31,6 +31,11 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=572">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 325, page 564.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 358, page 730.</a></p>
 </p>
+<!-- addition start -->
+<p>An object reference links a structure element to a PDF object such as an annotation or XObject. It is used when the element content is represented by a self-contained object rather than by marked content in a content stream.</p>
+<p>The Pg entry references the page on which the object appears. It is required when the referenced object does not carry its own StructParent entry.</p>
+<p>The Obj entry is an indirect reference to the PDF object constituting this part of the structure element content, typically an annotation dictionary or image XObject.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

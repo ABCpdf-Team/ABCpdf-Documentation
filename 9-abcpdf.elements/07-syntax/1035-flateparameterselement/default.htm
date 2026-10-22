@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=35">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 8, page 27.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 8, page 40.</a></p>
 </p>
+<!-- addition start -->
+<p>The Flate decode parameters dictionary configures the FlateDecode filter, which uses the zlib/deflate compression algorithm. FlateDecode is the standard general-purpose compression filter in PDF 1.2 and later.</p>
+<p>The Predictor entry enables a pre-compression transformation that can significantly improve the compression ratio for certain data types, particularly image data with horizontal correlation between adjacent samples.</p>
+<p>Predictor value 1 means no prediction. Values 2 through 15 select TIFF predictors; value 2 is the only TIFF predictor commonly used. Values 10 through 15 select PNG predictors, with 12 (PNG Up) and 15 (PNG Optimum) being the most effective for general data.</p>
+<p>When a predictor is used, the Colors, BitsPerComponent, and Columns entries describe the sample structure of the data so the predictor can operate correctly row by row.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

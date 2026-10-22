@@ -181,16 +181,16 @@
               in the Visual Studio file properties. It may also help to copy them 
               into the binary location.</p>
             <p><span class="language">[C#]</span><br>
-              <pre><code class="language-csharp">MemoryStream ModifyXamlUsingTextProvider(string mDataProvider, string mXamlFile, string mTableXamlLocation, string mTableName) {
-&nbsp;&nbsp;var dataProvider = new TextDataProvider(mDataProvider);
+              <pre><code class="language-csharp">MemoryStream ModifyXamlUsingTextProvider(string inDataProvider, string inXamlFile, string inTableXamlLocation, string inTableName) {
+&nbsp;&nbsp;var dataProvider = new TextDataProvider(inDataProvider);
 &nbsp;&nbsp;var xamlDoc = new XmlDocument();
-&nbsp;&nbsp;using var xamlFile = new FileStream(mXamlFile, FileMode.Open);
+&nbsp;&nbsp;using var xamlFile = new FileStream(inXamlFile, FileMode.Open);
 &nbsp;&nbsp;xamlDoc.Load(xamlFile);
 
 &nbsp;&nbsp;var nsmgr = new XmlNamespaceManager(xamlDoc.NameTable);
 &nbsp;&nbsp;nsmgr.AddNamespace("x", "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
 
-&nbsp;&nbsp;var itemsTable = xamlDoc.DocumentElement.SelectSingleNode(mTableXamlLocation + "[@Name='" + mTableName + "']", nsmgr);
+&nbsp;&nbsp;var itemsTable = xamlDoc.DocumentElement.SelectSingleNode(inTableXamlLocation + "[@Name='" + inTableName + "']", nsmgr);
 
 &nbsp;&nbsp;for (int i = 1; i &lt; dataProvider.Count; i++) {
 &nbsp;&nbsp;&nbsp;&nbsp;var rowGroup = itemsTable.LastChild;
@@ -222,7 +222,11 @@
               After all items have been added, we save the XML document into a 
               memory stream. </p>
             <p><span class="language">[C#]</span><br>
-              <pre><code class="language-csharp">using var stm = ModifyXamlUsingTextProvider(null, null, null, null);
+              <pre><code class="language-csharp">string dataProvider = null, xamlFile = null, tableXamlLocation = null, tableName = null;
+// ... user code to provide paths for these strings
+if (dataProvider == null || xamlFile == null || tableXamlLocation == null || tableName == null)
+&nbsp;&nbsp;return; // not provided
+using var stm = ModifyXamlUsingTextProvider(dataProvider, xamlFile, tableXamlLocation, tableName);
 var page = XamlReader.Load(stm) as System.Windows.Controls.Page;
 var docViewer = LogicalTreeHelper.FindLogicalNode(page, "DocViewer") as FlowDocumentPageViewer;
 page.Content = null;

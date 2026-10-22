@@ -33,6 +33,11 @@
 <p>This class is always an indirect object because RichMediaActivationElement.EntryScripts, RichMediaInstanceElement.EntryAsset and StructureTreeRootElement.EntryPronunciationLexicon require it to be so.</p>
 
 </p>
+<!-- addition start -->
+<p>A file specification identifies an external file that a PDF document references. The specification may be a simple string holding a file path or a full dictionary with platform-specific paths and optional embedded file streams.</p>
+<p>File specifications are used in embedded file attachments, external stream references, and associated file relationships. The dictionary form allows a single specification to carry paths for multiple platforms simultaneously.</p>
+<p>In PDF 2.0, file specifications may include an AFRelationship entry that names the relationship between the referencing object and the specified file, supporting the associated files mechanism used in PDF/A-3 and similar profiles.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

@@ -31,6 +31,12 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=497">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 268, page 489.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 279, page 613.</a></p>
 </p>
+<!-- addition start -->
+<p>A media criteria dictionary specifies the conditions that must be satisfied for a rendition to be selected for playback. Each entry tests one aspect of the playback environment, and all specified tests must pass for the rendition to be considered suitable.</p>
+<p>Criteria cover a range of environmental factors: whether the user can interact with the annotation, the language of the system, the rendering technology available, screen depth, screen size, audio volume, player availability, and the type of operating system in use.</p>
+<p>When multiple renditions are available in a selector rendition, a conforming reader evaluates the criteria of each candidate in order and selects the first one whose criteria are all satisfied. A rendition without a criteria dictionary is considered unconditionally suitable.</p>
+<p>Criteria entries are independent of one another. An absent entry means that criterion is not tested and is treated as satisfied.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

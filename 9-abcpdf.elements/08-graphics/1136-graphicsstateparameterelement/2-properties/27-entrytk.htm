@@ -72,6 +72,10 @@
 <p><a target="_blank" href="https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=138">The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 130.</a></p>
 <p><a target="_blank" href="https://www.iso.org/standard/63534.html">The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 164.</a></p>
 
+<!-- addition start -->
+<p>The text knockout flag controls how glyphs within a text painting operation composite with each other. When true, each glyph is treated as a separate object that knocks out the accumulated effect of earlier glyphs in the same operation, preventing double-inking of overlapping characters.</p>
+<p>When false, glyphs composite cumulatively, which can cause visually visible overlaps in semi-transparent text. TK true is the typical setting for text that should appear solid even at reduced opacity.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
             </td>
           <td width="60">&nbsp;</td>

@@ -36,6 +36,11 @@
 <p>This class is always an indirect object because it is also a StreamElement and these are always indirect objects.</p>
 
 </p>
+<!-- addition start -->
+<p>An embedded file stream contains the actual data of a file attached to a PDF document. It follows the standard stream format with additional entries in its dictionary describing the embedded file's properties.</p>
+<p>The Params entry references an embedded file parameter dictionary that carries the file's uncompressed size, dates, and checksum. These metadata values apply to the file as it existed before embedding.</p>
+<p>The EncryptionRevision entry records the revision of the document's encryption handler that was in effect when the file was embedded. This supports correct decryption of embedded files in documents that undergo encryption revision upgrades.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>

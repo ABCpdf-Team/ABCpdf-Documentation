@@ -19,7 +19,7 @@ Only</b></td><td><b>Description</b></td></tr> <tr valign="top"> <td align="left"
 </table></td></tr> <tr> <td valign="top" class="sectheader"><img src="../../../images/steel-pin.gif" width="64" height="10"><br>Notes</td><td width="14">&nbsp;</td><td valign="top"> 
 <table border="0" width="100%" cellpadding="0" cellspacing="0"> <tr> <td> <p>This 
 property determines if object stream compression should be used.</p>
-      <p>Object stream compression allows groups of simple atoms (the lowest&#8209;level PDF objects) to be stored in a separate  stream (an ObjStm) and compressed to reduce  output file size.</p>
+      <p>Object stream compression allows groups of simple atoms (the lowest-level PDF objects) to be stored in a separate  stream (an ObjStm) and compressed to reduce  output file size.</p>
       <p>This is particularly useful for Tagged PDF - often required for accessibility. The structures required for tagging can result in a multitude of similar atoms and using object stream compression can make a significant difference to the size of output. It is perhaps notable that tagged PDF was introduced in PDF 1.4 and then object streams were introduced immediately afterwards in PDF 1.5. File size reduction will vary considerably depending on content but 10% might be typical.</p>
       <p>Very small PDF documents also benefit significantly. In   documents measuring ten or twenty kilobytes,  atoms can make up a significant proportion of the document size. In these situations you might be able to reduce the size by perhaps 30% simply by enabling this option.</p>
       <p>In addition to reducing the size of the document, setting this property allows you to save PDF files greater than 10GB in size.</p>

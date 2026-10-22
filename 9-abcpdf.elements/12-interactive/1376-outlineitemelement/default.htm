@@ -42,6 +42,12 @@
 </code></p>
             
             
+<!-- addition start -->
+<p>An outline item dictionary describes a single entry in the document outline tree. Each item has a title, links to its siblings and to its own children, and either a destination or an action triggered when the item is activated.</p>
+<p>The item is always an indirect object because it is referenced by the outline root, by sibling items, and by its own children, each of which must hold indirect references to avoid circular direct-object embedding.</p>
+<p>The Count entry carries sign information: positive means the item is open (children visible), negative means it is closed. The absolute value gives the total number of open descendant items.</p>
+<p>The colour and style flag entries allow individual items to be drawn in a specific colour and in bold or italic, giving limited typographic control over outline appearance.</p>
+<!-- addition end -->
             <p>&nbsp;</p>
           </td>
           <td width="60">&nbsp;</td>

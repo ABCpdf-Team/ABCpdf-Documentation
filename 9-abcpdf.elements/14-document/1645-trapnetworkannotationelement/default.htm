@@ -34,6 +34,12 @@
 <p>This class is always an indirect object because it inherits from AnnotationElement which is always an indirect object.</p>
 
 </p>
+<!-- addition start -->
+<p>A trap network annotation records the trapping applied to a PDF page. Trapping adds small overlaps between adjacent color areas to prevent white gaps caused by misregistration during printing.</p>
+<p>The annotation appearance stream contains trap regions as filled paths. It lies on top of the page content and replaces the untrapped content when the trapped version is used for output.</p>
+<p>The LastModified entry records when the trap network was last generated. Comparing this with the page modification date indicates whether the traps are still current.</p>
+<p>The Version entry identifies the trap network version. The AnnotStates entry records the state of all annotations at trap time, as annotation appearances may affect the trapping. The FontFauxing entry lists fonts that had synthetic bold or italic applied.</p>
+<!-- addition end -->
             <p><code>
               <!--notcode-->
               System.Object<BR>
