@@ -25,3 +25,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 216, page 429.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 220, page 522.
+
+The view identifier may be an integer (zero-based index), a string matching a view name, a direct 3D view dictionary, or the keyword First, Last, Next, or Prev to navigate relative to the current view.

@@ -23,3 +23,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 93, page 270.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 363, page 632.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 399, page 812.
+
+The OC entry associates this form with an optional content group or membership dictionary. When the group is off, the form is not painted. This allows entire form XObjects to be hidden or shown as a unit based on the optional content configuration.

@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to all the HTML engines: ABCChrome, ABCGecko, ABCWebKit and MSHTML.
+
 This property determines whether JavaScript and VBScript are enabled.
 
 By default client-side script such as JavaScript is enabled when rendering HTML documents. You may wish to change this default setting for performance or security reasons.
@@ -10,53 +12,39 @@ The ABCChrome engine relies on JavaScript for HTML analysis. If you disable it t
 
 If you have a server edition of Windows (e.g. Windows Server 2008) and are using the MSHTML engine, you may need to also disable Enhanced Security Configuration for user running the program/application pool to allow JavaScript execution.
 
-Script-Accessible Functions and Properties. These are functions and properties that script inside HTML can access. The function signatures shown are in C#-like syntax. You'll need to pass in the correct number of arguments.
+There are some functions and properties that JavaScript inside yourHTML can access. These are specific to the particular HTML engine you are using and are detailed below..
 
-## Syntax
+bool window.external.ABCpdf_RenderWait()
 
-[C#] bool ABCpdf_RenderWait();
+Delays ABCpdf's rendering of the HTML page. Returns true if ABCpdf waits (i.e. the function succeeds), otherwise false.
 
-## Params
+When this function is called before the page load is considered complete, the page load is not considered complete until ABCpdf_RenderComplete is called. This function returns false if ABCpdf_RenderComplete has been called. This is useful if the page relies on timeout/asynchronous events (AJAX).
 
-## Notes
+bool window.external.ABCpdf_RenderComplete(bool force)
 
-## Syntax
+Resumes ABCpdf's rendering of the HTML page. The force parameter determiines whether ABCpdf ignores normal indications of page load completion. If no value is provided the default value is false. The function returns true if ABCpdf resumes rendering as requested (i.e. the function succeeds), otherwise false.
 
-[C#] bool ABCpdf_RenderComplete(); bool ABCpdf_RenderComplete(bool force);
-
-## Params
-
-## Notes
-
-## Examples
+This function can be called whether ABCpdf_RenderWait has/has not been called. If force is false, ABCpdf resumes normal rendering. If force is true, ABCpdf starts rendering immediately, ignoring all other indications of page load completion. This function returns false if force is false and the function has been previously called with force true. This is useful if the page relies on timeout/asynchronous events (AJAX).
 
 [C#] Doc doc = new Doc(); doc.HtmlOptions.Engine = EngineType.MSHtml; doc.HtmlOptions.UseScript = true; // Render after 3 seconds doc.HtmlOptions.OnLoadScript = "(function(){" + " window.external.ABCpdf_RenderWait();" + " setTimeout(function(){ window.external.ABCpdf_RenderComplete(); }, 3000);" + "})();"; doc.AddImageUrl("http://www.websupergoo.com"); doc.Save(Server.MapPath("wsg.pdf"));
 
-## Syntax
+bool window.ABCpdf_go
 
-[C#] bool ABCpdf_go;
+This property controls whether ABCpdf will proceed to render the HTML page. By default this will occur but you can delay rendering by setting it to false.
 
-## Params
-
-## Notes
-
-## Examples
+UseScript has to be true and OnLoadScript has to be non-empty for this property to be effectual. ABCpdf will wait for this property to be either undefined or true before rendering the HTML page. The whole HTML rendering operation is still subject to the Timeout property's value. Usually, this property is set to false in OnLoadScript and is also set to true in an event listener added in OnLoadScript. If assignments to this property are provided in both OnLoadScript and the script in the web page, please refer to the notes in OnLoadScript for the order of execution.
 
 [C#]Doc doc = new Doc(); doc.HtmlOptions.Engine = EngineType.Gecko; doc.HtmlOptions.UseScript = true; // Render after 3 seconds doc.HtmlOptions.OnLoadScript = "(function(){" + " window.ABCpdf_go = false;" + " setTimeout(function(){ window.ABCpdf_go = true; }, 3000);" + "})();"; doc.AddImageUrl("http://www.websupergoo.com"); doc.Save(Server.MapPath("wsg.pdf"));
 
-## Syntax
+void ABCChromeExt.Render()
 
-[C#] void ABCChromeExt.Render();
-
-## Params
-
-## Notes
+Triggers immediate conversion of the HTML page.
 
 Calling the method ABCChromeExt.Render() in any JavaScript executed within an HTML page will force the immediate rendering of the page to PDF without delay.
 
 This option cannot be used in HtmlOptions.OnLoadScript - no error will occur but processing will not be curtailed.
 
-You will need to set a sensible value for HtmlOptions.RenderDelay to allow processing to continue past the OnLoad event.
+You will need to set a sensible value for HtmlOptions.RepaintDelay to allow processing to continue past the OnLoad event.
 
 ## Example
 

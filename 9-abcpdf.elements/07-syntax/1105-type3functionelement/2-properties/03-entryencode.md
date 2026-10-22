@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 41, page 97.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 41, page 127.
+
+The Encode array maps each sub-function's portion of the stitching domain to the input domain of that sub-function. Each pair of values gives the encoded input at the subdomain minimum and maximum. This allows sub-functions defined over [0, 1] to be used without modification.

@@ -15,3 +15,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 312, page 538.
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 323, page 671.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 9.47, page 58.
+
+The V entry, when false, hides this node so it is not rendered in the view. When true or absent, the node is visible according to its default visibility state in the model.

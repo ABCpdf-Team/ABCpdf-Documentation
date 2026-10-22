@@ -23,3 +23,7 @@ Make duplicate fields into synchronized groups.
 Scans through sibling fields looking for duplicate names.
 
 Any duplicates are put together in a field group so that they will synchronize.
+
+## Example
+
+See the [Annotations Example Project](../../../4-projects/annotations/test.htm) (Test.cs).

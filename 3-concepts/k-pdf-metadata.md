@@ -14,17 +14,17 @@ To solve this problem the Info store was deprecated in PDF 2.0. As such you shou
 
 ## Metadata
 
-Best practice is to use the Doc.Catalog.Metadata property.
+Best practice is to use the Doc.ObjectSoup.Catalog.Metadata property.
 
 This property allows you access to standard items of metadata while abstracting you from XMP construction and validation.
 
 If you require a higher level of control over the XMP data store then you can skip the helper properties and go direct to the XML.
 
-For full details and code samples please see the Doc.Catalog.Metadata property.
+For full details and code samples please see the Doc.ObjectSoup.Catalog.Metadata property.
 
 ## Info
 
-Best practice is to use the Doc.Catalog.Metadata property, but occasionally you may find that you need to work with the old Info store.
+Best practice is to use the Doc.ObjectSoup.Catalog.Metadata property, but occasionally you may find that you need to work with the old Info store.
 
 This example shows you how you can create and set data in this store. It requires some knowledge of the Adobe PDF Specification. See the following for details:.
 

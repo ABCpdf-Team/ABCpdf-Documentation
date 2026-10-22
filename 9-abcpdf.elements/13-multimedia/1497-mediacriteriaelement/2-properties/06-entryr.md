@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 268, page 490.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 279, page 614.
+
+The R entry holds a minimum required bit rate in bits per second. A rendition is accepted only if the estimated playback connection speed is at least this value.

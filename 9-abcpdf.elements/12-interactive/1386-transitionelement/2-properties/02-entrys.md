@@ -19,3 +19,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 162, page 378.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 164, page 459.
+
+The style name selects the visual effect. Defined values include Split, Blinds, Box, Wipe, Dissolve, Glitter, R (replace), Fly, Push, Cover, Uncover, and Fade. A viewer that does not support the named style may substitute a simpler effect.

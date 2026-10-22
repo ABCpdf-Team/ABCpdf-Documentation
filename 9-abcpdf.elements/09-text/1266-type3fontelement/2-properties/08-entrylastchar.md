@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 112, page 259.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 110, page 315.
+
+This is the character code of the last entry in the Widths array. The array must contain exactly LastChar minus FirstChar plus one elements.

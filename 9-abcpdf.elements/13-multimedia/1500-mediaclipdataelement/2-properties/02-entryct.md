@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 274, page 492.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 285, page 617.
+
+The CT entry holds the MIME content type of the media data as a byte string, such as video/mp4 or audio/mpeg. The reader uses this to identify a suitable player.

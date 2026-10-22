@@ -6,6 +6,8 @@ This property determines whether a character outlining style is applied and the 
 
 If the outline property is zero no outlining is done. If the outline property is greater than zero it indicates the width of lines used to outline the text.
 
+This property draws a stroke around text as you add it. To convert the text already in a document to outlines, so that it no longer needs fonts, see VectorizeTextOperation.
+
 ## Example
 
 In this example we add some text to a document varying the outline style to show how different values affect the final result.

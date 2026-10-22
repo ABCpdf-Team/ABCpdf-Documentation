@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 8, page 27.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 8, page 40.
+
+The Predictor entry for LZW has the same meaning as for FlateDecode: it selects a pre-compression transformation. Values and semantics match the FlateDecode Predictor entry exactly.

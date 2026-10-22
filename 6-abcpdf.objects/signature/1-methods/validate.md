@@ -18,7 +18,7 @@ There are two types of signatures. Approval signatures approve a document at a p
 
 After a document is signed with an approval signature, the document is not necessarily frozen. Most obviously it may need to be updated if another user wishes to add their own signature. Each time the document is updated a new revision is created. The validity of a signature only refers to the revision at which it was signed - the SigningRevision. So while the signing revision does not affect validity you should be careful to take any subsequent revisions into account when reporting back to the user. Similarly there are some subtleties relating to the IsTrusted property which are worth bearing in mind. Hybrid documents may have multiple different visual representations depending on the capabilities of the viewing application, so you may wish to be cautious if your documents contain hybrid sections. For how to detect hybrid sections see the ObjectSoup.Eof.Load method.
 
-A document may contain one and only one certification signature. A certification signature applies to the entire document as a whole. You can set permissions to allow small changes to be made after the document is certified and in this case the SigningRevision may not be the last revision. However in general you should be extremely cautious if there are subsequent revisions as it is not easy to determine programatically the importance of the changes that have been made. In this case you may wish to load the document at different revisions and display the rendered content to allow the user to see the changes visually.
+A document may contain one and only one certification signature. A certification signature applies to the entire document as a whole. You can set permissions to allow small changes to be made after the document is certified and in this case the SigningRevision may not be the last revision. However in general you should be extremely cautious if there are subsequent revisions as it is not easy to determine programmatically the importance of the changes that have been made. In this case you may wish to load the document at different revisions and display the rendered content to allow the user to see the changes visually.
 
 Signatures' certificates can only be validated by referencing certificates issued by certification authorities. This method allows you to check and validate the status of a signature with reference to a set of such certificates. Additionally, ABCpdf can also use certificates found in the Windows Certificate Store for validation. See ValidationPolicy for details.
 
@@ -30,7 +30,7 @@ ABCpdf does not do revocation checks on certificates provided and on certificate
 
 If a certificate is unavailable or invalid, this method may throw an exception. This means validating against an unsigned signature field will cause an exception to be thrown.
 
-When revocation checking, ABCpdf first checks OCSP responses. If those are not available it will use the CRL. This is the fastest and most effiient way to work.
+When revocation checking, ABCpdf first checks OCSP responses. If those are not available it will use the CRL. This is the fastest and most efficient way to work.
 
 How does Adobe Reader validate a PDF document without certificate files?
 
@@ -47,4 +47,6 @@ The Windows Certificate Store can be accessed by using System.Security.Cryptogra
 [C#] // Validate using certificate files using (var doc = new Doc()) { doc.Read("../Rez/SignedDocument.pdf"); var theCerts = "../Rez/JohnSmith.cer".Split([ ';' ]); var theSig = (Signature)doc.Form["Signature"]; if ((theSig.Validate(theCerts)) && (!theSig.IsModified)) doc.AddText($"Signature valid at {DateTime.Now}"); doc.Save("SignedAndValidated1.pdf"); }
 
 [C#] // Validate using the Windows Certificate Store using (var doc = new Doc()) { doc.Read("../Rez/SignedDocument.pdf"); using var theStore = new X509Store(StoreName.Root, StoreLocation.LocalMachine); theStore.Open(OpenFlags.ReadOnly); var theSig = (Signature)doc.Form["Signature"]; if ((theSig.Validate(theStore.Certificates)) && (!theSig.IsModified)) doc.AddText($"Signature valid at {DateTime.Now}"); doc.Save("SignedAndValidated2.pdf"); }
+
+Also see example code in: Signature MaxSignatureLength Property.
 

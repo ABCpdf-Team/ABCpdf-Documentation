@@ -29,7 +29,7 @@ The image is scaled to fill the current [Rect](2-properties/rect.md). It is tran
 
 ## Example
 
-This example shows how to read an existing PDF document and insert a background image into every page. We start by reading our template PDF document and finding out core information we will need to reference each page.
+This example shows how to read an existing PDF document and insert a background image (for example a watermark) into every page. We start by reading our template PDF document and finding out core information we will need to reference each page.
 
 [C#]
 

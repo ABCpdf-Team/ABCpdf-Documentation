@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 93, page 270.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 363, page 632.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 399, page 812.
+
+The PtData entry provides geospatial point data for the form, carrying coordinate transformation information that maps specific points in the form to geographic or projected reference system positions.

@@ -17,3 +17,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 122, page 283.
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 120, page 342.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 124, page 285.
+
+The average width is a single summary number representing the typical advance width across the font's glyph set. It is used by viewers as a rough metric for text layout estimation and font substitution.

@@ -19,3 +19,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50a, page 79.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 335, page 698.
+
+The condition name selects the trigger: XD (explicit user activation), PO (page open), PV (page visible). XD is the default and requires the user to click the annotation to start media.

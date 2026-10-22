@@ -18,4 +18,5 @@ Also see example code in:
 * [ABCpdf Fields, Markup and Movies Example](4-examples/18-annotations.md)
 * [Doc Pos Property](doc/2-properties/pos.md)
 * [FontObject RuneWidths Property](6-abcpdf.objects/fontobject/2-properties/runewidths.md)
-* [FontObject Widths Property](6-abcpdf.objects/fontobject/2-properties/widths.md).
+* [FontObject Widths Property](6-abcpdf.objects/fontobject/2-properties/widths.md)
+* [Signature MaxSignatureLength Property](6-abcpdf.objects/signature/2-properties/maxsignaturelength.md).

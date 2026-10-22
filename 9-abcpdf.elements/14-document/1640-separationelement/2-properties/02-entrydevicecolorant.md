@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 364, page 632.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 400, page 813.
+
+The DeviceColorant entry names the device colorant this separation carries, such as Cyan, Magenta, Yellow, Black, or a spot color name, identifying which ink channel it represents.

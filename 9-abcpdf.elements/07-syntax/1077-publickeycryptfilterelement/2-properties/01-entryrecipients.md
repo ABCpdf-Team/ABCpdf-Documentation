@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 27, page 69.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 27, page 91.
+
+The Recipients entry in a public-key crypt filter holds the per-recipient CMS EnvelopedData structures for the objects protected by this specific filter. This allows different groups of recipients to access different parts of the same document.

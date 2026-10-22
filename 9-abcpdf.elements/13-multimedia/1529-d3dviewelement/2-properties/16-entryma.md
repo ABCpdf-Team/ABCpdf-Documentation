@@ -17,3 +17,5 @@ Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 344, page 707.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51f, page 93.
+
+The MA entry holds an array specifying the model matrix applied to the entire model in this view. This matrix transforms the model relative to its default position and orientation.

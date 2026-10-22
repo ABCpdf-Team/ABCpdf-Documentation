@@ -19,3 +19,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 5, page 20.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 5, page 32.
+
+The FFilter entry names the filter or filters applied to the external file stream referenced by F. It has the same structure and semantics as the Filter entry but applies to the external file data.

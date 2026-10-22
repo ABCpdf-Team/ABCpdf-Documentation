@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the ABCChrome engine only.
+
 This property determines whether to use a proxy server.
 
 The process of detecting and using a proxy server involves an overhead that is usually not necessary. For this reason, by default, we do not use proxy server settings.

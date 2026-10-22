@@ -2,6 +2,8 @@
 
 ## Intro
 
+Converting HTML to PDF: how ABCpdf renders HTML and CSS.
+
 ABCpdf fully supports HTML and CSS.
 
 You can render individual pages of HTML using the AddImageUrl method.
@@ -16,7 +18,7 @@ ABCpdf can use the Chromium engine (as used in Google Chrome), the MSHTML engine
 
 The use of sandboxed web browsers provides an extremely accurate rendition of the HTML. However due to the differences in behavior and capabilities of the underlying rendering engine, you should expect some differences in behavior and output when switching between them.
 
-Using Chrome in print preview, you should see something similar to the output you get using the ABCChrome engine. However because we default to screen rather than print media stylesheets, colors may be more like you see on screen. The view you see of your HTML using the IE version on the machine should be pretty similar to the MSHTML engine on that same machine. Firefox 38 in print preview should be pretty much identical to the ABCGecko engine. Printout from the QtWeb browser should be very similar to the output produced by the ABCWebKit engine. None will be exactly the same because PDF is different from HTML and some things need to be represented slightly differently. However any differences should be subtle. The ABCChrome engine is typically about three times as fast as the MSHTML engine, which itself typically about twice the speed of ABCGecko. However this does depend heavily on the type of input. For some inputs we have seen the ABCGecko engine five times the speed of the MSHTML one. The ABCChrome and Gecko engines have a fairly large startup overhead so if you are testing for speed you should be careful to discount the first conversion. In terms of commonly requested features, the ABCChrome and Gecko engines support repeated table headers and footers, SVG, and are pretty good on AJAX for charts and maps. The MSHTML engine tends to provide a more literal screen based output. ABCChrome and ABCGecko generally support HTML5 specific features better than MSHTML. ABCChrome supports web fonts while the other two engines do not. You should be expecting that there are differences in PDF representation between the engines and in particular the decision to reference or embed fonts can be quite different. File sizes are likely to be noticeably but not startlingly different. The MSHTML tends to produce the largest outputs, followed by ABCGecko and with ABCChrome producing the smallest files.
+Using Chrome in print preview, you should see something similar to the output you get using the ABCChrome engine. As in print preview, we default to print rather than screen media stylesheets. The view you see of your HTML using the IE version on the machine should be pretty similar to the MSHTML engine on that same machine. Printout from the QtWeb browser should be very similar to the output produced by the ABCWebKit engine. None will be exactly the same because PDF is different from HTML and some things need to be represented slightly differently. However any differences should be subtle. The ABCChrome engine is typically about three times as fast as the MSHTML engine, which itself typically about twice the speed of ABCGecko. However this does depend heavily on the type of input. For some inputs we have seen the ABCGecko engine five times the speed of the MSHTML one. The ABCChrome and Gecko engines have a fairly large startup overhead so if you are testing for speed you should be careful to discount the first conversion. In terms of commonly requested features, the ABCChrome and Gecko engines support repeated table headers and footers, SVG, and are pretty good on AJAX for charts and maps. The MSHTML engine tends to provide a more literal screen based output. ABCChrome and ABCGecko generally support HTML5 specific features better than MSHTML. ABCChrome supports web fonts while the other two engines do not. You should be expecting that there are differences in PDF representation between the engines and in particular the decision to reference or embed fonts can be quite different. File sizes are likely to be noticeably but not startlingly different. The MSHTML tends to produce the largest outputs, followed by ABCGecko and with ABCChrome producing the smallest files.
 
 The ABCWebKit engine is a specialist engine which is not suitable in most situations. Yes - not suitable. However because it has limited OS dependencies it can often operate in environments like Azure which are stripped down versions of Windows. This flexibility comes at considerable cost in terms of capability and security so you should only enable this engine if you are fully cognizant of the implications. You can read more about this at the Engine page.
 
@@ -88,7 +90,7 @@ And... if your 300 square is in an img tag with a width and height of 150, the d
 
 ABCpdf uses a sophisticated set of heuristics to determine where to break pages. For greater control over page breaking, you can use the page-break-before, page-break-after and page-break-inside CSS styles.
 
-You should ensure that the element to which you apply your page breaking style is visible. This is not always required for all engines but it is a sensible thing to do and it makes output predictable, For example:
+You should ensure that the element to which you apply your page breaking style is visible. This is not always required for all engines but it is a sensible thing to do and it makes output predictable. For example:
 
 <div style="page-break-before:always">&nbsp;</div>
 
@@ -100,13 +102,9 @@ You should ensure that the element to which you apply your page breaking style i
 
 Useful Tip. Debugging page break styles.
 
-Sometimes, your page breaks do not work in they way you think they should. Because these kinds of tags are invisible, it's very difficult for you to know whether you've applied them correctly or not. One simple solution is to debug your HTML using a visible style.
+Sometimes, your page breaks do not work in the way you think they should. Because these kinds of tags are invisible, it's very difficult for you to know whether you've applied them correctly or not. One simple solution is to debug your HTML using a visible style.
 
 For example, when you apply your "page-break-inside: avoid" style, apply a right border style at the same time. That way, you can see exactly where your elements are. If the borders do not appear in the right places, then you know there's something wrong with your HTML.
-
-The page break styles in the Gecko engine are not always applied as intuitively as they are in MSHTML. The root of this is the CSS specification that which says that break styles must be applicable to block-level elements within the "normal flow of the root element". It allows for these styles to be applied to other elements but does not mandate it.
-
-The upshot of this, within the Gecko engine, is that page break styles cannot be applied within tables, to elements such as table rows. If you are unsure about whether something is likely to work just try Print Preview from within Firefox 38.0 as a simple sanity check.
 
 ## Snapshot
 
@@ -150,7 +148,7 @@ Redirection is much more relevant when JavaScript is enabled as this is the prim
 
 Base tags are similar but do not use JavaScript - they allow a web page in one location to reference resources in another. Most typically this is used to allow page on one site to reference images or style sheets on a different web site. Obviously to strictly enforce a same-origin policy here would rather defeat the concept of the base tag. However there are security measures in place to limit the extent to which they can be manipulated.
 
-The main thing to consider is that the origin of files on the local machine is the local machine. So, while the origin of web pages strictly controls the access they can have, the origin of files inherently limits the level of control that is possible. Allowing untrusted users to provide web page URLs provides limited exposure. Allowing them to provide files to be be passed directly to AddImageUrl via a 'file:///' protocol URL, provides much more exposure.
+The main thing to consider is that the origin of files on the local machine is the local machine. So, while the origin of web pages strictly controls the access they can have, the origin of files inherently limits the level of control that is possible. Allowing untrusted users to provide web page URLs provides limited exposure. Allowing them to provide files to be passed directly to AddImageUrl via a 'file:///' protocol URL, provides much more exposure.
 
 As an alternative, if you have files containing HTML, read the content and pass it in via the AddImageHtml method. Both the ABCChrome and (to a lesser extent) the Gecko engines have barriers in place to limit the access of web pages which are provided this way. The origin of the HTML is not the local machine and a higher level of defense is automatically in place. However it may also mean that images on your local machine, referenced in your HTML, will not be able to be loaded. See table below for details.
 

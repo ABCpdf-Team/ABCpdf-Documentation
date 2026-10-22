@@ -4,7 +4,7 @@
 
 The embedded file if one has been embedded in the PDF.
 
-If a file has not been embedded then the URL needs to be intepreted in the context of the current PDF to locate the external file.
+If a file has not been embedded then the URL needs to be interpreted in the context of the current PDF to locate the external file.
 
 Setting this property will clear the EmbeddedFiles property if one is present.
 

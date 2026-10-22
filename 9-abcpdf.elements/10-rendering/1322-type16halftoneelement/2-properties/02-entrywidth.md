@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 133, page 314.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 131, page 376.
+
+This value sets the column count of the first threshold array. Because each sample is two bytes, the first array alone occupies Width times Height times two bytes in the stream.
+
+If a second array is also present, it begins immediately after the first in the stream body and has its own dimensions given by Width2 and Height2. Width applies only to the first array.

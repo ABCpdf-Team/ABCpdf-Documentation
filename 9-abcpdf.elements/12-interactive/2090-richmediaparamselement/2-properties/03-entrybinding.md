@@ -17,3 +17,5 @@ NoneForegroundBackgroundMaterial
 For definitive details see:.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51c, page 90.
+
+The binding name selects the 3D binding mode for the instance: None, Background, Material, or Base, controlling how the media content is rendered in relation to the 3D scene's geometry.

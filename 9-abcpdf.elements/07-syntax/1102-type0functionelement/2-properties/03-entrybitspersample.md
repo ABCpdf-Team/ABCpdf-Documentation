@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 39, page 94.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 39, page 124.
+
+The BitsPerSample entry gives the number of bits used to encode each sample value. Samples are packed into the stream without byte alignment between values. Valid values are 1, 2, 4, 8, 12, 16, 24, and 32.

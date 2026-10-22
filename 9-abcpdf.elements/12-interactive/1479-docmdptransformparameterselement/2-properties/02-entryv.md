@@ -19,3 +19,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 254, page 471.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 257, page 570.
+
+The version number identifies the revision of the DocMDP transform specification. Only version 1.2 is currently defined.

@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 39, page 94.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 39, page 124.
+
+The Encode array maps each input dimension's domain range to the corresponding sample index range. It contains pairs of values: the sample index at the domain minimum and the sample index at the domain maximum for each dimension.

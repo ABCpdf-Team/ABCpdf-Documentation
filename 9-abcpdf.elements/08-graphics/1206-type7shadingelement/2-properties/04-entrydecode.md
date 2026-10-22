@@ -11,3 +11,5 @@ It contains an array which contains doubles, representing PDF numeric objects.
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 198.
+
+The Decode array maps the encoded coordinate and component integers to working values, with the same min/max pair structure as the other mesh shading types.

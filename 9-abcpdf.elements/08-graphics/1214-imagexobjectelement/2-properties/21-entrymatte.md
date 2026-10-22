@@ -19,3 +19,7 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 87, page 255.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 146, page 349.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 144, page 418.
+
+The Matte array gives the color of the background against which the image was pre-composited. When present, the reader applies inverse pre-multiplication to recover the original alpha information before re-compositing against the actual backdrop.
+
+Matte processing is needed when an image was pre-multiplied against a specific background color and that background differs from the actual PDF page background.

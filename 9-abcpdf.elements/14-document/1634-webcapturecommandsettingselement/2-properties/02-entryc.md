@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 359, page 626.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 395, page 806.
+
+The C entry holds a dictionary of content-type-specific settings keyed by MIME type, allowing different handling rules for HTML, images, and other media types.

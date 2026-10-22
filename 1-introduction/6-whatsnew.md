@@ -16,7 +16,7 @@ Handles modern web content more accurately and consistently with better support 
 
 We have expanded our Linux support to include Ubuntu 26.04 LTS. Being the latest stable long-term support release, it will receive security and maintenance updates for five years (until April 2031). This means you can deploy your PDF workflows on a modern, well-supported foundation without having to worry about compatibility with older libraries.
 
-Keeping up with new hardware is another reason to use Ubuntu 26.04. It natively supports NVIDIA CUDA and AMD ROCm for AI/ML acceleration, and it ships with the Linux 7.0 kernel for better memory management. You get a streamlined .NET development experience out of the box, with .NET packages officially available through the built‑in Ubuntu feed. This allows you to deploy ABCpdf 14 on a secure, up‑to‑date foundation with minimal friction.
+Keeping up with new hardware is another reason to use Ubuntu 26.04. It natively supports NVIDIA CUDA and AMD ROCm for AI/ML acceleration, and it ships with the Linux 7.0 kernel for better memory management. You get a streamlined .NET development experience out of the box, with .NET packages officially available through the built-in Ubuntu feed. This allows you to deploy ABCpdf 14 on a secure, up-to-date foundation with minimal friction.
 
 ## Compact
 
@@ -60,11 +60,11 @@ You can define overlapping regions each associated with a tag. The library autom
 
 ## AI Tagging
 
-Manually tagging existing PDFs for accessibility can be painstaking, especially with complex layouts. This release introduces an AI accessibility module leveraging Docling - an advanced document‑understanding engine- to automatically analyze the page structure of untagged documents.
+Manually tagging existing PDFs for accessibility can be painstaking, especially with complex layouts. This release introduces an AI accessibility module leveraging Docling - an advanced document-understanding engine- to automatically analyze the page structure of untagged documents.
 
-Docling detects headings, paragraphs, tables, lists, figures and captions, while preserving the natural reading order across columns and pages. The analysis is then passed to our location‑based tagging system, which generates a complete PDF tag tree that respects the original document hierarchy. The result is a fully tagged, accessible PDF with minimal manual effort.
+Docling detects headings, paragraphs, tables, lists, figures and captions, while preserving the natural reading order across columns and pages. The analysis is then passed to our location-based tagging system, which generates a complete PDF tag tree that respects the original document hierarchy. The result is a fully tagged, accessible PDF with minimal manual effort.
 
-For scanned or image‑based PDFs, the pipeline can also leverage OCR, ensuring that even paper‑originated documents can be processed. When combined with the existing accessibility operations, this gives you a robust, low‑touch route to PDF/UA compliance.
+For scanned or image-based PDFs, the pipeline can also leverage OCR, ensuring that even paper-originated documents can be processed. When combined with the existing accessibility operations, this gives you a robust, low-touch route to PDF/UA compliance.
 
 ## Font Stores
 

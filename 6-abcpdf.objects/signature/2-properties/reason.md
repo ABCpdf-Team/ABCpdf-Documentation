@@ -14,5 +14,5 @@ Note that this property can only be relied on if the certificate is valid. You c
 
 See the Sign function.
 
-Also see example code in: Signature Sign Method, Signature CompliancePades Property, Signature CustomSigner Property, Signature CustomSigner2 Property.
+Also see example code in: Signature Sign Method, Signature CompliancePades Property, Signature CustomSigner Property, Signature CustomSigner2 Property, Signature MaxSignatureLength Property.
 

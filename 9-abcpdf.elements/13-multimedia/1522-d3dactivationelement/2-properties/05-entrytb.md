@@ -17,3 +17,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 299, page 515.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.34, page 56.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 310, page 643.
+
+The TB entry, when true, causes a 3D toolbar to appear when the annotation is active. The toolbar provides navigation and view controls for interacting with the model.

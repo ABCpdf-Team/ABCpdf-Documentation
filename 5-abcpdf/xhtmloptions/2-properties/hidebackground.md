@@ -2,7 +2,9 @@
 
 ## Notes
 
-Whether to to hide the background color of an HTML page.
+This property applies to all the HTML engines: ABCChrome, ABCGecko, ABCWebKit and MSHTML.
+
+Whether to hide the background color of an HTML page.
 
 This can be useful for making HTML pages with transparent backgrounds.
 

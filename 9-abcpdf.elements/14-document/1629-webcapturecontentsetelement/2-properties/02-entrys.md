@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 352, page 621.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 388, page 801.
+
+The S entry names the content set subtype: SPS for a page set or SIS for an image set. The subtype determines which additional entries are present.

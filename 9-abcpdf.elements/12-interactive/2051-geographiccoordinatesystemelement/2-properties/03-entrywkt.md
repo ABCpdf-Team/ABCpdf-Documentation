@@ -15,3 +15,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.111b, page 51.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 270, page 600.
+
+The Well Known Text representation is a standardised text encoding of the complete coordinate reference system definition, serving as a self-contained fallback when the EPSG code is insufficient.

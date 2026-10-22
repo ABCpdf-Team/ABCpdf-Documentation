@@ -21,3 +21,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 307, page 528.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 318, page 660.
+
+The FC entry names the face colour mode for render modes that support it. Values include ObjectColor to use the model material colour, SingleColor to use a uniform colour, or TwoColor to use different colours for front and back faces.

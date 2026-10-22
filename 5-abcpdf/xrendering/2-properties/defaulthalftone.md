@@ -10,7 +10,7 @@ The Type can be:
 
 If the type is Spot then an angle in degrees, frequency and spot function can also be specified. These should be separated by commas with no extraneous spaces. The spot functions available are:
 
-If the type is Threshold you should specify a value - for example "'threshold=60". This is used when calculating the value of a black and white pixel. If the grey level l is greater than the threshold the pixel will be black otherwise it will be white.
+If the type is Threshold you need to specify a value - for example "'Threshold=60". This is used when calculating the value of a black and white pixel. If the grey level l is greater than the threshold the pixel will be black otherwise it will be white. This value is a percentage luminance value so it should range between 0 and 100.
 
 For full details of how Halftones work you should see the Adobe PDF Specification available from the Adobe web site.
 

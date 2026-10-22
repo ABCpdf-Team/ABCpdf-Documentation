@@ -52,7 +52,6 @@ Here we flatten all the transparent objects in a document.
 var op = new FlattenTransparencyOperation();
 op.DotsPerInch = 144;
 op.ColorSpace = XRendering.ColorSpaceType.Rgb;
-
 using var doc = new Doc();
 doc.Read("../mypics/sample.pdf");
 op.Flatten(doc);

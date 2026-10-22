@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the MSHTML engine only.
+
 The HtmlRenderConditions enumeration can take a combination of the following values:
 
 This property determines when to coerce vector outputs if this is not disabled by DisableVectorCoercion. This requires the Microsoft XPS Document Writer printer and hosting a WebBrowser. When the printer is not available or HostWebBrowser is false, this property is ignored and assumed Never.

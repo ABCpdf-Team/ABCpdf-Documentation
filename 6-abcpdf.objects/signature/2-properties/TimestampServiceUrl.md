@@ -9,5 +9,5 @@ ABCpdf uses System.Net.WebRequest to send the time-stamping request. You can use
 
 ## Example
 
-Also see example code in: XForm AddDocTimestamp Function, Signature AddLTV Function, Signature CompliancePades Property.
+Also see example code in: XForm AddDocTimestamp Function, Signature AddLTV Function, Signature CompliancePades Property, Signature MaxSignatureLength Property.
 

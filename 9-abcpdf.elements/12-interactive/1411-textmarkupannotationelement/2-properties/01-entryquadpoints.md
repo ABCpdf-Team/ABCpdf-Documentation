@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 179, page 403.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 182, page 489.
+
+Each group of eight numbers defines one quadrilateral enclosing one line or run of text. The viewer uses the entire set of quadrilaterals to determine which text glyphs are covered by the markup.

@@ -22,7 +22,7 @@ override string ToString()string ToString(string format)
 
 This function derives the content of the object as it will be inserted into the final PDF document.
 
-Note that the the string value of an object may be large and it may contain unusual characters.
+Note that the string value of an object may be large and it may contain unusual characters.
 
 The [StringAtom](stringatom/1-methods/tostring.md) is the only Atom type to support different format strings. Other Atom types will ignore them.
 

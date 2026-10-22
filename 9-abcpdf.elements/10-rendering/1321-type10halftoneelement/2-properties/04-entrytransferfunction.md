@@ -19,3 +19,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 132, page 313.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 130, page 375.
+
+Identity passes tint values through to the threshold comparison unchanged. A function object adjusts each input level before the comparison, allowing correction for dot gain or other press characteristics.
+
+The behaviour is the same as TransferFunction in type 6 and type 16. All threshold-based halftone types handle this entry in the same way.

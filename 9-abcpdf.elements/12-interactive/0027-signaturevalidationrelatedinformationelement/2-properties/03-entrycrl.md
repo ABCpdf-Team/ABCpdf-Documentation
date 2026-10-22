@@ -11,3 +11,5 @@ It contains an array which contains StreamElements.
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 262, page 584.
+
+Each stream holds a DER-encoded certificate revocation list valid at the time of signing and covering one or more certificates in the signing chain.

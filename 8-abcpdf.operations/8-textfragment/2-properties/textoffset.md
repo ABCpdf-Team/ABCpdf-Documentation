@@ -2,11 +2,11 @@
 
 | **Type** | **Default** | **Read Only** | **Description** |
 | --- | --- | --- | --- |
-|  | n/a | Yes | The offset to the the Text of this fragment. |
+|  | n/a | Yes | The offset to the Text of this fragment. |
 
 ## Notes
 
-The character offset in the [RawText](rawtext.md) to the the [Text](text.md) of this fragment.
+The character offset in the [RawText](rawtext.md) to the [Text](text.md) of this fragment.
 
 Each TextFragment spans a part of a PDF stream drawing operator. The part may be the entire of the text drawn by the operator or it may be a section of the text within that operator.
 

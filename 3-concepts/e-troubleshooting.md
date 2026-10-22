@@ -20,8 +20,6 @@ If you find anything that doesn't seem right please say. We do not know unless y
 
 Remember to tell us what Operating System you're on and what version of ABCpdf you're using. You can get the exact version of ABCpdf from the PDFSettings control panel. If you're using an older version of ABCpdf we will be asking you if the problem occurs using the current download so you may wish to check our downloads page.
 
-If the problem involves URL rendering please tell us exactly what version of Internet Explorer you have installed on your server. You can get the exact version of Internet Explorer from the About Internet Explorer menu item. If you're using an older version of Internet Explorer we will be asking you if the problem occurs using the current version.
-
 Please give us a precise description of what's gone wrong. We like to see examples so if you have reasonably sized input or output documents which illustrate your point please do feel welcome to mail them to us.
 
 If the problem relates to a particular resource which we may not have access to - maybe a font or an image - please do send these to us so we can find out what may be unusual about them. If you think we might like to see your code please show it to us (but please do not send your entire project).

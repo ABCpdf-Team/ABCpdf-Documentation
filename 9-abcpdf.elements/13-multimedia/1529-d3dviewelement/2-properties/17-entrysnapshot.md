@@ -17,3 +17,5 @@ Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 344, page 707.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51f, page 93.
+
+The Snapshot entry references an image XObject providing a pre-rendered 2D snapshot of this view. The snapshot is displayed when the 3D runtime is unavailable, providing a static representation of the model.

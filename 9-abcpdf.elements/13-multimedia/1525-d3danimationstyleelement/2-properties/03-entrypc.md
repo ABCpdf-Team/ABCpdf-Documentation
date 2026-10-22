@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 301, page 517.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 312, page 646.
+
+The PC entry gives the number of times the animation plays as a non-negative integer. A value of 0 means the animation loops continuously. A value of 1 plays the animation once.

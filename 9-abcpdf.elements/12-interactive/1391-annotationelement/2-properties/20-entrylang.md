@@ -17,3 +17,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 166, page 467.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 252, page 467.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 255, page 565.
+
+The language tag specifies the natural language of the annotation's text content in BCP 47 format, overriding any language specified at the page or document level.

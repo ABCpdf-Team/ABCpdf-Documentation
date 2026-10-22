@@ -19,3 +19,5 @@ Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 344, page 707.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51f, page 93.
+
+The CO entry gives the camera orbit distance as a real number in model space units. This value is used as the default orbit radius when the user rotates the view in orbit navigation mode.

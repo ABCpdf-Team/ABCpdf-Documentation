@@ -11,3 +11,5 @@ It contains an Element.
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 409, page 830.
+
+The DPM entry holds a document part metadata dictionary with application-specific properties for this part. Its contents are defined by the workflow or specification using the hierarchy, not by PDF itself.

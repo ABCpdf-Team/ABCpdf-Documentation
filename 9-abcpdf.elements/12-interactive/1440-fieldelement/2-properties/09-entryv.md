@@ -29,3 +29,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 226, page 527.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 222, page 434.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 228, page 529.
+
+The value type varies by field type: a text string for text fields, a PDF name matching an on-state for button fields, and a name or text string matching an option for choice fields.

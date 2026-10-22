@@ -17,3 +17,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.111d, page 53.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 272, page 602.
+
+The Names array holds text strings labelling the data columns stored in XPTS. Each name corresponds to one element in each point record.

@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 226, page 527.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 222, page 434.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 228, page 529.
+
+The flags integer uses bit positions to control field behaviour. Bit 1 (ReadOnly), bit 2 (Required), and bit 3 (NoExport) are common to all field types; further bits are type-specific.

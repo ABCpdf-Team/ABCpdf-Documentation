@@ -21,3 +21,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 117, page 270.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 115, page 327.
+
+For CIDFontType2 fonts only. When the value is the name Identity, each CID is used directly as the glyph index in the TrueType font program. This is the most common case for modern OpenType/CFF fonts used in PDF.
+
+When the value is a stream, the stream body is an array of two-byte big-endian glyph index values indexed by CID. Entry N in the array gives the glyph index for CID N. This mapping is needed when the font's internal glyph order differs from its CID assignment.

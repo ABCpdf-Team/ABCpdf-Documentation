@@ -21,3 +21,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 150, page 363.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.1, page 28.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 147, page 435.
+
+The reading direction affects how the viewer positions pages in a two-up or facing-pages layout. L2R places the first page on the left in a two-page spread; R2L places it on the right, appropriate for right-to-left scripts such as Arabic and Hebrew.

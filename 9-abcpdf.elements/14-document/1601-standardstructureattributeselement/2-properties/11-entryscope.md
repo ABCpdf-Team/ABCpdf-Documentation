@@ -27,3 +27,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 383, page 785.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 349, page 610.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 384, page 785.
+
+The Scope entry indicates whether a table header cell applies to its Row, Column, or Both. Screen readers use this to announce the correct header when reading a data cell.

@@ -20,7 +20,7 @@ void StartOcr()
 
 ## Example
 
-Here we read a TIFF into a Doc, OCR it and then save the PDF. The text in this document is indivisible which means you can select and copy it, but it does not obscure the image in the background. To run this code you will need to replace the Google API key with one of your own.
+Here we read a TIFF into a Doc, OCR it and then save the PDF. The text in this document is invisible which means you can select and copy it, but it does not obscure the image in the background. To run this code you will need to replace the Google API key with one of your own.
 
 [C#]
 

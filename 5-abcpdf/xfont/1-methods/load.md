@@ -1,4 +1,4 @@
-# Unload&nbsp;Function
+# Load&nbsp;Function
 
 Loads a  font from file.
 
@@ -14,7 +14,7 @@ XFont[]&nbsp;Load(string path)
 
 | **Name** | **Description** |
 | --- | --- |
-| return | The path to the file. This file must remain in place. |
+| path | The path to the file. This file must remain in place. |
 | return | The set of loaded fonts. |
 
 ## Notes

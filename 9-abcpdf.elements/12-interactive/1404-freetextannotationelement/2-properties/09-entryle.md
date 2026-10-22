@@ -19,3 +19,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 174, page 397.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 177, page 482.
+
+The line-ending style is a name (or two-element array for both ends of a callout line). It selects from the same set of terminators used by line annotations: None, Square, Circle, Diamond, OpenArrow, ClosedArrow, Slash, and others.

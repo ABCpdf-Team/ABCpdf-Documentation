@@ -15,3 +15,7 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 20, page 56.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.18, page 14.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 20, page 72.
+
+The CF entry holds a dictionary of named crypt filter definitions. Each key is a crypt filter name and each value is a crypt filter dictionary specifying the algorithm and key length for that filter.
+
+Crypt filters allow different parts of the document - strings, streams, and embedded files - to be encrypted with different algorithms or keys, or to be left unencrypted selectively.

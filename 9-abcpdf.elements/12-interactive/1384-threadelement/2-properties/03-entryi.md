@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 160, page 376.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 162, page 457.
+
+The information dictionary is an optional metadata container for the article and may include the article's title, author, subject, and keywords.

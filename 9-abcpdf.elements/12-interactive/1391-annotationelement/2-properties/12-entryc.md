@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 166, page 465.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 252, page 467.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 255, page 565.
+
+The colour array components are interpreted in a device colour space: grey (1 component), RGB (3 components), or CMYK (4 components). Used for the annotation border and, for some subtypes, as background or icon colour.

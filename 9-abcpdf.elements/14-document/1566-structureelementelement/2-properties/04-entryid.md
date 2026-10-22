@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 323, page 558.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 355, page 721.
+
+The ID entry holds a byte string uniquely identifying this structure element. The ID is registered in the IDTree so that the element can be located directly by its identifier.

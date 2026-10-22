@@ -16,5 +16,5 @@ EntireChainTrust is a sensible default because it is how Acrobat builds up a cer
 
 ## Example
 
-None.
+Also see example code in: Signature MaxSignatureLength Property.
 

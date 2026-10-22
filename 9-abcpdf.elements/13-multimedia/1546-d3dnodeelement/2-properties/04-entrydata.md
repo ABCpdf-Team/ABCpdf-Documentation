@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 312, page 538.
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 323, page 671.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 9.47, page 58.
+
+The Data entry references a 3D stream providing replacement geometry for this node. When present, the viewer substitutes this geometry for the node geometry defined in the main 3D stream.

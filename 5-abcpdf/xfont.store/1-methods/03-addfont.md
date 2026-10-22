@@ -23,10 +23,10 @@ Adds a font from a file to this font store.
 
 Adds a font from a file to this font store.
 
-Most font files (.ttf, .otf, .pfm, etc.) contain a single font face, so a returned array will contain exactly one element.
+Most font files (.ttf, .otf, .pfm, etc.) contain a single font face, so the returned [XFont](xfont/default.md) is the font in that file.
 
 However, font collection files (.ttc - TrueType Collection) can bundle multiple fonts into a single file. For such files, the returned [XFont](xfont/default.md) will be the first in the collection.
 
-Similarly an [XFont](default.md) may be part of a collection. If that is the case then all fonts in that collection are added.
+Similarly an [XFont](xfont/default.md) may be part of a collection. If that is the case then all fonts in that collection are added.
 
 For collections you may wish to use [AddStore](05-addstore.md) which returns a set of fonts rather than just the first one.

@@ -22,11 +22,11 @@ int AddImageFile(string path)int AddImageFile(string path, int frame)
 
 Adds an image to the current page returning the ID of the newly added object.
 
-This method supports JPEG, JPEG 2000, TIFF, EMF, WMF, PS (PostScript) or EPS (Encapsulated PostScript).
+In general you want the [AddImageObject](addimageobject.md) method rather than this one, as AddImageFile embeds images using a restricted range of [ReadModules](xreadoptions/2-properties/1-readmodule.md) and transparency options.
 
-Images embedded using this method are inserted using a restricted range of [ReadModules](xreadoptions/2-properties/1-readmodule.md). For this reason you may wish to prefer the use of the [AddImageObject](addimageobject.md) method. AddImageFile is the equivalent of [AddImageObject](addimageobject.md) with the transparent parameter set to true.
+This method only supports JPEG, JPEG 2000, TIFF, EMF, WMF, PS (PostScript) or EPS (Encapsulated PostScript) and always preserves transparency.
 
-The only difference between AddImageFile and [AddImageObject](addimageobject.md) relates to the treatment of EMF and WMF files. AddImageFile defaults to the EmfVector [ReadModule](xreadoptions/2-properties/1-readmodule.md) which means that the vector nature of such files will be preserved. [AddImageObject](addimageobject.md) defaults to the BasicImage ReadModule which means that such files will be rasterized. For more details see the [ReadModule](xreadoptions/2-properties/1-readmodule.md) property.
+AddImageFile and [AddImageObject](addimageobject.md) treat EMF and WMF files differently. AddImageFile defaults to the EmfVector [ReadModule](xreadoptions/2-properties/1-readmodule.md) which means that the vector nature of such files will be preserved. [AddImageObject](addimageobject.md) defaults to the BasicImage ReadModule which means that such files will be rasterized. For more details see the [ReadModule](xreadoptions/2-properties/1-readmodule.md) property.
 
 The image is scaled to fill the current [Rect](2-properties/rect.md). It is transformed using the current [Transform](xtransform/default.md).
 

@@ -26,6 +26,14 @@ Set the fifth Radio Button in a group:
 
 [C#] theField.Value = theField.Options[4];
 
+Read whether a checkbox is checked (ticked):
+
+[C#] bool isChecked = theField.Value != "Off";
+
+Read which Radio Button in a group is selected. The value is the on-state of the selected button, or "Off" if none is selected:
+
+[C#] string selected = theField.Value;
+
 Multiline Form Fields Tip.
 
 When inserting carriage returns into multiline form fields use carriage returns (\r) only.

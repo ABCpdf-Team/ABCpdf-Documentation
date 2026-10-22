@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 370, page 642.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 407, page 826.
+
+The Overprint entry in OPI 2.0, when true, indicates the high-resolution replacement image should overprint underlying content at output time.

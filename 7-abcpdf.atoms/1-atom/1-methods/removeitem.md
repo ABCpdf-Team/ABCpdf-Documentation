@@ -16,5 +16,5 @@ If the atom supplied is not a DictAtom then calling this function will have no e
 
 ## Example
 
-None.
+Also see example code in: XTagging AddFocus Function.
 

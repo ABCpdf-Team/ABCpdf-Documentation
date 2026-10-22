@@ -17,3 +17,5 @@ Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 344, page 707.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51f, page 93.
+
+The P entry references a projection dictionary specifying the projection type (perspective or orthographic) and the associated field-of-view or scale parameters.

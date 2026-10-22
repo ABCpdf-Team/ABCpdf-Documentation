@@ -27,7 +27,7 @@ A FileSpecification may hold multiple paths to a file.
 
 Each path is specific to a platform such as Mac, Windows or Unix. For further details see the [Platform](2-properties/platform.md) property.
 
-This function allolws you to retrieve the path for the specified platform.
+This function allows you to retrieve the path for the specified platform.
 
 If there is no matching path then null will be returned.
 

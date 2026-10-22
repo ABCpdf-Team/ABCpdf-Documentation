@@ -21,3 +21,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 299, page 514.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.34, page 56.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 310, page 642.
+
+The A entry names the activation condition: XA for explicit activation by a 3D JavaScript action, PO for page open (activate when the page containing the annotation is opened), or PV for page visible (activate when the page comes into view).

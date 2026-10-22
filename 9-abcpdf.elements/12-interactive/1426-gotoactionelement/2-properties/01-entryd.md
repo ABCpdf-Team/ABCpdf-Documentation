@@ -21,3 +21,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 199, page 418.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 202, page 507.
+
+The destination may be an explicit array or a string naming an entry in the document's named destinations tree. Explicit destinations embed the page number directly; named destinations decouple the action from the page index.

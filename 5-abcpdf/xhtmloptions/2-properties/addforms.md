@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the ABCChrome, ABCGecko and MSHTML engines.
+
 This property determines whether form fields in HTML are reproduced as form fields in the final PDF output.
 
 Form fields in PDF do not work exactly the same as form fields in HTML so while the results will be similar they may not be identical.

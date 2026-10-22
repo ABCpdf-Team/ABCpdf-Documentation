@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 80, page 186.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 79, page 231.
+
+The Domain array gives the minimum and maximum parameter values passed to the function. The default is [0 1], mapping the start point to 0 and the end point to 1. Extending the domain beyond [0 1] allows the gradient to be extrapolated if Extend is also set.

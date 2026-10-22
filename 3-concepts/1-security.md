@@ -1,6 +1,6 @@
 # Security and ABCpdf
 
-## Inro
+## Intro
 
 ABCpdf is a component presenting an API, much like .NET itself.
 
@@ -9,6 +9,16 @@ Like .NET there are no restrictions on what you can do with the API. If you call
 It is not difficult to make your use of the APIs secure, but you have to actively do it. You need to be making design decisions here.
 
 Each system is different and each system has different needs, however the following are the base principles by which you should operate when securing a system using ABCpdf.
+
+## Env
+
+It is important for security, stability and support that you stay up-to-date. This is true for our software and also for your systems.
+
+We advise that you do not use our software on older platforms which are out of support, on platforms which are not flagged as supported, or that we tell you are unsupported.
+
+We advise that you use modern features of ABCpdf rather than features which are maintained for legacy reasons. This is particularly the case for legacy HTML conversion engines - use the current one not the old ones.
+
+We often provide help and advice with these types of platforms and features because business needs may require compromise. However that does not mean we advise you to use them. You may decide the risks of moving out of a supported environment are acceptable, but those are your risks and that is your decision.
 
 ## Basics
 
@@ -92,7 +102,7 @@ For these reasons ABCpdf operates a dual security policy. Binaries we produce ar
 
 ## Cautions
 
-HTML conversion is a common task and in most situations it is safe. However be cautious about allowing untrusted input here as HTML can pull in many different technologies and it exposes quite a wide attack surface. While ABCpdf .NET has many layers of defense here it is best to apply your own too. More details may be be found in the HTML / CSS Rendering section of the documentation.
+HTML conversion is a common task and in most situations it is safe. However be cautious about allowing untrusted input here as HTML can pull in many different technologies and it exposes quite a wide attack surface. While ABCpdf .NET has many layers of defense here it is best to apply your own too. More details may be found in the HTML / CSS Rendering section of the documentation.
 
 Document rendering shows you how a document should appear but it does not say anything about the validity of a document. It is easy to craft a document which has a part which looks like a signature - so it may appear to be signed even though it is not. If you are relying on document signatures you must validate them in your code and report the results back to the user so that they are not mislead.
 

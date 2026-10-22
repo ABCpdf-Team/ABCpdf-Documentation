@@ -12,7 +12,7 @@ If the Width is zero then the web page view will default to a size which shows a
 
 When the Width is zero the InitialWidth property is used as a minimum sensible width. The page may get wider to ensure that content is not clipped, however it will not get smaller than this value.
 
-The ABCChrome engine relies on JavaScript to determine an appropriate with, so if you set the UseScript property to false, it will fall back to the InitialWidth value.
+The ABCChrome engine relies on JavaScript to determine an appropriate width, so if you set the UseScript property to false, it will fall back to the InitialWidth value.
 
 This value determines the paper width, in pixels, to use while doing layout in Gecko.
 

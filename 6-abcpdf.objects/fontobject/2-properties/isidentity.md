@@ -8,7 +8,7 @@ The normal way to identify a character in a font is to use a standard such as AS
 
 For characters outside this range the PDF format allows you to reference font glyphs directly using the glyph index within the font. This is known as an identity encoding. Language encodings such as Unicode work this way.
 
-Identity encodings are very flexible but they do hardwire the document to a particular font file and as such the font must be embdded. Care should be taken when operating on identty encoded embedded font files.
+Identity encodings are very flexible but they do hardwire the document to a particular font file and as such the font must be embdded. Care should be taken when operating on identity encoded embedded font files.
 
 ## Example
 

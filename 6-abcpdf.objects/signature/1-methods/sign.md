@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#]void Sign(string path, string password)void Sign(byte[] data, string password) void Sign(Stream stream, string password) void Sign(Stream stream, string password, Oid oid) void Sign(X509Certificate2 cert, bool silent) void Sign(X509Certificate2 cert, bool silent, Oid oid, X509IncludeOption? option) void Sign(X509Certificate2 cert, SecureString password, Oid oid) void Sign(Oid oid, DataType dataType, int sizeEstimate) void Sign(Oid oid, DataType dataType, int sizeEstimate, X509Certificate2 cert)
+[C#]void Sign(string path, string password)void Sign(byte[] data, string password) void Sign(Stream stream, string password) void Sign(Stream stream, string password, Oid oid) void Sign(X509Certificate2 cert, bool silent) void Sign(X509Certificate2 cert, bool silent, Oid oid, X509IncludeOption? option) void Sign(X509Certificate2 cert, SecureString password, Oid oid) void Sign(Oid oid, DataType dataType, int sizeEstimate) void Sign(Oid oid, DataType dataType, int sizeEstimate, X509Certificate2 cert2)
 
 may throw Exception()
 
@@ -19,6 +19,8 @@ The SecureString overload must be used if the private key is held on a Hardware 
 Setting the SecureString value to null will force a prompt for the HSM password from a user.
 
 The System.Security.Cryptography.X509Certificates.X509Certificate2 object for the PFX/PKCS #12 (.pfx or .p12) certificate used for signing.
+
+When used with a CustomSigner, a template certificate into which the digest can be inserted.
 
 Whether to suppress prompting the user to use the private key. For non-interactive or unattended operation this parameter should be set to true.
 
@@ -46,13 +48,15 @@ Sizes can vary substantially as the SignedCMS may contain may different types of
 
 Use this method to sign a signature field.
 
+Cryptography features vary quite considerably between .NET versions and platforms. Using a recent release of .NET is highly recommended.
+
 In order to sign a signature, you need to use your private key. To authorize the use of this key, you need to provide your password.
 
 If you are using a X509Certificate2 certificate with a password protected private key you need to instantiate the X509Certificate2 instance with the optional parameter X509KeyStorageFlags.Exportable. This will give the Sign method access to the private key. If the private key is not accessible this method will throw an exception. Where the private key is on a Hardware Security Module you should use the SecureString overload as shown in the example under CompliancePades.
 
 If private key is held in an PFX/PKCS #12 (.pfx or .p12) file, you need to provide a path to this file and a password to allow use of the private key.
 
-Different digest algorithms may be used to create signatures. The default is SHA256 but you may also use SHA256, SHA384, SHA512. SHA1 can be specified but is deprecated in PDF 2.0 so it is not advised.
+Different digest algorithms may be used to create signatures. The default is SHA256 but you may also use SHA384, SHA512. SHA1 can be specified but is deprecated in PDF 2.0 so it is not advised.
 
 Time-stamped signatures can be produced by using the service of a Time Stamping Authority (TSA). See TimestampServiceUrl. Also see Compliance for TSA requirements under different compliance levels.
 
@@ -72,5 +76,5 @@ In this example, for simplicity, we use the plain text password overload. Howeve
 
 [C#]using var doc = new Doc(); doc.Read("../Rez/Authorization.pdf"); Signature theSig = (Signature)doc.Form["Signature"]; theSig.Location = "Washington"; theSig.Reason = "Schedule Agreed"; theSig.Sign("../Rez/JohnSmith.pfx", "1234"); doc.Save("Signed.pdf");
 
-Also see example code in: Signature AddLTV Function, Signature CompliancePades Property, Signature CustomSigner Property, Signature CustomSigner2 Property.
+Also see example code in: Signature AddLTV Function, Signature CompliancePades Property, Signature CustomSigner Property, Signature CustomSigner2 Property, Signature MaxSignatureLength Property.
 

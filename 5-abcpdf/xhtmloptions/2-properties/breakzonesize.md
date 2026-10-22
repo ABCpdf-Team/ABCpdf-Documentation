@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the MSHTML engine only.
+
 The size of drawing area in which page breaks are allowed.
 
 When HTML is added to a PDF page, it is placed within the current Doc.Rect.

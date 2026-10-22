@@ -11,3 +11,5 @@ It contains an ActionElement.
 For definitive details see:.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51e, page 92.
+
+The action dictionary is executed when playback reaches this cue point, enabling synchronised PDF actions triggered by media playback.

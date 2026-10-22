@@ -28,4 +28,7 @@ If you would like these elements removed you can specify them using the detagTyp
 
 ## Example
 
-None
+Also see example code in:
+
+* [XTagging AddFocus Function](5-abcpdf/xtagging/1-methods/08-addfocus.md)
+* [Focus OpaqueTypes  Property](5-abcpdf/xtagging.focus/2-properties/opaquetypes.md).

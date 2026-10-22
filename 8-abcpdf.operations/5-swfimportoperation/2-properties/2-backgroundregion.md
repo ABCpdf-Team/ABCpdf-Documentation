@@ -2,7 +2,7 @@
 
 | **Type** | **Default** | **Read Only** | **Description** |
 | --- | --- | --- | --- |
-|  | null | No | Gets or sets the backgound rectangle. |
+|  | null | No | Gets or sets the background rectangle. |
 
 ## Notes
 

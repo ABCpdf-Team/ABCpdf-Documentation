@@ -2,7 +2,7 @@
 
 ## Notes
 
-Whether to calcuate text widths or not.
+Whether to calculate text widths or not.
 
 If this property is true then the ShowText function will be passed the character and advance widths for text. If it is false then null will be passed.
 

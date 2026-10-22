@@ -15,3 +15,5 @@ In the root node either this entry or the EntryNames entry should be non-null. B
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 36, page 89.
+
+The Kids array in an intermediate name tree node holds indirect references to child nodes. Each child may itself be an intermediate or leaf node. The tree depth is not fixed and may vary to balance the tree as entries are added.

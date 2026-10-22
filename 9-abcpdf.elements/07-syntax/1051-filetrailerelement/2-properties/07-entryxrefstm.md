@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 15, page 43.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 15, page 57.
+
+The XRefStm entry gives the byte offset of a cross-reference stream in a hybrid-reference file. A hybrid file contains both a traditional cross-reference table and a cross-reference stream covering the same revision.
+
+PDF 1.5 and later readers use the cross-reference stream for its compressed object references. PDF 1.4 and earlier readers use only the cross-reference table and ignore the stream. This allows a single file to be read by both old and new readers.

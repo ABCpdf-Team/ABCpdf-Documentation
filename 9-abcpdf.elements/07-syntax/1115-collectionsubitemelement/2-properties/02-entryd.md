@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 49, page 107.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 47, page 139.
+
+The D entry holds the data value for this collection field. Its type must match the subtype declared for the field in the collection schema: a string for text and date fields, a number for numeric fields, or a boolean for flag fields.

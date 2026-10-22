@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 204, page 423.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 208, page 513.
+
+The operation string is passed to the Windows shell as the verb for the ShellExecute call. Common values are open, print, and edit. If absent the shell uses the file type's default verb.

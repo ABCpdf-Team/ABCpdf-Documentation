@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 296, page 508.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 307, page 635.
+
+The Volume entry holds the audio volume as a real number from 0.0 (silent) to 1.0 (full volume). Values greater than 1.0 are not standard and may be clamped by the player.

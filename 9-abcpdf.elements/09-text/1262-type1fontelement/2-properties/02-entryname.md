@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 111, page 254.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 109, page 310.
+
+This entry was part of the original PDF 1.0 font model where the Name key identified the font resource in a page's resource dictionary. Later versions of the PDF specification made this usage obsolete and it was formally deprecated in PDF 2.0.
+
+When this entry is present it should match the key used to reference the font in the page resource dictionary. New documents should not include it.

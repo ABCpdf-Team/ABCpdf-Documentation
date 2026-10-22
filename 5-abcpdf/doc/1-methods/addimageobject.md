@@ -41,7 +41,7 @@ Sometimes you may wish to insert annotations such as links to an external web pa
 static int AddLinkToUri(Doc doc, XRect rect, string uri) {
   int id = doc.AddObject("<< /Type /Annot /Subtype /Link /A << /Type /Action /S /URI /URI () >> /Border [0 0 0] >>");
   doc.SetInfo(doc.Page, "/Annots*[]:Ref", id);
-  doc.SetInfo(id, "/Rect:Rect", doc.Rect.String);
+  doc.SetInfo(id, "/Rect:Rect", rect.String);
   doc.SetInfo(id, "/A/URI:Text", uri);
   return id;
 }
@@ -55,7 +55,7 @@ If you wish to link to a particular page specified by page ID you can use code o
 static int AddLinkToPage(Doc doc, XRect rect, int pageID) {
   int id = doc.AddObject("<< /Type /Annot /Subtype /Link /Border [0 0 0] /A << /Type /Action /S /GoTo /D [ /XYZ null null 0] >> >>");
   doc.SetInfo(doc.Page, "/Annots*[]:Ref", id);
-  doc.SetInfo(id, "/Rect:Rect", doc.Rect.String);
+  doc.SetInfo(id, "/Rect:Rect", rect.String);
   doc.SetInfo(id, "/A/D[0]:Ref", pageID.ToString());
   return id;
 }

@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 8, page 28.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 8, page 40.
+
+The Columns entry gives the number of samples per row for use with a predictor. It has the same meaning as the FlateDecode Columns entry.

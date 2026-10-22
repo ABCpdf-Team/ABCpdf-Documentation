@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 168, page 389.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 170, page 472.
+
+The down appearance is shown while the mouse button is held down over the annotation, typically showing the annotation in a visually depressed state.

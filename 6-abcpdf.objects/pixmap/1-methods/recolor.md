@@ -31,7 +31,7 @@ If the [ImageMask](2-properties/imagemask.md) property is true the image has no 
 
 The rendering intent determines how out of gamut colors are handled. For full details see the [RecolorOperation.RenderingIntent](8-abcpdf.operations/3-recoloroperation/2-properties/renderingintent.md) property.
 
-If the image is a palette based image, the palette will be rexcolored rather than the pixels themselves. This is a faster more accurate, way to work which preserves the structure of the image as far as possible.
+If the image is a palette based image, the palette will be recolored rather than the pixels themselves. This is a faster more accurate, way to work which preserves the structure of the image as far as possible.
 
 After the PixMap has been Recolored it may no longer compressed and is likely to have a [BitsPerComponent](2-properties/bitspercomponent.md) of eight or sixteen. You may wish to compress it using the [StreamObject.Compress](streamobject/1-methods/compress.md) method.
 

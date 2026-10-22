@@ -21,3 +21,7 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 87, page 257.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 146, page 349.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 144, page 418.
+
+SMaskInData indicates whether soft-mask data is embedded within the image stream rather than provided as a separate image. A value of 0 means no embedded mask. A value of 1 means the last channel in the stream carries premultiplied alpha. A value of 2 means the last channel carries unassociated alpha.
+
+This entry is used only for JPX-encoded images that support embedded alpha channels.

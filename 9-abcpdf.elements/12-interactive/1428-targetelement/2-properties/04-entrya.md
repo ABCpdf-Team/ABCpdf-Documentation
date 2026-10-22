@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 202, page 420.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 205, page 510.
+
+The annotation entry, when present, identifies a file attachment annotation by index or name instead of using the embedded files name tree.

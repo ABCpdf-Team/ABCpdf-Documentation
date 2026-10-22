@@ -2,7 +2,7 @@
 
 ## Notes
 
-The amount by which text should be shifted up as expressed in uncscaled text units.
+The amount by which text should be shifted up as expressed in unscaled text units.
 
 ## Example
 

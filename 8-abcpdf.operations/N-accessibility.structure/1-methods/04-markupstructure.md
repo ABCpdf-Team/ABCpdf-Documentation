@@ -24,4 +24,4 @@ The markup depends on the presence of Actual Text and Bounding Boxes in the stru
 
 ## Example
 
-None
+Also see example code in: [Focus OpaqueTypes  Property](5-abcpdf/xtagging.focus/2-properties/opaquetypes.md).

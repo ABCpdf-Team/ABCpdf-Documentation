@@ -18,7 +18,7 @@ The following examples show the effect of a Despeckle filter applied to a portio
 
 Original Image
 
-The sea is very grainy while the the grain is obscured in areas of high complexity like the telescope.
+The sea is very grainy while the grain is obscured in areas of high complexity like the telescope.
 
 Despeckle Radius 10
 

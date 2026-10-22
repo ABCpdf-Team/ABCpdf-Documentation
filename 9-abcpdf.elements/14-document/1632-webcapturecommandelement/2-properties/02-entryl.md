@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 357, page 624.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 393, page 805.
+
+The L entry gives the link depth to which the spider followed hyperlinks from the starting URL. A value of 0 means only the starting URL was retrieved.

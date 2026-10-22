@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 97, page 221.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 95, page 272.
+
+The ID entry holds the document identifier of the external file, matching the format of the trailer ID array. A conforming reader may use this identifier to confirm that the correct version of the external document is being accessed.

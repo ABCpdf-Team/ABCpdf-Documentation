@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 361, page 631.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 397, page 811.
+
+The W entry gives the guide line width in default user space units. Thicker lines produce more visible guides.

@@ -13,3 +13,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.33a, page 60.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 325, page 680.
+
+The TSn entry holds the denominator of the scale factor for the translation axis. A scale of TSm/TSn converts model units to the unit named in TU.

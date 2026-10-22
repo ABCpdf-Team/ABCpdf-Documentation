@@ -16,7 +16,7 @@ bool Flatten()bool Flatten(bool force)bool Flatten(bool force, bool compress, in
 | --- | --- |
 | force | Whether to force the flattening even if the streams contain extra information which might be lost - default false. |
 | compress | Whether to compress the resulting stream or whether to leave it as undetermined compression - default true. This value is only relevant if force is true. |
-| compressionLevel | The level of compression to apply as a percentage. Smaller numbers are faster but produce lower compresssion ratios. Pass -1 for a default choice. |
+| compressionLevel | The level of compression to apply as a percentage. Smaller numbers are faster but produce lower compression ratios. Pass -1 for a default choice. |
 | return | Whether the page is flat. |
 
 ## Notes

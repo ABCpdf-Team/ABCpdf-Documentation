@@ -15,3 +15,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 63, page 145.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 62, page 183.
+
+The black point gives the XYZ values corresponding to a component value of zero. When absent, the black point defaults to (0, 0, 0), meaning a zero component produces no light output.
+
+A non-zero black point is useful when the source or destination device cannot produce true black, allowing the color space to represent the darkest achievable shade rather than theoretical zero.

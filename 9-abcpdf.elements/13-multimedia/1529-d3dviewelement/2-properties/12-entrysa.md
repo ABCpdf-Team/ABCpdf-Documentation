@@ -17,3 +17,5 @@ Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 344, page 707.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51f, page 93.
+
+The SA entry holds an array of 3D cross-section dictionaries defining the cross-sectional cuts active in this view.

@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to all the HTML engines: ABCChrome, ABCGecko, ABCWebKit and MSHTML.
+
 A client side JavaScript to be applied to a web page before the page is rendered to PDF.
 
 This kind of script can be used for a variety of purposes. For example you might wish to hide background images or get pre-render information from the document.

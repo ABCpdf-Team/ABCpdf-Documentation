@@ -14,7 +14,7 @@ virtual void AddLTV(Oid oid)
 
 | **Name** | **Description** |
 | --- | --- |
-| oid | The hash algorithm to use to create the digest of the signature to be timestamped where uri is specified, for example new Oid("SHA256"). |
+| oid | The hash algorithm to use to create the digest of the signature to be timestamped where the TimestampServiceUrl is specified, for example new Oid("SHA256"). |
 
 ## Notes
 
@@ -36,7 +36,7 @@ In addition a signature Validation Related Information (VRI) entry is added whic
 
 If the TimestampServiceUrl is set an RFC 3161 timestamp will be stored as a stream with its reference set in to the VRI TS entry.
 
-It it is null then the VRI TU value will be set to the current time from the computer's clock.
+If it is null then the VRI TU value will be set to the current time from the computer's clock.
 
 For more information see ISO 32000-2:2017 Section 12.8.4 (https://www.iso.org/standard/63534.html).
 

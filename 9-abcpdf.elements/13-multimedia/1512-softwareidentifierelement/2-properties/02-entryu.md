@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 292, page 504.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 303, page 631.
+
+The U entry holds the URI identifying the software as a text string. This URI is a vendor-defined identifier for the specific player application, not necessarily a URL.

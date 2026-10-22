@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 274, page 492.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 285, page 617.
+
+The Alt entry holds an array of alternate text descriptions for the media clip. The array alternates between language tag strings and description text strings, providing accessible descriptions in multiple languages.

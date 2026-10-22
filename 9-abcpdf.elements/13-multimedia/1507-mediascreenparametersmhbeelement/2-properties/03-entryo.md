@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 283, page 499.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 294, page 625.
+
+The O entry holds the opacity of the window background as a real number from 0.0 (fully transparent) to 1.0 (fully opaque). Partial opacity allows page content to show through.

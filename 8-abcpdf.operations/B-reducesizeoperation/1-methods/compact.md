@@ -26,9 +26,9 @@ During processing [ProcessingObject](1-operation/3-events/1-processingobject.md)
 
 If you have previously added content to the document it will need to be frozen in place. This may result in changes to the [Doc.HtmlOptions](5-abcpdf/doc/2-properties/htmloptions.md) [Doc.Rendering](5-abcpdf/doc/2-properties/rendering.md) and [Doc.SaveOptions](5-abcpdf/doc/2-properties/saveoptions.md) properties.
 
-You may also wish to set the [SaveOptions.CompressObects](5-abcpdf/xsaveoptions/2-properties/compressobjects.md) property to true, to further reduce the output size on save.
+You may also wish to set the [SaveOptions.CompressObjects](5-abcpdf/xsaveoptions/2-properties/compressobjects.md) property to true, to further reduce the output size on save.
 
-This type of operations is fairly complex and can take some time on larger documents.
+This type of operation is fairly complex and can take some time on larger documents.
 
 ## Example
 

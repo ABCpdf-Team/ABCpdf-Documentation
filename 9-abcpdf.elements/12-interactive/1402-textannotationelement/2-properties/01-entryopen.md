@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 172, page 394.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 175, page 478.
+
+When true the pop-up window is open when the document is first displayed. This state is typically saved when the user leaves the pop-up open before saving.

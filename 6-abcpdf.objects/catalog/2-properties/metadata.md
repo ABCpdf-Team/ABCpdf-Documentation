@@ -16,7 +16,7 @@ To try and reduce the amount of confusion caused by multiple metadata entries, P
 
 This example shows how to insert document properties. Document properties can be viewed from Acrobat Reader and most commonly provide information on the document origin.
 
-Complex XMP metadata can be constructed using the Adobe XMP Toolkit. However in most cases you will only want simple metadata so you can use the use the standard Metadata object properties.
+Complex XMP metadata can be constructed using the Adobe XMP Toolkit. However in most cases you will only want simple metadata so you can use the standard Metadata object properties.
 
 Here we load an existing PDF and set the Title and Author.
 

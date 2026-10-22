@@ -15,3 +15,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.6a, page 31.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 157, page 450.
+
+The PrimaryText entry sets the colour of the main text labels in the portfolio UI, such as file names and folder names.

@@ -61,7 +61,7 @@ Crucially, both approaches are built upon ABCpdf's deep understanding of the PDF
 
 ## Example
 
-This example shows how to draw one PDF into another. It takes a PDF document and creates a 'four-up' summary document by drawing four pages on each page of the new document. First we create an ABCpdf Doc object and read in our source document.
+This example shows how to draw one PDF into another. It takes a PDF document and creates a 'four-up' summary document by drawing four pages on each page of the new document. The same approach makes n-up layouts, imposition and booklets. First we create an ABCpdf Doc object and read in our source document.
 
 [C#]
 

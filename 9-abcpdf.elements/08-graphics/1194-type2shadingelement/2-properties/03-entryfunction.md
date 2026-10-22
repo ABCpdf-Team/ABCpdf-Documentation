@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 80, page 186.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 79, page 231.
+
+The Function maps a scalar parameter in the range given by Domain to color component values in the shading's color space. It must produce exactly as many outputs as there are components in the color space.

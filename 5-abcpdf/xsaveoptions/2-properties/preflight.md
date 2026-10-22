@@ -2,7 +2,7 @@
 
 ## Notes
 
-Whether to preflight objects objects during Save.
+Whether to preflight objects during Save.
 
 In addition this also applies to the Append and AddImageDoc operations as these involve similar concepts.
 

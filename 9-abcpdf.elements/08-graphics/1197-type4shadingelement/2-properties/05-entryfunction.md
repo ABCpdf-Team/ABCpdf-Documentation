@@ -15,3 +15,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 82, page 190.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 81, page 237.
+
+When present, the Function entry replaces the per-vertex color components with a single tint value per vertex. The function converts that scalar tint to full color component values in the shading's color space.
+
+When this entry is present, each vertex carries exactly one component value (the tint) instead of the full set of components required by the color space.

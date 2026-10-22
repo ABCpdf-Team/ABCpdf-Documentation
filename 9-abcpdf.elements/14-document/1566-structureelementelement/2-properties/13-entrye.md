@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 323, page 559.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 355, page 722.
+
+The E entry holds an expansion of an abbreviation or acronym used as the element content. Screen readers use this to speak the full form rather than attempting to pronounce the abbreviation.

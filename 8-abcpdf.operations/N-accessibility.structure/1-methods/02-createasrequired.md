@@ -29,4 +29,8 @@ This function checks for the following and creates empty entries if they are not
 
 ## Example
 
-Also see example code in: [ABCpdf Tagged Text Example](4-examples/02-texttagged.md).
+Also see example code in:
+
+* [ABCpdf Tagged Text Example](4-examples/02-texttagged.md)
+* [XTagging AddFocus Function](5-abcpdf/xtagging/1-methods/08-addfocus.md)
+* [Focus OpaqueTypes  Property](5-abcpdf/xtagging.focus/2-properties/opaquetypes.md).

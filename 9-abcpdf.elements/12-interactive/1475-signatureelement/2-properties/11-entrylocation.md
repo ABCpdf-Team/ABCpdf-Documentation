@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 252, page 468.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 255, page 567.
+
+The location string records the physical or logical location where the signature was applied, such as a city, country, or workstation identifier. It is informational and not verified by signature validation.

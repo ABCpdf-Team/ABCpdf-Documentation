@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the MSHTML engine only.
+
 This property determines whether Java is enabled.
 
 By default Java is disabled when rendering HTML documents.

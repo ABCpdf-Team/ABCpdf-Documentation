@@ -23,3 +23,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 296, page 508.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 307, page 635.
+
+The Start entry gives the starting time within the movie file as a time value. Playback begins at this position rather than at the beginning of the file.

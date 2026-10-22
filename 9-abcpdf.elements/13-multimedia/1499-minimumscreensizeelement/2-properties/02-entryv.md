@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 270, page 491.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 281, page 615.
+
+The V entry holds the minimum acceptable screen size as a two-element array of width and height in pixels. The criterion is satisfied if both the screen width and height meet or exceed the specified values.

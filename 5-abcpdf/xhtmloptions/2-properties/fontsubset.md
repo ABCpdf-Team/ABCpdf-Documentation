@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the ABCGecko and MSHTML engines.
+
 This property determines whether embedded fonts are subset.
 
 HTML rendering may require that fonts are added to the PDF document.

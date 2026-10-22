@@ -21,7 +21,7 @@ FileSpecification Constructor
 
 Create a FileSpecification.
 
-This constructor which takes a path to a file will embed and compress the file data using using the [CompressFlate](streamobject/1-methods/compressflate.md) function. It will also insert appropriate metadata using the [EmbeddedFileUpdateMetadata](embeddedfile/1-methods/updatemetadata.md) function.
+This constructor which takes a path to a file will embed and compress the file data using the [CompressFlate](streamobject/1-methods/compressflate.md) function. It will also insert appropriate metadata using the [EmbeddedFileUpdateMetadata](embeddedfile/1-methods/updatemetadata.md) function.
 
 The constructor which takes an array of data will similarly embed and compress the data. However since there is no file path metadata will not be assigned.
 

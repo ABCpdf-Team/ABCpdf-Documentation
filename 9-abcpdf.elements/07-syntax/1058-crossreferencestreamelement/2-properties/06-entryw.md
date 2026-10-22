@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 17, page 50.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 17, page 66.
+
+The W entry is a three-element array giving the byte widths of the three fields in each cross-reference record: the entry type, the main location value (byte offset or object stream number), and the secondary value (generation number or index within an object stream).
+
+A field width of 0 means the field is absent and its default value is used: 1 for the type field and 0 for the other two. The total record width is the sum of the three W values.

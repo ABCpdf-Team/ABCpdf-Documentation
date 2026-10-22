@@ -1,6 +1,6 @@
 # Tag Function
 
-Tags a PDF document.
+Tags a PDF document using AI.
 
 ## Syntax
 

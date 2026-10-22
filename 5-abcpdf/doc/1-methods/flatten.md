@@ -14,7 +14,7 @@ int Flatten()int Flatten(int compressionLevel)
 
 | **Name** | **Description** |
 | --- | --- |
-| compressionLevel | The level of compression to apply as a percentage. Smaller numbers are faster but produce lower compresssion ratios. Pass -1 for a default choice. |
+| compressionLevel | The level of compression to apply as a percentage. Smaller numbers are faster but produce lower compression ratios. Pass -1 for a default choice. |
 | return | n/a. |
 
 ## Notes

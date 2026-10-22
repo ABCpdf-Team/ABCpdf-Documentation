@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 321, page 556.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 353, page 719.
+
+The Suspects entry, when true, signals that the document contains structure elements whose content associations may be inaccurate, typically from automated tagging that could not reliably determine reading order.

@@ -14,7 +14,7 @@ The Xps module is a native XPS and OXPS (Open XPS) import module. It takes advan
 
 The XpsAny module prints via the XPS printer driver and then imports the resultant document. It takes advantage of the Operation, FileExtension, and Timeout properties. The Operation provided must be either null or an XpsImportOperation.
 
-The MSOffice module uses Microsoft Office for document conversion. This module is fast and produces high fidelity output, including native form fields and annotations conversion. It takes advantage of the AddForms, Boomarks, Password, EnableMSOfficeMacros, PreserveTransparency and Timeout properties.
+The MSOffice module uses Microsoft Office for document conversion. This module is fast and produces high fidelity output, including native form fields and annotations conversion. It takes advantage of the AddForms, Bookmarks, Password, EnableMSOfficeMacros, PreserveTransparency and Timeout properties.
 
 The OpenOffice module uses OpenOffice.org for document conversion. It takes advantage of the OpenOfficeParameters and Timeout properties.
 
@@ -48,7 +48,7 @@ The WebP module allows import of the WebP file format. WebP is a google format t
 
 The Png module is a native import module designed to run cross platform. It supports all PNG bit depths (1, 8, 16) and color spaces (grayscale and RGB) in the PNG specification and allows import preserving those native depths and color spaces.
 
-The Gif, Jpeg and Bmp modules are native import module designed to run cross platform. They support all bit depths and color spaces in the respective color spaces and and allow import preserving those native depths and color spaces.
+The Gif, Jpeg and Bmp modules are native import module designed to run cross platform. They support all bit depths and color spaces in the respective color spaces and allow import preserving those native depths and color spaces.
 
 The FlashNative module is a legacy parser that depends on Adobe components. For importing Flash or SWF files, ABCpdf now defaults to using the custom SwfVector ReadModule. To revert to the older native Flash module, select FlashNative as the ReadModule.
 

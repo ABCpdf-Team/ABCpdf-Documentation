@@ -21,3 +21,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 87, page 257.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 146, page 349.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 144, page 418.
+
+The ID entry carries a byte-string identifier for this image within an OPI (Open Prepress Interface) workflow. It is used by OPI servers to match low-resolution proxy images in the PDF to their high-resolution counterparts during output processing.

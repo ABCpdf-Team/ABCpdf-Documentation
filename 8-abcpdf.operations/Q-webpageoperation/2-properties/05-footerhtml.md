@@ -12,7 +12,4 @@ As such if you set footers you need to ensure that you leave sufficient room bet
 
 There are special HTML tags you can use to insert pre-defined content.
 
-## Example
-
-Also see example code in: WebPageOperation Doc Property.
-
+For example, to add page numbers in the form "Page X of Y" to every page use: Page <span class=pageNumber></span> of <span class=totalPages></span>

@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 283, page 499.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 294, page 625.
+
+The B entry holds the background colour of the media window as an array of colour component values. The colour fills any area not covered by the media content.

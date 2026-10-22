@@ -19,3 +19,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 205, page 423.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 209, page 514.
+
+The destination selects how the viewer initially presents the thread, using the same destination format as a go-to action.

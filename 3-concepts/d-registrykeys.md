@@ -12,7 +12,7 @@ For example to ensure that CCITT images are decompressed and recompressed rather
 
 Registry settings are held at:
 
-Except those listed as "registry only", they can also be specified in app.config or web.config. Please see XSettings.SetConfigSection for the syntax.
+Registry options (with the single exception of PrintHookLog) can also be specified in app.config or web.config. Please see XSettings.SetConfigSection for the syntax.
 
 ABCpdf uses the temp directory.
 
@@ -184,7 +184,7 @@ We expect revision 4 to be deprecated in due course.
 
 If, for compatibility, you require the use of revision 4, you can re-enable it by setting this flag.
 
-When decompressing data, ABCpdf occaisionally encounters decompression errors. If a quantity of data is decompressed before the error occurs, then this value is a tolerance for how much compressed data is left over after the error.
+When decompressing data, ABCpdf occasionally encounters decompression errors. If a quantity of data is decompressed before the error occurs, then this value is a tolerance for how much compressed data is left over after the error.
 
 Documents can contain multiple different mappings for characters. Most of the time the mappings are correct and in sync. Occasionally you may come across PDFs which have inconsistent mappings in the different tables.
 
@@ -378,9 +378,9 @@ The preview is what you will see if you do not have Flash installed. It is what 
 
 This value is used for SWF raster import in previous versions of ABCpdf and has the same meaning as FlashPreviewWaitTime for SWF vector import.
 
-When the movie is intialized, you can specify a time (in milliseconds) at which the movie will be started.
+When the movie is initialized, you can specify a time (in milliseconds) at which the movie will be started.
 
-Note that many movies contain script which can alter the way that the movie is played. For example, a script might reset the the current frame to the start after five seconds of content have been played. So the content you get by setting the preview time to ten seconds may be very different to the content a user will see after watching the movie for ten seconds.
+Note that many movies contain script which can alter the way that the movie is played. For example, a script might reset the current frame to the start after five seconds of content have been played. So the content you get by setting the preview time to ten seconds may be very different to the content a user will see after watching the movie for ten seconds.
 
 When HTML contained Flash (SWF) movies are added to a PDF document, ABCpdf will make a preview image for the movie.
 
@@ -388,7 +388,7 @@ The preview is what you will see if you do not have Flash installed. It is what 
 
 This property determines the time (in milliseconds) that the movie will be given to play before the preview will be made.
 
-Note that many movies contain script which can alter the way that the movie is played. For example, a movie might reset the the current frame to the start after five seconds of content have been played. So the content you get by setting the preview time to ten seconds may be very different to the content a user will see after watching the movie for ten seconds.
+Note that many movies contain script which can alter the way that the movie is played. For example, a movie might reset the current frame to the start after five seconds of content have been played. So the content you get by setting the preview time to ten seconds may be very different to the content a user will see after watching the movie for ten seconds.
 
 When HTML contained Flash (SWF) movies are added to a PDF document, ABCpdf will make a preview image for the movie.
 
@@ -598,7 +598,7 @@ Disabled by default unless rendering is 1 bit per sample. When rendering to anti
 
 When fonts are not embedded in the pdf, we look for a suitable external font. Occasionally the chosen external font's glyph metrics do not match the metrics specified by the pdf, so we compromise by mapping the width of an external glyph to it's corresponding width as specified in the source pdf. Set to 0 if you do not want this mapping to occur.
 
-When rendering stroked curves, the curve is broken into a series of line segments. The flatness value is the default value for this tesselation, default is '1' which means that when the curve has deviated by 1 pixel, it is broken into a line segment. Note that even though its registry representation is type 'STRING', it will be converted into a DOUBLE numerical value.
+When rendering stroked curves, the curve is broken into a series of line segments. The flatness value is the default value for this tessellation, default is '1' which means that when the curve has deviated by 1 pixel, it is broken into a line segment. Note that even though its registry representation is type 'STRING', it will be converted into a DOUBLE numerical value.
 
 PDF documents can contain operators which set the curve flatness. However most PDF applications ignore these requests as they typically make curves look like jagged lines. We also ignore such requests unless this property is changed to true.
 
@@ -623,6 +623,8 @@ The PrintHook library is used to print files to XPS, which are then converted to
 Log files are named spy_<PID>.txt.
 
 On 64-bit machines, you will need to set this value in the 32-bit registry section (Wow6432Node) as well for intercepting 32-bit processes.
+
+This value is registry only - it cannot be set in the config file.
 
 Set this value to 1 for viewing applications that are launched by Operations.ImportAny(), typically Office applications. Set it to 0 or remove it to hide them.
 

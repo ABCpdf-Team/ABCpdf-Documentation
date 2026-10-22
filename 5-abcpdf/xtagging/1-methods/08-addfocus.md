@@ -35,7 +35,39 @@ The following code adds sequence of tagged areas to a page. We first delete any 
 [C#]
 
 ```csharp
-using var doc = new Doc();<br>doc.Read("../Rez/spacex_nasa_dragon.pdf");<br>Atom.RemoveItem(doc.ObjectSoup.Catalog.Atom, "StructTreeRoot");<br>var st = doc.Tag.GetStructure();<br>st.Detag();<br>st.Title = "SpaceX NASA Dragon";<br>st.CreateAsRequired();<br>var div = st.Root.AddKid("Document").AddKid("Div");<br>var artifact = new StructureElementElement(div) { EntryS = "Artifact" };<br>doc.Tag.AddFocus(artifact, doc.Rect).AddMcids = false;<br>var h1 = doc.Tag.AddFocus(div.AddKid("H1"), XRect.FromSides(0, 650, 600, 710)).Tag;<br>var h2 = doc.Tag.AddFocus(div.AddKid("H2"), XRect.FromSides(0, 620, 600, 650)).Tag;<br>doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 580, 600, 620));<br>doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 500, 600, 580));<br>doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 440, 600, 500));<br>doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 360, 600, 440));<br>doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 270, 600, 360));<br>doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 200, 600, 270));<br>doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 100, 600, 200));<br>var focus = doc.Tag.AddFocus(div.AddKid("Figure"), XRect.FromSides(360, 480, 600, 650));<br>focus.Tag.EntryAlt = "Spacecraft in orbit over earth.";<br>focus.Tag.SetBBox(focus.Bounds);<br>doc.Tag.MakePdfUAConformant = true;<br>doc.Save("taggedarea.pdf");<br>st.UpdateActualText(true, true);<br>var txt = st.ExtractStructure();<br>File.WriteAllText("taggedarea.txt", txt.ToString());
+using var doc = new Doc();
+doc.Read("../Rez/spacex_nasa_dragon.pdf");
+Atom.RemoveItem(doc.ObjectSoup.Catalog.Atom, "StructTreeRoot");
+var st = doc.Tag.GetStructure();
+st.Detag();
+st.Title = "SpaceX NASA Dragon";
+st.CreateAsRequired();
+var div = st.Root.AddKid("Document").AddKid("Div");
+var artifact = new StructureElementElement(div) { EntryS = "Artifact" };
+doc.Tag.AddFocus(artifact, doc.Rect).AddMcids = false;
+var h1 = doc.Tag.AddFocus(div.AddKid("H1"), XRect.FromSides(0, 650, 600, 710)).Tag;
+var h2 = doc.Tag.AddFocus(div.AddKid("H2"), XRect.FromSides(0, 620, 600, 650)).Tag;
+doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 580, 600, 620));
+doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 500, 600, 580));
+doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 440, 600, 500));
+doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 360, 600, 440));
+doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 270, 600, 360));
+doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 200, 600, 270));
+doc.Tag.AddFocus(h2.AddKid("P"), XRect.FromSides(0, 100, 600, 200));
+var focus = doc.Tag.AddFocus(div.AddKid("Figure"), XRect.FromSides(360, 480, 600, 650));
+focus.Tag.EntryAlt = "Spacecraft in orbit over earth.";
+// in later versions, instead of the next five lines, you can just use ...
+var layout = new StandardLayoutAttributesElement(focus.Tag);
+layout.EntryO = "Layout";
+layout.EntryBBox = new RectangleElement(ArrayAtom.FromXRect(focus.Bounds), focus.Tag.Host);
+focus.Tag.EntryA = new ArrayElement<Element>(focus.Tag);
+focus.Tag.EntryA.Add(layout);
+// ... focus.Tag.SetBBox(focus.Bounds);
+doc.Tag.MakePdfUAConformant = true;
+doc.Save("taggedarea.pdf");
+st.UpdateActualText(true, true);
+var txt = st.ExtractStructure();
+File.WriteAllText("taggedarea.txt", txt.ToString());
 ```
 
 ![](../../../images/pdf/taggedarea.pdf.png)

@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 29, page 99.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 242, page 458.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 245, page 555.
+
+The URI entry references a URI dictionary that specifies the document's base URI. Relative URIs in link annotations and other actions are resolved against this base URI.

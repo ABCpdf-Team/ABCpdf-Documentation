@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 129.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 163.
+
+The smoothness tolerance controls the rendering quality of smooth shading operators. It sets the maximum allowable colour error in device colour space when approximating a smooth shade with flat-colour regions.
+
+Lower smoothness values produce more accurate gradients at the cost of more output primitives. A value of 0 requests the device's maximum quality. The value is in the range 0 to 1.

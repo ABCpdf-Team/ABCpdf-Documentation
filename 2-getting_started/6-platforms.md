@@ -42,9 +42,9 @@ You must install .NET to run this application. App: /home/pcuser/helloworld/hell
 
 Publishing with self-contained true is a good alternative if your chosen runtime is not easily available on your distro. It increases the output size by about 60 MB but provides a simple solution.
 
-Details of how to install the runtime may be found here. If you are using .NET 8 you might need the following. However the process does vary by platform so you may need to check the Microsoft documentation.
+Details of how to install the runtime may be found here. If you are using .NET 10 you might need the following. However the process does vary by platform so you may need to check the Microsoft documentation.
 
-sudo apt update sudo apt install dotnet-runtime-8.0
+sudo apt update sudo apt install dotnet-runtime-10.0
 
 If you are using ABCChrome then you may need to install a few extra packages.
 
@@ -66,7 +66,7 @@ If you are using WSL you must use WSL 2. WSL version 1 is not supported.
 
 WSL 2 is not fast when it comes to file access across the OS divide. Operations such as validating the ABCChrome install require checksums to be calculated on large files. These take a fraction of a second if your files are located on the same OS file system. However if they are located on the Windows file system (paths such as /mnt/c) they can take many seconds.
 
-WSL 1 is much faster here but there are parts missing from which can lead to subtle problems. For example in WSL 1 there is no range based file locking. Without file locking it is difficult to be sure that files will get synchronized correctly. Similarly WSL 1 does not support some memory mapping operations which means that some complex HTML conversion operations may fail.
+WSL 1 is much faster here but there are parts missing which can lead to subtle problems. For example in WSL 1 there is no range based file locking. Without file locking it is difficult to be sure that files will get synchronized correctly. Similarly WSL 1 does not support some memory mapping operations which means that some complex HTML conversion operations may fail.
 
 In many situations things will work, but when they go wrong the problems will be small and subtle and impossible to fix. That is why we do not support WSL 1.
 
@@ -93,6 +93,8 @@ You need to flag your compiled output as executable. Open up a bash shell by cli
 If you are deploying ABCChrome then you will need to flag that too.
 
 Then run your executable to produce an output.
+
+Sometimes WSL will create your files owned by root rather than as your pcuser. This is related to the way files are written from the Windows side to the Linux side. If this is the case you will get a permissions error and you will need to change the ownership. If you build from the Linux side permissions will be more straightforward.
 
 ## Features
 

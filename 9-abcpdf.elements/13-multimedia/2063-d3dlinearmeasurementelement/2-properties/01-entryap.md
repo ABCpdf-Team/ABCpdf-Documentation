@@ -13,3 +13,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.39b, page 63.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 327, page 684.
+
+The AP entry references the annotation appearance stream that draws the measurement leader lines, dimension line, and text label in the 2D projection of the 3D view.

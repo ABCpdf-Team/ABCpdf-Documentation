@@ -6,9 +6,9 @@ The default platform being used for the file specification. For historic reasons
 
 Fortunately this state of affairs is now unusual and only the default "UF" platform is commonly used. Adobe do not specify what the initials stand for, but it is likely to be Unicode File, though it could be Universal File or URL File.
 
-While you are unlikely to wish to create documents which use these obsolescent platforms, you may find old documents that use them. This method allows you to access information specified by platform. Appropriate selectors are "UF", "F", "DOS", "Mac" or "Unix" as per the descriptions in the Adobe PDF Specification. You can use the Platforms property to deterine which are being used.
+While you are unlikely to wish to create documents which use these obsolescent platforms, you may find old documents that use them. This method allows you to access information specified by platform. Appropriate selectors are "UF", "F", "DOS", "Mac" or "Unix" as per the descriptions in the Adobe PDF Specification. You can use the Platforms property to determine which are being used.
 
-The defaut of "UF" provides access via the standard settings as specified in the PDF 1.7 specification.
+The default of "UF" provides access via the standard settings as specified in the PDF 1.7 specification.
 
 ## Example
 

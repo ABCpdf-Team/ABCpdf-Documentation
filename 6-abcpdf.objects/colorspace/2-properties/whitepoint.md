@@ -2,7 +2,7 @@
 
 ## Notes
 
-The white point for the color space specified in CIE 1931 XYZ space. This property is only valid for color spaces in which the ColorSpaceType is CallGray, CalRGB or Lab. X and Y must be positive and Z must be one. The default for this peroperty is 0 0 0.
+The white point for the color space specified in CIE 1931 XYZ space. This property is only valid for color spaces in which the ColorSpaceType is CallGray, CalRGB or Lab. X and Z must be greater than zero and Y must be one. The default for this property is 0 1 0.
 
 When you set this property a clone of the XColor you assign is created to avoid one XColor being shared by multiple color spaces.
 

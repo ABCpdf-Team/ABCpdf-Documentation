@@ -15,3 +15,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 150, page 365.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.1, page 28.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 147, page 437.
+
+Supplies the default page range to print as an array of integer pairs, where each pair gives the first and last page number of a range. If absent the viewer uses its default range (typically all pages).

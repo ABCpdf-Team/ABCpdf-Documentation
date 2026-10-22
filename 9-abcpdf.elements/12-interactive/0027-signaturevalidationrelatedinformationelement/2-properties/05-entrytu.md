@@ -13,3 +13,5 @@ This is encoded as a date string. For details see the StringAtom.DateToString an
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 262, page 584.
+
+The timestamp records when this VRI entry was created or last updated, encoded as a PDF date string. Verifiers can use this date to assess whether the included revocation data was current at the relevant time.

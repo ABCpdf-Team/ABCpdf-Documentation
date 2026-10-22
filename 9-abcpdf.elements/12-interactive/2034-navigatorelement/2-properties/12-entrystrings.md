@@ -13,3 +13,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.6d, page 34.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 160, page 454.
+
+The strings dictionary maps string keys to localised text values used by the navigator component. The locale entry identifies which language these strings apply to.

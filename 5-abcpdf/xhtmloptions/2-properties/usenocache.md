@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the ABCGecko and MSHTML engines.
+
 This property determines whether no-cache is enabled.
 
 Setting this property to true forces any intervening proxy server to re-request the page.

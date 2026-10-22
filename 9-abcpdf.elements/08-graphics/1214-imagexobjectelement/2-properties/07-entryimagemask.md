@@ -21,3 +21,7 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 87, page 256.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 146, page 349.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 144, page 418.
+
+When ImageMask is true, the image data is treated as a stencil. Samples with value 1 (or 0, depending on the Decode array) mark areas where the current color is applied; the opposite value leaves those areas unchanged.
+
+An image mask must have BitsPerComponent equal to 1 and must not have a ColorSpace entry. The mask shape is independent of the image's painted dimensions.

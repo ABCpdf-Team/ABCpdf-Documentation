@@ -19,3 +19,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 162, page 378.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 164, page 460.
+
+The motion entry applies to Split, Box, and similar styles. It controls whether the transition moves inward (revealing the new page from the edges) or outward (covering the old page from the centre).

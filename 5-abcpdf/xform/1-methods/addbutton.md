@@ -22,3 +22,7 @@ Field AddButton(XRect rect, string name, string inCaption)
 ## Notes
 
 Add a button field.
+
+## Example
+
+See the [Annotations Example Project](../../../4-projects/annotations/test.htm) (Test.cs).

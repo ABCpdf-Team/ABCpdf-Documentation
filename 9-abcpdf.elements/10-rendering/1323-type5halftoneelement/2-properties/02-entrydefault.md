@@ -13,3 +13,9 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 134, page 315.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 132, page 377.
+
+This entry provides the screen for any colorant that does not have its own named entry in the type 5 dictionary. It acts as a fallback so the viewer always has a valid screen regardless of what colorants are in use.
+
+The sub-dictionary here must be one of types 1, 6, 10, or 16. It cannot itself be a type 5 dictionary. This restriction prevents infinite nesting.
+
+When a colorant name matches another entry in the type 5 dictionary, that named entry takes priority over this one. Default is only used when no matching name is found.

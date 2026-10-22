@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the ABCGecko and MSHTML engines.
+
 HTML forms can contain fields with the same name.
 
 If the names of two fields in a PDF are the same, then the fields take the same value.

@@ -23,6 +23,8 @@ int AddImageData(byte[] data)int AddImageData(byte[] data, int frame)
 
 Extract an image from a chunk of data and add it to the current page returning the ID of the newly added object.
 
+In general you want the [AddImageObject](addimageobject.md) method rather than this one, as AddImageData embeds images using a restricted range of [ReadModules](xreadoptions/2-properties/1-readmodule.md) and transparency options.
+
 This method is essentially the same as [AddImageFile](addimagefile.md) but it allows you add images specified as raw data rather than as a file path.
 
 ## Example

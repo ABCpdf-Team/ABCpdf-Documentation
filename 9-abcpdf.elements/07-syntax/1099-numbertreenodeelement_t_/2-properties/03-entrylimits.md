@@ -15,3 +15,5 @@ The second int represents the highest key in the EntryNums entry of this or any 
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 37, page 91.
+
+The Limits array in a number tree node holds exactly two integers: the smallest and largest keys in the subtree rooted at this node. Readers use these values to navigate to the correct subtree for a target key.

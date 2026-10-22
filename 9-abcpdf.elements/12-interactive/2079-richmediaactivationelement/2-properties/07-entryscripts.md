@@ -13,3 +13,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50a, page 79.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 335, page 698.
+
+The scripts array lists strings executed as JavaScript when the media activates, with access to the media player API for initialisation.

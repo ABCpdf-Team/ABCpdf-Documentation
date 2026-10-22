@@ -27,3 +27,7 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 44, page 102.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.41, page 26.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 43, page 135.
+
+The AFRelationship entry names the relationship between the document or object that references this file specification and the attached file. Defined values include Source, Data, Alternative, Supplement, EncryptedPayload, FormData, Schema, and Unspecified.
+
+This entry is required when the file specification appears in an AF array. The relationship name allows processors to identify and handle different types of associated files appropriately.

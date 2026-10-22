@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 172, page 394.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 175, page 478.
+
+For text annotations the intent type may distinguish a plain note from a callout or typewriter-style annotation.

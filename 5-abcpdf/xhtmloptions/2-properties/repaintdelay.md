@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the ABCChrome engine only.
+
 This feature allows you to cope with web pages that animate.
 
 Most web pages simply load and complete. However some web pages may not complete in a simple manner. For example graphs may draw themselves, maps may update, images may move. These are all features associated with more dynamic modern HTML and AJAX based pages.
@@ -20,5 +22,5 @@ DOM observation is the most accurate measure of detecting changes in the page bu
 
 ## Example
 
-See the RepaintTimeout property.
+None.
 

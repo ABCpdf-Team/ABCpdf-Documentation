@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 130.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 164.
+
+The lowercase ca entry sets the constant alpha for non-stroking (fill) operations, working independently of CA which applies to stroke. This separation allows different alpha values for fill and stroke within the same graphics state.
+
+Like CA, values range from 0.0 (fully transparent) to 1.0 (fully opaque). The fill alpha interacts with the blend mode and soft mask to produce the final composited result.

@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 127, page 290.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 125, page 350.
+
+For Type 1 programs, this gives the length in bytes of the clear-text (ASCII) section of the font program, before any compression filter is applied.
+
+For TrueType programs embedded via FontFile2, this gives the total length of the uncompressed TrueType binary.

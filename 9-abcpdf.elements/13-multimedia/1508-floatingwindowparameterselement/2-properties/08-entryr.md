@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 284, page 500.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 295, page 627.
+
+The R entry, when true, allows the user to resize the floating window. The media content scales to fill the resized window.

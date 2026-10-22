@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 129.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 162.
+
+The overprint mode refines how a zero-valued color component interacts with overprinting. A value of 0 means zero components knock out the underlying ink. A value of 1 means zero components are treated as transparent, leaving the underlying ink in place.
+
+OPM 1 is significant in CMYK workflows where a color with a zero black component should not accidentally erase black ink from underlying objects.

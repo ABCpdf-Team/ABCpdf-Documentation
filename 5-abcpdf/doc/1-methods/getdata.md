@@ -48,7 +48,7 @@ We would suggest two steps:
 
 ## Example
 
-The following code illustrates how one might add text to a PDF and then write it direct to the client browser. This code is an entire ASP.NET page - hello.aspx.
+The following code illustrates how one might add text to a PDF and then write it direct to the client browser. This code is an entire ASP.NET page - hello.aspx. This is how you return a PDF from an ASP.NET page to the browser, to display inline or download with a file name. Use "inline" in the content-disposition header to display it in the browser or "attachment" to download it.
 
 [C#]
 

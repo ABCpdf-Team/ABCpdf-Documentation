@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to all the HTML engines: ABCChrome, ABCGecko, ABCWebKit and MSHTML.
+
 This property controls how many times ABCpdf will attempt to obtain a page.
 
 HTML rendering may fail one time but succeed the next. This is often for reasons outside the control of ABCpdf.

@@ -15,3 +15,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 50, page 108.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.25b, page 25.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 49, page 140.
+
+The ExtensionLevel entry is an integer identifying the specific revision of the developer extension. Higher numbers indicate later revisions. A reader that supports a given extension must support all extension levels up to and including the one declared in the document.

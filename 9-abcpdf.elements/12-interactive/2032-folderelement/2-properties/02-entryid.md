@@ -15,3 +15,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.6c, page 32.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 159, page 451.
+
+The ID is a unique non-zero integer within the portfolio. It is used to identify the folder when creating links or references between portfolio elements.

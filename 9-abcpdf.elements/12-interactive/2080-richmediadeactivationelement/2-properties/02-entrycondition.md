@@ -19,3 +19,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50b, page 80.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 336, page 699.
+
+The condition name selects the deactivation trigger: XD (explicit user action), PC (page close), PI (page invisible). XD is the default and keeps the media playing until the user explicitly closes it.

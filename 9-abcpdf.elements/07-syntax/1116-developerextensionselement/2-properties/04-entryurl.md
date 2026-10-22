@@ -21,3 +21,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 50, page 108.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.25b, page 25.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 49, page 140.
+
+The URL entry provides a URI pointing to documentation or a registry entry for this developer extension. This allows readers and developers to find the specification for an extension they do not already support.

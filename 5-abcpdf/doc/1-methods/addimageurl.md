@@ -1,6 +1,6 @@
 # AddImageUrl Function
 
-Renders a web page specified by URL.
+Renders a web page (HTML) specified by URL into the PDF - the usual way to convert HTML to PDF.
 
 ## Syntax
 
@@ -23,6 +23,8 @@ int AddImageUrl(string url)int AddImageUrl(string url, bool paged, int width, bo
 ## Notes
 
 This method adds a web page to a document.
+
+Use this method to convert web based HTML content - specified using a web page URL or URI - to PDF.
 
 The page is added in accordance with the current [XHtmlOptions](xhtmloptions/default.md) settings. As a convenience you can override the more commonly used settings as detailed above.
 

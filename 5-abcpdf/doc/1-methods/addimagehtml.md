@@ -22,6 +22,8 @@ int AddImageHtml(string html)int AddImageHtml(string html, bool paged, int width
 
 ## Notes
 
+Use this method to convert raw HTML to PDF.
+
 This method is essentially the same as the [AddImageUrl](addimageurl.md) method but it allows you to use raw HTML rather than having to specify a URL.
 
 Using the MSHTML, ABCGecko and ABCWebKit engines, ABCpdf saves this HTML into a temporary file and renders the file using a 'file://' protocol specifier. So this is a convenience function - it doesn't offer any performance enhancements. Sometimes the IIS users do not have full access to the temp directory. This is determined by the system setup you have on your machine. If this is the case you will get errors returned. So if you are working from ASP you may find that you need to enable access to the temp directory for the ASPNET user, the IUSR_MACHINENAME user or the IWAM_MACHINENAME user.

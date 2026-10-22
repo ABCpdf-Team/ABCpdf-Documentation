@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 238, page 455.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 241, page 552.
+
+Only bit 1 is defined: when 0 (Include) only listed fields are reset; when 1 (Exclude) all fields except the listed ones are reset.

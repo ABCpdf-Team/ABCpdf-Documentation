@@ -15,3 +15,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 188, page 408.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.39, page 39.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 191, page 495.
+
+The appearance characteristics dictionary supplies border colour, background colour, captions, and icon references for the widget. Viewers use these when auto-generating appearance streams.

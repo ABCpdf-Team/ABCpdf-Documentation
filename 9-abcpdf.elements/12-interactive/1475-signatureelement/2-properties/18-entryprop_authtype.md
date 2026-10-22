@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 252, page 469.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 255, page 567.
+
+The Prop_AuthType name records how the signer authenticated before signing, such as by entering a PIN, by biometric verification, or by single sign-on.

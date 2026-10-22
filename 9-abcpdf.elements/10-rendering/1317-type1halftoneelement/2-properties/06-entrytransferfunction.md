@@ -19,3 +19,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 130, page 310.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 128, page 371.
+
+The Identity name means no adjustment is made: the tint value passed to the spot function is the same as the requested tint. This is the simplest case and is suitable when the device output matches the intended tone scale without correction.
+
+A function object takes a single input in the range 0 to 1 and returns a corrected value in the same range. The spot function then uses the corrected value rather than the original. This mechanism is commonly used to compensate for dot gain on press, where the physical spread of ink causes dots to print larger than the screen geometry would suggest.

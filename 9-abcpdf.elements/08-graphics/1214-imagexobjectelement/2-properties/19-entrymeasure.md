@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 87, page 258.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 146, page 349.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 144, page 418.
+
+The Measure dictionary attaches real-world measurement information to the image, mapping image coordinates to physical units such as metres or inches. This is used in geospatial and engineering workflows where precise coordinate referencing is required.

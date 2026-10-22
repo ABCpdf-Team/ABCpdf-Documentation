@@ -2,7 +2,7 @@
 
 ## Notes
 
-A delegate called to perform a custom signing of the PDF content digest and signed attributes.
+A delegate called to perform a custom signing of the PDF content digest and signed attributes. Use it when the private key is held elsewhere - for example on an HSM, a USB token, in Azure Key Vault or with a remote signing service.
 
 You should prefer the use of the CustomSigner2 property over this one, as it provides a more extensible implementation and will form the basis of future development.
 

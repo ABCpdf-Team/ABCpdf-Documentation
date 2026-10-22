@@ -19,3 +19,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 252, page 467.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 255, page 565.
+
+The filter name identifies the security handler that produced and should verify this signature. Verifiers must refuse to validate the signature if they do not support the named handler.

@@ -2,7 +2,7 @@
 
 ## Notes
 
-The miter defining how sharm mitered joins may be.
+The miter defining how sharp mitered joins may be.
 
 ## Example
 

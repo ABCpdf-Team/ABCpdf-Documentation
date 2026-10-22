@@ -1,4 +1,4 @@
-# TextEnd  Property
+# TextNext  Property
 
 ## Notes
 

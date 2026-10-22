@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the ABCGecko and MSHTML engines.
+
 This property determines whether fonts are protected.
 
 HTML rendering may require that fonts are embedded into the PDF document.

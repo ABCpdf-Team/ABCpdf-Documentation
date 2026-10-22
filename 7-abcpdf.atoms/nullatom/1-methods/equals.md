@@ -20,7 +20,7 @@ bool Equals(<a href="../default.htm">NullAtom</a> other)
 
 Test whether the two NullAtoms are the same.
 
-NullAtoms are are always equal to each other.
+NullAtoms are always equal to each other.
 
 ## Example
 

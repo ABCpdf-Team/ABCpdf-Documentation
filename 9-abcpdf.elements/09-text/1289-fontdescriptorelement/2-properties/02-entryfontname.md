@@ -15,3 +15,7 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 122, page 281.
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 120, page 341.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 124, page 285.
+
+This name must match the BaseFont entry in the font dictionary that references this descriptor. For subset fonts the name includes the six-letter uppercase subset tag prefix.
+
+Viewers use this to verify that the descriptor belongs to the intended font.

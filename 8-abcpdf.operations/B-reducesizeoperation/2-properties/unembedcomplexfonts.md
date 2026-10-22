@@ -6,7 +6,7 @@
 
 ## Notes
 
-Whether to unembed complex Unicode based fonts fonts where possible.
+Whether to unembed complex Unicode based fonts where possible.
 
 This option is relatively complex and expensive but this type of embedded font tends to be large so the size reduction obtained can be significant.
 

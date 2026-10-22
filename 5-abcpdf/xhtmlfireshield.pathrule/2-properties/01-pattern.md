@@ -2,7 +2,7 @@
 
 ## Notes
 
-A pattern specifying a path that that should be the target of control.
+A pattern specifying a path that should be the target of control.
 
 These patterns are specified using DOS glob format. However the pattern matching is generic so a wildcard can match against path separators like backslash characters as well as normal characters.
 

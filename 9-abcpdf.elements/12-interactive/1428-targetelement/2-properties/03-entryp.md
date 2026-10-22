@@ -19,3 +19,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 202, page 420.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 205, page 510.
+
+When multiple embedded files share the same name, P selects which one to target: an integer gives the zero-based index into the list, and a string gives an annotated label.

@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 11, page 30.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 11, page 43.
+
+The K entry selects the CCITT encoding scheme. A value of 0 uses pure Group 3 one-dimensional encoding. A negative value uses Group 4 two-dimensional encoding. A positive value uses mixed Group 3 encoding where the value limits the number of consecutive two-dimensional rows.

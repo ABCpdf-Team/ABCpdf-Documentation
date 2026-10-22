@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 82, page 189.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 81, page 237.
+
+The Decode array maps the encoded integer coordinate and component values to the working ranges used during rendering. It contains 2 � (number of coordinates per vertex + number of components per vertex) values, arranged as min/max pairs.
+
+The first two pairs map the x and y coordinate integers; subsequent pairs map each color component. Linear interpolation between the min and max converts an integer to its floating-point value.

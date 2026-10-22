@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 273, page 492.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 284, page 617.
+
+The N entry holds a text string name for the media clip, used in user interface elements and in rendition action references.

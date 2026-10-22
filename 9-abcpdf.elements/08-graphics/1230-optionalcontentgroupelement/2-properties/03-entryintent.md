@@ -21,3 +21,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 98, page 222.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 96, page 274.
+
+The Intent entry names one or more intended uses for this group. The values View and Design are defined. A View group may be toggled by the user in an interactive viewer; a Design group is intended for use by authoring tools managing design layers.
+
+When this entry is absent, the group is treated as having intent View. Multiple intents may be listed as an array.

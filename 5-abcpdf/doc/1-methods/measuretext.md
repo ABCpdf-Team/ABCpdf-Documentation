@@ -7,7 +7,7 @@ Measure the length of a block of text without adding it to the page.
 [C#]
 
 ```csharp
-double MeasureText(string text)double MeasureText(string text, double fontSize, double charSpacing, double wordSpacing, bool italic, bool bold, double outline)
+double MeasureText(string text)double MeasureText(string text, bool html)double MeasureText(string text, double fontSize, double charSpacing, double wordSpacing, bool italic, bool bold, double outline)
 ```
 
 ## Params
@@ -15,6 +15,7 @@ double MeasureText(string text)double MeasureText(string text, double fontSize, 
 | **Name** | **Description** |
 | --- | --- |
 | text | The text to be measured. |
+| html | Whether the text is HTML styled text. Default false. |
 | fontSize | The size of the font. |
 | charSpacing | The spacing to be applied between each character. |
 | wordSpacing | The spacing to be applied between each word. |

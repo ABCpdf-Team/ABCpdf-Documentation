@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 369, page 641.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 406, page 825.
+
+The Transparency entry, when true, indicates the high-resolution image has a transparent background. The OPI processor must handle transparency correctly during compositing.

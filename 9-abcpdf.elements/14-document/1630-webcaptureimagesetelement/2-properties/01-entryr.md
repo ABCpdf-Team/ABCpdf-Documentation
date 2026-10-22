@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 354, page 622.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 390, page 802.
+
+The R entry holds an array of reference dictionaries, each mapping a source URL to an image XObject captured from it, preserving the association between each image and its original web address.

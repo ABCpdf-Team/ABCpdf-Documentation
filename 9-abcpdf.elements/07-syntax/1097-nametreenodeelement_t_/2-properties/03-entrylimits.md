@@ -15,3 +15,5 @@ The second string represents the highest key in the EntryNames entry of this or 
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 36, page 89.
+
+The Limits array in a name tree node holds exactly two string values: the lexicographically smallest and largest keys within the entire subtree rooted at this node. Readers use Limits at each level to determine whether a target key can be found in a subtree without descending into it.

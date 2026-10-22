@@ -17,3 +17,5 @@ The PDF specification states that this item assumes a value of "No data is sent 
 For definitive details see:.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51c, page 90.
+
+The FlashVars string is passed to the SWF application as its initialisation variables, following the standard FlashVars URL-encoded name-value pair convention.

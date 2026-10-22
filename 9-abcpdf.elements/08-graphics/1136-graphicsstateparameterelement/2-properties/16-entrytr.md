@@ -21,3 +21,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 129.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 163.
+
+The transfer function maps a device color component value to the actual ink density or output level, compensating for non-linearity in the output device. It may be a single function applied to all components or an array of four functions for CMYK.
+
+Transfer functions are a legacy mechanism for device calibration. PDF 2.0 discourages their use in favour of ICC-based color management. The value Identity may be used to pass component values through unchanged.

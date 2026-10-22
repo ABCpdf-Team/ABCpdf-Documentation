@@ -440,7 +440,7 @@ This tag is used to insert raw content into the PDF content stream.
 
 It is a low level construct which can be used for the insertion of operators like BDC and EMC. However since the content stream is sensitive, be careful only to use these operators if you are sure of what you are doing. Incorrect use is likely to corrupt the page.
 
-You can specify a starting tag for the point at which the tagged content is first written to stream and and ending tag for the point at which it finishes being written. These tags will be written outside a BT/ET block. For point based operators like MP you may wish to specify only a starting tag. Tags may be nested.
+You can specify a starting tag for the point at which the tagged content is first written to stream and ending tag for the point at which it finishes being written. These tags will be written outside a BT/ET block. For point based operators like MP you may wish to specify only a starting tag. Tags may be nested.
 
 For MCIDs often you may not know an appropriate value to use. In this case you can use the special value next_mcid which will insert the next MCID available for the page.
 

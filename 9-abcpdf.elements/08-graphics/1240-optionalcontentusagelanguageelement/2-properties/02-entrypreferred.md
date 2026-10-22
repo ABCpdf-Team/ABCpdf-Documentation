@@ -19,3 +19,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 102, page 232.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 100, page 284.
+
+The Preferred name, when set to ON, marks this language usage as the preferred choice for the specified language. A viewer that cannot find an exact language match may fall back to groups marked as preferred for the closest matching language.

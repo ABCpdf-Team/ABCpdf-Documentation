@@ -17,3 +17,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 226, page 527.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 222, page 434.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 228, page 529.
+
+For choice fields Opt lists the available options as strings or two-element arrays. When two-element arrays are used the first element is the export value and the second is the display label.

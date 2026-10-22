@@ -6,6 +6,8 @@
 
 ## Notes
 
+This property applies to the [MSHTML](2-formshtml.md) engine, and to the [ABCGecko](2-forgecko.md) engine in some circumstances (see below).
+
 This property specifies HTTP headers added to the default headers. It must follow the syntax of HTTP headers, typically delimited using a cr+lf combination.
 
 For example, you may add the cookies from a response to a request under some authentication (e.g. ASP.NET Forms) where a session ID is returned for subsequent requests so re-authentication is not needed. See the [NoCookie](nocookie.md) property for further information if you specify cookies in the HTTP headers.

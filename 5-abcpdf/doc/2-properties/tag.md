@@ -14,5 +14,5 @@ You still have full control over the full range of tagging capabilities when you
 
 ## Example
 
-Also see example code in: ABCpdf Tagged Text Example, XTagging Open Function, XTagging Close Function, XTextStyle AutoTag Property.
+Also see example code in: ABCpdf Tagged Text Example, XTagging Open Function, XTagging Close Function, XTagging AddFocus Function, XTextStyle AutoTag Property.
 

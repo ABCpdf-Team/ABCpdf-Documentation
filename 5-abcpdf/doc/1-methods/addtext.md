@@ -23,7 +23,7 @@ Adds a block of single styled text to the current page.
 
 For adding multi-styled text or for chaining text from one page to another you should use the [AddTextStyled](addtextstyled.md) method which is used for adding [styled text](3-concepts/b-htmlstyles.md).
 
-The text is in the current [style](2-properties/font.md) [size](2-properties/fontsize.md) and [color](2-properties/color.md) and starts at the location specified in the current [position](2-properties/pos.md). If the text is long it will will wrap and extend downwards until it fills the current [rectangle](2-properties/rect.md). Text positioning in the rectangle is determined by the [horizontal](xtextstyle/2-properties/hpos.md) and [vertical](xtextstyle/2-properties/vpos.md) positioning.
+The text is in the current [style](2-properties/font.md) [size](2-properties/fontsize.md) and [color](2-properties/color.md) and starts at the location specified in the current [position](2-properties/pos.md). If the text is long it will wrap and extend downwards until it fills the current [rectangle](2-properties/rect.md). Text positioning in the rectangle is determined by the [horizontal](xtextstyle/2-properties/hpos.md) and [vertical](xtextstyle/2-properties/vpos.md) positioning.
 
 You can chain together multiple text blocks so that text flows from one to the next. To do this you need to first add a block of text using AddText. Then add multiple new text blocks using [AddTextStyled](addtextstyled.md) each time passing in the ID obtained from the previous call after adjusting the target location (such as the rectangle or the page).
 
@@ -37,7 +37,7 @@ Character positioning is specified from the top left of the character. Please se
 
 ## Example
 
-The following code adds a number of chunks of text to a document. Each chunk is in a different style. This sample makes use of the fact that the Pos is updated to point to the next text insertion point after adding a piece of text. However note that when inserting muti-styled text it is generally more efficient to use the [AddTextStyled](addtextstyled.md) method.
+The following code adds a number of chunks of text to a document. Each chunk is in a different style. This sample makes use of the fact that the Pos is updated to point to the next text insertion point after adding a piece of text. However note that when inserting multi-styled text it is generally more efficient to use the [AddTextStyled](addtextstyled.md) method.
 
 [C#]
 
@@ -132,6 +132,7 @@ Also see example code in:
 * [FontObject Widths Property](6-abcpdf.objects/fontobject/2-properties/widths.md)
 * [Page VectorizeText Function](6-abcpdf.objects/page/1-methods/vectorizetext.md)
 * [Signature Validate Function](6-abcpdf.objects/signature/1-methods/validate.md)
+* [Signature MaxSignatureLength Property](6-abcpdf.objects/signature/2-properties/maxsignaturelength.md)
 * [ArrayAtom FromContentStream Function](7-abcpdf.atoms/arrayatom/1-methods/fromcontentstream.md)
 * [XpsImportOperation Import Function](8-abcpdf.operations/4-xpsimportoperation/1-methods/import.md)
 * [SwfImportOperation Import Function](8-abcpdf.operations/5-swfimportoperation/1-methods/import.md)

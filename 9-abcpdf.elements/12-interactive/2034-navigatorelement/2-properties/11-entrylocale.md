@@ -13,3 +13,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.6d, page 34.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 160, page 454.
+
+The locale string in BCP 47 format specifies the language for which the Strings dictionary provides localised text.

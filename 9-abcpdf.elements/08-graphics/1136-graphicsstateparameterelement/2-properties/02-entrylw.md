@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 128.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 162.
+
+The line width controls the thickness of stroked paths, measured in user space units. A value of zero produces the thinnest line the device can render, which may vary between output devices.
+
+The line width applies to all stroke operations that follow until it is changed again. It is part of the current graphics state and affects both straight and curved path segments equally.

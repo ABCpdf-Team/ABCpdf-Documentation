@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to all the HTML engines: ABCChrome, ABCGecko, ABCWebKit and MSHTML.
+
 For each HTML engine that uses worker processes, you can set the properties in the XHtmlProcessOptions object to specify the options for new worker processes.
 
 The worker processes are in a process pool for each HTML engine, which is shared by different instances of Doc. However, the options used are not reflected back to the (writable) XHtmlProcessOptions properties for different instances of Doc.

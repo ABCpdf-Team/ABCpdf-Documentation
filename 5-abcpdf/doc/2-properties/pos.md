@@ -54,4 +54,5 @@ Also see example code in:
 * [XTransform Reset Function](xtransform/1-methods/reset.md)
 * [XTransform Rotate Function](xtransform/1-methods/rotate.md)
 * [FontObject RuneWidths Property](6-abcpdf.objects/fontobject/2-properties/runewidths.md)
-* [FontObject Widths Property](6-abcpdf.objects/fontobject/2-properties/widths.md).
+* [FontObject Widths Property](6-abcpdf.objects/fontobject/2-properties/widths.md)
+* [Signature MaxSignatureLength Property](6-abcpdf.objects/signature/2-properties/maxsignaturelength.md).

@@ -2,7 +2,7 @@
 
 ## Notes
 
-The delegate type called to perform custom signing and timestamping of the PDF.
+The delegate type called to perform custom signing and timestamping of the PDF. Use it when the private key is held elsewhere - for example on an HSM, a USB token, in Azure Key Vault or with a remote signing service.
 
 The definition of the SigningDelegate2 delegate is as follows.
 
@@ -45,4 +45,6 @@ The following example shows how an external delegate might be used.
 The code above uses the following External Signer.
 
 [C#] byte[] ExternalSigner(byte[] data, Signature.State state) { var password = new SecureString(); // needs value var rsa = (RSACryptoServiceProvider)cert.PrivateKey; var cspParams = new CspParameters(1, rsa.CspKeyContainerInfo.ProviderName, rsa.CspKeyContainerInfo.UniqueKeyContainerName) { KeyPassword = password, Flags = CspProviderFlags.NoPrompt }; var service = new RSACryptoServiceProvider(cspParams); return service.SignData(data, CryptoConfig.MapNameToOID("SHA512")); } X509Certificate2 FindCertificate() { string serial = "10 20 30 10 40 10 40 50 60 10 20 30"; // needs value X509Certificate2 cert = null; using var store = new X509Store(StoreName.My, StoreLocation.CurrentUser); store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly | OpenFlags.MaxAllowed); var certs = store.Certificates.Find(X509FindType.FindBySerialNumber, serial, false); if (certs.Count == 1) { cert = store.Certificates.Find(X509FindType.FindBySerialNumber, serial, false)[0]; if (cert.PrivateKey is RSACryptoServiceProvider == false) cert = null; } return cert; }
+
+Also see example code in: Signature MaxSignatureLength Property.
 

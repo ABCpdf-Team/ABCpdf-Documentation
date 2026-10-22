@@ -29,3 +29,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 226, page 527.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 222, page 434.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 228, page 529.
+
+The default value has the same type as V and is used when a reset-form action is applied. If absent the reset value is the empty string for text fields, Off for button fields, and no selection for choice fields.

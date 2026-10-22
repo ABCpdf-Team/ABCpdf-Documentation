@@ -21,3 +21,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 226, page 527.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 222, page 434.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 228, page 529.
+
+The rich value holds the field's content as an XHTML text string supporting inline formatting. Viewers that support rich text rendering use RV for display and V as the plain-text fallback.

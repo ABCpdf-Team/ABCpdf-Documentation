@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 128.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 162.
+
+The miter limit sets a threshold on the ratio of miter length to line width for miter joins. When a join's miter ratio would exceed this limit, the join is converted to a bevel.
+
+A miter limit of 1.0 effectively converts all miter joins to bevels. The default value of 10 permits miters at angles down to approximately 11.5 degrees before switching to a bevel.

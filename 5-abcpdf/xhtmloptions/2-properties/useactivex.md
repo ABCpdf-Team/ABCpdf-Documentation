@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the MSHTML engine only.
+
 This property determines whether ActiveX is enabled.
 
 By default ActiveX is disabled when rendering HTML documents.

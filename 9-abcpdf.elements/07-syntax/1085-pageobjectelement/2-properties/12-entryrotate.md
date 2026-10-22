@@ -17,3 +17,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 30, page 78.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.27, page 23.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 31, page 104.
+
+The Rotate entry specifies the number of degrees the page should be rotated clockwise when displayed or printed. Valid values are 0, 90, 180, and 270. If absent, the page inherits rotation from its parent tree node.

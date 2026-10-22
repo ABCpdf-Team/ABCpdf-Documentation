@@ -24,7 +24,7 @@ You can specify start and end tags using the "tag-start" and "tag-end" styled te
 
 ## Example
 
-The following code creates a simple tagged document containg text and an image.
+The following code creates a simple tagged document containing text and an image.
 
 [C#] using var doc = new Doc(); string text = "From the attic window, snow-draped rooftops stretch into the distance, chimneys smoking softly. Icicles glitter in the pale sun. A quiet, frozen world."; doc.Rect.Inset(20, 40); doc.TextStyle.AutoTag = true; doc.TextStyle.Size = 36; doc.AddTextStyled($"<p>{text}</p>"); using var img = XImage.FromFile("../mypics/mypic.jpg", null); doc.Rect.SetRect(100, 100, img.Width / 2, img.Height / 2); var figure = doc.Tag.MakeTag("Figure"); figure.Attributes = new DictAtom(); figure.Attributes["Alt"] = new StringAtom("Snowy rooftops."); doc.Tag.Open(figure); doc.AddImageObject(img, true); doc.Tag.Close(figure.Type); doc.Save("simpletags.pdf");
 

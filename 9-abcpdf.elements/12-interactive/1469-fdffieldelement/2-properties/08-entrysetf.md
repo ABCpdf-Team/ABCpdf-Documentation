@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 246, page 462.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 249, page 559.
+
+The SetF integer is ORed into the target widget annotation's F flags, enabling specific annotation flags without replacing the entire integer.

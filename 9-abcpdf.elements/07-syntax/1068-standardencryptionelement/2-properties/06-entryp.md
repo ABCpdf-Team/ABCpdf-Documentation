@@ -15,3 +15,7 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 21, page 60.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.19, page 16.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 21, page 77.
+
+The P entry encodes the document permission flags as a signed 32-bit integer. Each bit controls a specific operation such as printing, copying text, or modifying the document. The bit definitions are fixed by the specification.
+
+The permission flags are incorporated into the encryption key derivation in revisions up to 5, making them tamper-evident. In revision 6 they are additionally stored in the encrypted Perms entry for explicit verification after decryption.

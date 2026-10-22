@@ -61,7 +61,7 @@ doc.Save("doctagopen.pdf");
 doc.Read("doctagopen.pdf");
 var ts = doc.Tag.GetStructure();
 var str = ts.ExtractStructure();
-File.WriteAllText("out.txt", str.ToString());
+File.WriteAllText("doctagopen.txt", str.ToString());
 ```
 
 ![](../../../images/pdf/doctagopen.pdf.png)

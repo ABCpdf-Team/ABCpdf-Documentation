@@ -6,6 +6,8 @@
 
 ## Notes
 
+This property applies to the [MSHTML](2-formshtml.md) engine only.
+
 This property specifies the page breaking algorithm.
 
 The HtmlBreakMethodType enumeration can take any of the following values:

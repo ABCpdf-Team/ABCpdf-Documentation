@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 93, page 269.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 363, page 632.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 399, page 812.
+
+The Colorants dictionary maps colorant names to Separation color space objects for the colorants used within this form. It provides the same kind of colorant metadata as the DeviceN attributes dictionary, scoped to this form's content.

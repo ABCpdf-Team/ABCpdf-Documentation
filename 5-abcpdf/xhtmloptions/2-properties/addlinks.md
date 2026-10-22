@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to all the HTML engines: ABCChrome, ABCGecko, ABCWebKit and MSHTML.
+
 This property determines whether links in HTML are reproduced as links in the final PDF output.
 
 Links which are not live look exactly like links but do not link through to a destination when you click on them.

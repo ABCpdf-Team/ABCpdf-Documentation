@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 259, page 478.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 264, page 590.
+
+The integer counts URI actions that reference external resources, which could cause the viewer to contact servers not part of the signed content.

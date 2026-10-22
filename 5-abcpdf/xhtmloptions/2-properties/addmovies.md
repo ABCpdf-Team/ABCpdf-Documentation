@@ -6,6 +6,8 @@
 
 ## Notes
 
+This property applies to the [ABCGecko](2-forgecko.md) (Flash only) and [MSHTML](2-formshtml.md) engines.
+
 Enables the embedding of active content such as Flash (SWF), AVI, MPEG and WMV.
 
 ---

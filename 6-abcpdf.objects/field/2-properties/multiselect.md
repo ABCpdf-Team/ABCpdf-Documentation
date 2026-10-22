@@ -2,7 +2,7 @@
 
 ## Notes
 
-This property allows you to determine if the the field supports multiple values.
+This property allows you to determine if the field supports multiple values.
 
 Most fields have a single value. A text box contains one item of text. A radio button group has one selected button. A checkbox can be checked or clear.
 

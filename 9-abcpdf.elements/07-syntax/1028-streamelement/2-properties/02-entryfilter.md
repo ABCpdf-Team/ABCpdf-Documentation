@@ -29,3 +29,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 5, page 20.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 5, page 32.
+
+The Filter entry names the filter or filters applied to encode the stream data. When a single filter is used it may be given as a name; when multiple filters are used it must be an array of names applied in order from innermost to outermost.
+
+A decoder reverses the filters in the order listed: the first-named filter is applied last during encoding and first during decoding.

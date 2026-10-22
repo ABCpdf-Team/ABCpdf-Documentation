@@ -15,3 +15,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.48b, page 41.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 223, page 524.
+
+The arguments array contains strings passed to the player as the command's parameters. The number and meaning of arguments depend on the command name.

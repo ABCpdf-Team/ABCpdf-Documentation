@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 235, page 449.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 238, page 545.
+
+Each stream in the Subject array holds the DER-encoded bytes of one acceptable signing certificate. The signing application must use a certificate exactly matching one of these byte sequences.

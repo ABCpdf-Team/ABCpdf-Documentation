@@ -12,11 +12,11 @@ Use the AddFont method, with the "Latin" language, to reference these fonts.
 
 ## Embed
 
-Embedded TrueType or OpenType Unicode fonts are generally the most efficient and reliable way of adding complex language support to your PDF documents. However you need to ensure that you have permission to embed and redistribute your chosen font.
+Embedded TrueType or OpenType Unicode fonts are generally the most efficient and reliable way of adding complex language support - for example Cyrillic, Greek, Arabic, Hebrew, Chinese and Japanese - to your PDF documents. However you need to ensure that you have permission to embed and redistribute your chosen font.
 
-ABCpdf includes options to try and protect you from inadvertently embedding copyrighted fonts. However you should not rely on this protection. If you wish to embed fonts It is vitally important that you think about the way these fonts will be used and that you understand the operations permitted by the copyright holder. Ultimately you need to take responsibility for any fonts you embed in your PDF documents.
+ABCpdf includes options to try and protect you from inadvertently embedding copyrighted fonts. However you should not rely on this protection. If you wish to embed fonts it is vitally important that you think about the way these fonts will be used and that you understand the operations permitted by the copyright holder. Ultimately you need to take responsibility for any fonts you embed in your PDF documents.
 
-When embedding large fonts you should generally choose to subset them. Not only does it produce smaller PDF documents but It is also generally faster to embed a subset of a large font than to embed the entire font.
+When embedding large fonts you should generally choose to subset them. Not only does it produce smaller PDF documents but it is also generally faster to embed a subset of a large font than to embed the entire font.
 
 Use the Doc.EmbedFont method to embed fonts. Only Latin and Unicode languages can be embedded; other languages will be referenced.
 
@@ -46,7 +46,7 @@ Unicode fonts are complex and the changes that are made to insert them into a PD
 
 Any font that has been subsetted is obviously going to present difficulty because glyphs have been removed. If you wish to reuse such a font you will not be able to generate output for those glyphs.
 
-Because Type 1 fonts contain contain a limited set of characters and a simple encoding, they are the most reliable for re-use - they are much more reliable than TrueType fonts.
+Because Type 1 fonts contain a limited set of characters and a simple encoding, they are the most reliable for re-use - they are much more reliable than TrueType fonts.
 
 To access a font that you might be able to re-use you can scan through the ObjectSoup looking for FontObject objects.
 
@@ -64,7 +64,7 @@ Alternatively you can pass the path to your font file to the AddFont or EmbedFon
 
 Sometimes permissions are placed on individual font files which may restrict access from restricted permission accounts such as ASP or ASP.NET.
 
-Occasionally TrueType fonts are corrupt or non- standard. This can cause problems for ABCpdf (which will refuse to recognize them) or Acrobat (which will refuse to use a font embedded in the PDF). However this type of problem is relatively infrequent and tends to be restricted to unusual fonts such as bar-codes.
+Occasionally TrueType fonts are corrupt or non-standard. This can cause problems for ABCpdf (which will refuse to recognize them) or Acrobat (which will refuse to use a font embedded in the PDF). However this type of problem is relatively infrequent and tends to be restricted to unusual fonts such as bar-codes.
 
 If you hit a problem you think is related to a corrupt or nonstandard font please mail us the font and we'll see what we can suggest.
 
@@ -96,7 +96,7 @@ CJK (Chinese, Japanese, Korean) Support: It expertly handles the thousands of gl
 
 Indic Scripts: Supports the complex conjuncts and reordering rules required for languages like Hindi, Tamil, or Bengali.
 
-Cursive and Psudo-random Scripts: Supports the contextual alternates needed for the support of cursive scripts - one where the letters are designed to connect smoothly to one another, often with flowing strokes. Supports pseudo-random fonts - a font which includes multiple glyphs for the same character and switches between them to avoid repetitive patterns.
+Cursive and Pseudo-random Scripts: Supports the contextual alternates needed for the support of cursive scripts - one where the letters are designed to connect smoothly to one another, often with flowing strokes. Supports pseudo-random fonts - a font which includes multiple glyphs for the same character and switches between them to avoid repetitive patterns.
 
 The styled text system makes complex text layout easy.
 

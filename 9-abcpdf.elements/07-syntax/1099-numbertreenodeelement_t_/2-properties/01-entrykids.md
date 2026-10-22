@@ -15,3 +15,5 @@ In the root node either this entry or the EntryNums entry should be non-null. Bu
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 37, page 91.
+
+The Kids array in an intermediate number tree node holds indirect references to child nodes. The tree structure mirrors that of name trees, with intermediate nodes holding Kids and Limits, and leaf nodes holding Nums.

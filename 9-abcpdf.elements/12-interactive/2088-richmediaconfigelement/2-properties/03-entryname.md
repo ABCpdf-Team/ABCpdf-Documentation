@@ -15,3 +15,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51a, page 88.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 342, page 706.
+
+The name string labels this configuration, allowing it to be selected by name in activation dictionaries.

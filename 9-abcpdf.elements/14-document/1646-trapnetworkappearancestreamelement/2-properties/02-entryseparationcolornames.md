@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 367, page 638.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 404, page 821.
+
+The SeparationColorNames entry lists the spot color separation names present when trapping was performed. Any change to the spot color set requires trap network regeneration.

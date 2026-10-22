@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the MSHTML engine only.
+
 This property determines whether resync is enabled.
 
 When a page is resynchronized, the server is requested to send the new version of the page on the condition that the page in the engine's cache is stale.

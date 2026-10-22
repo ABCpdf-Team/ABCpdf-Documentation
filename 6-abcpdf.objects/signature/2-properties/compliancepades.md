@@ -10,7 +10,7 @@ When you call one of the Sign methods, this property specifies the desired compl
 
 When you call Validate, this value will be set to the highest compliance level the signature conforms to. If Validate has not been called on an existing signature, this value will remain set to its default value of PadesLevel.None.
 
-Any PAdES compliance level greater than PAdES_B_B, means that it is also compliant to any of the preceeding PAdES compliance levels in the order specified above. So PAdES_B_LT is also PAdES_B_T and PAdES_B_B compliant.
+Any PAdES compliance level greater than PAdES_B_B, means that it is also compliant to any of the preceding PAdES compliance levels in the order specified above. So PAdES_B_LT is also PAdES_B_T and PAdES_B_B compliant.
 
 If a compliance level of PAdES_B_T or above is specified when signing, a Timestamp Authority will be required. If a TimestampServiceUrl is specified then that value is used. If no TimestampServiceUrl is specified and the signing certificate has a certificate extension with Oid 1.2.840.113583.1.1.9.1, this extension value is used. Otherwise an exception is thrown.
 
@@ -27,4 +27,6 @@ Usually when the HSM is inserted any certificates are automatically inserted int
 To silently sign using a certificate on an HSM you will need to provide the password as a SecureString.
 
 [C#]using var doc = new Doc(); doc.Read("../mypics/BlankSignature.pdf"); var sig = (Signature)doc.Form.Fields["Signature1"]; sig.Reason = "Final Version"; sig.Location = "New York"; sig.TimestampServiceUrl = new Uri("http://timestamp.digicert.com"); sig.CompliancePades = Signature.PadesLevel.PAdES_B_LTA; X509Certificate2 cert = Certificates.GetFromStore(); // User-defined function if (cert == null) return; // no certificate found var pwd = new SecureString(); foreach (char c in "password".ToCharArray()) pwd.AppendChar(c); sig.Sign(cert, pwd, new Oid(CryptoConfig.MapNameToOID("SHA256"))); doc.Save("SignedDoc.pdf");
+
+Also see example code in: Signature MaxSignatureLength Property.
 

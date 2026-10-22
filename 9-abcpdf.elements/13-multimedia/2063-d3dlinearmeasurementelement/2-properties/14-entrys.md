@@ -13,3 +13,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.39b, page 63.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 327, page 685.
+
+The S entry holds the scale factor applied to the measurement value before display, allowing the displayed value to represent a different scale than the model coordinates.

@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 305, page 524.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 316, page 655.
+
+The OS entry gives the orthographic scale for orthographic projection as a real number. Larger values zoom the view out; smaller values zoom in. This scales the orthographic projection window.

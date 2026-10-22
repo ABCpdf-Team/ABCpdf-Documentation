@@ -15,3 +15,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 130, page 309.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 128, page 371.
+
+Although the property type is a string, the underlying PDF object is a string of raw bytes rather than a human-readable text string. The bytes can take any value and do not represent encoded characters.
+
+Some output devices use this value to match the halftone against a built-in screen stored in the device. When a match is found, the device may apply its own internal data instead of the Frequency, Angle, and SpotFunction values in the dictionary.

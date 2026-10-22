@@ -7,7 +7,7 @@ Unembed the font if this is a simple operation.
 [C#]
 
 ```csharp
-int UnembedSimpleFont()
+int UnembedFont()
 ```
 
 ## Params

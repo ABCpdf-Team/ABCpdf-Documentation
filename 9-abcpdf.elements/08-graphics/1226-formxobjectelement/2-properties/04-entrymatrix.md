@@ -19,3 +19,7 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 93, page 269.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 363, page 632.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 399, page 812.
+
+The Matrix maps the form's coordinate system to the user space of the context that invokes it. This transformation may scale, rotate, or translate the form content without altering the content stream itself.
+
+When absent, the identity matrix is assumed, placing form space coincident with user space at the point of invocation.

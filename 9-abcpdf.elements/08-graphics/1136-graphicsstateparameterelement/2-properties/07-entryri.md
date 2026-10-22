@@ -17,3 +17,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 128.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 162.
+
+The rendering intent names the algorithm used to map colors from one gamut to another during color conversion. The four defined intents are AbsoluteColorimetric, RelativeColorimetric, Saturation, and Perceptual.
+
+Perceptual intent compresses the source gamut to fit the destination, preserving relative color relationships. Saturation intent prioritises vivid colors over accuracy. The colorimetric intents preserve in-gamut colors exactly, differing only in how the white point is handled.

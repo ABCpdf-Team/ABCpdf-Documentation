@@ -23,3 +23,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 87, page 258.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 146, page 349.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 144, page 418.
+
+The OC entry associates this image with an optional content group or membership dictionary. When the associated group is off, the image is not rendered. This allows images to be shown or hidden based on the document's optional content configuration.

@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 311, page 532.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 322, page 665.
+
+The PO entry holds the cutting plane opacity as a real number from 0.0 to 1.0. A lower opacity allows the model interior to be seen through the cutting plane surface.

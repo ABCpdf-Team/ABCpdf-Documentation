@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the MSHTML engine only.
+
 This property determines whether the page is reloaded from the server. If it is true, PageLoadMethod must be effectively MonikerForHtml.
 
 When a page is to be reloaded, all proxy servers will request the page anew, the page cache is not searched, and if the page cache is enabled, the reloaded page is stored in the page cache.

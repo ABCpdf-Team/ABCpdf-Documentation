@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the MSHTML engine only.
+
 This property determines whether Video is enabled.
 
 By default Video is disabled when rendering HTML documents.

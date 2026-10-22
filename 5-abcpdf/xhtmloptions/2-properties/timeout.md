@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to all the HTML engines: ABCChrome, ABCGecko, ABCWebKit and MSHTML.
+
 HTML rendering can take some time.
 
 If the time taken exceeds the Timeout then the page is assumed to be unavailable. Depending on the RetryCount settings the page may be re-requested or an error may be returned. This value is measured in milliseconds.

@@ -19,3 +19,5 @@ Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 344, page 707.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51f, page 93.
+
+The U3DPath entry holds the path to a camera node within the U3D model hierarchy as a byte string or array of byte strings. When present, this node defines the view rather than the C2W matrix.

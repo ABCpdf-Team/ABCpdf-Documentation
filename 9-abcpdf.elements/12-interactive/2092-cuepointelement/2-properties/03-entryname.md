@@ -11,3 +11,5 @@ It contains a string representing a PDF string object.
 For definitive details see:.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51e, page 92.
+
+The name string labels this cue point, allowing it to be referenced by rich media execute actions that target cue points by name.

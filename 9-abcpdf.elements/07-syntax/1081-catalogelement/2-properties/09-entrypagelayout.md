@@ -25,3 +25,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 29, page 99.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 242, page 458.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 245, page 555.
+
+The PageLayout entry names the initial page layout mode when the document is opened. Values include SinglePage, OneColumn, TwoColumnLeft, TwoColumnRight, TwoPageLeft, and TwoPageRight.

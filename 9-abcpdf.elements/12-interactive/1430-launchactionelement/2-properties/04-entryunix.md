@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 203, page 422.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 207, page 513.
+
+The Unix launch parameters hold Unix-specific information. The structure is viewer-defined and not standardised in the PDF specification.

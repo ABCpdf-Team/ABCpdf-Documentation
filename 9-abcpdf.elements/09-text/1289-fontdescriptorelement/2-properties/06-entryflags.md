@@ -15,3 +15,9 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 122, page 282.
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 120, page 341.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 124, page 285.
+
+The bits are numbered from 1 at the least significant end. Key bits include FixedPitch (bit 1) for monospaced fonts, Serif (bit 2), Symbolic (bit 3) for fonts with a non-standard encoding, Nonsymbolic (bit 6), and Italic (bit 7).
+
+Bits 17 and 18 mark fonts that are designed for all-capitals or small-capitals use. Bit 19 marks fonts whose stems should be rendered bolder at small sizes.
+
+Exactly one of Symbolic and Nonsymbolic should be set. Setting Symbolic means the font uses a custom encoding that does not match any standard.

@@ -6,6 +6,8 @@
 
 ## Notes
 
+This property applies to the [MSHTML](2-formshtml.md) engine only.
+
 This delegate is called when embedding an object.
 
 Objects embedded in HTML, such as those with the embed HTML tags, will trigger the callback if they are of certain content types. This callback provides a way to change the parameters of the embedded objects.
@@ -19,6 +21,11 @@ doc is the target Doc for the added HTML. The properties of HtmlEmbedInfo are as
 Parameters depends on EmbedType as follows:
 
 The values in HtmlParameterDictionary are of type HtmlParameter.
+
+The conversion for the value.
+
+* HtmlParameterConversionType None - No conversion.
+* HtmlParameterConversionType UrlToTextFileContent - Sets the value to the text content of the file pointed to by Value as a URL.
 
 ## Example
 

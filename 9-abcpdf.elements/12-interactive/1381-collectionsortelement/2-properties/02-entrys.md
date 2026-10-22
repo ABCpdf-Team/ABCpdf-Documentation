@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 158, page 373.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 156, page 449.
+
+The S entry names the schema field to sort by. It must match a key in the collection schema dictionary. When S is an array the corresponding elements of the A array are applied as successive sort keys.

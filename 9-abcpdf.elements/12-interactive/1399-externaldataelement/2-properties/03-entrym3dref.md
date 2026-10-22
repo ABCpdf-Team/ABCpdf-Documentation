@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 332, page 695.
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 173, page 477.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.39g, page 76.
+
+This entry holds an indirect reference to the 3D stream object. The stream carries the 3D geometry, materials, and animation data in a supported format such as U3D or PRC.

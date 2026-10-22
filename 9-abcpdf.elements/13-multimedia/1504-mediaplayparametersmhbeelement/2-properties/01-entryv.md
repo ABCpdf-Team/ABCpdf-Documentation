@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 280, page 496.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 291, page 622.
+
+The V entry holds the playback volume as a real number multiplier relative to the system volume. A value of 1.0 means normal volume; 0.0 means silent; values greater than 1.0 increase the volume above normal.

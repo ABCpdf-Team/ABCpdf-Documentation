@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 189, page 409.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 192, page 496.
+
+The rotation in degrees is applied clockwise to the widget content within the annotation rectangle. Only multiples of 90 are valid: 0, 90, 180, or 270.

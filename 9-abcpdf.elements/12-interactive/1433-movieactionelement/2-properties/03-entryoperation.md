@@ -19,3 +19,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 209, page 426.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 213, page 517.
+
+The operation name selects the playback command: Play starts from the beginning; Stop halts playback; Pause suspends it; Resume restarts from a paused position.

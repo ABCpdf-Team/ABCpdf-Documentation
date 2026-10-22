@@ -11,3 +11,5 @@ It contains an array which contains strings, representing PDF name objects.
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 402, page 817.
+
+The ColorantTable entry holds an array of colorant dictionaries describing the individual colorants of the profile output color space, each naming a colorant and providing its colorimetric value.

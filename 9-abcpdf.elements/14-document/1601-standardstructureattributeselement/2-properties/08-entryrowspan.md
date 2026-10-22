@@ -23,3 +23,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 383, page 785.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 349, page 610.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 384, page 785.
+
+The RowSpan entry gives the number of rows a table cell spans. Values greater than 1 indicate the cell occupies multiple rows. Accessibility tools use this to associate headers with the cells they cover.

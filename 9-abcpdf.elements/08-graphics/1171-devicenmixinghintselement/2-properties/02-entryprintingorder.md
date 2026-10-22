@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 73, page 163.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 72, page 206.
+
+The PrintingOrder array lists colorant names in the sequence they are physically applied to the substrate. The first colorant in the list is applied first; subsequent colorants are laid on top.
+
+Printing order affects the visual result when semi-transparent inks overprint. Correct ordering in the hints allows proofing software to simulate the appearance accurately.

@@ -28,7 +28,7 @@ int AddLine(double x1, double y1, double x2, double y2)int AddLine(double x1, do
 
 Adds a line to the current page. The line is drawn in the current [color](2-properties/color.md) at the current [width](2-properties/width.md) and with the current [options](2-properties/options.md).
 
-In addition to the line, you can also specify line endings such as arrows. These can be placed at at the start of the line, the end of the line or both.
+In addition to the line, you can also specify line endings such as arrows. These can be placed at the start of the line, the end of the line or both.
 
 The LineEnding enumeration may take the following values:
 

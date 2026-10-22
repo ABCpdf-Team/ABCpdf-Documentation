@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 369, page 641.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 406, page 825.
+
+The Tags entry holds an array of key-value pairs for application-specific metadata not covered by the standard OPI 1.3 entries.

@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 191, page 411.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 194, page 499.
+
+The vertical fraction between zero and one gives the position along the page height at which the annotation is anchored. Zero is the bottom; one is the top.

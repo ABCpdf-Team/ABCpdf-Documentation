@@ -11,8 +11,3 @@ The HTML content area is defined by the Doc.Rect. Headers go above the Doc.Rect.
 As such if you set headers you need to ensure that you leave sufficient room between the top of the Doc.Rect and the top of the Doc.MediaBox.
 
 There are special HTML tags you can use to insert pre-defined content.
-
-## Example
-
-Also see example code in: WebPageOperation Doc Property.
-

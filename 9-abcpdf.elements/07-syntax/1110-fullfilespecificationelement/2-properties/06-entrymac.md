@@ -17,3 +17,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 44, page 102.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.41, page 26.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 43, page 133.
+
+The Mac entry holds a file path string in classic MacOS format for compatibility with old PDF documents. It is deprecated in PDF 2.0 in favour of the F and UF entries.

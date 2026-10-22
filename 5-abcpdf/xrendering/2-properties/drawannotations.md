@@ -6,7 +6,7 @@ Determines whether fields and annotations will be rendered.
 
 PDF fields and annotations are not part of the PDF content. Instead they float over the PDF background. You may choose to render these fields or you may wish to avoid rendering them.
 
-The export of file types like XPS, DOCX and HTML is implemented using rendering. For this reason the DrawAnnotations proprety will determine if Annotations are exported when saving these formats using the Doc.Save method.
+The export of file types like XPS, DOCX and HTML is implemented using rendering. For this reason the DrawAnnotations property will determine if Annotations are exported when saving these formats using the Doc.Save method.
 
 ## Example
 

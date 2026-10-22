@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 93, page 270.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 363, page 632.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 399, page 812.
+
+StructParents is used instead of StructParent when the form contains multiple marked-content sequences, each potentially linked to different structure elements. It is an integer key into the parent tree that identifies the form's subtree of structure parent entries.

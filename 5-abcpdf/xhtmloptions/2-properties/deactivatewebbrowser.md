@@ -6,6 +6,8 @@
 
 ## Notes
 
+This property applies to the [MSHTML](2-formshtml.md) engine only.
+
 This property determines whether the WebBrowser is deactivated before rendering.
 
 By default, if [vector-output coercion](coercevector.md) is not activated, the WebBrowser is deactivated because an active WebBrowser may produce a rasterized output.

@@ -11,3 +11,5 @@ However in general they represent coordinates on the page which need be visible 
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 151, page 366.
+
+The third parameter of the destination. For XYZ it is the zoom factor (null means retain current zoom); for FitR it is the right edge of the fit rectangle.

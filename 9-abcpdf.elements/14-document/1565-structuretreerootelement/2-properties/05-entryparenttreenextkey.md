@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 322, page 557.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 354, page 720.
+
+The ParentTreeNextKey entry holds the next available integer key for insertion into the parent tree. When a new page is added and assigned a StructParent key, the new key must not exceed this value, which is then incremented.

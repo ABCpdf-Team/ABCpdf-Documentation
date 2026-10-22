@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 82, page 189.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 81, page 236.
+
+BitsPerComponent sets the number of bits per color component value in the stream. Valid values are 1, 2, 4, 8, 12, and 16. The Decode array maps these integers to the component range of the shading's color space.

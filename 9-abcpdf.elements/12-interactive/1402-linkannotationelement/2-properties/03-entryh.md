@@ -19,3 +19,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 173, page 395.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 176, page 479.
+
+The highlighting mode determines the visual feedback given while the link is being pressed: N (none), I (invert), O (outline), or P (push, which shifts the content slightly to simulate a button press).

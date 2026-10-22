@@ -6,7 +6,7 @@ We start by creating our document object and reading the data for our table. For
 
 [C#] string text = File.ReadAllText("../Rez/text7.txt"); using var doc = new Doc(); // set up document doc.FontSize = 12; doc.Rect.Inset(20, 20);
 
-## Rotate
+## Create Table
 
 We create a new table object passing in values to tell it what rectangle it can occupy (it takes the current document rectangle) and how many columns of data it should be prepared for.
 

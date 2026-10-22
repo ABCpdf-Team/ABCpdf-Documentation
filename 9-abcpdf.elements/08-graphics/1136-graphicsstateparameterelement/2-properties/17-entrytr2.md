@@ -23,3 +23,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 129.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 163.
+
+TR2 supersedes TR in PDF 1.3 and later and accepts the same function types, plus the name Default to restore the output device's default transfer functions.
+
+When both TR and TR2 are present, conforming readers that support TR2 use it in place of TR.

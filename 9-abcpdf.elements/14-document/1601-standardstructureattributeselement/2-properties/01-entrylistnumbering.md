@@ -29,3 +29,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 383, page 785.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 349, page 610.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 384, page 785.
+
+The ListNumbering entry specifies the numbering style for list items: None, Disc, Circle, or Square for unordered lists, and Decimal, UpperRoman, LowerRoman, UpperAlpha, or LowerAlpha for ordered lists.

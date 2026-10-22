@@ -25,3 +25,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 29, page 99.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 242, page 458.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 245, page 555.
+
+The PageMode entry names the initial display mode when the document is opened. Values include UseNone (no panels), UseOutlines (bookmarks), UseThumbs (page thumbnails), FullScreen, UseOC (optional content panel), and UseAttachments.

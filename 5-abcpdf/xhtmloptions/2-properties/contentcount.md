@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the ABCGecko and MSHTML engines.
+
 The minimum number of items a page of HTML should contain.
 
 If the number for the MSHTML engine is less than this value, then the page will be assumed to be invalid

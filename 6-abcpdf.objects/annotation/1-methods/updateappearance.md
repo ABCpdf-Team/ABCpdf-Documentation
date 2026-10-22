@@ -30,7 +30,7 @@ Positive numbers represent a scale factor - so two would indicate an ending twic
 
 You can set these values using simple ABCpdf calls such as doc.SetInfo(annot.ID, "/ABCp_LEScaling", "[-2 0.5]") and doc.SetInfo(annot.ID, "/ABCp_LEScaling:Num", "-2").
 
-Ink Annotations. An ink annnotation represents something one might draw with a pen - a signature - a doodle - a scribble.
+Ink Annotations. An ink annotation represents something one might draw with a pen - a signature - a doodle - a scribble.
 
 In PDF 1.7 points in the line are represented using an InkList entry. However it is left as 'implementation dependent' as to whether points in the InkList should be joined using straight lines or curves. ABCpdf uses straight lines.
 

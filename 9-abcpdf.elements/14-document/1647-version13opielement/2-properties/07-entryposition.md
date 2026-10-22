@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 369, page 640.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 406, page 824.
+
+The Position entry holds an eight-element array giving the four corner coordinates of the image placement on the page in default user space units.

@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 298, page 512.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.33, page 55.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 309, page 639.
+
+The 3DD entry references the 3D stream containing the model data in a format such as U3D or PRC. The subtype of the stream identifies the format.

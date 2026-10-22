@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 280, page 497.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 291, page 623.
+
+The RC entry holds the repeat count as a real number. A value of 0 causes continuous looping. Positive integer values cause the media to play that many times. Fractional values are permitted.

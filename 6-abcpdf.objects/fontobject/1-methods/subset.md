@@ -16,7 +16,7 @@ bool Subset()bool Subset(string characters)bool Subset(int[] glyphs)
 | --- | --- |
 | characters | The character set to be used for the subsetting. |
 | glyphs | The set of glyph IDs to be used for the subsetting. |
-| return | Whether subsetting was performed succesfully. |
+| return | Whether subsetting was performed successfully. |
 
 ## Notes
 

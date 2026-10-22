@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 166, page 386.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 168, page 469.
+
+The width is in points. A width of zero produces no visible border. The border is drawn centred on the annotation rectangle so thick borders extend inward and outward by equal amounts.

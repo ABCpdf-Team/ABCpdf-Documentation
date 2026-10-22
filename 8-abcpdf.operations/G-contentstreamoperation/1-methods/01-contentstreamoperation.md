@@ -22,4 +22,4 @@ Contents constructor.
 
 ## Example
 
-See the [GetColors Example Project](../../../4-examples/01-introduction.htm) which comes with ABCpdf.
+See the [GetColors Example Project](../../../4-projects/getcolors/default.htm) which comes with ABCpdf.

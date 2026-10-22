@@ -15,3 +15,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 133, page 314.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 131, page 376.
+
+Like all HalftoneName values, this is raw byte data rather than a text string.
+
+A device with a built-in 16-bit threshold screen can match this value and substitute its own data for the stream content, bypassing the threshold array entirely.

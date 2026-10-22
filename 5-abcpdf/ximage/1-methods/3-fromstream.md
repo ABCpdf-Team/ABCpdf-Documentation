@@ -23,7 +23,7 @@ static <a href="../default.htm">XImage</a> FromStream(Stream stream, <a href="..
 
 The stream will typically be one of the following types: JPEG, GIF, TIFF, BMP, PNG, PSD, PDB, EXIF, WMF, EMF, EPS, PS or SWF (Flash).
 
-For details of additional formats which are supported and the way they are imported, see the [ReadModule](xreadoptions/2-properties/1-readmodule.md) property and the the [Doc.Read](doc/1-methods/read.md) method.
+For details of additional formats which are supported and the way they are imported, see the [ReadModule](xreadoptions/2-properties/1-readmodule.md) property and the [Doc.Read](doc/1-methods/read.md) method.
 
 The advantage of this method over [SetStream](setstream.md), is that you can specify the [ReadModule](xreadoptions/2-properties/1-readmodule.md) you would like to use. This allows precise control over the way that your graphics are imported.
 

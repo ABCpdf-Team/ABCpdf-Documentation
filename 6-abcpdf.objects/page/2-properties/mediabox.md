@@ -2,7 +2,7 @@
 
 ## Notes
 
-The MediaBox defines the boundaries of the physical medium on which the page may be displayed or printed. This may include bleed areas or printing marks and also parts of the medium on which printing cannot take place because of physicsal limitations of the output technology. Any PDF drawing outside the MediaBox can be safely ignored.
+The MediaBox defines the boundaries of the physical medium on which the page may be displayed or printed. This may include bleed areas or printing marks and also parts of the medium on which printing cannot take place because of physical limitations of the output technology. Any PDF drawing outside the MediaBox can be safely ignored.
 
 These boundaries may be defined directly on the Page object or they may be inherited from a parent Pages object.
 

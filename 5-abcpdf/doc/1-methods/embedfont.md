@@ -25,7 +25,7 @@ int EmbedFont(string name)int EmbedFont(string name, LanguageType language)int E
 
 Embeds a font into the document.
 
-The font name, a description of the font style and the the font glyph descriptions themselves are placed into the document. This ensures that the document will always display perfectly on every system and that font substitutions will never need to be made.
+The font name, a description of the font style and the font glyph descriptions themselves are placed into the document. This ensures that the document will always display perfectly on every system and that font substitutions will never need to be made.
 
 There are a number of reasons you may not wish to embed fonts and instead use the [AddFont](addfont.md) method. Embedding fonts can increase the size of your PDF considerably. Additionally by distributing a PDF with an embedded font you are actually redistributing the font itself. You should check with your font supplier or legal department that you have permission to do this.
 
@@ -33,7 +33,7 @@ For information on how to specify font names see the [AddFont](addfont.md) metho
 
 The EmbedFont function returns the Object ID of the newly added Font Object. Typically you will want to assign this return value to the document Font property using code of the form.
 
-[C#] theDoc.Font = theDoc.AddFont("Courier");
+[C#] theDoc.Font = theDoc.EmbedFont("Courier");
 
 If the specified font could not be found then you will get an Object ID of zero returned. You may wish to check for this possibility otherwise a default font will be used.
 

@@ -17,3 +17,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 122, page 282.
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 120, page 342.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 124, page 285.
+
+X-height is the distance from the baseline to the top of a flat lowercase letter such as x, measured in glyph space. It is a key measure of the apparent size of lowercase text.

@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 129.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 162.
+
+The lowercase op flag controls overprinting for fill operations, operating independently of the OP flag which applies to stroke. This separation allows different overprint behaviour for fills and strokes within the same graphics state.
+
+When OPM is set to 1, a fill overprint setting of true causes a color component with a value of zero to leave the corresponding ink on the output unchanged rather than knocking it out.

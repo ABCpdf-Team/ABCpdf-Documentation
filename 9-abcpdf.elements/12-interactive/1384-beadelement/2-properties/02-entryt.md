@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 161, page 376.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 163, page 457.
+
+The thread entry is an indirect reference to the thread dictionary that contains this bead, providing the inverse of the thread's F (first bead) entry.

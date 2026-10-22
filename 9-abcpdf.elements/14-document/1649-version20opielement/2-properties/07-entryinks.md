@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 370, page 642.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 407, page 827.
+
+The Inks entry describes the image colorants. It may be the name full_color or registration, or an array of ink dictionaries each naming a colorant and providing its color space definition.

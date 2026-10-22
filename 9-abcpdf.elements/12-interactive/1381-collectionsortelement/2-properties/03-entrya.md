@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 158, page 373.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 156, page 449.
+
+When true the sort is ascending; when false it is descending. When S is an array, A must be an array of the same length with each element giving the direction for the corresponding sort key.

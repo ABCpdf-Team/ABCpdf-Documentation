@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 84, page 196.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 83, page 244.
+
+BitsPerFlag sets the bit depth of the flag field for each patch. The flag indicates how the patch connects to the preceding patch, sharing zero, one, or two edges.

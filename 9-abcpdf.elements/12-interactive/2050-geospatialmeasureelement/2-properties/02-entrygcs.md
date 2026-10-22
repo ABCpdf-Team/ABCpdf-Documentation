@@ -13,3 +13,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.111a, page 50.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 269, page 598.
+
+The geographic coordinate system dictionary defines the datum and reference system for the geographic coordinates in GPTS, typically describing latitude and longitude in a named ellipsoid.

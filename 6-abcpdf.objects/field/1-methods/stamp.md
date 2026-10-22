@@ -26,6 +26,8 @@ The field becomes a new layer on the page (see [Doc.LayerCount](5-abcpdf/doc/2-p
 
 You can use the [XForm.Stamp](5-abcpdf/xform/1-methods/stamp.md) method to stamp all fields into the document.
 
+Stamping is sometimes called flattening. To flatten only some fields - for example to keep signature fields - check the [FieldType](2-properties/fieldtype.md) property and skip fields of type FieldType.Signature.
+
 ## Example
 
 None

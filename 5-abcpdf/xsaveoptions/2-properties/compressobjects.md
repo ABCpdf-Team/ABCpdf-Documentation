@@ -4,7 +4,7 @@
 
 This property determines if object stream compression should be used.
 
-Object stream compression allows groups of simple atoms (the lowest‑level PDF objects) to be stored in a separate stream (an ObjStm) and compressed to reduce output file size.
+Object stream compression allows groups of simple atoms (the lowest-level PDF objects) to be stored in a separate stream (an ObjStm) and compressed to reduce output file size.
 
 This is particularly useful for Tagged PDF - often required for accessibility. The structures required for tagging can result in a multitude of similar atoms and using object stream compression can make a significant difference to the size of output. It is perhaps notable that tagged PDF was introduced in PDF 1.4 and then object streams were introduced immediately afterwards in PDF 1.5. File size reduction will vary considerably depending on content but 10% might be typical.
 

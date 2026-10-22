@@ -15,3 +15,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 15, page 43.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 15, page 58.
+
+The ID entry holds a two-element array of byte strings forming the document's file identifier. The first element is set when the document is created and should not change across revisions. The second element is updated each time the file is modified.
+
+The document identifier is used by the encryption key derivation algorithm and by go-to-remote actions to confirm that a link target refers to the correct document version.

@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 204, page 422.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 208, page 513.
+
+The file name string is the path to the file to launch, supporting both slash and backslash separators.

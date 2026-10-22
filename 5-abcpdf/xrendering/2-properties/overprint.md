@@ -14,7 +14,7 @@ If you wish to detect PDF/X files so that you can set the overprint flag, simply
 
 The following example shows the effect that this parameter has on PDF rendering.
 
-[C#] using var doc = new Doc(); // Open document with overprint doc.Read("../mypics/Overprint.pdf"); // Render the document (we need to go to CMYK for overprint) doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Cmyk; doc.Rendering.Overprint = true; doc.Rendering.IccRgb = "device"; doc.Rendering.IccGray = "device"; doc.Rendering.IccCmyk = "device"; doc.Rendering.IccOutput = "device"; // Put image back into another PDF and render the document as RGB // (so that we can see the effect of the overprint in RGB) using var theRgb = new Doc(); theRgb.AddImageData(doc.Rendering.GetData(".tif"), 1); theRgb.Rendering.DotsPerInch = 36; theRgb.Rendering.ColorSpace = XRendering.ColorSpaceType.Rgb; theRgb.Rendering.Save("RenderingOverprint.png");
+[C#] using var doc = new Doc(); // Open document with overprint doc.Read("../mypics/Overprint.pdf"); // Render the document (we need to go to CMYK for overprint) doc.Rendering.ColorSpace = XRendering.ColorSpaceType.Cmyk; doc.Rendering.Overprint = true; doc.Rendering.IccRgb = "device"; doc.Rendering.IccGray = "device"; doc.Rendering.IccCmyk = "device"; doc.Rendering.IccOutput = "device"; // Put image back into another PDF and render the document as RGB, // so that we can see the effect of the overprint in RGB. using var theRgb = new Doc(); theRgb.AddImageData(doc.Rendering.GetData(".tif"), 1); theRgb.Rendering.DotsPerInch = 36; theRgb.Rendering.ColorSpace = XRendering.ColorSpaceType.Rgb; theRgb.Rendering.Save("RenderingOverprint.png");
 
 RenderingOverprint.png
 

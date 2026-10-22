@@ -6,6 +6,8 @@
 
 ## Notes
 
+This property applies to the [MSHTML](2-formshtml.md) engine only.
+
 This delegate is called during HTML rendering.
 
 During the time that HTML rendering is taking place delegates are called periodically. This gives a mechanism for tracking progress and for intercepting and modifying or querying pages on the fly.

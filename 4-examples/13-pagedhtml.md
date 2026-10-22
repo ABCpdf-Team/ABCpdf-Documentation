@@ -16,13 +16,13 @@ We set some HTML options to choose the HTML engine and features we are intereste
 
 We add the first page of HTML. We save the returned ID as this will be used to add subsequent pages.
 
-[C#]doc.Page = doc.AddPage(); int id = doc.AddImageUrl("http://www.yahoo.com/");
+[C#]doc.Page = doc.AddPage(); int id = doc.AddImageUrl("https://www.yahoo.com/");
 
 ## Chain
 
 We now chain subsequent pages together. We stop when we reach a page which wasn't truncated.
 
-[C#]while (true) { doc.FrameRect(); // add a black border if (!doc.Chainable(id)) break; doc.Page = doc.AddPage(); id = doc.AddImageToChain(id); }
+[C#]while (true) { doc.FrameRect(); // add a black border if (!doc.Chainable(id)) break; doc.Page = doc.AddPage(); id = doc.AddImageToChain(id); if (doc.PageCount > 5) break; }
 
 ## Save
 

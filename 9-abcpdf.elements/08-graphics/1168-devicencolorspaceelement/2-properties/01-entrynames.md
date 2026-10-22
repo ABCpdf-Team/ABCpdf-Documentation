@@ -13,3 +13,7 @@ Each name should be unique, with the exception of the special value "None" which
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 160.
+
+The Names array lists the colorant names in component order. The first element corresponds to the first component value, the second to the second, and so on. The length of the array equals the number of components.
+
+The special names All and None have the same meanings as in Separation: All addresses every available colorant; None addresses none. Other names identify specific colorants by their ink names.

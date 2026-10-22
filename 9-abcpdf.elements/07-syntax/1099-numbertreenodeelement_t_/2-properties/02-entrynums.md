@@ -15,3 +15,5 @@ The pairs in this array should be sorted in ascending order by key value.
 For definitive details see:.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 37, page 91.
+
+The Nums array in a leaf number tree node holds alternating integer keys and their associated values in ascending numeric order. The array length must be even.

@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 266, page 489.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 277, page 613.
+
+The S entry names the rendition subtype: MR for a media rendition that directly references media content, or SR for a selector rendition that holds an ordered list of candidate renditions.

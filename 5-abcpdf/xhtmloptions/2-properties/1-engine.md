@@ -24,6 +24,10 @@ ABCChrome 117 & 123 are notable in that they are much faster than ABCChrome 86. 
 
 Characteristics of the ABCGecko Engine:
 
+The page break styles in the Gecko engine are not always applied as intuitively as they are in MSHTML. The root of this is the CSS specification which says that break styles must be applicable to block-level elements within the "normal flow of the root element". It allows for these styles to be applied to other elements but does not mandate it.
+
+The upshot of this, within the Gecko engine, is that page break styles cannot be applied within tables, to elements such as table rows. If you are unsure about whether something is likely to work just try Print Preview from within Firefox 38.0 as a simple sanity check.
+
 Gecko configuration...
 
 The ABCGecko engine contains a number of preferences that can be configured. There are a set of .js files in the "XULRunner??_?\defaults\pref" folder that are loaded in alphabetical order when it starts. Each file contains a set of preferences. So by adding your own .js file to this folder, you can add in your own settings.

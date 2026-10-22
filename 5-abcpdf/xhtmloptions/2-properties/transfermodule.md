@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the MSHTML engine only.
+
 This property specifies the module to obtain URI/HTML data.
 
 The TransferModuleType enumeration can take any of the following values:

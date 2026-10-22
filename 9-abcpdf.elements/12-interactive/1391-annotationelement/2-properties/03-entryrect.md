@@ -17,3 +17,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 166, page 464.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 252, page 467.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 255, page 565.
+
+The rectangle defines the annotation's bounding box in default user space on the page. For most annotation types it is the sole geometry entry.

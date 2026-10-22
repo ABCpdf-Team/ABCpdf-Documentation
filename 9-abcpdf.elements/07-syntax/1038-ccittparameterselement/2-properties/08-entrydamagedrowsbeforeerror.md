@@ -17,3 +17,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 11, page 31.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 11, page 44.
+
+The DamagedRowsBeforeError entry gives the number of damaged scan lines a decoder may tolerate before treating the stream as an error. This supports recovery from transmission errors in legacy fax data stored in PDF.

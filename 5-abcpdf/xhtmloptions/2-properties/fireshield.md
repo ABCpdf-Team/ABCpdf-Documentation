@@ -6,7 +6,9 @@
 
 ## Notes
 
-This proprerty determines the security settings which should be applied to HTML conversion using the ABCChrome engine.
+This property applies to the [ABCChrome](2-forchrome.md) and [ABCWebKit](2-forwebkit.md) engines.
+
+This property determines the security settings which should be applied to HTML conversion using the ABCChrome engine.
 
 The problem with most sandboxes is they are not sufficiently dynamic. You may want to allow access to a specific file or set of files for one request, while prohibiting acces to those same files for another.
 

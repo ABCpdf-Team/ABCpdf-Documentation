@@ -17,3 +17,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 122, page 281.
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 120, page 341.
 
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 124, page 285.
+
+This is a human-readable family name such as Times or Helvetica, stored as a byte string. It is used for font selection in some environments but is not relied upon for rendering.

@@ -19,3 +19,7 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 87, page 257.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 146, page 349.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 144, page 418.
+
+The OPI dictionary holds Open Prepress Interface information for the image. It carries metadata used by OPI servers to substitute a high-resolution version of the image at output time.
+
+OPI workflows use low-resolution proxies in the PDF for layout and proofing, replacing them with production-quality images only during final output. The OPI dictionary provides the information needed to perform that substitution.

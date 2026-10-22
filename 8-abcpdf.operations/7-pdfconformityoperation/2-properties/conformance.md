@@ -17,6 +17,8 @@ It can take any of the following values:
 * PdfA2u - PDF/A Part 2 Level U conformance.
 * PdfA2a - PDF/A Part 2 Level A conformance.
 
+The [PdfConformanceIdentification](7-pdfconformanceidentification/default.md) supports standards like PDF/A-3 and PDF/A-4, however these are not currently supported by the PdfConformityOperation.
+
 ## Example
 
 Also see example code in: [PdfConformityOperation Save Function](1-methods/save.md).

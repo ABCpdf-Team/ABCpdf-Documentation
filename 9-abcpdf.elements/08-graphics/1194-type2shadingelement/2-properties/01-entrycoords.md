@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 80, page 186.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 79, page 231.
+
+The Coords array holds four values: the x and y of the starting point and the x and y of the ending point of the color axis, both in shading space. The color transition runs along the line between these two points.

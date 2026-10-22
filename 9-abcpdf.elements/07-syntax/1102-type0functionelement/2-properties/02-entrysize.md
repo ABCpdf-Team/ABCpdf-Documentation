@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 39, page 94.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 39, page 124.
+
+The Size array gives the number of sample points along each input dimension. For an n-dimensional function, Size has n elements. The total number of sample sets is the product of all Size values.

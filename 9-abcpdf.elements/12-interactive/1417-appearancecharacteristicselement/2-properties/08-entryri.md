@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 189, page 410.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 192, page 497.
+
+The rollover icon replaces I when the pointer is over the widget. If absent the normal icon I is shown during rollover.

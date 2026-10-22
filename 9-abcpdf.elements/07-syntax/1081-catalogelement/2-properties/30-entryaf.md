@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 29, page 101.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 242, page 458.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 245, page 555.
+
+The AF entry in the catalog holds an array of file specification dictionaries for files associated with the document as a whole. This is the document-level associated files mechanism used in PDF/A-3 and PDF 2.0 workflows.

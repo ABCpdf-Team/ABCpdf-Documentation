@@ -11,3 +11,5 @@ It contains a double representing a PDF numeric object.
 For definitive details see:.
 
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.39b, page 47.
+
+For multi-row symbologies this value sets the number of codeword rows. The product of NCodeWordRow and NCodeWordCol determines the total data capacity.

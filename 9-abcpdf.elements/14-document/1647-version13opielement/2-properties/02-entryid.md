@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 369, page 640.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 406, page 823.
+
+The ID entry holds a byte string uniquely identifying this image in the OPI workflow, used by OPI servers to match proxy images to high-resolution originals.

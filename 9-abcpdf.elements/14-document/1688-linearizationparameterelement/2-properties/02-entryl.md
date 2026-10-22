@@ -13,3 +13,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: f.1, page 680.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: f.1, page 877.
+
+The L entry gives the total file length in bytes. A reader compares the actual length with L after downloading to verify the file is complete and not truncated.

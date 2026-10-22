@@ -4,6 +4,14 @@ Under most circumstances, you will want to install ABCpdf .NET using the standar
 
 Occasionally, you may wish to install ABCpdf manually. To do this, you will need the files listed below as obtained from the ABCpdf programs folder (look in %PROGRAMFILES%). There are different files for Linux deployment which you will find in the Linux subdirectory.
 
+32 vs 64. Do I need the 32-bit DLLs or the 64-bit ones or both?
+
+If your project targets x86 then you will only ever need the 32-bit DLLs (these will execute under WOW64 on a 64-bit machine). If it targets x64 then you will only ever need the 64-bit DLLs.
+
+If your project targets AnyCPU then you need the 32-bit DLLs on a 32-bit version of Windows and the 64-bit ones on a 64-bit version.
+
+However it does not hurt to have all the DLLs installed. Only the ones which are needed will be used.
+
 The Assembly used by .NET 10.0.
 
 The MSI installer places this Assembly at the following location:
@@ -82,14 +90,6 @@ The DLLs may be placed into the System32 directory typically at:
 
 However, if you are installing manually, you can just place them in the bin directory of your application.
 
-32 vs 64. Do I need the 32-bit DLLs or the 64-bit ones or both?
-
-If your project targets x86 then you will only ever need the 32-bit DLLs (these will execute under WOW64 on a 64-bit machine). If it targets x64 then you will only ever need the 64-bit DLLs.
-
-If your project targets AnyCPU then then you need the 32-bit DLLs on a 32-bit version of Windows and the 64-bit ones on a 64-bit version.
-
-However it does not hurt to have all the DLLs installed. Only the ones which are needed will be used.
-
 This is an optional component required for use of the PDF 3D rendering.
 
 There is a 32-bit and a 64-bit version of this DLL. Having both installed is the safest and simplest way to deploy.
@@ -108,7 +108,7 @@ These library files are normally located in the same directory as the core engin
 
 This is an optional component required for use of the XpsAny ReadModule.
 
-It is unlikely that you will want to use this, as the functionality of the XpsAny module has been largely superceded by other modules.
+It is unlikely that you will want to use this, as the functionality of the XpsAny module has been largely superseded by other modules.
 
 The component intercepts the Microsoft XPS Document Writer and enables ABCpdf to import an extended range of file types via XPS.
 

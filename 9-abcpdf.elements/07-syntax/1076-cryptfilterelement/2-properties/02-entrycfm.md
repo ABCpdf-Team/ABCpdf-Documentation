@@ -21,3 +21,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 25, page 68.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.22, page 22.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 25, page 90.
+
+The CFM entry names the encryption method for this crypt filter. None means no encryption. V2 uses RC4 with the key length given by Length. AESV2 uses 128-bit AES in CBC mode with a random initialisation vector prepended to the ciphertext. AESV3 uses 256-bit AES.

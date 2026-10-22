@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the MSHTML engine only.
+
 This property specifies the method to load the URI/HTML page.
 
 The PageLoadMethodType enumeration can take any of the following values:

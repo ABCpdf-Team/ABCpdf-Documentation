@@ -7,7 +7,7 @@ Add text markup annotation to the current rect of the current page of the doc.
 [C#]
 
 ```csharp
-<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, string quadPoints, TextMarkupType markupType, XColor color)<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, int id, TextMarkupType markupType, XColor color)<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, TextMarkupType markupType, XColor color)
+<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, string quadPoints, TextMarkupType markupType, XColor color)<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, int id, TextMarkupType markupType, XColor color)<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, TextMarkupType markupType, XColor color)TextMarkupAnnotation(Doc doc, string quadPoints, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust)TextMarkupAnnotation(Doc doc, int id, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust)TextMarkupAnnotation(Doc doc, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust)
 ```
 
 ## Params
@@ -19,7 +19,7 @@ Add text markup annotation to the current rect of the current page of the doc.
 | markupType | Type of the markup annotation |
 | color | Markup color |
 | id | ID of the Text object |
-| adjust | The markup adjustement to apply. The default is TextMarkupAdjust.None. |
+| adjust | The markup adjustment to apply. The default is TextMarkupAdjust.None. |
 
 ## Notes
 

@@ -15,3 +15,5 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 84, page 196.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 83, page 245.
+
+When present, the Function entry replaces the four corner color components with four scalar tint values per patch. The function maps each tint to the shading's color space.

@@ -15,3 +15,5 @@ The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 157, page 372.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.8, page 30.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 155, page 448.
+
+The sort order integer controls the column's position in the collection view relative to other columns. Lower-numbered columns appear first.

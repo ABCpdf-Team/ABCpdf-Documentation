@@ -4,7 +4,7 @@
 
 This property determines the size of text that is added to the document using the AddText and AddTextStyled methods.
 
-The Size property is equivalent to the the Doc.FontSize property but unlike the FontSize property it allows fractional point sizes to be specified.
+The Size property is equivalent to the Doc.FontSize property but unlike the FontSize property it allows fractional point sizes to be specified.
 
 The font size is measured in units.
 

@@ -19,3 +19,5 @@ For definitive details see:.
 Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50f, page 85.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 340, page 703.
+
+The vertical alignment name positions the window relative to the viewport: Near (top), Center, or Far (bottom).

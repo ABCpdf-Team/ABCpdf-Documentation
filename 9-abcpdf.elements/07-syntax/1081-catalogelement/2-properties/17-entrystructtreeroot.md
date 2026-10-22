@@ -19,3 +19,5 @@ The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 29, page 100.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 242, page 458.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 245, page 555.
+
+The StructTreeRoot entry references the root of the document's structure tree, which maps logical document structure (headings, paragraphs, figures) to the content objects on each page. The structure tree is required for tagged PDF.

@@ -1,6 +1,6 @@
 # Save Function
 
-Saves the document as PDF.
+Saves the document as PDF, or exports it to another format such as DOCX or HTML.
 
 ## Syntax
 
@@ -20,6 +20,8 @@ void Save(string path)void Save(Stream stream)
 ## Notes
 
 Use this method to export the current document as PDF, XPS, PostScript, HTML, DOCX, WebGL or SWF.
+
+This is how you convert a PDF to Word (DOCX), HTML or XPS: read the PDF into a Doc and save it with the appropriate file extension.
 
 To export as XPS, PostScript, DOCX or HTML you need to specify a file path with an appropriate extension - ".xps", ".ps", ".docx", ".htm", ".html" or ".swf". If the file extension is unrecognized then the default PDF format will be used.
 
@@ -158,6 +160,8 @@ Also see example code in:
 * [XSaveTemplateData SetMeasureResolution Function](xsavetemplatedata/1-methods/setmeasureresolution.md)
 * [XTagging Open Function](xtagging/1-methods/04-open.md)
 * [XTagging Close Function](xtagging/1-methods/05-close.md)
+* [XTagging AddFocus Function](xtagging/1-methods/08-addfocus.md)
+* [Focus OpaqueTypes  Property](xtagging.focus/2-properties/opaquetypes.md)
 * [XTextStyle AutoTag Property](xtextstyle/2-properties/autotag.md)
 * [XTextStyle Bold Property](xtextstyle/2-properties/bold.md)
 * [XTextStyle CharSpacing Property](xtextstyle/2-properties/charspacing.md)
@@ -205,6 +209,7 @@ Also see example code in:
 * [Signature CompliancePades Property](6-abcpdf.objects/signature/2-properties/compliancepades.md)
 * [Signature CustomSigner Property](6-abcpdf.objects/signature/2-properties/customsigner.md)
 * [Signature CustomSigner2 Property](6-abcpdf.objects/signature/2-properties/customsigner2.md)
+* [Signature MaxSignatureLength Property](6-abcpdf.objects/signature/2-properties/maxsignaturelength.md)
 * [ArrayAtom FromContentStream Function](7-abcpdf.atoms/arrayatom/1-methods/fromcontentstream.md)
 * [OpAtom Find Function](7-abcpdf.atoms/opatom/1-methods/find.md)
 * [ProcessingInfo FrameNumber Property](8-abcpdf.operations/2-processinginfo/2-properties/framenumber.md)

@@ -13,3 +13,7 @@ For definitive details see:.
 The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 130.
 
 The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 163.
+
+The stroke adjustment flag enables automatic compensation for the effects of device pixel alignment on thin strokes. When true, the renderer may adjust stroke position and width slightly to improve visual appearance at low resolutions.
+
+Stroke adjustment is advisory. On high-resolution output devices the effect is negligible. On screen renderers, it can prevent thin lines from appearing inconsistent due to sub-pixel alignment.

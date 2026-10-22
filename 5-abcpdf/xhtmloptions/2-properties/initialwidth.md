@@ -2,6 +2,8 @@
 
 ## Notes
 
+This property applies to the ABCChrome, ABCGecko and MSHTML engines.
+
 When the BrowserWidth is zero ABCpdf will attempt to automatically determine an appropriate size for the page.
 
 To do this it determines the scroll width and scroll height for the page. These are the dimensions which would need to be applied to the page to ensure that all content was displayed without the need to scroll.

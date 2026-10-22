@@ -32,7 +32,7 @@ ABCpdf hides these distinctions from you. When you ask for a field by name it wi
 
 So why are eForms useful? There are a range of purposes to which eForms can be put. However probably the most common purpose is to provide placeholders in template PDFs.
 
-Suppose you have a template document you want to use within ABCpdf. Using Acrobat you can insert form fields into the PDF at locations you want content to be inserted. Using ABCpdf you can automatically detect the locations of those fields and enter content at those locations.
+Suppose you have a template document you want to use within ABCpdf. Using Acrobat you can insert form fields into the PDF at locations you want content to be inserted. Using ABCpdf you can automatically detect the locations of those fields and enter content at those locations - in other words, fill in (fill out) a PDF form programmatically.
 
 If later you want to shift your content a little it's a simple matter to open the PDF in Acrobat and move the fields around.
 
@@ -52,13 +52,13 @@ Adobe Designer created forms do not make this distinction. They use a separate d
 
 XFA is referenced in, but is not part of, the ISO standard for PDF.
 
-Because Designer documents are PDF documents you can add content to them using standard ABCpdf methods of adding PDF content. However if you then open them then in Designer the content will most likely be deleted because Designer will recreate the PDF appearance using the separate field specification.
+Because Designer documents are PDF documents you can add content to them using standard ABCpdf methods of adding PDF content. However if you then open them in Designer the content will most likely be deleted because Designer will recreate the PDF appearance using the separate field specification.
 
 Equally because the PDF output is merely the visible rendition of a separate field specification the fields and background may be tied to each other. So you might use ABCpdf to delete a field and find that the border has been left behind.
 
 In extreme cases the LiveCycle documents may not even contain any useful PDF content. Instead the PDF becomes a placeholder which contains an XFA document. The document is only really a thin PDF wrapper around XFA data. You will find that many PDF viewers (including Acrobat Reader X and earlier) cannot display this type of PDF properly.
 
-If you have input to the document creation process, using LifeCycle to save the file as "Adobe Static PDF Form" may help.
+If you have input to the document creation process, using LiveCycle to save the file as "Adobe Static PDF Form" may help.
 
 If you want to modify forms you will generally find it easier to work with Acrobat created forms than Designer created ones.
 
