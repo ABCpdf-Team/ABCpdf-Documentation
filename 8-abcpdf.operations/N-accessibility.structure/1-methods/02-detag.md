@@ -7,7 +7,7 @@ Removes all structure and structure tags from the document.
 [C#]
 
 ```csharp
-void Detag()void Detag(HashSet&lt;string&gt; detagTypes)
+void Detag(HashSet&lt;string&gt; detagTypes = null)
 ```
 
 ## Params

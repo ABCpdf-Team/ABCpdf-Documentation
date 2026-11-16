@@ -7,7 +7,7 @@ Set a particular appearance for the annotation.
 [C#]
 
 ```csharp
-virtual void SetAppearance(string state, string name, FormXObject form)
+void SetAppearance(string state, string name, FormXObject form)
 ```
 
 ## Params

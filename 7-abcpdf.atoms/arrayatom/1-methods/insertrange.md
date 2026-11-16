@@ -7,7 +7,7 @@ Inserts the elements in the supplied array into this array at the specified inde
 [C#]
 
 ```csharp
-void InsertRange(int index, <a href="../default.htm">ArrayAtom</a> array)
+void InsertRange(int index, <a href="../default.htm">ArrayAtom</a> array)void InsertRange(int index, ICollection&lt;Atom&gt; collection)
 ```
 
 ## Params
@@ -16,6 +16,7 @@ void InsertRange(int index, <a href="../default.htm">ArrayAtom</a> array)
 | --- | --- |
 | index | The zero-based index at which the new elements should be inserted. |
 | array | The array whose elements should be inserted. |
+| collection | The collection whose elements shall be inserted. |
 
 ## Notes
 

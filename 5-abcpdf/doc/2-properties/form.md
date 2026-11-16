@@ -10,6 +10,8 @@ Once a field has been obtained you can query or change its values. If you wish t
 
 See the XForm object for full details.
 
+This property is read only, but the object it returns can be modified.
+
 ## Example
 
 Also see example code in: ABCpdf eForm Fields Example, ABCpdf eForm Placeholder Example, ABCpdf eForm Stamp Example.

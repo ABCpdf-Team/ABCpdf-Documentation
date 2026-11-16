@@ -2,7 +2,7 @@
 
 | **Type** | **Default** | **Read Only** | **Description** |
 | --- | --- | --- | --- |
-|  | n/a | No | Gets the unicode Text of the Source Event, if applicable. |
+|  | n/a | Yes | Gets the unicode Text of the Source Event, if applicable. |
 
 ## Notes
 

@@ -7,7 +7,7 @@ Add circle annotation to the current page of the doc.
 [C#]
 
 ```csharp
-<a href="../default.htm">CircleAnnotation</a>(Doc doc, XRect rect, XColor borderColor, string XColor)
+<a href="../default.htm">CircleAnnotation</a>(Doc doc, XRect rect, XColor borderColor, XColor fillColor)
 ```
 
 ## Params

@@ -7,7 +7,7 @@ Group a range of text fragments into a set of lines.
 [C#]
 
 ```csharp
-IList&lt;<a href="../../8-textgroup/default.htm">TextGroup</a>&gt; Group(List&lt;<a href="../../8-textfragment/default.htm">TextFragment</a>&gt; fragments)
+IList&lt;<a href="../../8-textgroup/default.htm">TextGroup</a>&gt; Group(IList&lt;<a href="../../8-textfragment/default.htm">TextFragment</a>&gt; fragments)
 ```
 
 ## Params

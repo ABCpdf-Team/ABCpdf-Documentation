@@ -7,7 +7,7 @@ Convert color components from the source color space to the destination one.
 [C#]
 
 ```csharp
-void Recolor(double[] from, double[] to)
+void ConvertColor(double[] from, double[] to)
 ```
 
 ## Params

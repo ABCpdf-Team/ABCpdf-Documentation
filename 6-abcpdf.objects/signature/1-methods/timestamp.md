@@ -7,7 +7,7 @@ Sign  a document timestamp signature field using a Timestamping Authority  (TSA)
 [C#]
 
 ```csharp
-virtual void Timestamp(Oid oid, int reserve)virtual void Timestamp(Oid oid, DataType dataType, int reserve)
+void Timestamp(Oid oid, int reserve)void Timestamp(Oid oid, DataType dataType, int reserve)
 ```
 
 ## Params
@@ -16,7 +16,7 @@ virtual void Timestamp(Oid oid, int reserve)virtual void Timestamp(Oid oid, Data
 | --- | --- |
 | oid | The hash algorithm to use to create the digest of the document data, for example new Oid("SHA256"). |
 | reserve | The number of bytes to reserve for the returned signed timestamp data. A typical value might be in the region of 5000. If the value is too small an exception will be raised. This value is only relevant if you are using a CustomSigner. |
-| dataType | The type of data to be passed to the CustomSigner and expected back from it. This value is only relevant if you are using a CustomSigner or CustomSigner2. For details of the possible values and what they mean, see the Sign method. |
+| dataType | The type of data to be passed to the CustomSigner and expected back from it. This value is only relevant if you are using a CustomSigner or CustomSigner2. For details of the possible values see the CustomSignerArgumentType property. |
 
 ## Notes
 

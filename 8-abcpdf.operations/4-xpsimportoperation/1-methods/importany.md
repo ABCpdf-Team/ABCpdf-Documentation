@@ -8,7 +8,7 @@ Imports a portion of a document via an intermediate XPS
 [C#]
 
 ```csharp
-void ImportAny(Doc doc, string path)void ImportAny(Doc doc, string path, int timeout
+void ImportAny(Doc doc, string path)void ImportAny(Doc doc, string path, int timeout)
 ```
 
 ## Params

@@ -1,4 +1,4 @@
-# HashSet&lt;string&gt; AllTypes Property
+# AllTypes Property
 
 ## Notes
 

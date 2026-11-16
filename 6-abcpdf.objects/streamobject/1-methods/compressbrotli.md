@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] bool CompressBrotli() bool CompressBrotli(int compressionLevel)
+[C#] bool CompressBrotli(int compressionLevel = 11)
 
 ## Params
 

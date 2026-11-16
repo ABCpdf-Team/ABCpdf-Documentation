@@ -21,6 +21,7 @@ The ProcessingSourceType enumeration may take the following values:
 * Text
 * FormXObject
 * Shading
+* Font
 
 The meaning of these source types depends on the operations.
 

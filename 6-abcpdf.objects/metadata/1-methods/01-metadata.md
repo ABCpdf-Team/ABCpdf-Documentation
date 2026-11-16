@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-<a href="../default.htm">Metadata</a>(objectSoup soup)<a href="../default.htm">Metadata</a>(objectSoup soup, string path)<a href="../default.htm">Metadata</a>(objectSoup soup, byte[] data)
+<a href="../default.htm">Metadata</a>(ObjectSoup soup)<a href="../default.htm">Metadata</a>(ObjectSoup soup, string path)<a href="../default.htm">Metadata</a>(ObjectSoup soup, byte[] data)
 ```
 
 ## Params

@@ -7,7 +7,7 @@ Create an ArrayAtom of NumAtoms from a list of numbers.
 [C#]
 
 ```csharp
-static <a href="../default.htm">ArrayAtom</a> FromNums(IList&lt;double&gt; items)
+static <a href="../default.htm">ArrayAtom</a> FromNums(IList&lt;int&gt; items)static <a href="../default.htm">ArrayAtom</a> FromNums(IList&lt;double&gt; items)
 ```
 
 ## Params

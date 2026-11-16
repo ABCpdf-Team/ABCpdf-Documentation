@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual void RemoveAt(int index)
+void RemoveAt(int index)
 ```
 
 ## Params

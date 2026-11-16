@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] bool Contains(string name)
+[C#] bool Contains(string key)
 
 ## Params
 

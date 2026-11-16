@@ -18,6 +18,7 @@ static Atom SetItem(Atom atom, string key, Atom val)static Atom SetItem(Atom ato
 | atom | The Atom to which the item should be added. |
 | key | The name of the item to be added. |
 | index | The index at which the item should be added. |
+| val | The item to be added. |
 | return | The returned Atom. |
 
 ## Notes

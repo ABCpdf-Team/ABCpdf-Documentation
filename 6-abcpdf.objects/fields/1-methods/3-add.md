@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] int Add(Field field)
+[C#] int Add(Field value)
 
 may throw NotSupportedException()
 

@@ -7,7 +7,7 @@ Attempts to get a boolean from the specified entry in a DictAtom or ArrayAtom re
 [C#]
 
 ```csharp
-virtual bool? ToBool(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)virtual bool? ToBool(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)virtual bool? ToBool(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
+bool? ToBool(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)bool? ToBool(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)bool? ToBool(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
 ```
 
 ## Params

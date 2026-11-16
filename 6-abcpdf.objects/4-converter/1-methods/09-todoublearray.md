@@ -7,7 +7,7 @@ Attempts to convert an ArrayAtom into an array of doubles, resolving any referen
 [C#]
 
 ```csharp
-virtual double[] ToDoubleArray(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, double def)
+double[] ToDoubleArray(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, double def)
 ```
 
 ## Params

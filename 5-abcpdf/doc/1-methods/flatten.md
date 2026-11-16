@@ -7,14 +7,14 @@ Flattens and compresses the current page.
 [C#]
 
 ```csharp
-int Flatten()int Flatten(int compressionLevel)
+int Flatten()int Flatten(int compressionLevelPercentage)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| compressionLevel | The level of compression to apply as a percentage. Smaller numbers are faster but produce lower compression ratios. Pass -1 for a default choice. |
+| compressionLevelPercentage | The level of compression to apply as a percentage. Smaller numbers are faster but produce lower compression ratios. Pass -1 for a default choice. |
 | return | n/a. |
 
 ## Notes

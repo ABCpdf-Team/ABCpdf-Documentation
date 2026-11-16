@@ -7,7 +7,7 @@ Attempts to convert an ArrayAtom into an array of names, resolving any reference
 [C#]
 
 ```csharp
-virtual string[] ToNameArray(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
+string[] ToNameArray(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
 ```
 
 ## Params

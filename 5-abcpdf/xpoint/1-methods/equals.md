@@ -7,7 +7,7 @@ Test whether the two points are effectvely the same
 [C#]
 
 ```csharp
-bool Equals(<a href="../default.htm">XPoint</a> other, double epsilon)bool Equals(<a href="../default.htm">XPoint</a> other)override bool Equals(object other)
+bool Equals(<a href="../default.htm">XPoint</a> other, double epsilon)bool Equals(<a href="../default.htm">XPoint</a> other)override bool Equals(object obj)
 ```
 
 ## Params
@@ -16,6 +16,7 @@ bool Equals(<a href="../default.htm">XPoint</a> other, double epsilon)bool Equal
 | --- | --- |
 | other | The point to test against. |
 | epsilon | The largest difference in values which will still be defined as equal |
+| obj | The object to test against. |
 | return | Whether the two points are the same. |
 
 ## Notes

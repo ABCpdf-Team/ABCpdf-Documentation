@@ -7,7 +7,7 @@ Attempts to get a double from the specified entry in a DictAtom or ArrayAtom res
 [C#]
 
 ```csharp
-virtual double? ToDouble(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)virtual double? ToDouble(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)virtual double? ToDouble(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
+double? ToDouble(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)double? ToDouble(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)double? ToDouble(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
 ```
 
 ## Params

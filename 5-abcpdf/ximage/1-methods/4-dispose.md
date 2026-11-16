@@ -7,7 +7,7 @@ Dispose of the object.
 [C#]
 
 ```csharp
-void Dispose()void Dispose(out <a href="../../xreadoptions/default.htm">XReadOptions</a> outOptions, out Stream outStream)protected void Dispose(bool disposing)
+void Dispose()void Dispose(out <a href="../../xreadoptions/default.htm">XReadOptions</a> outOptions, out Stream outStream)
 ```
 
 ## Params
@@ -24,8 +24,6 @@ You can call this function to explicitly dispose of an object and reduce the gar
 The overload without parameters disposes of the [XReadOptions](xreadoptions/default.md) and of the Stream.
 
 The overload with output parameters returns the [XReadOptions](xreadoptions/default.md) and the Stream. The returned objects have not been disposed of.
-
-This method follows the standard design pattern for objects implementing the IDisposable interface. The protected Dispose method can be overridden for sub-classes wishing to dispose of additional objects.
 
 Do not attempt to use an object after calling Dispose.
 

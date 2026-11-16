@@ -7,7 +7,7 @@ Encode text into a PDF name.
 [C#]
 
 ```csharp
-string Encode(<a href="../default.htm">string</a> value)
+static string Encode(<a href="../default.htm">string</a> value)
 ```
 
 ## Params

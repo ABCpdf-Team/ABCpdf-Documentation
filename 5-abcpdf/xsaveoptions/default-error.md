@@ -1,2 +1,2 @@
-# XSaveOptions Object
+# XSaveOptions Class
 

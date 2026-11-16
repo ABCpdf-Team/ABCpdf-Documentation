@@ -7,7 +7,7 @@ The logical structure can contain a copy of text which is drawn on the page.
 [C#]
 
 ```csharp
-void UpdateActualText(bool erase, bool regenerate)void UpdateActualText(bool erase, bool regenerate, string separator)
+void UpdateActualText(bool erase, bool regenerate, string separator = "")
 ```
 
 ## Params
@@ -16,13 +16,13 @@ void UpdateActualText(bool erase, bool regenerate)void UpdateActualText(bool era
 | --- | --- |
 | erase | Whether existing actual text should be removed. |
 | regenerate | Whether actual text should be regenerated where possible. |
-| separator | The separator to use between different items of text. The default is String.Empty. |
+| separator | The separator to use between different items of text. |
 
 ## Notes
 
 The logical structure can contain a copy of text which is drawn on the page.
 
-This is held in the logical structure because it is to get hold or and also because it may be subtly different.
+This is held in the logical structure because it is useful to get hold of and also because it may be subtly different.
 
 For example the text "ll" might be represented using a single ligature in the page content,.
 

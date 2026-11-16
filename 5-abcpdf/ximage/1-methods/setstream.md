@@ -14,7 +14,7 @@ void SetStream(Stream stream)
 
 | **Name** | **Description** |
 | --- | --- |
-| Stream | The stream containing the graphic. |
+| stream | The stream containing the graphic. |
 
 ## Notes
 

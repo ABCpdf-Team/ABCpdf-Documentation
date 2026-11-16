@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] StringAtom() StringAtom(string value)
+[C#] StringAtom() StringAtom(string value) StringAtom(byte[] value)
 
 ## Params
 

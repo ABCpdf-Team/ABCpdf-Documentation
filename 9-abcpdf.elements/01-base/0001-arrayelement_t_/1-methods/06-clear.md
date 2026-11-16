@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual void Clear()
+void Clear()
 ```
 
 ## Params

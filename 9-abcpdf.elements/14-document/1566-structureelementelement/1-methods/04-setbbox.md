@@ -7,7 +7,7 @@ Sets the bounding box for this structure element.
 [C#]
 
 ```csharp
-void SetBBox(<a href="../../../../5-abcpdf/xrect/default.htm">XRect</a> bbox)
+<a href="../../1605-standardlayoutattributeselement/default.htm">StandardLayoutAttributesElement</a> SetBBox(<a href="../../../../5-abcpdf/xrect/default.htm">XRect</a> bbox)
 ```
 
 ## Params
@@ -15,6 +15,7 @@ void SetBBox(<a href="../../../../5-abcpdf/xrect/default.htm">XRect</a> bbox)
 | **Name** | **Description** |
 | --- | --- |
 | bbox | The bounding box. |
+| return | The standard layout attributes element in which the BBox was set. |
 
 ## Notes
 

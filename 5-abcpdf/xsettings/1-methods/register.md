@@ -7,7 +7,7 @@ Register and install a trial license.
 [C#]
 
 ```csharp
-void Register()
+static void Register()
 ```
 
 ## Params

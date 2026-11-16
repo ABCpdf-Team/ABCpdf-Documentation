@@ -2,7 +2,7 @@
 
 | **Type** | **Default** | **Read Only** | **Description** |
 | --- | --- | --- | --- |
-|  | null | No | The FireShield™ security settings to be applied to the ABCChrome engine. |
+|  | null | Yes | The FireShield™ security settings to be applied to the ABCChrome engine. |
 
 ## Notes
 
@@ -13,6 +13,8 @@ This property determines the security settings which should be applied to HTML c
 The problem with most sandboxes is they are not sufficiently dynamic. You may want to allow access to a specific file or set of files for one request, while prohibiting acces to those same files for another.
 
 FireSheld allows you to configure per-request permissions using an easy to understand rule based system. It reports permission issues in an obvious way so that if you need to troubleshoot access problems, it is trivial to work out what is going wrong.
+
+This property is read only, but the object it returns can be modified.
 
 ## Example
 

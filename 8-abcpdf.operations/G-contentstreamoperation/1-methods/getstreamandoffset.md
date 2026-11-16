@@ -7,7 +7,7 @@ Finds the location of an operator in a set of streams.
 [C#]
 
 ```csharp
-Tuple&lt;StreamObject, int&gt; GetStreamAndOffset((IndirectObject owner, int offset, int length)
+Tuple&lt;StreamObject, int&gt; GetStreamAndOffset(IndirectObject owner, int offset, int length)
 ```
 
 ## Params

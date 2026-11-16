@@ -7,7 +7,7 @@ Install a trial license
 [C#]
 
 ```csharp
-bool InstallTrialLicense(string license)bool InstallTrialLicense(string license, bool throwOnFailure)
+static bool InstallTrialLicense(string license, bool throwOnFailure = true)
 ```
 
 ## Params
@@ -15,7 +15,7 @@ bool InstallTrialLicense(string license)bool InstallTrialLicense(string license,
 | **Name** | **Description** |
 | --- | --- |
 | license | The license to install. |
-| throwOnFailure | Whether to throw an exception on failure, default true. |
+| throwOnFailure | Whether to throw an exception on failure. |
 | return | True if a license is installed, otherwise false. |
 
 ## Notes

@@ -7,7 +7,7 @@ Flatten and compress the page content stream.
 [C#]
 
 ```csharp
-bool Flatten()bool Flatten(bool force)bool Flatten(bool force, bool compress, int compressionLevel)
+bool Flatten(bool force)bool Flatten(bool force, bool compress)bool Flatten(bool force, bool compress, int compressionLevel)
 ```
 
 ## Params

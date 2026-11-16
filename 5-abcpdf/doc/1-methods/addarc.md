@@ -7,15 +7,15 @@ Adds an arc to the current page.
 [C#]
 
 ```csharp
-int AddArc(double as, double ae, double cx, double cy, double rx, double ry)int AddArc(double as, double ae, double cx, double cy, double rx, double ry, bool filled)
+int AddArc(double angle1, double angle2, double cx, double cy, double rx, double ry)int AddArc(double angle1, double angle2, double cx, double cy, double rx, double ry, bool filled)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| as | The start angle of the arc in degrees. |
-| ae | The end angle of the arc in degrees. |
+| angle1 | The start angle of the arc in degrees. |
+| angle2 | The end angle of the arc in degrees. |
 | cx | The horizontal center of the arc. |
 | cy | The vertical center of the arc. |
 | rx | The horizontal radius of the arc. |

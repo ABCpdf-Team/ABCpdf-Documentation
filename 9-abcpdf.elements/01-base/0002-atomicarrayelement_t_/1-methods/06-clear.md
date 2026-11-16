@@ -7,7 +7,7 @@ Removes all items from the array.
 [C#]
 
 ```csharp
-virtual void Clear()
+void Clear()
 ```
 
 ## Params

@@ -7,7 +7,7 @@ Renders and saves a page.
 [C#]
 
 ```csharp
-void Save(string path)
+void Save(string path)void Save(string name, Stream stream)
 ```
 
 ## Params
@@ -15,6 +15,8 @@ void Save(string path)
 | **Name** | **Description** |
 | --- | --- |
 | path | The destination file path. |
+| name | A dummy file name used to determine the type of image required. |
+| stream | The destination stream. |
 
 ## Notes
 

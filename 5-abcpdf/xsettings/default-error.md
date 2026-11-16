@@ -1,2 +1,2 @@
-# XSettings Object
+# XSettings Class
 

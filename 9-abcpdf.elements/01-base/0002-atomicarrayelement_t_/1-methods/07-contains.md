@@ -7,7 +7,7 @@ Determines whether the array contains a specific value.
 [C#]
 
 ```csharp
-virtual bool Contains(T value)
+bool Contains(T value)
 ```
 
 ## Params

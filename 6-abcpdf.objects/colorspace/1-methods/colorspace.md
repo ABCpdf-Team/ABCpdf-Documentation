@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] ColorSpace(ObjectSoup soup) ColorSpace(ObjectSoup soup, ColorSpaceType space)
+[C#] ColorSpace(ObjectSoup soup) ColorSpace(ObjectSoup soup, ColorSpaceType type)
 
 ## Params
 

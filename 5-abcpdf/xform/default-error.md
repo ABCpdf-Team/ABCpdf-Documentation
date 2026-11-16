@@ -1,2 +1,2 @@
-# XForm Object
+# XForm Class
 

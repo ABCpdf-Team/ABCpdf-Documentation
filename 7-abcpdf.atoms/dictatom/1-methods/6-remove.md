@@ -7,14 +7,14 @@ Remove an element from the dictionary.
 [C#]
 
 ```csharp
-void Remove(string name)
+void Remove(string key)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| name | The name of the element to be removed. |
+| key | The name of the element to be removed. |
 
 ## Notes
 

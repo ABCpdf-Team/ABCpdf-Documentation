@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual void CopyTo(T[] array, int index)
+void CopyTo(T[] array, int index)
 ```
 
 ## Params

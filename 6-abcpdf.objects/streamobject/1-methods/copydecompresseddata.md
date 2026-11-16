@@ -7,16 +7,16 @@ Copy the decompressed binary content of the stream into a byte array.
 [C#]
 
 ```csharp
-int CopyDecompressedData()int CopyDecompressedData(byte[] destination)int CopyDecompressedData(byte[] destination, int startIndex)int CopyDecompressedData(byte[] destination, int startIndex, int maxLength)
+int CopyDecompressedData(byte[] destination = null, int startIndex = 0, int maxLength = int.MaxValue)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| destination | The destination byte array. Default is null. |
-| startIndex | The index in the byte array at which the first byte should be written. Default is 0. |
-| maxLength | The maximum number of bytes that should be written. Default is Int.MaxValue. |
+| destination | The destination byte array. |
+| startIndex | The index in the byte array at which the first byte should be written. |
+| maxLength | The maximum number of bytes that should be written. |
 | return | The length of the decompressed data that has been written to the array. If the destination is null then this returns the length that would have been written if a destination had been provided. |
 
 ## Notes

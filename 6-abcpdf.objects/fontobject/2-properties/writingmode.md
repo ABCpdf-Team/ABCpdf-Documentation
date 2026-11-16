@@ -8,10 +8,10 @@
 
 Gets the font writing mode.
 
-The WritingModeType enum has two possible values:
+The WritingModeType enumeration may take the following values:
 
-* Horizontal
-* Vertical
+* Horizontal - Horizontal writing mode.
+* Vertical - Vertical writing mode.
 
 ## Example
 

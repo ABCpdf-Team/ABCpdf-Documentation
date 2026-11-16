@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] void Add(string key, Atom atm) void Add(string key, int num) void Add(string key, double real) void Add(string key, string str)
+[C#] void Add(string key, Atom value) void Add(string key, int value) void Add(string key, double value) void Add(string key, string value)
 
 may throw ArgumentException() may throw ArgumentNullException()
 

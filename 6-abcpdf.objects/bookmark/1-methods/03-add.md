@@ -7,15 +7,14 @@ Adds a Bookmark to the end of the list.
 [C#]
 
 ```csharp
-int Add(<a href="../default.htm">Bookmark</a> bookmark)int Add(string title)
+int Add(<a href="../default.htm">Bookmark</a> value)int Add(string value)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| bookmark | The bookmark to be added. |
-| title | The title for the bookmark to be added. |
+| value | The bookmark to be added, or the title for a new bookmark to be added. |
 | return | The position in which the new element was inserted. |
 
 ## Notes

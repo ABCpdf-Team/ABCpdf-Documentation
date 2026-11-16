@@ -7,14 +7,14 @@ Changes the number of bits per color component.
 [C#]
 
 ```csharp
-void Resample(int bitsPerComponent)
+void Resample(int value)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| bitsPerComponent | The number of bits per color component. |
+| value | The number of bits per color component. |
 
 ## Notes
 

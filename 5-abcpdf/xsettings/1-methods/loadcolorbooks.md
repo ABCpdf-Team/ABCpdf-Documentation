@@ -7,7 +7,7 @@ Load color books for use when rendering spot color images.
 [C#]
 
 ```csharp
-void LoadColorBooks(string path)
+static void LoadColorBooks(string path)
 ```
 
 ## Params

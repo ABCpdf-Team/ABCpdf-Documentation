@@ -8,7 +8,7 @@ Gets a value indicating whether an import application process is
 [C#]
 
 ```csharp
-bool ReusesApplication(ApplicationType app)
+bool ReusesApplication(ImportApplicationType app)
 ```
 
 ## Params

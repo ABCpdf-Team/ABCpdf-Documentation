@@ -7,7 +7,7 @@ Get the current page as a compressed FormXObject.
 [C#]
 
 ```csharp
-virtual FormXObject GetFormXObject()
+FormXObject GetFormXObject()
 ```
 
 ## Params

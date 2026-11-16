@@ -7,14 +7,14 @@ Converts the image from one color space to another.
 [C#]
 
 ```csharp
-void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a> space)void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a> space, RenderingIntent intent)
+void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a> newSpace)void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a> newSpace, RenderingIntent intent)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| space | The destination color space. |
+| newSpace | The destination color space. |
 | intent | The rendering intent enumeration. If no intent is provided the default for the image (typically RelativeColorimetric) is used. |
 
 ## Notes

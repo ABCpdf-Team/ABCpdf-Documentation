@@ -7,7 +7,7 @@ Gets the stack trace.
 [C#]
 
 ```csharp
-virtual string GetStackTrace()
+string GetStackTrace()
 ```
 
 ## Params

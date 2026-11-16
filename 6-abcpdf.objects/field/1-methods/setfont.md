@@ -7,7 +7,7 @@ Sets the font and font size to be used for text
 [C#]
 
 ```csharp
-virtual void SetFont(<a href="../../fontobject/default.htm">FontObject</a> font, double size)
+void SetFont(<a href="../../fontobject/default.htm">FontObject</a> font, double size)
 ```
 
 ## Params

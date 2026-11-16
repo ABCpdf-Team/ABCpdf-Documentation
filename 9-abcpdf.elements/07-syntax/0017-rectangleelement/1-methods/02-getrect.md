@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual XRect GetRect()
+XRect GetRect()
 ```
 
 ## Params

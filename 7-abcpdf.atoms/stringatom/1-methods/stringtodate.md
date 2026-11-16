@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] static string StringToDate(DateTime dateTime)
+[C#] static DateTime StringToDate(string dateTime)
 
 ## Params
 

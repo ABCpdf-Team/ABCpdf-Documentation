@@ -10,6 +10,8 @@ Getting this property gets the effective value which may be inherited from a par
 
 The value zero has a special significance and indicates that the text in the field should be scaled to fit the area available.
 
+The value is null if no font size can be determined.
+
 ## Example
 
 None.

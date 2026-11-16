@@ -7,7 +7,7 @@ Attempts to get a name from the specified entry in a DictAtom or ArrayAtom resol
 [C#]
 
 ```csharp
-virtual string ToName(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)virtual string ToName(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)virtual string ToName(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
+string ToName(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)string ToName(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)string ToName(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
 ```
 
 ## Params

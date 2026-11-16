@@ -1,0 +1,2 @@
+# JSAccessorDescriptor Class
+

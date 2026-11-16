@@ -7,7 +7,7 @@ Attempts to convert a DictAtom into a Dictionary of strings, resolving any refer
 [C#]
 
 ```csharp
-virtual Dictionary&lt;string, string&gt; ToStringDictionary(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
+Dictionary&lt;string, string&gt; ToStringDictionary(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
 ```
 
 ## Params

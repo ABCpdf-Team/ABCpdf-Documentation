@@ -6,13 +6,15 @@
 
 ## Notes
 
-This property specifies the conformity operations to perform. They provides more precise specifications than [Conformance](conformance.md).
+This property specifies the conformity operations to perform. It provides more precise specifications than [Conformance](conformance.md).
 
-It can take a combination of the following values:
+The PdfConformity type is a flags enumeration so different values can be combined together using bitwise operations.
 
-* None – no operation.
-* NoJavaScriptAction – removes JavaScript actions. (included in PDF/A conformance.)
-* NoDocMetadataWithUnknownNamespace – removes document metadata with unknown XML namespaces. (included in PDF/A conformance.)
+The PdfConformity enumeration may take the following values:
+
+* None - No operation.
+* NoJavaScriptAction - Removes JavaScript actions. (included in PDF/A conformance.)
+* NoDocMetadataWithUnknownNamespace - Removes document metadata with unknown XML namespaces. (included in PDF/A conformance.)
 
 ## Example
 

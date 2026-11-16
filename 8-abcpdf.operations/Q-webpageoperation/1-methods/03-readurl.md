@@ -7,7 +7,7 @@ Read a URL into a paged PDF document.
 [C#]
 
 ```csharp
-ReadUrl(string url)
+void ReadUrl(string url)
 ```
 
 ## Params

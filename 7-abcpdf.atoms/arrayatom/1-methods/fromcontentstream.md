@@ -7,15 +7,14 @@ Create an array of Atoms from a byte array containing a sequence of PDF objects
 [C#]
 
 ```csharp
-static <a href="../default.htm">ArrayAtom</a> FromContentStream(string text)static <a href="../default.htm">ArrayAtom</a> FromContentStream(byte[] data)static ArrayAtom FromContentStream(byte[] value, out IList&lt;int&gt; offsets)
+static <a href="../default.htm">ArrayAtom</a> FromContentStream(string value)static <a href="../default.htm">ArrayAtom</a> FromContentStream(byte[] value)static ArrayAtom FromContentStream(byte[] value, out IList&lt;int&gt; offsets)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| text | A string holding a sequence of atoms. |
-| data | A chunk of data holding the sequence of atoms. |
+| value | A string or a chunk of data holding the sequence of atoms. |
 | offsets | The byte offsets in the data for the start each of atom in the returned array. |
 | return | An ArrayAtom holding the atoms in the content stream. |
 

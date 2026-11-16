@@ -7,7 +7,7 @@ Applies this transform to a specified point.
 [C#]
 
 ```csharp
-void TransformPoint(Point[] point)void TransformPoint(PointF[] point)void TransformPoint(<a href="../../xpoint/default.htm">XPoint</a> point)void TransformPoint(ref double x, ref double y)
+Point TransformPoint(Point point)PointF TransformPoint(PointF point)<a href="../../xpoint/default.htm">XPoint</a> TransformPoint(<a href="../../xpoint/default.htm">XPoint</a> point)void TransformPoint(ref double x, ref double y)
 ```
 
 ## Params

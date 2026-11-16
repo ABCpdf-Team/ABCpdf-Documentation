@@ -7,14 +7,15 @@ Add a new StructParents to the tree.
 [C#]
 
 ```csharp
-int AddStructParents(IndirectObject io, bool commit)
+int AddStructParents(IndirectObject parent, ArrayAtom target, bool commit = true)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| io | The object to be added. |
+| parent | The parent object to be added. |
+| target | An array which indexes from each MCID to the structure item which contains it. |
 | commit | Whether to commit changes to the document. |
 | return | The logical structure key for this object. |
 
@@ -23,7 +24,3 @@ int AddStructParents(IndirectObject io, bool commit)
 Add a new StructParents to the tree.
 
 Items are held in a cache and are not pushed through to the document until committed.
-
-## Example
-
-None

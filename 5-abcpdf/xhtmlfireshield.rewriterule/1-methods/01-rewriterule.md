@@ -14,7 +14,7 @@ Path rewrite rule constructor.
 
 | **Name** | **Description** |
 | --- | --- |
-| none |  |
+| regex | A case insensitive ECMAScript type RegEx used to process each file path. See the RegEx property. |
 
 ## Notes
 

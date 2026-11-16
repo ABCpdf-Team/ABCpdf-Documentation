@@ -74,6 +74,8 @@ In many situations things will work, but when they go wrong the problems will be
 
 The ABCpdf NuGet package contains core libraries for Windows and Linux.
 
+The name of the ABCpdf assembly it adds to your project varies with the framework you target. For the full list of files see Manual Installation.
+
 The standard ABCpdf NuGet package includes ABCChrome for Windows but not for Linux because the package is quite large.
 
 If you want to use ABCChrome on Linux you need to reference the ABCpdf.ABCChrome146.Linux NuGet package as well as the ABCpdf one.

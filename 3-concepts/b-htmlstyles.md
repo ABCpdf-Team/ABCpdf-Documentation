@@ -364,6 +364,16 @@ When none is specified the original ABCpdf left to right layout is preserved for
 
 Arabic requires special text shaping for contextual ligatures and combining characters. This is because each character has different forms depending on placement within a string. Each character can be independent, initial, medial or final. This text shaping is only performed if a reading direction is set. So for Arabic support you should always specify a default reading direction.
 
+The text shaping.
+
+Text shaping allows the use of ligatures and other glyph substitutions (e.g. alternative characters for vertical text) and is required for advanced positioning of glyphs (e.g. vertical shifts in Thai) using the OpenType GPOS table.
+
+You can specify on (e.g. shaping=on), off (e.g. shaping=off), or use the default (e.g. shaping=default).
+
+To engage the text shaping engine, the fonts need to be added/embedded in the LanguageType.Unicode language, and the dir attribute (or its inherited value from XTextStyle.Direction property) needs to be set to a valid value other than none (or default).
+
+Changing this attribute is identical to changing the XTextStyle.Shaping property.
+
 Characters at which lines may be broken.
 
 Normally ABCpdf will only break lines after certain characters like spaces. You can indicate additional characters after which a break is acceptable using this parameter.

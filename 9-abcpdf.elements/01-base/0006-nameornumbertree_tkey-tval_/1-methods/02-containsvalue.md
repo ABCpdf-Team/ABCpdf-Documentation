@@ -7,7 +7,7 @@ Determines whether the Tree contains a specific value.
 [C#]
 
 ```csharp
-virtual bool ContainsValue(TVal value)
+bool ContainsValue(TVal value)
 ```
 
 ## Params

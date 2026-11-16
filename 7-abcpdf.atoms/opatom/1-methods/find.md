@@ -7,14 +7,14 @@ Finds specified types of OpAtom entries in an array
 [C#]
 
 ```csharp
-IList&lt;Tuple&lt;string, int&gt;&gt; Find(<a href="../../arrayatom/default.htm">ArrayAtom</a> atom)IList&lt;Tuple&lt;string, int&gt;&gt; Find(<a href="../../arrayatom/default.htm">ArrayAtom</a> atom, string[] names)
+static IList&lt;Tuple&lt;string, int&gt;&gt; Find(<a href="../../arrayatom/default.htm">ArrayAtom</a> array)static IList&lt;Tuple&lt;string, int&gt;&gt; Find(<a href="../../arrayatom/default.htm">ArrayAtom</a> array, string[] names)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| atom | The ArrayAtom to be searched. |
+| array | The ArrayAtom to be searched. |
 | names | The types of OpAtoms that should be returned. |
 | return | The positions and text of the items which were found. |
 

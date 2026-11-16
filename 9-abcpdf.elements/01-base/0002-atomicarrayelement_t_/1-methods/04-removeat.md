@@ -7,7 +7,7 @@ Removes the item at the specified index.
 [C#]
 
 ```csharp
-virtual void RemoveAt(int index)
+void RemoveAt(int index)
 ```
 
 ## Params

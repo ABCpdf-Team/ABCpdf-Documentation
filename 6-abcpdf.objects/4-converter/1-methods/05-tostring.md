@@ -7,7 +7,7 @@ Attempts to get a string from the specified entry in a DictAtom or ArrayAtom res
 [C#]
 
 ```csharp
-virtual string ToString(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)virtual string ToString(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)virtual string ToString(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
+string ToString(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)string ToString(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)string ToString(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
 ```
 
 ## Params

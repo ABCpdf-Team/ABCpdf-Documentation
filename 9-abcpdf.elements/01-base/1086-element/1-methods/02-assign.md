@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual bool Assign(IndirectObject obj)virtual bool Assign(<a href="../2-properties/03-atom.htm">Atom</a> host, IndirectObject atom)
+virtual bool Assign(IndirectObject obj)virtual bool Assign(<a href="../2-properties/03-atom.htm">Atom</a> atom, IndirectObject host)
 ```
 
 ## Params

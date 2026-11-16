@@ -7,7 +7,7 @@ Inserts a Bookmark into the list at the specified position.
 [C#]
 
 ```csharp
-void Insert(int index, <a href="../default.htm">Bookmark</a> bookmark)void Insert(int index, string title)
+void Insert(int index, <a href="../default.htm">Bookmark</a> value)void Insert(int index, string value)
 ```
 
 ## Params
@@ -15,8 +15,7 @@ void Insert(int index, <a href="../default.htm">Bookmark</a> bookmark)void Inser
 | **Name** | **Description** |
 | --- | --- |
 | index | The zero-based index at which value should be inserted. |
-| bookmark | The bookmark to be added. |
-| title | The title for the bookmark to be added. |
+| value | The bookmark to be added, or the title for a new bookmark to be added. |
 
 ## Notes
 

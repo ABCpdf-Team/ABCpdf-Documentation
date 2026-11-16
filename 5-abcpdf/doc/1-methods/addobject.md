@@ -7,14 +7,14 @@ Adds a native PDF object to the document.
 [C#]
 
 ```csharp
-int AddObject(string text)
+int AddObject(string obj)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| text | The raw native object to be added. |
+| obj | The raw native object to be added. |
 | return | The Object ID of the newly added Object. |
 
 ## Notes

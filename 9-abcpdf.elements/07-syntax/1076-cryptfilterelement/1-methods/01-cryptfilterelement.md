@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-<a href="../default.htm">CryptFilterElement</a>()<a href="../default.htm">CryptFilterElement</a>(Atom atom, IndirectObject host)<a href="../default.htm">CryptFilterElement</a>(IndirectObject obj)<a href="../default.htm">CryptFilterElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options)
+<a href="../default.htm">CryptFilterElement</a>()<a href="../default.htm">CryptFilterElement</a>(Atom atom, IndirectObject host)<a href="../default.htm">CryptFilterElement</a>(IndirectObject obj)<a href="../default.htm">CryptFilterElement</a>(<a href="../../../01-base/1086-element/default.htm">Element</a> relation, CreationOptions options = CreationOptions.Default)
 ```
 
 ## Params
@@ -16,7 +16,7 @@
 | host | An IndirectObject. This can be any IndirectObject from the Soup but ideally should be one closely associated with the Atom. |
 | obj | The IndirectObject to be assigned to this Element. |
 | relation | An Element. This can be any Element in the Soup but ideally should be one closely associated with this Element. |
-| options | Options related to creation. For example this allows you to determine whether the Element should be created using an IndirectObject rather than just an Atom. If not provided a default set of options is used. |
+| options | Options related to creation. For example this allows you to determine whether the Element should be created using an IndirectObject rather than just an Atom. |
 
 ## Notes
 

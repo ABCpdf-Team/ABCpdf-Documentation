@@ -7,7 +7,7 @@ Add text markup annotation to the current rect of the current page of the doc.
 [C#]
 
 ```csharp
-<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, string quadPoints, TextMarkupType markupType, XColor color)<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, int id, TextMarkupType markupType, XColor color)<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, TextMarkupType markupType, XColor color)TextMarkupAnnotation(Doc doc, string quadPoints, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust)TextMarkupAnnotation(Doc doc, int id, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust)TextMarkupAnnotation(Doc doc, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust)
+<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, string quadPoints, TextMarkupType markupType, XColor color)<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, int id, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust = TextMarkupAdjust.None)<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust = TextMarkupAdjust.None)
 ```
 
 ## Params
@@ -19,7 +19,7 @@ Add text markup annotation to the current rect of the current page of the doc.
 | markupType | Type of the markup annotation |
 | color | Markup color |
 | id | ID of the Text object |
-| adjust | The markup adjustment to apply. The default is TextMarkupAdjust.None. |
+| adjust | The markup adjustment to apply. |
 
 ## Notes
 
@@ -40,7 +40,9 @@ These types of annotations do not work perfectly if the page is rotated and the 
 
 Generally when working with rotated pages you will want RectNoRotate | Adobe for Acrobat and RectNoRotate for other viewers such as Chrome.
 
-The TextMarkupAdjust flags based enumeration may take the following values:
+The TextMarkupAdjust type is a flags enumeration so different values can be combined together using bitwise operations.
+
+The TextMarkupAdjust enumeration may take the following values:
 
 * None - No adjustment.
 * Adobe - Adjust annotation for Adobe Acrobat Reader's undocumented behavior.

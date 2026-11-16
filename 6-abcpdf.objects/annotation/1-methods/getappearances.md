@@ -7,7 +7,7 @@ Gets all the appearances of the annotation.
 [C#]
 
 ```csharp
-virtual List&lt;FormXObject&gt; GetAppearances()
+List&lt;FormXObject&gt; GetAppearances()
 ```
 
 ## Params

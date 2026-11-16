@@ -7,7 +7,7 @@ Decode a double byte PDF encoded string into a plain string format
 [C#]
 
 ```csharp
-StringBuilder DecodeDoubleByte(string text, StringBuilder builder)
+static StringBuilder DecodeDoubleByte(string text, StringBuilder builder)
 ```
 
 ## Params

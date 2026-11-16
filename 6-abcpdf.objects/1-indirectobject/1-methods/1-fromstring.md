@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] static IndirectObject FromString(string value)
+[C#] static IndirectObject FromString(string value) static IndirectObject FromString(string value, ObjectSoup soup)
 
 ## Params
 

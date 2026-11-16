@@ -7,15 +7,15 @@ Embeds a font into the document.
 [C#]
 
 ```csharp
-int EmbedFont(string name)int EmbedFont(string name, LanguageType language)int EmbedFont(string name, LanguageType language, bool vertical)int EmbedFont(string name, LanguageType language, bool vertical, bool subset)int EmbedFont(string name, LanguageType language, bool vertical, bool subset, bool force)
+int EmbedFont(string font)int EmbedFont(string font, LanguageType language)int EmbedFont(string font, LanguageType language, bool vertical)int EmbedFont(string font, LanguageType language, bool vertical, bool subset)int EmbedFont(string font, LanguageType language, bool vertical, bool subset, bool force)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| name | The name of the font typeface. |
-| language | The language type to use. The LanguageType enumeration may take the following values: Latin Unicode Korean Japanese ChineseS ChineseT See the Fonts and Languages section for details on language types. The default language type is LanguageType.Latin. |
+| font | The name of the font typeface. |
+| language | The language type to use. See the notes below for the possible values. See the Fonts and Languages section for details on language types. The default language type is LanguageType.Latin. |
 | vertical | Whether the text direction should be vertical. See the Fonts and Languages section for details on writing directions. The default is false to indicate standard left to right layout. |
 | subset | Whether to subset the font. See the Fonts and Languages section for details on subsetting. The default is false to indicate that the font should not be subsetted. |
 | force | Whether to override permissions on the font. Fonts often contain embedded licensing information. By default ABCpdf will prevent you from embedding fonts which indicate that embedding is not permitted. You can force the font to be embedded by passing true for this value. |
@@ -38,6 +38,15 @@ The EmbedFont function returns the Object ID of the newly added Font Object. Typ
 If the specified font could not be found then you will get an Object ID of zero returned. You may wish to check for this possibility otherwise a default font will be used.
 
 Fonts are cached so newly added fonts will not be available to ABCpdf until the application is restarted. If you need to dynamically load a font you can pass this method a path to your font file. This will add the font to the cache and make it available for use. You should not move, rename or delete a font file which has been dynamically loaded using this technique.
+
+The LanguageType enumeration may take the following values:
+
+* Latin - The default and most efficient encoding for Western languages.
+* Unicode - The setting you will most often want to use when embedding foreign character sets.
+* Korean - Korean.
+* Japanese - Japanese.
+* ChineseS - Simplified Chinese.
+* ChineseT - Traditional Chinese.
 
 ## Example
 

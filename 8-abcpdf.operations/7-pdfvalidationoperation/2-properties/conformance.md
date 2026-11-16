@@ -8,9 +8,9 @@
 
 This property specifies the conformance for validation.
 
-It can take any of the following values:
+The PdfValidationOperation supports the following [PdfConformance](7-pdfconformanceidentification/2-properties/effectiveconformance.md) values:
 
-* Pdf – PDF conformance.
+* Pdf - PDF conformance.
 * PdfA1b - PDF/A Part 1 Level B conformance.
 * PdfA1a - PDF/A Part 1 Level A conformance.
 * PdfA2b - PDF/A Part 2 Level B conformance.

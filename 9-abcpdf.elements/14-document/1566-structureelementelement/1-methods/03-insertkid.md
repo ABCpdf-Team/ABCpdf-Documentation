@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-<a href="../default.htm">StructureElementElement</a> InsertKid(int index, string type)<a href="../default.htm">StructureElementElement</a> InsertKid(int index, <a href="../../../../6-abcpdf.objects/1-indirectobject/default.htm">IndirectObject</a> obj, <a href="../../../../6-abcpdf.objects/page/default.htm">Page</a> page)<a href="../default.htm">StructureElementElement</a> InsertKid(int index, <a href="../default.htm">StructureElementElement</a> kid)
+<a href="../default.htm">StructureElementElement</a> InsertKid(int index, string type)void InsertKid(int index, <a href="../../../../6-abcpdf.objects/1-indirectobject/default.htm">IndirectObject</a> obj, <a href="../../../../6-abcpdf.objects/page/default.htm">Page</a> page)<a href="../default.htm">StructureElementElement</a> InsertKid(int index, <a href="../default.htm">StructureElementElement</a> kid)
 ```
 
 ## Params
@@ -17,7 +17,7 @@
 | obj | An object which is a structure element in its own right. |
 | page | The page on which that object appears. |
 | kid | The structure element which will become the child. |
-| returns | The newly created child element. |
+| return | The child element that was added. The overload that takes an IndirectObject and a Page returns void. |
 
 ## Notes
 

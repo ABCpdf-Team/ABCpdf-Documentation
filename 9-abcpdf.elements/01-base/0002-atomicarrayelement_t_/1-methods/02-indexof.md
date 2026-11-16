@@ -7,7 +7,7 @@ Determines the first index matching a specific value.
 [C#]
 
 ```csharp
-virtual int IndexOf(T value)
+int IndexOf(T value)
 ```
 
 ## Params

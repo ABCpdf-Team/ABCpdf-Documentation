@@ -7,7 +7,7 @@ Adds the elements in the supplied array at the end of this array
 [C#]
 
 ```csharp
-void AddRange(<a href="../default.htm">ArrayAtom</a> array)
+void AddRange(<a href="../default.htm">ArrayAtom</a> array)void AddRange(ICollection&lt;Atom&gt; collection)
 ```
 
 ## Params
@@ -15,6 +15,7 @@ void AddRange(<a href="../default.htm">ArrayAtom</a> array)
 | **Name** | **Description** |
 | --- | --- |
 | array | The array whose elements should be added. |
+| collection | The collection whose elements shall be added. |
 
 ## Notes
 

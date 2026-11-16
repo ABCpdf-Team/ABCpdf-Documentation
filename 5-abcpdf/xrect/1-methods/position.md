@@ -7,7 +7,7 @@ Position the bottom left of the rectangle.
 [C#]
 
 ```csharp
-void Position(double x, double y)void Position(double x, double y, Corner corner)
+void Position(double x, double y)void Position(double x, double y, Corner pin)
 ```
 
 ## Params
@@ -16,7 +16,7 @@ void Position(double x, double y)void Position(double x, double y, Corner corner
 | --- | --- |
 | x | The new left position. |
 | y | The new bottom position. |
-| corner | The corner to position. |
+| pin | The corner to position. |
 
 ## Notes
 

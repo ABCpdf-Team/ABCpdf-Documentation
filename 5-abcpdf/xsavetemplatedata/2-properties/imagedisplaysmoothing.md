@@ -4,7 +4,7 @@
 
 This property specifies the smoothing for displaying images.
 
-It can take any of the following values:
+The RasterSmoothing enumeration may take the following values:
 
 Some output formats support different smoothing types for displaying images.
 

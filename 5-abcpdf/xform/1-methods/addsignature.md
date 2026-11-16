@@ -7,7 +7,7 @@ Add unsigned signature field.
 [C#]
 
 ```csharp
-Signature AddSignature(XRect rect, string name)Signature AddSignature(XRect rect, string name, bool minimal)
+Signature AddSignature(XRect rect, string name, bool minimal = false)
 ```
 
 ## Params
@@ -16,7 +16,7 @@ Signature AddSignature(XRect rect, string name)Signature AddSignature(XRect rect
 | --- | --- |
 | rect | Rectangle of the form field |
 | name | Name of the form field |
-| minimal | Whether to add a minimal signature (default false) |
+| minimal | Whether to add a minimal signature |
 | return | Form field object |
 
 ## Notes

@@ -7,7 +7,7 @@ Set the 3D content of the stream from data embedded in a file.
 [C#]
 
 ```csharp
-virtual void SetFile3D(string path)
+void SetFile3D(string path)
 ```
 
 ## Params

@@ -7,7 +7,7 @@ Removes the first matching value from the array.
 [C#]
 
 ```csharp
-virtual bool Remove(T value)
+bool Remove(T value)
 ```
 
 ## Params

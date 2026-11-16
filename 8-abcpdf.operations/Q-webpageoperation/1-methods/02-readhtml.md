@@ -7,7 +7,7 @@ Read a string of HTML into a paged PDF document.
 [C#]
 
 ```csharp
-ReadHtml(string html)
+void ReadHtml(string html)
 ```
 
 ## Params

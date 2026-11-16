@@ -7,16 +7,16 @@ Copies a series of X and Y coordinates between arrays of doubles and arrays of X
 [C#]
 
 ```csharp
-void Copy(<a href="../default.htm">XPoint</a>[] source, double[] destination, int length)void Copy(<a href="../default.htm">XPoint</a>[] source, int sourceIndex, double[] destination, int destinationIndex, int length)void Copy(double[] source, <a href="../default.htm">XPoint</a>[] destination, int length)void Copy(double[] source, int sourceIndex, <a href="../default.htm">XPoint</a>[] destination, int destinationIndex, int length)
+static void Copy(<a href="../default.htm">XPoint</a>[] sourceArray, double[] destinationArray, int pointLength)static void Copy(<a href="../default.htm">XPoint</a>[] sourceArray, int sourceIndex, double[] destinationArray, int destinationIndex, int pointLength)static void Copy(double[] sourceArray, <a href="../default.htm">XPoint</a>[] destinationArray, int pointLength)static void Copy(double[] sourceArray, int sourceIndex, <a href="../default.htm">XPoint</a>[] destinationArray, int destinationIndex, int pointLength)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| source | An array of points to be copied from. |
-| destination | An array of points to be copied to. |
-| length | The number of points that should be copied. |
+| sourceArray | An array of points to be copied from. |
+| destinationArray | An array of points to be copied to. |
+| pointLength | The number of points that should be copied. |
 | sourceIndex | The index in the source array at which copying begins. |
 | destinationIndex | The index in the destination array at which copying begins. |
 

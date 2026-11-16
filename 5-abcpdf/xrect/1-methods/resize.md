@@ -7,7 +7,7 @@ Resizes the rectangle.
 [C#]
 
 ```csharp
-void Resize(double w, double h)void Resize(double w, double h, Corner corner)
+void Resize(double w, double h)void Resize(double w, double h, Corner pin)
 ```
 
 ## Params
@@ -16,7 +16,7 @@ void Resize(double w, double h)void Resize(double w, double h, Corner corner)
 | --- | --- |
 | w | The new width. |
 | h | The new height. |
-| corner | The corner to pin. |
+| pin | The corner to pin. |
 
 ## Notes
 

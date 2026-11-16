@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] byte[] GetData() byte[] GetData(bool decompress)
+[C#] byte[] GetData() byte[] GetData(bool decompressed)
 
 ## Params
 

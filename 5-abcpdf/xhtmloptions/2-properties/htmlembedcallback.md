@@ -22,10 +22,10 @@ Parameters depends on EmbedType as follows:
 
 The values in HtmlParameterDictionary are of type HtmlParameter.
 
-The conversion for the value.
+The HtmlParameterConversionType enumeration may take the following values:
 
-* HtmlParameterConversionType None - No conversion.
-* HtmlParameterConversionType UrlToTextFileContent - Sets the value to the text content of the file pointed to by Value as a URL.
+* None - No conversion.
+* UrlToTextFileContent - Sets the value to the text content of the file pointed to by Value as a URL.
 
 ## Example
 

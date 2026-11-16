@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] int Add(Atom atm) int Add(int num) int Add(double real) int Add(string str)
+[C#] int Add(Atom value) int Add(int value) int Add(double value) int Add(string value)
 
 ## Params
 

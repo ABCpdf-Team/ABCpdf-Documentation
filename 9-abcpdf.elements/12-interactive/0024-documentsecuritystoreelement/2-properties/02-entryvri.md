@@ -6,7 +6,7 @@ Represents the "VRI" entry of the document security store dictionary object.
 
 It is an optional entry defined as part of the PDF 2.0 specification.
 
-It contains an Element.
+It contains a DictElement of SignatureValidationRelatedInformationElement objects.
 
 For definitive details see:.
 

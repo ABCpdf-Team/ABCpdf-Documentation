@@ -7,7 +7,7 @@ Add an item to the end of the array.
 [C#]
 
 ```csharp
-virtual void Add(T value)
+void Add(T value)
 ```
 
 ## Params

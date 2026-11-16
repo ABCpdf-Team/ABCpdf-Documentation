@@ -7,7 +7,7 @@ Obtain a standard encoding dictionary for use with PDF text operators.
 [C#]
 
 ```csharp
-static Dictionary&lt;char, char&gt; GetEncoding(LanguageType type, bool vertical)
+static IDictionary&lt;char, char&gt; GetEncoding(LanguageType type, bool vertical)
 ```
 
 ## Params

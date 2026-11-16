@@ -7,7 +7,7 @@ Gets the parameter associated with the OpAtom at the specified index and validat
 [C#]
 
 ```csharp
-<a href="../../1-atom/default.htm">Atom</a> GetParameter(<a href="../../arrayatom/default.htm">ArrayAtom</a> array, int index)
+static <a href="../../1-atom/default.htm">Atom</a> GetParameter(<a href="../../arrayatom/default.htm">ArrayAtom</a> array, int index)
 ```
 
 ## Params

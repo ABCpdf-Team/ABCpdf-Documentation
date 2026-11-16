@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] int AddFamily(IndirectObject parent) int AddFamily(DictAtom dict)
+[C#] int AddFamily(IndirectObject parent) int AddFamily(DictAtom parent)
 
 may throw Exception()
 

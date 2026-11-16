@@ -14,8 +14,8 @@ Assign a tag to a particular area of the current page.
 
 | **Name** | **Description** |
 | --- | --- |
-| type | The type of tag to use. |
-| type | The area to take the tag. |
+| element | The structure element to which the area should be assigned. |
+| area | The area to take the tag. |
 | returns | The focus. |
 
 ## Notes

@@ -7,7 +7,7 @@ Make a string of text safe for use in a specified encoding.
 [C#]
 
 ```csharp
-string VetText(LanguageType type, bool vertical, string text)string VetText(LanguageType type, bool vertical, string text, Func&lt;char, char&gt; substitute)
+static string VetText(LanguageType type, bool vertical, string text)static string VetText(LanguageType type, bool vertical, string text, Func&lt;char, char&gt; substitute)
 ```
 
 ## Params

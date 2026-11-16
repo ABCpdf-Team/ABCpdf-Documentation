@@ -2,7 +2,7 @@
 
 ## Notes
 
-The name of the current stroking color space.
+The name of the current fill color space.
 
 This may be one of the standard color spaces - DeviceGray, DeviceRGB, DeviceCMYK or Pattern.
 

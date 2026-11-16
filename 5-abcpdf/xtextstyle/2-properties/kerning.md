@@ -6,7 +6,7 @@ The kerning method.
 
 Kerning is similar to character spacing in that it controls how far apart two characters are. However rather than being a constant, it is a value which is determined by the two characters themselves. So the kerning for "tt" would likely be different than for "te".
 
-The KerningType flags enumeration may take the following values:
+The KerningType enumeration may take the following values:
 
 The default kerning method is based around the kerning tables in the TrueType font file. Not all fonts contain kerning tables so not all fonts will kern.
 

@@ -7,7 +7,7 @@ Attempts to get an IndirectObject from the specified entry in a DictAtom or Arra
 [C#]
 
 ```csharp
-virtual IndirectObject ToIndirectObject(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)virtual IndirectObject ToIndirectObject(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)virtual IndirectObject ToIndirectObject(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
+IndirectObject ToIndirectObject(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)IndirectObject ToIndirectObject(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)IndirectObject ToIndirectObject(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
 ```
 
 ## Params

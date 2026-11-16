@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual void ClearCache()
+void ClearCache()
 ```
 
 ## Params

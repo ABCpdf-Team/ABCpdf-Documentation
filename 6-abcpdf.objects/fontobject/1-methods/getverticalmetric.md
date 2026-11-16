@@ -7,7 +7,7 @@ Get the vertical metric for a character.
 [C#]
 
 ```csharp
-virtual <a href="../default.htm">VerticalMetric</a> GetVerticalMetric(int code)
+<a href="../default.htm">VerticalMetric</a> GetVerticalMetric(int code)
 ```
 
 ## Params

@@ -7,7 +7,7 @@ Create the smallest XRect that encloses all the points supplied.
 [C#]
 
 ```csharp
-static <a href="../default.htm">XRect</a> FromPoints(<a href="../../xpoint/default.htm">XPoint</a> points)
+static <a href="../default.htm">XRect</a> FromPoints(<a href="../../xpoint/default.htm">XPoint</a>[] points)
 ```
 
 ## Params

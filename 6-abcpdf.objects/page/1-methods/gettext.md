@@ -2,11 +2,13 @@
 
 ## Syntax
 
-[C#] string GetText(TextType type, bool includeAnnotations) string GetText(TextType type, bool includeAnnotations, bool includePaths, bool includeText, bool includeImages, bool includeColors) string GetText(TextType type, bool includeAnnotations, bool includePaths, bool includeText, bool includeImages, bool includeColors, bool useMinimumLineWidth, bool autoRotate)
+[C#] string GetText(TextType type, bool includeAnnotations) string GetText(TextType type, bool includeAnnotations, bool includePaths, bool includeText, bool includeImages, bool includeColors) string GetText(TextType type, bool includeAnnotations, bool includePaths, bool includeText, bool includeImages, bool includeColors, bool useMinimumLineWidth, bool autoRotate) string GetText(TextType type, bool includeAnnotations, bool includePaths, bool includeText, bool includeImages, bool includeColors, Layer[] layers)
 
 ## Params
 
 ## Notes
+
+The overload taking an array of layers extracts content from only those layers of the page.
 
 The TextType enumeration may take the following values:
 

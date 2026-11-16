@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#]void Sign(string path, string password)void Sign(byte[] data, string password) void Sign(Stream stream, string password) void Sign(Stream stream, string password, Oid oid) void Sign(X509Certificate2 cert, bool silent) void Sign(X509Certificate2 cert, bool silent, Oid oid, X509IncludeOption? option) void Sign(X509Certificate2 cert, SecureString password, Oid oid) void Sign(Oid oid, DataType dataType, int sizeEstimate) void Sign(Oid oid, DataType dataType, int sizeEstimate, X509Certificate2 cert2)
+[C#]void Sign(string path, string password)void Sign(byte[] data, string password) void Sign(Stream stream, string password) void Sign(Stream stream, string password, Oid oid) void Sign(X509Certificate2 cert, bool silent) void Sign(X509Certificate2 cert, bool silent, Oid oid, X509IncludeOption? option) void Sign(X509Certificate2 cert, SecureString password, Oid oid) void Sign(Oid oid, DataType dataType, int sizeEstimate) void Sign(Oid oid, DataType dataType, int sizeEstimate, X509Certificate2 templateCert)
 
 may throw Exception()
 
@@ -20,8 +20,6 @@ Setting the SecureString value to null will force a prompt for the HSM password 
 
 The System.Security.Cryptography.X509Certificates.X509Certificate2 object for the PFX/PKCS #12 (.pfx or .p12) certificate used for signing.
 
-When used with a CustomSigner, a template certificate into which the digest can be inserted.
-
 Whether to suppress prompting the user to use the private key. For non-interactive or unattended operation this parameter should be set to true.
 
 Some certificates contain protected private keys. For example you will get such a certificate if during import you check the option,
@@ -38,7 +36,7 @@ The data type and options which will be provided to the CustomSigner or CustomSi
 
 This is a flags based enum and the default is zero which is equivalent to DataType.Pkcs9Digest. This indicates that, when signing the callback will be provided with a PKCS9 ASN.1 encoded byte array containing the digest of the PDF content and attributes to be authenticated. When time stamping an RFC 3161 time stamp request will be provided and an RFC 3161 time stamp response is expected. To override these behaviors specify alternative flags.
 
-This may take the values,
+For details of the possible values see the CustomSignerArgumentType property.
 
 The number of bytes to allocate for the SignedCMS returned by the CustomSigner delegate.
 

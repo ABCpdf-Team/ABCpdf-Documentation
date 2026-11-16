@@ -23,7 +23,7 @@ Derives a hash code suitable for use in hashing algorithms and data structures l
 
 The override taking a ComparisonType allows you to choose between different ways of evaluating the hash. The enum is flags based so you can combine different options.
 
-The ComparisonType provides the following options:
+The ComparisonType enumeration may take the following values:
 
 * None - Hash a constant value.
 * Object - Hash the object - analogous to object equality.

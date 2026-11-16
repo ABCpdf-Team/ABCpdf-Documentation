@@ -7,7 +7,7 @@ Returns an enumerator that iterates through the collection.
 [C#]
 
 ```csharp
-virtual IEnumerator&lt;T&gt; GetEnumerator()
+IEnumerator&lt;T&gt; GetEnumerator()
 ```
 
 ## Params

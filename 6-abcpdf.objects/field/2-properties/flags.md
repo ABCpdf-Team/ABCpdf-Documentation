@@ -4,7 +4,9 @@
 
 This property is used to access or change the flags (Ff entry) for the field.
 
-The FieldFlags type is a flags type enumeration so the different values can be combined together using bitwise operations. It may take the following values:
+The FieldFlags type is a flags enumeration so different values can be combined together using bitwise operations.
+
+The FieldFlags enumeration may take the following values:
 
 The ReadOnly, Required and NoExport flags are used by all field types.
 

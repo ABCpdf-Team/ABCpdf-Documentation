@@ -7,7 +7,7 @@ Attempts to get an int from the specified entry in a DictAtom or ArrayAtom resol
 [C#]
 
 ```csharp
-virtual int? ToInt32(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)virtual int? ToInt32(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)virtual int? ToInt32(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
+int? ToInt32(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)int? ToInt32(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)int? ToInt32(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
 ```
 
 ## Params

@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual bool Remove(T value)
+bool Remove(T value)
 ```
 
 ## Params

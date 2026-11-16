@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual void Add(T value)
+void Add(T value)
 ```
 
 ## Params

@@ -7,14 +7,14 @@ Converts the pages from one color space to another.
 [C#]
 
 ```csharp
-void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a> space, bool convertAnnotations) void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a> space, bool convertAnnotations, out <a href="../../pixmap/default.htm">PixMap</a>[] recoloredPixMaps)
+void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a> newSpace, bool convertAnnotations) void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a> newSpace, bool convertAnnotations, out <a href="../../pixmap/default.htm">PixMap</a>[] recoloredPixMaps)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| space | The destination color space. |
+| newSpace | The destination color space. |
 | convertAnnotations | Whether to convert the color space of annotation appearance streams. |
 | recoloredPixMaps | All the PixMaps which were recolored as a result of the call. |
 

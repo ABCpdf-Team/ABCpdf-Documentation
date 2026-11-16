@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] NumAtom() NumAtom(int num) NumAtom(long num) NumAtom(double real)
+[C#] NumAtom() NumAtom(int value) NumAtom(long value) NumAtom(double value)
 
 ## Params
 

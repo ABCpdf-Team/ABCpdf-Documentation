@@ -8,7 +8,7 @@ The string representation of the StringAtom as it would appear in a
 [C#]
 
 ```csharp
-override string ToString()string ToString(string format)
+string ToString(string format)
 ```
 
 ## Params

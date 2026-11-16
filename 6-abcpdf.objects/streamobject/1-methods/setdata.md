@@ -7,17 +7,17 @@ Set the raw binary content of the stream.
 [C#]
 
 ```csharp
-void SetData(byte[] value)void SetData(byte[] value, int index, int count)void SetData(StreamObject source)void SetData(byte[] buffer, bool clearFirst)void SetData(byte[] buffer, int index, int count, bool clearFirst)
+void SetData(byte[] value)void SetData(byte[] buffer, int index, int count)void SetData(StreamObject value)void SetData(byte[] buffer, bool clearFirst)void SetData(byte[] buffer, int index, int count, bool clearFirst)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| value | The raw binary content to be assigned to the stream. |
+| value | The raw binary content to be assigned to the stream, or the StreamObject from which to copy the data. |
+| buffer | The byte array to be copied to the stream. |
 | index | The index in the array at which copying should start. |
 | count | The number of bytes to copy. |
-| source | The source stream from which to copy the data. |
 | clearFirst | Whether to clear any compression settings before assigning the data bytes. |
 
 ## Notes

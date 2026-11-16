@@ -4,6 +4,8 @@
 
 This property determines the current style settings used for adding text.
 
+This property is read only, but the object it returns can be modified.
+
 ## Example
 
 The following code creates a PDF document and adds some text using a number of the text style properties to control formatting.

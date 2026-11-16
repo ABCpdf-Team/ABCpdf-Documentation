@@ -7,7 +7,7 @@ Attempts to convert an ArrayAtom into an array of strings, resolving any referen
 [C#]
 
 ```csharp
-virtual string[] ToStringArray(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
+string[] ToStringArray(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
 ```
 
 ## Params

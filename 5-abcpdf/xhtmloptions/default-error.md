@@ -1,2 +1,2 @@
-# XHtmlOptions Object
+# XHtmlOptions Class
 

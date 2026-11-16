@@ -7,7 +7,7 @@ Copies the items into an array.
 [C#]
 
 ```csharp
-virtual void CopyTo(T[] array, int index)
+void CopyTo(T[] array, int index)
 ```
 
 ## Params

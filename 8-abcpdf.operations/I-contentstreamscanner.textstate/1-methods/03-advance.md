@@ -7,7 +7,7 @@ Advances the text position by an amount - typically the width of a glyph.
 [C#]
 
 ```csharp
-virtual double Advance(double delta, bool vertical)
+double Advance(double delta, bool vertical)
 ```
 
 ## Params

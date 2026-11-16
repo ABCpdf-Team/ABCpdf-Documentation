@@ -7,7 +7,7 @@ Decode a PDF encoded string into a plain string format
 [C#]
 
 ```csharp
-StringBuilder Decode(string text, StringBuilder builder)
+static StringBuilder Decode(string text, StringBuilder builder)
 ```
 
 ## Params

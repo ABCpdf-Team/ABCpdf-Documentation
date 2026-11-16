@@ -7,7 +7,7 @@ Sets information about an object.
 [C#]
 
 ```csharp
-void SetInfo(int id, string type, string info)void SetInfo(int id, string type, int info)void SetInfo(int id, string type, double info)void SetInfo(int id, string type, DateTime info)void SetInfo(int id, string type, bool info)
+void SetInfo(int id, string type, string info)void SetInfo(int id, string type, int info)void SetInfo(int id, string type, long info)void SetInfo(int id, string type, double info)void SetInfo(int id, string type, DateTime info)void SetInfo(int id, string type, bool info)
 ```
 
 ## Params

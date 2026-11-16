@@ -7,14 +7,15 @@ Test whether the two colors are effectively  the same
 [C#]
 
 ```csharp
-bool Equals(<a href="../default.htm">XColor</a> color)override bool Equals(object color)
+bool Equals(<a href="../default.htm">XColor</a> other)override bool Equals(object obj)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| color | The color to test against. |
+| other | The color to test against. |
+| obj | The object to test against. |
 | return | Whether the two colors are the same. |
 
 ## Notes

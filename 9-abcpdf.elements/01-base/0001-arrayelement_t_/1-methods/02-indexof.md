@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual int IndexOf(T value)
+int IndexOf(T value)
 ```
 
 ## Params

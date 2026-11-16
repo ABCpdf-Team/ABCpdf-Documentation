@@ -7,7 +7,7 @@ Remaps pages for reordering, copying and deletion.
 [C#]
 
 ```csharp
-void RemapPages(string pages)void RemapPages(int[] pages)void RemapPages(int[] pages, int index, int count)
+void RemapPages(string pages)void RemapPages(int[] pages)void RemapPages(int[] pages, int index, int count)void RemapPages(int[] pages, int index, int count, bool aggressive)
 ```
 
 ## Params
@@ -17,6 +17,7 @@ void RemapPages(string pages)void RemapPages(int[] pages)void RemapPages(int[] p
 | pages | The list of page numbers. |
 | index | The index of the first page number into the array pages. |
 | count | The number of page numbers in the array pages to use. |
+| aggressive | Whether to aggressively remove unreferenced pages. |
 
 ## Notes
 

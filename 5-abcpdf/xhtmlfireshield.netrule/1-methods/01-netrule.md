@@ -14,7 +14,9 @@ Network access rule constructor.
 
 | **Name** | **Description** |
 | --- | --- |
-| none |  |
+| lo | The low address in a range specifying IP addresses to control. See the Lo property. |
+| hi | The high address in a range specifying IP addresses to control. See the Hi property. |
+| access | The type of control to exercise over the resource. See the Access property. |
 
 ## Notes
 

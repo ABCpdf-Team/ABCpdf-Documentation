@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual bool Equals(<a href="../default.htm">Element</a> other)
+bool Equals(<a href="../default.htm">Element</a> other)
 ```
 
 ## Params

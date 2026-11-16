@@ -7,7 +7,7 @@ Adds a block of multi-styled text to the current page.
 [C#]
 
 ```csharp
-int AddTextStyled(string text)int AddTextStyled(string dummy, int chainid)
+int AddTextStyled(string text)int AddTextStyled(string dummy, int id)
 ```
 
 ## Params
@@ -16,7 +16,7 @@ int AddTextStyled(string text)int AddTextStyled(string dummy, int chainid)
 | --- | --- |
 | text | The HTML to be added to the page. |
 | dummy | A dummy parameter. The contents are not used. |
-| chainid | The Object ID of a previously added text block. |
+| id | The Object ID of a previously added text block. |
 | return | The Object ID of the newly added Text Object. |
 
 ## Notes

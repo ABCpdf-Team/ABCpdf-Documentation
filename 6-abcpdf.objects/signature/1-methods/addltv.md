@@ -7,7 +7,7 @@ Add Long Term Validation (LTV) to the Document Security Store (DSS).
 [C#]
 
 ```csharp
-virtual void AddLTV(Oid oid)
+void AddLTV(Oid oid)
 ```
 
 ## Params

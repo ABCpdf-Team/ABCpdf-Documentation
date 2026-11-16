@@ -7,7 +7,7 @@ Install a system license.
 [C#]
 
 ```csharp
-bool InstallSystemLicense(stirng license)bool InstallSystemLicense(stirng license, bool throwOnFailure)
+static bool InstallSystemLicense(string license, bool throwOnFailure = true)
 ```
 
 ## Params
@@ -15,7 +15,7 @@ bool InstallSystemLicense(stirng license)bool InstallSystemLicense(stirng licens
 | **Name** | **Description** |
 | --- | --- |
 | license | The license to install. |
-| throwOnFailure | Whether to throw an exception on failure, default true. |
+| throwOnFailure | Whether to throw an exception on failure. |
 | return | True if a license is installed, otherwise false. |
 
 ## Notes

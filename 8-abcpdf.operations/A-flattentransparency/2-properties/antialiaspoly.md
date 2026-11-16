@@ -1,4 +1,4 @@
-# AntiAliasPolygons Property
+# AntiAliasPoly Property
 
 ## Notes
 

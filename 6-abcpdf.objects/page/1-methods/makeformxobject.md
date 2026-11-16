@@ -39,7 +39,9 @@ Form XObjects inherit the graphics state of the page they are placed on. In gene
 * gstate "<< /Type /ExtGState /OP false /op false /OPM 0 /BG2 /Default /UCR2 /Default /TR2 /Default /HT /Default /SM 0 /BM /Normal /SMask /None /CA 1 /ca 1 /AIS false /TK true >>"
 * prefix "0 g 0 G 1 w [] 0 d 0 J 0 j 10 M 1 i /RelativeColorimetric ri 0 Tc 0 Tw 100 Tz 0 TL 0 Tr 0 Ts"
 
-We do not set the SA (stroke adjustment) because, although the PDF specification says it should be false, different tools use different defaults and setting it explicitly can lead to changes in output. As an alternative to setting the graphics state you can draw your destination page into a Form XObject and replace the page content with that Form XObject prior to placing other Form XObjects on the page. Because all page content is in Form XObjects and there are no state changes on the page there is no need to reset the state for each of them.
+We do not set the SA (stroke adjustment) because, although the PDF specification says it should be false, different tools use different defaults and setting it explicitly can lead to changes in output.
+
+As an alternative to setting the graphics state you can draw your destination page into a Form XObject and replace the page content with that Form XObject prior to placing other Form XObjects on the page. Because all page content is in Form XObjects and there are no state changes on the page there is no need to reset the state for each of them.
 
 ## Example
 

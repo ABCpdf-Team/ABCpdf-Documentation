@@ -10,7 +10,7 @@ The method that should be used for determining paragraph order.
 
 When a document is made accessible one needs to determine the reading order for the text. This property allows one to control the method which is used to determine the reading order of the paragraphs on the page.
 
-You can choose from the following options:
+The LayoutMethod enumeration may take the following values:
 
 * None - Use the order of layout that already exists on the page.
 * Recursive - Recursively group by rows and columns.

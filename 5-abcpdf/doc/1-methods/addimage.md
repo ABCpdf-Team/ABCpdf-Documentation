@@ -7,7 +7,7 @@ Adds an image to the current page.
 [C#]
 
 ```csharp
-int AddImage(XImage image)int AddImage(string path)int AddImage(byte[] data)int AddImage(string path, int page)int AddImage(byte[] data, int page)int AddImage(int id)int AddImage(System.Drawing.Bitmap bm)int AddImage(Doc doc, int page)int AddImage(Doc doc, int page, XRect src)
+int AddImage(XImage image)int AddImage(string path)int AddImage(byte[] data)int AddImage(string path, int frame)int AddImage(byte[] data, int frame)int AddImage(int id)int AddImage(System.Drawing.Bitmap bitmap)int AddImage(Doc doc, int page)int AddImage(Doc doc, int page, XRect rect)
 ```
 
 ## Params
@@ -18,10 +18,11 @@ int AddImage(XImage image)int AddImage(string path)int AddImage(byte[] data)int 
 | path | A file path, URL or html string to be added to the page. |
 | data | The raw JPEG data to be added to the page. |
 | id | An existing image object ID to be copied to the page again. |
-| bm | A .NET Bitmap to be added to the page. |
+| bitmap | A .NET Bitmap to be added to the page. |
 | doc | A PDF document page to be added to the page. |
 | page | The page of the document to be added. |
-| src | The source area of the document page to be added. |
+| rect | The source area of the document page to be added. |
+| frame | The page or frame of the document or image to be added. |
 | return | The ID of the newly added Image Object. |
 
 ## Notes

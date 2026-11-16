@@ -7,7 +7,7 @@ Applies this transform to a specified array of points.
 [C#]
 
 ```csharp
-override Point[] TransformPoints(Point[] points)override PointF[] TransformPoints(PointF[] points)override XPoint[] TransformPoints(XPointF points)
+Point[] TransformPoints(Point[] points)PointF[] TransformPoints(PointF[] points)XPoint[] TransformPoints(XPoint[] points)
 ```
 
 ## Params

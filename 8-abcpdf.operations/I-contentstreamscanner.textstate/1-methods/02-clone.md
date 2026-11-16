@@ -7,7 +7,7 @@ Make a deep clone of this object.
 [C#]
 
 ```csharp
-virtual <a href="../../../5-abcpdf/xtransform/default.htm">TextState</a> Clone()
+<a href="../../../5-abcpdf/xtransform/default.htm">TextState</a> Clone()
 ```
 
 ## Params

@@ -7,7 +7,7 @@ Set the application configuration section.
 [C#]
 
 ```csharp
-void SetConfigSection(ConfigSection section)
+static void SetConfigSection(ConfigSection section)
 ```
 
 ## Params

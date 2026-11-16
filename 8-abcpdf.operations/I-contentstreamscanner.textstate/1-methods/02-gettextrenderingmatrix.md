@@ -7,7 +7,7 @@ Get the current Text Rendering Matrix (Trm).
 [C#]
 
 ```csharp
-virtual <a href="../../../5-abcpdf/xtransform/default.htm">XTransform</a> GetTextRenderingMatrix(<a href="../../I-contentstreamscanner.graphicsstate/default.htm">GraphicsState</a> state)
+<a href="../../../5-abcpdf/xtransform/default.htm">XTransform</a> GetTextRenderingMatrix(<a href="../../I-contentstreamscanner.graphicsstate/default.htm">GraphicsState</a> state)
 ```
 
 ## Params

@@ -7,7 +7,7 @@ Get a particular appearance from the annotation.
 [C#]
 
 ```csharp
-virtual FormXObject GetAppearance(string state, string name)
+FormXObject GetAppearance(string state, string name)
 ```
 
 ## Params

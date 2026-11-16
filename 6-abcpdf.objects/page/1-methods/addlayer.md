@@ -7,7 +7,7 @@ Add a content layer to the page
 [C#]
 
 ```csharp
-void AddLayer(<a href="../../streamobject/default.htm">string</a> text)void AddLayer(<a href="../../streamobject/default.htm">byte[]</a> data)void AddLayer(<a href="../../streamobject/default.htm">StreamObject</a> stream)void AddLayer(string text, int index)void AddLayer(byte[] data, int index)void AddLayer(StreamObject stream, int index)
+int AddLayer(string text)int AddLayer(byte[] data)int AddLayer(<a href="../../streamobject/default.htm">StreamObject</a> stream)int AddLayer(string text, int index)int AddLayer(byte[] data, int index)int AddLayer(<a href="../../streamobject/default.htm">StreamObject</a> stream, int index)
 ```
 
 ## Params
@@ -17,7 +17,7 @@ void AddLayer(<a href="../../streamobject/default.htm">string</a> text)void AddL
 | text | The ASCII text to be added - typically a set of PDF drawing operators. |
 | data | The data to be added - typically an ASCII representation of a set of PDF drawing operators. |
 | stream | The stream that should be added as a new layer on page. |
-| index | The index at which the layer should be added. If the index is greater than or equal to the number of layers then the new layer will be added at the top. Default Int.Max. |
+| index | The index at which the layer should be added. The bottom layer is zero and the layers draw in sequence when displayed. If the index is greater than or equal to the number of layers then the new layer will be added at the top. |
 | return | The Object ID of the newly added StreamObject. |
 
 ## Notes

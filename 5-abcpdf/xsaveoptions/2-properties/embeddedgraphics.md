@@ -14,7 +14,7 @@ The EmbeddedGraphicsType enumeration may take the following values:
 * None - no image output
 * Image - graphics are rendered to a bitmapped image (valid for DOCX and HTML)
 * Vml - graphics are rendered using VML (valid for DOCX only)
-* HtmlCanvas - graphics are rendered using the HTML 5 Canvas element (valid for HTML only)
+* Html5Canvas - graphics are rendered using the HTML 5 Canvas element (valid for HTML only)
 * Html5WebGL - the entire page is rendered using HTML 5 WebGL (valid for HTML only)
 
 Please note the following limitations inherent in the VML specification. VML does not support the non-zero fill rule so VML paths may not be identical to PDF paths. VML does not support sophisticated dashing so dashed or dotted lines are approximated. VML does not specify how bitmapped images and vector paths should interact so the Z-order is dependent on the VML display implementation - a graphic which overlays an image in a PDF may vanish under the image using certain VML viewers.

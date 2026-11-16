@@ -7,14 +7,14 @@ Performs a fast lookup to retrieve a particular Page from this node tree
 [C#]
 
 ```csharp
-<a href="../../page/default.htm">Page</a> GetPage(int page)
+<a href="../../page/default.htm">Page</a> GetPage(int pageNumber)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| page | The page number - a one based index |
+| pageNumber | The page number - a one based index |
 | returns | The specified Page object or null if one could not be found. |
 
 ## Notes

@@ -7,7 +7,7 @@ Add text field.
 [C#]
 
 ```csharp
-Field AddTextField(XRect rect, string name, string inText)
+Field AddTextField(XRect rect, string name, string text)
 ```
 
 ## Params

@@ -6,6 +6,8 @@ You need to add a reference to ABCpdf from your Visual Studio Project. This tell
 
 Typically you will do this by referencing the ABCpdf NuGet package. Right click on 'Dependencies' and then select the 'Manage NuGet Packages...' item, click on "Browse" and search for "ABCpdf - you should see ABCpdf amongst the results from NuGet.org.
 
+The name of the ABCpdf assembly varies with the framework you target (for example ABCpdf.NET8.dll for .NET 8), and the NuGet package picks the right one for you. Whichever one you use, the namespace is WebSupergoo.ABCpdf14. For the full list of files see Manual Installation.
+
 If you have run the full MSI installer, ABCpdf is placed in the GAC, so under .NET 4 you can add a reference simply by looking in the 'Assemblies > Extensions' section of the Reference Manager. Just right click on 'References' in your project and 'Add Reference' - you'll see "ABCpdf .NET" near the top of the extensions list. .NET 5 and later do not have a GAC, so while you can add the relevant reference by browsing to the DLL in the ABCpdf installation folder, it is probably easier to add a NuGet reference.
 
 If you are using .NET 10.0 your project target is "net10.0" however since ABCpdf makes use of Windows specific features, more commonly you will target "net10.0-windows". Indeed if you are using .NET 5 or later the format is the same - it is just a matter of adjusting the version number in the target. If you are using .NET Classic / Framework then your target will be slightly different - "v4.0" or later.
@@ -26,7 +28,7 @@ WindowsBase is required for parts of ABCpdf which make use of WPF and XPS. To re
 
 Currently Visual Studio does not support adding this tag so it has to be done by hand using a text editor. You need to insert it into your csproj file as follows.
 
-<Project Sdk="Microsoft.NET.Sdk"> <PropertyGroup> <OutputType>Exe</OutputType> <TargetFramework>net10.0-windows</TargetFramework> <ImplicitUsings>enable</ImplicitUsings> <Nullable>enable</Nullable> <UseWPF>true</UseWPF> </PropertyGroup> <ItemGroup> <PackageReference Include="ABCpdf" Version="12.4.0.0" /> </ItemGroup> </Project>
+<Project Sdk="Microsoft.NET.Sdk"> <PropertyGroup> <OutputType>Exe</OutputType> <TargetFramework>net10.0-windows</TargetFramework> <ImplicitUsings>enable</ImplicitUsings> <Nullable>enable</Nullable> <UseWPF>true</UseWPF> </PropertyGroup> <ItemGroup> <PackageReference Include="ABCpdf" Version="14.4.0.0" /> </ItemGroup> </Project>
 
 System.Configuration.ConfigurationManager and System.IO.Packaging can be obtained as NuGet packages.
 
@@ -55,4 +57,14 @@ This is some simple example code. All it does is create a simple 'Hello World' P
 ASP.NET operates under a restricted set of security permissions. It is quite common for the ASPNET user not to be able to create or write files.
 
 So, if you want to save a PDF file from your ASP.NET code, it is quite likely that you will need to adjust the permissions on your destination directory to allow write access for the ASPNET user.
+
+## AI Help
+
+If you use an AI assistant such as Claude, ChatGPT, GitHub Copilot or Cursor, you can connect it directly to this documentation through our free MCP server:
+
+https://www.websupergoo.com/mcp
+
+Your assistant can then search the current documentation and read the relevant pages and examples before it answers, rather than relying on what it learned in training. It takes a minute to set up, with no sign-in and nothing to install.
+
+See Connect Your AI Assistant for how to add it to Visual Studio, VS Code, Claude, ChatGPT and other assistants.
 

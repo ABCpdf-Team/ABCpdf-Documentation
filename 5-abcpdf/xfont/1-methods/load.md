@@ -7,7 +7,7 @@ Loads a  font from file.
 [C#]
 
 ```csharp
-XFont[]&nbsp;Load(string path)
+static XFont[]&nbsp;Load(string path)
 ```
 
 ## Params

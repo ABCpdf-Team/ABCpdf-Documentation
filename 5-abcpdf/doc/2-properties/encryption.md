@@ -14,6 +14,8 @@ The PDF 2.0 standard deprecates a number of these options as being potentially i
 
 Please note that you are legally bound to respect the permissions present in existing PDF documents. For details please see the Legal Requirement Section.
 
+This property is read only, but the object it returns can be modified.
+
 ## Example
 
 The following code saves a simple PDF document using a 256 bit encryption key. It applies a copy-protection permission to stop people copying text out of the document.

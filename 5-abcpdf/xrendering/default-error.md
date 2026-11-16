@@ -1,2 +1,2 @@
-# XRendering Object
+# XRendering Class
 

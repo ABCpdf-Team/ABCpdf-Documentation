@@ -1,2 +1,2 @@
-# XReadOptions Object
+# XReadOptions Class
 

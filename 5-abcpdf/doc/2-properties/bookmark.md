@@ -10,6 +10,8 @@ The document outline comprises of a hierarchy of bookmarks. The bookmark at the 
 
 See the Objects.Bookmark object for further details.
 
+This property is read only, but the object it returns can be modified.
+
 ## Example
 
 None.

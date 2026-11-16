@@ -7,14 +7,15 @@ Add a Form or Image XObject to the current page.
 [C#]
 
 ```csharp
-int AddXObject(<a href="../../../6-abcpdf.objects/pixmap/default.htm">Objects.PixMap</a> pm)int AddXObject(<a href="../../../6-abcpdf.objects/formxobject/default.htm">Objects.FormXObject</a> pm)
+int AddXObject(<a href="../../../6-abcpdf.objects/pixmap/default.htm">Objects.PixMap</a> pixmap)int AddXObject(<a href="../../../6-abcpdf.objects/formxobject/default.htm">Objects.FormXObject</a> form)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| pm | The image to be added to the page. |
+| pixmap | The image to be added to the page. |
+| form | The Form XObject to be added to the page. |
 | return | The Object ID of the newly added Image Object. |
 
 ## Notes

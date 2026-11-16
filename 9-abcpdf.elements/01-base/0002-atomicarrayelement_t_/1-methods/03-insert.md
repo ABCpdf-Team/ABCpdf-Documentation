@@ -7,7 +7,7 @@ Inserts an item into the array at the specified position.
 [C#]
 
 ```csharp
-virtual void Insert(int index, T value)
+void Insert(int index, T value)
 ```
 
 ## Params

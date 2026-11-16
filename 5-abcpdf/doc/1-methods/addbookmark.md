@@ -7,7 +7,7 @@ Adds a bookmark pointing to the current page.
 [C#]
 
 ```csharp
-int AddBookmark(string path, bool open);
+int AddBookmark(string path, bool expanded);
 ```
 
 ## Params
@@ -15,7 +15,7 @@ int AddBookmark(string path, bool open);
 | **Name** | **Description** |
 | --- | --- |
 | path | The path to the bookmark. |
-| open | Whether the bookmark should be displayed open (expanded) or closed (collapsed). |
+| expanded | Whether the bookmark should be displayed open (expanded) or closed (collapsed). |
 | return | The Object ID of the newly added Bookmark Object. |
 
 ## Notes

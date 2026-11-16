@@ -27,9 +27,7 @@ The item in the array at the index provided must be an OpAtom or an exception wi
 
 The position returned is relative to the complete content stream sequence.
 
-To convert this to an offset within a particular stream you can pass the relevant.
-
-offset to the GetStreamAndOffset function.
+To convert this to an offset within a particular stream you can pass the relevant offset to the [GetStreamAndOffset](getstreamandoffset.md) function.
 
 ## Example
 

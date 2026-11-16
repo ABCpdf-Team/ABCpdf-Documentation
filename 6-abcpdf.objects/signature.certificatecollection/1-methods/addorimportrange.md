@@ -7,7 +7,7 @@ Adds the certificate objects or imports the certificates from the files to this 
 [C#]
 
 ```csharp
-int AddOrImportRange(IEnumerable cert)
+int AddOrImportRange(IEnumerable certs)
 ```
 
 ## Params

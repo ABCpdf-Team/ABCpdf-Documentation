@@ -14,7 +14,8 @@ Path access rule constructor.
 
 | **Name** | **Description** |
 | --- | --- |
-| none |  |
+| pattern | A pattern specifying a path that should be the target of control. See the Pattern property. |
+| access | The type of control to exercise over the resource. See the Access property. |
 
 ## Notes
 

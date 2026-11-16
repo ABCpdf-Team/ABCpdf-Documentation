@@ -8,12 +8,14 @@
 
 The default rendering intent for the operation.
 
-The rendering intent determines how out of gamut colors are handled. The following options are available:
+The rendering intent determines how out of gamut colors are handled.
 
-* Perceptual
-* RelativeColorimetric
-* Saturation
-* AbsoluteColorimetric
+The RenderingIntent enumeration may take the following values:
+
+* Perceptual - Use a perceptual model for handling out of gamut colors (good for photographs).
+* RelativeColorimetric - Keep color values the same but allow the brightness to vary.
+* Saturation - Use a saturation model for handling out of gamut colors (good for diagrams).
+* AbsoluteColorimetric - Use the closest color at the gamut boundary.
 
 The perceptual model maps the entire gamut of the source color space into the destination one and is good for photographic type images. The saturation model is good for diagrams, cartoons or posterized images where distinctiveness of color is more important than precise color fidelity. The colorimetric methods remap only those colors which are out of gamut. The relative one keeps the color values the same while allowing the brightness to vary. The absolute colorimetric method uses the closest color at the gamut boundary.
 

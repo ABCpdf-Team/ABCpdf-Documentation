@@ -2,7 +2,7 @@
 
 | **Type** | **Default** | **Read Only** | **Description** |
 | --- | --- | --- | --- |
-|  | n/a | Yes | Gets or Sets the stream position of the source object, if applicable. |
+|  | n/a | No | Gets or Sets the stream position of the source object, if applicable. |
 
 ## Notes
 

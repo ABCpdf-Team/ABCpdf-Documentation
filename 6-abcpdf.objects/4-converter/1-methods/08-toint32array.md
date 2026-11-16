@@ -7,7 +7,7 @@ Attempts to convert an ArrayAtom into an array of ints, resolving any references
 [C#]
 
 ```csharp
-virtual int[] ToInt32Array(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int def)
+int[] ToInt32Array(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int def)
 ```
 
 ## Params

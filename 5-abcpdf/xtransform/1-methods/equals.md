@@ -7,7 +7,7 @@ Determines if two transforms are effectively the same.
 [C#]
 
 ```csharp
-bool Equals(<a href="../default.htm">XTransform</a> other, double epsilon)bool Equals(<a href="../default.htm">XTransform</a> other)override bool Equals(object other)
+bool Equals(<a href="../default.htm">XTransform</a> transform, double epsilon)bool Equals(<a href="../default.htm">XTransform</a> other)override bool Equals(object obj)
 ```
 
 ## Params
@@ -16,6 +16,8 @@ bool Equals(<a href="../default.htm">XTransform</a> other, double epsilon)bool E
 | --- | --- |
 | other | The transform to be compared against this one |
 | epsilon | The largest difference in values which will still be defined as equal |
+| transform | The transform to be compared against this one |
+| obj | The object to test against. |
 | return | Whether the two transforms are the same. |
 
 ## Notes

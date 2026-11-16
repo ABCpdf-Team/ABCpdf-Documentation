@@ -7,7 +7,7 @@ Add button field.
 [C#]
 
 ```csharp
-Field AddButton(XRect rect, string name, string inCaption)
+Field AddButton(XRect rect, string name, string caption)
 ```
 
 ## Params
@@ -16,7 +16,7 @@ Field AddButton(XRect rect, string name, string inCaption)
 | --- | --- |
 | rect | Rectangle of the form field |
 | name | Name of the form field |
-| inCaption | Caption of the button |
+| caption | Caption of the button |
 | return | Form field object |
 
 ## Notes

@@ -7,7 +7,7 @@ Set the file containing the 3D content.
 [C#]
 
 ```csharp
-virtual void SetOBJ(string path)
+void SetOBJ(string path)
 ```
 
 ## Params

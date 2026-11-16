@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual XRect SetRect(XRect rect)
+XRect SetRect(XRect rect)
 ```
 
 ## Params

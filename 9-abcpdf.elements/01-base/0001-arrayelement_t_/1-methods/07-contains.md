@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual bool Contains(T value)
+bool Contains(T value)
 ```
 
 ## Params

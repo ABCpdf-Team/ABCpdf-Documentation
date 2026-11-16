@@ -6,7 +6,7 @@ This property determines the preferred compression method.
 
 Not all file formats support all compression methods. Not all compression methods support all color spaces. This is why this property indicates a preferred method.
 
-The Compression enumeration accepts the following values:
+The Compression enumeration may take the following values:
 
 In general this property is most useful when producing output in formats like TIFF which support a range of color spaces and compression methods.
 

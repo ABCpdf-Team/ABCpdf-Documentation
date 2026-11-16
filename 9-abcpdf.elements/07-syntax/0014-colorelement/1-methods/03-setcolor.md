@@ -5,7 +5,7 @@
 [C#]
 
 ```csharp
-virtual XColor SetColor(XColor color)
+XColor SetColor(XColor color)
 ```
 
 ## Params

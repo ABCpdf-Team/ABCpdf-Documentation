@@ -7,13 +7,14 @@ Extract the structure in an HTML-like format that can be displayed in a browser.
 [C#]
 
 ```csharp
-StringBuilder ExtractStructure()
+StringBuilder ExtractStructure(bool noIDs = false)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
+| noIDs | Whether to leave out the ObjID attributes. |
 | return | The structure HTML. |
 
 ## Notes

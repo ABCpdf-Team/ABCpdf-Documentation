@@ -17,6 +17,7 @@ string GetText()string GetText(<a href="../../../5-abcpdf/xrect/default.htm">XRe
 | rect | The rectangle from which to return text. |
 | rects | A set of rectangles forming a union from which to return text. |
 | pageNumber | The page number - a one based index. |
+| pageNumbers | The page numbers - one based indexes. |
 | Return | The text. |
 
 ## Notes

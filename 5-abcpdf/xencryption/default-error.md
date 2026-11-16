@@ -1,2 +1,2 @@
-# XEncryption Object
+# XEncryption Class
 

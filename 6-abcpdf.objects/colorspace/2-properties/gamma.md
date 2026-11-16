@@ -4,7 +4,7 @@
 
 The gamma correction for the color space.
 
-This property is only valid for color spaces in which the ColorSpaceType is CallGray or CalRGB.
+This property is only valid for color spaces in which the ColorSpaceType is CalGray or CalRGB.
 
 Gamma is defined for each component of a calibrated color space. So for a CalGray color space it has one entry and for a CalRGB color space it has three.
 

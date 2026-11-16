@@ -8,7 +8,9 @@ The definition of the SigningDelegate2 delegate is as follows.
 
 [C#] delegate byte[] SigningDelegate2(byte[] data, State state);
 
-Because a call to Sign can generate both signing and timestamping callbacks, the state parameter allows you to determine which is required. The State flags enum can hold the following values,
+Because a call to Sign can generate both signing and timestamping callbacks, the state parameter allows you to determine which is required.
+
+The State enumeration may take the following values:
 
 For signing...
 

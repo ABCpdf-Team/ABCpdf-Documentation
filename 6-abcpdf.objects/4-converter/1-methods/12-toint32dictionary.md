@@ -7,7 +7,7 @@ Attempts to convert a DictAtom into a Dictionary of ints, resolving any referenc
 [C#]
 
 ```csharp
-virtual Dictionary&lt;string, int&gt; ToInt32Dictionary(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int def)
+Dictionary&lt;string, int&gt; ToInt32Dictionary(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int def)
 ```
 
 ## Params

@@ -2,7 +2,7 @@
 
 ## Syntax
 
-[C#] IDictionary<string, Atom> GetResourceMap(int id, string type)
+[C#] IDictionary<string, Atom> GetResourceMap(int id, string type) IDictionary<string, Atom> GetResourceMap(int id, string type, bool includeAnnots, bool includeXObj, bool includePatterns, bool includeParents, ISet<int> skip, ISet<Atom> set)
 
 ## Params
 

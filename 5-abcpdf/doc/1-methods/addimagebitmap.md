@@ -7,14 +7,14 @@ Adds a System.Drawing.Bitmap to the current page.
 [C#]
 
 ```csharp
-int AddImageBitmap(System.Drawing.Bitmap bm, bool transparent)
+int AddImageBitmap(System.Drawing.Bitmap bitmap, bool transparent)
 ```
 
 ## Params
 
 | **Name** | **Description** |
 | --- | --- |
-| bm | A .NET Bitmap to be added to the page. |
+| bitmap | A .NET Bitmap to be added to the page. |
 | transparent | Whether transparency information should be preserved. |
 | return | The ID of the newly added Image Object. |
 
