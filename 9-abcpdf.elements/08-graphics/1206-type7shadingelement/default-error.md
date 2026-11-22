@@ -1,2 +1,0 @@
-# Type7ShadingElement Class
-

@@ -4,22 +4,16 @@ Sets the color.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void SetColor(XColor color)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | color | The source color. |
 
 ## Notes
 
 This method copies the value from the parameter.
-
-## Example
-
-None

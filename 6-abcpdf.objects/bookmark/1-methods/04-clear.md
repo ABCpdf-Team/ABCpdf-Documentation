@@ -1,16 +1,19 @@
 # Clear Function
 
+Removes all Bookmarks from the list.
+
 ## Syntax
 
-[C#] void Clear()
+```csharp
+void Clear()
+```
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| none |  |
 
 ## Notes
 
 Removes all Bookmarks from the list.
-
-## Example
-
-None.
-

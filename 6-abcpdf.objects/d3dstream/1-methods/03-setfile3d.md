@@ -4,22 +4,16 @@ Set the 3D content of the stream from data embedded in a file.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void SetFile3D(string path)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | path | A path to a file containing 3D data in OBJ, U3D or PRC format. |
 
 ## Notes
 
 Set the 3D content of the stream from data embedded in a file.
-
-## Example
-
-None

@@ -1,2 +1,0 @@
-# FileSpecification Class
-

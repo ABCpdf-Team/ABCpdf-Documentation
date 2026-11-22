@@ -4,22 +4,16 @@ Find all the fonts currently installed on the system.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static <a href="../default.htm">XFont</a>[] FindAll()
-```
+`static `[`XFont`](../index.md)`[] FindAll()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | The set of matching fonts. |
 
 ## Notes
 
 This function finds all the fonts currently installed on the system.
-
-## Example
-
-None

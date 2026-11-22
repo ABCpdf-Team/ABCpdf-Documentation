@@ -1,5 +1,9 @@
 # EntryType Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "Type" entry of the dpartroot dictionary object. |
+
 ## Notes
 
 Represents the "Type" entry of the dpartroot dictionary object.
@@ -12,4 +16,4 @@ If provided, this item must always take the value "DPartRoot".
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 408, page 829.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 408, page 829.](https://www.iso.org/standard/63534.html)

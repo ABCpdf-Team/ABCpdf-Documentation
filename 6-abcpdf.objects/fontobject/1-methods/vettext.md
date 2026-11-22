@@ -4,16 +4,19 @@ Make a string of text safe for use in a specified encoding.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-static string VetText(LanguageType type, bool vertical, string text)static string VetText(LanguageType type, bool vertical, string text, Func&lt;char, char&gt; substitute)
+static string VetText(LanguageType type, bool vertical, string text)
+static string VetText(LanguageType type, bool vertical, string text, Func<char, char> substitute)
 ```
+
+*C#*
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | type | The language type for the desired encoding. |
 | vertical | Whether the writing direction should be horizontal or vertical. |
 | text | The text to vet. |
@@ -29,7 +32,3 @@ Any characters which are not present in the encoding will be substituted with on
 You can optionally specify a function to do the character substitution.
 
 If your substitution function returns a character which is not present in the encoding an exception will be raised.
-
-## Example
-
-None

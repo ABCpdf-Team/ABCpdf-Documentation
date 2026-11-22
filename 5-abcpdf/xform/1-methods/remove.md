@@ -4,22 +4,16 @@ Remove a field from the form.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Remove(Field field)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | field | The field to be removed. |
 
 ## Notes
 
 Remove a field from the form.
-
-## Example
-
-None

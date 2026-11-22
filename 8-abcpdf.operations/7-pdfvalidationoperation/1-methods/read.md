@@ -4,16 +4,20 @@ Read and validate an existing document.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-Doc Read(string path, XReadOptions options)Doc Read(byte[] data, XReadOptions options)Doc Read(Stream stream, XReadOptions options)
+Doc Read(string path, XReadOptions options)
+Doc Read(byte[] data, XReadOptions options)
+Doc Read(Stream stream, XReadOptions options)
 ```
+
+*C#*
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | path | The file path to PDF document. |
 | data | The source PDF data. |
 | stream | The source PDF stream. |
@@ -21,15 +25,13 @@ Doc Read(string path, XReadOptions options)Doc Read(byte[] data, XReadOptions op
 
 ## Notes
 
-This method reads and validates the document according to the [Conformance](2-properties/conformance.md) property. Any conformance error or warning is reported in the [Errors](2-properties/errors.md) property or the [Warnings](2-properties/warnings.md) property after the method finishes.
+This method reads and validates the document according to the [Conformance](../2-properties/conformance.md) property. Any conformance error or warning is reported in the [Errors](../2-properties/errors.md) property or the [Warnings](../2-properties/warnings.md) property after the method finishes.
 
-If the [Doc](2-properties/doc.md) property is null, the document is read into a new [Doc](5-abcpdf/doc/default.md) object, which is returned; otherwise, the document is read into the value of the [Doc](2-properties/doc.md) property, which is returned.
+If the [Doc](../2-properties/doc.md) property is null, the document is read into a new [Doc](../../../5-abcpdf/doc/index.md) object, which is returned; otherwise, the document is read into the value of the [Doc](../2-properties/doc.md) property, which is returned.
 
 ## Example
 
 Here we validate a document against PDF/A-1b format.
-
-[C#]
 
 ```csharp
 string path = "../Rez/pdfa.pdf";
@@ -51,4 +53,3 @@ using (var op = new PdfValidationOperation()) {
   }
 }
 ```
-

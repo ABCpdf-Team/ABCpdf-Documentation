@@ -1,5 +1,9 @@
 # Name Property
 
+| Type | Default | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | n/a | Yes | The complete human readable name of the font. |
+
 ## Notes
 
 The complete human readable name of the font.

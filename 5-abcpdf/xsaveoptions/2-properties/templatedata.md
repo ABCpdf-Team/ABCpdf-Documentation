@@ -1,8 +1,8 @@
 # TemplateData Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default Value | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | No | The template data. |
+| [`XSaveTemplateData`](../../xsavetemplatedata/index.md) | null | No | The template data. |
 
 ## Notes
 
@@ -10,4 +10,4 @@ This property specifies the template data that is not obtained from [Template](t
 
 ## Example
 
-Also see example code in: [XSaveTemplateData SetMeasureResolution Function](xsavetemplatedata/1-methods/setmeasureresolution.md).
+Also see example code in: [XSaveTemplateData SetMeasureResolution Function](../../xsavetemplatedata/1-methods/setmeasureresolution.md).

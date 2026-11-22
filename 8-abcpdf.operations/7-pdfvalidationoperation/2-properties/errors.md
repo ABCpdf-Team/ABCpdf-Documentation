@@ -1,8 +1,8 @@
 # Errors Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | Yes | The validation errors. |
+| `IList<string>` | null | Yes | The validation errors. |
 
 ## Notes
 
@@ -16,8 +16,13 @@ Some errors indicate problem with the PDF rather than the PDF/A specification. I
 
 For example, the following errors might be emitted.
 
-Outline item 88's required Count is missing. PDF/A-1 6.3.5 Font subsets: Type-0 font 198 is a font subset without CIDSet. PDF/A-1 6.3.6 Font metrics: TrueType font 201's Widths is inconsistent with the embedded font program. PDF/A-1 6.7.3 Document information dictionary: Metadata 15--Document "Producer" and XMP property pdf:Producer are different.
+```error
+Outline item 88's required Count is missing.
+PDF/A-1 6.3.5 Font subsets: Type-0 font 198 is a font subset without CIDSet.
+PDF/A-1 6.3.6 Font metrics: TrueType font 201's Widths is inconsistent with the embedded font program.
+PDF/A-1 6.7.3 Document information dictionary: Metadata 15--Document "Producer" and XMP property pdf:Producer are different.
+```
 
 ## Example
 
-See the [Read](../1-methods/read.htm) method.
+See the [Read](../1-methods/read.md) method.

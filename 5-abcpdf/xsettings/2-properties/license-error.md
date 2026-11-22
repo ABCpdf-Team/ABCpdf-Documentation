@@ -1,2 +1,0 @@
-# XSettings License Property
-

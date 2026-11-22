@@ -1,2 +1,0 @@
-# RenderModeElement Class
-

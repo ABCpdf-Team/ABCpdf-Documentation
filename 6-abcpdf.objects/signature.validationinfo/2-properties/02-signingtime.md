@@ -1,8 +1,9 @@
 # SigningTime Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `DateTime` | null | Yes | The most authoritative UTC signing time for the signature. |
+
 ## Notes
 
-## Example
-
-None.
-
+The most authoritative UTC signing time for the signature.

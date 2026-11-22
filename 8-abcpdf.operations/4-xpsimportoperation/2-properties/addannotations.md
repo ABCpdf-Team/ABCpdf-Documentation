@@ -1,8 +1,8 @@
 # AddAnnotations Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | None | No | The types of annotations to be added. |
+| `XpsImportOperation.AnnotationFlags` | None | No | The types of annotations to be added. |
 
 ## Notes
 
@@ -12,7 +12,6 @@ The AnnotationFlags type is a flags enumeration so different values can be combi
 
 The AnnotationFlags enumeration may take the following values:
 
-* None - This is the default value. No annotation is added.
-* InternalLink - Link annotations that point to pages in the same document are added.
-* ExternalLink - Link annotations that link to external resources (e.g. URLs) are added.
-
+- None - This is the default value. No annotation is added.
+- InternalLink - Link annotations that point to pages in the same document are added.
+- ExternalLink - Link annotations that link to external resources (e.g. URLs) are added.

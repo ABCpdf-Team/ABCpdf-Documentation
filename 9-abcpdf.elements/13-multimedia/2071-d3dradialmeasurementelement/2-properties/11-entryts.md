@@ -1,5 +1,9 @@
 # EntryTS Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `double?` | null | No | Represents the "TS" entry of the 3d radial dimension measurement object. |
+
 ## Notes
 
 Represents the "TS" entry of the 3d radial dimension measurement object.
@@ -12,8 +16,8 @@ The PDF specification states that this item assumes a value of 12 if no value ha
 
 For definitive details see:.
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.39e, page 71.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.39e, page 71.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=71)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 330, page 692.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 330, page 692.](https://www.iso.org/standard/63534.html)
 
 The TS entry holds the formatted measurement text string.

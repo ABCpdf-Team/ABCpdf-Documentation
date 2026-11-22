@@ -1,2 +1,0 @@
-# DocumentSecurityStoreElement Class
-

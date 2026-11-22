@@ -4,16 +4,20 @@ Removes the variable from the module.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Remove(string name)
 ```
 
+*C#*
+
+⚠ `ObjectDisposedException: Thrown when this PythonScope has been disposed of.`  
+⚠ `ArgumentNullException: Thrown when name is null.`  
+⚠ `ArgumentException: Thrown when name is not a valid Python identifier.`
+
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | name | The name of the variable. |
 
 ## Notes

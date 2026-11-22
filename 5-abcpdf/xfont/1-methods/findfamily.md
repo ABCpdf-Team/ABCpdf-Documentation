@@ -4,16 +4,15 @@ Find all the fonts belonging to a particular family.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static <a href="../default.htm">XFont</a>[] FindFamily(string family)static <a href="../default.htm">XFont</a>[] FindFamily(string family,<a href="../../xfont.store/default.htm"> Store</a> store)
-```
+`static `[`XFont`](../index.md)`[] FindFamily(string family)`  
+`static `[`XFont`](../index.md)`[] FindFamily(string family, `[`Store`](../../xfont.store/index.md)` store)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | family | The name of the font family. |
 | store | A font store to use in addition to the fonts installed on the system. Null values are ignored. |
 | return | The set of matching fonts. |
@@ -21,7 +20,3 @@ static <a href="../default.htm">XFont</a>[] FindFamily(string family)static <a h
 ## Notes
 
 This function finds all the fonts belonging to a particular font family.
-
-## Example
-
-None

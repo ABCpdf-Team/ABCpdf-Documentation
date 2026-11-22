@@ -1,2 +1,0 @@
-# Type3FunctionElement Class
-

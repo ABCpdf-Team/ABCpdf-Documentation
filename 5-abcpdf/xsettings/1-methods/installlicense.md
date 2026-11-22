@@ -1,10 +1,8 @@
 # InstallLicense Method
 
-Install a  license.
+Install a license.
 
 ## Syntax
-
-[C#]
 
 ```csharp
 static bool InstallLicense(string license, bool throwOnFailure = true)
@@ -12,8 +10,8 @@ static bool InstallLicense(string license, bool throwOnFailure = true)
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | license | The license to install. |
 | throwOnFailure | Whether to throw an exception on failure. |
 | return | True if a license is installed, otherwise false. |
@@ -28,4 +26,4 @@ Make sure you check the return value to ensure that the license has taken. If it
 
 ## Example
 
-See [Manual Installation](../../../3-concepts/6-installation.htm).
+See [Manual Installation](../../../3-concepts/6-installation.md).

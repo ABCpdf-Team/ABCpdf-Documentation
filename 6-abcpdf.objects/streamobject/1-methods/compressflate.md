@@ -1,10 +1,22 @@
 # CompressFlate Function
 
+Compress the data in the stream using Flate compression.
+
 ## Syntax
 
-[C#] bool CompressFlate() bool CompressFlate(bool force) bool CompressFlate(bool force, int compressionLevel)
+```csharp
+bool CompressFlate()
+bool CompressFlate(bool force)
+bool CompressFlate(bool force, int compressionLevel)
+```
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| force | Whether to force the stream to be compressed in this way. |
+| compressionLevel | The level of compression to apply as a percentage. Smaller numbers are faster but produce lower compression ratios. Pass -1 for a default choice. |
+| return | Whether the compression was applied. |
 
 ## Notes
 
@@ -24,5 +36,4 @@ The compression level parameter controls the intensity of Flate compression appl
 
 ## Example
 
-Also see example code in: OpAtom Find Function.
-
+Also see example code in: [OpAtom Find Function](../../../7-abcpdf.atoms/opatom/1-methods/find.md).

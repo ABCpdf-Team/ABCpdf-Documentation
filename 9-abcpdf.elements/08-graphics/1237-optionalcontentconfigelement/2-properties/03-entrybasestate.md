@@ -1,5 +1,9 @@
 # EntryBaseState Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "BaseState" entry of the optional content configuration dictionary object. |
+
 ## Notes
 
 Represents the "BaseState" entry of the optional content configuration dictionary object.
@@ -12,13 +16,15 @@ The PDF specification states that this item assumes a value of "ON" if no value 
 
 This item may take one of the following valid values:.
 
-ONOFFUnchanged
+- ON
+- OFF
+- Unchanged
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 101, page 229.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 101, page 229.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=237)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 99, page 281.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 99, page 281.](https://www.iso.org/standard/63534.html)
 
 BaseState determines the initial on/off state for all groups not explicitly listed in the ON or OFF arrays. ON sets all unlisted groups to visible; OFF sets them to hidden; Unchanged leaves them in their current state.
 

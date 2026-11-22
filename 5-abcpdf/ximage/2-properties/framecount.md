@@ -1,8 +1,12 @@
 # FrameCount Property
 
+| Type | Default | Read Only | Description |
+| --- | --- | --- | --- |
+| `int` | See description. | Yes | The number of frames in the image. |
+
 ## Notes
 
-TIFF and GIF files may contain more than one image. The FrameCount property reflects the number of images found in the file. You can select different images using the Frame property.
+TIFF and GIF files may contain more than one image. The FrameCount property reflects the number of images found in the file. You can select different images using the [Frame](frame.md) property.
 
 Multi-frame TIFF images are generally used for one of two purposes. Sometimes multiple copies of the same image are embedded at different sizes to allow previews to be obtained quickly and easily. This type of multi-frame image is generally created for print purposes. Sometimes multiple pages of a document may be embedded in a TIFF. This type of multi-frame image is generally created by document scanning software or fax software.
 
@@ -12,5 +16,4 @@ PostScript is a programming language. So a PostScript program may output a diffe
 
 ## Example
 
-See the Frame property.
-
+See the [Frame](frame.md) property.

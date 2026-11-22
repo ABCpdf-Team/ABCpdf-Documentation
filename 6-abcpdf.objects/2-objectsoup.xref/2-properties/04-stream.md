@@ -1,8 +1,9 @@
 # Stream Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `StreamObject` | null | Yes | Gets the cross-reference stream. |
+
 ## Notes
 
-## Example
-
-None.
-
+Gets the cross-reference stream.

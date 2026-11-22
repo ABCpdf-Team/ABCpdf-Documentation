@@ -1,10 +1,19 @@
 # CompressBrotli Function
 
+Compress the data in the stream using Brotli compression.
+
 ## Syntax
 
-[C#] bool CompressBrotli(int compressionLevel = 11)
+```csharp
+bool CompressBrotli(int compressionLevel = 11)
+```
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| compressionLevel | The compression level from 0 (no compression) through to 11. |
+| return | Whether the compression was applied. |
 
 ## Notes
 
@@ -21,8 +30,3 @@ This function does not decompress the stream. So if compression is already prese
 ABCpdf tries to avoid creating certain compression sequences. Some compression types on some objects are illegal. Some sequences are legal but not supported within Acrobat (though they are in most other viewers). However these are unusual situations and you are unlikely to ever see them.
 
 The compression level parameter controls the intensity of Brotli compression applied to the current page content stream. Lower values execute faster but yield lower compression ratios, while higher values produce smaller output at the cost of speed.
-
-## Example
-
-None.
-

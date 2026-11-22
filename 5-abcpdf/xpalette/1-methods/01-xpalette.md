@@ -1,25 +1,21 @@
 # XPalette Function
 
+[XPalette](../index.md) constructor
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">XPalette</a>()
-```
+[`XPalette`](../index.md)`()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes
 
-[XPalette](default.md) constructor.
+[XPalette](../index.md) constructor.
 
 Create a default Adaptive palette with 256 colors.
-
-## Example
-
-None

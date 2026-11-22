@@ -1,2 +1,0 @@
-# FileTrailerElement Class
-

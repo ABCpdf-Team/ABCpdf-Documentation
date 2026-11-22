@@ -1,2 +1,0 @@
-# DocumentInformationElement Class
-

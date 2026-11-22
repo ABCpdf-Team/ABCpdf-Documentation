@@ -1,5 +1,9 @@
 # EntryH Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `IList<int>` | null | No | Represents the "H" entry of the software identifier dictionary object. |
+
 ## Notes
 
 Represents the "H" entry of the software identifier dictionary object.
@@ -12,8 +16,8 @@ Items in this array should have a minimum value of 0.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 292, page 504.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 292, page 504.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=512)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 303, page 631.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 303, page 631.](https://www.iso.org/standard/63534.html)
 
 The H entry holds the maximum acceptable version as an array of non-negative integers, in the same format as L.

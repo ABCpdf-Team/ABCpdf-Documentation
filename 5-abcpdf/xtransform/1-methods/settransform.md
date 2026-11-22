@@ -4,16 +4,15 @@ Set the transform.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-void SetTransform(double m11, double m12, double m21, double m22, double tx, double ty)void SetTransform(<a href="../default.htm">XTransform</a> transform)
-```
+`void SetTransform(double m11, double m12, double m21, double m22, double tx, double ty)`  
+`void SetTransform(`[`XTransform`](../index.md)` transform)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | m11 | The new horizontal scale. |
 | m12 | The new vertical skew. |
 | m21 | The new horizontal skew. |

@@ -1,2 +1,0 @@
-# AppearanceElement Class
-

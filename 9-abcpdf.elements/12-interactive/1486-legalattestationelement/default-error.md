@@ -1,2 +1,0 @@
-# LegalAttestationElement Class
-

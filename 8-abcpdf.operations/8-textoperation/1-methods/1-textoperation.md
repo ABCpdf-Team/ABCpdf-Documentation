@@ -4,16 +4,16 @@ TextOperation Constructor.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">TextOperation</a>(Doc doc)
-```
+[`TextOperation`](../index.md)`(Doc doc)`
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | The PDF Document |
 
 ## Notes

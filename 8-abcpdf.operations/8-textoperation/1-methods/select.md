@@ -4,16 +4,16 @@ Select a range of text in the document.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-IList&lt;<a href="../../8-textfragment/default.htm">TextFragment</a>&gt; Select(int startIndex, int length)
-```
+`IList<`[`TextFragment`](../../8-textfragment/index.md)`> Select(int startIndex, int length)`
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | startIndex | The start index for the selection as related to the string returned by the GetText method. |
 | length | The length for the selection as related to the string returned by the GetText method. |
 | Return | Returns a list of find matches encompassing the selected text. |

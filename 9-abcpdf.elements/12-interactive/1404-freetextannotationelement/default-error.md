@@ -1,2 +1,0 @@
-# FreeTextAnnotationElement Class
-

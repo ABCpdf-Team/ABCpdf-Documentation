@@ -1,2 +1,0 @@
-# SoftwareIdentifierElement Class
-

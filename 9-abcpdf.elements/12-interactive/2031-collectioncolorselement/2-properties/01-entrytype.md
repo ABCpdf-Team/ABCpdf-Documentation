@@ -1,5 +1,9 @@
 # EntryType Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "Type" entry of the collection colors dictionary object. |
+
 ## Notes
 
 Represents the "Type" entry of the collection colors dictionary object.
@@ -12,6 +16,6 @@ If provided, this item must always take the value "CollectionColors".
 
 For definitive details see:.
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.6a, page 31.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.6a, page 31.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=31)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 157, page 449.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 157, page 449.](https://www.iso.org/standard/63534.html)

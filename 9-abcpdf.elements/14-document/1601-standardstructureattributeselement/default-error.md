@@ -1,2 +1,0 @@
-# StandardStructureAttributesElement Class
-

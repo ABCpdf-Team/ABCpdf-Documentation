@@ -4,16 +4,14 @@ Create an AcroForm if one does not already exist.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Create()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes
@@ -21,7 +19,3 @@ void Create()
 Create an AcroForm if one does not already exist.
 
 Adding a field to a form using a method like AddTextField will automatically create an AcroForm if necessary. So in general you will not need to use this function.
-
-## Example
-
-None

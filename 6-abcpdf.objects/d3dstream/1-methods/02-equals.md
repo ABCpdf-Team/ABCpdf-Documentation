@@ -1,24 +1,20 @@
 # Equals Function
 
+Test whether the two [D3DStream](../index.md) objects are the same.
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool Equals(<a href="../default.htm">D3DStream</a> other)
-```
+`bool Equals(`[`D3DStream`](../index.md)` other)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| other | The D3DStream to test against. |
-| return | Whether the D3DStream objects are equal. |
+| Name | Description |
+| :---: | --- |
+| other | The [D3DStream](../index.md) to test against. |
+| return | Whether the [D3DStream](../index.md) objects are equal. |
 
 ## Notes
 
-Test whether the two [D3DStream](default.md) objects are the same.
-
-## Example
-
-None
+Test whether the two [D3DStream](../index.md) objects are the same.

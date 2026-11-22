@@ -1,8 +1,8 @@
 # ShrinkToFit Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | true | No | Whether to try and determine the document size based on the size of the content. |
+| `bool` | true | No | Whether to try and determine the document size based on the size of the content. |
 
 ## Notes
 
@@ -16,8 +16,4 @@ This is quite a common situation for web output where you want the content to be
 
 If this property is set to true, the page size will be set to be the same as the content viewbox. This effectively shrinks the page to fit the content avoiding excessive white space or clipping.
 
-If this property is set to false, the page size is taken from the [DefaultRect](defaultrect.md) property and the content is centered on this page. The viewbox size is inserted as the page [ArtBox](6-abcpdf.objects/page/2-properties/artbox.md) for possible use at a later stage.
-
-## Example
-
-None
+If this property is set to false, the page size is taken from the [DefaultRect](defaultrect.md) property and the content is centered on this page. The viewbox size is inserted as the page [ArtBox](../../../6-abcpdf.objects/page/2-properties/artbox.md) for possible use at a later stage.

@@ -1,2 +1,0 @@
-# XRune Struct
-

@@ -1,5 +1,9 @@
 # EntryW Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "W" entry of the media screen parameters mh/be dictionary object. |
+
 ## Notes
 
 Represents the "W" entry of the media screen parameters mh/be dictionary object.
@@ -12,8 +16,8 @@ The PDF specification states that this item assumes a value of 3 if no value has
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 283, page 499.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 283, page 499.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=507)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 294, page 624.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 294, page 624.](https://www.iso.org/standard/63534.html)
 
 The W entry names the window size policy: 0 for the annotation rectangle, 1 for the annotation rectangle scaled proportionally to fit the media, 2 for the media natural size scaled to fit the annotation, 3 for a floating window, and 4 for a full-screen window.

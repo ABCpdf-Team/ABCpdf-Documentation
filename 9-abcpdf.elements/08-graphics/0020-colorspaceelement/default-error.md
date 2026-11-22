@@ -1,2 +1,0 @@
-# ColorSpaceElement Class
-

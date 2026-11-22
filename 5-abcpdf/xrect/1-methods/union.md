@@ -4,16 +4,15 @@ Union this rectangle with another rectangle.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-void Union(<a href="../default.htm">XRect</a> rect)void Union(<a href="../default.htm">XRect</a> rect, bool ignoreNoArea)
-```
+`void Union(`[`XRect`](../index.md)` rect)`  
+`void Union(`[`XRect`](../index.md)` rect, bool ignoreNoArea)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | rect | The rectangle to add to this one. The supplied rectangle is left unchanged by this function. |
 | ignoreNoArea | Whether to treat rectangles with no area as empty - default true. |
 
@@ -29,4 +28,4 @@ If the ignoreNoArea parameter is set to false then rectangles with no area will 
 
 ## Example
 
-Also see example code in: [CustomFont CustomFont Function](8-abcpdf.operations/R-customfont/1-methods/01-customfont.md).
+Also see example code in: [CustomFont CustomFont Function](../../../8-abcpdf.operations/r-customfont/1-methods/01-customfont.md).

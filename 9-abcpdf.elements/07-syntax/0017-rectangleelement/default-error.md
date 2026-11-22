@@ -1,2 +1,0 @@
-# RectangleElement Class
-

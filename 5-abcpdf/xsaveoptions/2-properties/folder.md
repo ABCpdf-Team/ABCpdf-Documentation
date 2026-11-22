@@ -1,8 +1,8 @@
 # Folder Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default Value | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | No | The folder where to save additional files (images, fonts, etc). |
+| `string` | null | No | The folder where to save additional files (images, fonts, etc). |
 
 ## Notes
 
@@ -13,7 +13,3 @@ If you set a relative path, it will be relative to the location of the output pa
 If you are saving to a stream and specify a relative path, then the path is relative to the current directory.
 
 If you are saving to file and do not specify a folder, then a folder with the same name as the output file will be created in the directory where the output file is located.
-
-## Example
-
-None

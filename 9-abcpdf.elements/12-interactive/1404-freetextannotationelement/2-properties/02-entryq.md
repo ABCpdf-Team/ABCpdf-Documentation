@@ -1,5 +1,9 @@
 # EntryQ Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "Q" entry of the free text annotation object. |
+
 ## Notes
 
 Represents the "Q" entry of the free text annotation object.
@@ -14,8 +18,8 @@ The PDF specification states that this item assumes a value of 0 if no value has
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 174, page 396.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 174, page 396.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=404)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 177, page 481.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 177, page 481.](https://www.iso.org/standard/63534.html)
 
 The quadding value selects text alignment: 0 for left, 1 for centred, and 2 for right. It applies within the annotation's text rectangle, which may be inset from the outer Rect by the RD entry.

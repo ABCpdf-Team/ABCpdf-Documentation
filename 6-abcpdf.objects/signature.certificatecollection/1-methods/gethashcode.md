@@ -4,22 +4,16 @@ Calculates a hash value based on the values of the contained certificate objects
 
 ## Syntax
 
-[C#]
-
 ```csharp
 override int GetHashCode()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | The hash value calculated. |
 
 ## Notes
 
 This method returns the hash value based on the values of the contained certificate objects.
-
-## Example
-
-None

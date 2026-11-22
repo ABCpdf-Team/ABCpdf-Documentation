@@ -16,7 +16,9 @@ For these reasons, if you require precise control over the way that your text ap
 
 You can do this to the current page using the following code.
 
-[C#] ((Page)doc.ObjectSoup[doc.Page]).VectorizeText();
+```csharp
+((Page)doc.ObjectSoup[doc.Page]).VectorizeText();
+```
 
 ## Images
 
@@ -24,11 +26,31 @@ Rendering to SVG produces placeholder tags for bitmap images in the SVG.
 
 If you require that the images be exported, you should do so using code of the following form.
 
-[C#] static void SaveAsSvg(Doc pdf, string file) { pdf.Rendering.Save(file); string svg = File.ReadAllText(file); HashSet<string> hrefs = new HashSet<string>(); string pattern = "<image xlink:href\\s*=\\s*(?:[\"'](?<1>[^\"']*)[\"']|(?<1>\\S+))"; MatchCollection matches = Regex.Matches(svg, pattern); foreach (Match match in matches) hrefs.Add(match.Groups[1].Value); string folder = Path.GetDirectoryName(file); foreach (string href in hrefs) { string image = Path.Combine(folder, href); if (!File.Exists(image)) { // href is of form "imageXX.png" where XX is the PixMap ID int id = int.Parse(href.Substring(5, href.Length - 9)); PixMap pm = pdf.ObjectSoup[id] as PixMap; using (Bitmap bm = pm.GetBitmap()) bm.Save(image); } } }
+```csharp
+static void SaveAsSvg(Doc pdf, string file) {
+  pdf.Rendering.Save(file);
+  string svg = File.ReadAllText(file);
+  HashSet<string> hrefs = new HashSet<string>();
+  string pattern = "<image xlink:href\\s*=\\s*(?:[\"'](?<1>[^\"']*)[\"']|(?<1>\\S+))";
+  MatchCollection matches = Regex.Matches(svg, pattern);
+  foreach (Match match in matches)
+    hrefs.Add(match.Groups[1].Value);
+  string folder = Path.GetDirectoryName(file);
+  foreach (string href in hrefs) {
+    string image = Path.Combine(folder, href);
+    if (!File.Exists(image)) {
+      // href is of form "imageXX.png" where XX is the PixMap ID
+      int id = int.Parse(href.Substring(5, href.Length - 9));
+      PixMap pm = pdf.ObjectSoup[id] as PixMap;
+      using (Bitmap bm = pm.GetBitmap())
+      bm.Save(image);
+    }
+  }
+}
+```
 
 Note that in the above code the images are all exported as PNG. This is a good general purpose lossless export format. However for continuous tone images such as photographs you may wish to export as JPG as this will produce a smaller file size.
 
-It is worth nothing that one of the internal compression formats within PDF streams is JPEG. So in cases where the Stream.Compressions has length one and the Stream.Compression is CompressionType.Jpeg, it is often possible to use Stream.GetData save the raw data directly to a JPEG file.
+It is worth nothing that one of the internal compression formats within PDF streams is JPEG. So in cases where the [Stream.Compressions](../6-abcpdf.objects/streamobject/2-properties/compressions.md) has length one and the [Stream.Compression](../6-abcpdf.objects/streamobject/2-properties/compression.md) is CompressionType.Jpeg, it is often possible to use [Stream.GetData](../6-abcpdf.objects/streamobject/1-methods/getdata.md) save the raw data directly to a JPEG file.
 
 However you need to be aware that there are differences. So while often possible, it is not always possible. In most situations for most images in the RGB color space it will work. However for other color spaces such as CMYK it will not and even in the case of RGB the output may be missing secondary data such as any related ICC color profile.
-

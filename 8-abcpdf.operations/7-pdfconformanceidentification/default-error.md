@@ -1,2 +1,0 @@
-# PdfConformanceIdentification Class
-

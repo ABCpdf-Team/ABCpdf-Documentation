@@ -1,5 +1,9 @@
 # EntryIC Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `IList<double>` | null | No | Represents the "IC" entry of the redaction annotation object. |
+
 ## Notes
 
 Represents the "IC" entry of the redaction annotation object.
@@ -12,8 +16,8 @@ Items in this array should have a minimum value of 0 and a maximum of 1.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 192, page 413.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 192, page 413.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=421)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 195, page 501.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 195, page 501.](https://www.iso.org/standard/63534.html)
 
 The interior colour fills the redacted area in the annotation appearance both during review and after content has been removed.

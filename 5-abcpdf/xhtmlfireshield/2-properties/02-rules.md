@@ -1,8 +1,14 @@
 # Rules Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `List<`[`XHtmlFireShield.Rule`](../../xhtmlfireshield.rule/index.md)`>` | See below. | No | File access rules for the worker process |
+
 ## Notes
 
-File access rules for the worker process. To determine whether access is allowed to a specific path, the rules are evaluated in sequence.
+File access rules for the worker process.
+
+To determine whether access is allowed to a specific path, the rules are evaluated in sequence.
 
 A path may match with multiple rules and it is the final evaluated access type at the end of the sequence, which determines the access level. Rules are case insensitive.
 
@@ -16,5 +22,4 @@ The default set of rules is reasonable for most situations. However you may wish
 
 ## Example
 
-Also see example code in: XHtmlOptions FireShield Property.
-
+Also see example code in: [XHtmlOptions FireShield Property](../../xhtmloptions/2-properties/fireshield.md).

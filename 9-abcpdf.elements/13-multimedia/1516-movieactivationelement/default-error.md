@@ -1,2 +1,0 @@
-# MovieActivationElement Class
-

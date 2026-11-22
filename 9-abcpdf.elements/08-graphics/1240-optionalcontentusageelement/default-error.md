@@ -1,2 +1,0 @@
-# OptionalContentUsageElement Class
-

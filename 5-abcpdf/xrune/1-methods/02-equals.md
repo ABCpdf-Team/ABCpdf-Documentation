@@ -4,17 +4,17 @@ Indicates whether two runes are equal.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool Equals(<a href="../default.htm">XRune</a> other)
-```
+`bool Equals(`[`XRune`](../index.md)` other)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | other | The rune to compare. |
 | return | Whether the two are equal. |
 
 ## Notes
+
+Indicates whether two runes are equal.

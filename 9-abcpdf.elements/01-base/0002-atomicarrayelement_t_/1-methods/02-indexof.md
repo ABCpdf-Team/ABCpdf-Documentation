@@ -4,16 +4,14 @@ Determines the first index matching a specific value.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 int IndexOf(T value)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | The value to locate in the Collection |
 | return | If found, the index of value, otherwise -1. |
 

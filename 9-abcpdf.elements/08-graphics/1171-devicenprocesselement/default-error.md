@@ -1,2 +1,0 @@
-# DeviceNProcessElement Class
-

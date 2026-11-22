@@ -1,2 +1,0 @@
-# Eof Class
-

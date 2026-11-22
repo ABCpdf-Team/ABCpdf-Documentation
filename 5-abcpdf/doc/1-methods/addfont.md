@@ -4,19 +4,19 @@ Adds a font reference to the document.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-int AddFont(string font)int AddFont(string font, LanguageType language)int AddFont(string font, LanguageType language, bool vertical)
+int AddFont(string font)
+int AddFont(string font, LanguageType language)
+int AddFont(string font, LanguageType language, bool vertical)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | font | The name of the font typeface. |
-| language | The language type to use. See the notes below for the possible values. See the Fonts and Languages section for details on language types. The default language type is Latin. |
-| vertical | Whether the text direction should be vertical. See the Fonts and Languages section for details on writing directions. The default is false to indicate standard left to right layout. |
+| language | The language type to use. See the notes below for the possible values.<br>See the [Fonts and Languages](../../../3-concepts/7-fonts.md) section for details on language types. The default language type is Latin. |
+| vertical | Whether the text direction should be vertical.<br>See the [Fonts and Languages](../../../3-concepts/7-fonts.md) section for details on writing directions. The default is false to indicate standard left to right layout. |
 | return | The Object ID of the newly added Font Object. |
 
 ## Notes
@@ -29,39 +29,41 @@ When a client opens the PDF Acrobat will attempt to find the exact same font on 
 
 The following fonts are guaranteed to be available on every system.
 
-* Times-Roman
-* Times-Bold
-* Times-Italic
-* Times-BoldItalic
-* Helvetica
-* Helvetica-Bold
-* Helvetica-Oblique
-* Helvetica-BoldOblique
-* Courier
-* Courier-Bold
-* Courier-Oblique
-* Courier-BoldOblique
-* Symbol
-* ZapfDingbats
+- Times-Roman
+- Times-Bold
+- Times-Italic
+- Times-BoldItalic
+- Helvetica
+- Helvetica-Bold
+- Helvetica-Oblique
+- Helvetica-BoldOblique
+- Courier
+- Courier-Bold
+- Courier-Oblique
+- Courier-BoldOblique
+- Symbol
+- ZapfDingbats
 
 Additionally you can add any TrueType, OpenType or Type 1 font that you have installed on your system. The name you should use is the one referenced in your fonts folder. For example.
 
-* Arial
-* Arial Black
-* Arial Black Italic
-* ...
-* Book Antiqua
-* Book Antiqua Bold
-* Book Antiqua Bold Italic
-* Book Antiqua Italic
-* ...
-* Venetian301BT
-* Venetian301BT Bold
-* ...
+- Arial
+- Arial Black
+- Arial Black Italic
+- ...
+- Book Antiqua
+- Book Antiqua Bold
+- Book Antiqua Bold Italic
+- Book Antiqua Italic
+- ...
+- Venetian301BT
+- Venetian301BT Bold
+- ...
 
 The AddFont function returns the Object ID of the newly added Font Object. Typically you will want to assign this return value to the document Font property using code of the form.
 
-[C#] theDoc.Font = theDoc.AddFont("Courier");
+```csharp
+theDoc.Font = theDoc.AddFont("Courier");
+```
 
 If the specified font could not be found then you will get an Object ID of zero returned. You may wish to check for this possibility otherwise a default font will be used.
 
@@ -69,18 +71,16 @@ Fonts are cached so newly added fonts will not be available to ABCpdf until the 
 
 The LanguageType enumeration may take the following values:
 
-* Latin - The default and most efficient encoding for Western languages.
-* Unicode - The setting you will most often want to use for foreign character sets. When this is used, AddFont embeds the font without subsetting. For more control use EmbedFont.
-* Korean - Korean.
-* Japanese - Japanese.
-* ChineseS - Simplified Chinese.
-* ChineseT - Traditional Chinese.
+- Latin - The default and most efficient encoding for Western languages.
+- Unicode - The setting you will most often want to use for foreign character sets. When this is used, AddFont embeds the font without subsetting. For more control use [EmbedFont](embedfont.md).
+- Korean - Korean.
+- Japanese - Japanese.
+- ChineseS - Simplified Chinese.
+- ChineseT - Traditional Chinese.
 
 ## Example
 
 The following code adds two pieces of text to a document. The first piece is in Times-Roman and the second in Helvetica-Bold.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -94,6 +94,5 @@ doc.AddText(font);
 doc.Save("docaddfont.pdf");
 ```
 
-![](../../../images/pdf/docaddfont.pdf.png)
+![docaddfont.pdf](../../../images/pdf/docaddfont.pdf.png)  
 docaddfont.pdf
-

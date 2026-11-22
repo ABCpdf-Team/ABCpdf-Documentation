@@ -1,16 +1,15 @@
 # DestinationColorSpace Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | No | Gets or sets the destination ColorSpace. |
+| [`ColorSpace`](../../../6-abcpdf.objects/colorspace/index.md) | null | No | Gets or sets the destination ColorSpace. |
 
 ## Notes
 
-The destination [ColorSpace](6-abcpdf.objects/colorspace/default.md) for the operation.
+The destination [ColorSpace](../../../6-abcpdf.objects/colorspace/index.md) for the operation.
 
 ## Example
 
-Also see example code in:
+See the [Recolor](../1-methods/recolor.md) method.
 
-* [RecolorOperation Recolor Function](1-methods/recolor.md)
-* [RecolorOperation IccCmyk Property](icccmyk.md).
+Also see example code in: [RecolorOperation Recolor Function](../1-methods/recolor.md), [RecolorOperation IccCmyk Property](icccmyk.md).

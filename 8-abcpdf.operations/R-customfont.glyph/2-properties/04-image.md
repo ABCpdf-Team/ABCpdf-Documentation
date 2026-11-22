@@ -1,3 +1,0 @@
-# Image Property
-
-## Notes

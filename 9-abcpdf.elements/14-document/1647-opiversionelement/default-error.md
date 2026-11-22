@@ -1,2 +1,0 @@
-# OpiVersionElement Class
-

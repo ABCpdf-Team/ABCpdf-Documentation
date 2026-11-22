@@ -4,16 +4,14 @@ Invert the transform.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Invert()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | None |  |
 
 ## Notes
@@ -28,8 +26,6 @@ If you apply the invert method to a non-invertable transform the transform will 
 
 Here we add some text rotated at 45 degrees anti-clockwise around the middle of the document. We then invert the transform and draw some more text. Because the transform has been inverted the text now appears rotated 45 degrees clockwise.
 
-[C#]
-
 ```csharp
 using var doc = new Doc();
 doc.FontSize = 72;
@@ -43,6 +39,5 @@ doc.AddText("Inverted");
 doc.Save("transforminvert.pdf");
 ```
 
-![](../../../images/pdf/transforminvert.pdf.png)
+![transforminvert.pdf](../../../images/pdf/transforminvert.pdf.png)  
 transforminvert.pdf
-

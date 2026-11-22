@@ -4,22 +4,17 @@ Create an operator atom for a string
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">OpAtom</a>()<a href="../default.htm">OpAtom</a>(string value)
-```
+[`OpAtom`](../index.md)`()`  
+[`OpAtom`](../index.md)`(string value)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | The operator text. |
 
 ## Notes
 
 Create an operator atom for a string.
-
-## Example
-
-None

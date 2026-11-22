@@ -1,5 +1,9 @@
 # EntrySpotFunction Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| [`Element`](../../../01-base/1086-element/index.md) | null | No | Represents the "SpotFunction" entry of the type 1 halftone dictionary object. |
+
 ## Notes
 
 Represents the "SpotFunction" entry of the type 1 halftone dictionary object.
@@ -8,19 +12,41 @@ It is a required entry defined as part of the PDF 1.0 specification.
 
 This property may contain one of two different types:.
 
-1) A string representing a PDF name object.
+1\) A string representing a PDF name object.
 
 This item may take one of the following valid values:.
 
-SimpleDotInvertedSimpleDotDoubleDotInvertedDoubleDotCosineDotDoubleInvertedDoubleLineLineXLineYRoundEllipseEllipseAInvertedEllipseAEllipseBEllipseCInvertedEllipseCSquareCrossRhomboidDiamond.
+- SimpleDot
+- InvertedSimpleDot
+- DoubleDot
+- InvertedDoubleDot
+- CosineDot
+- Double
+- InvertedDouble
+- Line
+- LineX
+- LineY
+- Round
+- Ellipse
+- EllipseA
+- InvertedEllipseA
+- EllipseB
+- EllipseC
+- InvertedEllipseC
+- Square
+- Cross
+- Rhomboid
+- Diamond
 
-2) A FunctionElement.
+.
+
+2\) A [FunctionElement](../../../07-syntax/1101-functionelement/index.md).
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 130, page 309.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 130, page 309.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=317)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 128, page 371.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 128, page 371.](https://www.iso.org/standard/63534.html)
 
 When the value is a name, the viewer looks up a built-in spot function with that name. The named functions each produce a characteristic dot shape: SimpleDot and Round grow circular dots, Ellipse and EllipseA grow elongated dots, Line and LineX produce line screens, and so on. ISO 32000-2:2020 defines the calculation behind each name.
 

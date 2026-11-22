@@ -4,16 +4,15 @@ Create an XColor from a grayscale value.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static <a href="../default.htm">XColor</a> FromGray(int gray)static <a href="../default.htm">XColor</a> FromGray(double gray)
-```
+`static `[`XColor`](../index.md)` FromGray(int gray)`  
+`static `[`XColor`](../index.md)` FromGray(double gray)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | gray | The amount of black (0 to 255) |
 | return | The resulting XColor. |
 
@@ -22,7 +21,3 @@ static <a href="../default.htm">XColor</a> FromGray(int gray)static <a href="../
 Create an XColor from a grayscale value ranging between zero and 255.
 
 The value represents the amount of black ink so zero indicates white and 255 indicates black.
-
-## Example
-
-None

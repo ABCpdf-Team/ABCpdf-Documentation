@@ -1,3 +1,0 @@
-# Outline Property
-
-## Notes

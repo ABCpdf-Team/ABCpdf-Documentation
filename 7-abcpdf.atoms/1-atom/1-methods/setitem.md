@@ -1,20 +1,18 @@
 # SetItem Function
 
-Adds a specified item to the Atom if it is of a type which 
-            contains other Atoms.
+Adds a specified item to the Atom if it is of a type which contains other Atoms.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-static Atom SetItem(Atom atom, string key, Atom val)static Atom SetItem(Atom atom, int index, Atom val)
+static Atom SetItem(Atom atom, string key, Atom val)
+static Atom SetItem(Atom atom, int index, Atom val)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | atom | The Atom to which the item should be added. |
 | key | The name of the item to be added. |
 | index | The index at which the item should be added. |
@@ -23,7 +21,7 @@ static Atom SetItem(Atom atom, string key, Atom val)static Atom SetItem(Atom ato
 
 ## Notes
 
-Both [DictAtoms](dictatom/default.md) and [ArrayAtoms](arrayatom/default.md) can contain other Atoms.
+Both [DictAtoms](../../dictatom/index.md) and [ArrayAtoms](../../arrayatom/index.md) can contain other Atoms.
 
 This function allows you to add an item to an ArrayAtom or DictAtom.
 
@@ -34,7 +32,3 @@ Entries in ArrayAtoms can be referenced by number. If the container Atom supplie
 Entries in DictAtoms can be referenced by name. If the container Atom supplied is a DictAtom and the key supplied is not empty then insertion will be successful.
 
 If insertion was successful the function will return the Atom which was added. If it was not successful it will return null.
-
-## Example
-
-None

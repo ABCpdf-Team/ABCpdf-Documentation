@@ -4,22 +4,16 @@ A hash code for the XRect
 
 ## Syntax
 
-[C#]
-
 ```csharp
 override int GetHashCode()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | The returned hash code. |
 
 ## Notes
 
 Derives a hash code suitable for use in hashing algorithms and data structures like hash tables.
-
-## Example
-
-None

@@ -4,16 +4,14 @@ Gets numeric information about an object.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 long GetInfoInt64(int id, string type)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | id | The Object ID of the object to be queried. |
 | type | The type of information to be retrieved. |
 | return | The returned integer. |

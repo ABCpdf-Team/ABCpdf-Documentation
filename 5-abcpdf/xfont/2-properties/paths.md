@@ -1,5 +1,9 @@
 # Paths Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string[]` | n/a | Yes | The paths to the files that contain the font definition. |
+
 ## Notes
 
 The paths to the files that contain the font definition.

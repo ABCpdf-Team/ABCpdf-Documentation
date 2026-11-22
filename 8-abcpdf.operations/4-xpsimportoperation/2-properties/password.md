@@ -1,10 +1,9 @@
 # Password Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | No | The password needed to read the source. |
+| `string` | null | No | The password needed to read the source. |
 
 ## Notes
 
 Specify with this property the password for accessing the source. It is supported only for MS Word and MS Excel documents.
-

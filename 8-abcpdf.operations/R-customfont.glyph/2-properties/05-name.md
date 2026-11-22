@@ -1,3 +1,0 @@
-# Name Property
-
-## Notes

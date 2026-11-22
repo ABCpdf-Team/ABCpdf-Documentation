@@ -4,23 +4,17 @@ Determines the index of a specific Atom.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-int IndexOf(<a href="../../1-atom/default.htm">Atom</a> value)
-```
+`int IndexOf(`[`Atom`](../../1-atom/index.md)` value)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | The object to locate in the Collection. |
 | return | If found, the index of value, otherwise -1. |
 
 ## Notes
 
 Determines the index of a specific Atom in the Collection.
-
-## Example
-
-None

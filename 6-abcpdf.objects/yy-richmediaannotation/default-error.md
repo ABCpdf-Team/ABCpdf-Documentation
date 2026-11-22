@@ -1,2 +1,0 @@
-# RichMediaAnnotation Class
-

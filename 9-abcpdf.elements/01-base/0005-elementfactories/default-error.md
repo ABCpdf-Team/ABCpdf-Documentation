@@ -1,2 +1,0 @@
-# ElementFactories Class
-

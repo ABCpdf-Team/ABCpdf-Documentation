@@ -1,5 +1,9 @@
 # EntryBinding Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "Binding" entry of the richmediaparams dictionary object. |
+
 ## Notes
 
 Represents the "Binding" entry of the richmediaparams dictionary object.
@@ -12,10 +16,13 @@ The PDF specification states that this item assumes a value of "None" if no valu
 
 This item may take one of the following valid values:.
 
-NoneForegroundBackgroundMaterial
+- None
+- Foreground
+- Background
+- Material
 
 For definitive details see:.
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51c, page 90.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51c, page 90.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=90)
 
 The binding name selects the 3D binding mode for the instance: None, Background, Material, or Base, controlling how the media content is rendered in relation to the 3D scene's geometry.

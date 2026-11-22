@@ -1,2 +1,0 @@
-# WebCaptureImageSetElement Class
-

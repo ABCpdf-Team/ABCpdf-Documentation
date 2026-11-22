@@ -4,22 +4,16 @@ The byte array representation of the Atom as it would appear in a PDF
 
 ## Syntax
 
-[C#]
-
 ```csharp
 byte[] GetData()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes
 
 The byte array representation of the Atom as it would appear in a PDF.
-
-## Example
-
-None

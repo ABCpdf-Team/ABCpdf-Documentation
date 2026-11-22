@@ -4,18 +4,22 @@ Evaluates a Python expression and gets its Boolean value.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool EvalBoolean(string expr, in <a href="../../05-pythonrunoptions/default.htm">PythonRunOptions</a> options = new())
-```
+`bool EvalBoolean(string expr, in `[`PythonRunOptions`](../../05-pythonrunoptions/index.md)` options = new())`
+
+⚠ `ObjectDisposedException: Thrown when this PythonScope has been disposed of.`  
+⚠ `ArgumentNullException: Thrown when expr is null.`  
+⚠ `InvalidCastException: Thrown when the result is not a Boolean.`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | expr | A Python expression. |
 | options | Options for running Python code. |
 | return | The Boolean value of the result. |
 
 ## Notes
+
+Evaluates a Python expression and gets its Boolean value.

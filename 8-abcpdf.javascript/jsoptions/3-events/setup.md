@@ -4,17 +4,15 @@ Occurs after the JavaScript engine is initialized and before the specified JavaS
 
 ## Syntax
 
-[C#]
-
 ```csharp
-event Func&lt;JSCallInfo, object&gt; SetUp;
+event Func<JSCallInfo, object> SetUp;
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| arg | A JSCallInfo providing only the context in JSCallInfo.Context. |
+| Name | Description |
+| :---: | --- |
+| arg | A JSCallInfo providing only the context in [JSCallInfo.Context](../../jscallinfo/2-properties/1-context.md). |
 | return | The return value is ignored. |
 
 ## Notes
@@ -24,8 +22,6 @@ This event allows the set-up of the JavaScript environment. No JavaScript functi
 ## Example
 
 Here, we implement the Field.display property.
-
-[C#]
 
 ```csharp
 using (Doc doc = new Doc()) {
@@ -98,4 +94,3 @@ using (Doc doc = new Doc()) {
   doc.Save(Server.MapPath("hiddenfield.pdf"));
 }
 ```
-

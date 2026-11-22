@@ -1,3 +1,0 @@
-# BBox Property
-
-## Notes

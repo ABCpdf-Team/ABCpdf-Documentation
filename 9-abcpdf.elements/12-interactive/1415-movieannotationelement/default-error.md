@@ -1,2 +1,0 @@
-# MovieAnnotationElement Class
-

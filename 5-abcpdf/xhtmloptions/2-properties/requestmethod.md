@@ -1,8 +1,8 @@
 # RequestMethod Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default Value | Read Only | Description |
 | --- | --- | --- | --- |
-|  | Get | No | The request method for URL. |
+| `UrlRequestMethodType` | Get | No | The request method for URL. |
 
 ## Notes
 
@@ -10,10 +10,10 @@ This property applies to the [ABCGecko](2-forgecko.md) and [MSHTML](2-formshtml.
 
 The UrlRequestMethodType enumeration can take any of the following values:
 
-* Get
-* Post
+- Get
+- Post
 
-This property specifies which method [Doc.AddImageUrl](doc/1-methods/addimageurl.md) uses to get the HTML page. Normally, Get is the preferred method when requesting the page is an idempotent operation. However, the Get method supports at most 2,048 characters in the URL. If the URL is longer than 2,048 characters and contains parameters, it is necessary to use the Post method. However, the URL minus the parameters (and the question mark) is still limited to 2,048 characters.
+This property specifies which method [Doc.AddImageUrl](../../doc/1-methods/addimageurl.md) uses to get the HTML page. Normally, Get is the preferred method when requesting the page is an idempotent operation. However, the Get method supports at most 2,048 characters in the URL. If the URL is longer than 2,048 characters and contains parameters, it is necessary to use the Post method. However, the URL minus the parameters (and the question mark) is still limited to 2,048 characters.
 
 The Post method is used only when the URL contains a question mark (and this property is set to Post). If the URL does not contain any parameter, the Post method can still be used by appending a question mark to the URL.
 

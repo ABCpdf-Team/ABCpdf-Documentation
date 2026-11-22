@@ -1,12 +1,22 @@
 # CompressJpeg Function
 
+Compresses the image using JPEG compression.
+
 ## Syntax
 
-[C#] void CompressJpeg(int quality)
+```csharp
+void CompressJpeg(int quality)
+```
 
-may throw Exception()
+*C#*
+
+⚠ `may throw Exception()`
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| quality | The quality of compression to use (0 to 100). |
 
 ## Notes
 
@@ -18,7 +28,6 @@ The quality of the compression can range from zero (lowest quality, highest comp
 
 ## Example
 
-See the Recolor function.
+See the [Recolor](recolor.md) function.
 
-Also see example code in: RecolorOperation Recolor Function.
-
+Also see example code in: [RecolorOperation Recolor Function](../../../8-abcpdf.operations/3-recoloroperation/1-methods/recolor.md).

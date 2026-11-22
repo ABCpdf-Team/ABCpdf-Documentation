@@ -1,5 +1,9 @@
 # EntryComponents Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `IList<string>` | null | No | Represents the "Components" entry of the devicen process dictionary object. |
+
 ## Notes
 
 Represents the "Components" entry of the devicen process dictionary object.
@@ -10,8 +14,8 @@ It contains an array which contains strings, representing PDF name objects.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 72, page 163.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 72, page 163.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=171)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 71, page 205.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 71, page 205.](https://www.iso.org/standard/63534.html)
 
 The Components array lists the names of the DeviceN components that are standard process colorants. Each name must appear in the DeviceN Names array. Components not listed are treated as spot colorants with no process equivalent.

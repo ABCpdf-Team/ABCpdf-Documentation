@@ -1,2 +1,0 @@
-# Jbig2ParametersElement Class
-

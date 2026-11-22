@@ -4,17 +4,15 @@ Validate this object and report any inconsistencies.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-virtual void Validate(<a href="../../0007-validation/default.htm">Validation</a> validation)
-```
+`virtual void Validate(`[`Validation`](../../0007-validation/index.md)` validation)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| validation | The Validation object which will receive validation results and progress. |
+| Name | Description |
+| :---: | --- |
+| validation | The [Validation](../../0007-validation/index.md) object which will receive validation results and progress. |
 
 ## Notes
 

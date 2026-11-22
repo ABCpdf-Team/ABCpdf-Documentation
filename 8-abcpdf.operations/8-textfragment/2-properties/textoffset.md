@@ -1,8 +1,8 @@
-# TextOffset       Property
+# TextOffset Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | n/a | Yes | The offset to the Text of this fragment. |
+| `int` | n/a | Yes | The offset to the Text of this fragment. |
 
 ## Notes
 
@@ -13,7 +13,3 @@ Each TextFragment spans a part of a PDF stream drawing operator. The part may be
 This property reflects the offset to the Text of the TextFragment - the selected portion within the RawText of the TextFragment. An offset may be needed because the Text may not be unique within the RawText.
 
 For example a TextFragment may represent the letter 'a' in a text operator which draws "abracadabra". Without the offset there is no way to know which 'a' the fragment refers to.
-
-## Example
-
-None

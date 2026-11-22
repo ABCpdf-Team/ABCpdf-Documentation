@@ -4,16 +4,14 @@ Translate horizontally and vertically.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Translate(double x, double y)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | x | The distance to translate to the right. |
 | y | The distance to translate upwards. |
 
@@ -24,8 +22,6 @@ This method shifts the world space a specified distance up and to the right. Obj
 ## Example
 
 Here we draw two rectangles into our document. The black rectangle is drawn before the translation operation and the red one is drawn after it.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -40,12 +36,7 @@ doc.FrameRect();
 doc.Save("transformtranslate.pdf");
 ```
 
-![](../../../images/pdf/transformtranslate.pdf.png)
+![transformtranslate.pdf](../../../images/pdf/transformtranslate.pdf.png)  
 transformtranslate.pdf
 
-Also see example code in:
-
-* [ABCpdf Landscape Example](4-examples/08-landscape.md)
-* [Page GetBitmap Function](6-abcpdf.objects/page/1-methods/getbitmap.md)
-* [Page Rotation Property](6-abcpdf.objects/page/2-properties/rotation.md)
-* [XpsImportOperation Import Function](8-abcpdf.operations/4-xpsimportoperation/1-methods/import.md).
+Also see example code in: [ABCpdf Landscape Example](../../../4-examples/08-landscape.md), [Page GetBitmap Function](../../../6-abcpdf.objects/page/1-methods/getbitmap.md), [Page Rotation Property](../../../6-abcpdf.objects/page/2-properties/rotation.md), [XpsImportOperation Import Function](../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.md).

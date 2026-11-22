@@ -1,2 +1,0 @@
-# MinimumScreenSizeElement Class
-

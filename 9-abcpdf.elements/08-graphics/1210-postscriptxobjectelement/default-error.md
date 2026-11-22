@@ -1,2 +1,0 @@
-# PostScriptXObjectElement Class
-

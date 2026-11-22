@@ -1,2 +1,0 @@
-# InkAnnotationElement Class
-

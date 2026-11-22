@@ -36,7 +36,7 @@ Suppose you have a template document you want to use within ABCpdf. Using Acroba
 
 If later you want to shift your content a little it's a simple matter to open the PDF in Acrobat and move the fields around.
 
-See the eForm Example for details.
+See the [eForm Example](../4-examples/15-eform1.md) for details.
 
 ## Creation
 
@@ -61,4 +61,3 @@ In extreme cases the LiveCycle documents may not even contain any useful PDF con
 If you have input to the document creation process, using LiveCycle to save the file as "Adobe Static PDF Form" may help.
 
 If you want to modify forms you will generally find it easier to work with Acrobat created forms than Designer created ones.
-

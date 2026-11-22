@@ -4,16 +4,14 @@ Adds rich media to the current page of the doc.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">RichMediaAnnotation</a>(Doc doc, XRect rect, string filePathOrUrl, string mediaType)
-```
+[`RichMediaAnnotation`](../index.md)`(Doc doc, XRect rect, string filePathOrUrl, string mediaType)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | Doc |
 | rect | Annotation rectangle |
 | filePathOrUrl | Media file path or URL |
@@ -25,13 +23,9 @@ Adds rich media to the current page of the doc.
 
 The media type can be one of:
 
-* "Flash"
-* "Video"
-* "Sound"
-* "3D"
+- "Flash"
+- "Video"
+- "Sound"
+- "3D"
 
 Supported file formats are not defined by the PDF specification and thus will vary between viewers.
-
-## Example
-
-None

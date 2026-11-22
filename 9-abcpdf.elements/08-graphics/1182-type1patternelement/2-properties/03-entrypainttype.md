@@ -1,5 +1,9 @@
 # EntryPaintType Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "PaintType" entry of the type 1 pattern dictionary object. |
+
 ## Notes
 
 Represents the "PaintType" entry of the type 1 pattern dictionary object.
@@ -10,8 +14,8 @@ It contains an integer representing a PDF numeric object.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 75, page 175.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 75, page 175.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=183)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 74, page 218.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 74, page 218.](https://www.iso.org/standard/63534.html)
 
 A PaintType of 1 means the pattern content stream includes its own color specifications and is painted using those colors regardless of the current color at the time of painting. A PaintType of 2 means the pattern content stream uses no color operators; the current color at the time of painting is applied throughout the pattern cell.

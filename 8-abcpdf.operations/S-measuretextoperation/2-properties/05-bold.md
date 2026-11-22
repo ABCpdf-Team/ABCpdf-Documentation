@@ -1,3 +1,0 @@
-# Bold Property
-
-## Notes

@@ -1,8 +1,8 @@
 # Type0SampleCount Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | 64 | No | Gets or sets the number of Type 0 function samples to generate (between 64 and 1000). |
+| `int` | 64 | No | Gets or sets the number of Type 0 function samples to generate (between 64 and 1000). |
 
 ## Notes
 

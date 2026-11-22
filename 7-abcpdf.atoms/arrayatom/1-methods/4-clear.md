@@ -1,16 +1,19 @@
 # Clear Function
 
+Removes all Atoms from the array.
+
 ## Syntax
 
-[C#] void Clear()
+```csharp
+void Clear()
+```
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| none |  |
 
 ## Notes
 
 Removes all Atoms from the array.
-
-## Example
-
-None.
-

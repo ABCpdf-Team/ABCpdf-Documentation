@@ -1,17 +1,21 @@
 # XRune Function
 
+[XRune](../index.md) constructor.
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">XRune</a>(char ch)<a href="../default.htm">XRune</a>(int value)<a href="../default.htm">XRune</a>(uint value)<a href="../default.htm">XRune</a>(char highSurrogate, char lowSurrogate)<a href="../default.htm">XRune</a>(Rune rune)
-```
+[`XRune`](../index.md)`(char ch)`  
+[`XRune`](../index.md)`(int value)`  
+[`XRune`](../index.md)`(uint value)`  
+[`XRune`](../index.md)`(char highSurrogate, char lowSurrogate)`  
+[`XRune`](../index.md)`(Rune rune)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | ch | A non-surrogate character. |
 | value | A Unicode scalar value. |
 | highSurrogate | The high surrogate of the surrogate pair. |
@@ -19,3 +23,5 @@
 | rune | A rune value. |
 
 ## Notes
+
+[XRune](../index.md) constructor.

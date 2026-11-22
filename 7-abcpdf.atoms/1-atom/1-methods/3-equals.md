@@ -4,16 +4,16 @@ Test whether the two Atoms are the same.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-bool Equals(Atom other)override bool Equals(object obj)bool Equals(Atom other, ComparisonType type)
+bool Equals(Atom other)
+override bool Equals(object obj)
+bool Equals(Atom other, ComparisonType type)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | other | The Atom to test against. |
 | obj | The object to test against. |
 | type | The type of comparison to perform. |
@@ -31,10 +31,6 @@ The override taking a ComparisonType allows you to choose between different ways
 
 The ComparisonType enumeration may take the following values:
 
-* None - Equal as long as the other atom is not null.
-* Object - Equal if the atoms are object equal.
-* Atom - Equal if the atoms are value equal.
-
-## Example
-
-None
+- None - Equal as long as the other atom is not null.
+- Object - Equal if the atoms are object equal.
+- Atom - Equal if the atoms are value equal.

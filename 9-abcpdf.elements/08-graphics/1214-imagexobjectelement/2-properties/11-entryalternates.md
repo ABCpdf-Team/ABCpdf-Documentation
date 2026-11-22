@@ -1,24 +1,28 @@
 # EntryAlternates Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| [`ArrayElement`](../../../01-base/0001-arrayelement_t_/index.md)`<`[`AlternateImageElement`](../../1220-alternateimageelement/index.md)`>` | null | No | Represents the "Alternates" entry of the image dictionary object. |
+
 ## Notes
 
 Represents the "Alternates" entry of the image dictionary object.
 
 It is an optional entry defined as part of the PDF 1.3 specification.
 
-It contains an array which contains AlternateImageElements.
+It contains an array which contains [AlternateImageElements](../../1220-alternateimageelement/index.md).
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 89, page 207.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 89, page 207.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=215)
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 4.39, page 27.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 4.39, page 27.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=27)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 87, page 256.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 87, page 256.](https://www.iso.org/standard/63534.html)
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 146, page 349.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 146, page 349.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=357)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 144, page 418.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 144, page 418.](https://www.iso.org/standard/63534.html)
 
 The Alternates array holds alternate image dictionaries. Each dictionary references a substitute image XObject and optionally flags it as the default for printing and associates it with an optional content group.
 

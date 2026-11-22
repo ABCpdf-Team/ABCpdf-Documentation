@@ -1,5 +1,9 @@
 # Kernings Property
 
+| Type | Default | Read Only | Description |
+| --- | --- | --- | --- |
+| `IDictionary<XTuple<XRune, XRune>, int>` | n/a | Yes | The kerning values for all kerning character pairs. |
+
 ## Notes
 
 The kerning values in thousandths of a unit for all kerning character pairs in the font.

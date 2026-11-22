@@ -4,16 +4,19 @@ Make this a certification signature.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-void Certify()void Certify(PermittedChanges changes)
+void Certify()
+void Certify(PermittedChanges changes)
 ```
+
+*C#*
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | changes | The document changes which will be permitted after the signature is signed. |
 
 ## Notes
@@ -30,10 +33,6 @@ Then, if the author has allowed it, other people may apply approval signatures t
 
 The PermittedChanges enumeration may take the following values:
 
-* None - No changes are permitted.
-* FormFilling - Form filling is permitted.
-* Annotations - Form filling and annotation addition is permitted.
-
-## Example
-
-None
+- None - No changes are permitted.
+- FormFilling - Form filling is permitted.
+- Annotations - Form filling and annotation addition is permitted.

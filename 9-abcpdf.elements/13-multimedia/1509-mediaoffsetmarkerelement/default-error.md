@@ -1,2 +1,0 @@
-# MediaOffsetMarkerElement Class
-

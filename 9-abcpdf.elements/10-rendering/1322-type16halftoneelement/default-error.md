@@ -1,2 +1,0 @@
-# Type16HalftoneElement Class
-

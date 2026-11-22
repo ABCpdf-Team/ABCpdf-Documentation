@@ -4,17 +4,19 @@ Add Long Term Validation (LTV) to the Document Security Store (DSS).
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void AddLTV(Oid oid)
 ```
 
+*C#*
+
+⚠ `may throw Exception()`
+
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| oid | The hash algorithm to use to create the digest of the signature to be timestamped where the TimestampServiceUrl is specified, for example new Oid("SHA256"). |
+| Name | Description |
+| :---: | --- |
+| oid | The hash algorithm to use to create the digest of the signature to be timestamped where the [TimestampServiceUrl](../2-properties/timestampserviceurl.md) is specified, for example new Oid("SHA256"). |
 
 ## Notes
 
@@ -44,8 +46,6 @@ For more information see ISO 32000-2:2017 Section 12.8.4 (https://www.iso.org/st
 
 In this example, for simplicity, we use the plain text password overload. However to improve application security you may wish to use the SecureString overload.
 
-[C#]
-
 ```csharp
 using var doc = new Doc();
 X509Certificate2 cert = Certificates.GetFromStore(); // User-defined function
@@ -60,4 +60,3 @@ sig.TimestampServiceUrl = new Uri("http://timestamp.comodoca.com");
 sig.AddLTV(new Oid(CryptoConfig.MapNameToOID("SHA256")));
 doc.Save("SignedLTV.pdf");
 ```
-

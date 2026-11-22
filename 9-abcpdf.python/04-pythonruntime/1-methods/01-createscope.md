@@ -4,17 +4,17 @@ Creates a scope for running Python code.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../../06-pythonscope/default.htm">PythonScope</a> CreateScope(string name = null)
-```
+[`PythonScope`](../../06-pythonscope/index.md)` CreateScope(string name = null)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | name | The name of the scope. |
 | return | A Python scope. |
 
 ## Notes
+
+Creates a scope for running Python code.

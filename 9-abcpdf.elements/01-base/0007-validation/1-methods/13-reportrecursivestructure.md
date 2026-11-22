@@ -4,16 +4,14 @@ Called to report detection of a recursive structure.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 virtual void ReportRecursiveStructure()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes

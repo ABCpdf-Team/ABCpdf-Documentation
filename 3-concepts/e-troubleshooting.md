@@ -2,9 +2,9 @@
 
 ## Intro
 
-We do not expect you to have any problems with our software but if you do we offer a full level of support as standard. If you need an extra level of security we offer a Platinum Level Support program offering a priority channel through to our engineers.
+We do not expect you to have any problems with our software but if you do we offer a full level of support as standard. If you need an extra level of security we offer a [Platinum Level Support](https://www.websupergoo.com/purchase.aspx) program offering a priority channel through to our engineers.
 
-Your first port of call should be to check out the FAQ on our website. If it doesn't cover your particular query you can mail us via the email addresses listed there. We prefer queries via email as technical issues are often complicated and require some thought on our side as well as yours. However if you need to telephone then numbers are listed on our web site.
+Your first port of call should be to check out the [FAQ on our website](https://www.websupergoo.com/support.aspx). If it doesn't cover your particular query you can mail us via the email addresses listed there. We prefer queries via email as technical issues are often complicated and require some thought on our side as well as yours. However if you need to telephone then numbers are listed on our web site.
 
 ## Common
 
@@ -35,4 +35,3 @@ A code sample should be small and should illustrate one particular problem. Plea
 Please put a little bit of effort into defining exactly what the problem is. In the long run this will save you time.
 
 Once we have a standalone code example we can tell you exactly why your code isn't doing what you think it should. If it's a problem with our software we'll fix it or suggest a workaround. Even if the problem is outside our software we are often able to suggest workarounds.
-

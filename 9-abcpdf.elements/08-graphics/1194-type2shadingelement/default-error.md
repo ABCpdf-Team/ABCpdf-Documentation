@@ -1,2 +1,0 @@
-# Type2ShadingElement Class
-

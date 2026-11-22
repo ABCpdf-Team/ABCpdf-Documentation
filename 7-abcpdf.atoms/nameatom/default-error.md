@@ -1,2 +1,0 @@
-# NameAtom Class
-

@@ -4,22 +4,16 @@ XReadOptions Constructor.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">XReadOptions</a>()
-```
+[`XReadOptions`](../index.md)`()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes
 
 Create an empty XReadOptions.
-
-## Example
-
-None

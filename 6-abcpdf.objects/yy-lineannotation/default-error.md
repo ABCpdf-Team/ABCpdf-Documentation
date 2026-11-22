@@ -1,2 +1,0 @@
-# LineAnnotation Class
-

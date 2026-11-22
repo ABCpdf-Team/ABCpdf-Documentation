@@ -1,2 +1,0 @@
-# RichMediaWindowElement Class
-

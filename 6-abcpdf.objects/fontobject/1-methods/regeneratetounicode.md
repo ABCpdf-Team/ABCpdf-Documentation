@@ -1,10 +1,8 @@
-# RegenerateToUnicode  Function
+# RegenerateToUnicode Function
 
 Attempt to regenerate a ToUnicode map.
 
 ## Syntax
-
-[C#]
 
 ```csharp
 bool RegenerateToUnicode()
@@ -12,8 +10,8 @@ bool RegenerateToUnicode()
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | Whether a new ToUnicode map was inserted. |
 
 ## Notes
@@ -24,8 +22,4 @@ Complex fonts are generally embedded using an identity encoding which references
 
 Well behaved PDF producers will insert a ToUnicode map for all fonts that they embed. However some font producers may fail to do so. This means that copying or extracting text from such a PDF will result in gibberish.
 
-In some cases it is possible to regenerate the ToUnicode map from the embedded font data. This function attempts to do so and returns true if a new ToUnicode map was inserted. This function only works on [composite](2-properties/iscomposite.md) fonts and calling it on other types of fonts will not do anything.
-
-## Example
-
-None
+In some cases it is possible to regenerate the ToUnicode map from the embedded font data. This function attempts to do so and returns true if a new ToUnicode map was inserted. This function only works on [composite](../2-properties/iscomposite.md) fonts and calling it on other types of fonts will not do anything.

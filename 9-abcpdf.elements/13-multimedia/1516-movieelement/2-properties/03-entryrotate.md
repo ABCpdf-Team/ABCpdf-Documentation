@@ -1,5 +1,9 @@
 # EntryRotate Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "Rotate" entry of the movie dictionary object. |
+
 ## Notes
 
 Represents the "Rotate" entry of the movie dictionary object.
@@ -12,8 +16,8 @@ The PDF specification states that this item assumes a value of 0 if no value has
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 295, page 508.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 295, page 508.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=516)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 306, page 635.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 306, page 635.](https://www.iso.org/standard/63534.html)
 
 The Rotate entry specifies a clockwise rotation in degrees applied to the movie frame before display. Valid values are 0, 90, 180, and 270.

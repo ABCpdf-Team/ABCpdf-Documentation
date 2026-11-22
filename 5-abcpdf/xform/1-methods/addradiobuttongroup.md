@@ -4,16 +4,14 @@ Add radio button group.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 Field AddRadioButtonGroup(XRect[] rects, string names, int selected)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | rects | Radio button rectangles. |
 | names | Name of the radio button form field. |
 | selected | Number of initially selected button using a zero based index. |
@@ -22,3 +20,9 @@ Field AddRadioButtonGroup(XRect[] rects, string names, int selected)
 ## Notes
 
 Add radio button group.
+
+## Example
+
+See the Annotations example project.
+
+None.

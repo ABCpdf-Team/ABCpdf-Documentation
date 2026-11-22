@@ -1,24 +1,20 @@
 # Equals Function
 
+Test whether the two [Metadata](../index.md) objects are the same
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool Equals(<a href="../default.htm">Metadata</a> other)
-```
+`bool Equals(`[`Metadata`](../index.md)` other)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| other | The Metadata to test against. |
-| return | Whether the Metadata objects are equal. |
+| Name | Description |
+| :---: | --- |
+| other | The [Metadata](../index.md) to test against. |
+| return | Whether the [Metadata](../index.md) objects are equal. |
 
 ## Notes
 
-Test whether the two [Metadata](default.md) objects are the same.
-
-## Example
-
-None
+Test whether the two [Metadata](../index.md) objects are the same.

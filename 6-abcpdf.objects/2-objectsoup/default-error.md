@@ -1,2 +1,0 @@
-# ObjectSoup Class
-

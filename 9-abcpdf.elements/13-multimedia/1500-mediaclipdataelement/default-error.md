@@ -1,2 +1,0 @@
-# MediaClipDataElement Class
-

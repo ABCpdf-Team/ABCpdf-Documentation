@@ -1,5 +1,9 @@
 # CompressionLevel Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | The compression level to apply when performing lossless compression. |
+
 ## Notes
 
 The compression level to apply when performing lossless compression.

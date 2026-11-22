@@ -1,19 +1,19 @@
-# NameTree&lt;T&gt; Function
+# NameTree\<T> Function
+
+[NameTree](../index.md) constructor.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">NameTree</a>&lt;T&gt;(<a href="../../../07-syntax/1097-nametreenodeelement_t_/default.htm">NameTreeNodeElement</a>&lt;T&gt; root)
-```
+[`NameTree`](../index.md)`<T>(`[`NameTreeNodeElement`](../../../07-syntax/1097-nametreenodeelement_t_/index.md)`<T> root)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | root | The root node for the tree. |
 
 ## Notes
 
-[NameTree](default.md) constructor.
+[NameTree](../index.md) constructor.

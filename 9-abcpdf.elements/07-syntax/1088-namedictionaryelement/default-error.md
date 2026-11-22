@@ -1,2 +1,0 @@
-# NameDictionaryElement Class
-

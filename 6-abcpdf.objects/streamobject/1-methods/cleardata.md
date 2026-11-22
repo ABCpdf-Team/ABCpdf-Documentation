@@ -1,16 +1,19 @@
 # ClearData Function
 
+Clear the data and compression settings for the stream.
+
 ## Syntax
 
-[C#] void ClearData()
+```csharp
+void ClearData()
+```
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| none |  |
 
 ## Notes
 
 Clears all data and compression settings leaving the stream empty of data.
-
-## Example
-
-None.
-

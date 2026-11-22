@@ -1,5 +1,9 @@
 # EntryID Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | This property represents the "ID" entry of the link structure attributes object. |
+
 ## Notes
 
 This property represents the "ID" entry of the link structure attributes object.

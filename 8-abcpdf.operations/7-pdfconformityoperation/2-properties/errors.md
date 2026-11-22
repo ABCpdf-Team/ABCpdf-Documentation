@@ -1,8 +1,8 @@
 # Errors Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | Yes | The features within the document which could not be made conformant. |
+| `IList<string>` | null | Yes | The features within the document which could not be made conformant. |
 
 ## Notes
 
@@ -12,4 +12,4 @@ After the document has been changed, this property contains a list of the featur
 
 ## Example
 
-See the [Save](../1-methods/save.htm) method.
+See the [Save](../1-methods/save.md) method.

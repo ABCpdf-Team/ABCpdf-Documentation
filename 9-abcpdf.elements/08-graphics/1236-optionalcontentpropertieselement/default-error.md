@@ -1,2 +1,0 @@
-# OptionalContentPropertiesElement Class
-

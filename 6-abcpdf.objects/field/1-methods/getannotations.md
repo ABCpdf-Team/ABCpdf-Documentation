@@ -4,22 +4,16 @@ Gets all the Annotations referenced by this field or its children
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../../annotation/default.htm">Annotation</a>[] GetAnnotations()
-```
+[`Annotation`](../../annotation/index.md)`[] GetAnnotations()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes
 
-Gets all the [Annotations](annotation/default.md) referenced by this field or its children.
-
-## Example
-
-None
+Gets all the [Annotations](../../annotation/index.md) referenced by this field or its children.

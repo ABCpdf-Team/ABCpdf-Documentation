@@ -1,2 +1,0 @@
-# OpiElement Class
-

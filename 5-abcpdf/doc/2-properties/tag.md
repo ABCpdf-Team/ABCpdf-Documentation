@@ -1,5 +1,9 @@
 # Tag Property
 
+| Type | Default | Read Only | Description |
+| --- | --- | --- | --- |
+| [`XTagging`](../../xtagging/index.md) | n/a | Yes | The document tagging control. |
+
 ## Notes
 
 The document tagging control.
@@ -14,5 +18,4 @@ You still have full control over the full range of tagging capabilities when you
 
 ## Example
 
-Also see example code in: ABCpdf Tagged Text Example, XTagging Open Function, XTagging Close Function, XTagging AddFocus Function, XTextStyle AutoTag Property.
-
+Also see example code in: [ABCpdf Tagged Text Example](../../../4-examples/02-texttagged.md), [XTagging Open Function](../../xtagging/1-methods/04-open.md), [XTagging Close Function](../../xtagging/1-methods/05-close.md), [XTagging AddFocus Function](../../xtagging/1-methods/08-addfocus.md), [XTextStyle AutoTag Property](../../xtextstyle/2-properties/autotag.md).

@@ -1,2 +1,0 @@
-# ObjectSoupSubset Class
-

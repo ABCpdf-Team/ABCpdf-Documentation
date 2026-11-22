@@ -1,2 +1,0 @@
-# ExternalDataElement Class
-

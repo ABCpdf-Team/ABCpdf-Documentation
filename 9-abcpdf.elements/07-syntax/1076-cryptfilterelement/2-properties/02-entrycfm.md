@@ -1,5 +1,9 @@
 # EntryCFM Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "CFM" entry of the crypt filter dictionary object. |
+
 ## Notes
 
 Represents the "CFM" entry of the crypt filter dictionary object.
@@ -12,14 +16,17 @@ The PDF specification states that this item assumes a value of "None" if no valu
 
 This item may take one of the following valid values:.
 
-NoneV2AESV2AESV3
+- None
+- V2
+- AESV2
+- AESV3
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 25, page 68.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 25, page 68.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=76)
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.22, page 22.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 3.22, page 22.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=22)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 25, page 90.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 25, page 90.](https://www.iso.org/standard/63534.html)
 
 The CFM entry names the encryption method for this crypt filter. None means no encryption. V2 uses RC4 with the key length given by Length. AESV2 uses 128-bit AES in CBC mode with a random initialisation vector prepended to the ciphertext. AESV3 uses 256-bit AES.

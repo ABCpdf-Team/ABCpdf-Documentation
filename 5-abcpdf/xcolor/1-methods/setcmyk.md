@@ -4,16 +4,17 @@ Set the color to an CMYK value.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-void SetCmyk(int cyan, int magenta, int yellow, int black)void SetCmyk(int cyan, int magenta, int yellow, int black, int alpha)void SetCmyk(double cyan, double magenta, double yellow, double black)void SetCmyk(double cyan, double magenta, double yellow, double black, double alpha)
+void SetCmyk(int cyan, int magenta, int yellow, int black)
+void SetCmyk(int cyan, int magenta, int yellow, int black, int alpha)
+void SetCmyk(double cyan, double magenta, double yellow, double black)
+void SetCmyk(double cyan, double magenta, double yellow, double black, double alpha)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | cyan | The amount of cyan (0 to 100). |
 | magenta | The amount of magenta (0 to 100). |
 | yellow | The amount of yellow (0 to 100). |
@@ -28,4 +29,4 @@ Optionally set the alpha value to specify a transparency level. If this paramete
 
 ## Example
 
-Also see example code in: [Page GetBitmap Function](6-abcpdf.objects/page/1-methods/getbitmap.md).
+Also see example code in: [Page GetBitmap Function](../../../6-abcpdf.objects/page/1-methods/getbitmap.md).

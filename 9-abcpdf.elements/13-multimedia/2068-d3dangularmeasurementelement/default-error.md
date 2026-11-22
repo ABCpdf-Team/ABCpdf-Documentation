@@ -1,2 +1,0 @@
-# D3DAngularMeasurementElement Class
-

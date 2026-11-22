@@ -1,2 +1,0 @@
-# ObjectReferenceElement Class
-

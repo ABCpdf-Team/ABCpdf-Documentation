@@ -1,8 +1,9 @@
 # IsLoaded Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | false | Yes | Indicates whether this instance is loaded. |
+
 ## Notes
 
-## Example
-
-None.
-
+Indicates whether this instance is loaded.

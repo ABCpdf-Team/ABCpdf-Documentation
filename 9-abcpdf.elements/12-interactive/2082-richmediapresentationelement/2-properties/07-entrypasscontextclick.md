@@ -1,5 +1,9 @@
 # EntryPassContextClick Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool?` | null | No | Represents the "PassContextClick" entry of the richmediapresentation dictionary object. |
+
 ## Notes
 
 Represents the "PassContextClick" entry of the richmediapresentation dictionary object.
@@ -12,8 +16,8 @@ The PDF specification states that this item assumes a value of false if no value
 
 For definitive details see:.
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50d, page 82.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50d, page 82.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=82)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 338, page 702.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 338, page 702.](https://www.iso.org/standard/63534.html)
 
 When true right-click events within the annotation rectangle are passed through to the media player rather than being handled by the viewer, allowing the media's own context menu to appear.

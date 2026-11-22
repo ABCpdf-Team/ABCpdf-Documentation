@@ -4,16 +4,16 @@ Determines if two transforms are effectively the same.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool Equals(<a href="../default.htm">XTransform</a> transform, double epsilon)bool Equals(<a href="../default.htm">XTransform</a> other)override bool Equals(object obj)
-```
+`bool Equals(`[`XTransform`](../index.md)` transform, double epsilon)`  
+`bool Equals(`[`XTransform`](../index.md)` other)`  
+`override bool Equals(object obj)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | other | The transform to be compared against this one |
 | epsilon | The largest difference in values which will still be defined as equal |
 | transform | The transform to be compared against this one |

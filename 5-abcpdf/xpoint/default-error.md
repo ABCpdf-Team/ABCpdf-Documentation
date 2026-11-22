@@ -1,2 +1,0 @@
-# XPoint Class
-

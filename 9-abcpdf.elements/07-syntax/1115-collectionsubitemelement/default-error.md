@@ -1,2 +1,0 @@
-# CollectionSubItemElement Class
-

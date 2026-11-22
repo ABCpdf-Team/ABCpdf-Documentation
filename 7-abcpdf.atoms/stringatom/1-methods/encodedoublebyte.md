@@ -1,10 +1,21 @@
-# EncodeDoubleByte  Function
+# EncodeDoubleByte Function
+
+Encode a string into a format for use in a content stream using a composite font with a double byte CMap.
 
 ## Syntax
 
-[C#] static StringBuilder EncodeDoubleByte(string text, IDictionary<char, char> encoding, StringBuilder builder)
+```csharp
+static StringBuilder EncodeDoubleByte(string text, IDictionary<char, char> encoding, StringBuilder builder)
+```
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| text | The text to be encoded. |
+| encoding | The encoding to use - typically obtained from the [FontObject.GetEncoding](../../../6-abcpdf.objects/fontobject/1-methods/getencoding.md) method. |
+| builder | The StringBuilder to which the encoded representation should be appended. |
+| return | The updated StringBuilder. |
 
 ## Notes
 
@@ -14,9 +25,4 @@ Typically you will obtain an appropriate encoding from the FontObject.GetEncodin
 
 This method should only be used with composite fonts that specify this type of encoding as only these fonts will understand the fact that the characters are multi-byte. If you attempt to use this method with a simple font then you will get extra characters inserted since each double byte entry will be interpreted as two single characters.
 
-See the Fonts and Languages section for details on language types.
-
-## Example
-
-None.
-
+See the [Fonts and Languages](../../../3-concepts/7-fonts.md) section for details on language types.

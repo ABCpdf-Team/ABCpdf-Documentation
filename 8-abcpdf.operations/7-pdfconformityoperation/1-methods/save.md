@@ -4,29 +4,30 @@ Write the conforming PDF document.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-void Save(Doc doc, string path)void Save(Doc doc, Stream stream)
+void Save(Doc doc, string path)
+void Save(Doc doc, Stream stream)
 ```
+
+*C#*
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | The document. |
 | path | The destination file path. |
 | stream | The destination stream. |
 
 ## Notes
 
-This method writes the document in a conforming PDF format according to the [Conformance](2-properties/conformance.md) property. Any conformance error is reported in the [Errors](2-properties/errors.md) property after the method finishes.
+This method writes the document in a conforming PDF format according to the [Conformance](../2-properties/conformance.md) property. Any conformance error is reported in the [Errors](../2-properties/errors.md) property after the method finishes.
 
 ## Example
 
 Here we save a document in PDF/A-1b format.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -43,4 +44,3 @@ using (var theOperation = new PdfConformityOperation()) {
   }
 }
 ```
-

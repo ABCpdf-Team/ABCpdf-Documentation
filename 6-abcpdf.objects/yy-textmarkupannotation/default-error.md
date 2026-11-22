@@ -1,2 +1,0 @@
-# TextMarkupAnnotation Class
-

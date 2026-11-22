@@ -1,2 +1,0 @@
-# ArtifactAttributesElement Class
-

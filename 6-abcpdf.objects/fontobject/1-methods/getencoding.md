@@ -4,16 +4,18 @@ Obtain a standard encoding dictionary for use with PDF text operators.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-static IDictionary&lt;char, char&gt; GetEncoding(LanguageType type, bool vertical)
+static IDictionary<char, char> GetEncoding(LanguageType type, bool vertical)
 ```
+
+*C#*
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | type | The language type for the desired encoding. |
 | vertical | Whether the writing direction should be horizontal or vertical. |
 | return | A dictionary mapping Unicode values to native character IDs. |
@@ -26,8 +28,4 @@ Note that the encoding dictionary is defined purely by the language and directio
 
 Since the Unicode LanguageType is already Unicode the encoding for this type is identity. For this reason an exception will be thrown if an encoding for this type is requested.
 
-See the [Fonts and Languages](3-concepts/7-fonts.md) section for details on language types.
-
-## Example
-
-None
+See the [Fonts and Languages](../../../3-concepts/7-fonts.md) section for details on language types.

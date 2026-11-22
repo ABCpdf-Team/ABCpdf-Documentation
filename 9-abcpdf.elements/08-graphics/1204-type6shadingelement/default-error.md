@@ -1,2 +1,0 @@
-# Type6ShadingElement Class
-

@@ -4,16 +4,14 @@ Add line annotation to the current page of the doc.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">LineAnnotation</a>(Doc doc, XPoint p1, XPoint p2, XColor color)
-```
+[`LineAnnotation`](../index.md)`(Doc doc, XPoint p1, XPoint p2, XColor color)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | Doc. |
 | p1 | Line start point. |
 | p2 | Line end point. |
@@ -22,7 +20,3 @@ Add line annotation to the current page of the doc.
 ## Notes
 
 Add line annotation to the current page of the doc.
-
-## Example
-
-None

@@ -1,15 +1,11 @@
-# TextFragments        Property
+# TextFragments Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | n/a | Yes | The text fragments in the group. |
+| `IList<`[`TextFragment`](../../8-textfragment/index.md)`>` | n/a | Yes | The text fragments in the group. |
 
 ## Notes
 
 The text fragments in the group.
 
 .
-
-## Example
-
-None

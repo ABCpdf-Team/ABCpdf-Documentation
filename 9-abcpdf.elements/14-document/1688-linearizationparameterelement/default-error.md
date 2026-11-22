@@ -1,2 +1,0 @@
-# LinearizationParameterElement Class
-

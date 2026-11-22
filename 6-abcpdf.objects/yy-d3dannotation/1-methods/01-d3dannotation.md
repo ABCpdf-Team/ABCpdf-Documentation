@@ -4,23 +4,17 @@ Add 3D annotation to the current page of the doc.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">D3DAnnotation</a>(Doc doc, XRect rect)
-```
+[`D3DAnnotation`](../index.md)`(Doc doc, XRect rect)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | Doc |
 | rect | Annotation rectangle |
 
 ## Notes
 
 Add 3D annotation to the current page of the doc.
-
-## Example
-
-None

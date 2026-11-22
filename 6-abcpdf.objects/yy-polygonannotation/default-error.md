@@ -1,2 +1,0 @@
-# PolygonAnnotation Class
-

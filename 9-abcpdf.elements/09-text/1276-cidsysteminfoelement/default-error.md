@@ -1,2 +1,0 @@
-# CIDSystemInfoElement Class
-

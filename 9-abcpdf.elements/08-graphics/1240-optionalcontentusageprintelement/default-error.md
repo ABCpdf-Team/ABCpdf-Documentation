@@ -1,2 +1,0 @@
-# OptionalContentUsagePrintElement Class
-

@@ -4,16 +4,18 @@ Get all the text in the page contents.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-string GetText()string GetText(<a href="../../../5-abcpdf/xrect/default.htm">XRect</a> rect, int pageNumber)string GetText(<a href="../../../5-abcpdf/xrect/default.htm">XRect</a>[] rects, int[] pageNumbers)
-```
+`string GetText()`  
+`string GetText(`[`XRect`](../../../5-abcpdf/xrect/index.md)` rect, int pageNumber)`  
+`string GetText(`[`XRect`](../../../5-abcpdf/xrect/index.md)`[] rects, int[] pageNumbers)`
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | rect | The rectangle from which to return text. |
 | rects | A set of rectangles forming a union from which to return text. |
 | pageNumber | The page number - a one based index. |
@@ -22,7 +24,7 @@ string GetText()string GetText(<a href="../../../5-abcpdf/xrect/default.htm">XRe
 
 ## Notes
 
-This method returns the text of the content that has been assigned via the [PageContents](2-properties/pagecontents.md). If the PageContents is null then an exception will be raised.
+This method returns the text of the content that has been assigned via the [PageContents](../2-properties/pagecontents.md). If the PageContents is null then an exception will be raised.
 
 The overloads of this function allow you to select an area of interest in terms of an area defined by single rectangle or by a union of multiple rectangles. They also allow you to select a subset of pages from which text should be returned. This page array is a set of page numbers - one based indexes - for which order is not important. Passing null for these parameters defaults to the entire page and the entire set of available pages respectively.
 

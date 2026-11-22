@@ -1,20 +1,20 @@
 # Equals Function
 
+Test whether the two [Elements](../index.md) are the same.
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool Equals(<a href="../default.htm">Element</a> other)
-```
+`bool Equals(`[`Element`](../index.md)` other)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| other | The Element to test against. |
-| return | Whether the Elements are equal. |
+| Name | Description |
+| :---: | --- |
+| other | The [Element](../index.md) to test against. |
+| return | Whether the [Elements](../index.md) are equal. |
 
 ## Notes
 
-Test whether the two [Elements](default.md) are the same.
+Test whether the two [Elements](../index.md) are the same.

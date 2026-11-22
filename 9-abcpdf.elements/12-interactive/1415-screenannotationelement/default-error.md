@@ -1,2 +1,0 @@
-# ScreenAnnotationElement Class
-

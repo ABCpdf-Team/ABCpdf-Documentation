@@ -1,5 +1,9 @@
 # EntryCount Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "Count" entry of the outline item dictionary object. |
+
 ## Notes
 
 Represents the "Count" entry of the outline item dictionary object.
@@ -10,8 +14,8 @@ It contains an integer representing a PDF numeric object.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 153, page 368.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 153, page 368.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=376)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 151, page 443.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 151, page 443.](https://www.iso.org/standard/63534.html)
 
 A positive value means the item is expanded; negative means collapsed. The absolute value gives the total open descendant count, allowing the open state to be restored when the item is expanded.

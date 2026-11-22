@@ -1,15 +1,11 @@
-# StreamID    Property
+# StreamID Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | n/a | Yes | The Stream ID of the content stream in which this text fragment is located. |
+| `int` | n/a | Yes | The Stream ID of the content stream in which this text fragment is located. |
 
 ## Notes
 
 The Stream ID of the content stream in which this text fragment is located.
 
-You can use this ID with the [ObjectSoup](6-abcpdf.objects/2-objectsoup/default.md) to retrieve a [StreamObject.](6-abcpdf.objects/streamobject/default.md)
-
-## Example
-
-None
+You can use this ID with the [ObjectSoup](../../../6-abcpdf.objects/2-objectsoup/index.md) to retrieve a [StreamObject.](../../../6-abcpdf.objects/streamobject/index.md)

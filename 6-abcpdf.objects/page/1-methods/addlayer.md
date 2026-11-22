@@ -4,16 +4,19 @@ Add a content layer to the page
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-int AddLayer(string text)int AddLayer(byte[] data)int AddLayer(<a href="../../streamobject/default.htm">StreamObject</a> stream)int AddLayer(string text, int index)int AddLayer(byte[] data, int index)int AddLayer(<a href="../../streamobject/default.htm">StreamObject</a> stream, int index)
-```
+`int AddLayer(string text)`  
+`int AddLayer(byte[] data)`  
+`int AddLayer(`[`StreamObject`](../../streamobject/index.md)` stream)`  
+`int AddLayer(string text, int index)`  
+`int AddLayer(byte[] data, int index)`  
+`int AddLayer(`[`StreamObject`](../../streamobject/index.md)` stream, int index)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | text | The ASCII text to be added - typically a set of PDF drawing operators. |
 | data | The data to be added - typically an ASCII representation of a set of PDF drawing operators. |
 | stream | The stream that should be added as a new layer on page. |
@@ -28,13 +31,10 @@ By default the layer will go at the top or front of the page. By supplying an in
 
 Layers draw in sequence when displayed which means that later layers may draw over the top of earlier layers.
 
-Any [StreamObject](streamobject/default.md) that is supplied should contain PDF drawing operations. The data and text overloads are convenience functions for common operations.
+Any [StreamObject](../../streamobject/index.md) that is supplied should contain PDF drawing operations. The data and text overloads are convenience functions for common operations.
 
 You will need to ensure that any resources that are referenced in this content stream have been added to the resources of the page using a method such as [AddResource](addresource.md).
 
 ## Example
 
-Also see example code in:
-
-* [Page MakeFormXObject Function](makeformxobject.md)
-* [OpAtom Find Function](7-abcpdf.atoms/opatom/1-methods/find.md).
+Also see example code in: [Page MakeFormXObject Function](makeformxobject.md), [OpAtom Find Function](../../../7-abcpdf.atoms/opatom/1-methods/find.md).

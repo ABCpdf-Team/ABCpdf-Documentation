@@ -1,5 +1,9 @@
 # FieldBorderColor Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| [`XColor`](../../../5-abcpdf/xcolor/index.md) | n/a | No | The border color of the field. |
+
 ## Notes
 
 This property is used to access or change the border color of a field.
@@ -10,9 +14,4 @@ If you assign a color to this property the color supplied must be grayscale, RGB
 
 When you set this property a clone of the XColor you assign is created to avoid one XColor being shared by multiple annotations.
 
-After changing this property you will need to call UpdateAppearance to realize the change.
-
-## Example
-
-None.
-
+After changing this property you will need to call [UpdateAppearance](../1-methods/updateappearance.md) to realize the change.

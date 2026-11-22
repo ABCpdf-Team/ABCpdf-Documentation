@@ -1,2 +1,0 @@
-# LzwParametersElement Class
-

@@ -1,19 +1,17 @@
-# Group  Function
+# Group Function
 
 Group a range of text fragments into a set of lines.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-IList&lt;<a href="../../8-textgroup/default.htm">TextGroup</a>&gt; Group(IList&lt;<a href="../../8-textfragment/default.htm">TextFragment</a>&gt; fragments)
-```
+`IList<`[`TextGroup`](../../8-textgroup/index.md)`> Group(IList<`[`TextFragment`](../../8-textfragment/index.md)`> fragments)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | fragments | The fragments to be grouped. |
 | Return | Returns a list of groups defining the words. |
 
@@ -28,8 +26,6 @@ Strictly speaking this grouping does not always correspond to lines. For example
 ## Example
 
 Here we highlight a set of words in a source document by drawing a rectangle around each one.
-
-[C#]
 
 ```csharp
 string src = "../mypics/Acrobat.pdf";
@@ -55,4 +51,3 @@ while (true) {
 }
 doc.Save(dst);
 ```
-

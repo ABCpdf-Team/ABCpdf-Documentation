@@ -1,3 +1,0 @@
-# CharUsage Property
-
-## Notes

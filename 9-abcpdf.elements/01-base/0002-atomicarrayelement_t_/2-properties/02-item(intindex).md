@@ -1,5 +1,11 @@
 # Item(int index) Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `T` | null | No | Gets or sets the items at the specified index. |
+
+⚠ `ArgumentOutOfRangeException: Thrown if the index provided is not valid.`
+
 ## Notes
 
 Gets or sets the items at the specified index. In C# this property is the indexer for the class.

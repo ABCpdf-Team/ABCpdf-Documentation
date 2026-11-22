@@ -1,2 +1,0 @@
-# CheckboxFieldElement Class
-

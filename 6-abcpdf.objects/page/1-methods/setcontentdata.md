@@ -4,16 +4,15 @@ Sets the content data for the page.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../../streamobject/default.htm">StreamObject</a> SetContentData(byte[] buffer, bool compress)<a href="../../streamobject/default.htm">StreamObject</a> SetContentData(byte[] buffer, int index, int count, bool compress)
-```
+[`StreamObject`](../../streamobject/index.md)` SetContentData(byte[] buffer, bool compress)`  
+[`StreamObject`](../../streamobject/index.md)` SetContentData(byte[] buffer, int index, int count, bool compress)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | buffer | The bytes containing the data to be set. |
 | compress | Whether the new stream should be Flate compressed. |
 | index | The byte offset in buffer, at which to begin copying bytes to the page contents. The default is zero. |
@@ -27,7 +26,3 @@ Sets the content data for the page.
 You can specify a subset of the bytes in the array as the data for the content stream.
 
 If the data for the current page is the same as that provided then nothing will be done and the existing stream will be returned.
-
-## Example
-
-None

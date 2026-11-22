@@ -1,5 +1,9 @@
 # EntryString Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | This property represents the path to the file. |
+
 ## Notes
 
 This property represents the path to the file.
@@ -14,6 +18,6 @@ If a file name or directory actually contains a forward slash, this needs to be 
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 100.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 100.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=108)
 
 The String entry holds the file path or URI as a PDF byte string. The format depends on the file system: a POSIX path, a Windows path, or a URI. PDF does not define a canonical path format, so the interpretation depends on the operating system.

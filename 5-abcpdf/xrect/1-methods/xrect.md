@@ -1,27 +1,22 @@
-# XRect&nbsp;Constructor
+# XRect Constructor
 
 XRect Constructor.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-XRect()XRect(string value)
+XRect()
+XRect(string value)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | A string defining the initial rectangle in the format "left bottom right top" |
 
 ## Notes
 
 These methods construct an XRect object.
 
-To construct an XRect with initial values use one of the static constructors such as [XRect.FromSides](3-fromsides.md) [XRect.FromLbwh](1-fromlbwh.md) or [XRect.FromPoints](4-frompoints.md).
-
-## Example
-
-None
+To construct an XRect with initial values use one of the static constructors such as [XRect.FromSides](3-fromsides.md), [XRect.FromLbwh](1-fromlbwh.md) or [XRect.FromPoints](4-frompoints.md).

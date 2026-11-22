@@ -4,16 +4,14 @@ Set a particular appearance for the annotation.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void SetAppearance(string state, string name, FormXObject form)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | state | The state may be N, D, or R. These values represent the normal, down and rollover states respectively. |
 | name | The name for the state for choice fields which have names. This value may be null if this is not a choice field. |
 | form | The appearance. Pass null to remove the appearance. |
@@ -22,7 +20,3 @@ void SetAppearance(string state, string name, FormXObject form)
 ## Notes
 
 Set a particular appearance for the annotation.
-
-## Example
-
-None

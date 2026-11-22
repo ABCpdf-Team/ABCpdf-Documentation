@@ -1,2 +1,0 @@
-# JSDataDescriptor Class
-

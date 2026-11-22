@@ -1,5 +1,9 @@
 # EntryAngle Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `double?` | null | No | Represents the "Angle" entry of the type 1 halftone dictionary object. |
+
 ## Notes
 
 Represents the "Angle" entry of the type 1 halftone dictionary object.
@@ -10,9 +14,9 @@ It contains a double representing a PDF numeric object.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 130, page 309.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 130, page 309.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=317)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 128, page 371.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 128, page 371.](https://www.iso.org/standard/63534.html)
 
 The value is in degrees, rotating counter-clockwise from the positive x axis in default user space. Typical values for colour printing separations are 0, 15, 45, 75, and 90 degrees, chosen so that adjacent screens are far enough apart in angle to keep moire below the threshold of visibility.
 

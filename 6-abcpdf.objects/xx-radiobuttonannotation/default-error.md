@@ -1,2 +1,0 @@
-# RadioButtonAnnotation Class
-

@@ -4,16 +4,18 @@ Inserts an item into the array at the specified position.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Insert(int index, T value)
 ```
 
+*C#*
+
+⚠ `ArgumentOutOfRangeException: Thrown if the index provided is not valid.`
+
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | index | The zero-based index at which the value should be inserted. |
 | value | The items to insert into the array. |
 

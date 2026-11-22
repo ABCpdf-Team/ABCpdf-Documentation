@@ -1,2 +1,0 @@
-# WebPageOperation Class
-

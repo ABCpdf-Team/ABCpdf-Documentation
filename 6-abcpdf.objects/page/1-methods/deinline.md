@@ -1,19 +1,20 @@
-# DeInline  Function
+# DeInline Function
 
 Makes any inline images into external images.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-void DeInline(bool convertAnnotations)void DeInline(bool convertAnnotations, out <a href="../../pixmap/default.htm">PixMap</a>[] detachedPixMaps)
-```
+`void DeInline(bool convertAnnotations)`  
+`void DeInline(bool convertAnnotations, out `[`PixMap`](../../pixmap/index.md)`[] detachedPixMaps)`
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | convertAnnotations | Whether to convert the color space of annotation appearance streams. |
 | detachedPixMaps | All the PixMaps which were extracted as a result of the call. |
 

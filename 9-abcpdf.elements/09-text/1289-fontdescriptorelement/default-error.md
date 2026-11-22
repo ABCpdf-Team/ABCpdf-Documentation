@@ -1,2 +1,0 @@
-# FontDescriptorElement Class
-

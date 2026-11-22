@@ -1,2 +1,0 @@
-# FormXObject Class
-

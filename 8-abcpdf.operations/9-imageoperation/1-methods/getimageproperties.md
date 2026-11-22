@@ -1,32 +1,30 @@
-# GetImageProperties  Function
+# GetImageProperties Function
 
 Get the image information for all the raster images.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-IList&lt;<a href="../../9-imageproperties/default.htm">ImageProperties</a>&gt; GetImageProperties()
-```
+`IList<`[`ImageProperties`](../../9-imageproperties/index.md)`> GetImageProperties()`
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | Return | A collection of all the image properties.. |
 
 ## Notes
 
-Get the image information for all the raster images. If the [PageContents](2-properties/pagecontents.md) is null then an exception will be raised.
+Get the image information for all the raster images. If the [PageContents](../2-properties/pagecontents.md) is null then an exception will be raised.
 
 After retrieving image properties you can iterate through them to find out information about what images there are and how they are placed in the document. Much like HTML, PDF allows a divorce between the image and the placement of that image. So you may have one PixMap which is drawn multiple times at multiple sizes in different locations within the document.
 
 ## Example
 
 Here we highlight a set of images in a source document by drawing a red rectangle around each one.
-
-[C#]
 
 ```csharp
 string src = "../mypics/Acrobat.pdf";
@@ -46,4 +44,3 @@ foreach (var img in images) {
 }
 doc.Save(dst);
 ```
-

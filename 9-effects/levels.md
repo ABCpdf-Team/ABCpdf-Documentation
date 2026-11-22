@@ -1,14 +1,15 @@
 # Levels Effect
 
+The Levels effect allows you fine control over brightness and contrast.
+
 ## Settings
 
-The level in the current image that should be regarded as black.
-
-The level in the current image that should be regarded as white.
-
-The level in the final image that should be regarded as black.
-
-The level in the final image that should be regarded as white.
+| Name | Default | Description |
+| --- | --- | --- |
+| Black Input | 0 % | The level in the current image that should be regarded as black. |
+| White Input | 100 % | The level in the current image that should be regarded as white. |
+| Black Output | 0 % | The level in the final image that should be regarded as black. |
+| White Output | 100 % | The level in the final image that should be regarded as white. |
 
 ## Workings
 
@@ -26,13 +27,37 @@ The levels effect is often used in conjunction with an image histogram so that t
 
 The following example images show the effect of the Levels effect.
 
-[C#] void function() { using (Doc doc = new Doc()) { AddImagePage(doc, img6); // original image doc.Rendering.Save("EffectLevels.jpg"); using (ImageLayer layer = AddImagePage(doc, img6)) { using (EffectOperation effect = new EffectOperation("Levels")) { effect.Parameters["White Input"].Value = 80; effect.Apply(layer.PixMap); } } doc.Rendering.Save("EffectLevelsWI80.jpg"); using (ImageLayer layer = AddImagePage(doc, img6)) { using (EffectOperation effect = new EffectOperation("Levels")) { effect.Parameters["Black Input"].Value = 20; effect.Apply(layer.PixMap); } } doc.Rendering.Save("EffectLevelsBI20.jpg"); using (ImageLayer layer = AddImagePage(doc, img6)) { using (EffectOperation effect = new EffectOperation("Levels")) { effect.Parameters["White Output"].Value = 80; effect.Apply(layer.PixMap); } } doc.Rendering.Save("EffectLevelsWO80.jpg"); } }
+```csharp
+void function() {
+  using (Doc doc = new Doc()) {
+    AddImagePage(doc, img6); // original image
+    doc.Rendering.Save("EffectLevels.jpg");
+    using (ImageLayer layer = AddImagePage(doc, img6)) {
+      using (EffectOperation effect = new EffectOperation("Levels")) {
+        effect.Parameters["White Input"].Value = 80;
+        effect.Apply(layer.PixMap);
+      }
+    }
+    doc.Rendering.Save("EffectLevelsWI80.jpg");
+    using (ImageLayer layer = AddImagePage(doc, img6)) {
+      using (EffectOperation effect = new EffectOperation("Levels")) {
+        effect.Parameters["Black Input"].Value = 20;
+        effect.Apply(layer.PixMap);
+      }
+    }
+    doc.Rendering.Save("EffectLevelsBI20.jpg");
+    using (ImageLayer layer = AddImagePage(doc, img6)) {
+      using (EffectOperation effect = new EffectOperation("Levels")) {
+        effect.Parameters["White Output"].Value = 80;
+        effect.Apply(layer.PixMap);
+      }
+    }
+    doc.Rendering.Save("EffectLevelsWO80.jpg");
+  }
+}
+```
 
-Original Image
-
-White Input = 80
-
-Black Input = 20
-
-White Output = 80
-
+|  |  |
+| --- | --- |
+| ![Original Image](images/bouy2.jpg)<br>Original Image | ![White Input = 80](images/levels/wi200.jpg)<br>White Input = 80 |
+| ![Black Input = 20](images/levels/bi50.jpg)<br>Black Input = 20 | ![White Output = 80](images/levels/wo200.jpg)<br>White Output = 80 |

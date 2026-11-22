@@ -1,2 +1,0 @@
-# WebCapturePageSetElement Class
-

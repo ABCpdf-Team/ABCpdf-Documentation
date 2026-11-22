@@ -1,19 +1,19 @@
 # Validation Function
 
+Initializes a new instance of the [Validation](../index.md) class.
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">Validation</a>()
-```
+[`Validation`](../index.md)`()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes
 
-Initializes a new instance of the [Validation](default.md) class.
+Initializes a new instance of the [Validation](../index.md) class.

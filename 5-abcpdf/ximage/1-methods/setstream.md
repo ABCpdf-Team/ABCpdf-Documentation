@@ -4,16 +4,18 @@ Load an image from stream.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void SetStream(Stream stream)
 ```
 
+*C#*
+
+⚠ `may throw Exception()`
+
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | stream | The stream containing the graphic. |
 
 ## Notes
@@ -22,15 +24,13 @@ Load an image from stream.
 
 The stream can contain any of the following types: JPEG, GIF, TIFF, BMP, PNG, PSD, PDB, EXIF, WMF, EMF, EPS, PS or SWF (Flash).
 
-Ultimately each import goes through a [ReadModule](xreadoptions/2-properties/1-readmodule.md) so for details of additional formats supported and the way they are imported, see the [ReadModule](xreadoptions/2-properties/1-readmodule.md) property.
+Ultimately each import goes through a [ReadModule](../../xreadoptions/2-properties/1-readmodule.md) so for details of additional formats supported and the way they are imported, see the [ReadModule](../../xreadoptions/2-properties/1-readmodule.md) property.
 
-Different images within the file can be accessed using the [Frame](2-properties/frame.md) property. Different portions of the image can be selected using the [Selection](2-properties/selection.md) property.
+Different images within the file can be accessed using the [Frame](../2-properties/frame.md) property. Different portions of the image can be selected using the [Selection](../2-properties/selection.md) property.
 
 ## Example
 
 Here we read a TIFF file and present the data to the XImage object. We then add the image to our document and then save the PDF.
-
-[C#]
 
 ```csharp
 using var img = new XImage();
@@ -43,6 +43,5 @@ doc.AddImageObject(img, false);
 doc.Save("imagesetstream.pdf");
 ```
 
-![](../../../images/pdf/imagesetfile.pdf.png)
+![imagesetstream.pdf](../../../images/pdf/imagesetfile.pdf.png)  
 imagesetstream.pdf
-

@@ -4,16 +4,14 @@ Disposes of a delegate used to create a JavaScript function.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-void DisposeOfCallback(Func&lt;JSCallInfo, object&gt; func)
+void DisposeOfCallback(Func<JSCallInfo, object> func)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | func | A delegate used to create a JavaScript function. |
 
 ## Notes
@@ -23,7 +21,3 @@ Delegates need to be kept alive while the native code may call them. Additionall
 Your code does not need to call this method if it creates only a small number of JavaScript functions using managed delegates. Delegates that are disposed of in this way can later be used to create new JavaScript functions.
 
 Do not dispose of delegates that are still callable from JavaScript code.
-
-## Example
-
-None

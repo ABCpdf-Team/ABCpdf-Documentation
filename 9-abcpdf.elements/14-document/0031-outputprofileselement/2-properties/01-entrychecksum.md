@@ -1,5 +1,9 @@
 # EntryCheckSum Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "CheckSum" entry of the destoutputprofileref dictionary object. |
+
 ## Notes
 
 Represents the "CheckSum" entry of the destoutputprofileref dictionary object.
@@ -10,6 +14,6 @@ It contains a string representing a PDF string object.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 402, page 817.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 402, page 817.](https://www.iso.org/standard/63534.html)
 
 The CheckSum entry holds a 16-byte MD5 digest of the ICC profile data stream. A reader can verify profile integrity by computing and comparing this digest.

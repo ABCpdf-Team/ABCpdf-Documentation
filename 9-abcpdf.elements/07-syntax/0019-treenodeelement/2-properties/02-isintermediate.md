@@ -1,5 +1,9 @@
 # IsIntermediate Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | false | Yes | Nodes in a tree may be root, intermediate or leaf. |
+
 ## Notes
 
 Nodes in a tree may be root, intermediate or leaf.

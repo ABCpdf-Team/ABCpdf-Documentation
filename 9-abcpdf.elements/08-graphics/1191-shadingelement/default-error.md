@@ -1,2 +1,0 @@
-# ShadingElement Class
-

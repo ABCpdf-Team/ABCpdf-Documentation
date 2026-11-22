@@ -4,16 +4,16 @@ Add text markup annotation to the current rect of the current page of the doc.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, string quadPoints, TextMarkupType markupType, XColor color)<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, int id, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust = TextMarkupAdjust.None)<a href="../default.htm">TextMarkupAnnotation</a>(Doc doc, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust = TextMarkupAdjust.None)
-```
+[`TextMarkupAnnotation`](../index.md)`(Doc doc, string quadPoints, TextMarkupType markupType, XColor color)`  
+[`TextMarkupAnnotation`](../index.md)`(Doc doc, int id, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust = TextMarkupAdjust.None)`  
+[`TextMarkupAnnotation`](../index.md)`(Doc doc, TextMarkupType markupType, XColor color, TextMarkupAdjust adjust = TextMarkupAdjust.None)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | Doc |
 | quadPoints | Quad points of the text |
 | markupType | Type of the markup annotation |
@@ -27,10 +27,10 @@ Add text markup annotation to the current rect of the current page of the doc.
 
 The TextMarkupType enumeration may take the following values:
 
-* Underline - Underlined text.
-* Highlight - Highlighted text.
-* StrikeOut - Struck through text.
-* Squiggly - Squiggly underlined text.
+- Underline - Underlined text.
+- Highlight - Highlighted text.
+- StrikeOut - Struck through text.
+- Squiggly - Squiggly underlined text.
 
 If quad points are provided, the annotation rectangle will be set to the smallest area that contains all these points. If a text object ID is provided, the annotation rectangle will be set to match the area of the text object. If neither is provided, the annotation rectangle will be set to match the current Doc.Rect.
 
@@ -44,12 +44,8 @@ The TextMarkupAdjust type is a flags enumeration so different values can be comb
 
 The TextMarkupAdjust enumeration may take the following values:
 
-* None - No adjustment.
-* Adobe - Adjust annotation for Adobe Acrobat Reader's undocumented behavior.
-* Rect - Adjust annotation's Rect and QuadPoints.
-* NoRotate - Add NoRotate flag.
-* RectNoRotate - Same as Rect | NoRotate.
-
-## Example
-
-None
+- None - No adjustment.
+- Adobe - Adjust annotation for Adobe Acrobat Reader's undocumented behavior.
+- Rect - Adjust annotation's Rect and QuadPoints.
+- NoRotate - Add NoRotate flag.
+- RectNoRotate - Same as Rect | NoRotate.

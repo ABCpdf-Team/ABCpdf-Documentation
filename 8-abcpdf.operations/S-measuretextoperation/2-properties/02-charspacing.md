@@ -1,3 +1,0 @@
-# CharSpacing Property
-
-## Notes

@@ -4,18 +4,16 @@ Adds a separation color space to the document.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 int AddColorSpaceSpot(string name, string color)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | name | The name of the color. |
-| color | The display representation of the color. This should be supplied in the same format as the XColor.String uses. |
+| color | The display representation of the color. This should be supplied in the same format as the [XColor.String](../../xcolor/2-properties/string.md) uses. |
 | return | The Object ID of the newly added ColorSpace Object. |
 
 ## Notes
@@ -26,7 +24,7 @@ Separation color spaces allow you to add spot colors or isolate the use of indiv
 
 For example you might define a separation color space called Gold with a display representation of CMYK yellow. You might then draw some text with different amounts of Gold. When viewing the output on a standard monitor the display representation of the color would be used. However when printed - using appropriate software and an appropriate printer - the name of the color might be used to select a gold colored ink.
 
-The current color space is defined by the [ColorSpace](2-properties/colorspace.md) property. The current color is defined by the [Color](2-properties/color.md) property. Because separations represent a single value property you should use single component - grayscale - colors to specify the amount of spot colorant to use.
+The current color space is defined by the [ColorSpace](../2-properties/colorspace.md) property. The current color is defined by the [Color](../2-properties/color.md) property. Because separations represent a single value property you should use single component - grayscale - colors to specify the amount of spot colorant to use.
 
 There are two special color spaces:
 
@@ -37,8 +35,6 @@ There are two special color spaces:
 ## Example
 
 In this example we define a colorant called Gold and add some text using varying amounts of our colorant.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -53,6 +49,5 @@ for (int i = 1; i <= 10; i++) {
 doc.Save("docaddcolorspacespot.pdf");
 ```
 
-![](../../../images/pdf/docaddcolorspacespot.pdf.png)
+![docaddcolorspacespot.pdf](../../../images/pdf/docaddcolorspacespot.pdf.png)  
 docaddcolorspacespot.pdf
-

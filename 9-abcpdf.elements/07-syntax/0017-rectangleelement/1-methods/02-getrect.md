@@ -1,8 +1,8 @@
 # GetRect Function
 
-## Syntax
+Get the contents of this [RectangleElement](../index.md) as an XRect.
 
-[C#]
+## Syntax
 
 ```csharp
 XRect GetRect()
@@ -10,10 +10,10 @@ XRect GetRect()
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| return | A new XRect with values corresponding to the contents of this RectangleElement. |
+| Name | Description |
+| :---: | --- |
+| return | A new XRect with values corresponding to the contents of this [RectangleElement](../index.md). |
 
 ## Notes
 
-Get the contents of this [RectangleElement](default.md) as an XRect.
+Get the contents of this [RectangleElement](../index.md) as an XRect.

@@ -1,2 +1,0 @@
-# LinkAnnotation Class
-

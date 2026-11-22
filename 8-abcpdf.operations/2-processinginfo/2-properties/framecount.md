@@ -1,13 +1,9 @@
 # FrameCount Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | n/a | Yes | Gets the number of frames in the source object. |
+| `long?` | n/a | Yes | Gets the number of frames in the source object. |
 
 ## Notes
 
 This property holds the number of frames in the source object.
-
-## Example
-
-None

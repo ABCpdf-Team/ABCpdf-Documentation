@@ -4,16 +4,18 @@ Removes the item at the specified index.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void RemoveAt(int index)
 ```
 
+*C#*
+
+⚠ `ArgumentOutOfRangeException: Thrown if the index provided is not valid.`
+
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | index | The zero-based index of the item to remove. |
 
 ## Notes

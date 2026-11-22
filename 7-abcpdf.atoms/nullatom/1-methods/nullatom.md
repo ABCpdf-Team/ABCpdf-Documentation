@@ -1,16 +1,19 @@
 # NullAtom Constructor
 
+Construct a NullAtom.
+
 ## Syntax
 
-[C#] NullAtom()
+*C#*
+
+[`NullAtom`](../index.md)`()`
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| none |  |
 
 ## Notes
 
 Create a NullAtom.
-
-## Example
-
-None.
-

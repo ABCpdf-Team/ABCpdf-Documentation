@@ -4,16 +4,14 @@ Set the application configuration using a Linux style config file.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 static void SetConfigFile(string path)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | path | The path to the config file. |
 
 ## Notes
@@ -24,7 +22,7 @@ This can be used in situations in which you have a custom config file for your a
 
 On Windows ABCpdf first looks for preferences in the default config file. For an executable this will be app.config in the same directory as the executable. For a web site it will be a web.config at the root of the web app. Under Linux this does not happen.
 
-If a preference is not found here then any config file specified using the SetConfigFile method will be scanned for an appropriate setting. If the method has not been called and you are on Linux then the default config file will be used - ~/.config/WebSupergoo/ABCpdf14.config.
+If a preference is not found here then any config file specified using the SetConfigFile method will be scanned for an appropriate setting. If the method has not been called and you are on Linux then the default config file will be used - \~/.config/WebSupergoo/ABCpdf14.config.
 
 On Windows if the preference is still not found then the registry will be scanned for the value.
 
@@ -32,7 +30,28 @@ Finally if no value has been found then a default will be used.
 
 Here is an example of a .config file that contains a valid ABCpdf config section. The illustrated ABCpdf preferences are TempDirectory and MakeURLsUnique.
 
----
-Important: <configSections> must appear before <startup> if <startup> exists.
+```
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <section name="ABCpdf14" type=" WebSupergoo.ABCpdf14.ConfigSection, ABCpdf" allowLocation="true"
+allowDefinition="Everywhere" allowExeDefinition="MachineToLocalUser" overrideModeDefault="Allow"
+restartOnExternalChanges="true" requirePermission="true" />
+  </configSections>
+  <ABCpdf14>
+    <preferences>
+      <clear />
+      <add Key="TempDirectory" Value="C:\Temp" />
+      <add Key="MakeURLsUnique" Value="0" />
+    </preferences>
+  </ABCpdf14>
+</configuration>
+```
 
----
+> **Important:** \<configSections> must appear before \<startup> if \<startup> exists.
+
+## Example
+
+For an example of how to specify a config section see the [SetConfigSection](setconfigsection.md) method.
+
+None.

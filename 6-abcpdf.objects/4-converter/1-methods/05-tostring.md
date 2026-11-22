@@ -4,17 +4,17 @@ Attempts to get a string from the specified entry in a DictAtom or ArrayAtom res
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-string ToString(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, int index)string ToString(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, string key)string ToString(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom)
-```
+`string ToString(`[`Atom`](../../../7-abcpdf.atoms/1-atom/index.md)` atom, int index)`  
+`string ToString(`[`Atom`](../../../7-abcpdf.atoms/1-atom/index.md)` atom, string key)`  
+`string ToString(`[`Atom`](../../../7-abcpdf.atoms/1-atom/index.md)` atom)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| atom | The DictAtom or ArrayAtom from which to obtain the value. |
+| Name | Description |
+| :---: | --- |
+| atom | The [DictAtom](../../../7-abcpdf.atoms/dictatom/index.md) or [ArrayAtom](../../../7-abcpdf.atoms/arrayatom/index.md) from which to obtain the value. |
 | index | The zero based index from which the value should be obtained. |
 | key | The key identifying the entry to be obtained. |
 | return | The value. |
@@ -28,7 +28,3 @@ If the simple overload is used then the atom provided must resolve to a value of
 If a key is provided then the atom must resolve to a DictAtom and the entry in the DictAtom must resolve to a value of the correct type. If this is not the case or the key is null, then the return value will be null.
 
 If an index is provided then the atom must resolve to an ArrayAtom and the indexed entry in the ArrayAtom must resolve to a value of the correct type. If this is not the case or if the index is not available, then the return value will be null.
-
-## Example
-
-None

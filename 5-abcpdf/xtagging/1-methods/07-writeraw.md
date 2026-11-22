@@ -4,16 +4,14 @@ Writes a raw tag to the content stream.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">void</a> WriteRaw(string tag)
-```
+[`void`](../index.md)` WriteRaw(string tag)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | tag | The raw tag to be inserted. |
 
 ## Notes
@@ -27,7 +25,3 @@ These operators are PDF content stream commands that mark a single point with a 
 Before adding [Commit](07-commit.md) is called then the value specified is inserted directly into the content stream. There is no vetting of the tag so you need to ensure that the value is of a type which will make sense in the content stream.
 
 To ensure that the tag does not interfere with other content it will be preceded by a space and a carriage return linefeed combination will be added after it. If the tag needs closing it is your responsibility to close the tag with a matching call on the same page.
-
-## Example
-
-None

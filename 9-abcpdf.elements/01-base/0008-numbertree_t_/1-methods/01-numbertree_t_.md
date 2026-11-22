@@ -1,19 +1,19 @@
-# NumberTree&lt;T&gt; Function
+# NumberTree\<T> Function
+
+[NumberTree](../index.md) constructor.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">NumberTree</a>&lt;T&gt;(<a href="../../../07-syntax/1099-numbertreenodeelement_t_/default.htm">NumberTreeNodeElement</a>&lt;T&gt; root)
-```
+[`NumberTree`](../index.md)`<T>(`[`NumberTreeNodeElement`](../../../07-syntax/1099-numbertreenodeelement_t_/index.md)`<T> root)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | root | The root node for the tree. |
 
 ## Notes
 
-[NumberTree](default.md) constructor.
+[NumberTree](../index.md) constructor.

@@ -4,17 +4,15 @@ Attempts to convert a DictAtom into a Dictionary of doubles, resolving any refer
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-Dictionary&lt;string, double&gt; ToDoubleDictionary(<a href="../../../7-abcpdf.atoms/1-atom/default.htm">Atom</a> atom, double def)
-```
+`Dictionary<string, double> ToDoubleDictionary(`[`Atom`](../../../7-abcpdf.atoms/1-atom/index.md)` atom, double def)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| atom | The DictAtom from which to obtain the values. |
+| Name | Description |
+| :---: | --- |
+| atom | The [DictAtom](../../../7-abcpdf.atoms/dictatom/index.md) from which to obtain the values. |
 | def | A default value for any entries which could not be converted to the correct type. |
 | return | The dictionary. |
 
@@ -23,7 +21,3 @@ Dictionary&lt;string, double&gt; ToDoubleDictionary(<a href="../../../7-abcpdf.a
 Attempts to convert a DictAtom into a Dictionary of doubles, resolving any references as necessary.
 
 If the atom does not resolve to an DictAtom, then the return value will be null.
-
-## Example
-
-None

@@ -1,2 +1,0 @@
-# RichMediaSettingsElement Class
-

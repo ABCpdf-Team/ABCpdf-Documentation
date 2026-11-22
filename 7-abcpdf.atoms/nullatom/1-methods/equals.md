@@ -4,16 +4,14 @@ Test whether the two NullAtoms are the same
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool Equals(<a href="../default.htm">NullAtom</a> other)
-```
+`bool Equals(`[`NullAtom`](../index.md)` other)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | other | The NullAtom to test against. |
 
 ## Notes
@@ -21,7 +19,3 @@ bool Equals(<a href="../default.htm">NullAtom</a> other)
 Test whether the two NullAtoms are the same.
 
 NullAtoms are always equal to each other.
-
-## Example
-
-None

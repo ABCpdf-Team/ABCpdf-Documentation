@@ -1,20 +1,23 @@
-# XTransform &nbsp;Constructor
+# XTransform Constructor
 
-XTransform  Constructor.
+XTransform Constructor.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">XTransform</a>()<a href="../default.htm">XTransform</a>(string text)<a href="../default.htm">XTransform</a>(double[] entries)<a href="../default.htm">XTransform</a>(Matrix matrix)<a href="../default.htm">XTransform</a>(double m11, double m12, double m21, double m22, double tx, double ty)<a href="../default.htm">XTransform</a>(XRect src, XRect dst)
-```
+[`XTransform`](../index.md)`()`  
+[`XTransform`](../index.md)`(string text)`  
+[`XTransform`](../index.md)`(double[] entries)`  
+[`XTransform`](../index.md)`(Matrix matrix)`  
+[`XTransform`](../index.md)`(double m11, double m12, double m21, double m22, double tx, double ty)`  
+[`XTransform`](../index.md)`(XRect src, XRect dst)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| text | A string defining the initial rectangle in the format returned by the String property. |
+| Name | Description |
+| :---: | --- |
+| text | A string defining the initial rectangle in the format returned by the [String](../2-properties/string.md) property. |
 | matrix | A System.Drawing.Drawing2D Matrix object specifying the values for the transform. |
 | entries | An array of doubles specifying the values for the matrix. These are in the order m11, m12, m21, m22, tx and ty. |
 | m11 | Matrix entry 1,1. |
@@ -33,7 +36,3 @@ These methods construct an XTransform object.
 The default constructor creates an identity transform.
 
 The constructor which takes two rectangles creates a transform which maps the source rectangle to the destination rectangle using positive scale values.
-
-## Example
-
-None

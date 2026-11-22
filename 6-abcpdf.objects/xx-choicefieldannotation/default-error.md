@@ -1,2 +1,0 @@
-# ChoiceFieldAnnotation Class
-

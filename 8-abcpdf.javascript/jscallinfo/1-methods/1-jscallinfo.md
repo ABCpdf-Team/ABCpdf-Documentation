@@ -4,16 +4,18 @@ Creates a new JavaScript call information object.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-JSCallInfo(JSContext context, JSValue callee, bool isConstructCall, IList&lt;JSValue&gt; args)
+JSCallInfo(JSContext context, JSValue callee, bool isConstructCall, IList<JSValue> args)
 ```
+
+*C#*
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | context | The JavaScript context. This must be non-null/non-Nothing. |
 | callee | The callee. |
 | isConstructCall | Indicates whether the call is a 'new' call. |
@@ -22,7 +24,3 @@ JSCallInfo(JSContext context, JSValue callee, bool isConstructCall, IList&lt;JSV
 ## Notes
 
 The constructor creates a new JavaScript call information object.
-
-## Example
-
-None

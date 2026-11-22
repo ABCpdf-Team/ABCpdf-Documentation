@@ -4,16 +4,14 @@ Add an item to the end of the array.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Add(T value)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | The value. |
 
 ## Notes

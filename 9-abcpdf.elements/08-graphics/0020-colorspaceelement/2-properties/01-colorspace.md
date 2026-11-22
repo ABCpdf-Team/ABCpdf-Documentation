@@ -1,5 +1,9 @@
 # ColorSpace Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `ColorSpaceType` | null | Yes | This property represents the type of color space. |
+
 ## Notes
 
 This property represents the type of color space.

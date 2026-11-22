@@ -1,2 +1,0 @@
-# OptionalContentMembershipElement Class
-

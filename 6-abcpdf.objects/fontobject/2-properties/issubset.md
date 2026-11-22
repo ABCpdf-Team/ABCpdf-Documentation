@@ -1,13 +1,9 @@
-# IsSubset   Property
+# IsSubset Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | n/a | Yes | Whether the font contains an embedded subset. |
+| `bool` | n/a | Yes | Whether the font contains an embedded subset. |
 
 ## Notes
 
 Whether the font contains an embedded subset.
-
-## Example
-
-None

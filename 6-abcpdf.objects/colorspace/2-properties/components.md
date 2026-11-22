@@ -1,5 +1,9 @@
 # Components Property
 
+| Type | Default | Read Only | Description |
+| --- | --- | --- | --- |
+| `int` | n/a | Yes | The number of color components in the color space. |
+
 ## Notes
 
 Different color spaces have different numbers of components.
@@ -13,8 +17,3 @@ Indexed color spaces define colors via a palette. So although a color value is d
 For example the number of components in an indexed RGB color space is three.
 
 Pattern color spaces are special and have no components.
-
-## Example
-
-None.
-

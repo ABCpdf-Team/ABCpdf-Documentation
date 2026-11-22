@@ -1,5 +1,9 @@
 # UserUnit Property
 
+| Type | Default | Read Only | Description |
+| --- | --- | --- | --- |
+| `double` | n/a | No | The size of default user space units. |
+
 ## Notes
 
 The size of default user space units in multiples of a point.

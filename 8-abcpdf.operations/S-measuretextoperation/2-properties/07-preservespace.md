@@ -1,3 +1,0 @@
-# PreserveSpace Property
-
-## Notes

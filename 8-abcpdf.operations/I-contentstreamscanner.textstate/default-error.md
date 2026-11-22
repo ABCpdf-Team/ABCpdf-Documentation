@@ -1,2 +1,0 @@
-# TextState Class
-

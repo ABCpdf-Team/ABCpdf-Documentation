@@ -1,2 +1,0 @@
-# RichMediaPresentationElement Class
-

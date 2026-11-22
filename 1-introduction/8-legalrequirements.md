@@ -11,4 +11,3 @@ This permission is conditional on the basis that your software should respect th
 These permissions do not necessarily make sense within the ABCpdf framework. For example the concept of an encrypted document which bars the user from filling in form fields makes sense if there is a user. However ABCpdf is a component and so is removed from the final user.
 
 You should ensure that when you create software which an end user may operate that your software respects these types of permissions. You are legally bound to do this both by the ABCpdf license agreement and also by the Adobe conditions of use.
-

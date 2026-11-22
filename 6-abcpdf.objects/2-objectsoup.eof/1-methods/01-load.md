@@ -4,17 +4,15 @@ Loads the file trailer data.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-void Load(<a href="../../2-objectsoup/default.htm">ObjectSoup</a> soup)
-```
+`void Load(`[`ObjectSoup`](../../2-objectsoup/index.md)` soup)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| soup | The ObjectSoup of a Doc object. The Doc must have been loaded using Doc.Read. |
+| Name | Description |
+| :---: | --- |
+| soup | The [ObjectSoup](../../2-objectsoup/index.md) of a Doc object. The Doc must have been loaded using Doc.Read. |
 
 ## Notes
 
@@ -23,8 +21,6 @@ Loads the file trailer data.
 ## Example
 
 The following code tests to see if any of the revisions in a document are hybrid.
-
-[C#]
 
 ```csharp
 bool isHybrid = false;
@@ -43,4 +39,3 @@ using (var eof = new ObjectSoup.Eof()) {
 }
 // do something with isHybrid
 ```
-

@@ -1,5 +1,9 @@
 # EntrySubtype Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "Subtype" entry of the richmediainstance dictionary object. |
+
 ## Notes
 
 Represents the "Subtype" entry of the richmediainstance dictionary object.
@@ -10,10 +14,13 @@ It contains a string representing a PDF name object.
 
 This item may take one of the following valid values:.
 
-3DFlashSoundVideo
+- 3D
+- Flash
+- Sound
+- Video
 
 For definitive details see:.
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51b, page 89.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51b, page 89.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=89)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 343, page 706.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 343, page 706.](https://www.iso.org/standard/63534.html)

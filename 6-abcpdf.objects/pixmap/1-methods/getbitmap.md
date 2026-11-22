@@ -4,16 +4,18 @@ Get the PixMap image as a System.Drawing.Bitmap.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 System.Drawing.Bitmap GetBitmap()
 ```
 
+*C#*
+
+⚠ `may throw Exception()`
+
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | The Bitmap containing the image. |
 
 ## Notes
@@ -34,8 +36,6 @@ Please note that some formats of Bitmaps are not usable for certain operations. 
 
 This example shows how to extract all the page thumbnails (if they exist) from a document. See also the PDFSurgeon example project for another example.
 
-[C#]
-
 ```csharp
 using var doc = new Doc();
 using var src = new Doc();
@@ -50,6 +50,7 @@ foreach (var page in pages) {
 }
 ```
 
-![](../../../images/pdf/embedthumbnails.pdf.png)
-embedthumbnails.pdf - [Page 1]
-
+|  |  |
+| --- | --- |
+| ![embedthumbnails.pdf - \[Page 1\]](../../../images/pdf/embedthumbnails.pdf.png)<br>embedthumbnails.pdf - \[Page 1\] | ![embedthumbnails.pdf - \[Page 2\]](../../../images/pdf/embedthumbnails.pdf2.png)<br>embedthumbnails.pdf - \[Page 2\] |
+| ![embedthumbnails.pdf - \[Page 3\]](../../../images/pdf/embedthumbnails.pdf3.png)<br>embedthumbnails.pdf - \[Page 3\] | ![embedthumbnails.pdf - \[Page 4\]](../../../images/pdf/embedthumbnails.pdf4.png)<br>embedthumbnails.pdf - \[Page 4\] |

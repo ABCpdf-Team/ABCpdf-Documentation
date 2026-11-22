@@ -1,22 +1,20 @@
 # Equals Function
 
+Test whether the two [Signatures](../index.md) are the same.
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool Equals(<a href="../default.htm">Signature</a> other)
-```
+`bool Equals(`[`Signature`](../index.md)` other)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| other | The Signature to test against. |
-| return | Whether the Signatures are equal. |
+| Name | Description |
+| :---: | --- |
+| other | The [Signature](../index.md) to test against. |
+| return | Whether the [Signatures](../index.md) are equal. |
 
 ## Notes
 
-## Example
-
-None
+Test whether the two [Signatures](../index.md) are the same.

@@ -1,5 +1,9 @@
 # Components Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `IList<double>` | null | No | The component intensities for the color. |
+
 ## Notes
 
 The component intensities for the color. For example an RGB color has three values between zero and one, a CMYK color has four between zero and one.

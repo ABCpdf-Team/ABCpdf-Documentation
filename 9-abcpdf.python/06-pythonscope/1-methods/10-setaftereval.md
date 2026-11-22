@@ -4,19 +4,21 @@ Evaluates a Python expression and assigns its value to a variable.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-void SetAfterEval(string name, string expr, <a href="../default.htm">PythonScope</a> evalScope = null, in <a href="../../05-pythonrunoptions/default.htm">PythonRunOptions</a> options = new())
-```
+`void SetAfterEval(string name, string expr, `[`PythonScope`](../index.md)` evalScope = null, in `[`PythonRunOptions`](../../05-pythonrunoptions/index.md)` options = new())`
+
+⚠ `ObjectDisposedException: Thrown when this PythonScope has been disposed of.`  
+⚠ `ArgumentNullException: Thrown when name is null.`  
+⚠ `ArgumentException: Thrown when name is not a valid Python identifier.`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | name | The name of the variable. |
 | expr | A Python expression. |
-| evalScope | A scope where expr is evaluated. The current PythonScope is used if it is null. |
+| evalScope | A scope where expr is evaluated. The current [PythonScope](../index.md) is used if it is null. |
 | options | Options for running Python code. |
 
 ## Notes
@@ -26,8 +28,6 @@ Evaluates a Python expression and assigns its value to a variable. By providing 
 ## Example
 
 You can re-use a complex object using code of the following form.
-
-[C#]
 
 ```csharp
 var options = new PythonOptions();
@@ -48,4 +48,3 @@ var op = new AccessibilityOperationAI();
 op.ConversionOptions = "myFormatOptions";
 // ... do work
 ```
-

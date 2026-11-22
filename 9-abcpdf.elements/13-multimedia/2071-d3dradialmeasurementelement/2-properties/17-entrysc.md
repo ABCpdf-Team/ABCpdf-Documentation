@@ -1,5 +1,9 @@
 # EntrySC Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool?` | null | No | Represents the "SC" entry of the 3d radial dimension measurement object. |
+
 ## Notes
 
 Represents the "SC" entry of the 3d radial dimension measurement object.
@@ -12,8 +16,8 @@ The PDF specification states that this item assumes a value of false if no value
 
 For definitive details see:.
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.39e, page 71.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.39e, page 71.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=71)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 330, page 693.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 330, page 693.](https://www.iso.org/standard/63534.html)
 
 The SC entry holds the scale centre as a three-element array, specifying the point around which the radial measurement scale is applied.

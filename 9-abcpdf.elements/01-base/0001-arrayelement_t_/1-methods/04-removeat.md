@@ -1,21 +1,25 @@
 # RemoveAt Function
 
-## Syntax
+Removes the [Element](../../1086-element/index.md) at the specified index.
 
-[C#]
+## Syntax
 
 ```csharp
 void RemoveAt(int index)
 ```
 
+*C#*
+
+⚠ `ArgumentOutOfRangeException: Thrown if the index provided is not valid.`
+
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | index | The zero-based index of the item to remove. |
 
 ## Notes
 
-Removes the [Element](1086-element/default.md) at the specified index.
+Removes the [Element](../../1086-element/index.md) at the specified index.
 
-When an [Element](1086-element/default.md) is removed the items that follow the removed item, move up to occupy the vacated spot.
+When an [Element](../../1086-element/index.md) is removed the items that follow the removed item, move up to occupy the vacated spot.

@@ -1,2 +1,0 @@
-# EffectParameter Class
-

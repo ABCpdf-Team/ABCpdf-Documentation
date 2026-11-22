@@ -1,2 +1,0 @@
-# XRendering Class
-

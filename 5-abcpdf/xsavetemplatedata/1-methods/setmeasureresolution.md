@@ -4,16 +4,15 @@ Sets the measurement resolutions.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-void SetMeasureResolution(double dpi)void SetMeasureResolution(double dpiX, double dpiY)
+void SetMeasureResolution(double dpi)
+void SetMeasureResolution(double dpiX, double dpiY)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | dpi | The new measurement resolution in DPI. |
 | dpiX | The new horizontal measurement resolution in DPI. |
 | dpiY | The new vertical measurement resolution in DPI. |
@@ -24,13 +23,11 @@ Sets the measurement resolutions, which affects the measurements for certain out
 
 The values do not affect the pixel sizes of raster-image contents. If one of the values (dpiX or dpiY) is invalid, the other value may be used for both values.
 
-For SWF, these values are used only if [XSaveOptions.Template](xsaveoptions/2-properties/template.md) is null.
+For SWF, these values are used only if [XSaveOptions.Template](../../xsaveoptions/2-properties/template.md) is null.
 
 ## Example
 
 Here we use 72 DPI so that 1 inch in PDF becomes 72 pixels in SWF.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -39,4 +36,3 @@ doc.SaveOptions.TemplateData = new XSaveTemplateData();
 doc.SaveOptions.TemplateData.SetMeasureResolution(72);
 doc.Save("swfsave_mr.swf");
 ```
-

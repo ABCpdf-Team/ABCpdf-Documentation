@@ -1,5 +1,9 @@
 # EntryWMode Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "WMode" entry of the cmap stream dictionary object. |
+
 ## Notes
 
 Represents the "WMode" entry of the cmap stream dictionary object.
@@ -12,9 +16,9 @@ The PDF specification states that this item assumes a value of 0 if no value has
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 120, page 277.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 120, page 277.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=285)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 118, page 336.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 118, page 336.](https://www.iso.org/standard/63534.html)
 
 A value of 0 selects horizontal writing, where glyphs are placed left to right. A value of 1 selects vertical writing, where glyphs are placed top to bottom.
 

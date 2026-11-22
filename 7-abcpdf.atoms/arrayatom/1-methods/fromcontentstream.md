@@ -4,16 +4,16 @@ Create an array of Atoms from a byte array containing a sequence of PDF objects
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static <a href="../default.htm">ArrayAtom</a> FromContentStream(string value)static <a href="../default.htm">ArrayAtom</a> FromContentStream(byte[] value)static ArrayAtom FromContentStream(byte[] value, out IList&lt;int&gt; offsets)
-```
+`static `[`ArrayAtom`](../index.md)` FromContentStream(string value)`  
+`static `[`ArrayAtom`](../index.md)` FromContentStream(byte[] value)`  
+`static ArrayAtom FromContentStream(byte[] value, out IList<int> offsets)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | A string or a chunk of data holding the sequence of atoms. |
 | offsets | The byte offsets in the data for the start each of atom in the returned array. |
 | return | An ArrayAtom holding the atoms in the content stream. |
@@ -22,15 +22,13 @@ static <a href="../default.htm">ArrayAtom</a> FromContentStream(string value)sta
 
 Create an array of Atoms from a byte array containing a sequence of PDF objects.
 
-This method is useful for deconstructing PDF content streams for analysis and modification. To convert back into a content stream you can use the [Atom.GetData](1-atom/1-methods/getdata.md) function.
+This method is useful for deconstructing PDF content streams for analysis and modification. To convert back into a content stream you can use the [Atom.GetData](../../1-atom/1-methods/getdata.md) function.
 
 The returned offsets relate to the byte offsets for the start of each atom in the array that is returned.
 
 ## Example
 
 This example shows how to use the FromContentStream function to parse and display a PDF content stream.
-
-[C#]
 
 ```csharp
 var sb = new StringBuilder();
@@ -91,6 +89,5 @@ using (var doc = new Doc()) {
 }
 ```
 
-![](../../../images/pdf/pagecontents.pdf.png)
+![PageContents.pdf](../../../images/pdf/PageContents.pdf.png)  
 PageContents.pdf
-

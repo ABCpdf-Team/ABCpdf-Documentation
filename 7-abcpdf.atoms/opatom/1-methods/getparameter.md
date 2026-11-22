@@ -4,16 +4,16 @@ Gets the parameter associated with the OpAtom at the specified index and validat
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static <a href="../../1-atom/default.htm">Atom</a> GetParameter(<a href="../../arrayatom/default.htm">ArrayAtom</a> array, int index)
-```
+`static `[`Atom`](../../1-atom/index.md)` GetParameter(`[`ArrayAtom`](../../arrayatom/index.md)` array, int index)`
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | array | The array in which the OpAtom is found. |
 | index | The index to the OpAtom. |
 | return | The parameter. |
@@ -29,7 +29,3 @@ If the atom is not of the correct type, is not available in the array (e.g. beca
 The Atom is the actual object in the supplied array so changing the value of the Atom will change the value in the array. If the index does not point to an OpAtom or is not inside the array bounds then an exception will be thrown.
 
 This function supports all the standard PDF operator types as defined in the PDF Specification apart from BI, ID and EI which are used for inline images. The reason these are not supported is because this sequence is read as a DictAtom with embedded data so you should never encounter it.
-
-## Example
-
-None

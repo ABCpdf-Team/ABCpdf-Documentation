@@ -1,8 +1,8 @@
 # GetColor Function
 
-## Syntax
+Get the contents of this [ColorElement](../index.md) as an XColor.
 
-[C#]
+## Syntax
 
 ```csharp
 XColor GetColor()
@@ -10,10 +10,10 @@ XColor GetColor()
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| return | A new XColor with values corresponding to the contents of this ColorElement. |
+| Name | Description |
+| :---: | --- |
+| return | A new XColor with values corresponding to the contents of this [ColorElement](../index.md). |
 
 ## Notes
 
-Get the contents of this [ColorElement](default.md) as an XColor.
+Get the contents of this [ColorElement](../index.md) as an XColor.

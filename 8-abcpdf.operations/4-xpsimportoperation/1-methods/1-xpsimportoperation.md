@@ -4,16 +4,14 @@ XpsImportOperation Constructor.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">XpsImportOperation</a>()
-```
+[`XpsImportOperation`](../index.md)`()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes

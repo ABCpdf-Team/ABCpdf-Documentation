@@ -1,5 +1,9 @@
 # AddMcids Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | false | No | Whether to add MCIDs for this structure. |
+
 ## Notes
 
 Whether to add MCIDs for this structure.

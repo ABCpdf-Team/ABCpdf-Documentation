@@ -1,2 +1,0 @@
-# StampAnnotation Class
-

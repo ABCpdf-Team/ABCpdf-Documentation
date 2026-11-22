@@ -1,5 +1,9 @@
 # EntryType Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "Type" entry of the richmediadeactivation dictionary object. |
+
 ## Notes
 
 Represents the "Type" entry of the richmediadeactivation dictionary object.
@@ -12,6 +16,6 @@ If provided, this item must always take the value "RichMediaDeactivation".
 
 For definitive details see:.
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50b, page 80.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50b, page 80.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=80)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 336, page 699.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 336, page 699.](https://www.iso.org/standard/63534.html)

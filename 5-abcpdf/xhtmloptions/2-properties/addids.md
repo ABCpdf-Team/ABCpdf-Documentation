@@ -1,5 +1,9 @@
 # AddIDs Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool`? | null | No | Whether HTML ID attributes should be tracked. |
+
 ## Notes
 
 Whether HTML ID attributes should be tracked.
@@ -11,8 +15,3 @@ The disadvantage of tracking is that there may be many such attributes and this 
 The default value of null allows the effective value to be determined by the HTML engine.
 
 Support for this property requires the ABCChrome engine - ABCChrome86 or later.
-
-## Example
-
-None.
-

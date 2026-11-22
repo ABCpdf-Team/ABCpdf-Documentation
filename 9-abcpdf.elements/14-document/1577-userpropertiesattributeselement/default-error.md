@@ -1,2 +1,0 @@
-# UserPropertiesAttributesElement Class
-

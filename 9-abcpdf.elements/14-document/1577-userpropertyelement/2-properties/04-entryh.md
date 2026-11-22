@@ -1,5 +1,9 @@
 # EntryH Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool?` | null | No | Represents the "H" entry of the user property dictionary object. |
+
 ## Notes
 
 Represents the "H" entry of the user property dictionary object.
@@ -12,8 +16,8 @@ The PDF specification states that this item assumes a value of false if no value
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 329, page 569.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 329, page 569.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=577)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 362, page 737.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 362, page 737.](https://www.iso.org/standard/63534.html)
 
 The H entry, when true, marks this property as hidden from interactive viewers. The property is preserved in the document for use by the application that created it.

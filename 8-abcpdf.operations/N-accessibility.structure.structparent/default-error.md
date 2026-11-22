@@ -1,2 +1,0 @@
-# StructParent Class
-

@@ -1,2 +1,0 @@
-# ThreadActionElement Class
-

@@ -4,18 +4,19 @@ Initializes the Python runtime.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool InitializeRuntime(<a href="../../06-pythonscope/default.htm">PythonScope</a> scope, bool updateNames = false, bool alwaysUseProvidedNames = false)
-```
+`bool InitializeRuntime(`[`PythonScope`](../../06-pythonscope/index.md)` scope, bool updateNames = false, bool alwaysUseProvidedNames = false)`
+
+⚠ `ArgumentNullException: Thrown when scope is null.`  
+⚠ `ArgumentException: Thrown when a provided variable/class name is not a valid identifier or when alwaysUseProvidedNames is true and there is a name conflict in the provided variable/class names.`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | scope | The scope for running the initialization code. |
-| updateNames | Specifies whether the actual, corresponding values used in the code are assigned back to VarVEnvPath, VarStdOutCallback, VarStdErrCallback, and ConsoleClassName. |
+| updateNames | Specifies whether the actual, corresponding values used in the code are assigned back to [VarVEnvPath](../2-properties/04-varvenvpath.md), [VarStdOutCallback](../2-properties/05-varstdoutcallback.md), [VarStdErrCallback](../2-properties/06-varstderrcallback.md), and [ConsoleClassName](../2-properties/07-consoleclassname.md). |
 | alwaysUseProvidedNames | Specifies that an ArgumentException is thrown when provided variable/class names are identical where distinct values are required. If the value is false, some of the names in the name conflict will be set to a default distinct value. |
 | return | Whether initialization has been performed (i.e. is not no-op). |
 
@@ -33,8 +34,6 @@ In most use cases you will want to use PythonRuntime.AutoInitializeRuntime inste
 
 To disable ANSI color in stdout output on Linux you might use code of the following form.
 
-[C#]
-
 ```csharp
 string venvPath = null;
 var options = new PythonOptions { SetNoSiteFlag = !string.IsNullOrEmpty(venvPath) };
@@ -51,4 +50,3 @@ rtOptions.InitializeRuntime(scope);
 env.RuntimeIsInitialized = RuntimeInitializationState.UserInitialized;
 // ... do work
 ```
-

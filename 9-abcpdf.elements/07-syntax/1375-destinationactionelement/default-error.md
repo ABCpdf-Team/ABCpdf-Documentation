@@ -1,2 +1,0 @@
-# DestinationActionElement Class
-

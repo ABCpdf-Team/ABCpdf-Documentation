@@ -1,5 +1,9 @@
 # Count Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int` | 0 | Yes | Gets the number of items contained in the array. |
+
 ## Notes
 
 Gets the number of items contained in the array.

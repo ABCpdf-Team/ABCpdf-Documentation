@@ -1,5 +1,9 @@
 # EntryDecode Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `IList<double>` | null | No | Represents the "Decode" entry of the type 0 function dictionary object. |
+
 ## Notes
 
 Represents the "Decode" entry of the type 0 function dictionary object.
@@ -10,8 +14,8 @@ It contains an array which contains doubles, representing PDF numeric objects.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 39, page 94.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 39, page 94.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=102)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 39, page 124.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 39, page 124.](https://www.iso.org/standard/63534.html)
 
 The Decode array maps the raw integer sample values to output values. It contains pairs giving the output value at sample integer 0 and at the maximum sample integer for each output component.

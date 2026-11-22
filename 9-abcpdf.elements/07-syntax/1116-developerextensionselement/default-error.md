@@ -1,2 +1,0 @@
-# DeveloperExtensionsElement Class
-

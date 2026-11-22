@@ -1,2 +1,0 @@
-# PopupAnnotation Class
-

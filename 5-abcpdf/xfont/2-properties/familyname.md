@@ -1,5 +1,9 @@
 # FamilyName Property
 
+| Type | Default | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | n/a | Yes | The name of the family to which the font belongs. |
+
 ## Notes
 
 The name of the family to which the font belongs.

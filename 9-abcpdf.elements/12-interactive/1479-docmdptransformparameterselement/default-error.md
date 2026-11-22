@@ -1,2 +1,0 @@
-# DocMDPTransformParametersElement Class
-

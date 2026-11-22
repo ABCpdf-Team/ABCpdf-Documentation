@@ -4,16 +4,14 @@ Add textfield annotation to the current page of the doc.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">TextFieldAnnotation</a>(Doc doc, XRect rect)
-```
+[`TextFieldAnnotation`](../index.md)`(Doc doc, XRect rect)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | Doc |
 | rect | Location for the annotation |
 
@@ -21,8 +19,4 @@ Add textfield annotation to the current page of the doc.
 
 Add textfield annotation to the current page of the doc.
 
-Note that the annotation created using this constructor is meaningless until it is connected with a [Field](field/default.md). For this reason you are likely to want to use [Doc.Form.AddTextField](5-abcpdf/xform/1-methods/addtextfield.md) rather than this call.
-
-## Example
-
-None
+Note that the annotation created using this constructor is meaningless until it is connected with a [Field](../../field/index.md). For this reason you are likely to want to use [Doc.Form.AddTextField](../../../5-abcpdf/xform/1-methods/addtextfield.md) rather than this call.

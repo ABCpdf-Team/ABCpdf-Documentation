@@ -1,8 +1,8 @@
-# Rect        Property
+# Rect Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | n/a | Yes | The rectangle that contains the text of the fragment. |
+| [`XRect`](../../../5-abcpdf/xrect/index.md) | n/a | Yes | The rectangle that contains the text of the fragment. |
 
 ## Notes
 
@@ -13,7 +13,3 @@ Each TextFragment spans a part of a PDF stream drawing operator. The part may be
 This property reflects the area covered by the TextFragment.
 
 This rectangle is encoded in PDF coordinates rather than any abstracted coordinate space.
-
-## Example
-
-None

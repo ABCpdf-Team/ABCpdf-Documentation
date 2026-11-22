@@ -4,16 +4,14 @@ Add popup annotation to the current page of the doc.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">PopupAnnotation</a>(Doc doc, XRect rect, int parentID)
-```
+[`PopupAnnotation`](../index.md)`(Doc doc, XRect rect, int parentID)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | Doc |
 | rect | Annotation rectangle |
 | parentID | ID of the parent annotation |
@@ -21,7 +19,3 @@ Add popup annotation to the current page of the doc.
 ## Notes
 
 Add popup annotation to the current page of the doc.
-
-## Example
-
-None

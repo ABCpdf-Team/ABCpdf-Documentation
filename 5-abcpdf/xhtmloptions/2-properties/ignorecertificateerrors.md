@@ -1,8 +1,12 @@
 # IgnoreCertificateErrors Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | true | No | Whether to ignore certificate-related errors. |
+
 ## Notes
 
-This property applies to the ABCChrome engine only.
+This property applies to the [ABCChrome](2-forchrome.md) engine only.
 
 This property determines whether certificate-related errors are ignored or not.
 

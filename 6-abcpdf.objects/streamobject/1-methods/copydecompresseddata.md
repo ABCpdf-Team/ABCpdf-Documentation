@@ -4,16 +4,14 @@ Copy the decompressed binary content of the stream into a byte array.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 int CopyDecompressedData(byte[] destination = null, int startIndex = 0, int maxLength = int.MaxValue)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | destination | The destination byte array. |
 | startIndex | The index in the byte array at which the first byte should be written. |
 | maxLength | The maximum number of bytes that should be written. |
@@ -28,7 +26,3 @@ This method does not alter the content of the StreamObject so it is an efficient
 If the data could not be decompressed then an exception will be raised.
 
 The decompressed data is cached so that multiple calls to this function are efficient. For this reason calling this value with a null destination is an efficient way of determining the length of the decompressed stream.
-
-## Example
-
-None

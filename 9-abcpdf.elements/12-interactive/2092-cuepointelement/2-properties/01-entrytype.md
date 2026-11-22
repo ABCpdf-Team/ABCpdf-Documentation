@@ -1,5 +1,9 @@
 # EntryType Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "Type" entry of the cuepoint dictionary object. |
+
 ## Notes
 
 Represents the "Type" entry of the cuepoint dictionary object.
@@ -12,4 +16,4 @@ If provided, this item must always take the value "CuePoint".
 
 For definitive details see:.
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51e, page 92.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51e, page 92.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=92)

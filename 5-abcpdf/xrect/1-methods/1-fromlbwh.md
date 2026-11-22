@@ -4,16 +4,14 @@ Creates an XRect from a bottom left corner, a width and a height.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static <a href="../default.htm">XRect</a> FromLbwh(double left, double bottom, double width, double height)
-```
+`static `[`XRect`](../index.md)` FromLbwh(double left, double bottom, double width, double height)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | left | The left coordinate. |
 | bottom | The bottom coordinate. |
 | width | The width of the rectangle. |
@@ -23,8 +21,4 @@ static <a href="../default.htm">XRect</a> FromLbwh(double left, double bottom, d
 
 This method constructs an XRect object from a bottom left corner, a width and a height.
 
-It assumes that subsequent resizing and positioning operations on this object will also be based around the bottom left corner. As such the [Pin](2-properties/pin.md) property will remain at its default of Corner.BottomLeft.
-
-## Example
-
-None
+It assumes that subsequent resizing and positioning operations on this object will also be based around the bottom left corner. As such the [Pin](../2-properties/pin.md) property will remain at its default of Corner.BottomLeft.

@@ -1,8 +1,8 @@
 # WritePageSeparator Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default Value | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | No | The delegate called to write the page separator for export. |
+| `XSaveOptions.PageSeparatorMethod` | null | No | The delegate called to write the page separator for export. |
 
 ## Notes
 
@@ -12,7 +12,9 @@ If it is null, a default page separator is produced for each page. You can custo
 
 The definition of the XSaveOptions.PageSeparatorMethod delegate is as follows.
 
-[C#]delegate void PageSeparatorMethod(int pageNum, ExportArgs e);
+```csharp
+delegate void PageSeparatorMethod(int pageNum, ExportArgs e);
+```
 
 pageNum is the page number, starting with 1.
 
@@ -21,8 +23,6 @@ The page separator is to be written to e.Writer. e.Writer is an XmlWriter for HT
 ## Example
 
 The following example shows how to customize the page separator.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -40,4 +40,3 @@ doc.SaveOptions.WritePageSeparator = delegate (int pageNum, XSaveOptions.ExportA
 };
 doc.Save("PageSeparator.htm");
 ```
-

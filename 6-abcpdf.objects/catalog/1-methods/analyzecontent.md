@@ -1,10 +1,18 @@
-# AnalyzeContent  Function
+# AnalyzeContent Function
+
+Perform whole document analysis of page contents.
 
 ## Syntax
 
-[C#] void AnalyzeContent()
+```csharp
+void AnalyzeContent()
+```
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| none |  |
 
 ## Notes
 
@@ -14,9 +22,4 @@ Scanning the document content involves decompressing and parsing all the content
 
 For this reason the analysis is cached the first time this function is called. If you later change the content it is your responsibility to call this function to ensure that the analysis is updated.
 
-Whole document analysis enables certain other optimizations such as Font.Subset.
-
-## Example
-
-None.
-
+Whole document analysis enables certain other optimizations such as [Font.Subset](../../fontobject/1-methods/subset.md).

@@ -7,4 +7,3 @@ The key factor is that the creation of a PDF document is an interactive one. Oft
 Although it is easy to create an XML based PDF generator using a product like ABCpdf it is not possible to work the other way round. So you can produce template based documents using ABCpdf. If you were to want to implement interactive code using an XML based solution this would be impossible.
 
 For an example of how to convert XML content to PDF using ABCpdf see the Tagged PDF Example project under the ABCpdf menu item. As well as demonstrating how to convert XML to PDF it also demonstrates how to add semantic tags to the document at the same time.
-

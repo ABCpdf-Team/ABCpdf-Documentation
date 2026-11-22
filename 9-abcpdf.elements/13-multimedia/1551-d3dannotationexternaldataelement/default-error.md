@@ -1,2 +1,0 @@
-# D3DAnnotationExternalDataElement Class
-

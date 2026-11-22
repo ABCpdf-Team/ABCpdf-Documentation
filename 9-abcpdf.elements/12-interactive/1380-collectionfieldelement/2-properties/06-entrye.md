@@ -1,5 +1,9 @@
 # EntryE Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool?` | null | No | Represents the "E" entry of the collection field dictionary object. |
+
 ## Notes
 
 Represents the "E" entry of the collection field dictionary object.
@@ -12,10 +16,10 @@ The PDF specification states that this item assumes a value of false if no value
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 157, page 372.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 157, page 372.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=380)
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.8, page 30.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 8.8, page 30.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=30)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 155, page 448.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 155, page 448.](https://www.iso.org/standard/63534.html)
 
 The editable flag controls whether the viewer allows the user to modify this column's values in the collection UI. When false the column is read-only in the viewer.

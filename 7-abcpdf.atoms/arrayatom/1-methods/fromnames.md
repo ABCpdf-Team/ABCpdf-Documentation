@@ -4,16 +4,14 @@ Create an ArrayAtom of NameAtoms from a list of strings.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static <a href="../default.htm">ArrayAtom</a> FromNames(IList&lt;string&gt; items)
-```
+`static `[`ArrayAtom`](../index.md)` FromNames(IList<string> items)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | items | The list of strings. |
 | return | The resulting ArrayAtom. |
 
@@ -22,7 +20,3 @@ static <a href="../default.htm">ArrayAtom</a> FromNames(IList&lt;string&gt; item
 Create an ArrayAtom of NameAtoms from a list of strings.
 
 If the provided list is null then the return value will be null.
-
-## Example
-
-None

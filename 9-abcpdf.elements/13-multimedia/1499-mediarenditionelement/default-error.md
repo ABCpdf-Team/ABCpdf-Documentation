@@ -1,2 +1,0 @@
-# MediaRenditionElement Class
-

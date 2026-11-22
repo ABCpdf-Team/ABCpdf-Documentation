@@ -4,16 +4,14 @@ Get a particular appearance from the annotation.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 FormXObject GetAppearance(string state, string name)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | state | The state may be N, D, or R. These values represent the normal, down and rollover states respectively. |
 | name | The name for the state for choice fields which have names. This value may be null if this is not a choice field. |
 | return | The appearance. |
@@ -21,7 +19,3 @@ FormXObject GetAppearance(string state, string name)
 ## Notes
 
 Get a particular appearance from the annotation.
-
-## Example
-
-None

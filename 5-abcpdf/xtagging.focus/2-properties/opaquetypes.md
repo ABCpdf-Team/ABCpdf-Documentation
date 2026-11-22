@@ -1,4 +1,8 @@
-# OpaqueTypes  Property
+# OpaqueTypes Property
+
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `HashSet<string>` | null | No | Tag types in the content stream that should be excluded from tagging. |
 
 ## Notes
 
@@ -14,5 +18,20 @@ Note that the tag types you use must be low level leaf nodes - the tag types in 
 
 The following code detags the document leaving Artifacts behind. It then tags the entire pag as a Sect. When the output is exported, items previously marked as Artifacts - some images, the header, footer and page number- are not part of the Sect.
 
-[C#]
+```csharp
+using var doc = new Doc();
+doc.Read("../Rez/spacex_nasa_dragon.pdf");
+var st = doc.Tag.GetStructure();
+st.Detag(); // Artifacts will be left
+st.CreateAsRequired();
+var div = st.Root.AddKid("Document").AddKid("Div");
+var focus = doc.Tag.AddFocus(div.AddKid("Sect"), doc.Rect);
+focus.OpaqueTypes = new HashSet<string>(["Artifact"]);
+doc.Save("opaquetags.pdf");
+st.UpdateActualText(true, true);
+st.MarkupStructure();
+doc.Save("opaquetags.pdf");
+```
 
+![opaquetags.pdf](../../../images/pdf/addtagstotaggeddoc.pdf.png)  
+opaquetags.pdf

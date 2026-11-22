@@ -1,8 +1,8 @@
 # HttpAdditionalHeaders Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default Value | Read Only | Description |
 | --- | --- | --- | --- |
-|  | "" | No | Additional HTTP headers to send in the request. |
+| `string` | "" | No | Additional HTTP headers to send in the request. |
 
 ## Notes
 
@@ -19,8 +19,6 @@ The additional headers are always used by the MSHTML [Engine](1-engine.md). Unde
 ## Example
 
 The following example shows how this property may be used.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -54,3 +52,4 @@ int id = doc.AddImageUrl(url);
 doc.Save("HttpHeaders.pdf");
 ```
 
+> **ASP.NET_SessionId.** If your application runs in ASP.NET, you cannot use the cookie from the application's originating request as it identifies the session. If the site containing the target HTML page is different from your site, the session ID is invalid. If it is the same, this will cause a re-entrance in the same session, and ASP.NET may not allow re-entrance for the same session.

@@ -1,2 +1,0 @@
-# PageLabelElement Class
-

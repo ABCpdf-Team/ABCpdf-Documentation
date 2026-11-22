@@ -1,2 +1,0 @@
-# RubberStampAnnotationElement Class
-

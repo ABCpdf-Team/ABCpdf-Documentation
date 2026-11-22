@@ -1,2 +1,0 @@
-# PythonScope Class
-

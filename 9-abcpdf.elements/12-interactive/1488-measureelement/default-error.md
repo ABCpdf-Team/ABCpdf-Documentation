@@ -1,2 +1,0 @@
-# MeasureElement Class
-

@@ -1,2 +1,0 @@
-# CollectionSortElement Class
-

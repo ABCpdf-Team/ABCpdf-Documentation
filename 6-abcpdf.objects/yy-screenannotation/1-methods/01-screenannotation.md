@@ -4,16 +4,15 @@ Add movie annotation to the current page of the doc.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">ScreenAnnotation</a>(Doc doc, XRect rect, string filePathOrUrl)<a href="../default.htm">ScreenAnnotation</a>(Doc doc, XRect rect, string filePathOrUrl, string contentType)
-```
+[`ScreenAnnotation`](../index.md)`(Doc doc, XRect rect, string filePathOrUrl)`  
+[`ScreenAnnotation`](../index.md)`(Doc doc, XRect rect, string filePathOrUrl, string contentType)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | Doc |
 | rect | Annotation rectangle |
 | filePathOrUrl | Movie file path or URL |
@@ -22,7 +21,3 @@ Add movie annotation to the current page of the doc.
 ## Notes
 
 Add movie annotation to the current page of the doc.
-
-## Example
-
-None

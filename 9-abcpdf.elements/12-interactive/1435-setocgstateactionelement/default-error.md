@@ -1,2 +1,0 @@
-# SetOcgStateActionElement Class
-

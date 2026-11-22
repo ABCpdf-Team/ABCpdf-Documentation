@@ -1,8 +1,8 @@
 # ContainsValue Function
 
-## Syntax
+Determines whether the [DictElement](../index.md) contains a specific value.
 
-[C#]
+## Syntax
 
 ```csharp
 bool ContainsValue(T value)
@@ -10,11 +10,11 @@ bool ContainsValue(T value)
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | The value to locate. |
-| return | True if the DictElement contains an element with the specified value otherwise false. |
+| return | True if the [DictElement](../index.md) contains an element with the specified value otherwise false. |
 
 ## Notes
 
-Determines whether the [DictElement](default.md) contains a specific value.
+Determines whether the [DictElement](../index.md) contains a specific value.

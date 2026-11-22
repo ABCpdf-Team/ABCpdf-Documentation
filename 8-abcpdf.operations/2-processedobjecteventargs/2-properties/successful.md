@@ -1,8 +1,8 @@
 # Successful Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | n/a | Yes | Gets a value indicating whether the processing was successful. |
+| `bool` | n/a | Yes | Gets a value indicating whether the processing was successful. |
 
 ## Notes
 
@@ -10,4 +10,4 @@ Gets a value indicating whether the processing was successful.
 
 ## Example
 
-See the [RecolorOperation.Recolor](../../3-recoloroperation/1-methods/recolor.htm) method.
+See the [RecolorOperation.Recolor](../../3-recoloroperation/1-methods/recolor.md) method.

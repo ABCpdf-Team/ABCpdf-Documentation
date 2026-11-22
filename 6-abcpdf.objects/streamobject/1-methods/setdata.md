@@ -4,16 +4,18 @@ Set the raw binary content of the stream.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-void SetData(byte[] value)void SetData(byte[] buffer, int index, int count)void SetData(StreamObject value)void SetData(byte[] buffer, bool clearFirst)void SetData(byte[] buffer, int index, int count, bool clearFirst)
+void SetData(byte[] value)
+void SetData(byte[] buffer, int index, int count)
+void SetData(StreamObject value)
+void SetData(byte[] buffer, bool clearFirst)
+void SetData(byte[] buffer, int index, int count, bool clearFirst)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | The raw binary content to be assigned to the stream, or the StreamObject from which to copy the data. |
 | buffer | The byte array to be copied to the stream. |
 | index | The index in the array at which copying should start. |
@@ -32,4 +34,4 @@ Using the overload which accepts a StreamObject is equivalent to, but more effic
 
 ## Example
 
-Also see example code in: [OpAtom Find Function](7-abcpdf.atoms/opatom/1-methods/find.md).
+Also see example code in: [OpAtom Find Function](../../../7-abcpdf.atoms/opatom/1-methods/find.md).

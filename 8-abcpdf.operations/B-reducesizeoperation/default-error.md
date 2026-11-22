@@ -1,2 +1,0 @@
-# ReduceSizeOperation  Class
-

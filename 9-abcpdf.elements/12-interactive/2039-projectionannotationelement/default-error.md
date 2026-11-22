@@ -1,2 +1,0 @@
-# ProjectionAnnotationElement Class
-

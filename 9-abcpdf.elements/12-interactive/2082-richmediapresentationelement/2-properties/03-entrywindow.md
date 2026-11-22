@@ -1,17 +1,21 @@
 # EntryWindow Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| [`RichMediaWindowElement`](../../2084-richmediawindowelement/index.md) | null | No | Represents the "Window" entry of the richmediapresentation dictionary object. |
+
 ## Notes
 
 Represents the "Window" entry of the richmediapresentation dictionary object.
 
 It is an optional entry defined as part of the PDF 1.7 Extension Level 3 specification.
 
-It contains a RichMediaWindowElement.
+It contains a [RichMediaWindowElement](../../2084-richmediawindowelement/index.md).
 
 For definitive details see:.
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50d, page 82.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50d, page 82.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=82)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 338, page 701.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 338, page 701.](https://www.iso.org/standard/63534.html)
 
 The window entry describes the floating window used when Style is Windowed, specifying its dimensions and alignment on screen.

@@ -1,2 +1,0 @@
-# NamespaceElement Class
-

@@ -1,2 +1,0 @@
-# PathRule Class
-

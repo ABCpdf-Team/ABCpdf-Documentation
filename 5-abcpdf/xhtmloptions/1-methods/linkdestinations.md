@@ -4,16 +4,15 @@ Convert a restricted selection of external links to internal links.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-int LinkDestinations(IEnumerable&lt;int&gt; ids)int LinkDestinations(IEnumerable&lt;int&gt; linkIDs, IEnumerable&lt;int&gt; destIDs, bool linkPages)
+int LinkDestinations(IEnumerable<int> ids)
+int LinkDestinations(IEnumerable<int> linkIDs, IEnumerable<int> destIDs, bool linkPages)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | ids | Specifies both linkIDs and destIDs. |
 | linkIDs | The list of IDs of view objects containing links (anchor tags with href attributes). |
 | destIDs | The list of IDs of view objects containing destinations (anchor tags with name attributes). |
@@ -34,9 +33,9 @@ Similarly, if you use named destinations (HTML fragments) with links within the 
 
 ## Example
 
-This example shows how to import an HTML page which uses named destinations. We first create a [Doc](default.md) object and inset the edges a little so that the HTML will appear in the middle of the page. We assign the appropriate HTML options so that links will be rendered live.
+This example shows how to import an HTML page which uses named destinations.
 
-[C#]
+We first create a [Doc](../index.md) object and inset the edges a little so that the HTML will appear in the middle of the page. We assign the appropriate HTML options so that links will be rendered live.
 
 ```csharp
 using var doc = new Doc();
@@ -44,6 +43,34 @@ doc.Rect.Inset(18, 18);
 doc.HtmlOptions.AddLinks = true;
 ```
 
-![](../../../images/pdf/linkpages.pdf.png)
-linkpages.pdf [Page 1]
+We add the pages to the document.
 
+```csharp
+var theList = new List<int>();
+int id = doc.AddImageUrl("http://www.websupergoo.com/support.htm");
+while (true) {
+  theList.Add(id);
+  if (!doc.Chainable(id))
+    break;
+  doc.Page = doc.AddPage();
+  id = doc.AddImageToChain(id);
+}
+```
+
+The URL we've referenced makes extensive use of named destinations. We want these named destination links to take us between pages on the PDF rather than taking us to the original URL.
+
+```csharp
+doc.HtmlOptions.LinkDestinations(theList);
+```
+
+Finally, we save.
+
+```csharp
+doc.Save("linkdestinations.pdf");
+```
+
+We get the following output. The links work within the PDF.
+
+|  |  |
+| --- | --- |
+| ![linkpages.pdf \[Page 1\]](../../../images/pdf/linkpages.pdf.png)<br>linkpages.pdf \[Page 1\] | ![linkpages.pdf \[Page 2\]](../../../images/pdf/linkpages.pdf2.png)<br>linkpages.pdf \[Page 2\] |

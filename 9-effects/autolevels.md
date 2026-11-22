@@ -1,8 +1,12 @@
 # AutoLevels Effect
 
+AutoLevels automatically adjusts brightness and contrast to produce a balanced image with a good range of color intensities. In doing so it performs a function very much like the Levels effect, automatically deriving settings based on the image provided.
+
 ## Settings
 
-The percentage of extreme color values to ignore. This applies to the top and the bottom extremes.
+| Name | Default | Description |
+| --- | --- | --- |
+| Clip | 0.5 % | The percentage of extreme color values to ignore. This applies to the top and the bottom extremes. |
 
 ## Workings
 
@@ -16,5 +20,34 @@ To mitigate the effect of outliers - small numbers of pixels at extreme values o
 
 The following example images show the effect of AutoLevels at different clipping levels.
 
-[C#] void function() { using (Doc doc = new Doc()) { AddImagePage(doc, img1); // original image doc.Rendering.Save("EffectAutoLevels5.jpg"); using (ImageLayer layer = AddImagePage(doc, img1)) { using (EffectOperation effect = new EffectOperation("Auto Levels")) { effect.Parameters["Clip"].Value = 0.5; effect.Apply(layer.PixMap); } } doc.Rendering.Save("EffectAutoLevels50.jpg"); using (ImageLayer layer = AddImagePage(doc, img1)) { using (EffectOperation effect = new EffectOperation("Auto Levels")) { effect.Parameters["Clip"].Value = 5.0; effect.Apply(layer.PixMap); } } doc.Rendering.Save("EffectAutoLevels.jpg"); } }
+```csharp
+void function() {
+  using (Doc doc = new Doc()) {
+    AddImagePage(doc, img1); // original image
+    doc.Rendering.Save("EffectAutoLevels5.jpg");
+    using (ImageLayer layer = AddImagePage(doc, img1)) {
+      using (EffectOperation effect = new EffectOperation("Auto Levels")) {
+        effect.Parameters["Clip"].Value = 0.5;
+        effect.Apply(layer.PixMap);
+      }
+    }
+    doc.Rendering.Save("EffectAutoLevels50.jpg");
+    using (ImageLayer layer = AddImagePage(doc, img1)) {
+      using (EffectOperation effect = new EffectOperation("Auto Levels")) {
+        effect.Parameters["Clip"].Value = 5.0;
+        effect.Apply(layer.PixMap);
+      }
+    }
+    doc.Rendering.Save("EffectAutoLevels.jpg");
+  }
+}
+```
 
+![Original Image before AutoLevels](images/shipforest.jpg)  
+Original Image before AutoLevels
+
+![After AutoLevels Clip 0.5%](images/autolevels/clip05.jpg)  
+After AutoLevels Clip 0.5%
+
+![After AutoLevels Clip 5.0%](images/autolevels/clip50.jpg)  
+After AutoLevels Clip 5.0%

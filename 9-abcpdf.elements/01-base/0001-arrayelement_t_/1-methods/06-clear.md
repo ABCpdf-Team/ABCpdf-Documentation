@@ -1,8 +1,8 @@
 # Clear Function
 
-## Syntax
+Removes all [Elements](../../1086-element/index.md) from the array.
 
-[C#]
+## Syntax
 
 ```csharp
 void Clear()
@@ -10,10 +10,10 @@ void Clear()
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes
 
-Removes all [Elements](1086-element/default.md) from the array.
+Removes all [Elements](../../1086-element/index.md) from the array.

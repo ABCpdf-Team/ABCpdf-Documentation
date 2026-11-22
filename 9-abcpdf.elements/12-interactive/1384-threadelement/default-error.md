@@ -1,2 +1,0 @@
-# ThreadElement Class
-

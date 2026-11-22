@@ -1,2 +1,0 @@
-# GraphicLayer Class
-

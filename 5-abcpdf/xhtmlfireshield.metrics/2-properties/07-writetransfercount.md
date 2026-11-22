@@ -1,8 +1,9 @@
 # WriteTransferCount Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `long` | null | No | The number of bytes written. |
+
 ## Notes
 
-## Example
-
-None.
-
+The number of bytes written.

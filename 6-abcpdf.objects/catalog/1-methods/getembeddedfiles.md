@@ -4,16 +4,14 @@ Gets all the embedded files in this document
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-IDictionary&lt;string, <a href="../../filespecification/default.htm">FileSpecification</a>&gt; GetEmbeddedFiles()
-```
+`IDictionary<string, `[`FileSpecification`](../../filespecification/index.md)`> GetEmbeddedFiles()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | A set of names and the file associated with each name. |
 
 ## Notes
@@ -30,9 +28,7 @@ PDF portfolios can be used to represent a folder of PDFs. For example you might 
 
 ## Example
 
-The example below show how to extract all the files embedded in a PDF portfolio. See the [FileSpecification constructor](6-abcpdf.objects/filespecification/1-methods/filespecification.md) for the creation of portfolios.
-
-[C#]
+The example below show how to extract all the files embedded in a PDF portfolio. See the [FileSpecification constructor](../../filespecification/1-methods/filespecification.md) for the creation of portfolios.
 
 ```csharp
 using var doc = new Doc();
@@ -51,4 +47,3 @@ foreach (var pair in files) {
   }
 }
 ```
-

@@ -1,2 +1,0 @@
-# OptionalContentUsageZoomElement Class
-

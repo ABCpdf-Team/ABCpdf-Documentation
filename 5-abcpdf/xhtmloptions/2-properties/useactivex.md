@@ -1,8 +1,12 @@
 # UseActiveX Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | false | No | Whether to enable ActiveX. |
+
 ## Notes
 
-This property applies to the MSHTML engine only.
+This property applies to the [MSHTML](2-formshtml.md) engine only.
 
 This property determines whether ActiveX is enabled.
 
@@ -12,9 +16,4 @@ This is done for good security reasons and we strongly recommend that you do not
 
 However if you are sure that your source documents do not pose a security risk you can enable ActiveX using this setting.
 
-Compatibility. Not all ActiveX controls are compatible with ABCpdf. In particular some rely on being able to draw direct to screen which stops ABCpdf being able to use them.
-
-## Example
-
-None.
-
+> **Compatibility.** Not all ActiveX controls are compatible with ABCpdf. In particular some rely on being able to draw direct to screen which stops ABCpdf being able to use them.

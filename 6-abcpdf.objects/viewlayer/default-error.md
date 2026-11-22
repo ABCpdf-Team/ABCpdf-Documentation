@@ -1,2 +1,0 @@
-# ViewLayer Class
-

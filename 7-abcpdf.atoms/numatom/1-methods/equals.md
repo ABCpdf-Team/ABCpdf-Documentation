@@ -4,16 +4,14 @@ Test whether the two NumAtoms are the same
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool Equals(<a href="../default.htm">NumAtom</a> other)
-```
+`bool Equals(`[`NumAtom`](../index.md)` other)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | other | The NumAtoms to test against. |
 
 ## Notes
@@ -21,7 +19,3 @@ bool Equals(<a href="../default.htm">NumAtom</a> other)
 Test whether the two NumAtoms are the same.
 
 Two NumAtoms are judged to be equal if their numeric value is equal.
-
-## Example
-
-None

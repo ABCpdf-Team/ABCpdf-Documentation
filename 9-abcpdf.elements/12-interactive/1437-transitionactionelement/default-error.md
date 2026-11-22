@@ -1,2 +1,0 @@
-# TransitionActionElement Class
-

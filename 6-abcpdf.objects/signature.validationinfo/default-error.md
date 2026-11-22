@@ -1,2 +1,0 @@
-# ValidationInfo Class
-

@@ -1,5 +1,9 @@
 # EntryL Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `IList<string>` | null | No | Represents the "L" entry of the media criteria dictionary object. |
+
 ## Notes
 
 Represents the "L" entry of the media criteria dictionary object.
@@ -10,8 +14,8 @@ It contains an array which contains strings, representing PDF string objects.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 268, page 490.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 268, page 490.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=498)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 279, page 614.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 279, page 614.](https://www.iso.org/standard/63534.html)
 
 The L entry holds an array of language tags listing acceptable content languages. The rendition is accepted only if the media content language matches one of the listed tags.

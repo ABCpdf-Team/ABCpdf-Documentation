@@ -1,8 +1,8 @@
 # HtmlCallback Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default Value | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | No | The multicast delegate to be called while HTML rendering is taking place. |
+| `HtmlCallback` | null | No | The multicast delegate to be called while HTML rendering is taking place. |
 
 ## Notes
 
@@ -18,7 +18,9 @@ Note that the amount of work done during a callback should be kept to a minimum.
 
 The definition of the HtmlCallback multicast delegate is as follows.
 
-[C#]delegate void HtmlCallback(string stage, object page);
+```csharp
+delegate void HtmlCallback(string stage, object page);
+```
 
 Current values for the stage variable are 'get width', 'get height' and 'render'. The first occurs prior to finding the natural width of the HTML (the width it can occupy without scrolling). The second occurs prior to finding the natural height. The third occurs prior to translation into PDF format.
 
@@ -27,8 +29,6 @@ The page is provided via a mshtml.HTMLDocumentClass object - see Microsoft docum
 ## Example
 
 The following example shows the effect that this parameter has on HTML rendering.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -47,6 +47,5 @@ doc.AddText(theLog.ToString());
 doc.Save("HtmlOptionsCallback.pdf");
 ```
 
-![](../../../images/pdf/HtmlOptionsCallback.pdf.png)
+![HtmlOptionsCallback.pdf](../../../images/pdf/HtmlOptionsCallback.pdf.png)  
 HtmlOptionsCallback.pdf
-

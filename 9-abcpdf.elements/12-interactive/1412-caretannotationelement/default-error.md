@@ -1,2 +1,0 @@
-# CaretAnnotationElement Class
-

@@ -1,2 +1,0 @@
-# SignatureFieldElement Class
-

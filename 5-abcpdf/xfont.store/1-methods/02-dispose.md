@@ -4,16 +4,14 @@ Releases the reference to the font store.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Dispose()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes

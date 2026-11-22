@@ -4,16 +4,16 @@ Creates an information accessor for the Python engine.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">PythonEngine</a>(<a href="../../01-pythonenvironment/default.htm">PythonEnvironment</a> env)
-```
+[`PythonEngine`](../index.md)`(`[`PythonEnvironment`](../../01-pythonenvironment/index.md)` env)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | env | The Python environment. |
 
 ## Notes
+
+Creates an information accessor for the Python engine.

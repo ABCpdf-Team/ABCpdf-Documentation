@@ -1,5 +1,9 @@
 # Dither Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | true | No | Whether to dither colors when mapping to the palette. |
+
 ## Notes
 
 Whether to dither colors when mapping to the palette.
@@ -11,8 +15,3 @@ Dithering uses a scattering of pixels of different colors to approximate colors 
 In general it is a good idea to dither images like photographs which contain smooth gradations of colors.
 
 It is best not to dither posterized images containing blocks of colors.
-
-## Example
-
-None.
-

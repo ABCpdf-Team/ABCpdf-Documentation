@@ -1,8 +1,12 @@
 # HostWebBrowser Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | true (overridable by [registry value](../../../3-concepts/d-registrykeys.md)) | No | Whether to host a WebBrowser control. |
+
 ## Notes
 
-This property applies to the MSHTML engine only.
+This property applies to the [MSHTML](2-formshtml.md) engine only.
 
 This property determines whether a WebBrowser control is hosted.
 
@@ -10,9 +14,4 @@ By default, a WebBrowser control is hosted. Script-accessible properties (left, 
 
 When no WebBrowser control is hosted, script-accessible dynamic, geometric properties are always zero.
 
-This property affects the CoerceVector property.
-
-## Example
-
-None.
-
+This property affects the [CoerceVector](coercevector.md) property.

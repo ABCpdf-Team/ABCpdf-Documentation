@@ -4,23 +4,21 @@ SwfImportOperation Constructor.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">SwfImportOperation</a>()
-```
+[`SwfImportOperation`](../index.md)`()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes
 
 Create a SwfImportOperation.
 
-You must specify a [Doc](2-properties/1-doc.md) before the [ProcessingObject](1-operation/3-events/1-processingobject.md) event of ProcessingSourceType.ImageFrame returns/is handled.
+You must specify a [Doc](../2-properties/1-doc.md) before the [ProcessingObject](../../1-operation/3-events/1-processingobject.md) event of ProcessingSourceType.ImageFrame returns/is handled.
 
 ## Example
 

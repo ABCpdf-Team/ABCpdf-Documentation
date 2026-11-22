@@ -1,19 +1,19 @@
 # ValidationBase Function
 
+Initializes a new instance of the [ValidationBase](../index.md) class.
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">ValidationBase</a>()
-```
+[`ValidationBase`](../index.md)`()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes
 
-Initializes a new instance of the [ValidationBase](default.md) class.
+Initializes a new instance of the [ValidationBase](../index.md) class.

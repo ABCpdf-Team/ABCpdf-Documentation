@@ -1,5 +1,9 @@
 # FloatDigits Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int` | 5 | No | The number of digits that can be written in the fractional part of a floating point number. |
+
 ## Notes
 
 The number of digits that can be written in the fractional part of a floating point number.
@@ -11,8 +15,3 @@ The PDF 1.4 specification limited this value to five digits. You might ask how r
 However the PDF/A spec is designed against the PDF 1.4 spec so is not just that the document might display badly in a version of Acrobat from fifteen years ago.
 
 This value defaults to five and may be set to any value between five and thirty-eight.
-
-## Example
-
-None.
-

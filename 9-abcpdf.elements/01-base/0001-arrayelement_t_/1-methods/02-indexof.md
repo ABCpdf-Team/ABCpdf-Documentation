@@ -1,8 +1,8 @@
 # IndexOf Function
 
-## Syntax
+Determines the index of a specific [Element](../../1086-element/index.md).
 
-[C#]
+## Syntax
 
 ```csharp
 int IndexOf(T value)
@@ -10,11 +10,11 @@ int IndexOf(T value)
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| value | The Element to locate in the Collection |
+| Name | Description |
+| :---: | --- |
+| value | The [Element](../../1086-element/index.md) to locate in the Collection |
 | return | If found, the index of value, otherwise -1. |
 
 ## Notes
 
-Determines the index of a specific [Element](1086-element/default.md).
+Determines the index of a specific [Element](../../1086-element/index.md).

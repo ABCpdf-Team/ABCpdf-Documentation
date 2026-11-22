@@ -4,16 +4,16 @@ Assign a soft mask to the image.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-void SetMask(<a href="../default.htm">XImage</a> mask, bool invert)
-```
+`void SetMask(`[`XImage`](../index.md)` mask, bool invert)`
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | mask | The image containing the soft mask. |
 | invert | Whether to invert the mask. |
 
@@ -25,15 +25,13 @@ The mask provided will be converted to a grayscale intensity map and may be scal
 
 If the Invert parameter is set then the mask will be inverted - making transparent areas opaque and opaque areas transparent.
 
-Different images within the mask can be accessed using the [Frame](2-properties/frame.md) property. Different portions of the mask can be selected using the [Selection](2-properties/selection.md) property.
+Different images within the mask can be accessed using the [Frame](../2-properties/frame.md) property. Different portions of the mask can be selected using the [Selection](../2-properties/selection.md) property.
 
-Note that transparency is only applied to an Image if the [Indirect](2-properties/indirect.md) property is true (which is generally the case).
+Note that transparency is only applied to an Image if the [Indirect](../2-properties/indirect.md) property is true (which is generally the case).
 
 ## Example
 
 Here we read a TIFF file and present the data to the Image object. We then read a mask image and assign that to our Image. Finally we add the image to our document and then save the PDF.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -49,6 +47,13 @@ doc.AddImageObject(img, true);
 doc.Save("imagesetmask.pdf");
 ```
 
-![](../../../images/pdf/image.pdf.png)
-mypic.jpg
+Given the following input images.
 
+|  |  |
+| --- | --- |
+| ![mypic.jpg](../../../images/pdf/image.pdf.png)<br>mypic.jpg | ![mymask.jpg](../../../images/pdf/mask.jpg)<br>mymask.jpg |
+
+This is the kind of output you might expect.
+
+![imagesetmask.pdf](../../../images/pdf/imagesetmask.pdf.png)  
+imagesetmask.pdf

@@ -4,16 +4,14 @@ Install a trial license
 
 ## Syntax
 
-[C#]
-
 ```csharp
 static bool InstallTrialLicense(string license, bool throwOnFailure = true)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | license | The license to install. |
 | throwOnFailure | Whether to throw an exception on failure. |
 | return | True if a license is installed, otherwise false. |
@@ -26,4 +24,4 @@ Any license installed using this method will remain available to the current pro
 
 ## Example
 
-See [Manual Installation](../../../3-concepts/6-installation.htm).
+See [Manual Installation](../../../3-concepts/6-installation.md).

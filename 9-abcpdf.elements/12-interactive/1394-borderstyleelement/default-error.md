@@ -1,2 +1,0 @@
-# BorderStyleElement Class
-

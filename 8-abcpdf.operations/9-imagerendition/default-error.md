@@ -1,2 +1,0 @@
-# ImageRendition Class
-

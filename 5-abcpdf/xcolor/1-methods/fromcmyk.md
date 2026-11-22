@@ -4,16 +4,15 @@ Create an XColor given a set of CMYK component values.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static <a href="../default.htm">XColor</a> FromCmyk(int cyan, int magenta, int yellow, int black)static <a href="../default.htm">XColor</a> FromCmyk(double cyan, double magenta, double yellow, double black)
-```
+`static `[`XColor`](../index.md)` FromCmyk(int cyan, int magenta, int yellow, int black)`  
+`static `[`XColor`](../index.md)` FromCmyk(double cyan, double magenta, double yellow, double black)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | cyan | The amount of cyan (0 to 100) |
 | magenta | The amount of magenta (0 to 100) |
 | yellow | The amount of yellow (0 to 100) |
@@ -23,7 +22,3 @@ static <a href="../default.htm">XColor</a> FromCmyk(int cyan, int magenta, int y
 ## Notes
 
 Create an XColor given a set of CMYK component values ranging between zero and 100.
-
-## Example
-
-None

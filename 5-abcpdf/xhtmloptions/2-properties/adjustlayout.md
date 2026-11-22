@@ -1,8 +1,12 @@
 # AdjustLayout Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | true | No | Whether HTML layout is checked and adjusted for optimal output to PDF. |
+
 ## Notes
 
-This property applies to the MSHTML engine only.
+This property applies to the [MSHTML](2-formshtml.md) engine only.
 
 This property determines whether HTML layout is checked and adjusted for optimal output to PDF.
 
@@ -11,8 +15,3 @@ HTML layout is optimized for screen based output on a scrolling display. Certain
 When set the document is scanned for typical layout based errors and these are fixed.
 
 However if you are not using these features then skipping the adjustment stage can save time with no noticable change in output quality.
-
-## Example
-
-None.
-

@@ -4,16 +4,14 @@ Called to report an object which is of the wrong type.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 virtual void ReportIncorrectItemType(string expectedType, string actualType, Atom atom)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | expectedType | The expected type name. |
 | actualType | The actual type name. |
 | atom | The atom which was found. |

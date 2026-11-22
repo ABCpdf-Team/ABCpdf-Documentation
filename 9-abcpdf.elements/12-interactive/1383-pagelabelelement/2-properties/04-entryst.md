@@ -1,5 +1,9 @@
 # EntrySt Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "St" entry of the page label dictionary object. |
+
 ## Notes
 
 Represents the "St" entry of the page label dictionary object.
@@ -12,8 +16,8 @@ The PDF specification states that this item assumes a value of 1 if no value has
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 159, page 375.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 159, page 375.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=383)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 161, page 456.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 161, page 456.](https://www.iso.org/standard/63534.html)
 
 Setting St to a value greater than one allows a range to continue a numbering sequence from a prior range, for example when an appendix must start at a number higher than one.

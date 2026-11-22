@@ -6,23 +6,29 @@ Converting HTML to PDF: how ABCpdf renders HTML and CSS.
 
 ABCpdf fully supports HTML and CSS.
 
-You can render individual pages of HTML using the AddImageUrl method.
+You can render individual pages of HTML using the [AddImageUrl](../5-abcpdf/doc/1-methods/addimageurl.md) method.
 
-You can page HTML over multiple PDF pages using the AddImageUrl method in combination with the AddImageToChain method.
+You can page HTML over multiple PDF pages using the AddImageUrl method in combination with the [AddImageToChain](../5-abcpdf/doc/1-methods/addimagetochain.md) method.
 
 ABCpdf allows you to treat HTML like any other media so you can even page your HTML across multiple columns of multiple pages of your PDF.
 
 ## Method
 
-ABCpdf can use the Chromium engine (as used in Google Chrome), the MSHTML engine (as used in Microsoft Internet Explorer) or the ABCGecko engine (as used in Mozilla Firefox) to parse and preprocess the HTML for insertion into your PDF. To switch between them, simply change the XHtmlOptions.Engine property. It's only one line of code.
+ABCpdf can use the Chromium engine (as used in Google Chrome), the MSHTML engine (as used in Microsoft Internet Explorer) or the ABCGecko engine (as used in Mozilla Firefox) to parse and preprocess the HTML for insertion into your PDF. To switch between them, simply change the [XHtmlOptions.Engine](../5-abcpdf/xhtmloptions/2-properties/1-engine.md) property. It's only one line of code.
 
 The use of sandboxed web browsers provides an extremely accurate rendition of the HTML. However due to the differences in behavior and capabilities of the underlying rendering engine, you should expect some differences in behavior and output when switching between them.
 
-Using Chrome in print preview, you should see something similar to the output you get using the ABCChrome engine. As in print preview, we default to print rather than screen media stylesheets. The view you see of your HTML using the IE version on the machine should be pretty similar to the MSHTML engine on that same machine. Printout from the QtWeb browser should be very similar to the output produced by the ABCWebKit engine. None will be exactly the same because PDF is different from HTML and some things need to be represented slightly differently. However any differences should be subtle. The ABCChrome engine is typically about three times as fast as the MSHTML engine, which itself typically about twice the speed of ABCGecko. However this does depend heavily on the type of input. For some inputs we have seen the ABCGecko engine five times the speed of the MSHTML one. The ABCChrome and Gecko engines have a fairly large startup overhead so if you are testing for speed you should be careful to discount the first conversion. In terms of commonly requested features, the ABCChrome and Gecko engines support repeated table headers and footers, SVG, and are pretty good on AJAX for charts and maps. The MSHTML engine tends to provide a more literal screen based output. ABCChrome and ABCGecko generally support HTML5 specific features better than MSHTML. ABCChrome supports web fonts while the other two engines do not. You should be expecting that there are differences in PDF representation between the engines and in particular the decision to reference or embed fonts can be quite different. File sizes are likely to be noticeably but not startlingly different. The MSHTML tends to produce the largest outputs, followed by ABCGecko and with ABCChrome producing the smallest files.
+Using Chrome in print preview, you should see something similar to the output you get using the ABCChrome engine. As in print preview, we default to print rather than screen media stylesheets. The view you see of your HTML using the IE version on the machine should be pretty similar to the MSHTML engine on that same machine. Printout from the QtWeb browser should be very similar to the output produced by the ABCWebKit engine. None will be exactly the same because PDF is different from HTML and some things need to be represented slightly differently. However any differences should be subtle.
 
-The ABCWebKit engine is a specialist engine which is not suitable in most situations. Yes - not suitable. However because it has limited OS dependencies it can often operate in environments like Azure which are stripped down versions of Windows. This flexibility comes at considerable cost in terms of capability and security so you should only enable this engine if you are fully cognizant of the implications. You can read more about this at the Engine page.
+The ABCChrome engine is typically about three times as fast as the MSHTML engine, which itself typically about twice the speed of ABCGecko. However this does depend heavily on the type of input. For some inputs we have seen the ABCGecko engine five times the speed of the MSHTML one. The ABCChrome and Gecko engines have a fairly large startup overhead so if you are testing for speed you should be careful to discount the first conversion.
 
-Please refer to Engine, ForChrome, ForMSHtml, ForGecko and ForWebKit for further elaborations on the engines' distinct characteristics.
+In terms of commonly requested features, the ABCChrome and Gecko engines support repeated table headers and footers, SVG, and are pretty good on AJAX for charts and maps. The MSHTML engine tends to provide a more literal screen based output. ABCChrome and ABCGecko generally support HTML5 specific features better than MSHTML. ABCChrome supports web fonts while the other two engines do not.
+
+You should be expecting that there are differences in PDF representation between the engines and in particular the decision to reference or embed fonts can be quite different. File sizes are likely to be noticeably but not startlingly different. The MSHTML tends to produce the largest outputs, followed by ABCGecko and with ABCChrome producing the smallest files.
+
+The ABCWebKit engine is a specialist engine which is not suitable in most situations. Yes - not suitable. However because it has limited OS dependencies it can often operate in environments like Azure which are stripped down versions of Windows. This flexibility comes at considerable cost in terms of capability and security so you should only enable this engine if you are fully cognizant of the implications. You can read more about this at the [Engine](../5-abcpdf/xhtmloptions/2-properties/1-engine.md) page.
+
+Please refer to [Engine](../5-abcpdf/xhtmloptions/2-properties/1-engine.md), [ForChrome](../5-abcpdf/xhtmloptions/2-properties/2-forchrome.md), [ForMSHtml](../5-abcpdf/xhtmloptions/2-properties/2-formshtml.md), [ForGecko](../5-abcpdf/xhtmloptions/2-properties/2-forgecko.md) and [ForWebKit](../5-abcpdf/xhtmloptions/2-properties/2-forwebkit.md) for further elaborations on the engines' distinct characteristics.
 
 ## Cache
 
@@ -36,7 +42,9 @@ The standard reason that content gets cached is that pages are sending HTTP head
 
 If you want to be totally sure that your URLs are rendered afresh each time, you need to vary the URL. For example:
 
-http://www.microsoft.com/?dummy=1 http://www.microsoft.com/?dummy=2 http://www.microsoft.com/?dummy=3
+http://www.microsoft.com/?dummy=1  
+http://www.microsoft.com/?dummy=2  
+http://www.microsoft.com/?dummy=3
 
 These will all render the same page (www.microsoft.com) but because the URL is varying, you can be sure that they will be rendered afresh each time.
 
@@ -44,13 +52,19 @@ These will all render the same page (www.microsoft.com) but because the URL is v
 
 Obvious things will impact the speed of HTML conversion. So if you want to optimize the process look at retrieval times for your http requests, the size of your HTML and any related resources, the complexity of HTML, the speed of your computer. Tweaking these can make a big difference.
 
-However there are also some small and simple things you may be able to do without getting into the complexity of system wide optimization. The MSHTML rendering engine is, by default, set up for accuracy and quality. In order to ensure that the output is always good we have to enable every setting that might ever affect the output quality. This is the case even for situations in which you are not using those features. So if your HTML does not contain features which require these settings then you can disable them. Doing so can result in significant speed improvements.
+However there are also some small and simple things you may be able to do without getting into the complexity of system wide optimization.
 
-The setting which typically makes the biggest difference is HostWebBrowser but DoMarkup and AdjustLayout are also worth looking at. The actual speed increases depend very much on the input HTML, but in our tests, disabling these features for simple HTML, increased the speed of processing by about 30% for HostWebBrowser, another 10% for the DoMarkup property and another 7% for the AdjustLayout property. Another property which needs examination is the UseScript one. As long as your JavaScript is good and sensible then there is no problem. However JavaScript is often coded poorly and as such it may have an unpredictable effect on speed. Consider disabling this feature if you do not actively need it.
+The MSHTML rendering engine is, by default, set up for accuracy and quality. In order to ensure that the output is always good we have to enable every setting that might ever affect the output quality. This is the case even for situations in which you are not using those features.
+
+So if your HTML does not contain features which require these settings then you can disable them. Doing so can result in significant speed improvements.
+
+The setting which typically makes the biggest difference is HostWebBrowser but DoMarkup and AdjustLayout are also worth looking at. The actual speed increases depend very much on the input HTML, but in our tests, disabling these features for simple HTML, increased the speed of processing by about 30% for HostWebBrowser, another 10% for the DoMarkup property and another 7% for the AdjustLayout property.
+
+Another property which needs examination is the UseScript one. As long as your JavaScript is good and sensible then there is no problem. However JavaScript is often coded poorly and as such it may have an unpredictable effect on speed. Consider disabling this feature if you do not actively need it.
 
 Setting the BrowserWidth to a predefined value means that ABCpdf does not have to compute one. This can result in an increase of speed or perhaps 10% or so.
 
-By default the ABCpdf MSHTML engine operates a two stage process for obtaining web pages. It starts with the most efficient method (EngineTransfer) and, in the event that security prohibits this, falls back to a less demanding but slower method (NetWebRequest). If you are operating in a restricted permission environment such as ASP.NET you are unlikely to notice this fallback and thus the potential speed impact. By setting the TransferModule to EngineTransfer you can force ABCpdf to use the faster method and if permissions prohibit this then an error will be raised. At that point you can tackle the permissions issue to ensure that the faster method is used. See the TransferModule property for details.
+By default the ABCpdf MSHTML engine operates a two stage process for obtaining web pages. It starts with the most efficient method (EngineTransfer) and, in the event that security prohibits this, falls back to a less demanding but slower method (NetWebRequest). If you are operating in a restricted permission environment such as ASP.NET you are unlikely to notice this fallback and thus the potential speed impact. By setting the TransferModule to EngineTransfer you can force ABCpdf to use the faster method and if permissions prohibit this then an error will be raised. At that point you can tackle the permissions issue to ensure that the faster method is used. See the [TransferModule](../5-abcpdf/xhtmloptions/2-properties/transfermodule.md) property for details.
 
 ## Caveats
 
@@ -92,19 +106,23 @@ ABCpdf uses a sophisticated set of heuristics to determine where to break pages.
 
 You should ensure that the element to which you apply your page breaking style is visible. This is not always required for all engines but it is a sensible thing to do and it makes output predictable. For example:
 
-<div style="page-break-before:always">&nbsp;</div>
+```
+<div style="page-break-before:always"> </div>
+```
 
 ... will break but ...
 
+```
 <div style="page-break-before:always"></div>
+```
 
 ... may not.
 
-Useful Tip. Debugging page break styles.
-
-Sometimes, your page breaks do not work in the way you think they should. Because these kinds of tags are invisible, it's very difficult for you to know whether you've applied them correctly or not. One simple solution is to debug your HTML using a visible style.
-
-For example, when you apply your "page-break-inside: avoid" style, apply a right border style at the same time. That way, you can see exactly where your elements are. If the borders do not appear in the right places, then you know there's something wrong with your HTML.
+> **Useful Tip.** Debugging page break styles.
+>
+> Sometimes, your page breaks do not work in the way you think they should. Because these kinds of tags are invisible, it's very difficult for you to know whether you've applied them correctly or not. One simple solution is to debug your HTML using a visible style.
+>
+> For example, when you apply your "page-break-inside: avoid" style, apply a right border style at the same time. That way, you can see exactly where your elements are. If the borders do not appear in the right places, then you know there's something wrong with your HTML.
 
 ## Snapshot
 
@@ -112,7 +130,7 @@ You may wish to take a snapshot of the current URL.
 
 In many circumstances, you should be able to derive a URL for the current page using the value of the SERVER_NAME, URL and QUERY_STRING Server Variables. You should be able to derive a URL for the previous page using the HTTP_REFERER (sic) Server Variable.
 
-Alternatively, you can obtain the HTML of the current page using the HttpResponse.Filter property or by overriding the Render method of the page. You can then present this HTML to ABCpdf using AddImageHtml. If your HTML references resources using relative references, you may wish to insert a <BASE> tag into the HTML before presentation to ABCpdf. If your server is serving one site and you are rendering a URL on it, something as simple as <BASE HREF="http://localhost/"> is often all you need.
+Alternatively, you can obtain the HTML of the current page using the HttpResponse.Filter property or by overriding the Render method of the page. You can then present this HTML to ABCpdf using AddImageHtml. If your HTML references resources using relative references, you may wish to insert a \<BASE> tag into the HTML before presentation to ABCpdf. If your server is serving one site and you are rendering a URL on it, something as simple as \<BASE HREF="http://localhost/"> is often all you need.
 
 When you perform this kind of operation, be careful not to recursively call ABCpdf. If you do this, you will get into a hall-of-mirrors type situation and the software will not be able to return you a sensible image.
 
@@ -140,6 +158,8 @@ Suppose your server has access to an internal intranet. An attacker knows about 
 
 So the core principle here is - do not pass untrusted URLs or HTML to ABCpdf.
 
+The [AllowedSchemes](https://www.websupergoo.com/helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/allowedschemes.htm) property limits the URL schemes which may be used for the page URL and the BaseURI. If you do accept URLs from other people, narrowing it - for example to "https" only - stops them using other schemes such as file. It does not stop http or https URLs from reaching addresses on your internal network.
+
 In previous versions of ABCpdf, JavaScript was disabled by default and had to be manually enabled. However JavaScript has become critical to the display of most sites and From Version 11 onwards, it is enabled by default. See the HtmlOptions.UseScript property for details.
 
 Each web engine operates inside a sandbox which limits the access that web pages have. However the extent to which the web pages are limited, is largely determined by where they are and what they wish to access. In general web pages are tied into the local site from which they come. So any attempt to move outside this location will normally be denied. You can read more about this on the web by searching for details of the same-origin policy and how it is used to prevent cross-site scripting.
@@ -158,5 +178,17 @@ The file permissions associated with a web server process, provide yet another l
 
 There are some variations between engines and what they allow. See below for details. Note that while engines should be completely consistent here, it is our experience that this is not always the case so you may not want to rely on these permissions as absolutes.
 
-* If you enable the FireShield engine, the default rules will deny access. Access can be re-enabled by adding FireShield rules to explicitly allow it.
+|  | ABCChrome | ABCGecko | Mshtml |
+| --- | :---: | :---: | :---: |
+| Redirection from one page to another within the current web site | Allowed | Allowed | Allowed |
+| Redirection from a page on one web site to a page on a different one | Denied | Denied | Denied |
+| Redirection from a page on a web site to a local file | Denied | Denied | Denied |
+| Redirection from one local file to another local file | Allowed | Allowed | Allowed |
+| Redirection from a local file to a page on a web site | Denied | Allowed | Denied |
+| Base tag in a local file referencing resources in a local directory | Allowed | Allowed | Allowed |
+| Base tag in a local file referencing resources on a remote web site | Allowed | Allowed | Allowed |
+| Base tag in a page on a remote web site referencing resources in a local directory | Denied | Denied | Allowed |
+| Image in a local directory, referenced in HTML, provided via AddImageHtml method. | Denied | Denied | Allowed |
+| Image in a local directory, referenced in HTML, provided via AddImageUrl and a 'file:///' scheme URL. | Allowed\* | Denied | Allowed |
 
+\* If you enable the FireShield engine, the default rules will deny access. Access can be re-enabled by adding FireShield rules to explicitly allow it.

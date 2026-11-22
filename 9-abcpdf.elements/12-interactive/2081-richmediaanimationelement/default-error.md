@@ -1,2 +1,0 @@
-# RichMediaAnimationElement Class
-

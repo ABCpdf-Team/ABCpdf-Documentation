@@ -18,7 +18,7 @@ Output, validation and conversion to PDF/A standards. Conversion is made to work
 
 Full support for the Windows Presentation Foundation (WPF). Microsoft WPF was the graphics sub-system originally developed for .NET 3.0. Of course with a graphics API drawing to screen a PDF export facility is needed too. As such ABCpdf comes with full WPF import capability. See our WPFTable example project for details and examples.
 
-Not only does ABCpdf support PDF, HTML and Rich Text Format (RTF) natively but it also supports a wide range of other document formats. Formats like Microsoft Word (.doc), Microsoft Excel (.xls), PowerPoint (.ppt), WordPerfect (.wpd), Lotus 1-2-3 (.wk1) and AutoCAD (.dxf). All you need to do is read them in! *
+Not only does ABCpdf support PDF, HTML and Rich Text Format (RTF) natively but it also supports a wide range of other document formats. Formats like Microsoft Word (.doc), Microsoft Excel (.xls), PowerPoint (.ppt), WordPerfect (.wpd), Lotus 1-2-3 (.wk1) and AutoCAD (.dxf). All you need to do is read them in! \*
 
 ABCpdf allows you precise control over the way that your text is laid out. Paragraph indent, kerning and tracking, word spacing, line spacing, paragraph spacing and horizontal justification are just some of the settings available. ABCpdf supports synthesized bold and italic typeface styles for situations in which you do not want to reference multiple typefaces. Choose between the classic overlay method and a stroke­based method for synthetic bold to improve text extraction reliability.
 
@@ -64,5 +64,4 @@ ABCpdf allows even more advanced control over any PDF object in your document. I
 
 If you think there's something missing please do mail us.
 
-* Requires helper applications such as WordGlue .NET, Microsoft Office or OpenOffice.org to be installed. WordGlue .NET is available on our site. OpenOffice.org is freely distributed under the GNU Lesser General Public License (LGPL). For full details of the OpenOffice.org project see http://www.openoffice.org/.
-
+<a id="note"></a>\* Requires helper applications such as WordGlue .NET, Microsoft Office or OpenOffice.org to be installed. WordGlue .NET is available on our site. OpenOffice.org is freely distributed under the [GNU Lesser General Public License (LGPL)](http://www.openoffice.org/licenses/lgpl_license.html). For full details of the OpenOffice.org project see [http://www.openoffice.org/](http://www.openoffice.org/).

@@ -4,24 +4,18 @@ Test whether the two NameAtoms are the same
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool Equals(<a href="../default.htm">NameAtom</a> other)
-```
+`bool Equals(`[`NameAtom`](../index.md)` other)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | other | The NameAtom to test against. |
 
 ## Notes
 
 Test whether the two NameAtoms are the same.
 
-Two NameAtoms are judged to be equal if their [Text](2-properties/text.md) is equal.
-
-## Example
-
-None
+Two NameAtoms are judged to be equal if their [Text](../2-properties/text.md) is equal.

@@ -1,3 +1,0 @@
-# FontSize Property
-
-## Notes

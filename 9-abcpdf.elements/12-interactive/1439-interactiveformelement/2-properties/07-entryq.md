@@ -1,5 +1,9 @@
 # EntryQ Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "Q" entry of the interactive form dictionary object. |
+
 ## Notes
 
 Represents the "Q" entry of the interactive form dictionary object.
@@ -10,8 +14,8 @@ It contains an integer representing a PDF numeric object.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 218, page 431.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 218, page 431.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=439)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 224, page 526.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 224, page 526.](https://www.iso.org/standard/63534.html)
 
 The document-level quadding value applies to any field that does not specify its own Q entry. 0 is left, 1 is centred, and 2 is right.

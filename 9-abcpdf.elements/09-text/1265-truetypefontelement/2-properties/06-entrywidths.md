@@ -1,5 +1,9 @@
 # EntryWidths Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `IList<double>` | null | No | Represents the "Widths" entry of the truetype font dictionary object. |
+
 ## Notes
 
 Represents the "Widths" entry of the truetype font dictionary object.
@@ -10,7 +14,7 @@ It contains an array which contains doubles, representing PDF numeric objects.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 257.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 257.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=265)
 
 Each value in the array is the advance width of the glyph at the corresponding character code, in 1/1000 text space units. This matches the convention used for Type1 fonts even though TrueType programs store widths in different internal units.
 

@@ -1,2 +1,0 @@
-# PythonEnvironment Struct
-

@@ -4,16 +4,14 @@ Determines if an object is chainable.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 bool Chainable(int id)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | id | The Object ID of the object to be tested. |
 | return | Whether the object is chainable or not. |
 

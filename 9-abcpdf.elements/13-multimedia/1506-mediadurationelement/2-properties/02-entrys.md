@@ -1,5 +1,9 @@
 # EntryS Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "S" entry of the media duration dictionary object. |
+
 ## Notes
 
 Represents the "S" entry of the media duration dictionary object.
@@ -10,12 +14,14 @@ It contains a string representing a PDF name object.
 
 This item may take one of the following valid values:.
 
-IFT
+- I
+- F
+- T
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 281, page 498.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 281, page 498.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=506)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 292, page 623.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 292, page 623.](https://www.iso.org/standard/63534.html)
 
 The S entry names the duration subtype: I for intrinsic duration (play the full clip), or T for a specified time duration given by the T entry. Intrinsic duration uses the media file natural length.

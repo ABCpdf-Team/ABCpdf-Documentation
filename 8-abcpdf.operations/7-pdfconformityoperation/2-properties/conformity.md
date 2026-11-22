@@ -1,8 +1,8 @@
 # Conformity Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | None | No | The PDF conformity. |
+| `PdfConformity` | None | No | The PDF conformity. |
 
 ## Notes
 
@@ -12,10 +12,6 @@ The PdfConformity type is a flags enumeration so different values can be combine
 
 The PdfConformity enumeration may take the following values:
 
-* None - No operation.
-* NoJavaScriptAction - Removes JavaScript actions. (included in PDF/A conformance.)
-* NoDocMetadataWithUnknownNamespace - Removes document metadata with unknown XML namespaces. (included in PDF/A conformance.)
-
-## Example
-
-None
+- None - No operation.
+- NoJavaScriptAction - Removes JavaScript actions. (included in PDF/A conformance.)
+- NoDocMetadataWithUnknownNamespace - Removes document metadata with unknown XML namespaces. (included in PDF/A conformance.)

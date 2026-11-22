@@ -1,19 +1,19 @@
-# NameOrNumberTree&lt;TKey, TVal&gt; Function
+# NameOrNumberTree\<TKey, TVal> Function
+
+[NameOrNumberTree](../index.md) constructor.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">NameOrNumberTree</a>&lt;TKey, TVal&gt;(<a href="../../../07-syntax/0019-treenodeelement/default.htm">TreeNodeElement</a> root)
-```
+[`NameOrNumberTree`](../index.md)`<TKey, TVal>(`[`TreeNodeElement`](../../../07-syntax/0019-treenodeelement/index.md)` root)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | root | The root node for the tree. |
 
 ## Notes
 
-[NameOrNumberTree](default.md) constructor.
+[NameOrNumberTree](../index.md) constructor.

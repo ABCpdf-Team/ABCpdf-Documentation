@@ -1,12 +1,22 @@
 # VectorizeText Function
 
+Replaces the text on the page with glyph outlines.
+
 ## Syntax
 
-[C#]void VectorizeText()
+```csharp
+void VectorizeText()
+```
 
-may throw Exception()
+*C#*
+
+⚠ `may throw Exception()`
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| none |  |
 
 ## Notes
 
@@ -16,5 +26,11 @@ Note that pages may sometimes share content with other pages. If this is the cas
 
 ## Example
 
-[C#] using var doc = new Doc(); doc.FontSize = 96; doc.AddText("Hello World"); foreach (var page in doc.ObjectSoup.Catalog.Pages.GetPageArrayAll()) page.VectorizeText(); doc.Save("VectorizedText.pdf");
-
+```csharp
+using var doc = new Doc();
+doc.FontSize = 96;
+doc.AddText("Hello World");
+foreach (var page in doc.ObjectSoup.Catalog.Pages.GetPageArrayAll())
+  page.VectorizeText();
+doc.Save("VectorizedText.pdf");
+```

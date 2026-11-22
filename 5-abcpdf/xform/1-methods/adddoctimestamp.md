@@ -4,16 +4,15 @@ Adds a Signature field compatible with a DocTimeStamp.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-Signature AddDocTimestamp()Signature AddDocTimestamp(string name)
+Signature AddDocTimestamp()
+Signature AddDocTimestamp(string name)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | name | The name of the document timestamp field. If no name is specified a unique name will be added. |
 
 ## Notes
@@ -26,9 +25,9 @@ To sign the timestamp you need to specify either a TimestampServiceUrl or a Cust
 
 ## Example
 
-See the Annotations example project for a full example. However the following is a code snippet showing how this might be used.
+See the Annotations example project for a full example.
 
-[C#]
+However the following is a code snippet showing how this might be used.
 
 ```csharp
 using var doc = new Doc();
@@ -41,4 +40,3 @@ var oid = new Oid(CryptoConfig.MapNameToOID("SHA256"));
 sig.TimestampServiceUrl = uri;
 sig.Timestamp(oid, 0);
 ```
-

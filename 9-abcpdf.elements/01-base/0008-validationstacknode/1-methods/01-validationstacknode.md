@@ -1,19 +1,19 @@
 # ValidationStackNode Function
 
+Initializes a new instance of the [ValidationStackNode](../index.md) class.
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">ValidationStackNode</a>(<a href="../../1086-element/default.htm">Element</a> element)
-```
+[`ValidationStackNode`](../index.md)`(`[`Element`](../../1086-element/index.md)` element)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | element | The current element. |
 
 ## Notes
 
-Initializes a new instance of the [ValidationStackNode](default.md) class.
+Initializes a new instance of the [ValidationStackNode](../index.md) class.

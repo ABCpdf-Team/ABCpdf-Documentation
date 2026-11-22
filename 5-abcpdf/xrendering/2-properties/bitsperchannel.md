@@ -1,5 +1,9 @@
 # BitsPerChannel Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int` | 8 | No | The output bits per color channel. |
+
 ## Notes
 
 This property determines the precision of the output color channels.
@@ -8,11 +12,10 @@ The value is specified in terms of the number of bits used to represent each cha
 
 All color spaces support 8 and 16 bits per channel. Only the Gray color space supports 1 bit per channel - black and white.
 
-For details of valid combinations see the ColorSpace property.
+For details of valid combinations see the [ColorSpace](colorspace.md) property.
 
 ## Example
 
-See the DefaultHalftone property.
+See the [DefaultHalftone](defaulthalftone.md) property.
 
-Also see example code in: XRendering DefaultHalftone Property, XRendering SaveCompression Property.
-
+Also see example code in: [XRendering DefaultHalftone Property](defaulthalftone.md), [XRendering SaveCompression Property](savecompression.md).

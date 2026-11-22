@@ -1,10 +1,14 @@
 # Coverage Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `HashSet<string>` | null | No | Gets or sets the coverage. |
+
 ## Notes
 
 Gets or sets the coverage.
 
-The coverage is a set of the names of the types of Elements that have been created during validation.
+The coverage is a set of the names of the types of [Elements](../../1086-element/index.md) that have been created during validation.
 
 The default value of this property is null which means that coverage information will not be recorded.
 

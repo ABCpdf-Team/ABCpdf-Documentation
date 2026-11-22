@@ -4,16 +4,15 @@ FileSpecification Constructor
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">FileSpecification</a>(<a href="../../2-objectsoup/default.htm">ObjectSoup</a> soup)<a href="../default.htm">FileSpecification</a>(<a href="../../2-objectsoup/default.htm">ObjectSoup</a> soup, string path)
-```
+[`FileSpecification`](../index.md)`(`[`ObjectSoup`](../../2-objectsoup/index.md)` soup)`  
+[`FileSpecification`](../index.md)`(`[`ObjectSoup`](../../2-objectsoup/index.md)` soup, string path)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | soup | The ObjectSoup to contain the newly created FileSpecification. |
 | path | A file to embed within the file specification. |
 
@@ -21,15 +20,13 @@ FileSpecification Constructor
 
 Create a FileSpecification.
 
-This constructor which takes a path to a file will embed and compress the file data using the [CompressFlate](streamobject/1-methods/compressflate.md) function. It will also insert appropriate metadata using the [EmbeddedFileUpdateMetadata](embeddedfile/1-methods/updatemetadata.md) function.
+This constructor which takes a path to a file will embed and compress the file data using the [CompressFlate](../../streamobject/1-methods/compressflate.md) function. It will also insert appropriate metadata using the [EmbeddedFileUpdateMetadata](../../embeddedfile/1-methods/updatemetadata.md) function.
 
 The constructor which takes an array of data will similarly embed and compress the data. However since there is no file path metadata will not be assigned.
 
 ## Example
 
-The example below shows how to combine a set of PDF documents into a portfolio. See the [Catalog.GetEmbeddedFiles](6-abcpdf.objects/catalog/1-methods/getembeddedfiles.md) function for how to extract files from a portfolio.
-
-[C#]
+The example below shows how to combine a set of PDF documents into a portfolio. See the [Catalog.GetEmbeddedFiles](../../catalog/1-methods/getembeddedfiles.md) function for how to extract files from a portfolio.
 
 ```csharp
 string[] files = {
@@ -69,4 +66,3 @@ doc.SaveOptions.Linearize = false;
 doc.SetInfo(doc.Root, "/Collection*/D:Text", files[0]);
 doc.Save("createportfolio.pdf");
 ```
-

@@ -1,13 +1,9 @@
 # DocCount Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | n/a | Yes | Gets the number of documents in the source object. |
+| `int?` | n/a | Yes | Gets the number of documents in the source object. |
 
 ## Notes
 
 This property holds the number of pages in the document.
-
-## Example
-
-None

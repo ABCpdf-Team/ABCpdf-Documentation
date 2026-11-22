@@ -1,5 +1,9 @@
 # EntryTint Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `double?` | null | No | Represents the "Tint" entry of the version 1. |
+
 ## Notes
 
 Represents the "Tint" entry of the version 1.3 opi dictionary object.
@@ -14,8 +18,8 @@ The PDF specification states that this item assumes a value of 1 if no value has
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 369, page 641.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 369, page 641.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=649)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 406, page 825.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 406, page 825.](https://www.iso.org/standard/63534.html)
 
 The Tint entry gives the tint percentage applied to the spot color as a real number in the range 0 to 1. A value of 1.0 means the full spot color is used.

@@ -4,16 +4,14 @@ Transcodes and reloads the IndirectObject
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">IndirectObject</a> Transcode()
-```
+[`IndirectObject`](../index.md)` Transcode()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | An appropriate subclass of IndirectObject. |
 
 ## Notes
@@ -23,7 +21,3 @@ PDF objects are not hard typed. The only thing that distinguishes one from anoth
 Normally transcoding takes place automatically as objects are loaded or added. However sometimes changes occur which may result in core aspects of the object changing. These changes may require caches to be regenerated or even an entirely new object to be created - one which better represents the new structure of the object. This is particular the case for the FontObject class as it is heavily dependent on caching and often on other objects in the ObjectSoup.
 
 The Transcode method re-interprets this object and if it is appropriate, it returns a newly created object of an appropriate subclass. If transcoding results in a new object being created it will displace the current object from the soup. As such you will need to discard the old object if a new one is returned.
-
-## Example
-
-None

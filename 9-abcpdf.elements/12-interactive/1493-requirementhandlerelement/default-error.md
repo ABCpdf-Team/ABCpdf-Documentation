@@ -1,2 +1,0 @@
-# RequirementHandlerElement Class
-

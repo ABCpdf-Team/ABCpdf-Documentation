@@ -1,2 +1,0 @@
-# TextGroup Class
-

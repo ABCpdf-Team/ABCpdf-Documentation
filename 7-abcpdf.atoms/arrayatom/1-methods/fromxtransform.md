@@ -4,24 +4,18 @@ Create an ArrayAtom from a XTransform representation
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static <a href="../default.htm">ArrayAtom</a> FromXTransform(<a href="../../../5-abcpdf/xtransform/default.htm">XTransform</a> value)
-```
+`static `[`ArrayAtom`](../index.md)` FromXTransform(`[`XTransform`](../../../5-abcpdf/xtransform/index.md)` value)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | The XTransform representing the value of the object. |
 
 ## Notes
 
 Create an ArrayAtom from a XTransform representation.
 
-The ArrayAtom will contain six [NumAtoms](numatom/default.md) corresponding to the elements of the transform.
-
-## Example
-
-None
+The ArrayAtom will contain six [NumAtoms](../../numatom/index.md) corresponding to the elements of the transform.

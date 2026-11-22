@@ -4,16 +4,14 @@ Add list box form field.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 Field AddListBoxField(XRect rect, string name)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | rect | Rectangle of the form field |
 | name | Name of the form field |
 | return | Form field object |
@@ -21,3 +19,9 @@ Field AddListBoxField(XRect rect, string name)
 ## Notes
 
 Add list box form field.
+
+## Example
+
+See the Annotations example project.
+
+None.

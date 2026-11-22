@@ -1,5 +1,9 @@
 # Metadata Property
 
+| Type | Default | Read Only | Description |
+| --- | --- | --- | --- |
+| [`Metadata`](../../metadata/index.md) | n/a | No | Any document level Metadata. |
+
 ## Notes
 
 Any document level Metadata.
@@ -20,5 +24,15 @@ Complex XMP metadata can be constructed using the Adobe XMP Toolkit. However in 
 
 Here we load an existing PDF and set the Title and Author.
 
-[C#] using var doc = new Doc(); doc.Read("../mypics/book.pdf"); var md = doc.ObjectSoup.Catalog.Metadata; if (md == null) { md = new Metadata(doc.ObjectSoup); doc.ObjectSoup.Catalog.Metadata = md; } md.InfoSubject = "Finn Family Moomintroll"; md.InfoAuthor = "Tove Jansson"; doc.Save("metadata.pdf");
-
+```csharp
+using var doc = new Doc();
+doc.Read("../mypics/book.pdf");
+var md = doc.ObjectSoup.Catalog.Metadata;
+if (md == null) {
+  md = new Metadata(doc.ObjectSoup);
+  doc.ObjectSoup.Catalog.Metadata = md;
+}
+md.InfoSubject = "Finn Family Moomintroll";
+md.InfoAuthor = "Tove Jansson";
+doc.Save("metadata.pdf");
+```

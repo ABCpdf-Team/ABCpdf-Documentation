@@ -1,5 +1,9 @@
 # EntryUseBlackPtComp Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "UseBlackPtComp" entry of the graphics state parameter dictionary object. |
+
 ## Notes
 
 Represents the "UseBlackPtComp" entry of the graphics state parameter dictionary object.
@@ -12,13 +16,15 @@ The PDF specification states that this item assumes a value of "Default" if no v
 
 This item may take one of the following valid values:.
 
-ONOFFDefault
+- ON
+- OFF
+- Default
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 128.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 58, page 128.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=136)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 164.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 57, page 164.](https://www.iso.org/standard/63534.html)
 
 UseBlackPtComp controls whether black point compensation is applied when converting colors through an ICC color management pipeline. Black point compensation scales the source color range to map the source black point to the destination black point.
 

@@ -1,8 +1,8 @@
 # Options Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | None | No | The PDF update options. |
+| `PdfConformityOperationOptions` | None | No | The PDF update options. |
 
 ## Notes
 
@@ -12,9 +12,5 @@ The PdfConformityOperationOptions type is a flags enumeration so different value
 
 The PdfConformityOperationOptions enumeration may take the following values:
 
-* None - No option.
-* KeepDocumentModDate - Do not update the document modification date if it exists.
-
-## Example
-
-None
+- None - No option.
+- KeepDocumentModDate - Do not update the document modification date if it exists.

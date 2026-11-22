@@ -4,16 +4,14 @@ Make duplicate fields into synchronized groups.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 bool MakeFieldIntoGroup(Field inField)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | inField | The field to operate on |
 
 ## Notes
@@ -26,4 +24,4 @@ Any duplicates are put together in a field group so that they will synchronize.
 
 ## Example
 
-See the [Annotations Example Project](../../../4-projects/annotations/test.htm) (Test.cs).
+See the [Annotations Example Project](https://www.websupergoo.com/helppdfnet/source/4-projects/annotations/test.htm) (Test.cs).

@@ -1,10 +1,18 @@
 # ClearCachedDecompressed Function
 
+Clear the cached, decompressed data for the stream.
+
 ## Syntax
 
-[C#] void ClearCachedDecompressed()
+```csharp
+void ClearCachedDecompressed()
+```
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| none |  |
 
 ## Notes
 
@@ -14,9 +22,4 @@ This increases the memory usage, and it is not desirable if the document is to b
 
 This method discards the cached, decompressed data so that a re-read of the document is not required to release the memory.
 
-You can apply the effect to multiple stream objects using Doc.ClearCachedDecompressedStreams.
-
-## Example
-
-None.
-
+You can apply the effect to multiple stream objects using [Doc.ClearCachedDecompressedStreams](../../../5-abcpdf/doc/1-methods/clearcacheddecompressedstreams.md).

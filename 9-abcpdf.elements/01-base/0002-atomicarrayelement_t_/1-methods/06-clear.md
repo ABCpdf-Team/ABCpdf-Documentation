@@ -4,16 +4,14 @@ Removes all items from the array.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Clear()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes

@@ -1,2 +1,0 @@
-# ValidationStackNode Class
-

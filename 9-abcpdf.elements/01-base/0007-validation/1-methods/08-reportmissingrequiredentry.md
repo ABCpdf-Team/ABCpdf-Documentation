@@ -4,16 +4,14 @@ Called to report a missing required entry.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 virtual void ReportMissingRequiredEntry()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes

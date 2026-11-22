@@ -1,2 +1,0 @@
-# CryptFilterElement Class
-

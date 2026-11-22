@@ -4,22 +4,16 @@ Gets all the appearances of the annotation.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-List&lt;FormXObject&gt; GetAppearances()
+List<FormXObject> GetAppearances()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | The appearances |
 
 ## Notes
 
 Gets all the appearances of the annotation.
-
-## Example
-
-None

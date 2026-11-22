@@ -1,2 +1,0 @@
-# GroupAttributesElement Class
-

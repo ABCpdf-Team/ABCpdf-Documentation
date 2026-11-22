@@ -1,2 +1,0 @@
-# XColor Class
-

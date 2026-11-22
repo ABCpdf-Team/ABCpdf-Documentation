@@ -1,8 +1,8 @@
 # String Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | Variable | No | The text style as a string. |
+| `string` | Variable | No | The text style as a string. |
 
 ## Notes
 
@@ -14,12 +14,16 @@ This covers all the properties of this class and can be sued for a save and rest
 
 The following code.
 
-[C#]
-
 ```csharp
 var ts = new XTextStyle();
 ts.String = "24.5 10 0 0 0 0 0";
-Response.Write($"Size = {ts.Size}&lt;br&gt;");
+Response.Write($"Size = {ts.Size}<br>");
 Response.Write($"Indent = {ts.Indent}");
 ```
 
+Produces the following output.
+
+```
+Size = 24.5
+Indent = 10
+```

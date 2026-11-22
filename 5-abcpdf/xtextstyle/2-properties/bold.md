@@ -1,5 +1,9 @@
 # Bold Property
 
+| Type | Default | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | false | No | Whether to apply a synthetic bold effect. |
+
 ## Notes
 
 This property determines whether a synthetic bold effect is applied to text.
@@ -10,9 +14,17 @@ It is generally better to specify a bold typeface rather than synthesize a bold 
 
 In this example we add some bold text to a document.
 
-[C#] using var doc = new Doc(); string text = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur."; doc.Rect.Inset(20, 40); doc.TextStyle.Size = 96; doc.TextStyle.Bold = true; doc.AddText(text); doc.Save("stylebold.pdf");
+```csharp
+using var doc = new Doc();
+string text = "Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur.";
+doc.Rect.Inset(20, 40);
+doc.TextStyle.Size = 96;
+doc.TextStyle.Bold = true;
+doc.AddText(text);
+doc.Save("stylebold.pdf");
+```
 
+![stylebold.pdf](../../../images/pdf/stylebold.pdf.png)  
 stylebold.pdf
 
-Also see example code in: XTagging Close Function.
-
+Also see example code in: [XTagging Close Function](../../xtagging/1-methods/05-close.md).

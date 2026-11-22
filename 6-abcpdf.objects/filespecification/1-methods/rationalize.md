@@ -4,16 +4,14 @@ Removes any obsolescent and redundant entries.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Rationalize()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none | n/a |
 
 ## Notes
@@ -24,4 +22,4 @@ This will converts the object to be compliant with the changes recommended in th
 
 ## Example
 
-Also see example code in: [Catalog GetEmbeddedFiles Function](catalog/1-methods/getembeddedfiles.md).
+Also see example code in: [Catalog GetEmbeddedFiles Function](../../catalog/1-methods/getembeddedfiles.md).

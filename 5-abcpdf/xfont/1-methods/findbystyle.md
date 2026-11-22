@@ -4,16 +4,18 @@ Find a font from a specific family, with a given style.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static <a href="../default.htm">XFont</a> FindByStyle(string family, FontWeight weight, bool italic)static <a href="../default.htm">XFont</a> FindByStyle(string family, int weight, bool italic)static <a href="../default.htm">XFont</a> FindByStyle(string family, FontWeight weight, bool italic, <a href="../../xfont.store/default.htm">Store</a> store)static <a href="../default.htm">XFont</a> FindByStyle(string family, int weight, bool italic, <a href="../../xfont.store/default.htm">Store</a> store)static <a href="../default.htm">XFont</a> FindByStyle(IEnumerable&lt;XFont&gt; fonts, int weight, int weightTolerance, bool italic)
-```
+`static `[`XFont`](../index.md)` FindByStyle(string family, FontWeight weight, bool italic)`  
+`static `[`XFont`](../index.md)` FindByStyle(string family, int weight, bool italic)`  
+`static `[`XFont`](../index.md)` FindByStyle(string family, FontWeight weight, bool italic, `[`Store`](../../xfont.store/index.md)` store)`  
+`static `[`XFont`](../index.md)` FindByStyle(string family, int weight, bool italic, `[`Store`](../../xfont.store/index.md)` store)`  
+`static `[`XFont`](../index.md)` FindByStyle(IEnumerable<XFont> fonts, int weight, int weightTolerance, bool italic)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | family | The name of the font family. |
 | fonts | The fonts. |
 | weight | The weight (or the midpoint of the permitted weight range) of the required font. |
@@ -28,8 +30,4 @@ This function finds a font from a specific family or among the given fonts, with
 
 If no matching font can be found, then the function will return null.
 
-The desired weight can be passed in either as an integer or as a value from the [FontWeight](2-properties/weight.md) enumeration.
-
-## Example
-
-None
+The desired weight can be passed in either as an integer or as a value from the [FontWeight](../2-properties/weight.md) enumeration.

@@ -4,16 +4,14 @@ Called to report an object which should be indirect but is not.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 virtual void ReportNotIndirectObject()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes

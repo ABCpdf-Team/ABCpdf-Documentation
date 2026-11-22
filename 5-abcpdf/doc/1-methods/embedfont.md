@@ -4,21 +4,23 @@ Embeds a font into the document.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-int EmbedFont(string font)int EmbedFont(string font, LanguageType language)int EmbedFont(string font, LanguageType language, bool vertical)int EmbedFont(string font, LanguageType language, bool vertical, bool subset)int EmbedFont(string font, LanguageType language, bool vertical, bool subset, bool force)
+int EmbedFont(string font)
+int EmbedFont(string font, LanguageType language)
+int EmbedFont(string font, LanguageType language, bool vertical)
+int EmbedFont(string font, LanguageType language, bool vertical, bool subset)
+int EmbedFont(string font, LanguageType language, bool vertical, bool subset, bool force)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | font | The name of the font typeface. |
-| language | The language type to use. See the notes below for the possible values. See the Fonts and Languages section for details on language types. The default language type is LanguageType.Latin. |
-| vertical | Whether the text direction should be vertical. See the Fonts and Languages section for details on writing directions. The default is false to indicate standard left to right layout. |
-| subset | Whether to subset the font. See the Fonts and Languages section for details on subsetting. The default is false to indicate that the font should not be subsetted. |
-| force | Whether to override permissions on the font. Fonts often contain embedded licensing information. By default ABCpdf will prevent you from embedding fonts which indicate that embedding is not permitted. You can force the font to be embedded by passing true for this value. |
+| language | The language type to use. See the notes below for the possible values.<br>See the [Fonts and Languages](../../../3-concepts/7-fonts.md) section for details on language types. The default language type is LanguageType.Latin. |
+| vertical | Whether the text direction should be vertical.<br>See the [Fonts and Languages](../../../3-concepts/7-fonts.md) section for details on writing directions. The default is false to indicate standard left to right layout. |
+| subset | Whether to subset the font.<br>See the [Fonts and Languages](../../../3-concepts/7-fonts.md) section for details on subsetting. The default is false to indicate that the font should not be subsetted. |
+| force | Whether to override permissions on the font.<br>Fonts often contain embedded licensing information. By default ABCpdf will prevent you from embedding fonts which indicate that embedding is not permitted.<br>You can force the font to be embedded by passing true for this value. |
 | return | The Object ID of the newly embedded Font Object. |
 
 ## Notes
@@ -33,7 +35,9 @@ For information on how to specify font names see the [AddFont](addfont.md) metho
 
 The EmbedFont function returns the Object ID of the newly added Font Object. Typically you will want to assign this return value to the document Font property using code of the form.
 
-[C#] theDoc.Font = theDoc.EmbedFont("Courier");
+```csharp
+theDoc.Font = theDoc.EmbedFont("Courier");
+```
 
 If the specified font could not be found then you will get an Object ID of zero returned. You may wish to check for this possibility otherwise a default font will be used.
 
@@ -41,18 +45,16 @@ Fonts are cached so newly added fonts will not be available to ABCpdf until the 
 
 The LanguageType enumeration may take the following values:
 
-* Latin - The default and most efficient encoding for Western languages.
-* Unicode - The setting you will most often want to use when embedding foreign character sets.
-* Korean - Korean.
-* Japanese - Japanese.
-* ChineseS - Simplified Chinese.
-* ChineseT - Traditional Chinese.
+- Latin - The default and most efficient encoding for Western languages.
+- Unicode - The setting you will most often want to use when embedding foreign character sets.
+- Korean - Korean.
+- Japanese - Japanese.
+- ChineseS - Simplified Chinese.
+- ChineseT - Traditional Chinese.
 
 ## Example
 
 The following code embeds the font 'Comic Sans MS' into the document and then adds some text.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -63,6 +65,5 @@ doc.AddText(font);
 doc.Save("docembedfont.pdf");
 ```
 
-![](../../../images/pdf/docembedfont.pdf.png)
+![docembedfont.pdf](../../../images/pdf/docembedfont.pdf.png)  
 docembedfont.pdf
-

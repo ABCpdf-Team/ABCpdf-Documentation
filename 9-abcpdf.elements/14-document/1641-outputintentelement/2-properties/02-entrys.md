@@ -1,5 +1,9 @@
 # EntryS Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "S" entry of the output intent dictionary object. |
+
 ## Notes
 
 Represents the "S" entry of the output intent dictionary object.
@@ -10,8 +14,8 @@ It contains a string representing a PDF name object.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 365, page 633.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 365, page 633.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=641)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 401, page 814.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 401, page 814.](https://www.iso.org/standard/63534.html)
 
 The S entry names the output intent subtype identifying the standard: GTS_PDFX for PDF/X, GTS_PDFA1 for PDF/A, and ISO_PDFE1 for PDF/E.

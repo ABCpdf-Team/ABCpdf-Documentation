@@ -1,2 +1,0 @@
-# SwfActionValue Class
-

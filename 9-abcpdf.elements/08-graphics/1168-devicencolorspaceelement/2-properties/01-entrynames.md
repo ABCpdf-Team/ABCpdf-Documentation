@@ -1,5 +1,9 @@
 # EntryNames Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `IList<string>` | null | No | This property represents the names of the colors within the DeviceN color space. |
+
 ## Notes
 
 This property represents the names of the colors within the DeviceN color space.
@@ -12,7 +16,7 @@ Each name should be unique, with the exception of the special value "None" which
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 160.
+- [The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 160.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=168)
 
 The Names array lists the colorant names in component order. The first element corresponds to the first component value, the second to the second, and so on. The length of the array equals the number of components.
 

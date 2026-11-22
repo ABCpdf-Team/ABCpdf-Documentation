@@ -1,5 +1,9 @@
 # EntryQ Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "Q" entry of the redaction annotation object. |
+
 ## Notes
 
 Represents the "Q" entry of the redaction annotation object.
@@ -14,8 +18,8 @@ The PDF specification states that this item assumes a value of 0 if no value has
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 192, page 414.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 192, page 414.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=422)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 195, page 501.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 195, page 501.](https://www.iso.org/standard/63534.html)
 
 The quadding value controls the horizontal alignment of the overlay text: 0 for left, 1 for centred, and 2 for right.

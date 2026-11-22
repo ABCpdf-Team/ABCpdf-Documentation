@@ -1,5 +1,9 @@
 # Done Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `HashSet<int>` | null | Yes | Gets the set of IDs which have been processed. |
+
 ## Notes
 
 Gets the set of IDs which have been processed.

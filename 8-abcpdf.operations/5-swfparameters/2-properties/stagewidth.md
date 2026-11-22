@@ -1,8 +1,8 @@
 # StageWidth Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | No | The stage width when the scale mode is NoScale. |
+| `double?` | null | No | The stage width when the scale mode is NoScale. |
 
 ## Notes
 

@@ -1,5 +1,9 @@
 # CompressObjects Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | true | No | Whether to use object stream compression to reduce file size. |
+
 ## Notes
 
 This property determines if object stream compression should be used.
@@ -16,11 +20,6 @@ So why might you not want to use it?
 
 If you are not using tagging, the overhead associated with uncompressed atoms can be quite small. Not all PDF readers support object streams and in particular, older versions of Acrobat (eg 8) are not happy reading documents which incorporate both object streams and linearized content. Similarly, the compression methods are quite complex and less well constructed PDF parsers may not understand them. So if you are relying on old or lower quality software you may wish to disable this option.
 
-Object stream compression is incompatible with Incremental update. If this flag is set then object stream compression will not be used. PDF/A-1 is not compatible with object stream compression so if you use a PdfConformityOperation to make your document PDF/A-1 compatible then again, object stream compression will not be used.
+Object stream compression is incompatible with [Incremental](incremental.md) update. If this flag is set then object stream compression will not be used. PDF/A-1 is not compatible with object stream compression so if you use a [PdfConformityOperation](../../../8-abcpdf.operations/7-pdfconformityoperation/index.md) to make your document PDF/A-1 compatible then again, object stream compression will not be used.
 
 Object stream compression is a feature that was introduced with PDF version 1.5. Since PDF/A-1, PDF/X-1 and PDF/X-3 are based on PDF versions prior to 1.5 they cannot support compressed object streams and remain compliant. However later versions of PDF/A and PDF/X do support object stream compression.
-
-## Example
-
-None.
-

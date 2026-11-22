@@ -4,16 +4,14 @@ Get the bounding box for the structure element.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../../../../5-abcpdf/xrect/default.htm">XRect</a> GetBBox()
-```
+[`XRect`](../../../../5-abcpdf/xrect/index.md)` GetBBox()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | The bounding box. |
 
 ## Notes
@@ -21,7 +19,3 @@ Get the bounding box for the structure element.
 Get the bounding box for the structure element.
 
 This will return null if there is no bounding box.
-
-## Example
-
-None

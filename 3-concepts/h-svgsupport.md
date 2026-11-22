@@ -63,4 +63,3 @@ This is useful because a large number of real world SVG documents use simple CSS
 ABCpdf supports simple type selectors in internal style sheets. ABCpdf supports external style sheets as long as they are on the local file system.
 
 However ABCpdf skips "import" and "media" CSS directives when parsing the style sheet itself.
-

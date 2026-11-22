@@ -4,16 +4,16 @@ Gets a new runtime object for running Python code.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../../04-pythonruntime/default.htm">PythonRuntime</a> GetRuntime()
-```
+[`PythonRuntime`](../../04-pythonruntime/index.md)` GetRuntime()`
+
+⚠ `InvalidOperationException: Thrown when the Python engine has not been initialized.`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | A new runtime object. |
 
 ## Notes

@@ -1,2 +1,0 @@
-# UrTransformParametersElement Class
-

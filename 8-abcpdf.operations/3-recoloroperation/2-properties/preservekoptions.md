@@ -1,8 +1,8 @@
 # PreserveKOptions Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Write | Description |
 | --- | --- | --- | --- |
-|  | Intent | Yes | Determines how color transforms preserve black when recoloring to CMYK. |
+| `BlackPreservation` | Intent | Yes | Determines how color transforms preserve black when recoloring to CMYK. |
 
 ## Notes
 
@@ -14,12 +14,8 @@ Since CMYK is an overdetermined colorspace, an XYZ intermediate value can be con
 
 The XRendering.BlackPreservation enumeration may take the following values:
 
-* Off - Do not attempt to preserve black when transforming.
-* Intent - Use special rendering intents to preserve black - must be supported by the ICC profile.
-* Plane - for CMYK to CMYK transforms only; run CMY through the profile, do not change K.
+- Off - Do not attempt to preserve black when transforming.
+- Intent - Use special rendering intents to preserve black - must be supported by the ICC profile.
+- Plane - for CMYK to CMYK transforms only; run CMY through the profile, do not change K.
 
-See also the [XRendering.PreserveKOptions](5-abcpdf/xrendering/2-properties/preservekoptions.md) property.
-
-## Example
-
-None
+See also the [XRendering.PreserveKOptions](../../../5-abcpdf/xrendering/2-properties/preservekoptions.md) property.

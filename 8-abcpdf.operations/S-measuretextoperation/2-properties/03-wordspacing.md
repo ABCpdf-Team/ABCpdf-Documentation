@@ -1,3 +1,0 @@
-# WordSpacing Property
-
-## Notes

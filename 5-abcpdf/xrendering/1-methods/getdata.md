@@ -4,16 +4,18 @@ Renders the current area of the current page to memory.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 byte[] GetData(string name)
 ```
 
+*C#*
+
+⚠ `may throw Exception()`
+
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | name | A dummy file name used to determine the type of image required. |
 | return | The image as an array of bytes. |
 
@@ -21,7 +23,7 @@ byte[] GetData(string name)
 
 Use this method to render the PDF to memory.
 
-The output is a render of the current [Doc.Rect](doc/2-properties/rect.md) of the current [Doc.Page](doc/2-properties/page.md).
+The output is a render of the current [Doc.Rect](../../doc/2-properties/rect.md) of the current [Doc.Page](../../doc/2-properties/page.md).
 
 Any page rotation specified in the PDF page is applied so that the output render is the correct orientation. This may mean that the output width and height are transposed copies of the width and height as specified in the Doc.Rect.
 
@@ -30,7 +32,3 @@ The file path extension determines the format of the output. The file name exten
 Normally you will want to render your documents using the Save method. However sometimes you will need to obtain your image as raw data rather than in file format. The GetData method allows you to do this
 
 You may wish to write such an image direct to a client browser rather than going through an intermediate file. The data you obtain using GetData can be written direct to an HTTP stream using Response.BinaryWrite. Similarly you may wish to obtain raw data for insertion into a database.
-
-## Example
-
-None

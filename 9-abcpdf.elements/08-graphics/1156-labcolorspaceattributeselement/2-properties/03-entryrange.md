@@ -1,5 +1,9 @@
 # EntryRange Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `IList<double>` | null | No | Represents the "Range" entry of the lab colour space dictionary object. |
+
 ## Notes
 
 Represents the "Range" entry of the lab colour space dictionary object.
@@ -10,10 +14,10 @@ It contains an array which contains doubles, representing PDF numeric objects.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 65, page 148.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 65, page 148.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=156)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 64, page 186.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 64, page 186.](https://www.iso.org/standard/63534.html)
 
-The range array gives the valid domain for the a* and b* opponent-colour components as two pairs of minimum and maximum values. Values outside this range are clipped before conversion.
+The range array gives the valid domain for the a\* and b\* opponent-colour components as two pairs of minimum and maximum values. Values outside this range are clipped before conversion.
 
-The default range of -128 to 127 for both a* and b* covers all colours expressible in standard CIE L*a*b*. Tighter ranges may be used to constrain the gamut of the color space.
+The default range of -128 to 127 for both a\* and b\* covers all colours expressible in standard CIE L\*a\*b\*. Tighter ranges may be used to constrain the gamut of the color space.

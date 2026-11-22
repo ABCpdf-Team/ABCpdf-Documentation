@@ -1,2 +1,0 @@
-# MediaPlayParametersElement Class
-

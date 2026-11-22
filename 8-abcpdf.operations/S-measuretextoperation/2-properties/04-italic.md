@@ -1,3 +1,0 @@
-# Italic Property
-
-## Notes

@@ -1,5 +1,9 @@
 # AutoCommit Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | true | No | Whether to automatically commit changes to the tag structure. |
+
 ## Notes
 
 Whether to automatically commit changes to the tag structure as the Doc.Page or Doc.PageNumber changes.

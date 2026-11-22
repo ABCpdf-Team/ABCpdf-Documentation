@@ -1,2 +1,0 @@
-# Type0FontElement Class
-

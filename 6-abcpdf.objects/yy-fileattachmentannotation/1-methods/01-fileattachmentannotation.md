@@ -4,16 +4,15 @@ Add file attachment annotation to the current page of the doc.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">FileAttachmentAnnotation</a>(Doc doc, XRect rect, string filePath)<a href="../default.htm">FileAttachmentAnnotation</a>(Doc doc, XRect rect, byte[] data, string fileName, DateTime modDate, DateTime creationDate)
-```
+[`FileAttachmentAnnotation`](../index.md)`(Doc doc, XRect rect, string filePath)`  
+[`FileAttachmentAnnotation`](../index.md)`(Doc doc, XRect rect, byte[] data, string fileName, DateTime modDate, DateTime creationDate)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | Doc |
 | rect | Annotation rectangle |
 | filePath | File path |
@@ -25,7 +24,3 @@ Add file attachment annotation to the current page of the doc.
 ## Notes
 
 Add file attachment annotation to the current page of the doc.
-
-## Example
-
-None

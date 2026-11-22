@@ -1,2 +1,0 @@
-# LabColorSpaceAttributesElement Class
-

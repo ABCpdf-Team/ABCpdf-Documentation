@@ -1,5 +1,9 @@
 # Item Property
 
+| Type | Default | Read Only | Description |
+| --- | --- | --- | --- |
+| [`Field`](../../../6-abcpdf.objects/field/index.md)` this[string name]` | n/a | No | Gets or sets a particular field referenced by full name. |
+
 ## Notes
 
 Use this property to get or set a field referenced by its fully qualified name.
@@ -10,9 +14,4 @@ When setting a value any intermediate fields will be created and the provided fi
 
 In C# this property is the indexer for the class.
 
-See the XForm object for details of how fully qualified names are constructed.
-
-## Example
-
-None.
-
+See the [XForm](../index.md) object for details of how fully qualified names are constructed.

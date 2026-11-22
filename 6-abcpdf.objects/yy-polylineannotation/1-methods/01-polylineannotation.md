@@ -4,16 +4,14 @@ Add polyline annotation to the current page of the doc.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">PolylineAnnotation</a>(Doc doc, double[] vertices, XColor borderColor)
-```
+[`PolylineAnnotation`](../index.md)`(Doc doc, double[] vertices, XColor borderColor)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | Doc |
 | vertices | Polyline vertices |
 | borderColor | Line color |
@@ -21,7 +19,3 @@ Add polyline annotation to the current page of the doc.
 ## Notes
 
 Add polyline annotation to the current page of the doc.
-
-## Example
-
-None

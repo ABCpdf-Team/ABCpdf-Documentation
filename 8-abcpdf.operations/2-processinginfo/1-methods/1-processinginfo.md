@@ -4,22 +4,16 @@ ProcessingInfo Constructor.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 ProcessingInfo()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes
 
 Create a ProcessingInfo.
-
-## Example
-
-None

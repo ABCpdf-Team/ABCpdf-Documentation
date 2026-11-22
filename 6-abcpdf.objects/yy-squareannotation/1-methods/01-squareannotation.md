@@ -4,16 +4,14 @@ Add square annotation to the current page of the doc.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">SquareAnnotation</a>(Doc doc, XRect rect, XColor borderColor, XColor fillColor)
-```
+[`SquareAnnotation`](../index.md)`(Doc doc, XRect rect, XColor borderColor, XColor fillColor)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | Doc |
 | rect | Annotation rectangle |
 | borderColor | Border color |
@@ -22,7 +20,3 @@ Add square annotation to the current page of the doc.
 ## Notes
 
 Add square annotation to the current page of the doc.
-
-## Example
-
-None

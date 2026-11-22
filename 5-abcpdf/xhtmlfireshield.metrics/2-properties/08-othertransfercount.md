@@ -1,8 +1,9 @@
 # OtherTransferCount Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `long` | null | No | The number of io bytes transferred other than read and write. |
+
 ## Notes
 
-## Example
-
-None.
-
+The number of io bytes transferred other than read and write.

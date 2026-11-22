@@ -1,8 +1,8 @@
 # WordSpacing Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | 0.0 | No | The inter-word spacing. |
+| `double` | 0.0 | No | The inter-word spacing. |
 
 ## Notes
 
@@ -15,8 +15,6 @@ Because this property is an absolute value the visual effect will be greater if 
 ## Example
 
 In this example we add three blocks of text to a document. The first block uses the default spacing. The second block uses a positive value to stretch out the text. The last block uses a negative value to condense the text.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -32,6 +30,5 @@ doc.AddText(text);
 doc.Save("stylewspace.pdf");
 ```
 
-![](../../../images/pdf/stylewspace.pdf.png)
+![stylewspace.pdf](../../../images/pdf/stylewspace.pdf.png)  
 stylewspace.pdf
-

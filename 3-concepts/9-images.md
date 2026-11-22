@@ -8,7 +8,7 @@ Suppose you have an image 300 pixels wide by 600 pixels high. If you wanted this
 
 ## Modes
 
-In general you will need to put your data into an XImage object before adding the Image object to your document using Doc.AddImageObject.
+In general you will need to put your data into an [XImage](../5-abcpdf/ximage/index.md) object before adding the Image object to your document using [Doc.AddImageObject](../5-abcpdf/doc/1-methods/addimageobject.md).
 
 ABCpdf will attempt to place the image data directly into the PDF as literally as possible. This means compression settings and color spaces will be preserved as far as possible.
 
@@ -24,7 +24,7 @@ Colors can be specified in a number of ways - most commonly in terms of RGB or C
 
 These literal values do not always equate to the same perceived color. Monitors vary and an image displayed on one may look quite different to the same image displayed on another. Similarly a CMYK value applied with one printer to one type of paper may look quite different to a CMYK value applied with a different printer to a different type of paper.
 
-The International Color Consortium (ICC) provides specifications to allow an independent definition of color. An ICC color profile is designed to complement your raw color data. So if you have a CMYK image you also specify an color profile which tells you more about the intended destination of the image. This allows you to adjust the colors for your intended output medium.
+The [International Color Consortium](http://www.color.org/) (ICC) provides specifications to allow an independent definition of color. An ICC color profile is designed to complement your raw color data. So if you have a CMYK image you also specify an color profile which tells you more about the intended destination of the image. This allows you to adjust the colors for your intended output medium.
 
 In order to maintain flexibility and color fidelity it is important to preserve both the raw image data and the ICC profile associated with it. This can only be done if you provide images in pass-through rather than direct mode.
 
@@ -32,9 +32,8 @@ ABCpdf will accept RGB TIFF, CMYK TIFF, LAB TIFF, Grayscale JPEG, RGB JPEG and C
 
 ## Comp
 
-So what types of compression does the Image object use?
+So what types of compression does the [Image](../5-abcpdf/ximage/index.md) object use?
 
 The Image object generally uses Flate compression. This is the same compression type as is used for PNG images. It is a lossless method which ensures that the quality of your original image is maintained.
 
 However if your source image is black and white then ABCpdf will use CCITT G4 fax compression as this typically results in reduced file sizes for this type of image.
-

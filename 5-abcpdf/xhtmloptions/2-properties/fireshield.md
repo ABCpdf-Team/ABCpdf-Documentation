@@ -1,8 +1,8 @@
 # FireShield Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default Value | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | Yes | The FireShield™ security settings to be applied to the ABCChrome engine. |
+| [`XHtmlFireShield`](../../xhtmlfireshield/index.md) | null | Yes | The FireShield™ security settings to be applied to the ABCChrome engine. |
 
 ## Notes
 
@@ -20,8 +20,6 @@ This property is read only, but the object it returns can be modified.
 
 The following code snippet illustrates how one might add a rule to allow access to an audio driver or similar.
 
-[C#]
-
 ```csharp
 using var doc = new Doc();
 doc.HtmlOptions.Engine = EngineType.Chrome146;
@@ -29,4 +27,3 @@ doc.HtmlOptions.FireShield.Rules.Add(new XHtmlFireShield.PathRule(@"C:\Windows\*
 int id = doc.AddImageUrl("https://www.google.com/");
 // ...
 ```
-

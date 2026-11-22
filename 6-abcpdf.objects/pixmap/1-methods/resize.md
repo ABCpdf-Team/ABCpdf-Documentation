@@ -1,12 +1,27 @@
 # Resize Function
 
+Resizes the image.
+
 ## Syntax
 
-[C#] void Resize(int width, int height) void Resize(int width, int height, Interpolation interpolation) void Resize(int width, int height, Interpolation interpolation, bool allowDepthChange)
+```csharp
+void Resize(int width, int height)
+void Resize(int width, int height, Interpolation interpolation)
+void Resize(int width, int height, Interpolation interpolation, bool allowDepthChange)
+```
 
-may throw Exception()
+*C#*
+
+⚠ `may throw Exception()`
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| width | The destination width for the image. |
+| height | The destination height for the image. |
+| interpolation | The type of interpolation to be used when resizing the image. The default value is Auto. |
+| allowDepthChange | Whether to allow the depth of the image to be changed. This is often useful if you are resizing monotone images. |
 
 ## Notes
 
@@ -14,9 +29,16 @@ Resizes the image to a specified width and height using a specified interpolatio
 
 The interpolation parameter should be viewed as a request rather than a command because not all types of interpolation can be used on all types of image. If the method you specify is not appropriate then ABCpdf will automatically select a suitable alternative.
 
-After an image has been resized it is no longer compressed. You may wish to compress it using the StreamObject.Compress method.
+After an image has been resized it is no longer compressed. You may wish to compress it using the [StreamObject.Compress](../../streamobject/1-methods/compress.md) method.
 
 The Interpolation enumeration may take the following values:
+
+- Auto
+- NearestNeighbor
+- Linear
+- Cubic
+- Super
+- Lanczos
 
 The Auto setting allows ABCpdf to automatically choose an appropriate interpolation algorithm given the type of image and the type of scaling. If you are aiming to maximize quality this is the setting you should use.
 
@@ -32,9 +54,21 @@ This function is optimized for resizing one, three and four component images at 
 
 Here we resize all the images in a document to a quarter of their previous resolution.
 
-[C#] using var doc = new Doc(); doc.Read("../Rez/spaceshuttle.pdf"); foreach (IndirectObject io in doc.ObjectSoup) { if (io is PixMap) { var pm = (PixMap)io; pm.Realize(); // eliminate indexed color images pm.Resize(pm.Width / 4, pm.Height / 4); } } doc.Save("pixmapresize.pdf");
+```csharp
+using var doc = new Doc();
+doc.Read("../Rez/spaceshuttle.pdf");
+foreach (IndirectObject io in doc.ObjectSoup) {
+  if (io is PixMap) {
+    var pm = (PixMap)io;
+    pm.Realize(); // eliminate indexed color images
+    pm.Resize(pm.Width / 4, pm.Height / 4);
+  }
+}
+doc.Save("pixmapresize.pdf");
+```
 
-spaceshuttle.pdf [page 1]
+![spaceshuttle.pdf \[page 1\]](../../../images/pdf/shuttle_p1.png)  
+spaceshuttle.pdf \[page 1\]
 
-pixmapresize.pdf [page 1]
-
+![pixmapresize.pdf \[page 1\]](../../../images/pdf/pixmapresize.pdf.png)  
+pixmapresize.pdf \[page 1\]

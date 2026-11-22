@@ -4,16 +4,19 @@ Saves the document as PDF, or exports it to another format such as DOCX or HTML.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-void Save(string path)void Save(Stream stream)
+void Save(string path)
+void Save(Stream stream)
 ```
+
+*C#*
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | path | The destination file path. |
 | stream | The destination stream. |
 
@@ -25,31 +28,27 @@ This is how you convert a PDF to Word (DOCX), HTML or XPS: read the PDF into a D
 
 To export as XPS, PostScript, DOCX or HTML you need to specify a file path with an appropriate extension - ".xps", ".ps", ".docx", ".htm", ".html" or ".swf". If the file extension is unrecognized then the default PDF format will be used.
 
-When saving to a Stream the format can be indicated using a [Doc.SaveOptions.FileExtension](xsaveoptions/2-properties/fileextension.md) property such as ".htm" or ".xps". For HTML you must provide a sensible value for the [Doc.SaveOptions.Folder](xsaveoptions/2-properties/folder.md) property. For XPS streams must be both readable and writable - FileAccess.ReadWrite and not simply FileAccess.Write.
+When saving to a Stream the format can be indicated using a [Doc.SaveOptions.FileExtension](../../xsaveoptions/2-properties/fileextension.md) property such as ".htm" or ".xps". For HTML you must provide a sensible value for the [Doc.SaveOptions.Folder](../../xsaveoptions/2-properties/folder.md) property. For XPS streams must be both readable and writable - FileAccess.ReadWrite and not simply FileAccess.Write.
 
-ABCpdf operates an intelligent just-in-time object loading scheme which ensures that only those objects that are required are loaded into memory. This means that if you are modifying large documents then server load will be kept to a minimum. The original PDF document must be available for as long as the [Doc](default.md) object is being used. As a result you cannot modify or overwrite a PDF file while it is read into a [Doc](default.md) object. You will need to save your PDF to another location and then swap the two files around after the [Doc](default.md) object's use of the PDF is ended (with a call to [Clear](clear.md), Dispose, or [Read](read.md) with another PDF file).
+ABCpdf operates an intelligent just-in-time object loading scheme which ensures that only those objects that are required are loaded into memory. This means that if you are modifying large documents then server load will be kept to a minimum. The original PDF document must be available for as long as the [Doc](../index.md) object is being used.
+
+As a result you cannot modify or overwrite a PDF file while it is read into a [Doc](../index.md) object. You will need to save your PDF to another location and then swap the two files around after the [Doc](../index.md) object's use of the PDF is ended (with a call to [Clear](clear.md), Dispose, or [Read](read.md) with another PDF file).
 
 If you need to obtain a PDF as raw data you can use the [GetData](getdata.md) function.
 
-The [SaveOptions.Refactor](xsaveoptions/2-properties/refactor.md) setting determines whether duplicate and redundant objects are eliminated when the document is saved.
+The [SaveOptions.Refactor](../../xsaveoptions/2-properties/refactor.md) setting determines whether duplicate and redundant objects are eliminated when the document is saved.
 
----
-**Versions.**
-ABCpdf automatically determines the version depending on the features you use. If you use features from only the 1.1 specification it will write a 1.1 PDF. If you use 1.3 features it will write a 1.3 PDF. If you use 1.4 features it will write a 1.4 PDF. Ditto 1.5 and 1.6.
+> **Versions.** ABCpdf automatically determines the version depending on the features you use. If you use features from only the 1.1 specification it will write a 1.1 PDF. If you use 1.3 features it will write a 1.3 PDF. If you use 1.4 features it will write a 1.4 PDF. Ditto 1.5 and 1.6.
+>
+> If you're using a PDF template or drawing from another PDF the final output will be the minimum version used in these templates. In many real world applications this will be the factor which determines the version in the final output produced by ABCpdf.
+>
+> There is no advantage in producing a 1.6 document if you're not using features from the 1.6 feature set. To do this will simply stop users of older versions of Acrobat from accessing a document which should be available to them.
 
-If you're using a PDF template or drawing from another PDF the final output will be the minimum version used in these templates. In many real world applications this will be the factor which determines the version in the final output produced by ABCpdf.
-
-There is no advantage in producing a 1.6 document if you're not using features from the 1.6 feature set. To do this will simply stop users of older versions of Acrobat from accessing a document which should be available to them.
-
----
-
-When saving to SWF, if the [Doc.SaveOptions.Template](xsaveoptions/2-properties/template.md) is null, the current page is exported with [Rect](2-properties/rect.md) as the bounds of the Flash movie using [Doc.SaveOptions.TemplateData.MeasureDpiX](xsavetemplatedata/2-properties/measuredpix.md) and [Doc.SaveOptions.TemplateData.MeasureDpiY](xsavetemplatedata/2-properties/measuredpiy.md) if specified. Otherwise, [Doc.SaveOptions.Template](xsaveoptions/2-properties/template.md) specifies the path to a SWF file. The saved SWF file starts with the template SWF files, and a frame is added for each page in the document. The script added is in ActionScript 2. If the template's version is Flash Player 7 or lower, the saved file's version will be Flash Player 8. For information on the interaction between the added frames and the script from the template, please refer to the example Flash file. Images are output in JPEG if (1) they are in DeviceGray or DeviceRGB and already in JPEG (without any other compression on top), or (2) they are not in the indexed color space and both the width and the height are at least 8 pixels. For (1), the original JPEG data is used so you can control the quality by pre-compressing the images; for (2), the output will use 80% quality.
+When saving to SWF, if the [Doc.SaveOptions.Template](../../xsaveoptions/2-properties/template.md) is null, the current page is exported with [Rect](../2-properties/rect.md) as the bounds of the Flash movie using [Doc.SaveOptions.TemplateData.MeasureDpiX](../../xsavetemplatedata/2-properties/measuredpix.md) and [Doc.SaveOptions.TemplateData.MeasureDpiY](../../xsavetemplatedata/2-properties/measuredpiy.md) if specified. Otherwise, [Doc.SaveOptions.Template](../../xsaveoptions/2-properties/template.md) specifies the path to a SWF file. The saved SWF file starts with the template SWF files, and a frame is added for each page in the document. The script added is in ActionScript 2. If the template's version is Flash Player 7 or lower, the saved file's version will be Flash Player 8. For information on the interaction between the added frames and the script from the template, please refer to the example Flash file. Images are output in JPEG if (1) they are in DeviceGray or DeviceRGB and already in JPEG (without any other compression on top), or (2) they are not in the indexed color space and both the width and the height are at least 8 pixels. For (1), the original JPEG data is used so you can control the quality by pre-compressing the images; for (2), the output will use 80% quality.
 
 ## Example
 
 The following code illustrates how one might add text to a PDF and then save it out.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -58,174 +57,7 @@ doc.AddText("Hello World");
 doc.Save("docsave.pdf");
 ```
 
-![](../../../images/pdf/docsave.pdf.png)
+![docsave.pdf](../../../images/pdf/docsave.pdf.png)  
 docsave.pdf
 
-Also see example code in:
-
-* [ABCpdf Text Flow Example](4-examples/02-textflow.md)
-* [ABCpdf Text Flow Round Image Example](4-examples/02-textflow2.md)
-* [ABCpdf Tagged Text Example](4-examples/02-texttagged.md)
-* [ABCpdf Multistyle Example](4-examples/03-multistyled.md)
-* [ABCpdf Image Example](4-examples/04-image.md)
-* [ABCpdf Deletion Example](4-examples/05-deletion.md)
-* [ABCpdf Headers and Footers Example](4-examples/06-headers.md)
-* [ABCpdf Landscape Example](4-examples/08-landscape.md)
-* [ABCpdf Small Table Example](4-examples/09-table1.md)
-* [ABCpdf Large Table Example](4-examples/10-table2.md)
-* [ABCpdf Unicode Example](4-examples/12-unicode.md)
-* [ABCpdf Paged HTML Example](4-examples/13-pagedhtml.md)
-* [ABCpdf eForm Fields Example](4-examples/15-eform1.md)
-* [ABCpdf eForm Placeholder Example](4-examples/15-eform2.md)
-* [ABCpdf eForm Stamp Example](4-examples/15-eform3.md)
-* [ABCpdf eForm FDF Example](4-examples/16-eformfdf.md)
-* [ABCpdf Advanced Graphics Example](4-examples/17-advancedgraphics.md)
-* [ABCpdf Fields, Markup and Movies Example](4-examples/18-annotations.md)
-* [ABCpdf WPF Tables Example](4-examples/21-wpftables.md)
-* [Doc AddArc Function](addarc.md)
-* [Doc AddBookmark Function](addbookmark.md)
-* [Doc AddColorSpaceFile Function](addcolorspacefile.md)
-* [Doc AddColorSpaceSpot Function](addcolorspacespot.md)
-* [Doc AddFont Function](addfont.md)
-* [Doc AddGrid Function](addgrid.md)
-* [Doc AddImageBitmap Function](addimagebitmap.md)
-* [Doc AddImageCopy Function](addimagecopy.md)
-* [Doc AddImageDoc Function](addimagedoc.md)
-* [Doc AddImageFile Function](addimagefile.md)
-* [Doc AddImageObject  Function](addimageobject.md)
-* [Doc AddImageToChain Function](addimagetochain.md)
-* [Doc AddImageUrl Function](addimageurl.md)
-* [Doc AddLine Function](addline.md)
-* [Doc AddObject Function](addobject.md)
-* [Doc AddOval Function](addoval.md)
-* [Doc AddPage Function](addpage.md)
-* [Doc AddPie Function](addpie.md)
-* [Doc AddPoly Function](addpoly.md)
-* [Doc AddText Function](addtext.md)
-* [Doc AddTextStyled Function](addtextstyled.md)
-* [Doc AddXObject Function](addxobject.md)
-* [Doc Append Function](append.md)
-* [Doc Delete Function](delete.md)
-* [Doc EmbedFont Function](embedfont.md)
-* [Doc FillRect Function](fillrect.md)
-* [Doc FrameRect Function](framerect.md)
-* [Doc Read Function](read.md)
-* [Doc RemapPages Method](remappages.md)
-* [Doc SetInfo Function](setinfo.md)
-* [Doc Color Property](2-properties/color.md)
-* [Doc ColorSpace Property](2-properties/colorspace.md)
-* [Doc Encryption Property](2-properties/encryption.md)
-* [Doc Font Property](2-properties/font.md)
-* [Doc FontSize Property](2-properties/fontsize.md)
-* [Doc MediaBox Property](2-properties/mediabox.md)
-* [Doc Options Property](2-properties/options.md)
-* [Doc Page Property](2-properties/page.md)
-* [Doc Pos Property](2-properties/pos.md)
-* [Doc Rect Property](2-properties/rect.md)
-* [Doc String Property](2-properties/string.md)
-* [Doc TextStyle Property](2-properties/textstyle.md)
-* [Doc TopDown Property](2-properties/topdown.md)
-* [Doc Transform Property](2-properties/transform.md)
-* [Doc Width Property](2-properties/width.md)
-* [XColor Alpha Property](xcolor/2-properties/alpha.md)
-* [XColor Components Property](xcolor/2-properties/components.md)
-* [XEncryption SetCryptMethods Function](xencryption/1-methods/setcryptmethods.md)
-* [XHtmlOptions GetTagRects Function](xhtmloptions/1-methods/gettagrects.md)
-* [XHtmlOptions LinkDestinations Method](xhtmloptions/1-methods/linkdestinations.md)
-* [XHtmlOptions LinkPages Method](xhtmloptions/1-methods/linkpages.md)
-* [XHtmlOptions ForChrome Property](xhtmloptions/2-properties/2-forchrome.md)
-* [XHtmlOptions ForGecko Property](xhtmloptions/2-properties/2-forgecko.md)
-* [XHtmlOptions ForMSHtml Property](xhtmloptions/2-properties/2-formshtml.md)
-* [XHtmlOptions ForWebKit Property](xhtmloptions/2-properties/2-forwebkit.md)
-* [XHtmlOptions AddForms Property](xhtmloptions/2-properties/addforms.md)
-* [XHtmlOptions BrowserWidth Property](xhtmloptions/2-properties/browserwidth.md)
-* [XHtmlOptions HideBackground Property](xhtmloptions/2-properties/hidebackground.md)
-* [XHtmlOptions HtmlCallback Property](xhtmloptions/2-properties/htmlcallback.md)
-* [XHtmlOptions HtmlEmbedCallback Property](xhtmloptions/2-properties/htmlembedcallback.md)
-* [XHtmlOptions HttpAdditionalHeaders Property](xhtmloptions/2-properties/httpadditionalheaders.md)
-* [XHtmlOptions ImageQuality Property](xhtmloptions/2-properties/imagequality.md)
-* [XHtmlOptions LogonName Property](xhtmloptions/2-properties/logonname.md)
-* [XHtmlOptions RetryCount Property](xhtmloptions/2-properties/retrycount.md)
-* [XHtmlOptions UseScript Property](xhtmloptions/2-properties/usescript.md)
-* [XImage SetData Function](ximage/1-methods/setdata.md)
-* [XImage SetFile Function](ximage/1-methods/setfile.md)
-* [XImage SetMask Function](ximage/1-methods/setmask.md)
-* [XImage SetStream Function](ximage/1-methods/setstream.md)
-* [XImage Frame Property](ximage/2-properties/frame.md)
-* [XImage Selection Property](ximage/2-properties/selection.md)
-* [XPoint Point Property](xpoint/2-properties/point.md)
-* [XRect Rectangle Property](xrect/2-properties/rectangle.md)
-* [XSaveOptions Template Property](xsaveoptions/2-properties/template.md)
-* [XSaveOptions WritePageSeparator Property](xsaveoptions/2-properties/writepageseparator.md)
-* [XSaveTemplateData SetMeasureResolution Function](xsavetemplatedata/1-methods/setmeasureresolution.md)
-* [XTagging Open Function](xtagging/1-methods/04-open.md)
-* [XTagging Close Function](xtagging/1-methods/05-close.md)
-* [XTagging AddFocus Function](xtagging/1-methods/08-addfocus.md)
-* [Focus OpaqueTypes  Property](xtagging.focus/2-properties/opaquetypes.md)
-* [XTextStyle AutoTag Property](xtextstyle/2-properties/autotag.md)
-* [XTextStyle Bold Property](xtextstyle/2-properties/bold.md)
-* [XTextStyle CharSpacing Property](xtextstyle/2-properties/charspacing.md)
-* [XTextStyle HPos Property](xtextstyle/2-properties/hpos.md)
-* [XTextStyle Indent Property](xtextstyle/2-properties/indent.md)
-* [XTextStyle Italic Property](xtextstyle/2-properties/italic.md)
-* [XTextStyle Justification Property](xtextstyle/2-properties/justification.md)
-* [XTextStyle Kerning Property](xtextstyle/2-properties/kerning.md)
-* [XTextStyle LeftMargin Property](xtextstyle/2-properties/leftmargin.md)
-* [XTextStyle LineSpacing Property](xtextstyle/2-properties/linespacing.md)
-* [XTextStyle Outline Property](xtextstyle/2-properties/outline.md)
-* [XTextStyle ParaSpacing Property](xtextstyle/2-properties/paraspacing.md)
-* [XTextStyle Size Property](xtextstyle/2-properties/size.md)
-* [XTextStyle Strike Property](xtextstyle/2-properties/strike.md)
-* [XTextStyle Strike2 Property](xtextstyle/2-properties/strike2.md)
-* [XTextStyle Underline Property](xtextstyle/2-properties/underline.md)
-* [XTextStyle VPos Property](xtextstyle/2-properties/vpos.md)
-* [XTextStyle WordSpacing Property](xtextstyle/2-properties/wordspacing.md)
-* [XTransform Invert Function](xtransform/1-methods/invert.md)
-* [XTransform Magnify Function](xtransform/1-methods/magnify.md)
-* [XTransform Reset Function](xtransform/1-methods/reset.md)
-* [XTransform Rotate Function](xtransform/1-methods/rotate.md)
-* [XTransform Skew Function](xtransform/1-methods/skew.md)
-* [XTransform Translate Function](xtransform/1-methods/translate.md)
-* [XTransform AngleUnit Property](xtransform/2-properties/angleunit.md)
-* [Catalog Metadata Property](6-abcpdf.objects/catalog/2-properties/metadata.md)
-* [ColorSpace Gamma Property](6-abcpdf.objects/colorspace/2-properties/gamma.md)
-* [ColorSpace WhitePoint Property](6-abcpdf.objects/colorspace/2-properties/whitepoint.md)
-* [FileSpecification FileSpecification Function](6-abcpdf.objects/filespecification/1-methods/filespecification.md)
-* [FontObject RuneWidths Property](6-abcpdf.objects/fontobject/2-properties/runewidths.md)
-* [FontObject Widths Property](6-abcpdf.objects/fontobject/2-properties/widths.md)
-* [Page GetBitmap Function](6-abcpdf.objects/page/1-methods/getbitmap.md)
-* [Page MakeFormXObject Function](6-abcpdf.objects/page/1-methods/makeformxobject.md)
-* [Page VectorizeText Function](6-abcpdf.objects/page/1-methods/vectorizetext.md)
-* [Page Rotation Property](6-abcpdf.objects/page/2-properties/rotation.md)
-* [Page Thumbnail Property](6-abcpdf.objects/page/2-properties/thumbnail.md)
-* [PixMap Recolor Function](6-abcpdf.objects/pixmap/1-methods/recolor.md)
-* [PixMap Resize Function](6-abcpdf.objects/pixmap/1-methods/resize.md)
-* [PixMap SetAlpha Function](6-abcpdf.objects/pixmap/1-methods/setalpha.md)
-* [PixMap SetChromakey Function](6-abcpdf.objects/pixmap/1-methods/setchromakey.md)
-* [PixMap ToGrayscale Function](6-abcpdf.objects/pixmap/1-methods/tograyscale.md)
-* [Signature AddLTV Function](6-abcpdf.objects/signature/1-methods/addltv.md)
-* [Signature Sign Method](6-abcpdf.objects/signature/1-methods/sign.md)
-* [Signature Validate Function](6-abcpdf.objects/signature/1-methods/validate.md)
-* [Signature CompliancePades Property](6-abcpdf.objects/signature/2-properties/compliancepades.md)
-* [Signature CustomSigner Property](6-abcpdf.objects/signature/2-properties/customsigner.md)
-* [Signature CustomSigner2 Property](6-abcpdf.objects/signature/2-properties/customsigner2.md)
-* [Signature MaxSignatureLength Property](6-abcpdf.objects/signature/2-properties/maxsignaturelength.md)
-* [ArrayAtom FromContentStream Function](7-abcpdf.atoms/arrayatom/1-methods/fromcontentstream.md)
-* [OpAtom Find Function](7-abcpdf.atoms/opatom/1-methods/find.md)
-* [ProcessingInfo FrameNumber Property](8-abcpdf.operations/2-processinginfo/2-properties/framenumber.md)
-* [RecolorOperation Recolor Function](8-abcpdf.operations/3-recoloroperation/1-methods/recolor.md)
-* [RecolorOperation IccCmyk Property](8-abcpdf.operations/3-recoloroperation/2-properties/icccmyk.md)
-* [XpsImportOperation Import Function](8-abcpdf.operations/4-xpsimportoperation/1-methods/import.md)
-* [SwfImportOperation Import Function](8-abcpdf.operations/5-swfimportoperation/1-methods/import.md)
-* [TextOperation Group  Function](8-abcpdf.operations/8-textoperation/1-methods/group.md)
-* [ImageOperation GetImageProperties  Function](8-abcpdf.operations/9-imageoperation/1-methods/getimageproperties.md)
-* [FlattenTransparencyOperation Flatten Function](8-abcpdf.operations/A-flattentransparency/1-methods/flatten.md)
-* [ReduceSizeOperation Compact  Function](8-abcpdf.operations/B-reducesizeoperation/1-methods/compact.md)
-* [AccessibilityOperation AccessibilityOperation  Constructor](8-abcpdf.operations/C-accessibilityoperation/1-methods/1-accessibilityoperation.md)
-* [AccessibilityOperationAI Tag Function](8-abcpdf.operations/C-accessibilityoperationai/1-methods/01-tag.md)
-* [AccessibilityOperationAI ConversionOptions Property](8-abcpdf.operations/C-accessibilityoperationai/2-properties/01-conversionoptions.md)
-* [VectorizeTextOperation Vectorize Method](8-abcpdf.operations/L-vectorizetextoperation/1-methods/vectorize.md)
-* [CloudVisionOperation StartOcr Function](8-abcpdf.operations/M-cloudvisionoperation/1-methods/04-startocr.md)
-* [WebPageOperation Doc Property](8-abcpdf.operations/Q-webpageoperation/2-properties/01-doc.md)
-* [CustomFont CustomFont Function](8-abcpdf.operations/R-customfont/1-methods/01-customfont.md)
-* [CustomFont Embed Function](8-abcpdf.operations/R-customfont/1-methods/02-embed.md).
+Also see example code in: [ABCpdf Text Flow Example](../../../4-examples/02-textflow.md), [ABCpdf Text Flow Round Image Example](../../../4-examples/02-textflow2.md), [ABCpdf Tagged Text Example](../../../4-examples/02-texttagged.md), [ABCpdf Multistyle Example](../../../4-examples/03-multistyled.md), [ABCpdf Image Example](../../../4-examples/04-image.md), [ABCpdf Deletion Example](../../../4-examples/05-deletion.md), [ABCpdf Headers and Footers Example](../../../4-examples/06-headers.md), [ABCpdf Landscape Example](../../../4-examples/08-landscape.md), [ABCpdf Small Table Example](../../../4-examples/09-table1.md), [ABCpdf Large Table Example](../../../4-examples/10-table2.md), [ABCpdf Unicode Example](../../../4-examples/12-unicode.md), [ABCpdf Paged HTML Example](../../../4-examples/13-pagedhtml.md), [ABCpdf eForm Fields Example](../../../4-examples/15-eform1.md), [ABCpdf eForm Placeholder Example](../../../4-examples/15-eform2.md), [ABCpdf eForm Stamp Example](../../../4-examples/15-eform3.md), [ABCpdf eForm FDF Example](../../../4-examples/16-eformfdf.md), [ABCpdf Advanced Graphics Example](../../../4-examples/17-advancedgraphics.md), [ABCpdf Fields, Markup and Movies Example](../../../4-examples/18-annotations.md), [ABCpdf WPF Tables Example](../../../4-examples/21-wpftables.md), [Doc AddArc Function](addarc.md), [Doc AddBookmark Function](addbookmark.md), [Doc AddColorSpaceFile Function](addcolorspacefile.md), [Doc AddColorSpaceSpot Function](addcolorspacespot.md), [Doc AddFont Function](addfont.md), [Doc AddGrid Function](addgrid.md), [Doc AddImageBitmap Function](addimagebitmap.md), [Doc AddImageCopy Function](addimagecopy.md), [Doc AddImageDoc Function](addimagedoc.md), [Doc AddImageFile Function](addimagefile.md), [Doc AddImageObject Function](addimageobject.md), [Doc AddImageToChain Function](addimagetochain.md), [Doc AddImageUrl Function](addimageurl.md), [Doc AddLine Function](addline.md), [Doc AddObject Function](addobject.md), [Doc AddOval Function](addoval.md), [Doc AddPage Function](addpage.md), [Doc AddPie Function](addpie.md), [Doc AddPoly Function](addpoly.md), [Doc AddText Function](addtext.md), [Doc AddTextStyled Function](addtextstyled.md), [Doc AddXObject Function](addxobject.md), [Doc Append Function](append.md), [Doc Delete Function](delete.md), [Doc EmbedFont Function](embedfont.md), [Doc FillRect Function](fillrect.md), [Doc FrameRect Function](framerect.md), [Doc Read Function](read.md), [Doc RemapPages Method](remappages.md), [Doc SetInfo Function](setinfo.md), [Doc Color Property](../2-properties/color.md), [Doc ColorSpace Property](../2-properties/colorspace.md), [Doc Encryption Property](../2-properties/encryption.md), [Doc Font Property](../2-properties/font.md), [Doc FontSize Property](../2-properties/fontsize.md), [Doc MediaBox Property](../2-properties/mediabox.md), [Doc Options Property](../2-properties/options.md), [Doc Page Property](../2-properties/page.md), [Doc Pos Property](../2-properties/pos.md), [Doc Rect Property](../2-properties/rect.md), [Doc String Property](../2-properties/string.md), [Doc TextStyle Property](../2-properties/textstyle.md), [Doc TopDown Property](../2-properties/topdown.md), [Doc Transform Property](../2-properties/transform.md), [Doc Width Property](../2-properties/width.md), [XColor Alpha Property](../../xcolor/2-properties/alpha.md), [XColor Components Property](../../xcolor/2-properties/components.md), [XEncryption SetCryptMethods Function](../../xencryption/1-methods/setcryptmethods.md), [XHtmlOptions GetTagRects Function](../../xhtmloptions/1-methods/gettagrects.md), [XHtmlOptions LinkDestinations Method](../../xhtmloptions/1-methods/linkdestinations.md), [XHtmlOptions LinkPages Method](../../xhtmloptions/1-methods/linkpages.md), [XHtmlOptions ForChrome Property](../../xhtmloptions/2-properties/2-forchrome.md), [XHtmlOptions ForGecko Property](../../xhtmloptions/2-properties/2-forgecko.md), [XHtmlOptions ForMSHtml Property](../../xhtmloptions/2-properties/2-formshtml.md), [XHtmlOptions ForWebKit Property](../../xhtmloptions/2-properties/2-forwebkit.md), [XHtmlOptions AddForms Property](../../xhtmloptions/2-properties/addforms.md), [XHtmlOptions BrowserWidth Property](../../xhtmloptions/2-properties/browserwidth.md), [XHtmlOptions HideBackground Property](../../xhtmloptions/2-properties/hidebackground.md), [XHtmlOptions HtmlCallback Property](../../xhtmloptions/2-properties/htmlcallback.md), [XHtmlOptions HtmlEmbedCallback Property](../../xhtmloptions/2-properties/htmlembedcallback.md), [XHtmlOptions HttpAdditionalHeaders Property](../../xhtmloptions/2-properties/httpadditionalheaders.md), [XHtmlOptions ImageQuality Property](../../xhtmloptions/2-properties/imagequality.md), [XHtmlOptions LogonName Property](../../xhtmloptions/2-properties/logonname.md), [XHtmlOptions RetryCount Property](../../xhtmloptions/2-properties/retrycount.md), [XHtmlOptions UseScript Property](../../xhtmloptions/2-properties/usescript.md), [XImage SetData Function](../../ximage/1-methods/setdata.md), [XImage SetFile Function](../../ximage/1-methods/setfile.md), [XImage SetMask Function](../../ximage/1-methods/setmask.md), [XImage SetStream Function](../../ximage/1-methods/setstream.md), [XImage Frame Property](../../ximage/2-properties/frame.md), [XImage Selection Property](../../ximage/2-properties/selection.md), [XPoint Point Property](../../xpoint/2-properties/point.md), [XRect Rectangle Property](../../xrect/2-properties/rectangle.md), [XSaveOptions Template Property](../../xsaveoptions/2-properties/template.md), [XSaveOptions WritePageSeparator Property](../../xsaveoptions/2-properties/writepageseparator.md), [XSaveTemplateData SetMeasureResolution Function](../../xsavetemplatedata/1-methods/setmeasureresolution.md), [XTagging Open Function](../../xtagging/1-methods/04-open.md), [XTagging Close Function](../../xtagging/1-methods/05-close.md), [XTagging AddFocus Function](../../xtagging/1-methods/08-addfocus.md), [Focus OpaqueTypes Property](../../xtagging.focus/2-properties/opaquetypes.md), [XTextStyle AutoTag Property](../../xtextstyle/2-properties/autotag.md), [XTextStyle Bold Property](../../xtextstyle/2-properties/bold.md), [XTextStyle CharSpacing Property](../../xtextstyle/2-properties/charspacing.md), [XTextStyle HPos Property](../../xtextstyle/2-properties/hpos.md), [XTextStyle Indent Property](../../xtextstyle/2-properties/indent.md), [XTextStyle Italic Property](../../xtextstyle/2-properties/italic.md), [XTextStyle Justification Property](../../xtextstyle/2-properties/justification.md), [XTextStyle Kerning Property](../../xtextstyle/2-properties/kerning.md), [XTextStyle LeftMargin Property](../../xtextstyle/2-properties/leftmargin.md), [XTextStyle LineSpacing Property](../../xtextstyle/2-properties/linespacing.md), [XTextStyle Outline Property](../../xtextstyle/2-properties/outline.md), [XTextStyle ParaSpacing Property](../../xtextstyle/2-properties/paraspacing.md), [XTextStyle Size Property](../../xtextstyle/2-properties/size.md), [XTextStyle Strike Property](../../xtextstyle/2-properties/strike.md), [XTextStyle Strike2 Property](../../xtextstyle/2-properties/strike2.md), [XTextStyle Underline Property](../../xtextstyle/2-properties/underline.md), [XTextStyle VPos Property](../../xtextstyle/2-properties/vpos.md), [XTextStyle WordSpacing Property](../../xtextstyle/2-properties/wordspacing.md), [XTransform Invert Function](../../xtransform/1-methods/invert.md), [XTransform Magnify Function](../../xtransform/1-methods/magnify.md), [XTransform Reset Function](../../xtransform/1-methods/reset.md), [XTransform Rotate Function](../../xtransform/1-methods/rotate.md), [XTransform Skew Function](../../xtransform/1-methods/skew.md), [XTransform Translate Function](../../xtransform/1-methods/translate.md), [XTransform AngleUnit Property](../../xtransform/2-properties/angleunit.md), [Catalog Metadata Property](../../../6-abcpdf.objects/catalog/2-properties/metadata.md), [ColorSpace Gamma Property](../../../6-abcpdf.objects/colorspace/2-properties/gamma.md), [ColorSpace WhitePoint Property](../../../6-abcpdf.objects/colorspace/2-properties/whitepoint.md), [FileSpecification FileSpecification Function](../../../6-abcpdf.objects/filespecification/1-methods/filespecification.md), [FontObject RuneWidths Property](../../../6-abcpdf.objects/fontobject/2-properties/runewidths.md), [FontObject Widths Property](../../../6-abcpdf.objects/fontobject/2-properties/widths.md), [Page GetBitmap Function](../../../6-abcpdf.objects/page/1-methods/getbitmap.md), [Page MakeFormXObject Function](../../../6-abcpdf.objects/page/1-methods/makeformxobject.md), [Page VectorizeText Function](../../../6-abcpdf.objects/page/1-methods/vectorizetext.md), [Page Rotation Property](../../../6-abcpdf.objects/page/2-properties/rotation.md), [Page Thumbnail Property](../../../6-abcpdf.objects/page/2-properties/thumbnail.md), [PixMap Recolor Function](../../../6-abcpdf.objects/pixmap/1-methods/recolor.md), [PixMap Resize Function](../../../6-abcpdf.objects/pixmap/1-methods/resize.md), [PixMap SetAlpha Function](../../../6-abcpdf.objects/pixmap/1-methods/setalpha.md), [PixMap SetChromakey Function](../../../6-abcpdf.objects/pixmap/1-methods/setchromakey.md), [PixMap ToGrayscale Function](../../../6-abcpdf.objects/pixmap/1-methods/tograyscale.md), [Signature AddLTV Function](../../../6-abcpdf.objects/signature/1-methods/addltv.md), [Signature Sign Method](../../../6-abcpdf.objects/signature/1-methods/sign.md), [Signature Validate Function](../../../6-abcpdf.objects/signature/1-methods/validate.md), [Signature CompliancePades Property](../../../6-abcpdf.objects/signature/2-properties/compliancepades.md), [Signature CustomSigner Property](../../../6-abcpdf.objects/signature/2-properties/customsigner.md), [Signature CustomSigner2 Property](../../../6-abcpdf.objects/signature/2-properties/customsigner2.md), [Signature MaxSignatureLength Property](../../../6-abcpdf.objects/signature/2-properties/maxsignaturelength.md), [ArrayAtom FromContentStream Function](../../../7-abcpdf.atoms/arrayatom/1-methods/fromcontentstream.md), [OpAtom Find Function](../../../7-abcpdf.atoms/opatom/1-methods/find.md), [ProcessingInfo FrameNumber Property](../../../8-abcpdf.operations/2-processinginfo/2-properties/framenumber.md), [RecolorOperation Recolor Function](../../../8-abcpdf.operations/3-recoloroperation/1-methods/recolor.md), [RecolorOperation IccCmyk Property](../../../8-abcpdf.operations/3-recoloroperation/2-properties/icccmyk.md), [XpsImportOperation Import Function](../../../8-abcpdf.operations/4-xpsimportoperation/1-methods/import.md), [SwfImportOperation Import Function](../../../8-abcpdf.operations/5-swfimportoperation/1-methods/import.md), [TextOperation Group Function](../../../8-abcpdf.operations/8-textoperation/1-methods/group.md), [ImageOperation GetImageProperties Function](../../../8-abcpdf.operations/9-imageoperation/1-methods/getimageproperties.md), [FlattenTransparencyOperation Flatten Function](../../../8-abcpdf.operations/a-flattentransparency/1-methods/flatten.md), [ReduceSizeOperation Compact Function](../../../8-abcpdf.operations/b-reducesizeoperation/1-methods/compact.md), [AccessibilityOperation AccessibilityOperation Constructor](../../../8-abcpdf.operations/c-accessibilityoperation/1-methods/1-accessibilityoperation.md), [AccessibilityOperationAI Tag Function](../../../8-abcpdf.operations/c-accessibilityoperationai/1-methods/01-tag.md), [AccessibilityOperationAI ConversionOptions Property](../../../8-abcpdf.operations/c-accessibilityoperationai/2-properties/01-conversionoptions.md), [VectorizeTextOperation Vectorize Method](../../../8-abcpdf.operations/l-vectorizetextoperation/1-methods/vectorize.md), [CloudVisionOperation StartOcr Function](../../../8-abcpdf.operations/m-cloudvisionoperation/1-methods/04-startocr.md), [WebPageOperation Doc Property](../../../8-abcpdf.operations/q-webpageoperation/2-properties/01-doc.md), [CustomFont CustomFont Function](../../../8-abcpdf.operations/r-customfont/1-methods/01-customfont.md), [CustomFont Embed Function](../../../8-abcpdf.operations/r-customfont/1-methods/02-embed.md).

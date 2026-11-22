@@ -1,8 +1,8 @@
-# BackgroundRegion&nbsp;Property
+# BackgroundRegion Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | No | Gets or sets the background rectangle. |
+| [`XRect`](../../../5-abcpdf/xrect/index.md) | null | No | Gets or sets the background rectangle. |
 
 ## Notes
 
@@ -10,4 +10,6 @@ The background region (in twips) is where the frame background is drawn. Set thi
 
 ## Example
 
-Also see example code in: [SwfImportOperation Import Function](1-methods/import.md).
+See the [Import](../1-methods/import.md) method.
+
+Also see example code in: [SwfImportOperation Import Function](../1-methods/import.md).

@@ -1,5 +1,9 @@
 # EntryV Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "V" entry of the minimum bit depth dictionary object. |
+
 ## Notes
 
 Represents the "V" entry of the minimum bit depth dictionary object.
@@ -12,8 +16,8 @@ It should have a minimum value of 1.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 269, page 490.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 269, page 490.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=498)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 280, page 615.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 280, page 615.](https://www.iso.org/standard/63534.html)
 
 The V entry holds the minimum acceptable colour bit depth as a non-negative integer. Common values are 8, 16, 24, and 32 bits. The criterion is satisfied if the display bit depth is at least this value.

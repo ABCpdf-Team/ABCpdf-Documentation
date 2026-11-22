@@ -1,2 +1,0 @@
-# XTextStyle Class
-

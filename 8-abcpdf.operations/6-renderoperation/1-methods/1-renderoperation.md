@@ -4,16 +4,14 @@ RenderOperation Constructor.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 RenderOperation(Doc doc)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | doc | The PDF Document |
 
 ## Notes

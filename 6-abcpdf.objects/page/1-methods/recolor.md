@@ -4,16 +4,17 @@ Converts the page from one color space to another.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a> newSpace, bool convertAnnotations)void Recolor(<a href="../../colorspace/default.htm">ColorSpace</a> newSpace, bool convertAnnotations, out <a href="../../pixmap/default.htm">PixMap</a>[] recoloredPixMaps)
-```
+`void Recolor(`[`ColorSpace`](../../colorspace/index.md)` newSpace, bool convertAnnotations)`  
+`void Recolor(`[`ColorSpace`](../../colorspace/index.md)` newSpace, bool convertAnnotations, out `[`PixMap`](../../pixmap/index.md)`[] recoloredPixMaps)`
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | newSpace | The destination color space. |
 | convertAnnotations | Whether to convert the color space of annotation appearance streams. |
 | recoloredPixMaps | All the PixMaps which were recolored as a result of the call. |
@@ -30,4 +31,4 @@ Colors can only be sensibly mapped from one color space to another if we know so
 
 An exception will be thrown if the operation is not possible. This may happen if the Page is not in an ObjectSoup or if the ColorSpace object is in some way invalid.
 
-As part of the Recolor process it is necessary to call [PixMap.Recolor](pixmap/1-methods/recolor.md) on all the images used on the page. After the Recolor process has been completed these [PixMap](pixmap/default.md) objects will no longer be compressed. You may wish to compress them using the [StreamObject.Compress](streamobject/1-methods/compress.md) method.
+As part of the Recolor process it is necessary to call [PixMap.Recolor](../../pixmap/1-methods/recolor.md) on all the images used on the page. After the Recolor process has been completed these [PixMap](../../pixmap/index.md) objects will no longer be compressed. You may wish to compress them using the [StreamObject.Compress](../../streamobject/1-methods/compress.md) method.

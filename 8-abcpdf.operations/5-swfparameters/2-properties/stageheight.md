@@ -1,8 +1,8 @@
 # StageHeight Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | No | The stage height when the scale mode is NoScale. |
+| `double?` | null | No | The stage height when the scale mode is NoScale. |
 
 ## Notes
 

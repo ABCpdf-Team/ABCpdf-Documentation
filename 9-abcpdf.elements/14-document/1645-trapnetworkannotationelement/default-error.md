@@ -1,2 +1,0 @@
-# TrapNetworkAnnotationElement Class
-

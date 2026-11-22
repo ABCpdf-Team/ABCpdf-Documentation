@@ -1,2 +1,0 @@
-# FDFPageElement Class
-

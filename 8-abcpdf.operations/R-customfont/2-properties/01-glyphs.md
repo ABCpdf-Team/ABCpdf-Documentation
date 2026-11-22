@@ -1,3 +1,0 @@
-# Glyphs Property
-
-## Notes

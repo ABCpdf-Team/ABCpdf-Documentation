@@ -4,16 +4,14 @@ Removes all objects from the Soup.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Clear()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | none |  |
 
 ## Notes
@@ -21,7 +19,3 @@ void Clear()
 Removes all IndirectObjects from the Soup.
 
 Only the Null object at array index zero is preserved.
-
-## Example
-
-None

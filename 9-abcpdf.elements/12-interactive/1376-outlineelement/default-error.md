@@ -1,2 +1,0 @@
-# OutlineElement Class
-

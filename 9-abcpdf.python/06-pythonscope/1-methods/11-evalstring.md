@@ -4,16 +4,18 @@ Evaluates a Python expression and gets its string value.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-string EvalString(string expr, in <a href="../../05-pythonrunoptions/default.htm">PythonRunOptions</a> options = new())
-```
+`string EvalString(string expr, in `[`PythonRunOptions`](../../05-pythonrunoptions/index.md)` options = new())`
+
+⚠ `ObjectDisposedException: Thrown when this PythonScope has been disposed of.`  
+⚠ `ArgumentNullException: Thrown when expr is null.`  
+⚠ `InvalidCastException: Thrown when the result is neither a string nor None.`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | expr | A Python expression. |
 | options | Options for running Python code. |
 | return | The string value of the result, or null if the result is None. |
@@ -26,8 +28,6 @@ Evaluates a Python expression and gets its string value.
 
 For example to get the version of Docling you might use code of the following form.
 
-[C#]
-
 ```csharp
 var options = new PythonOptions();
 options.Initialize(PythonEnvironment.Current, null);
@@ -39,4 +39,3 @@ rt.AutoInitializeRuntime(scope);
 var result = scope.EvalString("__import__('importlib.metadata', fromlist=['metadata']).version('docling')\n");
 Console.WriteLine(result);
 ```
-

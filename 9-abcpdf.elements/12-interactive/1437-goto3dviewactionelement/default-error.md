@@ -1,2 +1,0 @@
-# GoTo3DViewActionElement Class
-

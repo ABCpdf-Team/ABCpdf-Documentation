@@ -1,2 +1,0 @@
-# TextOperation Class
-

@@ -4,17 +4,17 @@ Indicates whether this Python environment is equal to the specified Python envir
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool Equals(<a href="../default.htm">PythonEnvironment</a> other)
-```
+`bool Equals(`[`PythonEnvironment`](../index.md)` other)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | other | The Python environment to compare. |
 | return | Whether this Python environment is equal to the specified Python environment. |
 
 ## Notes
+
+Indicates whether this Python environment is equal to the specified Python environment.

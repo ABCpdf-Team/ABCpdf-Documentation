@@ -4,22 +4,20 @@ Gets the length of this string.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 int GetStringLength()
 ```
 
+*C#*
+
+⚠ `may throw Exception()`
+
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | The length. |
 
 ## Notes
 
 The method returns the length of this string.
-
-## Example
-
-None

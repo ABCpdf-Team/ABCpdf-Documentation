@@ -4,16 +4,15 @@ Finds specified types of OpAtom entries in an array
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static IList&lt;Tuple&lt;string, int&gt;&gt; Find(<a href="../../arrayatom/default.htm">ArrayAtom</a> array)static IList&lt;Tuple&lt;string, int&gt;&gt; Find(<a href="../../arrayatom/default.htm">ArrayAtom</a> array, string[] names)
-```
+`static IList<Tuple<string, int>> Find(`[`ArrayAtom`](../../arrayatom/index.md)` array)`  
+`static IList<Tuple<string, int>> Find(`[`ArrayAtom`](../../arrayatom/index.md)` array, string[] names)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | array | The ArrayAtom to be searched. |
 | names | The types of OpAtoms that should be returned. |
 | return | The positions and text of the items which were found. |
@@ -28,9 +27,7 @@ In addition to the standard names there is also the "Meta:InlineImage" name whic
 
 ## Example
 
-This example shows how to use the [Array.FromContentStream](arrayatom/1-methods/fromcontentstream.md) function to parse a content stream and then use the Find method to search for certain types of color operators and replace them with other color operators. In this example this has the effect of converting some black parts of the PDF to red. For a more comprehensive approach one would use the [ContentStreamOperation](8-abcpdf.operations/G-contentstreamoperation/default.md) class to determine all content streams associated with the pages in question.
-
-[C#]
+This example shows how to use the [Array.FromContentStream](../../arrayatom/1-methods/fromcontentstream.md) function to parse a content stream and then use the Find method to search for certain types of color operators and replace them with other color operators. In this example this has the effect of converting some black parts of the PDF to red. For a more comprehensive approach one would use the [ContentStreamOperation](../../../8-abcpdf.operations/g-contentstreamoperation/index.md) class to determine all content streams associated with the pages in question.
 
 ```csharp
 using var doc = new Doc();
@@ -79,6 +76,8 @@ page.AddLayer(so);
 doc.Save("ReplaceColors.pdf");
 ```
 
-![](../../../images/pdf/ReplaceColors.pdf.png)
-ReplaceColors.pdf [Page 1]
+![ReplaceColors.pdf \[Page 1\]](../../../images/pdf/ReplaceColors.pdf.png)  
+ReplaceColors.pdf \[Page 1\]
 
+![ReplaceColors.pdf \[Page 2\]](../../../images/pdf/ReplaceColors.pdf2.png)  
+ReplaceColors.pdf \[Page 2\]

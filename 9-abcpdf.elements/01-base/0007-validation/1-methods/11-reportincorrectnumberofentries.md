@@ -4,16 +4,14 @@ Called to report an array with an incorrect number of entries.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 virtual void ReportIncorrectNumberOfEntries(int expected, int found)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | expected | The value which was expected. |
 | found | The value which was found. |
 

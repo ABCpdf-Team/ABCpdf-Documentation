@@ -1,5 +1,9 @@
 # EmbeddedFiles Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `Tuple<string, `[`EmbeddedFile`](../../embeddedfile/index.md)`>[]` | null | No | The set of embedded files if a set has been embedded in the PDF |
+
 ## Notes
 
 The set of embedded files if a set has been embedded in the PDF.
@@ -8,7 +12,4 @@ Normally a file specification will refer to one file. However in some situations
 
 If the EmbeddedFiles property has a value, then the first file in the array should always be the same as the EmbeddedFile property. For this reason setting this property will also set the EmbeddedFile property to be equal to the first file in the array. If there are no items in the array then the EmbeddedFile property will be cleared.
 
-## Example
-
-None.
-
+This property requires reference to other objects in the ObjectSoup. If this object is not part of an ObjectSoup this property will always be null.

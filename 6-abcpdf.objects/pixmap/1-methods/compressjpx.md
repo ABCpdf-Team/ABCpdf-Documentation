@@ -1,12 +1,22 @@
 # CompressJpx Function
 
+Compresses the image using JPEG 2000 compression.
+
 ## Syntax
 
-[C#] void CompressJpx(int quality)
+```csharp
+void CompressJpx(int quality)
+```
 
-may throw Exception()
+*C#*
+
+⚠ `may throw Exception()`
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| quality | The quality of compression to use (0 to 100). |
 
 ## Notes
 
@@ -18,5 +28,4 @@ The quality of the compression can range from zero (lowest quality, highest comp
 
 ## Example
 
-Also see example code in: RecolorOperation Recolor Function.
-
+Also see example code in: [RecolorOperation Recolor Function](../../../8-abcpdf.operations/3-recoloroperation/1-methods/recolor.md).

@@ -4,24 +4,18 @@ Create an ArrayAtom from a XRect representation
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-static <a href="../default.htm">ArrayAtom</a> FromXRect( WebSupergoo.ABCpdf14.XRect value)
-```
+`static `[`ArrayAtom`](../index.md)` FromXRect( WebSupergoo.ABCpdf14.XRect value)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | The XRect representing the value of the object. |
 
 ## Notes
 
 Create an ArrayAtom from a XRect representation.
 
-The ArrayAtom will contain four [NumAtoms](numatom/default.md) corresponding to the horizontal and vertical elements of two diagonally opposite corners.
-
-## Example
-
-None
+The ArrayAtom will contain four [NumAtoms](../../numatom/index.md) corresponding to the horizontal and vertical elements of two diagonally opposite corners.

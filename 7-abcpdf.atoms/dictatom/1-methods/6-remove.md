@@ -4,22 +4,16 @@ Remove an element from the dictionary.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Remove(string key)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | key | The name of the element to be removed. |
 
 ## Notes
 
 Remove the element with the specified name from the dictionary.
-
-## Example
-
-None

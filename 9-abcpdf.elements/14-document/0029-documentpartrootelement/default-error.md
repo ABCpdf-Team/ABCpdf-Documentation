@@ -1,2 +1,0 @@
-# DocumentPartRootElement Class
-

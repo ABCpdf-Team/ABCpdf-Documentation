@@ -1,25 +1,23 @@
 # D3DStream Function
 
+[D3DStream](../index.md) constructor.
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">D3DStream</a>(ObjectSoup soup)<a href="../default.htm">D3DStream</a>(ObjectSoup soup, string path)<a href="../default.htm">D3DStream</a>(ObjectSoup soup, byte[] data)
-```
+[`D3DStream`](../index.md)`(ObjectSoup soup)`  
+[`D3DStream`](../index.md)`(ObjectSoup soup, string path)`  
+[`D3DStream`](../index.md)`(ObjectSoup soup, byte[] data)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| soup | The ObjectSoup to contain the newly created D3DStream. |
-| path | A path to a file containing data which should be placed in the D3DStream. |
-| data | An array of bytes which should be placed in the D3DStream. |
+| Name | Description |
+| :---: | --- |
+| soup | The ObjectSoup to contain the newly created [D3DStream](../index.md). |
+| path | A path to a file containing data which should be placed in the [D3DStream](../index.md). |
+| data | An array of bytes which should be placed in the [D3DStream](../index.md). |
 
 ## Notes
 
-[D3DStream](default.md) constructor.
-
-## Example
-
-None
+[D3DStream](../index.md) constructor.

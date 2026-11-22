@@ -4,16 +4,14 @@ Copies the objects in the Soup to an Array.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-void CopyTo(<a href="../../1-indirectobject/default.htm">IndirectObject</a>[] array, int index)
-```
+`void CopyTo(`[`IndirectObject`](../../1-indirectobject/index.md)`[] array, int index)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | array | The array that is the destination for the elements. |
 | index | The zero-based index in array at which copying begins. |
 
@@ -22,7 +20,3 @@ void CopyTo(<a href="../../1-indirectobject/default.htm">IndirectObject</a>[] ar
 Copies the elements of the Soup to an array starting at a particular array index.
 
 The array must be one-dimensional and have zero-based indexing.
-
-## Example
-
-None

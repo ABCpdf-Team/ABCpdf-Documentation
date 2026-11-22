@@ -1,2 +1,0 @@
-# HalftoneElement Class
-

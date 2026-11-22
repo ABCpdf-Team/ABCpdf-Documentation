@@ -1,5 +1,9 @@
 # EntryM Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "M" entry of the minimum bit depth dictionary object. |
+
 ## Notes
 
 Represents the "M" entry of the minimum bit depth dictionary object.
@@ -12,8 +16,8 @@ The PDF specification states that this item assumes a value of 0 if no value has
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 269, page 490.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 269, page 490.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=498)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 280, page 615.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 280, page 615.](https://www.iso.org/standard/63534.html)
 
 The M entry specifies the monitor configuration to which this minimum bit depth applies: 0 for all monitors, 1 for the monitor displaying the largest part of the annotation, and 2 for the monitor displaying the smallest part.

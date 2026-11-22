@@ -4,16 +4,14 @@ Copies the items into an array.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void CopyTo(T[] array, int index)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | array | The array that is the destination for the elements. |
 | index | The zero-based index at which copying begins. |
 

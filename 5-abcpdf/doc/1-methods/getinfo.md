@@ -4,16 +4,14 @@ Gets string information about an object.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 string GetInfo(int id, string type)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | id | The Object ID of the object to be queried. |
 | type | The type of information to be retrieved. |
 | return | The returned information. |
@@ -26,15 +24,13 @@ There are core information types that all objects support. There are also inform
 
 If the object does not exist or does not support the requested type of information then an empty string is returned.
 
-Every object supports the ID and Type properties. For more detailed information about this and other properties see the [Object Paths](3-concepts/2-objectpaths.md) section of this document.
+Every object supports the ID and Type properties. For more detailed information about this and other properties see the [Object Paths](../../../3-concepts/2-objectpaths.md) section of this document.
 
 PDF objects are case sensitive so be sure you use the correct case when specifying information.
 
 ## Example
 
 The following code snippet illustrates how one might report the natural dimensions of an image.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -47,3 +43,9 @@ Response.Write($"Width {theWidth}< br>");
 Response.Write($"Height {theHeight}< br>");
 ```
 
+This is the kind of output you might expect.
+
+```
+Width 480
+Height 640
+```

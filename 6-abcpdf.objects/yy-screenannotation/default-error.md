@@ -1,2 +1,0 @@
-# ScreenAnnotation Class
-

@@ -1,5 +1,9 @@
 # EntryS Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "S" entry of the structure element dictionary object. |
+
 ## Notes
 
 Represents the "S" entry of the structure element dictionary object.
@@ -12,12 +16,12 @@ The specification defines this as exensible which means that it may contain entr
 
 In fact almost all objects are extensible but the fact that it is explicitly mentioned, implies that extra entries should be regarded as normal rather than exceptional.
 
-For further details see The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: Annex E, page 673..
+For further details see [The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: Annex E, page 673.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=681).
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 323, page 558.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 323, page 558.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=566)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 355, page 721.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 355, page 721.](https://www.iso.org/standard/63534.html)
 
 The S entry names the structure type identifying the element role. Standard types are defined in the PDF specification. Non-standard types must be mapped to standard ones via the role map.

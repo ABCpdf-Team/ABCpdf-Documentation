@@ -4,16 +4,16 @@ Measure the length of a block of text without adding it to the page.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-double MeasureText(string text)double MeasureText(string text, bool html)double MeasureText(string text, double fontSize, double charSpacing, double wordSpacing, bool italic, bool bold, double outline)
+double MeasureText(string text)
+double MeasureText(string text, bool html)
+double MeasureText(string text, double fontSize, double charSpacing, double wordSpacing, bool italic, bool bold, double outline)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | text | The text to be measured. |
 | html | Whether the text is HTML styled text. Default false. |
 | fontSize | The size of the font. |
@@ -26,14 +26,10 @@ double MeasureText(string text)double MeasureText(string text, bool html)double 
 
 ## Notes
 
-This function is used to measure the length of a block of text using the current [Font](2-properties/font.md) but does not support complex glyphs and fonts with vertical text direction ([FontObject.WritingMode](6-abcpdf.objects/fontobject/2-properties/writingmode.md)).
+This function is used to measure the length of a block of text using the current [Font](../2-properties/font.md) but does not support complex glyphs and fonts with vertical text direction ([FontObject.WritingMode](../../../6-abcpdf.objects/fontobject/2-properties/writingmode.md)).
 
 This method is unit agnostic so you can use whatever units you like and the result will be returned in terms of those units. However typically you would provide point based measurements to provide a point based length.
 
-If the text is placed at a horizontal position x and w is the value this function returns, the bounding interval will be [x - outline / 2, x - outline / 2 + w].
+If the text is placed at a horizontal position x and w is the value this function returns, the bounding interval will be \[x - outline / 2, x - outline / 2 + w\].
 
-You need to ensure that the font you are using supports the characters you are using otherwise an exception will be thrown. You may wish to use the [FontObject.VetText](6-abcpdf.objects/fontobject/1-methods/vettext.md) function to check your text if you are using standard font encodings such as Latin.
-
-## Example
-
-None
+You need to ensure that the font you are using supports the characters you are using otherwise an exception will be thrown. You may wish to use the [FontObject.VetText](../../../6-abcpdf.objects/fontobject/1-methods/vettext.md) function to check your text if you are using standard font encodings such as Latin.

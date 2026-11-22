@@ -1,5 +1,9 @@
 # EntryFWScale Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `IList<int>` | null | No | Represents the "FWScale" entry of the movie activation dictionary object. |
+
 ## Notes
 
 Represents the "FWScale" entry of the movie activation dictionary object.
@@ -12,8 +16,8 @@ Items in this array should have a minimum value of 1.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 296, page 509.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 296, page 509.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=517)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 307, page 636.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 307, page 636.](https://www.iso.org/standard/63534.html)
 
 The FWScale entry holds a two-element array giving the horizontal and vertical scale factors for the floating playback window relative to the annotation rectangle dimensions.

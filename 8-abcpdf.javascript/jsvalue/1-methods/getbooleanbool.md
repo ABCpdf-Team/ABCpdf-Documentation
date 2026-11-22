@@ -4,22 +4,20 @@ Gets the Boolean value of this Boolean value.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 bool GetBooleanBool()
 ```
 
+*C#*
+
+⚠ `may throw Exception()`
+
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | The Boolean value. |
 
 ## Notes
 
 The method returns the Boolean value of this Boolean value. It fails if this value is not a Boolean value.
-
-## Example
-
-None

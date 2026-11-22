@@ -4,16 +4,17 @@ Execute Python code.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-void Exec(string code, in <a href="../../05-pythonrunoptions/default.htm">PythonRunOptions</a> options = new())
-```
+`void Exec(string code, in `[`PythonRunOptions`](../../05-pythonrunoptions/index.md)` options = new())`
+
+⚠ `ObjectDisposedException: Thrown when this PythonScope has been disposed of.`  
+⚠ `ArgumentNullException: Thrown when code is null.`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | code | Python code to be executed. |
 | options | Options for running Python code. |
 
@@ -24,8 +25,6 @@ Execute Python code.
 ## Example
 
 To disable ANSI color in stdout output on Linux you might use code of the following form.
-
-[C#]
 
 ```csharp
 var options = new PythonOptions();
@@ -38,4 +37,3 @@ rt.AutoInitializeRuntime(scope);
 scope.Exec("import os\nos.environ['NO_COLOR'] = '1'\n");
 // ... do work
 ```
-

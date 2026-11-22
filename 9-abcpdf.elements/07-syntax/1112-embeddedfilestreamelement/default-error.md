@@ -1,2 +1,0 @@
-# EmbeddedFileStreamElement Class
-

@@ -1,19 +1,19 @@
 # Finish Function
 
+Called at the point each [Element](../../1086-element/index.md) finishes validation.
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-virtual void Finish(<a href="../../1086-element/default.htm">Element</a> element)
-```
+`virtual void Finish(`[`Element`](../../1086-element/index.md)` element)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | element | The element. |
 
 ## Notes
 
-Called at the point each [Element](1086-element/default.md) finishes validation.
+Called at the point each [Element](../../1086-element/index.md) finishes validation.

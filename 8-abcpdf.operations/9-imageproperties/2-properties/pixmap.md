@@ -1,13 +1,9 @@
-# PixMap   Property
+# PixMap Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | n/a | Yes | The PixMap object associated with the image. |
+| [`PixMap`](../../../6-abcpdf.objects/pixmap/index.md) | n/a | Yes | The PixMap object associated with the image. |
 
 ## Notes
 
-The [PixMap](6-abcpdf.objects/pixmap/default.md) object associated with the image.
-
-## Example
-
-None
+The [PixMap](../../../6-abcpdf.objects/pixmap/index.md) object associated with the image.

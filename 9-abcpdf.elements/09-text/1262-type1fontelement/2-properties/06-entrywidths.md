@@ -1,5 +1,9 @@
 # EntryWidths Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `IList<double>` | null | No | Represents the "Widths" entry of the type 1 font dictionary object. |
+
 ## Notes
 
 Represents the "Widths" entry of the type 1 font dictionary object.
@@ -10,9 +14,9 @@ It contains an array which contains doubles, representing PDF numeric objects.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 111, page 255.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 111, page 255.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=263)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 109, page 310.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 109, page 310.](https://www.iso.org/standard/63534.html)
 
 The array covers character codes from FirstChar to LastChar inclusive. Each value is the advance width of the glyph at that code position, in units of 1/1000 of a text space unit. A width of zero means the glyph advances by nothing, which is common for combining marks.
 

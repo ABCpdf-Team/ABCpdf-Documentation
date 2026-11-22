@@ -1,2 +1,0 @@
-# CrossReferenceStreamElement Class
-

@@ -4,16 +4,14 @@ Called to report an entry with an incorrect value.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 virtual void ReportIncorrectEntryValue(string value)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | The incorrect value. |
 
 ## Notes

@@ -1,10 +1,19 @@
 # Encode Function
 
+Encode a number into a PDF string. This format may be needed for direct insertion into a content stream.
+
 ## Syntax
 
-[C#] static string Encode(double value)
+```csharp
+static string Encode(double value)
+```
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| value | The number to convert. |
+| return | The string representation. |
 
 ## Notes
 
@@ -15,8 +24,3 @@ PDF content streams accept certain formats of numbers. In many situations these 
 For example, very small or very large numbers can lead to the insertion of exponential format strings which are not an accepted PDF format and can lead to errors. Because numbers typically occur in a non exponential range these errors can be infrequent and difficult to track down.
 
 This method will produce PDF valid strings for use in content streams and similar applications.
-
-## Example
-
-None.
-

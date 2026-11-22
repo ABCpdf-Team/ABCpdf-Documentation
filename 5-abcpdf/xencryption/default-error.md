@@ -1,2 +1,0 @@
-# XEncryption Class
-

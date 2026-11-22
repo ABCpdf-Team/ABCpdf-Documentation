@@ -4,16 +4,15 @@ Test whether the two XReadOptions are effectvely the same.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool Equals(<a href="../default.htm">XReadOptions</a> other)override bool Equals(object obj)
-```
+`bool Equals(`[`XReadOptions`](../index.md)` other)`  
+`override bool Equals(object obj)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | other | The object to test against. |
 | obj | The object to test against. |
 | return | Whether the two XReadOptions are the same. |
@@ -21,7 +20,3 @@ bool Equals(<a href="../default.htm">XReadOptions</a> other)override bool Equals
 ## Notes
 
 Test whether the two XReadOptions are the same.
-
-## Example
-
-None

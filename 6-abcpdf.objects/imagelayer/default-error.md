@@ -1,2 +1,0 @@
-# ImageLayer Class
-

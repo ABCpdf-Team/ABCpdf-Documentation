@@ -1,2 +1,0 @@
-# GeospatialMeasureElement Class
-

@@ -1,8 +1,8 @@
-# WordAffinity  Property
+# WordAffinity Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | 0.15 | No | The minimum distance at which two fragments will be assumed to be part of one undivided word. |
+| `double` | 0.15 | No | The minimum distance at which two fragments will be assumed to be part of one undivided word. |
 
 ## Notes
 
@@ -13,7 +13,3 @@ PDF text does not always include spaces. It is not uncommon for spaces simply to
 This property allows you to control this spacing. Increasing the property will tend to reduce the cohesiveness of fragments resulting in fewer spaces. Decreasing it will tend to increase the cohesiveness resulting in more spaces.
 
 Broadly speaking the property is defined as the proportion of the font size at which distance a space will be assumed to be present. The precise mechanism is a little more complicated than this as it needs to take account of vertical distance and of varying font sizes between fragments. However for most purposes the broad definition will be acceptable.
-
-## Example
-
-None

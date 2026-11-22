@@ -1,8 +1,8 @@
 # PageContents Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | n/a | No | The pages to be operated upon. |
+| [`PageContents`](../../8-pagecontents/index.md) | n/a | No | The pages to be operated upon. |
 
 ## Notes
 
@@ -14,4 +14,4 @@ So if you are performing a set of analysis operations on the same pages it can b
 
 ## Example
 
-Also see example code in: [TextOperation Group  Function](1-methods/group.md).
+Also see example code in: [TextOperation Group Function](../1-methods/group.md).

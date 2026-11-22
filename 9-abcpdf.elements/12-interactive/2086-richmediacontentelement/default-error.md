@@ -1,2 +1,0 @@
-# RichMediaContentElement Class
-

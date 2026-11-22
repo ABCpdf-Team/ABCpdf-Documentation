@@ -1,2 +1,0 @@
-# ImageXObjectElement Class
-

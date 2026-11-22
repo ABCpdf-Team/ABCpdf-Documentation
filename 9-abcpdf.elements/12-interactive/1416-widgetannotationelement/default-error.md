@@ -1,2 +1,0 @@
-# WidgetAnnotationElement Class
-

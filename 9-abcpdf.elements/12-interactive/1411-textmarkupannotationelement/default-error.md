@@ -1,2 +1,0 @@
-# TextMarkupAnnotationElement Class
-

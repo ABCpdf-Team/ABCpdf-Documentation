@@ -4,16 +4,16 @@ XPoint Constructor.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">XPoint</a>()<a href="../default.htm">XPoint</a>(string value)<a href="../default.htm">XPoint</a>(double x, double y)
-```
+[`XPoint`](../index.md)`()`  
+[`XPoint`](../index.md)`(string value)`  
+[`XPoint`](../index.md)`(double x, double y)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | A string defining the initial point in the format "x y". |
 | x | The x coordinate for the point. |
 | y | The y coordinate for the point. |
@@ -21,7 +21,3 @@ XPoint Constructor.
 ## Notes
 
 These methods construct an XPoint object.
-
-## Example
-
-None

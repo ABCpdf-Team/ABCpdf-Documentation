@@ -1,2 +1,0 @@
-# StreamObject Class
-

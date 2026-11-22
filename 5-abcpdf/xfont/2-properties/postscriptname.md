@@ -1,5 +1,9 @@
 # PostScriptName Property
 
+| Type | Default | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | n/a | Yes | The name the font will be known by on a PostScript printer. |
+
 ## Notes
 
 The name the font will be known by on a PostScript printer.

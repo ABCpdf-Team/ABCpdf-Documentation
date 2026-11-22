@@ -4,16 +4,14 @@ Skew horizontally and vertically about a locked anchor point.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Skew(double skewX, double skewY, double anchorX, double anchorY)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | skewX | The amount of horizontal skewing to apply. |
 | skewY | The amount of vertical skewing to apply. |
 | anchorX | The horizontal coordinate about which the stretch should be applied. |
@@ -29,8 +27,6 @@ A skew or shear is a mathematical operation which shifts points by an amount pro
 
 Here we draw two rectangles into our document. The black rectangle is drawn before the skew operation and the red one is drawn after it.
 
-[C#]
-
 ```csharp
 using var doc = new Doc();
 doc.Rect.Width = 200;
@@ -44,6 +40,5 @@ doc.FrameRect();
 doc.Save("transformskew.pdf");
 ```
 
-![](../../../images/pdf/transformskew.pdf.png)
+![transformskew.pdf](../../../images/pdf/transformskew.pdf.png)  
 transformskew.pdf
-

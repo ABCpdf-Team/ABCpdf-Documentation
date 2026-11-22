@@ -4,18 +4,19 @@ Inserts the certificate objects to this collection for those whose values are no
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-int InsertRange(int index, X509Certificate2[] certs)int InsertRange(int index, <a href="../default.htm">Signature.CertificateCollection</a> certs, int startIndex, int count)
-```
+`int InsertRange(int index, X509Certificate2[] certs)`  
+`int InsertRange(int index, `[`Signature.CertificateCollection`](../index.md)` certs, int startIndex, int count)`
+
+⚠ `may throw Exception()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | index | The index into this collection for insertion. |
-| certs | An array of System.Security.Cryptography.X509Certificates.X509Certificate2 objects; or a Signature.CertificateCollection object. |
+| certs | An array of System.Security.Cryptography X509Certificates.X509Certificate2 objects; or a Signature.CertificateCollection object. |
 | startIndex | The index of the first certificate object in certs to add. |
 | count | The number of certificate objects in certs to add. |
 | return | The number of certificate objects added. |
@@ -23,7 +24,3 @@ int InsertRange(int index, X509Certificate2[] certs)int InsertRange(int index, <
 ## Notes
 
 These methods insert the certificate objects to this collection for those whose values are not already present. Signature.CertificateCollection does not store duplicate certificates, so only one certificate object among each set of duplicates is added.
-
-## Example
-
-None

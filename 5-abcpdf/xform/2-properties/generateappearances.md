@@ -1,5 +1,9 @@
 # GenerateAppearances Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | true | No | Whether field appearances should be pre-generated. |
+
 ## Notes
 
 This property determines if field appearances are pre-generated or not.
@@ -9,8 +13,3 @@ Many PDF viewing applications are unable to generate field appearances dynamical
 A new appearance will only be generated when it is required. Typically this is when the value of a field changes.
 
 It is unlikely you will want to change the value of this property.
-
-## Example
-
-None.
-

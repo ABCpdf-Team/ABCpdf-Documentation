@@ -1,2 +1,0 @@
-# AnnotationAdditionalActionsElement Class
-

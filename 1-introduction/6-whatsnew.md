@@ -28,7 +28,7 @@ You don't have to think about it or remember to call anything - you just get sma
 
 ## Compress
 
-You can now control how much compression is applied when using the StreamObject.CompressFlate, Page.Flatten and Doc.Flatten. This gives you the flexibility to prioritize either processing speed or file size reduction depending on your needs.
+You can now control how much compression is applied when using the [StreamObject.CompressFlate](../6-abcpdf.objects/streamobject/1-methods/compressflate.md), [Page.Flatten](../6-abcpdf.objects/page/1-methods/flatten.md) and [Doc.Flatten](../5-abcpdf/doc/1-methods/flatten.md). This gives you the flexibility to prioritize either processing speed or file size reduction depending on your needs.
 
 These functions now accept a compression level parameter from 0 to 100. Using a lower value speeds up compression for time-sensitive operations, while a higher value produces smaller PDF streams when file size matters most.
 
@@ -148,3 +148,8 @@ If your code expects a PDFException for specific error conditions, you can set P
 
 And as usual there's a whole host of useful new functions and properties like:
 
+- A Signature.IncludeDetailedBuildInfo property to allow control over information which may be regarded as sensitive.
+- A Signature.VRIPolicy property for greater control over VRI creation when certificate chains are incomplete or invalid.
+- A Doc.Rendering.BigImage property for support of BigTIFF.
+- Better handling of API based license insertion.
+- An XFont.Load function for dynamically loading fonts into the global store.

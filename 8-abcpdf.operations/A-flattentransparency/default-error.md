@@ -1,2 +1,0 @@
-# FlattenTransparencyOperation Class
-

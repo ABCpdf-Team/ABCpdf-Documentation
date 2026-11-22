@@ -1,5 +1,9 @@
 # EntryName Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | This property represents the name of the separation color space. |
+
 ## Notes
 
 This property represents the name of the separation color space.
@@ -14,7 +18,7 @@ As such the value "All" will typically output rich black and the latter will out
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 157.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 157.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=165)
 
 The name identifies the target colorant. On devices that produce the named colorant directly, the tint value is passed to that channel. The special name All addresses every available colorant at once; None addresses no colorant.
 

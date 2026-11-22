@@ -1,5 +1,9 @@
 # SaveAppend Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | false | No | Whether to append to (rather than overwrite) existing image files. |
+
 ## Notes
 
 This property determines whether the Save method appends to (rather than overwrites) existing image files.
@@ -12,7 +16,6 @@ This property is used for TIFF output only.
 
 ## Example
 
-See the SaveCompression property.
+See the [SaveCompression](savecompression.md) property.
 
-Also see example code in: XRendering SaveCompression Property.
-
+Also see example code in: [XRendering SaveCompression Property](savecompression.md).

@@ -1,5 +1,9 @@
 # EntryType Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "Type" entry of the pattern dictionary object. |
+
 ## Notes
 
 Represents the "Type" entry of the pattern dictionary object.
@@ -12,4 +16,4 @@ If provided, this item must always take the value "Pattern".
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 173.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; page 173.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=181)

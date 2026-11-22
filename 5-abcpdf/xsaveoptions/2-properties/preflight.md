@@ -1,10 +1,14 @@
 # Preflight Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | true | No | Whether to preflight objects in the document. |
+
 ## Notes
 
 Whether to preflight objects during Save.
 
-In addition this also applies to the Append and AddImageDoc operations as these involve similar concepts.
+In addition this also applies to the [Append](../../doc/1-methods/append.md) and [AddImageDoc](../../doc/1-methods/addimagedoc.md) operations as these involve similar concepts.
 
 Dynamically generated PDFs can contain partially constructed objects. At the point that two documents are combined the partially constructed objects need to be finished in order to ensure that the new combination is going to be valid.
 
@@ -15,8 +19,3 @@ In general if your source documents are read from existing PDF templates then th
 If this property is set to true, then ABCpdf will preflight all objects in the destination document. This process requires significant amounts of time if the destination document contains many indirect objects.
 
 If the property is set to false then ABCpdf will only preflight objects it knows to need preflighting.
-
-## Example
-
-None.
-

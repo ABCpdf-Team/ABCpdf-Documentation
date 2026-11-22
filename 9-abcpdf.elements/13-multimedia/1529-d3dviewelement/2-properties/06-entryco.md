@@ -1,5 +1,9 @@
 # EntryCO Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `double?` | null | No | Represents the "CO" entry of the 3d view dictionary object. |
+
 ## Notes
 
 Represents the "CO" entry of the 3d view dictionary object.
@@ -12,12 +16,12 @@ It should have a minimum value of 0.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 304, page 522.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 304, page 522.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=530)
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.39, page 57.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.39, page 57.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=57)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 344, page 707.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 344, page 707.](https://www.iso.org/standard/63534.html)
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51f, page 93.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.51f, page 93.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=93)
 
 The CO entry gives the camera orbit distance as a real number in model space units. This value is used as the default orbit radius when the user rotates the view in orbit navigation mode.

@@ -1,2 +1,0 @@
-# NamedActionElement Class
-

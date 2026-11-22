@@ -1,2 +1,0 @@
-# GraphicsStateParameterElement Class
-

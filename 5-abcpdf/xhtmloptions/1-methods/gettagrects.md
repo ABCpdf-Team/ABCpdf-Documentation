@@ -4,34 +4,30 @@ Gets an array of the locations of tagged visible items.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../../xrect/default.htm">XRect</a>[] GetTagRects(int id)
-```
+[`XRect`](../../xrect/index.md)`[] GetTagRects(int id)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | id | The Object ID of the object. |
 | return | The location of tagged visible HTML objects. |
 
 ## Notes
 
-Use this method to retrieve the locations of tagged visible items. The locations are to be used with [Doc.Transform](doc/2-properties/transform.md) being identity.
+Use this method to retrieve the locations of tagged visible items. The locations are to be used with [Doc.Transform](../../doc/2-properties/transform.md) being identity.
 
-To use this method you need to enable the tagging functionality. See the [AddTags](2-properties/addtags.md) property for details.
+To use this method you need to enable the tagging functionality. See the [AddTags](../2-properties/addtags.md) property for details.
 
-This function takes an ID obtained from a call to [Doc.AddImageUrl, ](doc/1-methods/addimageurl.md)[Doc.AddImageHtml](doc/1-methods/addimagehtml.md) or [Doc.AddImageToChain](doc/1-methods/addimagetochain.md) and returns the locations of any items which are visible on the PDF page as a result of that call.
+This function takes an ID obtained from a call to [Doc.AddImageUrl,](../../doc/1-methods/addimageurl.md) [Doc.AddImageHtml](../../doc/1-methods/addimagehtml.md) or [Doc.AddImageToChain](../../doc/1-methods/addimagetochain.md) and returns the locations of any items which are visible on the PDF page as a result of that call.
 
 The locations match up directly on a one-to-one basis with the IDs returned by the [GetTagIDs](gettagids.md) function.
 
 ## Example
 
 The following example shows the effect that this parameter has on HTML rendering.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -74,6 +70,5 @@ doc.AddText($"Tag ID \"{tagIds[0]}\":");
 doc.Save("HtmlOptionsGetTagRects.pdf");
 ```
 
-![](../../../images/pdf/HtmlOptionsGetTagRects.pdf.png)
+![HtmlOptionsGetTagRects.pdf](../../../images/pdf/HtmlOptionsGetTagRects.pdf.png)  
 HtmlOptionsGetTagRects.pdf
-

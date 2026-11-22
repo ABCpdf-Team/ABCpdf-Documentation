@@ -4,16 +4,18 @@ Changes the number of bits per color component.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 void Resample(int value)
 ```
 
+*C#*
+
+⚠ `may throw Exception()`
+
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | The number of bits per color component. |
 
 ## Notes
@@ -26,8 +28,4 @@ Changing this property for Indexed color images changes the precision of the ind
 
 Operations like [Resize](resize.md) operate more naturally on eight and sixteen bit images - producing better results, faster, using less memory. So if you will be resizing and also moving to eight or sixteen bit depth it is typically better to Resample before calling Resize.
 
-After this method is called the image may no longer be longer compressed. You may wish to compress it using the [StreamObject.Compress](streamobject/1-methods/compress.md) method.
-
-## Example
-
-None
+After this method is called the image may no longer be longer compressed. You may wish to compress it using the [StreamObject.Compress](../../streamobject/1-methods/compress.md) method.

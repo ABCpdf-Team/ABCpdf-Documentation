@@ -1,2 +1,0 @@
-# PolylineAnnotation Class
-

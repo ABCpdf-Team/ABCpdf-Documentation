@@ -1,2 +1,0 @@
-# RenditionActionElement Class
-

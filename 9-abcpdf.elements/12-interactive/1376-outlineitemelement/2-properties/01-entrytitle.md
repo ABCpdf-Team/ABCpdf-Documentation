@@ -1,5 +1,9 @@
 # EntryTitle Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | Represents the "Title" entry of the outline item dictionary object. |
+
 ## Notes
 
 Represents the "Title" entry of the outline item dictionary object.
@@ -10,8 +14,8 @@ It contains a string representing a PDF string object.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 153, page 368.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 153, page 368.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=376)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 151, page 442.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 151, page 442.](https://www.iso.org/standard/63534.html)
 
 The title is displayed verbatim in the viewer's outline panel. It is a PDF text string allowing Unicode characters so titles can be written in any language.

@@ -1,2 +1,0 @@
-# ObjectStreamElement Class
-

@@ -1,2 +1,0 @@
-# EmbeddedFontStreamElement Class
-

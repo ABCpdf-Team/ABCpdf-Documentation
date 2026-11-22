@@ -1,2 +1,0 @@
-# TextAnnotation Class
-

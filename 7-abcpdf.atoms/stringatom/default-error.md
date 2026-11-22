@@ -1,2 +1,0 @@
-# StringAtom Class
-

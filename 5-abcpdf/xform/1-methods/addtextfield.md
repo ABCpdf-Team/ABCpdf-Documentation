@@ -4,16 +4,14 @@ Add text field.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 Field AddTextField(XRect rect, string name, string text)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | rect | Rectangle of the form field |
 | name | Name of the form field |
 | text | Initial value |
@@ -22,3 +20,9 @@ Field AddTextField(XRect rect, string name, string text)
 ## Notes
 
 Add text field.
+
+## Example
+
+See the Annotations example project.
+
+None.

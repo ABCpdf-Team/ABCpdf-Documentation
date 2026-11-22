@@ -4,16 +4,17 @@ Remaps pages for reordering, copying and deletion.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-void RemapPages(string pages)void RemapPages(int[] pages)void RemapPages(int[] pages, int index, int count)void RemapPages(int[] pages, int index, int count, bool aggressive)
+void RemapPages(string pages)
+void RemapPages(int[] pages)
+void RemapPages(int[] pages, int index, int count)
+void RemapPages(int[] pages, int index, int count, bool aggressive)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | pages | The list of page numbers. |
 | index | The index of the first page number into the array pages. |
 | count | The number of page numbers in the array pages to use. |
@@ -27,13 +28,11 @@ It accepts a list of page numbers and reorders the pages in the document so that
 
 Page numbers can be delimited using spaces, commas or semicolons. The first page in a document is page one. So to reverse a four page document, you might use "4 3 2 1".
 
-If a page is duplicated and it contains [Form](xform/default.md) fields, you may want to call [MakeFieldsUnique](xform/1-methods/makefieldsunique.md) to avoid sharing fields across pages.
+If a page is duplicated and it contains [Form](../../xform/index.md) fields, you may want to call [MakeFieldsUnique](../../xform/1-methods/makefieldsunique.md) to avoid sharing fields across pages.
 
 ## Example
 
 The following code snippet illustrates how one might reverse all the pages in a document.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -53,7 +52,9 @@ doc.RemapPages(pages.ToArray());
 doc.Save("docremappages.pdf");
 ```
 
-![](../../../images/pdf/docremappages.pdf.png)
-docremappages.pdf [Page 1]
+|  |  |
+| --- | --- |
+| ![docremappages.pdf \[Page 1\]](../../../images/pdf/docremappages.pdf.png)<br>docremappages.pdf \[Page 1\] | ![docremappages.pdf \[Page 2\]](../../../images/pdf/docremappages.pdf2.png)<br>docremappages.pdf \[Page 2\] |
+| ![docremappages.pdf \[Page 3\]](../../../images/pdf/docremappages.pdf3.png)<br>docremappages.pdf \[Page 3\] | ![docremappages.pdf \[Page 4\]](../../../images/pdf/docremappages.pdf4.png)<br>docremappages.pdf \[Page 4\] |
 
-Also see example code in: [OpAtom Find Function](7-abcpdf.atoms/opatom/1-methods/find.md).
+Also see example code in: [OpAtom Find Function](../../../7-abcpdf.atoms/opatom/1-methods/find.md).

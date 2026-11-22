@@ -4,16 +4,14 @@ Adds a visible grid to the current page.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 int AddGrid()
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | The Object ID of the newly added Grid Object. |
 
 ## Notes
@@ -24,8 +22,6 @@ Adds a visible grid to the current page. The grid shows locations on the page an
 
 The following code modifies the page transform and then adds a grid to show how the transform has affected the page.
 
-[C#]
-
 ```csharp
 using var doc = new Doc();
 doc.Page = doc.AddPage();
@@ -34,6 +30,5 @@ doc.AddGrid();
 doc.Save("docaddgrid.pdf");
 ```
 
-![](../../../images/pdf/docaddgrid.pdf.png)
+![docaddgrid.pdf](../../../images/pdf/docaddgrid.pdf.png)  
 docaddgrid.pdf
-

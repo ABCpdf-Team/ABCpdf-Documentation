@@ -1,2 +1,0 @@
-# HideActionElement Class
-

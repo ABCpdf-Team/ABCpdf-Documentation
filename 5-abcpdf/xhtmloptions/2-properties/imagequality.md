@@ -1,8 +1,8 @@
 # ImageQuality Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default Value | Read Only | Description |
 | --- | --- | --- | --- |
-|  | 101 | No | The quality of compression acceptable for continuous tone images such as JPEGs. |
+| `int` | 101 | No | The quality of compression acceptable for continuous tone images such as JPEGs. |
 
 ## Notes
 
@@ -24,8 +24,6 @@ Qualities should range between 0 and 100 (75 is a reasonable value). Values high
 
 The following example shows the effect that this parameter has on PDF rendering.
 
-[C#]
-
 ```csharp
 using var doc = new Doc();
 string uri = "http://www.nasa.gov/multimedia/imagegallery/image_feature_313.html";
@@ -42,6 +40,8 @@ doc.AddImageUrl(uri);
 doc.Save("HtmlOptionsImageQuality101.pdf");
 ```
 
-![](../../../images/pdf/HtmlOptionsImageQuality5.pdf.png)
-HtmlOptionsImageQuality5.pdf [file size 42 KB]
+![HtmlOptionsImageQuality5.pdf \[file size 42 KB\]](../../../images/pdf/HtmlOptionsImageQuality5.pdf.png)  
+HtmlOptionsImageQuality5.pdf \[file size 42 KB\]
 
+![HtmlOptionsImageQuality101.pdf \[file size 444 KB\]](../../../images/pdf/HtmlOptionsImageQuality101.pdf.png)  
+HtmlOptionsImageQuality101.pdf \[file size 444 KB\]

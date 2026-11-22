@@ -4,16 +4,14 @@ Add group field.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-Field AddGroupField(List&lt;IndirectObject&gt; kids, string name, string value)
+Field AddGroupField(List<IndirectObject> kids, string name, string value)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | kids | The kids to go in the form field |
 | name | Name of the form field |
 | value | Initial value for kids |
@@ -22,3 +20,9 @@ Field AddGroupField(List&lt;IndirectObject&gt; kids, string name, string value)
 ## Notes
 
 Add group field.
+
+## Example
+
+See the Annotations example project.
+
+None.

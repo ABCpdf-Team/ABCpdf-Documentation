@@ -1,8 +1,12 @@
 # InfoAuthor Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `string` | null | No | The Author entry within the [Metadata](../index.md) |
+
 ## Notes
 
-The Author entry within the Metadata.
+The Author entry within the [Metadata](../index.md).
 
 This corresponds to the dc:creator entry.
 
@@ -10,5 +14,4 @@ The PDF 2.0 Specification states that this corresponds to the dc:author entry, b
 
 ## Example
 
-Also see example code in: Catalog Metadata Property.
-
+Also see example code in: [Catalog Metadata Property](../../catalog/2-properties/metadata.md).

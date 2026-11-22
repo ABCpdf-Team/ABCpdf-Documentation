@@ -1,2 +1,0 @@
-# EmbeddedGoToActionElement Class
-

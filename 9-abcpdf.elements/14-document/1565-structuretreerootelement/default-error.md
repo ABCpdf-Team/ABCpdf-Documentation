@@ -1,2 +1,0 @@
-# StructureTreeRootElement Class
-

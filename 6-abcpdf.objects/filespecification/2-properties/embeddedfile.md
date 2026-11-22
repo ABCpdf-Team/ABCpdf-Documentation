@@ -1,5 +1,9 @@
 # EmbeddedFile Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| [`EmbeddedFile`](../../embeddedfile/index.md) | null | No | The embedded file if one has been embedded in the PDF |
+
 ## Notes
 
 The embedded file if one has been embedded in the PDF.
@@ -12,5 +16,4 @@ This property requires reference to other objects in the ObjectSoup. If this obj
 
 ## Example
 
-Also see example code in: FileSpecification FileSpecification Function.
-
+Also see example code in: [FileSpecification FileSpecification Function](../1-methods/filespecification.md).

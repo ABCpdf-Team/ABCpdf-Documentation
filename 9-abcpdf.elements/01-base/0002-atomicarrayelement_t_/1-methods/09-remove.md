@@ -4,16 +4,14 @@ Removes the first matching value from the array.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 bool Remove(T value)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | value | The value to remove. |
 | return | True if the value is removed, otherwise false. |
 

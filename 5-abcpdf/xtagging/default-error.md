@@ -1,2 +1,0 @@
-# XTagging Class
-

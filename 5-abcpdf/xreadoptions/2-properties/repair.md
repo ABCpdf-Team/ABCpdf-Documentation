@@ -1,8 +1,8 @@
 # Repair
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default Value | Read Only | Description |
 | --- | --- | --- | --- |
-|  | false | No | Whether to apply extra processing to enable certain types of corrupt document to be read. |
+| `bool` | false | No | Whether to apply extra processing to enable certain types of corrupt document to be read. |
 
 ## Notes
 
@@ -14,8 +14,13 @@ Rebuilding a document is not ideal. Not only is it time consuming, but there may
 
 Many clients who need to process large quantities of PDF documents, from sources of varying quality, end up writing code of the following form.
 
-[C#] try { theDoc.Read(theFile); } catch { XReadOptions xr = new XReadOptions(); xr.Repair = true; theDoc.Read(theFile, xr); }
-
-## Example
-
-None
+```csharp
+try {
+  theDoc.Read(theFile);
+}
+catch {
+  XReadOptions xr = new XReadOptions();
+  xr.Repair = true;
+  theDoc.Read(theFile, xr);
+}
+```

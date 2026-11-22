@@ -1,5 +1,9 @@
 # EntryPlayCount Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "PlayCount" entry of the richmediaanimation dictionary object. |
+
 ## Notes
 
 Represents the "PlayCount" entry of the richmediaanimation dictionary object.
@@ -12,8 +16,8 @@ The PDF specification states that this item assumes a value of -1 if no value ha
 
 For definitive details see:.
 
-Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50c, page 81.
+[Adobe Supplement to the ISO 32000, BaseVersion: 1.7, ExtensionLevel: 3; Table: 9.50c, page 81.](http://www.adobe.com/content/dam/Adobe/en/devnet/acrobat/pdfs/adobe_supplement_iso32000.pdf#page=81)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 337, page 700.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 337, page 700.](https://www.iso.org/standard/63534.html)
 
 The play count controls how many times the animation repeats. Zero means the animation loops indefinitely.

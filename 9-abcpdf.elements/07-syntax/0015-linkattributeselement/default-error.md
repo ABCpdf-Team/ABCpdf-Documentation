@@ -1,2 +1,0 @@
-# LinkAttributesElement Class
-

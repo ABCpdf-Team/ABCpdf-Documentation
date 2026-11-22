@@ -4,16 +4,14 @@ Retrieves the HTTP status code.
 
 ## Syntax
 
-[C#]
-
 ```csharp
 int GetHttpStatusCode(int id)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | id | The Object ID of the web page to be accessed. |
 | return | The HTTP status code or zero if not available. |
 
@@ -21,10 +19,6 @@ int GetHttpStatusCode(int id)
 
 Use this method to retrieve the HTTP status code if the URL uses the HTTP protocol.
 
-The ID should be obtained from a call to [Doc.AddImageUrl](doc/1-methods/addimageurl.md).
+The ID should be obtained from a call to [Doc.AddImageUrl](../../doc/1-methods/addimageurl.md).
 
-If the [PageLoadMethod](2-properties/pageloadmethod.md) property is WebBrowserNavigate, only error status codes are available. Non-error status codes, such as 200, are not available.
-
-## Example
-
-None
+If the [PageLoadMethod](../2-properties/pageloadmethod.md) property is WebBrowserNavigate, only error status codes are available. Non-error status codes, such as 200, are not available.

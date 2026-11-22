@@ -1,10 +1,14 @@
 # Refactor Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | true | No | Whether duplicate objects should be detected and factored out. |
+
 ## Notes
 
 Whether to eliminate redundant objects during Save.
 
-In addition this also applies to the Append and AddImageDoc operations as these involve similar concepts.
+In addition this also applies to the [Append](../../doc/1-methods/append.md) and [AddImageDoc](../../doc/1-methods/addimagedoc.md) operations as these involve similar concepts.
 
 Sometimes PDFs can contain duplicate objects. Eliminating these duplicates can reduce the size of certain PDF documents.
 
@@ -14,9 +18,7 @@ Only objects that have been loaded into memory will be considered for refactorin
 
 If you have PDFs, loading from file, which you wish to refactor, then you will need to load all the objects into memory. To do so it is sufficient to touch each of the objects using code such as the following.
 
-[C#] for(int i = 1, n = doc.ObjectSoup.Count; i < n; i++) doc.SetInfo(i, "Touched", true);
-
-## Example
-
-None.
-
+```csharp
+for(int i = 1, n = doc.ObjectSoup.Count; i < n; i++)
+  doc.SetInfo(i, "Touched", true);
+```

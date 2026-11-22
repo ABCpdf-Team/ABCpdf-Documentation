@@ -1,5 +1,9 @@
 # Linearize Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `bool` | true | No | Whether to linearize the output for fast web viewing. |
+
 ## Notes
 
 This property determines if output should be linearized for fast viewing over the web.
@@ -14,5 +18,4 @@ There is a performance and memory overhead associated with linearization. Howeve
 
 ## Example
 
-Also see example code in: FileSpecification FileSpecification Function.
-
+Also see example code in: [FileSpecification FileSpecification Function](../../../6-abcpdf.objects/filespecification/1-methods/filespecification.md).

@@ -4,16 +4,15 @@ Closes a sequence of tags.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">Tag</a> Close(<a href="../default.htm">Tag</a> tag)<a href="../default.htm">Tag</a> Close(params string[] types)
-```
+[`Tag`](../index.md)` Close(`[`Tag`](../index.md)` tag)`  
+[`Tag`](../index.md)` Close(params string[] types)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | tag | The tag to be closed. |
 | types | The types of tags to be closed in sequence |
 | return | The last tag closed. |
@@ -27,8 +26,6 @@ Ensure the Doc.Page is set correctly when you close a tag. If you move to a new 
 ## Example
 
 This example shows how to add tagged content to a document which is already tagged.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -47,11 +44,7 @@ doc.Tag.Close("Span", "P");
 doc.Save("addtagstotaggeddoc.pdf");
 ```
 
-![](../../../images/pdf/addtagstotaggeddoc.pdf.png)
+![addtagstotaggeddoc.pdf](../../../images/pdf/addtagstotaggeddoc.pdf.png)  
 addtagstotaggeddoc.pdf
 
-Also see example code in:
-
-* [ABCpdf Tagged Text Example](4-examples/02-texttagged.md)
-* [XTagging Open Function](04-open.md)
-* [XTextStyle AutoTag Property](xtextstyle/2-properties/autotag.md).
+Also see example code in: [ABCpdf Tagged Text Example](../../../4-examples/02-texttagged.md), [XTagging Open Function](04-open.md), [XTextStyle AutoTag Property](../../xtextstyle/2-properties/autotag.md).

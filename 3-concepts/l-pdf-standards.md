@@ -57,4 +57,3 @@ This standard is formalized in ISO 15930 "Prepress digital data exchange using P
 It mandates that certain useful print specific features be present. For example it requires that RGB color spaces be calibrated and that an output intent is provided.
 
 It prohibits certain features which do not transition well to print - for example movies and sounds.
-

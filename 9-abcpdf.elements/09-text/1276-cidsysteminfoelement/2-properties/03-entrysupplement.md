@@ -1,5 +1,9 @@
 # EntrySupplement Property
 
+| Type | Default Value | Read Only | Description |
+| --- | --- | --- | --- |
+| `int?` | null | No | Represents the "Supplement" entry of the cidsysteminfo dictionary object. |
+
 ## Notes
 
 Represents the "Supplement" entry of the cidsysteminfo dictionary object.
@@ -10,9 +14,9 @@ It contains an integer representing a PDF numeric object.
 
 For definitive details see:.
 
-The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 116, page 269.
+[The ISO PDF Specification, ISO 32000-1:2008 PDF 1.7; Table: 116, page 269.](https://opensource.adobe.com/dc-acrobat-sdk-docs/standards/pdfstandards/pdf/PDF32000_2008.pdf#page=277)
 
-The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 114, page 326.
+[The ISO PDF Specification, ISO 32000-2:2017 PDF 2.0; Table: 114, page 326.](https://www.iso.org/standard/63534.html)
 
 Higher supplement numbers represent extended versions of the same collection that add more CIDs. A CIDFont with a given supplement supports all CIDs defined in that supplement and all lower supplements.
 

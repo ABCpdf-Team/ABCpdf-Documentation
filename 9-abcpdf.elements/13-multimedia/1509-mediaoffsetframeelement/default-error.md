@@ -1,2 +1,0 @@
-# MediaOffsetFrameElement Class
-

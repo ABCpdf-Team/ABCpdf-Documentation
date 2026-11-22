@@ -4,16 +4,16 @@ Gets the current Structure for the document.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../../../8-abcpdf.operations/N-accessibility.structure/default.htm">Structure</a> GetStructure()
-```
+ [`Structure`](../../../8-abcpdf.operations/n-accessibility.structure/index.md)` GetStructure()`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | return | The structure. |
 
 ## Notes
+
+Gets the current Structure for the document.

@@ -1,2 +1,0 @@
-# CatalogUriElement Class
-

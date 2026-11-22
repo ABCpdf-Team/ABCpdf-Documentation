@@ -1,2 +1,0 @@
-# MeasureTextOperation Class
-

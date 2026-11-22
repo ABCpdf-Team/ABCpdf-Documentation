@@ -4,21 +4,18 @@ Path access rule constructor.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-<a href="../default.htm">PathRule</a>()<a href="../default.htm">PathRule</a>(string pattern, AccessType access)
-```
+[`PathRule`](../index.md)`()`  
+[`PathRule`](../index.md)`(string pattern, AccessType access)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| pattern | A pattern specifying a path that should be the target of control. See the Pattern property. |
-| access | The type of control to exercise over the resource. See the Access property. |
+| Name | Description |
+| :---: | --- |
+| pattern | A pattern specifying a path that should be the target of control. See the [Pattern](../2-properties/01-pattern.md) property. |
+| access | The type of control to exercise over the resource. See the [Access](../2-properties/02-access.md) property. |
 
 ## Notes
 
-## Example
-
-None
+Path access rule constructor.

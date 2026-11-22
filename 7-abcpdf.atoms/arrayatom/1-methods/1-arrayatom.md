@@ -1,16 +1,19 @@
 # ArrayAtom Constructor
 
+ArrayAtom Constructor.
+
 ## Syntax
 
-[C#] ArrayAtom()
+*C#*
+
+[`ArrayAtom`](../index.md)`()`
 
 ## Params
+
+| Name | Description |
+| :---: | --- |
+| none |  |
 
 ## Notes
 
 Create an empty ArrayAtom.
-
-## Example
-
-None.
-

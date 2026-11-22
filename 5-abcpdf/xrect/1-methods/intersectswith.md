@@ -1,19 +1,17 @@
-# IntersectsWith  Function
+# IntersectsWith Function
 
 Determine if this rectangle intersects with another.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-bool IntersectsWith(<a href="../default.htm">XRect</a> rect)
-```
+`bool IntersectsWith(`[`XRect`](../index.md)` rect)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | rect | Another rectangle. |
 | return | Whether the two rectangles intersect. |
 
@@ -22,7 +20,3 @@ bool IntersectsWith(<a href="../default.htm">XRect</a> rect)
 Determine if this rectangle intersects with another.
 
 If a null rectangle is passed this function will return false.
-
-## Example
-
-None

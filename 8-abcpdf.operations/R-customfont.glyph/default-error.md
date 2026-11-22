@@ -1,2 +1,0 @@
-# Glyph Class
-

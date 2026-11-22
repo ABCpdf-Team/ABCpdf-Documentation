@@ -1,2 +1,0 @@
-# ICCBasedColorSpaceElement Class
-

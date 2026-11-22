@@ -4,23 +4,22 @@ Add a Form or Image XObject to the current page.
 
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-int AddXObject(<a href="../../../6-abcpdf.objects/pixmap/default.htm">Objects.PixMap</a> pixmap)int AddXObject(<a href="../../../6-abcpdf.objects/formxobject/default.htm">Objects.FormXObject</a> form)
-```
+`int AddXObject(`[`Objects.PixMap`](../../../6-abcpdf.objects/pixmap/index.md)` pixmap)`  
+`int AddXObject(`[`Objects.FormXObject`](../../../6-abcpdf.objects/formxobject/index.md)` form)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | pixmap | The image to be added to the page. |
 | form | The Form XObject to be added to the page. |
 | return | The Object ID of the newly added Image Object. |
 
 ## Notes
 
-Add a Form or Image XObject into the current [rectangle](2-properties/rect.md) on the current page.
+Add a Form or Image XObject into the current [rectangle](../2-properties/rect.md) on the current page.
 
 Form and Image XObjects represent a drawing sequence external to the main content stream of the page. Image XObjects represent a raster bitmap in one of a variety of color spaces. Form XObjects represent a separate content stream with a separate sequence of drawing commands.
 
@@ -29,8 +28,6 @@ For example a Form XObject might be used to represent a "Draft" stamp which migh
 ## Example
 
 This example shows how to load an image into a PixMap and then draw it on the current page using the AddXObject method.
-
-[C#]
 
 ```csharp
 using var doc = new Doc();
@@ -45,6 +42,5 @@ doc.AddXObject(pm);
 doc.Save("examplePixMapBitmap.pdf");
 ```
 
-![](../../../images/pdf/examplePixMapBitmap.pdf.png)
+![examplePixMapBitmap.pdf](../../../images/pdf/examplePixMapBitmap.pdf.png)  
 examplePixMapBitmap.pdf
-

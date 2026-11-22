@@ -1,2 +1,0 @@
-# LaunchActionElement Class
-

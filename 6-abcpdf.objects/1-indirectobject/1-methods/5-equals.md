@@ -4,16 +4,16 @@ Test whether the two IndirectObjects are the same.
 
 ## Syntax
 
-[C#]
-
 ```csharp
-bool Equals(IndirectObject other)override bool Equals(object obj)bool Equals(IndirectObject other, ComparisonType type)
+bool Equals(IndirectObject other)
+override bool Equals(object obj)
+bool Equals(IndirectObject other, ComparisonType type)
 ```
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | other | The object to test against. |
 | obj | The object to test against. |
 | type | The type of comparison to perform. |
@@ -31,14 +31,10 @@ The ComparisonType type is a flags enumeration so different values can be combin
 
 The ComparisonType enumeration may take the following values:
 
-* None - Compare nothing.
-* Object - Compare the underlying PDF object.
-* ID - Compare the ID of the IndirectObject.
-* Atom - Compare the value of the Atom.
-* Data - Compare the data associated with the stream, if this is a stream.
+- None - Compare nothing.
+- Object - Compare the underlying PDF object.
+- ID - Compare the [ID](../2-properties/1-id.md) of the IndirectObject.
+- Atom - Compare the value of the [Atom](../2-properties/3-atom.md).
+- Data - Compare the data associated with the stream, if this is a stream.
 
 Only if all the comparisons are true are the objects said to be equal.
-
-## Example
-
-None

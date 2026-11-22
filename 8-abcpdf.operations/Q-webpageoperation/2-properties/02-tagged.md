@@ -1,3 +1,0 @@
-# Tagged Property
-
-## Notes

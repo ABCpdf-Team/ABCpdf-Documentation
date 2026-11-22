@@ -1,2 +1,0 @@
-# EmbeddedFile Class
-

@@ -1,26 +1,28 @@
 # Start Function
 
+Called at the point each [Element](../../1086-element/index.md) starts validation.
+
 ## Syntax
 
-[C#]
+*C#*
 
-```csharp
-virtual bool Start(<a href="../../1086-element/default.htm">Element</a> element)virtual void Start(string entry)virtual void Start(int index)
-```
+`virtual bool Start(`[`Element`](../../1086-element/index.md)` element)`  
+`virtual void Start(string entry)`  
+`virtual void Start(int index)`
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
+| Name | Description |
+| :---: | --- |
 | element | The element. |
 | entry | The new key or entry. |
 | index | The new index. |
 
 ## Notes
 
-Called at the point each [Element](1086-element/default.md) starts validation.
+Called at the point each [Element](../../1086-element/index.md) starts validation.
 
-If the [Element](1086-element/default.md) has already been seen then this function should return false to indicate that it has already been validated.
+If the [Element](../../1086-element/index.md) has already been seen then this function should return false to indicate that it has already been validated.
 
 If not then the function should return true to indicate that validation should go ahead.
 

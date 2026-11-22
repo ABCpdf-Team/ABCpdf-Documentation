@@ -1,2 +1,0 @@
-# SeparationElement Class
-

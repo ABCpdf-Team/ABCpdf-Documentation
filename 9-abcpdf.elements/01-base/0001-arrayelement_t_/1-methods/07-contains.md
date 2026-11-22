@@ -1,8 +1,8 @@
 # Contains Function
 
-## Syntax
+Determines whether the array contains a specific [Element](../../1086-element/index.md).
 
-[C#]
+## Syntax
 
 ```csharp
 bool Contains(T value)
@@ -10,11 +10,11 @@ bool Contains(T value)
 
 ## Params
 
-| **Name** | **Description** |
-| --- | --- |
-| value | The Element to locate. |
+| Name | Description |
+| :---: | --- |
+| value | The [Element](../../1086-element/index.md) to locate. |
 | return | True if the object is found, otherwise false. |
 
 ## Notes
 
-Determines whether the array contains a specific [Element](1086-element/default.md).
+Determines whether the array contains a specific [Element](../../1086-element/index.md).

@@ -1,8 +1,8 @@
 # Warnings Property
 
-| **Type** | **Default** | **Read Only** | **Description** |
+| Type | Default | Read Only | Description |
 | --- | --- | --- | --- |
-|  | null | Yes | The validation warnings. |
+| `IList<string>` | null | Yes | The validation warnings. |
 
 ## Notes
 
@@ -16,8 +16,14 @@ Warnings are outside the PDF/A spec and so a warning does not indicate any probl
 
 For example, the following warnings might be emitted.
 
-Type-2 CIDFont descriptor 198 uses PDF 1.5 FontFamily. Layout attribute object 187 uses PDF 1.5 BackgroundColor. Layout attribute object 187 uses PDF 1.5 BorderColor. Layout attribute object 187 uses PDF 1.5 BorderStyle. Layout attribute object 187's BorderStyle is PDF 1.5 border style.
+```error
+Type-2 CIDFont descriptor 198 uses PDF 1.5 FontFamily.
+Layout attribute object 187 uses PDF 1.5 BackgroundColor.
+Layout attribute object 187 uses PDF 1.5 BorderColor.
+Layout attribute object 187 uses PDF 1.5 BorderStyle.
+Layout attribute object 187's BorderStyle is PDF 1.5 border style.
+```
 
 ## Example
 
-See the [Read](../1-methods/read.htm) method.
+See the [Read](../1-methods/read.md) method.
