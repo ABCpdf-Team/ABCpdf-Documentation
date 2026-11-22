@@ -1,0 +1,48 @@
+# Keeps this repository in step with the ABCpdf .NET help on websupergoo.com: each day, the pages that are new or
+# changed in the site's sitemap are fetched as Markdown through the site's MCP service, and committed. See
+# .github/scripts/sync-help.ps1. A full refresh (every page fetched again) is run by hand: Actions > Sync help >
+# Run workflow, with "Fetch every page again" ticked.
+name: Sync help
+
+on:
+  schedule:
+    - cron: '17 6 * * *'   # 06:17 UTC: after the site's nightly index build (21:00 Pacific)
+  workflow_dispatch:
+    inputs:
+      full:
+        description: 'Fetch every page again (about 90 minutes)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-help
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch new and changed pages
+        shell: pwsh
+        run: |
+          $arguments = @{ MessageFile = "$env:RUNNER_TEMP/message.txt" }
+          if ('${{ inputs.full }}' -eq 'true') { $arguments.Full = $true }
+          ./.github/scripts/sync-help.ps1 @arguments
+
+      # Runs even if some pages failed, so what did arrive is kept; those pages are tried again next time.
+      - name: Commit
+        if: always()
+        shell: bash
+        run: |
+          git add -A
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -f "$RUNNER_TEMP/message.txt" ]; then git commit -q -F "$RUNNER_TEMP/message.txt"; else git commit -q -m "Help sync (incomplete run)"; fi
+          git push
