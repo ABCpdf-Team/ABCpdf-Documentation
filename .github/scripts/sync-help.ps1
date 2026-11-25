@@ -3,38 +3,42 @@
 Brings the Markdown copy of the ABCpdf .NET help in this repository up to date with the help on websupergoo.com.
 
 .DESCRIPTION
-Reads the site's sitemap, keeps the help pages (those under -Prefix), and fetches as Markdown, through the site's MCP
-service, each page that is new or whose date in the sitemap has changed since it was last fetched. Pages that have
-gone from the sitemap are deleted. With -Full, every page is fetched again and any stray .md file in -Out is deleted (apart from -Keep and -Readme).
+Asks the site's documentation service (the MCP service's /api/pages) for its list of pages, each with a SHA-256 of
+its Markdown, and fetches (/api/page) each help page - those under -Prefix - whose hash differs from the one recorded,
+or that is new. Pages gone from the list are deleted. The hashes come from the same index the pages do, so a page
+is fetched exactly when its Markdown has changed: an edit to the help, or a change to the conversion.
 
-What was fetched is recorded in -State (address, sitemap date, file), so the next run fetches only what has changed.
-A page the service can't give (not in its index) is recorded too, and asked for again only when its date changes.
+What was fetched is recorded in -State (id, hash, file, images). The hash recorded is of what was downloaded, so if
+the service moves to a new index during a run, a page that changed is simply fetched again next time.
 
 Links between help pages stay relative, so they work on GitHub. The images the pages show are copied from the site
 too: each run asks the site for each one only if it has changed since the date recorded in -ImageState (a 304
-answer carries no image), and deletes those no page shows any more. Links to the rest of the site become full
-https://www.websupergoo.com addresses. Pages too long for one fetch are put together from their sections.
+answer carries no image), and deletes those no page shows any more. Links to pages the service doesn't have (help
+pages the help's contents doesn't list, such as sample projects' source) and to the rest of the site go to
+https://www.websupergoo.com.
 
-Runs with PowerShell 7 (pwsh), on Windows or Linux.
+With -Full, every page is fetched again and any stray .md file or image in -Out is deleted. The repository's own
+files (-Keep: README.md and LICENSE.md, in any case) are never written or deleted.
+
+Runs with PowerShell 7 (pwsh), on Windows or Linux, from the repository's top folder.
 
 .EXAMPLE
-pwsh ./.github/scripts/sync-help.ps1          (from the repository's top folder)
+pwsh ./.github/scripts/sync-help.ps1
 pwsh ./.github/scripts/sync-help.ps1 -Full
 #>
 [CmdletBinding()]
 param(
     [string] $Site = 'https://www.websupergoo.com',
-    [string] $Sitemap = '',                 # default: $Site/sitemap.xml
-    [string] $Mcp = '',                     # default: $Site/mcp
+    [string] $Api = '',                     # the service's API; default: $Site/mcp/api
     [string] $ImageSite = '',               # where the images are fetched from; default: $Site
     [string] $Prefix = 'helppdfnet/source/', # the help's folder on the site
-    [string] $Out = '.',                    # where the Markdown goes in the repository (run from its top folder)
-    [string] $Readme = 'README.md',         # a copy of the help's start page, for GitHub to show ('' for none)
-    [string[]] $Keep = @('README.md', 'LICENSE.md'),  # files in -Out that a full refresh leaves alone
-    [string] $State = '.sync/help-pages.tsv',
+    [string] $Out = '.',                    # where the Markdown goes in the repository
+    [string] $Readme = '',                  # a copy of the help's start page, for GitHub to show (none by default)
+    [string[]] $Keep = @('README.md', 'LICENSE.md'),  # the repository's own files in -Out: never written or deleted (any case)
+    [string] $State = '.sync/pages.tsv',
     [string] $ImageState = '.sync/help-images.tsv',
     [switch] $Full,                         # fetch every page again, and delete stray files
-    [int] $DelayMs = 1100,                  # between requests: the service allows 60 a minute
+    [int] $DelayMs = 1100,                  # between page requests: the service allows 60 a minute
     [int] $ImageDelayMs = 100,              # between image requests (to the site itself, not the service)
     [int] $MaxFetches = 0,                  # stop after this many pages (0: no limit), e.g. to try it out
     [string] $MessageFile = ''              # write a commit message here
@@ -45,91 +49,31 @@ $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
 $Site = $Site.TrimEnd('/')
-if (-not $Sitemap) { $Sitemap = "$Site/sitemap.xml" }
-if (-not $Mcp) { $Mcp = "$Site/mcp" }
+if (-not $Api) { $Api = "$Site/mcp/api" }
+$Api = $Api.TrimEnd('/')
 if (-not $ImageSite) { $ImageSite = $Site }
 $ImageSite = $ImageSite.TrimEnd('/')
 if (-not $Prefix.EndsWith('/')) { $Prefix += '/' }
 $utf8 = [System.Text.UTF8Encoding]::new($false)
-$pageExtensions = @('.htm', '.html', '.asp', '.aspx')
 $imageExtensions = @('.png', '.gif', '.jpg', '.jpeg', '.svg', '.webp', '.bmp', '.ico')
 
-# ------------------------------------------------------------------------------------------------ the sitemap
+# ------------------------------------------------------------------------------------------------ the service
 
-# Every <url> in the sitemap (following a sitemap index): loc -> lastmod.
-function Read-Sitemap([string] $address) {
-    $pages = [ordered]@{}
-    $xml = [xml](Invoke-WebRequest -Uri $address -UseBasicParsing -TimeoutSec 300).Content
-    if ($xml.DocumentElement.LocalName -eq 'sitemapindex') {
-        foreach ($map in @($xml.DocumentElement.ChildNodes | Where-Object LocalName -eq 'sitemap')) {
-            $inner = Read-Sitemap (Child-Text $map 'loc')
-            foreach ($key in $inner.Keys) { $pages[$key] = $inner[$key] }
-        }
-        return $pages
-    }
-    foreach ($url in @($xml.DocumentElement.ChildNodes | Where-Object LocalName -eq 'url')) {
-        $loc = Child-Text $url 'loc'
-        if ($loc) { $pages[$loc] = Child-Text $url 'lastmod' }
-    }
-    return $pages
-}
-
-function Child-Text($node, [string] $name) {
-    $child = @($node.ChildNodes | Where-Object LocalName -eq $name) | Select-Object -First 1
-    if ($child) { return $child.InnerText.Trim() } else { return '' }
-}
-
-# A sitemap address's path below the site ("helppdfnet/source/x.htm"), or $null if it's on another site.
-function Site-Path([string] $loc) {
-    if (-not $loc.StartsWith($Site + '/', [StringComparison]::OrdinalIgnoreCase)) { return $null }
-    $path = $loc.Substring($Site.Length + 1)
-    $cut = $path.IndexOfAny([char[]]'?#')
-    if ($cut -ge 0) { $path = $path.Substring(0, $cut) }
-    return [Uri]::UnescapeDataString($path)
-}
-
-# The Markdown page a site page becomes, as the builder names it: x.htm -> x.md, default.htm -> index.md, a folder
-# address ("/") -> its index.md. $null for anything that isn't a page.
-function Markdown-Path([string] $path) {
-    if ($path -eq '' -or $path.EndsWith('/')) { return $path + 'index.md' }
-    $slash = $path.LastIndexOf('/') + 1
-    $file = $path.Substring($slash)
-    $ext = [IO.Path]::GetExtension($file)
-    if ($pageExtensions -notcontains $ext.ToLowerInvariant()) { return $null }
-    $stem = $file.Substring(0, $file.Length - $ext.Length)
-    if ($stem -ieq 'default') { $stem = 'index' }
-    return $path.Substring(0, $slash) + $stem + '.md'
-}
-
-# ------------------------------------------------------------------------------------------------ the MCP service
-
-$script:session = $null
-$script:requestId = 0
 $script:lastRequest = [DateTime]::MinValue
 
-# One JSON-RPC message to the service; the reply's JSON (or $null for a notification). Waits between requests, and
-# when the service says to slow down.
-function Invoke-Mcp([string] $method, $params, [switch] $Notification) {
-    $message = [ordered]@{ jsonrpc = '2.0'; method = $method }
-    if ($null -ne $params) { $message.params = $params }
-    $id = $null
-    if (-not $Notification) { $id = ++$script:requestId; $message.id = $id }
-    $body = $message | ConvertTo-Json -Depth 10 -Compress
-    $headers = @{ Accept = 'application/json, text/event-stream' }
-    if ($script:session) { $headers['Mcp-Session-Id'] = $script:session }
-    if ($method -ne 'initialize') { $headers['MCP-Protocol-Version'] = '2025-06-18' }
-
+# A GET from the service: the response, or $null for a 404. Waits between requests, and when the service says to
+# slow down; tries again after a failure (three tries in all). Compressed answers are unpacked as they arrive.
+function Invoke-Api([string] $path) {
     for ($attempt = 1; ; $attempt++) {
         $wait = $DelayMs - ([DateTime]::UtcNow - $script:lastRequest).TotalMilliseconds
         if ($wait -gt 0) { Start-Sleep -Milliseconds ([int]$wait) }
         $script:lastRequest = [DateTime]::UtcNow
         try {
-            $response = Invoke-WebRequest -Uri $Mcp -Method Post -Body $body -ContentType 'application/json' `
-                -Headers $headers -UseBasicParsing -TimeoutSec 120 -SkipHttpErrorCheck
+            $response = Invoke-WebRequest -Uri "$Api/$path" -UseBasicParsing -TimeoutSec 300 -SkipHttpErrorCheck
         }
         catch {
             if ($attempt -ge 3) { throw }
-            Write-Warning "  $method failed ($($_.Exception.Message)); trying again"
+            Write-Warning "  $path failed ($($_.Exception.Message)); trying again"
             Start-Sleep -Seconds (5 * $attempt)
             continue
         }
@@ -142,97 +86,20 @@ function Invoke-Mcp([string] $method, $params, [switch] $Notification) {
             $attempt--   # not a failure
             continue
         }
-        if ($status -eq 404 -and $script:session -and $method -ne 'initialize') {
-            # The session has gone (the service restarted): start another and send this again.
-            Write-Host '  (the service restarted: connecting again)'
-            Connect-Mcp
-            if ($method -eq 'notifications/initialized') { return $null }   # Connect-Mcp has just sent it
-            $headers['Mcp-Session-Id'] = $script:session
-            continue
-        }
+        if ($status -eq 404) { return $null }
         if ($status -ge 500 -and $attempt -lt 3) {
-            Write-Warning "  $method answered $status; trying again"
+            Write-Warning "  $path answered $status; trying again"
             Start-Sleep -Seconds (5 * $attempt)
             continue
         }
-        if ($status -lt 200 -or $status -ge 300) { throw "The service answered $status to $method." }
-        if ($method -eq 'initialize' -and $response.Headers['Mcp-Session-Id']) {
-            $script:session = "$($response.Headers['Mcp-Session-Id'])"
-        }
-        if ($Notification) { return $null }
-        return Read-Reply ([string]$response.Content) ([string]$response.Headers['Content-Type']) $id
+        if ($status -lt 200 -or $status -ge 300) { throw "The service answered $status to $path." }
+        return $response
     }
 }
 
-# The JSON-RPC reply in a response: plain JSON, or the message events of a server-sent event stream.
-function Read-Reply([string] $content, [string] $type, $id) {
-    if ($type -like 'text/event-stream*') {
-        foreach ($event in ($content -replace "`r`n", "`n") -split "`n`n") {
-            $data = (($event -split "`n") | Where-Object { $_.StartsWith('data:') } | ForEach-Object { $_.Substring(5).TrimStart() }) -join "`n"
-            if (-not $data) { continue }
-            $json = $data | ConvertFrom-Json -Depth 20
-            if ($json.PSObject.Properties['id'] -and $json.id -eq $id) { return $json }
-        }
-        throw 'The service sent no reply.'
-    }
-    return $content | ConvertFrom-Json -Depth 20
-}
-
-function Connect-Mcp {
-    $script:session = $null
-    $reply = Invoke-Mcp 'initialize' @{
-        protocolVersion = '2025-06-18'
-        capabilities    = @{}
-        clientInfo      = @{ name = 'github-help-sync'; version = '1.0' }
-    }
-    if ($reply.PSObject.Properties['error']) { throw "The service refused to connect: $($reply.error.message)" }
-    Invoke-Mcp 'notifications/initialized' $null -Notification | Out-Null
-}
-
-# A page or section from the fetch tool: @{ Ok; Id; Markdown } (Markdown without the tool's header lines), or
-# Ok = $false with the tool's message.
-function Get-Page([string] $id, [switch] $SectionOnly) {
-    $arguments = @{ id = $id }
-    if ($SectionOnly) { $arguments.section_only = $true }
-    $reply = Invoke-Mcp 'tools/call' @{ name = 'fetch'; arguments = $arguments }
-    if ($reply.PSObject.Properties['error']) { return @{ Ok = $false; Message = $reply.error.message } }
-    $text = (@($reply.result.content) | Where-Object type -eq 'text' | Select-Object -First 1).text
-    $isError = $reply.result.PSObject.Properties['isError'] -and $reply.result.isError
-    if ($isError -or -not $text) { return @{ Ok = $false; Message = "$text" } }
-
-    # "Page: <id>", "URL: ...", "In: ...", "Product: ...", a blank line, then the Markdown.
-    $lines = ($text -replace "`r`n", "`n") -split "`n"
-    $pageId = $null
-    $i = 0
-    for (; $i -lt $lines.Count -and $lines[$i] -ne ''; $i++) {
-        if ($lines[$i].StartsWith('Page: ')) { $pageId = $lines[$i].Substring(6).Trim() }
-    }
-    if (-not $pageId) { return @{ Ok = $false; Message = 'The fetch reply had no Page line.' } }
-    $markdown = ($lines[($i + 1)..($lines.Count - 1)] -join "`n")
-    return @{ Ok = $true; Id = $pageId; Markdown = $markdown }
-}
-
-# A whole page. A page longer than one fetch gives comes back with a list of its other sections at the end:
-# those are fetched one at a time and added, under their headings.
-function Get-WholePage([string] $address) {
-    $page = Get-Page $address
-    if (-not $page.Ok) { return $page }
-    $marker = $page.Markdown.IndexOf("`n[The page is long: ")
-    if ($marker -lt 0) { return $page }
-
-    $rest = $page.Markdown.Substring($marker)
-    $markdown = $page.Markdown.Substring(0, $marker).TrimEnd() + "`n"
-    $ids = [regex]::Matches($rest, '(?m)^- (\S+#\d+)\s') | ForEach-Object { $_.Groups[1].Value }
-    foreach ($sectionId in $ids) {
-        $section = Get-Page $sectionId -SectionOnly
-        if (-not $section.Ok) { return @{ Ok = $false; Message = "section $sectionId`: $($section.Message)" } }
-        # "# Title", a blank line, then "## Heading" and the section.
-        $body = $section.Markdown -replace '^# [^\n]*\n+', ''
-        $markdown += "`n" + $body.TrimEnd() + "`n"
-    }
-    $page.Markdown = $markdown
-    $page.Sections = @($ids).Count
-    return $page
+# SHA-256 of text's UTF-8 bytes, as lower-case hex: as the service works out its hashes.
+function Hash-Text([string] $text) {
+    return [Convert]::ToHexString([System.Security.Cryptography.SHA256]::HashData($utf8.GetBytes($text))).ToLowerInvariant()
 }
 
 # ------------------------------------------------------------------------------------------------ links
@@ -279,9 +146,9 @@ function Image-Spelling([string] $image) {
     return $image.Substring(0, $image.Length - $name.Length) + $existing
 }
 
-# Where one link on a page should point in the repository. $script:helpPages: every help page's Markdown path,
-# by its lower-cased path (to correct the case of a link: the site doesn't mind, GitHub does).
-# $script:sitePages: every other site page's address, by its Markdown path.
+# Where one link on a page should point in the repository. $script:helpPages: every help page in the list, by its
+# lower-cased id (to correct the case of a link: the site doesn't mind, GitHub does). $script:sitePages: every other
+# page in the list (the rest of the site), its address by its lower-cased id.
 function Rewrite-Target([string] $target, [string] $pageId) {
     if ($target -eq '' -or $target.StartsWith('#') -or $target.StartsWith('//') -or $target -match '^[A-Za-z][A-Za-z0-9+.-]*:') {
         return $target
@@ -308,13 +175,13 @@ function Rewrite-Target([string] $target, [string] $pageId) {
         }
         $live = $script:sitePages[$resolved.ToLowerInvariant()]
         if ($live) { return (Escape-Link $live $angle) + $tail }
-        if ($resolved.StartsWith($Prefix, [StringComparison]::OrdinalIgnoreCase)) {
-            # A help page that isn't in the sitemap: leave it as it is (it may appear later).
-            $script:odd.Add("$pageId -> $target (no such page in the sitemap)")
-            return $(if ($angle) { "<$target>" } else { $target })
-        }
-        $script:odd.Add("$pageId -> $target (no such page in the sitemap: linked to its .htm on the site)")
-        return (Escape-Link ("$Site/" + $resolved.Substring(0, $resolved.Length - 3) + '.htm') $angle) + $tail
+        # Not in the list, so not in the service's index: a help page the help's contents doesn't list (a sample
+        # project's source, an obsolete member) or some other site page. Linked to the page on the site.
+        $stem = $resolved.Substring(0, $resolved.Length - 3)
+        if ($stem -ieq 'index' -or $stem.EndsWith('/index', [StringComparison]::OrdinalIgnoreCase)) { $stem = $stem.Substring(0, $stem.Length - 5) + 'default' }
+        if ($resolved.StartsWith($Prefix, [StringComparison]::OrdinalIgnoreCase)) { $script:liveLinks++ }
+        else { $script:odd.Add("$pageId -> $target (not in the list of pages: linked to $stem.htm on the site)") }
+        return (Escape-Link ("$Site/" + $stem + '.htm') $angle) + $tail
     }
     # An image in the help: copied into the repository beside the pages (see Sync-Images), so a relative link. The
     # same image can be written with different case on different pages; the first spelling seen is the one used.
@@ -375,8 +242,7 @@ function Rewrite-Text([string] $text, [string] $pageId) {
 
 # ------------------------------------------------------------------------------------------------ the record
 
-# loc -> @{ Lastmod; File; Images } (File '-' when the service couldn't give the page; Images: the help images the
-# page shows, by their paths on the site).
+# Page id -> @{ Hash; File; Images } (Images: the help images the page shows, by their paths on the site).
 function Read-State([string] $path) {
     $record = @{}
     if (-not (Test-Path $path)) { return $record }
@@ -384,7 +250,7 @@ function Read-State([string] $path) {
         $cells = $line -split "`t"
         if ($cells.Count -lt 3) { continue }
         $images = if ($cells.Count -ge 4 -and $cells[3]) { @($cells[3] -split '\|') } else { @() }
-        $record[$cells[0]] = @{ Lastmod = $cells[1]; File = $cells[2]; Images = $images }
+        $record[$cells[0]] = @{ Hash = $cells[1]; File = $cells[2]; Images = $images }
     }
     return $record
 }
@@ -393,10 +259,10 @@ function Write-State([string] $path, $record) {
     $folder = Split-Path $path -Parent
     if ($folder) { [void](New-Item -ItemType Directory -Force -Path $folder) }
     $lines = [System.Collections.Generic.List[string]]::new()
-    $lines.Add("loc`tlastmod`tfile`timages")
-    foreach ($loc in $record.Keys | Sort-Object { $_ } -CaseSensitive) {
-        $images = @($record[$loc].Images) -join '|'
-        $lines.Add("$loc`t$($record[$loc].Lastmod)`t$($record[$loc].File)`t$images")
+    $lines.Add("id`tsha256`tfile`timages")
+    foreach ($id in $record.Keys | Sort-Object { $_ } -CaseSensitive) {
+        $images = @($record[$id].Images) -join '|'
+        $lines.Add("$id`t$($record[$id].Hash)`t$($record[$id].File)`t$images")
     }
     [IO.File]::WriteAllText($path, ($lines -join "`n") + "`n", $utf8)
 }
@@ -470,37 +336,42 @@ function Repo-File([string] $pageId) {
     return $folder + '/' + $pageId.Substring($Prefix.Length)
 }
 
-# Deletes a page's file, unless another sitemap address still gives the same page.
-function Remove-PageFile([string] $file, [string] $loc) {
-    if ($file -eq '-') { return }
-    foreach ($other in $record.Keys) {
-        if ($other -ne $loc -and $record[$other].File -eq $file -and $help.Contains($other)) { return }
+# Whether a file is one of the repository's own (-Keep), which the sync never writes or deletes. Any case: GitHub
+# shows License.md as the licence as readily as LICENSE.md.
+function Is-Kept([string] $file) {
+    $full = [IO.Path]::GetFullPath($file)
+    foreach ($name in $Keep) {
+        if ($name -and $full -ieq [IO.Path]::GetFullPath((Join-Path $Out $name))) { return $true }
     }
-    if (Test-Path -LiteralPath $file) { Remove-Item -LiteralPath $file; $script:removedFiles++ }
+    return $false
+}
+
+# Deletes a page's file.
+function Remove-PageFile([string] $file) {
+    if ($file -and $file -ne '-' -and (Test-Path -LiteralPath $file)) { Remove-Item -LiteralPath $file; $script:removedFiles++ }
 }
 
 # ------------------------------------------------------------------------------------------------ the run
 
-Write-Host "Reading $Sitemap"
-$listed = Read-Sitemap $Sitemap
+Write-Host "Reading $Api/pages"
+$response = Invoke-Api 'pages'
+if ($null -eq $response) { throw "The service has no list of pages at $Api/pages." }
+$list = $response.Content | ConvertFrom-Json
+# Help pages (under -Prefix): id -> hash. The rest of the site: id -> address, for links to it.
+$listed = [ordered]@{}
 $script:helpPages = @{}
 $script:sitePages = @{}
-$help = [ordered]@{}
-foreach ($loc in $listed.Keys) {
-    $path = Site-Path $loc
-    if ($null -eq $path) { continue }
-    $md = Markdown-Path $path
-    if (-not $md) { continue }
-    if ($path.StartsWith($Prefix, [StringComparison]::OrdinalIgnoreCase)) {
-        $help[$loc] = $listed[$loc]
-        $script:helpPages[$md.ToLowerInvariant()] = $md
+foreach ($page in $list.pages) {
+    if ($page.id.StartsWith($Prefix, [StringComparison]::OrdinalIgnoreCase)) {
+        $listed[$page.id] = $page.sha256
+        $script:helpPages[$page.id.ToLowerInvariant()] = $page.id
     }
     else {
-        $script:sitePages[$md.ToLowerInvariant()] = $loc
+        $script:sitePages[$page.id.ToLowerInvariant()] = $page.url
     }
 }
-Write-Host "  $($listed.Count) pages, $($help.Count) of them help pages"
-if ($help.Count -eq 0) { throw "The sitemap has no pages under /$Prefix." }
+Write-Host "  $($list.count) pages (index built $($list.built)), $($listed.Count) of them help pages"
+if ($listed.Count -eq 0) { throw "The list has no pages under $Prefix." }
 
 $record = Read-State $State
 $images = Read-Images $ImageState
@@ -510,97 +381,84 @@ foreach ($image in $images.Keys) { $script:imageNames[$image.ToLowerInvariant()]
 foreach ($entry in $record.Values) { foreach ($image in $entry.Images) { if (-not $script:imageNames.ContainsKey($image.ToLowerInvariant())) { $script:imageNames[$image.ToLowerInvariant()] = $image } } }
 $script:lastImageRequest = [DateTime]::MinValue
 $script:folderFiles = @{}
-# A sitemap missing many pages is more likely broken than the help much smaller: don't delete on its say-so.
-if (-not $Full -and $record.Count -ge 100 -and $help.Count -lt 0.9 * $record.Count) {
-    throw "The sitemap has $($help.Count) help pages, against $($record.Count) last time. Stopping rather than delete so many: run with -Full if that's right."
+
+# A list missing many pages is more likely broken than the help much smaller: don't delete on its say-so.
+if (-not $Full -and $record.Count -ge 100 -and $listed.Count -lt 0.9 * $record.Count) {
+    throw "The list has $($listed.Count) help pages, against $($record.Count) last time. Stopping rather than delete so many: run with -Full if that's right."
 }
 
-$toFetch = @($help.Keys | Where-Object { $Full -or -not $record.ContainsKey($_) -or $record[$_].Lastmod -ne $help[$_] })
-$gone = @($record.Keys | Where-Object { -not $help.Contains($_) })
+$toFetch = @($listed.Keys | Where-Object { $Full -or -not $record.ContainsKey($_) -or $record[$_].Hash -ne $listed[$_] })
+$gone = @($record.Keys | Where-Object { -not $listed.Contains($_) })
 Write-Host "  $($toFetch.Count) to fetch, $($gone.Count) gone"
 
-$added = 0; $updated = 0; $same = 0; $missing = 0; $failed = 0; $removed = 0; $sections = 0
+$added = 0; $updated = 0; $same = 0; $failed = 0; $vanished = 0; $removed = 0
 $script:odd = [System.Collections.Generic.List[string]]::new()
-$written = @{}   # repo files written or confirmed this run
 $script:removedFiles = 0
+$script:liveLinks = 0
 
-if ($toFetch.Count -gt 0) {
-    Connect-Mcp
-    $consecutiveFailures = 0
-    $count = 0
-    foreach ($loc in $toFetch) {
-        if ($MaxFetches -gt 0 -and $count -ge $MaxFetches) { Write-Host "  stopping after $MaxFetches (-MaxFetches)"; break }
-        $count++
-        if ($count % 100 -eq 0) { Write-Host "  $count of $($toFetch.Count)" }
-        try { $page = Get-WholePage $loc }
-        catch { $page = @{ Ok = $false; Message = $_.Exception.Message; Failed = $true } }
-
-        if (-not $page.Ok) {
-            if ($page.ContainsKey('Failed')) {
-                # Couldn't ask (the service is down?): leave the page as it was, for the next run.
-                $failed++
-                $consecutiveFailures++
-                Write-Warning "  $loc`: $($page.Message)"
-                if ($consecutiveFailures -ge 10) { Write-Warning '  10 failures in a row: stopping'; break }
-                continue
-            }
-            # The service doesn't have it (not in its index): note it, and ask again when its date changes.
-            $missing++
-            Write-Host "  not in the service: $loc ($($page.Message))"
-            if ($record.ContainsKey($loc)) { Remove-PageFile $record[$loc].File $loc }
-            $record[$loc] = @{ Lastmod = $help[$loc]; File = '-'; Images = @() }
-            continue
-        }
-        $consecutiveFailures = 0
-        if (-not $page.Id.StartsWith($Prefix, [StringComparison]::OrdinalIgnoreCase)) {
-            $missing++
-            Write-Host "  outside the help: $loc is $($page.Id)"
-            $record[$loc] = @{ Lastmod = $help[$loc]; File = '-'; Images = @() }
-            continue
-        }
-        if ($page.ContainsKey('Sections')) { $sections++ }
-
-        $file = Repo-File $page.Id
-        $script:pageImages = [ordered]@{}
-        $markdown = Rewrite-Links $page.Markdown $page.Id
-        $old = if (Test-Path -LiteralPath $file) { [IO.File]::ReadAllText($file, $utf8) } else { $null }
-        if ($null -eq $old) { $added++ }
-        elseif ($old -ceq $markdown) { $same++ }
-        else { $updated++ }
-        if ($old -cne $markdown) {
-            $folder = Split-Path $file -Parent
-            if ($folder) { [void](New-Item -ItemType Directory -Force -Path $folder) }
-            [IO.File]::WriteAllText($file, $markdown, $utf8)
-        }
-        $written[$file] = $true
-        # The help's start page is also the repository's README, which GitHub shows on its front page. Both are in
-        # the same folder, so its links work unchanged.
-        if ($Readme -and $page.Id -ieq ($Prefix + 'index.md')) {
-            $readmeFolder = Split-Path $file -Parent
-            $readmeFile = if ($readmeFolder) { Join-Path $readmeFolder $Readme } else { $Readme }
-            $oldReadme = if (Test-Path -LiteralPath $readmeFile) { [IO.File]::ReadAllText($readmeFile, $utf8) } else { $null }
-            if ($oldReadme -cne $markdown) { [IO.File]::WriteAllText($readmeFile, $markdown, $utf8) }
-        }
-        # A page that moved (the same address now gives a different page) leaves its old file behind.
-        if ($record.ContainsKey($loc) -and $record[$loc].File -ne '-' -and $record[$loc].File -ne $file) {
-            Remove-PageFile $record[$loc].File $loc
-        }
-        $record[$loc] = @{ Lastmod = $help[$loc]; File = $file; Images = @($script:pageImages.Keys) }
+$count = 0
+$consecutiveFailures = 0
+foreach ($id in $toFetch) {
+    if ($MaxFetches -gt 0 -and $count -ge $MaxFetches) { Write-Host "  stopping after $MaxFetches (-MaxFetches)"; break }
+    $count++
+    if ($count % 100 -eq 0) { Write-Host "  $count of $($toFetch.Count)" }
+    try { $response = Invoke-Api ('page?id=' + [Uri]::EscapeDataString($id)) }
+    catch {
+        # Couldn't ask (the service is down?): leave the page as it was, for the next run.
+        $failed++
+        $consecutiveFailures++
+        Write-Warning "  $id`: $($_.Exception.Message)"
+        if ($consecutiveFailures -ge 10) { Write-Warning '  10 failures in a row: stopping'; break }
+        continue
     }
+    $consecutiveFailures = 0
+    if ($null -eq $response) {
+        # Gone since the list was made (a new index): it will be gone from the next list too.
+        $vanished++
+        continue
+    }
+    $raw = [string]$response.Content
+    $hash = Hash-Text $raw
+
+    $file = Repo-File $id
+    if (Is-Kept $file) {
+        $script:odd.Add("$id would be written over $file, one of the repository's own files: left out")
+        continue
+    }
+    $script:pageImages = [ordered]@{}
+    $markdown = Rewrite-Links ($raw -replace "`r`n", "`n") $id
+    $old = if (Test-Path -LiteralPath $file) { [IO.File]::ReadAllText($file, $utf8) } else { $null }
+    if ($null -eq $old) { $added++ }
+    elseif ($old -ceq $markdown) { $same++ }
+    else { $updated++ }
+    if ($old -cne $markdown) {
+        $folder = Split-Path $file -Parent
+        if ($folder) { [void](New-Item -ItemType Directory -Force -Path $folder) }
+        [IO.File]::WriteAllText($file, $markdown, $utf8)
+    }
+    # The help's start page is also the repository's README, which GitHub shows on its front page. Both are in
+    # the same folder, so its links work unchanged.
+    if ($Readme -and $id -ieq ($Prefix + 'index.md')) {
+        $readmeFolder = Split-Path $file -Parent
+        $readmeFile = if ($readmeFolder) { Join-Path $readmeFolder $Readme } else { $Readme }
+        $oldReadme = if (Test-Path -LiteralPath $readmeFile) { [IO.File]::ReadAllText($readmeFile, $utf8) } else { $null }
+        if ($oldReadme -cne $markdown) { [IO.File]::WriteAllText($readmeFile, $markdown, $utf8) }
+    }
+    # The hash of what came, not the list's: if they differ, the service moved to a new index meanwhile, and the
+    # page is fetched again next time.
+    $record[$id] = @{ Hash = $hash; File = $file; Images = @($script:pageImages.Keys) }
 }
 
-foreach ($loc in $gone) {
-    if ($record.ContainsKey($loc)) {
-        Remove-PageFile $record[$loc].File $loc
-        $record.Remove($loc)
-        $removed++
-    }
+foreach ($id in $gone) {
+    Remove-PageFile $record[$id].File
+    $record.Remove($id)
+    $removed++
 }
 
 # The images: every one a page shows is checked (a quick question to the site for each, answered without the image
 # unless it has changed); those no page shows any more are deleted.
 $needed = [ordered]@{}
-foreach ($loc in $record.Keys | Sort-Object { $_ } -CaseSensitive) { foreach ($image in $record[$loc].Images) { $needed[$image] = $true } }
+foreach ($id in $record.Keys | Sort-Object { $_ } -CaseSensitive) { foreach ($image in $record[$id].Images) { $needed[$image] = $true } }
 $imageCounts = @{ added = 0; updated = 0; same = 0; missing = 0; failed = 0; removed = 0 }
 foreach ($image in @($images.Keys)) {
     if ($needed.Contains($image)) { continue }
@@ -612,11 +470,11 @@ if ($needed.Count -gt 0) { Write-Host "Checking $($needed.Count) image(s)" }
 foreach ($image in $needed.Keys) { $imageCounts[(Sync-Image $image $images)]++ }
 
 if ($Full -and $failed -eq 0 -and ($MaxFetches -eq 0 -or $toFetch.Count -le $MaxFetches)) {
-    # Anything in the folder that no page wrote is left over: delete it.
+    # Anything in the folder that no page or image wrote is left over: delete it.
     # File names: case matters on Linux (two files can differ only in case), not on Windows.
     $owned = [System.Collections.Generic.HashSet[string]]::new($(if ($IsWindows) { [StringComparer]::OrdinalIgnoreCase } else { [StringComparer]::Ordinal }))
-    foreach ($loc in $record.Keys) { if ($record[$loc].File -ne '-') { [void]$owned.Add([IO.Path]::GetFullPath($record[$loc].File)) } }
-    foreach ($name in @($Keep) + @($Readme)) { if ($name) { [void]$owned.Add([IO.Path]::GetFullPath((Join-Path $Out $name))) } }
+    foreach ($id in $record.Keys) { [void]$owned.Add([IO.Path]::GetFullPath($record[$id].File)) }
+    if ($Readme) { [void]$owned.Add([IO.Path]::GetFullPath((Join-Path $Out $Readme))) }
     foreach ($image in $images.Keys) { [void]$owned.Add([IO.Path]::GetFullPath($images[$image].File)) }
     if (Test-Path $Out) {
         $root = [IO.Path]::GetFullPath($Out)
@@ -625,7 +483,7 @@ if ($Full -and $failed -eq 0 -and ($MaxFetches -eq 0 -or $toFetch.Count -le $Max
             $extension = $stray.Extension.ToLowerInvariant()
             if ($extension -ne '.md' -and $imageExtensions -notcontains $extension) { continue }
             $relative = [IO.Path]::GetRelativePath($root, $stray.FullName)
-            if ($relative.StartsWith('.')) { continue }
+            if ($relative.StartsWith('.') -or (Is-Kept $stray.FullName)) { continue }
             if (-not $owned.Contains($stray.FullName)) { Remove-Item -LiteralPath $stray.FullName; $script:removedFiles++ }
         }
     }
@@ -634,20 +492,19 @@ if ($Full -and $failed -eq 0 -and ($MaxFetches -eq 0 -or $toFetch.Count -le $Max
 Write-State $State $record
 Write-Images $ImageState $images
 
-$summary = "$added added, $updated updated, $removed removed"
 $details = @(
-    "Help sync: $summary.",
+    "Help sync: $added added, $updated updated, $removed removed.",
     '',
-    "Fetched $($added + $updated + $same) page(s) ($same unchanged; $sections put together from sections).",
-    "$missing not available from the service; $failed failed (tried again next run); $($script:removedFiles) file(s) deleted.",
-    "Images: $($imageCounts.added) added, $($imageCounts.updated) updated, $($imageCounts.removed) removed, $($imageCounts.same) unchanged, $($imageCounts.missing) not on the site, $($imageCounts.failed) failed."
+    "Fetched $($added + $updated + $same) page(s) ($same unchanged); $failed failed (tried again next run); $vanished gone meanwhile; $($script:removedFiles) file(s) deleted.",
+    "Images: $($imageCounts.added) added, $($imageCounts.updated) updated, $($imageCounts.removed) removed, $($imageCounts.same) unchanged, $($imageCounts.missing) not on the site, $($imageCounts.failed) failed.",
+    "Links to help pages the service doesn't have (linked to the site): $($script:liveLinks)."
 )
 if ($Full) { $details += 'Full refresh.' }
 Write-Host ''
 $details | ForEach-Object { Write-Host $_ }
 if ($script:odd.Count -gt 0) {
     Write-Host ''
-    Write-Host "Links that didn't resolve ($($script:odd.Count)):"
+    Write-Host "Links to check ($($script:odd.Count)):"
     $script:odd | Select-Object -First 50 | ForEach-Object { Write-Host "  $_" }
 }
 if ($MessageFile) { [IO.File]::WriteAllText($MessageFile, ($details -join "`n") + "`n", $utf8) }

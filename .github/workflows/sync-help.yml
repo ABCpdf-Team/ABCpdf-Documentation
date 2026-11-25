@@ -1,5 +1,5 @@
-# Keeps this repository in step with the ABCpdf .NET help on websupergoo.com: each day, the pages that are new or
-# changed in the site's sitemap are fetched as Markdown through the site's MCP service, and committed. See
+# Keeps this repository in step with the ABCpdf .NET help on websupergoo.com: each day, the pages whose Markdown
+# changed (by the hashes in the site's documentation service's list of pages) are fetched and committed. See
 # .github/scripts/sync-help.ps1. A full refresh (every page fetched again) is run by hand: Actions > Sync help >
 # Run workflow, with "Fetch every page again" ticked.
 name: Sync help
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       full:
-        description: 'Fetch every page again (about 90 minutes)'
+        description: 'Fetch every page again (about 90 minutes; not normally needed)'
         type: boolean
         default: false
 
