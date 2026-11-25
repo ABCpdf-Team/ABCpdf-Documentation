@@ -186,7 +186,7 @@ This product may incorporate intellectual property owned by Microsoft Corporatio
 
 Portions of this software may use XML schemas Copyright (c) 2006 [DCMI](http://dublincore.org/), the Dublin Core Metadata Initiative. These are licensed under the [Creative Commons 3.0 Attribution](http://creativecommons.org/licenses/by/3.0/) license.
 
-## :[diStorm64}:
+## :\[diStorm64}:
 
 diStorm64 is an open-source disassembler library for x64, licensed under the BSD License.
 
