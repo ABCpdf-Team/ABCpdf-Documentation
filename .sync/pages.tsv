@@ -26,7 +26,7 @@ helppdfnet/source/3-concepts/c-coordinates.md	e872c21e59fce77732d3f90ff1da76dc13
 helppdfnet/source/3-concepts/d-registrykeys.md	56376e1dae74d0de5a78d97977dc76d2489767ada8a0d39ee4d1099752331c93	3-concepts/d-registrykeys.md	
 helppdfnet/source/3-concepts/e-troubleshooting.md	4808fd6efb8f50f40c886936d4ec2709e469629c84b8092e72230a7f7a811969	3-concepts/e-troubleshooting.md	
 helppdfnet/source/3-concepts/f-corruption.md	39a4223b100f25add40340f71167ef5239066c846139d603e7a3f68312b4e6d5	3-concepts/f-corruption.md	
-helppdfnet/source/3-concepts/g-htmlrender.md	59529b08fc2dd2c82d1748c93119a7edb1f288a84e7a0d7e0a62f2bedfb0b4a0	3-concepts/g-htmlrender.md	
+helppdfnet/source/3-concepts/g-htmlrender.md	81a02e43d16747919b9511bdc61864d3a40afd8fee735267cdf9242465df03f5	3-concepts/g-htmlrender.md	
 helppdfnet/source/3-concepts/h-svgsupport.md	195a747e50b70a85eabcfb63850eebf2aef3ce8ce7264a734f659560ce52b949	3-concepts/h-svgsupport.md	
 helppdfnet/source/3-concepts/i-svg_to_pdf.md	313b5c2522681c5c64574a98c3c2a6b925bc143d45cfe04962211d88963ae628	3-concepts/i-svg_to_pdf.md	
 helppdfnet/source/3-concepts/j-webgl.md	b9bf09cbc8292db3b62a09505fd33f8259f28495f0189a8299d686fcbaa9dd0a	3-concepts/j-webgl.md	helppdfnet/source/images/pdf/diffuse_texture.png|helppdfnet/source/images/pdf/normal_texture.png|helppdfnet/source/images/pdf/webgl_screenshot.jpg
@@ -89,10 +89,10 @@ helppdfnet/source/5-abcpdf/doc/1-methods/addimagecopy.md	e4c6618e6ef1e371f0fa09f
 helppdfnet/source/5-abcpdf/doc/1-methods/addimagedata.md	982a50662857b95fd16c4901e4a0ed3b4210ed0080caadd99e2b012307aba356	5-abcpdf/doc/1-methods/addimagedata.md	
 helppdfnet/source/5-abcpdf/doc/1-methods/addimagedoc.md	72ec8092b3152bada5ea9a0d3155f3637a05f112d32a48a26169c836ecac2c6d	5-abcpdf/doc/1-methods/addimagedoc.md	helppdfnet/source/images/pdf/fourup.pdf.png|helppdfnet/source/images/pdf/fourup.pdf2.png
 helppdfnet/source/5-abcpdf/doc/1-methods/addimagefile.md	acd44b0ca2b34e7b5e537fbafa5c18b3aafdfd144412461ee776f649783cee94	5-abcpdf/doc/1-methods/addimagefile.md	helppdfnet/source/images/pdf/docaddimage.pdf.png
-helppdfnet/source/5-abcpdf/doc/1-methods/addimagehtml.md	7acb0a6e2c83109c0f3c64d85a646ad2804bfd8a20a141bc860ed81751f6da95	5-abcpdf/doc/1-methods/addimagehtml.md	
+helppdfnet/source/5-abcpdf/doc/1-methods/addimagehtml.md	e9e031a19a5b924671f83f0e331cb889b02ba84ce3c2fb62e807979f451672ee	5-abcpdf/doc/1-methods/addimagehtml.md	
 helppdfnet/source/5-abcpdf/doc/1-methods/addimageobject.md	a5450d21ac2ac88a9e9168095ddf7b06086880647fb187d7f48333bbeee1a6b1	5-abcpdf/doc/1-methods/addimageobject.md	helppdfnet/source/images/pdf/docaddimageobject.pdf.png
 helppdfnet/source/5-abcpdf/doc/1-methods/addimagetochain.md	0b15da078cd1df51d1557c2fa5c0e9bdca564e5d3f2e7df77a519f7e5e5ba239	5-abcpdf/doc/1-methods/addimagetochain.md	helppdfnet/source/images/pdf/paged_html.pdf.png|helppdfnet/source/images/pdf/paged_html.pdf2.png
-helppdfnet/source/5-abcpdf/doc/1-methods/addimageurl.md	9b0e50b24c086ce4b70280962cbc3504e16564016f4aadef67377939ec48474f	5-abcpdf/doc/1-methods/addimageurl.md	helppdfnet/source/images/pdf/htmlimport.pdf.png
+helppdfnet/source/5-abcpdf/doc/1-methods/addimageurl.md	15f7e7986fc84b0d0239faf1a6a01e175480d3d1824d5c884dbf950dff32af5d	5-abcpdf/doc/1-methods/addimageurl.md	helppdfnet/source/images/pdf/htmlimport.pdf.png
 helppdfnet/source/5-abcpdf/doc/1-methods/addline.md	f8abde838ea0c8d0ddedeb4ec1897f16ca28decdefe3c1fef8988516d62c9caf	5-abcpdf/doc/1-methods/addline.md	helppdfnet/source/images/pdf/docaddline.pdf.png
 helppdfnet/source/5-abcpdf/doc/1-methods/addobject.md	6934f51f59c9ee657100a2f2badb25ec9effd01118f569c2c38c62561318ce63	5-abcpdf/doc/1-methods/addobject.md	
 helppdfnet/source/5-abcpdf/doc/1-methods/addoval.md	750a00447acff8ac768ab4ccd2c349d7ee65faca0dbb0a52738748be77415d5e	5-abcpdf/doc/1-methods/addoval.md	helppdfnet/source/images/pdf/docaddoval.pdf.png
@@ -307,10 +307,10 @@ helppdfnet/source/5-abcpdf/xhtmloptions/1-methods/pagecacheclear.md	ec9f1dd02948
 helppdfnet/source/5-abcpdf/xhtmloptions/1-methods/pagecachepurge.md	37796472b52b67f086f2b880e2803c2ac30c1a5e95b3d1760188e1bb1d0e895b	5-abcpdf/xhtmloptions/1-methods/pagecachepurge.md	
 helppdfnet/source/5-abcpdf/xhtmloptions/1-methods/settheme.md	7f97098e64bd3e99d7e00014da2559bdb19b96c8390d10ddf11471c625e51e06	5-abcpdf/xhtmloptions/1-methods/settheme.md	
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/1-engine.md	0d8bd976fd9911aa4c35326eeffa016b46a0dfc588645a919d459301a5b83bc5	5-abcpdf/xhtmloptions/2-properties/1-engine.md	
-helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/2-forchrome.md	e4fee7c9bcc4d17f48432994f21cfe7ccefd41fac90ece2b4bb03c25ab2aab01	5-abcpdf/xhtmloptions/2-properties/2-forchrome.md	
-helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/2-forgecko.md	67c6f319623ff5e95908c46b622659b070644314761bc9b17d3e0d74eb5c534e	5-abcpdf/xhtmloptions/2-properties/2-forgecko.md	
-helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/2-formshtml.md	fc0c84571a53ad9572107a91ed4e435e50667c8cb8c2e92afb2da37f339e3c35	5-abcpdf/xhtmloptions/2-properties/2-formshtml.md	
-helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/2-forwebkit.md	ce594c7491dd1a030f8e1c33b86203fa86337ca3ccb79f392b478ab43e6aabed	5-abcpdf/xhtmloptions/2-properties/2-forwebkit.md	
+helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/2-forchrome.md	a4f1d157f9a6363543eb98f76d8d9a9325f33e2ffbfe43b17c1b5c978abdf7e1	5-abcpdf/xhtmloptions/2-properties/2-forchrome.md	
+helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/2-forgecko.md	5025dae075f7a45b9fad44719f3c217f5aa0e93bc128999c70db38700bf086be	5-abcpdf/xhtmloptions/2-properties/2-forgecko.md	
+helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/2-formshtml.md	fb8cfd2e82b9fdbc90efb79fe3eb80a0bd73223609ff71809fcda5b2ade1a789	5-abcpdf/xhtmloptions/2-properties/2-formshtml.md	
+helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/2-forwebkit.md	2e7fb68fcf20da7966c9cee0fd0e1cf63001459442dbd50d773a2663f506c57d	5-abcpdf/xhtmloptions/2-properties/2-forwebkit.md	
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/addforms.md	9d0d61a1a2caa247ad6c273599a1294fefc39593e5cc0c5cca1765875abfac3b	5-abcpdf/xhtmloptions/2-properties/addforms.md	helppdfnet/source/images/pdf/HtmlOptionsAddForms.pdf.png
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/addids.md	0cdbacc7c8c6c5744539932d07811eb359ab1a010f23e53db57f6b0a4741bd68	5-abcpdf/xhtmloptions/2-properties/addids.md	
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/addlinks.md	ef53cb5d02ba7f6cafe9c0a147c4c519ca80b761ceea45f46017e6833b825173	5-abcpdf/xhtmloptions/2-properties/addlinks.md	
@@ -318,8 +318,9 @@ helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/addmovies.md	96c3e0e4456472
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/addnames.md	03cb6a1a2e3084e1d18c3c46f26520dcd9108b1b6d4abe6dd592ed2e08a5bafe	5-abcpdf/xhtmloptions/2-properties/addnames.md	
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/addtags.md	529147fc872eb7ff7196f5e3c8f27a593edcc663535c78ae6b531c7943c464d6	5-abcpdf/xhtmloptions/2-properties/addtags.md	
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/adjustlayout.md	e9b643665c24480632c79d17fb43cc0dc5d73a31ca6a3e96e051ed777dc28f3a	5-abcpdf/xhtmloptions/2-properties/adjustlayout.md	
+helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/allowedschemes.md	03cdca89142ff6b177f69043f04eacfec16719989580422eb5523beb40e52a05	5-abcpdf/xhtmloptions/2-properties/allowedschemes.md	
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/autotruncate.md	d6045d5aa6b0c2c6d57d50c384601d3cc92a2fb5bfbb81cd22f56cf0bb875348	5-abcpdf/xhtmloptions/2-properties/autotruncate.md	
-helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/baseuri.md	8dba98499e75aeae95622c45158d44ec5e830d415234965ac13c62e1922f0244	5-abcpdf/xhtmloptions/2-properties/baseuri.md	
+helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/baseuri.md	e49a35119d0a2e6b862ce5920956791af38aabb472804f84a35bc454ff9b46d3	5-abcpdf/xhtmloptions/2-properties/baseuri.md	
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/breakmethod.md	d17ec9fd93f0c2a64dfc3ce7fd89af45561e1b4a8ec11ed60472da589375982c	5-abcpdf/xhtmloptions/2-properties/breakmethod.md	
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/breakzonesize.md	50f1cba1a91b2b472e8efbf42ea051531709ba7e6a99521e26fd10e9fe7ee561	5-abcpdf/xhtmloptions/2-properties/breakzonesize.md	
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/browserwidth.md	2131f5f4d53636451cfd651dfd273a048011823bd0de88bcaca1a6f24ceac6c2	5-abcpdf/xhtmloptions/2-properties/browserwidth.md	helppdfnet/source/images/pdf/HtmlOptionsBrowserWidth0.pdf.png|helppdfnet/source/images/pdf/HtmlOptionsBrowserWidth300.pdf.png
@@ -377,7 +378,7 @@ helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/useresync.md	ebf51802b1d27c
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/usescript.md	b80313ec59bcb99d9a35188d408fa2b664308f8cbe798d0237999558b5efa42d	5-abcpdf/xhtmloptions/2-properties/usescript.md	helppdfnet/source/images/pdf/HtmlOptionsJavaScript.pdf.png|helppdfnet/source/images/pdf/HtmlOptionsJavaScript.pdf2.png|helppdfnet/source/images/pdf/HtmlOptionsJavaScript.pdf3.png|helppdfnet/source/images/pdf/HtmlOptionsJavaScript.pdf4.png
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/usetheme.md	b49e0be31a76c7ac686d779b862baac1739f431d11f81e2738fc5c56b2d3d405	5-abcpdf/xhtmloptions/2-properties/usetheme.md	
 helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/usevideo.md	f662908f0796e83245c86cdc6819e5bd63aee60abfc71b93f38c73fb16463948	5-abcpdf/xhtmloptions/2-properties/usevideo.md	
-helppdfnet/source/5-abcpdf/xhtmloptions/index.md	ebabdbf7cf8fbe391580bc2420c323d49f9b7ce515b34461b8e42b2889b65f9c	5-abcpdf/xhtmloptions/index.md	
+helppdfnet/source/5-abcpdf/xhtmloptions/index.md	8c6d353444dc2873c1ef9ed37c9b7476ca65bd974a49413f275c885260cd050f	5-abcpdf/xhtmloptions/index.md	
 helppdfnet/source/5-abcpdf/xhtmlprocessoptions/1-methods/skipenginedependencycheck.md	a1aa69d5b22699a39abd37a78120868c472eef06e81ce2515a82ee515c996e33	5-abcpdf/xhtmlprocessoptions/1-methods/skipenginedependencycheck.md	
 helppdfnet/source/5-abcpdf/xhtmlprocessoptions/1-methods/startpool.md	b5573f0ec504b003aaaca66d4a2d848594c2d1d6e7d4bd176138b12b730f6119	5-abcpdf/xhtmlprocessoptions/1-methods/startpool.md	
 helppdfnet/source/5-abcpdf/xhtmlprocessoptions/2-properties/1-maxprocesses.md	d26edfb3ce42def590f0ffad4b0c83a153da1f210e593c9c575f70e28f33cd2f	5-abcpdf/xhtmlprocessoptions/2-properties/1-maxprocesses.md	
@@ -1532,6 +1533,15 @@ helppdfnet/source/8-abcpdf.operations/8-textoperation/2-properties/tabaffinity.m
 helppdfnet/source/8-abcpdf.operations/8-textoperation/2-properties/tabchar.md	16978abfbd53f4f3f522079f038297c6b288d4db66ca168c965646600ea5457e	8-abcpdf.operations/8-textoperation/2-properties/tabchar.md	
 helppdfnet/source/8-abcpdf.operations/8-textoperation/2-properties/wordaffinity.md	3a61ff46154f54c4cf09a70737fa092be73c76b5cc71c3962b1e86fc11ee81de	8-abcpdf.operations/8-textoperation/2-properties/wordaffinity.md	
 helppdfnet/source/8-abcpdf.operations/8-textoperation/index.md	8c51495ac12225e1d58893221cac7ff73b8f8559dd48cc8d04e6bb6f226f8215	8-abcpdf.operations/8-textoperation/index.md	
+helppdfnet/source/8-abcpdf.operations/9-imagecompareoperation/1-methods/1-imagecompareoperation.md	4cfee2c21af1e6d3c816c524cae6c43f7af11cbdec631d763d13fb8dccec958f	8-abcpdf.operations/9-imagecompareoperation/1-methods/1-imagecompareoperation.md	
+helppdfnet/source/8-abcpdf.operations/9-imagecompareoperation/1-methods/2-exec.md	4cfee2c21af1e6d3c816c524cae6c43f7af11cbdec631d763d13fb8dccec958f	8-abcpdf.operations/9-imagecompareoperation/1-methods/2-exec.md	
+helppdfnet/source/8-abcpdf.operations/9-imagecompareoperation/2-properties/1-file1.md	4cfee2c21af1e6d3c816c524cae6c43f7af11cbdec631d763d13fb8dccec958f	8-abcpdf.operations/9-imagecompareoperation/2-properties/1-file1.md	
+helppdfnet/source/8-abcpdf.operations/9-imagecompareoperation/2-properties/2-file2.md	4cfee2c21af1e6d3c816c524cae6c43f7af11cbdec631d763d13fb8dccec958f	8-abcpdf.operations/9-imagecompareoperation/2-properties/2-file2.md	
+helppdfnet/source/8-abcpdf.operations/9-imagecompareoperation/2-properties/3-colorspace.md	4cfee2c21af1e6d3c816c524cae6c43f7af11cbdec631d763d13fb8dccec958f	8-abcpdf.operations/9-imagecompareoperation/2-properties/3-colorspace.md	
+helppdfnet/source/8-abcpdf.operations/9-imagecompareoperation/2-properties/4-convertannotations.md	4cfee2c21af1e6d3c816c524cae6c43f7af11cbdec631d763d13fb8dccec958f	8-abcpdf.operations/9-imagecompareoperation/2-properties/4-convertannotations.md	
+helppdfnet/source/8-abcpdf.operations/9-imagecompareoperation/2-properties/5-dotsperinch.md	4cfee2c21af1e6d3c816c524cae6c43f7af11cbdec631d763d13fb8dccec958f	8-abcpdf.operations/9-imagecompareoperation/2-properties/5-dotsperinch.md	
+helppdfnet/source/8-abcpdf.operations/9-imagecompareoperation/2-properties/6-error.md	4cfee2c21af1e6d3c816c524cae6c43f7af11cbdec631d763d13fb8dccec958f	8-abcpdf.operations/9-imagecompareoperation/2-properties/6-error.md	
+helppdfnet/source/8-abcpdf.operations/9-imagecompareoperation/index.md	4cfee2c21af1e6d3c816c524cae6c43f7af11cbdec631d763d13fb8dccec958f	8-abcpdf.operations/9-imagecompareoperation/index.md	
 helppdfnet/source/8-abcpdf.operations/9-imageoperation/1-methods/1-imageoperation.md	7beb89db5d70fd870f58f2403fe382a849ac0f7d28faf4a55b8a1fe323bcfbcb	8-abcpdf.operations/9-imageoperation/1-methods/1-imageoperation.md	
 helppdfnet/source/8-abcpdf.operations/9-imageoperation/1-methods/getimageproperties.md	81c237845ffc22c8a885f823f04db890f4a2785c052df720f9d104558329ba29	8-abcpdf.operations/9-imageoperation/1-methods/getimageproperties.md	
 helppdfnet/source/8-abcpdf.operations/9-imageoperation/2-properties/includeall.md	53e084ce5eb38a5fa21b57317edd15df2f1997819bd51cf8d2709c701efaa762	8-abcpdf.operations/9-imageoperation/2-properties/includeall.md	

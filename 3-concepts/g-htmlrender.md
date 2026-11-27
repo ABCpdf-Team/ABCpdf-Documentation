@@ -158,7 +158,7 @@ Suppose your server has access to an internal intranet. An attacker knows about 
 
 So the core principle here is - do not pass untrusted URLs or HTML to ABCpdf.
 
-The [AllowedSchemes](https://www.websupergoo.com/helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/allowedschemes.htm) property limits the URL schemes which may be used for the page URL and the BaseURI. If you do accept URLs from other people, narrowing it - for example to "https" only - stops them using other schemes such as file. It does not stop http or https URLs from reaching addresses on your internal network.
+The [AllowedSchemes](../5-abcpdf/xhtmloptions/2-properties/allowedschemes.md) property limits the URL schemes which may be used for the page URL and the BaseURI. If you do accept URLs from other people, narrowing it - for example to "https" only - stops them using other schemes such as file. It does not stop http or https URLs from reaching addresses on your internal network.
 
 In previous versions of ABCpdf, JavaScript was disabled by default and had to be manually enabled. However JavaScript has become critical to the display of most sites and From Version 11 onwards, it is enabled by default. See the HtmlOptions.UseScript property for details.
 

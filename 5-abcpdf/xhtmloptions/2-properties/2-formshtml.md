@@ -28,7 +28,7 @@ The HTML options supported by the MSHTML engine.
 - [AddMovies](addmovies.md)
 - [AddTags](addtags.md)
 - [AdjustLayout](adjustlayout.md)
-- [AllowedSchemes](https://www.websupergoo.com/helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/allowedschemes.htm)
+- [AllowedSchemes](allowedschemes.md)
 - [AutoTruncate](autotruncate.md)
 - [BreakMethod](breakmethod.md)
 - [BreakZoneSize](breakzonesize.md)

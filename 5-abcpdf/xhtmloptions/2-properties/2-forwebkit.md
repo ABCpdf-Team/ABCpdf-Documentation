@@ -15,7 +15,7 @@ The HTML options supported by the ABCWebKit engine.
 ### Supported properties
 
 - [AddLinks](addlinks.md)
-- [AllowedSchemes](https://www.websupergoo.com/helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/allowedschemes.htm)
+- [AllowedSchemes](allowedschemes.md)
 - [BrowserWidth](browserwidth.md)
 - [FireShield](fireshield.md)
 - [HideBackground](hidebackground.md)

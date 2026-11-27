@@ -26,7 +26,7 @@ The HTML options supported by the ABCGecko HTML engine.
 - [AddLinks](addlinks.md)
 - [AddMovies](addmovies.md) (Flash only)
 - [AddTags](addtags.md)
-- [AllowedSchemes](https://www.websupergoo.com/helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/allowedschemes.htm)
+- [AllowedSchemes](allowedschemes.md)
 - [BrowserWidth](browserwidth.md)
 - [ContentCount](contentcount.md)
 - [FontEmbed](fontembed.md)

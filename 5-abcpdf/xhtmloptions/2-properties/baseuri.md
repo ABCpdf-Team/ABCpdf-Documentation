@@ -12,4 +12,4 @@ This property is most commonly used in conjunction with AddImageHtml. Because HT
 
 The BaseURI property is only available for the ABCChrome [Chrome146, Chrome123, Chrome117 and Chrome86](1-engine.md) HTML rendering engines.
 
-If the BaseURI includes a scheme, it must be one allowed by the [AllowedSchemes](https://www.websupergoo.com/helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/allowedschemes.htm) property.
+If the BaseURI includes a scheme, it must be one allowed by the [AllowedSchemes](allowedschemes.md) property.

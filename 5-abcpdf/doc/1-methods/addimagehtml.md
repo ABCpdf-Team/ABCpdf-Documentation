@@ -45,4 +45,4 @@ Under the ABCChrome engine this method works slightly differently and without an
 
 Make sure your HTML comes from trusted sources. See the Security section of the [HTML / CSS Rendering](../../../3-concepts/g-htmlrender.md) section of the documentation for details.
 
-If a [BaseURI](../../xhtmloptions/2-properties/baseuri.md) with a scheme is specified, the scheme must be one allowed by the [AllowedSchemes](https://www.websupergoo.com/helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/allowedschemes.htm) property. If it is not, an ArgumentException is thrown.
+If a [BaseURI](../../xhtmloptions/2-properties/baseuri.md) with a scheme is specified, the scheme must be one allowed by the [AllowedSchemes](../../xhtmloptions/2-properties/allowedschemes.md) property. If it is not, an ArgumentException is thrown.

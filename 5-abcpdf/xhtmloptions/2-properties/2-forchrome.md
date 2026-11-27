@@ -25,7 +25,7 @@ The HTML options supported by the ABCChrome engine.
 - [AddTags](addtags.md)
 - [AddIDs](addids.md)
 - [AddNames](addnames.md)
-- [AllowedSchemes](https://www.websupergoo.com/helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/allowedschemes.htm)
+- [AllowedSchemes](allowedschemes.md)
 - [BaseURI](baseuri.md)
 - [BrowserWidth](browserwidth.md)
 - [CommandOptions](commandoptions.md)

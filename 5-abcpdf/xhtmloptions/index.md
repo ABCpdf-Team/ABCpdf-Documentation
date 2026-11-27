@@ -45,7 +45,7 @@ System.Object
 | [AddIDs](2-properties/addids.md) | Whether HTML ID attributes should be tracked. |
 | [AddNames](2-properties/addnames.md) | Whether HTML name attributes should be tracked. |
 | [AdjustLayout](2-properties/adjustlayout.md) | Whether HTML layout is checked and adjusted for optimal output to PDF. |
-| [AllowedSchemes](https://www.websupergoo.com/helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/allowedschemes.htm) | The URL schemes which may be used for the page URL and the BaseURI. |
+| [AllowedSchemes](2-properties/allowedschemes.md) | The URL schemes which may be used for the page URL and the BaseURI. |
 | [AutoTruncate](2-properties/autotruncate.md) | Whether to automatically clip redundant content at the end of the page. |
 | [BaseURI](2-properties/baseuri.md) | The base URL to use for all relative URLs in the page. |
 | [BreakMethod](2-properties/breakmethod.md) | The page break logic for HTML. |

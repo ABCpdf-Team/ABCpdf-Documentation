@@ -53,7 +53,7 @@ Note that MHT files saved from more complex web pages sometimes omit some requir
 
 Make sure your URLs come from trusted sources. See the Security section of the [HTML / CSS Rendering](../../../3-concepts/g-htmlrender.md) section of the documentation for details.
 
-The scheme of the URL, and of any [BaseURI](../../xhtmloptions/2-properties/baseuri.md), must be one allowed by the [AllowedSchemes](https://www.websupergoo.com/helppdfnet/source/5-abcpdf/xhtmloptions/2-properties/allowedschemes.htm) property. If it is not, an ArgumentException is thrown.
+The scheme of the URL, and of any [BaseURI](../../xhtmloptions/2-properties/baseuri.md), must be one allowed by the [AllowedSchemes](../../xhtmloptions/2-properties/allowedschemes.md) property. If it is not, an ArgumentException is thrown.
 
 ## Example
 
